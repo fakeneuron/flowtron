@@ -4,6 +4,7 @@
     "last_updated": "2025-08-18T00:00:00Z",
     "vision": "Top-level coordination file that references functional sub-plans for Flowtron (core/docs, frontend UI, testing, and deployment).",
     "plans": {
+        "core": "_project/plan-core.json",
         "frontend": "_project/plan-frontend.json",
         "testing": "_project/plan-testing.json",
         "deployment": "_project/plan-deployment.json"

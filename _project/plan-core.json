@@ -1,9 +1,9 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "plan_id": "FLOWTRON_PLAN_V1",
+    "plan_id": "FLOWTRON_CORE_PLAN_V1",
     "schema_version": "1.0.0",
     "last_updated": "2025-08-18T00:00:00Z",
-    "vision": "Flowtron is a project-agnostic TaskNote workflow: reusable docs, templates, schema, and a visualization UI to make plans/tasknotes human-friendly and AI-operable.",
+    "vision": "Core Flowtron assets: project-agnostic docs/templates, versioned schema, storage format discovery, compatibility docs, and diagrams.",
     "estimated_time": "TBD",
     "next_priority": "TN-002",
     "current_state": {
@@ -14,7 +14,7 @@
     "target_state": {
         "docs": "Project-agnostic docs + templates in _projects/flowtron/docs and templates/",
         "schema": "Versioned v1 with migration notes; discovery for JSON vs YAML vs DB",
-        "ui": "Read-only UI MVP that loads local JSON (plans/tasknotes) and visualizes phases, steps, priorities"
+        "ui": "Read-only UI MVP tracked separately in frontend plan"
     },
     "tasks": [
         {
@@ -73,26 +73,6 @@
             "dependencies": ["TN-001", "TN-002"]
         },
         {
-            "task_id": "TN-004",
-            "title": "Visualization UI MVP (flowtron repo)",
-            "status": "Not Started",
-            "goal": "Build a read-only React app to load local plan/tasknote JSON and visualize phases, steps, and priorities.",
-            "priority": "High",
-            "steps": [
-                "Create new external repo: flowtron (Vite + React + TypeScript + Tailwind + Zustand + React Router)",
-                "Implement file-picker to load local JSON plans/tasknotes",
-                "Render Kanban-style board (by phase/status/priority) and detail panel",
-                "Add search/filter and basic counters",
-                "Optional: small write-mode experiment gated behind a flag"
-            ],
-            "acceptance_criteria": [
-                "Local dev server loads sample JSON and renders board and details",
-                "No auth required; runs fully local",
-                "Graceful errors for malformed files"
-            ],
-            "dependencies": ["TN-001", "TN-002", "TN-003"]
-        },
-        {
             "task_id": "TN-005",
             "title": "Compatibility mapping (FinTown → Flowtron)",
             "status": "Not Started",
@@ -108,21 +88,6 @@
                 "Clear guidance on ingesting legacy notes without modifying FinTown"
             ],
             "dependencies": ["TN-001", "TN-002"]
-        },
-        {
-            "task_id": "TN-006",
-            "title": "GitHub Actions and Issues integration (Backlog)",
-            "status": "Backlog",
-            "goal": "Outline future CI and issue syncing strategies.",
-            "priority": "Low",
-            "steps": [
-                "Add backlog specs for validation workflows, artifact publishing, and optional issue sync",
-                "Detail triggers and permissions considerations"
-            ],
-            "acceptance_criteria": [
-                "Backlog entries exist and are scoped for future iterations"
-            ],
-            "dependencies": []
         },
         {
             "task_id": "TN-007",
@@ -141,3 +106,5 @@
         }
     ]
 }
+
+
