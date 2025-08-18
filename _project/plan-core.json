@@ -5,7 +5,7 @@
     "last_updated": "2025-08-18T00:00:00Z",
     "vision": "Core Flowtron assets: project-agnostic docs/templates, versioned schema, storage format discovery, compatibility docs, and diagrams.",
     "estimated_time": "TBD",
-    "next_priority": "TN-002",
+    "next_priority": "CORE-002",
     "current_state": {
         "docs": "Project-specific guidance exists in FinTown; no standalone set",
         "schema": "JSON-based templates exist without formal versioning",
@@ -18,7 +18,7 @@
     },
     "tasks": [
         {
-            "task_id": "TN-001",
+            "task_id": "CORE-001",
             "title": "Bootstrap Flowtron: structure, docs, templates",
             "status": "Complete",
             "goal": "Create project-agnostic scaffolding (docs + templates) so Flowtron can be reused across repos.",
@@ -38,7 +38,7 @@
             "dependencies": []
         },
         {
-            "task_id": "TN-002",
+            "task_id": "CORE-002",
             "title": "Schema v1 + versioning and migration notes",
             "status": "Not Started",
             "goal": "Introduce schema_version, document fields, and establish a simple migrations/CHANGELOG for future evolution.",
@@ -52,10 +52,10 @@
                 "Templates clearly indicate schema_version",
                 "CHANGELOG contains v1 baseline entries"
             ],
-            "dependencies": ["TN-001"]
+            "dependencies": ["CORE-001"]
         },
         {
-            "task_id": "TN-003",
+            "task_id": "CORE-003",
             "title": "Discovery: Data format and storage strategy (JSON vs YAML vs PostgreSQL)",
             "status": "Not Started",
             "goal": "Evaluate formats and storage for scalability, validation, and AI usability; recommend a path and next steps.",
@@ -70,10 +70,10 @@
                 "docs/storage-evaluation.md exists with a clear recommendation",
                 "Backlog items created for the non-chosen options if warranted"
             ],
-            "dependencies": ["TN-001", "TN-002"]
+            "dependencies": ["CORE-001", "CORE-002"]
         },
         {
-            "task_id": "TN-005",
+            "task_id": "CORE-005",
             "title": "Compatibility mapping (FinTown → Flowtron)",
             "status": "Not Started",
             "goal": "Document mapping from current FinTown TaskNotes/plans to Flowtron generic schema and identify adapters needed.",
@@ -87,10 +87,10 @@
                 "compatibility.md covers core entities (plan, tasknote, steps, phases)",
                 "Clear guidance on ingesting legacy notes without modifying FinTown"
             ],
-            "dependencies": ["TN-001", "TN-002"]
+            "dependencies": ["CORE-001", "CORE-002"]
         },
         {
-            "task_id": "TN-007",
+            "task_id": "CORE-007",
             "title": "Diagrams: workflow and data model",
             "status": "Not Started",
             "goal": "Provide Mermaid diagrams in docs to visualize phases, steps, and data model relationships.",
@@ -102,7 +102,7 @@
             "acceptance_criteria": [
                 "Mermaid diagrams render correctly in Markdown previews"
             ],
-            "dependencies": ["TN-001", "TN-002"]
+            "dependencies": ["CORE-001", "CORE-002"]
         }
     ]
 }

@@ -10,10 +10,10 @@ Flowtron provides a reusable TaskNote workflow (docs, templates, and a future vi
 ## Quick Start
 
 1. Create a plan from `templates/plan-template.json`.
-2. Select the next `TN-###` by priority, then lowest number.
-3. Create a TaskNote from `templates/tasknote-template.json` at `_project/tasknotes/<TN-###>.json`.
+2. Select the next `CORE-###` by priority, then lowest number.
+3. Create a TaskNote from `templates/tasknote-template.json` at `_project/tasknote/<CORE-###>.json`.
 4. Work through the four phases (Discovery → Execution → Testing/Linting → Closure).
-5. On closure, update plan status and archive the TaskNote under `_project/archive/flowtron/`.
+5. On closure, update plan status and archive the TaskNote under `_project/tasknote/archive/core/`.
 
 ## Schema Versioning
 

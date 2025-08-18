@@ -1,12 +1,12 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "schema_version": "1.0.0",
-    "task_id": "TN-001",
+    "task_id": "CORE-001",
     "title": "Bootstrap Flowtron: structure, docs, templates",
     "goal": "Create project-agnostic scaffolding (docs + templates) so Flowtron can be reused across repos.",
     "priority": "High",
     "file_inventory": [
-        "_project/plan-flowtron.json",
+        "_project/plan-core.json",
         "_project/prompt.md",
         "templates/plan-template.json",
         "templates/plan-sub-template.json",
@@ -26,7 +26,7 @@
             "description": "Research, relevance, clarity",
             "completion_check": {"status": "Complete", "incomplete_steps": []},
             "steps": [
-                {"step_id": 1, "description": "Review related plan entry", "status": "Complete", "progress": ["Loaded _project/plan-flowtron.json and identified TN-001 as next_priority."]},
+                {"step_id": 1, "description": "Review related plan entry", "status": "Complete", "progress": ["Loaded _project/plan-core.json and identified CORE-001 as next_priority."]},
                 {"step_id": 2, "description": "Research optimal approach for current context", "status": "Complete", "progress": ["Reuse existing templates; add project-agnostic docs in _projects/flowtron."]},
                 {"step_id": 3, "description": "Relevance Assessment: confirm not already implemented/superseded; record Proceed/Re-scope/De-scope", "status": "Complete", "progress": ["Proceed: No existing project-agnostic docs/templates in _projects/flowtron; task not superseded."]},
                 {"step_id": 4, "description": "Clarifications: ask only if needed; otherwise log 'No clarifications needed' + assumptions", "status": "Complete", "progress": ["No clarifications needed.", "Assumptions: Archive path will be _project/archive/flowtron/; keep root templates unchanged; create minimal, self-explanatory docs."]},
@@ -50,7 +50,7 @@
         {"phase_id": 4, "name": "Task Closure", "description": "Docs and archiving", "completion_check": {"status": "Complete", "incomplete_steps": []}, "steps": [
             {"step_id": 1, "description": "Verify all prior steps complete", "status": "Complete", "progress": ["Discovery, Execution, and Testing/Linting marked complete."]},
             {"step_id": 2, "description": "Update docs/inventories as needed", "status": "Complete", "progress": ["Plan status updated; next_priority advanced."]},
-            {"step_id": 3, "description": "Archive TaskNote and update plan status", "status": "Complete", "progress": ["TaskNote archived to _project/archive/flowtron/TN-001.json."]}
+            {"step_id": 3, "description": "Archive TaskNote and update plan status", "status": "Complete", "progress": ["TaskNote archived to _project/tasknote/archive/core/CORE-001.json."]}
         ]}
     ],
     "metadata": {"tags": ["flowtron", "scaffolding"], "area": "docs", "difficulty": "Easy", "estimated_impact": "High"},

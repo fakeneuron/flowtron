@@ -23,7 +23,7 @@
                 "No auth required; runs fully local",
                 "Graceful errors for malformed files"
             ],
-            "dependencies": ["TN-001", "TN-002", "TN-003"]
+            "dependencies": ["CORE-001", "CORE-002", "CORE-003"]
         }
     ]
 }
