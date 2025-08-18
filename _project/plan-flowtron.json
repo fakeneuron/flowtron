@@ -1,0 +1,143 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "plan_id": "FLOWTRON_PLAN_V1",
+    "schema_version": "1.0.0",
+    "last_updated": "2025-08-18T00:00:00Z",
+    "vision": "Flowtron is a project-agnostic TaskNote workflow: reusable docs, templates, schema, and a visualization UI to make plans/tasknotes human-friendly and AI-operable.",
+    "estimated_time": "TBD",
+    "next_priority": "TN-002",
+    "current_state": {
+        "docs": "Project-specific guidance exists in FinTown; no standalone set",
+        "schema": "JSON-based templates exist without formal versioning",
+        "ui": "No visualization app yet"
+    },
+    "target_state": {
+        "docs": "Project-agnostic docs + templates in _projects/flowtron/docs and templates/",
+        "schema": "Versioned v1 with migration notes; discovery for JSON vs YAML vs DB",
+        "ui": "Read-only UI MVP that loads local JSON (plans/tasknotes) and visualizes phases, steps, priorities"
+    },
+    "tasks": [
+        {
+            "task_id": "TN-001",
+            "title": "Bootstrap Flowtron: structure, docs, templates",
+            "status": "Complete",
+            "goal": "Create project-agnostic scaffolding (docs + templates) so Flowtron can be reused across repos.",
+            "priority": "High",
+            "steps": [
+                "Create _projects/flowtron structure with docs/ and templates/ subfolders",
+                "Add Flowtron README with vision, layout, and quick start",
+                "Add docs: README, compatibility.md, prompt-template.md",
+                "Add templates: plan-template.json, plan-sub-template.json, tasknote-template.json with brief embedded AI guidance",
+                "Ensure each file includes schema_version and lightweight guidance where useful"
+            ],
+            "acceptance_criteria": [
+                "All files exist and are well-formed JSON/Markdown",
+                "Templates are minimal yet self-explanatory without redundancy",
+                "No changes made to FinTown-specific TaskNote instructions"
+            ],
+            "dependencies": []
+        },
+        {
+            "task_id": "TN-002",
+            "title": "Schema v1 + versioning and migration notes",
+            "status": "Not Started",
+            "goal": "Introduce schema_version, document fields, and establish a simple migrations/CHANGELOG for future evolution.",
+            "priority": "High",
+            "steps": [
+                "Define required and optional fields for plan and tasknote templates (v1)",
+                "Add schema_version: '1.0.0' to templates",
+                "Create docs/migrations/CHANGELOG.md to log schema changes and migration guidance"
+            ],
+            "acceptance_criteria": [
+                "Templates clearly indicate schema_version",
+                "CHANGELOG contains v1 baseline entries"
+            ],
+            "dependencies": ["TN-001"]
+        },
+        {
+            "task_id": "TN-003",
+            "title": "Discovery: Data format and storage strategy (JSON vs YAML vs PostgreSQL)",
+            "status": "Not Started",
+            "goal": "Evaluate formats and storage for scalability, validation, and AI usability; recommend a path and next steps.",
+            "priority": "High",
+            "steps": [
+                "Compare JSON and YAML for human/AI usability, schema validation, and tooling",
+                "Assess PostgreSQL-backed plans/tasknotes for querying, collaboration, and migrations",
+                "Document pros/cons, migration implications, and CI/CD considerations (incl. GitHub Actions)",
+                "Publish docs/storage-evaluation.md with a recommendation and phased plan"
+            ],
+            "acceptance_criteria": [
+                "docs/storage-evaluation.md exists with a clear recommendation",
+                "Backlog items created for the non-chosen options if warranted"
+            ],
+            "dependencies": ["TN-001", "TN-002"]
+        },
+        {
+            "task_id": "TN-004",
+            "title": "Visualization UI MVP (flowtron repo)",
+            "status": "Not Started",
+            "goal": "Build a read-only React app to load local plan/tasknote JSON and visualize phases, steps, and priorities.",
+            "priority": "High",
+            "steps": [
+                "Create new external repo: flowtron (Vite + React + TypeScript + Tailwind + Zustand + React Router)",
+                "Implement file-picker to load local JSON plans/tasknotes",
+                "Render Kanban-style board (by phase/status/priority) and detail panel",
+                "Add search/filter and basic counters",
+                "Optional: small write-mode experiment gated behind a flag"
+            ],
+            "acceptance_criteria": [
+                "Local dev server loads sample JSON and renders board and details",
+                "No auth required; runs fully local",
+                "Graceful errors for malformed files"
+            ],
+            "dependencies": ["TN-001", "TN-002", "TN-003"]
+        },
+        {
+            "task_id": "TN-005",
+            "title": "Compatibility mapping (FinTown → Flowtron)",
+            "status": "Not Started",
+            "goal": "Document mapping from current FinTown TaskNotes/plans to Flowtron generic schema and identify adapters needed.",
+            "priority": "Medium",
+            "steps": [
+                "Draft docs/compatibility.md mapping fields and semantics",
+                "List adapter scripts as backlog items (no code yet)",
+                "Call out any gaps or irreversible differences"
+            ],
+            "acceptance_criteria": [
+                "compatibility.md covers core entities (plan, tasknote, steps, phases)",
+                "Clear guidance on ingesting legacy notes without modifying FinTown"
+            ],
+            "dependencies": ["TN-001", "TN-002"]
+        },
+        {
+            "task_id": "TN-006",
+            "title": "GitHub Actions and Issues integration (Backlog)",
+            "status": "Backlog",
+            "goal": "Outline future CI and issue syncing strategies.",
+            "priority": "Low",
+            "steps": [
+                "Add backlog specs for validation workflows, artifact publishing, and optional issue sync",
+                "Detail triggers and permissions considerations"
+            ],
+            "acceptance_criteria": [
+                "Backlog entries exist and are scoped for future iterations"
+            ],
+            "dependencies": []
+        },
+        {
+            "task_id": "TN-007",
+            "title": "Diagrams: workflow and data model",
+            "status": "Not Started",
+            "goal": "Provide Mermaid diagrams in docs to visualize phases, steps, and data model relationships.",
+            "priority": "Medium",
+            "steps": [
+                "Add docs/diagrams/ with workflow and data model diagrams",
+                "Reference diagrams from docs/README.md"
+            ],
+            "acceptance_criteria": [
+                "Mermaid diagrams render correctly in Markdown previews"
+            ],
+            "dependencies": ["TN-001", "TN-002"]
+        }
+    ]
+}

@@ -1,0 +1,71 @@
+### Flowtron TaskNote Rules (Repo: flowtron)
+
+Purpose: Drive work from `_project/plan-flowtron.json` using Flowtron's four-phase TaskNote workflow with a mandatory Relevance Assessment gate. Keep outputs minimal, high-signal, and execution-focused.
+
+Sources
+
+- Primary plan: `_project/plan-flowtron.json`
+- Templates: `templates/plan-template.json`, `templates/plan-sub-template.json`, `templates/tasknote-template.json`
+
+Task Selection
+
+- Choose tasks by priority first, then lowest `TN-###` among that priority.
+- Respect `next_priority` in the plan when present.
+
+Workflow (Four Phases)
+
+1) Task Discovery
+- Review related plan entry and repo context
+- Relevance Assessment (HARD GATE): Decide Proceed / Re-scope / De-scope with rationale
+- Clarifications only if needed; otherwise record "No clarifications needed" and list assumptions
+- Discover relevant files; adapt implementation approach to this repo
+- Starting commit when ready
+
+2) Task Execution
+- Implement the minimal, optimal change
+- Create/update tests aligned to the change
+- Run targeted tests frequently
+
+3) Testing & Linting
+- Run appropriate tests for changed areas
+- Fix issues; ensure green test run and clean lint
+- Perform quick visual/manual checks if relevant
+
+4) Task Closure
+- Verify all prior phase steps are complete
+- Update plan/task status
+- Archive the TaskNote and capture a short completion summary
+
+Operational Rules (Cursor)
+
+- Status updates: provide 1–2 sentences before tool use and at key transitions
+- Parallelize read-only discovery; sequence only when one result is needed for the next step
+- Non-interactive execution: prefer flags like `--yes`; avoid long-running foreground tasks (run in background when needed)
+- After edits, run only relevant tests; ensure a green run before closure
+
+Code Edits & Style
+
+- TypeScript: explicit types for exported/public APIs; avoid `any`
+- Naming: descriptive, meaningful names (avoid 1–2 letter identifiers)
+- Control flow: prefer guard clauses; shallow nesting; handle edge cases first
+- Errors: do not swallow exceptions; add meaningful handling or propagation
+- Comments: explain "why", not "how"; keep concise; no TODOs—implement instead
+- Formatting: match existing style; avoid reformatting unrelated code; wrap long lines
+
+Repo Commands
+
+- Dev: `npm run dev`
+- Build: `npm run build`
+- Lint: `npm run lint`
+- Test: `npm run test`
+
+Artifacts
+
+- TaskNote location: `_project/tasknotes/<TN-###>.json` (create folder if missing)
+- On closure: update `_project/plan-flowtron.json` task status; archive the TaskNote
+
+Communication
+
+- Be concise and skimmable; use Markdown intentionally (code fences only for code)
+- Ask questions only when blocked; otherwise proceed with stated assumptions
+

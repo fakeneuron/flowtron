@@ -1,0 +1,25 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "schema_version": "1.0.0",
+    "plan_id": "REPLACE_WITH_PLAN_ID::<CATEGORY>",
+    "category": "REPLACE_WITH_CATEGORY (e.g., backend, frontend, database, testing)",
+    "last_updated": "REPLACE_WITH_ISO8601",
+    "vision": "Category-scoped outcomes and boundaries.",
+    "next_priority": "TN-001",
+    "tasks": [
+        {
+            "task_id": "TN-001",
+            "title": "Short task title (category scoped)",
+            "status": "Not Started",
+            "goal": "Single-sentence goal",
+            "priority": "Medium",
+            "tags": ["<CATEGORY>"],
+            "steps": ["Concise steps"],
+            "dependencies": []
+        }
+    ],
+    "guidance_notes": [
+        "Use category tags for filtering in UI",
+        "Keep this file small; push details into TaskNotes during execution"
+    ]
+}
