@@ -1,0 +1,64 @@
+classDiagram
+  class Plan {
+    string plan_id
+    string schema_version
+    string last_updated
+    string vision
+    string estimated_time
+    string next_priority
+    object current_state
+    object target_state
+    Task[ ] tasks
+  }
+
+  class Task {
+    string task_id
+    string title
+    string status
+    string goal
+    string priority
+    string[ ] steps
+    string[ ] acceptance_criteria
+    string[ ] dependencies
+  }
+
+  class TaskNote {
+    string task_id
+    string title
+    string goal
+    string priority
+    string[ ] file_inventory
+    Phase[ ] phases
+    Metadata metadata
+    string summary
+  }
+
+  class Phase {
+    number phase_id
+    string name
+    string description
+    object completion_check
+    Step[ ] steps
+  }
+
+  class Step {
+    number step_id
+    string description
+    string status
+    string[ ] progress
+  }
+
+  class Metadata {
+    string[ ] tags
+    string area
+    string difficulty
+    string estimated_impact
+  }
+
+  Plan --> Task : contains
+  TaskNote --> Phase : has
+  Phase --> Step : has
+  TaskNote --> Metadata : has
+  Task --> TaskNote : execution record
+
+

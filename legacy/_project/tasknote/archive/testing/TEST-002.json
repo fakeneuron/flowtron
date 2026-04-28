@@ -1,0 +1,67 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "schema_version": "1.0.0",
+    "task_id": "TEST-002",
+    "title": "Add verify script (lint + test)",
+    "goal": "Provide a single command to run lint and tests locally.",
+    "priority": "Medium",
+    "file_inventory": [
+        "package.json"
+    ],
+    "phases": [
+        {
+            "phase_id": 1,
+            "name": "Task Discovery",
+            "description": "Research, relevance, clarity",
+            "completion_check": { "status": "Complete", "incomplete_steps": [] },
+            "steps": [
+                { "step_id": 1, "description": "Review related plan entry", "status": "Done", "progress": ["Identified need for a convenience verify script."] },
+                { "step_id": 2, "description": "Research optimal approach for current context", "status": "Done", "progress": ["Use npm script chaining: lint then test."] },
+                { "step_id": 3, "description": "Relevance Assessment", "status": "Done", "progress": ["Proceed."] },
+                { "step_id": 4, "description": "Clarifications/assumptions", "status": "Done", "progress": ["No clarifications needed."] },
+                { "step_id": 5, "description": "Discover relevant files and state", "status": "Done", "progress": ["package.json scripts exist."] },
+                { "step_id": 6, "description": "Adapt implementation plan", "status": "Done", "progress": ["Add verify script and run it."] },
+                { "step_id": 7, "description": "Starting commit", "status": "Done", "progress": ["Updated package.json."] }
+            ]
+        },
+        {
+            "phase_id": 2,
+            "name": "Task Execution",
+            "description": "Implement solution",
+            "completion_check": { "status": "Complete", "incomplete_steps": [] },
+            "steps": [
+                { "step_id": 1, "description": "Implement functionality", "status": "Done", "progress": ["Added npm run verify."] },
+                { "step_id": 2, "description": "Create/update tests", "status": "Done", "progress": ["N/A (uses existing tests)."] },
+                { "step_id": 3, "description": "Run targeted tests", "status": "Done", "progress": ["Ran npm run verify successfully."] }
+            ]
+        },
+        {
+            "phase_id": 3,
+            "name": "Testing and Linting",
+            "description": "Validate quality",
+            "completion_check": { "status": "Complete", "incomplete_steps": [] },
+            "steps": [
+                { "step_id": 1, "description": "Run appropriate test suite(s)", "status": "Done", "progress": ["verify covers lint and tests."] },
+                { "step_id": 2, "description": "Fix failing tests/issues", "status": "Done", "progress": ["No failures."] },
+                { "step_id": 3, "description": "Verify coverage targets", "status": "Done", "progress": ["N/A."] },
+                { "step_id": 4, "description": "Manual checks", "status": "Done", "progress": ["N/A."] },
+                { "step_id": 5, "description": "Stabilize", "status": "Done", "progress": ["verify completes cleanly."] }
+            ]
+        },
+        {
+            "phase_id": 4,
+            "name": "Task Closure",
+            "description": "Docs and archiving",
+            "completion_check": { "status": "Complete", "incomplete_steps": [] },
+            "steps": [
+                { "step_id": 1, "description": "Verify all prior steps complete", "status": "Done", "progress": ["All complete."] },
+                { "step_id": 2, "description": "Update docs/inventories as needed", "status": "Done", "progress": ["Noted script addition in TaskNote."] },
+                { "step_id": 3, "description": "Archive TaskNote and update plan status", "status": "Done", "progress": ["Archived under testing."] }
+            ]
+        }
+    ],
+    "metadata": { "tags": ["testing", "scripts"], "area": "testing", "difficulty": "Easy", "estimated_impact": "Low" },
+    "summary": "Added npm run verify to chain lint and tests."
+}
+
+

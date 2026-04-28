@@ -1,0 +1,195 @@
+{
+    "task": {
+        "task_id": "FE-004",
+        "title": "Visualization UI MVP (flowtron repo)",
+        "status": "In Progress",
+        "priority": "High",
+        "goal": "Build a read-only React app to load local plan/tasknote JSON and visualize phases, steps, and priorities.",
+        "area": "frontend",
+        "dependencies": [
+            "CORE-001",
+            "CORE-002",
+            "CORE-003"
+        ]
+    },
+    "tasknote": {
+        "task_id": "FE-004",
+        "summary": null,
+        "phases": [
+            {
+                "phase_id": 1,
+                "name": "Task Discovery",
+                "description": "Research, relevance, clarity",
+                "completion_check": {
+                    "status": "Pending",
+                    "incomplete_steps": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7
+                    ]
+                },
+                "steps": [
+                    {
+                        "step_id": 1,
+                        "description": "Review related plan entry",
+                        "status": "Pending",
+                        "progress": []
+                    },
+                    {
+                        "step_id": 2,
+                        "description": "Research optimal approach for current context",
+                        "status": "Pending",
+                        "progress": []
+                    },
+                    {
+                        "step_id": 3,
+                        "description": "Relevance Assessment: confirm not already implemented/superseded; record Proceed/Re-scope/De-scope",
+                        "status": "Pending",
+                        "progress": []
+                    },
+                    {
+                        "step_id": 4,
+                        "description": "Clarifications: ask only if needed; otherwise log 'No clarifications needed' + assumptions",
+                        "status": "Pending",
+                        "progress": []
+                    },
+                    {
+                        "step_id": 5,
+                        "description": "Discover relevant files and current codebase state",
+                        "status": "Pending",
+                        "progress": []
+                    },
+                    {
+                        "step_id": 6,
+                        "description": "Adapt implementation plan based on discoveries",
+                        "status": "Pending",
+                        "progress": []
+                    },
+                    {
+                        "step_id": 7,
+                        "description": "Starting commit",
+                        "status": "Pending",
+                        "progress": []
+                    }
+                ]
+            },
+            {
+                "phase_id": 2,
+                "name": "Task Execution",
+                "description": "Implement solution",
+                "completion_check": {
+                    "status": "Pending",
+                    "incomplete_steps": [
+                        1,
+                        2,
+                        3
+                    ]
+                },
+                "steps": [
+                    {
+                        "step_id": 1,
+                        "description": "Implement functionality",
+                        "status": "Pending",
+                        "progress": []
+                    },
+                    {
+                        "step_id": 2,
+                        "description": "Create/update tests",
+                        "status": "Pending",
+                        "progress": []
+                    },
+                    {
+                        "step_id": 3,
+                        "description": "Run targeted tests",
+                        "status": "Pending",
+                        "progress": []
+                    }
+                ]
+            },
+            {
+                "phase_id": 3,
+                "name": "Testing and Linting",
+                "description": "Validate quality",
+                "completion_check": {
+                    "status": "Pending",
+                    "incomplete_steps": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                    ]
+                },
+                "steps": [
+                    {
+                        "step_id": 1,
+                        "description": "Run appropriate test suite(s)",
+                        "status": "Pending",
+                        "progress": []
+                    },
+                    {
+                        "step_id": 2,
+                        "description": "Fix failing tests/issues",
+                        "status": "Pending",
+                        "progress": []
+                    },
+                    {
+                        "step_id": 3,
+                        "description": "Verify coverage targets (if applicable)",
+                        "status": "Pending",
+                        "progress": []
+                    },
+                    {
+                        "step_id": 4,
+                        "description": "Perform visual/manual checks as needed",
+                        "status": "Pending",
+                        "progress": []
+                    },
+                    {
+                        "step_id": 5,
+                        "description": "Stabilize before closure",
+                        "status": "Pending",
+                        "progress": []
+                    }
+                ]
+            },
+            {
+                "phase_id": 4,
+                "name": "Task Closure",
+                "description": "Docs and archiving",
+                "completion_check": {
+                    "status": "Pending",
+                    "incomplete_steps": [
+                        1,
+                        2,
+                        3
+                    ]
+                },
+                "steps": [
+                    {
+                        "step_id": 1,
+                        "description": "Verify all prior steps complete",
+                        "status": "Pending",
+                        "progress": []
+                    },
+                    {
+                        "step_id": 2,
+                        "description": "Update docs/inventories as needed",
+                        "status": "Pending",
+                        "progress": []
+                    },
+                    {
+                        "step_id": 3,
+                        "description": "Archive TaskNote and update plan status",
+                        "status": "Pending",
+                        "progress": []
+                    }
+                ]
+            }
+        ]
+    }
+}

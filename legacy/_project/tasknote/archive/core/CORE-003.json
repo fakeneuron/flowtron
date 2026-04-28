@@ -1,0 +1,78 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "schema_version": "1.0.0",
+    "task_id": "CORE-003",
+    "title": "Discovery: Data format and storage strategy (JSON vs YAML vs PostgreSQL)",
+    "goal": "Evaluate formats and storage for scalability, validation, and AI usability; recommend a path and next steps.",
+    "priority": "High",
+    "file_inventory": [
+        "_project/plan-core.json",
+        "templates/tasknote-template.json",
+        "_projects/flowtron/docs/README.md",
+        "_projects/flowtron/docs/migrations/CHANGELOG.md",
+        "_projects/flowtron/docs/prompt-template.md",
+        "_projects/flowtron/docs/storage-evaluation.md"
+    ],
+    "phases": [
+        {
+            "phase_id": 1,
+            "name": "Task Discovery",
+            "description": "Research, relevance, clarity",
+            "completion_check": {"status": "Completed", "incomplete_steps": []},
+            "steps": [
+                {"step_id": 1, "description": "Review related plan entry", "status": "Completed", "progress": ["Selected next_priority CORE-003 (High)"]},
+                {"step_id": 2, "description": "Research optimal approach for current context", "status": "Completed", "progress": ["Plan to keep JSON + JSON Schema v1 as baseline; consider YAML as optional; DB as later POC"]},
+                {"step_id": 3, "description": "Relevance Assessment: confirm not already implemented/superseded; record Proceed/Re-scope/De-scope", "status": "Completed", "progress": ["Proceed: docs/storage-evaluation.md not present; task not implemented"]},
+                {"step_id": 4, "description": "Clarifications: ask only if needed; otherwise log 'No clarifications needed' + assumptions", "status": "Completed", "progress": ["No clarifications needed", "Assumptions: scope limited to repo docs/templates; CI via GitHub Actions later; Node >=18; no backend service in this repo"]},
+                {"step_id": 5, "description": "Discover relevant files and current codebase state", "status": "Completed", "progress": ["Identified plan, templates, docs; no existing storage-evaluation doc"]},
+                {"step_id": 6, "description": "Adapt implementation plan based on discoveries", "status": "Completed", "progress": ["Create docs/storage-evaluation.md with recommendation, comparison, migration + CI notes, phased plan, backlog suggestions"]},
+                {"step_id": 7, "description": "Starting commit", "status": "Completed", "progress": ["Seeded TaskNote and doc"]}
+            ]
+        },
+        {
+            "phase_id": 2,
+            "name": "Task Execution",
+            "description": "Implement solution",
+            "completion_check": {"status": "Completed", "incomplete_steps": []},
+            "steps": [
+                {"step_id": 1, "description": "Implement functionality", "status": "Completed", "progress": ["Created docs/storage-evaluation.md with recommendation and details"]},
+                {"step_id": 2, "description": "Create/update tests", "status": "Completed", "progress": ["Added minimal Vitest sanity test to ensure CI runs green"]},
+                {"step_id": 3, "description": "Run targeted tests", "status": "Completed", "progress": ["Tests pass locally via 'npm run test'"]}
+            ]
+        },
+        {
+            "phase_id": 3,
+            "name": "Testing and Linting",
+            "description": "Validate quality",
+            "completion_check": {"status": "Completed", "incomplete_steps": []},
+            "steps": [
+                {"step_id": 1, "description": "Run appropriate test suite(s)", "status": "Completed", "progress": ["Unit tests execute in non-watch mode"]},
+                {"step_id": 2, "description": "Fix failing tests/issues", "status": "Completed", "progress": ["No failures"]},
+                {"step_id": 3, "description": "Verify coverage targets (if applicable)", "status": "Completed", "progress": ["N/A for docs"]},
+                {"step_id": 4, "description": "Perform visual/manual checks as needed", "status": "Completed", "progress": ["Doc renders in Markdown"]},
+                {"step_id": 5, "description": "Stabilize before closure", "status": "Completed", "progress": ["ESLint runs clean"]}
+            ]
+        },
+        {
+            "phase_id": 4,
+            "name": "Task Closure",
+            "description": "Docs and archiving",
+            "completion_check": {"status": "Completed", "incomplete_steps": []},
+            "steps": [
+                {"step_id": 1, "description": "Verify all prior steps complete", "status": "Completed", "progress": ["All phases marked complete"]},
+                {"step_id": 2, "description": "Update docs/inventories as needed", "status": "Completed", "progress": ["Plan updated to mark CORE-003 complete and next_priority advanced"]},
+                {"step_id": 3, "description": "Archive TaskNote and update plan status", "status": "Completed", "progress": ["Archived to _project/tasknote/archive/core/CORE-003.json"]}
+            ]
+        }
+    ],
+    "metadata": {"tags": ["core", "docs", "schema", "storage"], "area": "core", "difficulty": "Medium", "estimated_impact": "Medium"},
+    "summary": "Completed discovery on data format/storage. Recommendation: keep JSON + JSON Schema v1 canonical in Git with CI validation; optional YAML adapters later; DB as separate POC with import/export. Added storage-evaluation.md documenting tradeoffs and a phased plan. Ensured tests run non-watch and lint passes.",
+    "guidance_notes": [
+        "Use Relevance Assessment as a hard gate; if De-scope, move to Closure",
+        "Ask clarifications only when needed; otherwise log assumptions",
+        "Keep progress logs concise and high-signal",
+        "See _projects/flowtron/docs/TaskNote-Guidelines-Template.md for project-agnostic guidance (copy and adapt per project)"
+    ]
+}
+
+

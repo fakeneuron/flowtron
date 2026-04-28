@@ -1,0 +1,47 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "plan_id": "FLOWTRON_DEPLOYMENT_PLAN_V1",
+    "last_updated": "2025-08-18T00:00:00Z",
+    "vision": "Basic repo-level ops: Git initialization, CI placeholders, and future hosting steps.",
+    "next_priority": "DEP-001",
+    "tasks": [
+        {
+            "task_id": "DEP-001",
+            "title": "Initialize Git repository (no CI)",
+            "status": "Complete",
+            "goal": "Ensure repository is git-initialized with main branch and .gitignore. CI is explicitly deferred.",
+            "priority": "High",
+            "steps": [
+                "git init; set default branch to main",
+                "Add .gitignore for node_modules, dist, coverage",
+                "Document basic contribution steps in README"
+            ],
+            "acceptance_criteria": [
+                "Repo has initialized git with main branch",
+                ".gitignore present and effective",
+                "CI work is deferred and not executed"
+            ],
+            "dependencies": []
+        },
+        {
+            "task_id": "DEP-002",
+            "title": "Baseline CI for lint/test (Deferred)",
+            "status": "Complete",
+            "goal": "Add a minimal GitHub Actions workflow to run lint/test. Do not start now.",
+            "priority": "Low",
+            "steps": [
+                "Create .github/workflows/ci.yml running npm ci, lint, and test",
+                "Gate on pull_request to main",
+                "Document how to enable when ready"
+            ],
+            "acceptance_criteria": [
+                "CI config exists but remains disabled/not merged until requested"
+            ],
+            "dependencies": [
+                "DEP-001"
+            ]
+        }
+    ]
+}
+
+
