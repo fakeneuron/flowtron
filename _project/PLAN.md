@@ -1,6 +1,6 @@
 # Flowtron — PLAN.md
 
-**Last updated:** 2026-04-28 (CORE-004 closure)
+**Last updated:** 2026-04-28 (CORE-005 closure)
 
 ## Vision
 
@@ -17,7 +17,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-005** — Write `docs/PHILOSOPHY.md` and `docs/MIGRATION.md`
 - [ ] **CORE-006** — Push v0.1.0 to private GitHub, tag release, write `CHANGELOG.md`
 - [ ] **CORE-007** — Migrate **photard** (single task — smallest footprint, proves the system)
 
@@ -48,3 +47,4 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [x] **CORE-002** — Drafted `SPEC.md` (4-phase + Relevance Gate + post-closure protocol; tightened with drift check, pattern survey, model-field rule, and recap shape after cross-repo audit). Completed 2026-04-28. Bootstrap task — no tasknote.
 - [x] **CORE-003** — Built `templates/` (tasknote-template.md, PLAN.md, tasknote-README.md). Completed 2026-04-28. Bootstrap task — no tasknote (flowtron not yet self-hosting; CORE-004 wires up the `/task` flow).
 - [x] **CORE-004** — Built `claude/` (CLAUDE-snippet.md, `/task` command, `/task` skill); flowtron is now self-hosting via symlinks. Completed 2026-04-28. Tasknote: `_project/tasknote/archive/core/CORE-004.md`.
+- [x] **CORE-005** — Wrote `docs/PHILOSOPHY.md` (narrative "why" — drift across prior projects, principles that stuck) and `docs/MIGRATION.md` (procedural guide for fresh adoption + migrating from a prior workflow system). Completed 2026-04-28. Tasknote: `_project/tasknote/archive/core/CORE-005.md`.
