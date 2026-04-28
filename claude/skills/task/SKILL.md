@@ -28,20 +28,27 @@ If neither layout matches, stop and tell the user this directory doesn't look li
 
 ## Step 1 — Locate the task in PLAN.md
 
-Read PLAN.md. Find the line containing `**<TASK-ID>**`. Capture:
+Read PLAN.md. Find the line containing `**<TASK-ID>**`. If the ID isn't in PLAN.md, stop and ask the user whether to add it or use a different ID. Do not invent an entry.
+
+**Status gate (non-negotiable).** Before doing anything else, check the located line:
+
+- If the line is checked (`- [x]`), or
+- if it lives under the `## Completed` heading,
+
+the task is already closed. **Stop. Do not scaffold.** Surface the conflict to the user and ask whether they meant a different task ID. Do this check by re-reading the exact PLAN.md line — never infer status from prior conversation context.
+
+Otherwise, capture:
 
 - The one-line description (everything after the `—`)
 - The section heading the line lives under (`Critical` / `High` / `Medium` / `Low` / `Future Opportunities`) — this is the task's **Priority**
-- Whether the line is already checked (`- [x]`) — if so, the task is marked complete; stop and surface the conflict
-
-If the ID isn't in PLAN.md, stop and ask the user whether to add it or use a different ID. Do not invent an entry.
 
 ## Step 2 — Pre-flight checks
 
-- If `_project/tasknote/<TASK-ID>.md` already exists: stop. Tell the user the tasknote exists and recommend they continue conversationally (e.g., "continue CORE-004") rather than restarting. This skill is start-only by design.
 - Resolve the **Area** from the ID prefix using SPEC §"Task ID convention":
   - `CORE-` → core, `BE-` → backend, `FE-` → frontend, `DB-` → database, `DEPLOY-` → deployment, `TEST-` → testing
   - Unknown prefix: read `_project/tasknote/README.md` for project-specific prefixes. If still unresolved, stop and ask.
+- If `_project/tasknote/<TASK-ID>.md` already exists: stop. Tell the user the tasknote exists and recommend they continue conversationally (e.g., "continue CORE-004") rather than restarting. This skill is start-only by design.
+- If `_project/tasknote/archive/<area>/<TASK-ID>.md` already exists: stop. The task is already closed and archived. Surface the conflict and ask whether the user meant a different task ID — do not scaffold a duplicate.
 
 ## Step 3 — Scaffold the tasknote
 
