@@ -86,7 +86,7 @@ Continue with the user through:
 
 ## Step 6 — Post-closure protocol
 
-After the user confirms the recap:
+After the user confirms the recap, the post-closure motion is **one continuous flow** — commit, suggest the next move, and offer the copy-paste line. The user's commit-go (e.g. "commit", "go", "yes") is the *only* gate; once the commit lands, steps 2 and 3 follow **in the same response as the commit confirmation**, even if the user's reply was terse or only named the commit step. Do not wait for them to prompt the next-task suggestion.
 
 1. **Commit.** Bundle code changes + archived tasknote + PLAN.md flip into a single commit. Message: `feat: <TASK-ID> — <title>` (or `fix:` / `docs:` / `chore:` / `refactor:` as appropriate). Multiple recently-closed tasknotes may bundle into one commit when natural. Confirm with the user before committing — do not commit unprompted.
 2. **Suggest the next move.** Either:
