@@ -1,6 +1,6 @@
 # Flowtron — PLAN.md
 
-**Last updated:** 2026-04-28 (CORE-005 closure)
+**Last updated:** 2026-04-28 (CORE-006 closure)
 
 ## Vision
 
@@ -17,7 +17,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-006** — Push v0.1.0 to private GitHub, tag release, write `CHANGELOG.md`
 - [ ] **CORE-007** — Migrate **photard** (single task — smallest footprint, proves the system)
 
 ## Medium
@@ -48,3 +47,4 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [x] **CORE-003** — Built `templates/` (tasknote-template.md, PLAN.md, tasknote-README.md). Completed 2026-04-28. Bootstrap task — no tasknote (flowtron not yet self-hosting; CORE-004 wires up the `/task` flow).
 - [x] **CORE-004** — Built `claude/` (CLAUDE-snippet.md, `/task` command, `/task` skill); flowtron is now self-hosting via symlinks. Completed 2026-04-28. Tasknote: `_project/tasknote/archive/core/CORE-004.md`.
 - [x] **CORE-005** — Wrote `docs/PHILOSOPHY.md` (narrative "why" — drift across prior projects, principles that stuck) and `docs/MIGRATION.md` (procedural guide for fresh adoption + migrating from a prior workflow system). Completed 2026-04-28. Tasknote: `_project/tasknote/archive/core/CORE-005.md`.
+- [x] **CORE-006** — Released v0.1.0 to private GitHub: bumped `SPEC.md` to `v0.1.0` / `Stable`, rewrote §Versioning major-bump bullet (tasknote + annotated tag message in place of `CHANGELOG.md`), added repo-root `README.md`, tagged and pushed. Re-scoped to drop `CHANGELOG.md` (tasknotes + git history + tag messages are the changelog). Completed 2026-04-28. Tasknote: `_project/tasknote/archive/core/CORE-006.md`.

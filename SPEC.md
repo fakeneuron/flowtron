@@ -1,7 +1,7 @@
 # Flowtron — Workflow Specification
 
-**Version:** v0.1.0-pre (unreleased)
-**Status:** Draft
+**Version:** v0.1.0
+**Status:** Stable
 
 ## What is Flowtron
 
@@ -216,8 +216,9 @@ projects via submodule checkout.
 - **Minor** (`v0.1.x` → `v0.2.0`) — additive features (new optional fields,
   new template sections). Adopting projects can ignore the new features and
   continue working.
-- **Major** (`v0.x.y` → `v1.0.0`) — breaking change. The `CHANGELOG.md` lists
-  explicit migration steps. Adopting projects must follow them when bumping.
+- **Major** (`v0.x.y` → `v1.0.0`) — breaking change. The bump task's tasknote
+  and the annotated tag message list explicit migration steps. Adopting
+  projects must follow them when bumping.
 
 Each adopting project's `_project/tasknote/README.md` records the
 currently-pinned flowtron version. Bumping is a project-side task (e.g.,
