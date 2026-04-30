@@ -1,6 +1,6 @@
 # Flowtron — PLAN.md
 
-**Last updated:** 2026-04-30 (CORE-008 closed as planning deliverable; CORE-016 added as deferred execution follow-up)
+**Last updated:** 2026-04-30 (CORE-EPIC-009 demoted Medium → Low: user clearing fintown backlog first + wants flowtron to mature before integration planning)
 
 ## Vision
 
@@ -21,17 +21,16 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-009** — Migrate **fintown** (epic; child tasks below)
+- [ ] **CORE-016** — Execute InvisiPaw migration per CORE-008 playbook. Blocked: do not start until user signals InvisiPaw backlog is cleared. Scope: flowtron wiring + plan-file collapse + active-task-ID rename. Out of scope: renaming the 15 in-flight tasknote files (deferred further).
+
+## Low
+
+- [ ] **CORE-EPIC-009** — Migrate **fintown** (epic; child tasks below). Demoted from Medium 2026-04-30 — user clearing fintown's pending tasks first + wants flowtron itself to mature before planning the integration. A CORE-008-style "draft fintown migration playbook" task will likely be filed before execution begins; not yet warranted.
   - [ ] **CORE-009.1** — Add flowtron submodule + CLAUDE.md block
   - [ ] **CORE-009.2** — Convert `plan.json` → `PLAN.md` (preserve archive references)
   - [ ] **CORE-009.3** — Retire `create_tasknote.py`, `archive_tasknote.py`, `validate_plan.py`
   - [ ] **CORE-009.4** — Reconcile in-flight tasknotes (BE-128, BE-138, FE-145, FE-146)
   - [ ] **CORE-009.5** — Update fintown's `WORKFLOW.md` and `TASKNOTE_QUICK_REFERENCE.md` to point at flowtron
-- [ ] **CORE-016** — Execute InvisiPaw migration per CORE-008 playbook. Blocked: do not start until user signals InvisiPaw backlog is cleared. Scope: flowtron wiring + plan-file collapse + active-task-ID rename. Out of scope: renaming the 15 in-flight tasknote files (deferred further).
-
-## Low
-
-(none — see Completed below for CORE-013)
 
 ## Future Opportunities
 
