@@ -6,11 +6,13 @@ archived tasknotes for completed work. The canonical workflow lives in
 
 ## Flowtron version
 
-**Pinned to:** v0.1.0
+**Pinned to:** vX.Y.Z
 
 The flowtron repo is checked out as a git submodule at `_project/flowtron/`.
-Bumping the pinned version is itself a project task — see flowtron's
-`CHANGELOG.md` for migration steps when crossing a major version.
+Bumping the pinned version is itself a project task — see the annotated tag
+message (`cd _project/flowtron && git show vX.Y.Z`) and the per-release
+tasknote in `_project/flowtron/_project/tasknote/archive/core/` for migration
+steps when crossing a major version.
 
 ## Layout
 

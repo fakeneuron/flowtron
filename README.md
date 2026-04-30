@@ -27,8 +27,9 @@ maintain.
 
 ## Version
 
-v0.1.0 — see [SPEC.md](SPEC.md).
+See [SPEC.md](SPEC.md) for the current contract version, and the repo's git
+tags for releases.
 
 Adopting projects pin a specific flowtron commit via git submodule and bump
-deliberately. The release tag's annotated message lists migration steps for
+deliberately. Each release tag's annotated message lists migration steps for
 major bumps (no separate `CHANGELOG.md`).

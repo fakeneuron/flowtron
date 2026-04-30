@@ -18,7 +18,7 @@ From the project root:
 ```sh
 mkdir -p _project
 git submodule add https://github.com/fakeneuron/flowtron.git _project/flowtron
-git -C _project/flowtron checkout v0.1.0   # or the version you want to pin
+git -C _project/flowtron checkout vX.Y.Z   # replace with the version you want to pin (see git tags)
 ```
 
 The `checkout` step is what pins the project to a specific flowtron version. Without it, the submodule tracks `main` and updates would be undeliberate.
@@ -63,7 +63,7 @@ Edit the `Pinned to:` line to match the version you checked out in §1.1. Declar
 ```sh
 git add .gitmodules _project/flowtron _project/PLAN.md _project/tasknote/ \
         .claude/commands/task.md .claude/skills/task CLAUDE.md
-git commit -m "chore: adopt flowtron at v0.1.0"
+git commit -m "chore: adopt flowtron at vX.Y.Z"
 ```
 
 If your project already has other files under `.claude/` (settings, other skills), the explicit paths above keep the migration commit scoped to just the flowtron wiring.
@@ -125,7 +125,7 @@ The submodule SHA in `_project/flowtron` is what pins the project to a specific 
 
 To bump:
 
-1. Read flowtron's `CHANGELOG.md` (in the flowtron repo). For a major version bump, follow the migration steps listed there before changing anything in the project.
+1. For a major version bump, read the annotated tag message (`git -C _project/flowtron show vX.Y.Z`) and the per-release tasknote in `_project/flowtron/_project/tasknote/archive/core/` — both list migration steps. Follow them before changing anything in the project.
 2. Update the submodule:
    ```sh
    git -C _project/flowtron fetch --tags
