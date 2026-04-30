@@ -223,7 +223,8 @@ projects via submodule checkout.
 Each adopting project's `_project/tasknote/README.md` records the
 currently-pinned flowtron version. Bumping is a project-side task (e.g.,
 `CORE-XYZ: Bump flowtron to vX.Y.Z`) that runs the migration steps from the
-CHANGELOG and commits the new submodule SHA.
+bump's annotated tag message (`git show vX.Y.Z` in the flowtron submodule)
+and commits the new submodule SHA.
 
 ## What flowtron does NOT provide
 
