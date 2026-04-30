@@ -16,11 +16,18 @@ maintain.
 - [docs/MIGRATION.md](docs/MIGRATION.md) — adoption guide for fresh projects
   and migration from a prior workflow system
 
+## Bootstrapping a new project
+
+Run `/new-project` in a fresh `~/code/` repo (git repo + `CLAUDE.md` required)
+to add the flowtron submodule, wire `/task`, and drop in the `_project/`
+skeleton in one pass. See [docs/MIGRATION.md](docs/MIGRATION.md) §1.0 for the
+one-time global install.
+
 ## Repo layout
 
 - `SPEC.md` — workflow contract (authoritative)
 - `templates/` — canonical tasknote and `PLAN.md` templates
-- `claude/` — Claude Code skill + slash command (`/task`)
+- `claude/` — Claude Code skills + slash commands (`/task`, `/new-project`)
 - `docs/` — philosophy and migration guides
 - `_project/` — flowtron's own roadmap and tasknotes (self-hosted)
 - `legacy/` — pre-v0.1.0 contents, retained for reference
