@@ -14,7 +14,7 @@ The shared symptom was drift. Every project's workflow was a slightly different 
 
 ## What I tried first, and why it didn't stick
 
-The obvious move was to standardize. I had a `~/code/TasknoteSystem/` folder where I kept a reference implementation: scripts, templates, validators. The idea was that each project would copy or symlink from it.
+The obvious move was to standardize. I kept a `TasknoteSystem/` reference folder with scripts, templates, and validators — the idea was that each project would copy or symlink from it.
 
 That didn't work. Two reasons.
 
@@ -44,7 +44,7 @@ The pattern was robust. The infrastructure around it wasn't. Flowtron is what's 
 
 **Relevance before action.** Every tasknote opens with a Relevance Assessment. The verdict is `Proceed`, `Re-scope`, or `De-scope`. Plans are snapshots of past intent; the world moves; sometimes the right move is to throw the task out. Putting that decision first, every time, prevents the slow accumulation of zombie work.
 
-**Versioned and pinned.** Adopting projects pull flowtron in as a git submodule pinned to a specific commit. When I edit flowtron, projects don't see the change until I deliberately bump them. This is the part the `~/code/TasknoteSystem/` folder didn't have. It's also the part that makes flowtron work as a system rather than a folder.
+**Versioned and pinned.** Adopting projects pull flowtron in as a git submodule pinned to a specific commit. When I edit flowtron, projects don't see the change until I deliberately bump them. This is the part the earlier `TasknoteSystem/` folder didn't have. It's also the part that makes flowtron work as a system rather than a folder.
 
 ## What flowtron deliberately is not
 

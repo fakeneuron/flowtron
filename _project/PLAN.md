@@ -1,6 +1,6 @@
 # Flowtron — PLAN.md
 
-**Last updated:** 2026-04-30 (CORE-010 / workspace CLAUDE.md flowtron pointer)
+**Last updated:** 2026-04-30 (CORE-011 / deleted TasknoteSystem predecessor folder)
 
 ## Vision
 
@@ -28,7 +28,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [ ] **CORE-009.3** — Retire `create_tasknote.py`, `archive_tasknote.py`, `validate_plan.py`
   - [ ] **CORE-009.4** — Reconcile in-flight tasknotes (BE-128, BE-138, FE-145, FE-146)
   - [ ] **CORE-009.5** — Update fintown's `WORKFLOW.md` and `TASKNOTE_QUICK_REFERENCE.md` to point at flowtron
-- [ ] **CORE-011** — Fold or delete `~/code/TasknoteSystem/` (the older predecessor folder)
 
 ## Low
 
@@ -52,3 +51,4 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [x] **CORE-014** — Released v0.1.1 to private GitHub: tagged annotated `v0.1.1` summarizing CORE-007 + CORE-013 + task-skill tweak; pushed tag. Release-only action — no content changes (three commits since v0.1.0 already on main). Migration: none (doc-only patch). Completed 2026-04-30. No tasknote (release-only — under SPEC skip threshold).
 - [x] **CORE-015** — Doc cleanup sweep: finished CHANGELOG.md ghost removal in `templates/tasknote-README.md` and `docs/MIGRATION.md` §"Pinning and bumping" (CORE-013 missed both); bumped `SPEC.md` `Version` header to `v0.1.1` (stale since CORE-013 patched §Versioning); leaned out version sprawl by replacing hardcoded `v0.1.0` examples with `vX.Y.Z` placeholders in `templates/tasknote-README.md` + `docs/MIGRATION.md` and dropping the duplicated version pointer in `README.md`. `SPEC.md` `Version` is now the single source of truth, bumped on release. Completed 2026-04-30. Doc patch — no tasknote (under SPEC §"When to use a tasknote (and when not to)" skip threshold).
 - [x] **CORE-010** — Reference flowtron in `~/Code/CLAUDE.md` as a suggested workflow option for new repos under `~/code/`. Re-scoped from "as canonical workflow" framing (some `~/code/` repos still on legacy systems; mandate-style language would imply non-compliance). Single bullet appended to `~/Code/CLAUDE.md` "Shared Workflow Philosophy" with pointers to `SPEC.md` + `docs/MIGRATION.md`. Completed 2026-04-30. Tasknote: `_project/tasknote/archive/core/CORE-010.md`.
+- [x] **CORE-011** — Fold or delete `~/code/TasknoteSystem/` (the older predecessor folder). Verdict: delete outright — TasknoteSystem (5 small files dated 2025-04-02) is strictly superseded by flowtron; nothing to fold. Patched `docs/PHILOSOPHY.md:17` and `:47` to past-tense and dropped the `~/code/` absolute-path prefix so the historical narrative no longer points at a defunct location. Completed 2026-04-30. Tasknote: `_project/tasknote/archive/core/CORE-011.md`.
