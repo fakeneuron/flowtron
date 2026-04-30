@@ -1,6 +1,6 @@
 # Flowtron — PLAN.md
 
-**Last updated:** 2026-04-28 (CORE-006 closure)
+**Last updated:** 2026-04-30 (CORE-007 closure)
 
 ## Vision
 
@@ -17,7 +17,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-007** — Migrate **photard** (single task — smallest footprint, proves the system)
+(none — see Completed for CORE-007)
 
 ## Medium
 
@@ -33,7 +33,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-(none yet)
+- [ ] **CORE-013** — Fix ghost `CHANGELOG.md` reference in `claude/CLAUDE-snippet.md` (one stale line in the "Bumping the pinned flowtron version" section, left over from before CORE-006's re-scope dropped CHANGELOG.md). Replace with a pointer to `git show vX.Y.Z` annotated tag messages + per-release archived tasknote, mirroring the language CORE-007 added to photard's `_project/tasknote/README.md`. Surfaced during CORE-007.
 
 ## Future Opportunities
 
@@ -48,3 +48,4 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [x] **CORE-004** — Built `claude/` (CLAUDE-snippet.md, `/task` command, `/task` skill); flowtron is now self-hosting via symlinks. Completed 2026-04-28. Tasknote: `_project/tasknote/archive/core/CORE-004.md`.
 - [x] **CORE-005** — Wrote `docs/PHILOSOPHY.md` (narrative "why" — drift across prior projects, principles that stuck) and `docs/MIGRATION.md` (procedural guide for fresh adoption + migrating from a prior workflow system). Completed 2026-04-28. Tasknote: `_project/tasknote/archive/core/CORE-005.md`.
 - [x] **CORE-006** — Released v0.1.0 to private GitHub: bumped `SPEC.md` to `v0.1.0` / `Stable`, rewrote §Versioning major-bump bullet (tasknote + annotated tag message in place of `CHANGELOG.md`), added repo-root `README.md`, tagged and pushed. Re-scoped to drop `CHANGELOG.md` (tasknotes + git history + tag messages are the changelog). Completed 2026-04-28. Tasknote: `_project/tasknote/archive/core/CORE-006.md`.
+- [x] **CORE-007** — Migrated **photard** to flowtron — first real cross-repo adoption. Added `_project/flowtron/` submodule pinned to `v0.1.0`; symlinked `.claude/commands/task.md` + `.claude/skills/task` from the submodule; collapsed photard's four root plan files (PLAN/ROADMAP/PLAN_ARCHIVE/FUTURE_OPPORTUNITIES) into one `_project/PLAN.md` and renamed active task IDs to canonical (`FE-/BE-/OCR-`); rewrote `_project/tasknote/README.md` from flowtron's template (declared `OCR-` prefix; added concrete "Bumping the pinned flowtron version" procedure to replace a ghost CHANGELOG.md reference); patched root `CLAUDE.md` Workflow block. Surfaced CORE-013 follow-up. Completed 2026-04-30. Tasknote: `_project/tasknote/archive/core/CORE-007.md`.
