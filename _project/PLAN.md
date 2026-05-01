@@ -1,6 +1,6 @@
 # Flowtron — PLAN.md
 
-**Last updated:** 2026-05-01 (CORE-018 shipped — tasknote body restructured to spec-on-top + log-below)
+**Last updated:** 2026-05-01 (filed CORE-022 + FE-003 from FUTURE.md after high-value-item review)
 
 ## Vision
 
@@ -24,6 +24,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-016** — Execute InvisiPaw migration per CORE-008 playbook. Blocked: do not start until user signals InvisiPaw backlog is cleared. Scope: flowtron wiring + plan-file collapse + active-task-ID rename. Out of scope: renaming the 15 in-flight tasknote files (deferred further).
 - [ ] **CORE-019** — Enhance `viz/` to consume the new frontmatter: richer cards (priority badges, tags, due dates, status), full Markdown for description/subtasks in cards, “Open in editor” button, tag/status filters, quick-search. Implementation note: gray-matter + react-markdown; aligns with FE-002 cross-project path.
 - [ ] **CORE-020** — Update `/new-project` skill and `docs/MIGRATION.md` for the new template format; optionally mention “use natabula for a full opinionated setup.”
+- [ ] **CORE-022** — Write `docs/OBSIDIAN.md`: recommended plugins (Dataview for frontmatter queries, native Graph view tuning), frontmatter schema reference, `[[TASK-ID]]` wikilink workflow tips, suggested vault setup so `_project/` works as a personal knowledge base for free. Synergy with CORE-017 (frontmatter) + CORE-018 (wikilinks); promoted from FUTURE.md §"Ecosystem & Interoperability".
+- [ ] **FE-003** — Wikilink auto-resolution in `viz/` — parse `[[TASK-ID]]` references in tasknote body text and render as clickable links that jump to the matching Kanban card. Builds on FE-001; pairs naturally with CORE-019 frontmatter-aware cards. Promoted from FUTURE.md §"Tasknote & Template Evolution" (the `[[FE-042]]` auto-resolution piece — wikilink syntax itself shipped in CORE-018).
 
 ## Low
 
