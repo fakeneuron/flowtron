@@ -39,6 +39,34 @@ Single-project for now (reads flowtron's own `_project/PLAN.md`). The
 cross-project version that scans every `~/code/*/_project/PLAN.md` is queued
 as **FE-002** in the plan.
 
+## Working in Obsidian
+
+Flowtron is editor-agnostic — markdown files in git remain the source of
+truth — but two of its choices happen to fit Obsidian natively:
+
+- The `[[TASK-ID]]` cross-references in tasknote bodies are Obsidian's
+  native wikilink syntax (clickable links + surfaced in the graph view).
+- The YAML frontmatter on every tasknote (`status`, `priority`, `area`,
+  `tags`, `due`, `related-tasks`) is exactly what the
+  [Dataview](https://blacksmithgu.github.io/obsidian-dataview/) plugin
+  queries.
+
+If you already work in Obsidian, open the project root (or just
+`_project/`) as a vault and tasknotes become a queryable, graph-viewable
+knowledge base with no extra wiring. A minimal Dataview snippet to list
+open tasks:
+
+````
+```dataview
+TABLE status, priority, area
+FROM "_project/tasknote"
+WHERE status != "completed"
+SORT priority
+```
+````
+
+Obsidian is opt-in companion tooling. None of the above is required.
+
 ## Repo layout
 
 - `SPEC.md` — workflow contract (authoritative)
