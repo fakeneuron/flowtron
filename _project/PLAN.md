@@ -1,6 +1,6 @@
 # Flowtron — PLAN.md
 
-**Last updated:** 2026-05-01 (CORE-017 shipped — tasknote YAML frontmatter)
+**Last updated:** 2026-05-01 (CORE-017 shipped — tasknote YAML frontmatter; filed CORE-021 — natabula migration)
 
 ## Vision
 
@@ -18,6 +18,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## High
 
 - [ ] **CORE-018** — Polish `templates/` for scannability: consistent emojis in headings, GitHub-style checklists, `[[TASK-ID]]` linking, clear “Subtasks / Acceptance / Related” sections, navigation header — every tasknote reads like a small, polished spec.
+- [ ] **CORE-021** — Migrate natabula to flowtron. Path TBD by Phase 1 discovery (fresh adoption via `/new-project` skill vs. `docs/MIGRATION.md` §2 if natabula already has prior workflow tooling).
 
 ## Medium
 
