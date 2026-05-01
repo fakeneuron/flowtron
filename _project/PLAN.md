@@ -1,6 +1,6 @@
 # Flowtron — PLAN.md
 
-**Last updated:** 2026-04-30 (CORE-012 closed — shipped `/new-project` skill + command + MIGRATION.md §1.0 quick path)
+**Last updated:** 2026-04-30 (FE-001 closed — shipped `viz/` single-project read-only Kanban MVP)
 
 ## Vision
 
@@ -34,7 +34,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Future Opportunities
 
-- [ ] **FE-001** — Revive Vite/React visualizer from `legacy/` (cross-project Kanban view, reads each project's `_project/PLAN.md` + tasknotes)
+- [ ] **FE-002** — Cross-project visualizer (extends FE-001) — Node-side filesystem scan over `~/code/*/_project/PLAN.md`, all projects in one Kanban, optional click-into tasknote detail view.
 
 ## Completed
 
@@ -52,3 +52,4 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [x] **CORE-011** — Fold or delete `~/code/TasknoteSystem/` (the older predecessor folder). Verdict: delete outright — TasknoteSystem (5 small files dated 2025-04-02) is strictly superseded by flowtron; nothing to fold. Patched `docs/PHILOSOPHY.md:17` and `:47` to past-tense and dropped the `~/code/` absolute-path prefix so the historical narrative no longer points at a defunct location. Completed 2026-04-30. Tasknote: `_project/tasknote/archive/core/CORE-011.md`.
 - [x] **CORE-008** — Re-scoped from "Migrate InvisiPaw (single task)" to "Draft InvisiPaw migration playbook" after discovery surfaced 15 in-flight tasknotes + dirty working tree + extra root files; user wants execution deferred until InvisiPaw backlog is cleared. Deliverable: ready-to-execute playbook captured in archived tasknote (preconditions, 9 execution steps, explicit out-of-scope items, ID-rename rule that handles whichever in-flight pile survives the backlog drain, version pin resolved at execution time). Filed CORE-016 as the blocked follow-up. Completed 2026-04-30. Tasknote: `_project/tasknote/archive/core/CORE-008.md`.
 - [x] **CORE-012** — Re-scoped from "cookiecutter-style scaffolder" to "build `/new-project` skill" after Relevance Assessment surfaced collision with SPEC §"What flowtron does NOT provide" (no CLI tool); promoted Future Opportunities → Medium and shipped immediately. Deliverable: `claude/skills/new-project/SKILL.md` (8-step skill mirroring `/task` shape — preconditions, inputs, submodule add, symlink wire, CLAUDE.md append, PLAN.md + tasknote README from templates, stage + commit-go, verify), `claude/commands/new-project.md` (thin pointer), `docs/MIGRATION.md` §1.0 "Quick path" with one-time global-install symlink one-liner (§1.1–1.7 retained as manual fallback), README.md "Bootstrapping a new project" section. Live dry-run deferred (user opted out at Phase 1 checkpoint). Completed 2026-04-30. Tasknote: `_project/tasknote/archive/core/CORE-012.md`.
+- [x] **FE-001** — Shipped flowtron's first frontend artifact: `viz/`, a single-project read-only Kanban visualizer (Vite 5 + React 18 + TS 5 + Tailwind 3) with six priority columns sourced from `_project/PLAN.md`, "In progress" badge driven by tasknote-file presence in `_project/tasknote/`. Re-scoped 2026-04-30 from cross-project view after discovery surfaced legacy/'s old JSON data model required a full data-layer rewrite; cross-project + tasknote drill-in filed as FE-002. 6 parser tests green, build clean. Run via `cd viz && npm install && npm run dev`. Completed 2026-04-30. Tasknote: `_project/tasknote/archive/frontend/FE-001.md`.

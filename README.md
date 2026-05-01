@@ -23,6 +23,22 @@ to add the flowtron submodule, wire `/task`, and drop in the `_project/`
 skeleton in one pass. See [docs/MIGRATION.md](docs/MIGRATION.md) §1.0 for the
 one-time global install.
 
+## Visualizer
+
+`viz/` is a read-only Kanban view of the current project's `_project/PLAN.md`,
+grouped by priority. Open tasks with an active tasknote in
+`_project/tasknote/` are flagged **In progress**.
+
+```
+cd viz
+npm install
+npm run dev
+```
+
+Single-project for now (reads flowtron's own `_project/PLAN.md`). The
+cross-project version that scans every `~/code/*/_project/PLAN.md` is queued
+as **FE-002** in the plan.
+
 ## Repo layout
 
 - `SPEC.md` — workflow contract (authoritative)
@@ -30,6 +46,7 @@ one-time global install.
 - `claude/` — Claude Code skills + slash commands (`/task`, `/new-project`)
 - `docs/` — philosophy and migration guides
 - `_project/` — flowtron's own roadmap and tasknotes (self-hosted)
+- `viz/` — Vite/React Kanban visualizer (single-project MVP)
 - `legacy/` — pre-v0.1.0 contents, retained for reference
 
 ## Version
