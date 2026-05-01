@@ -52,14 +52,24 @@ Otherwise, capture:
 
 ## Step 3 — Scaffold the tasknote
 
-Copy the template to `_project/tasknote/<TASK-ID>.md` and fill the header:
+Copy the template to `_project/tasknote/<TASK-ID>.md` and fill the YAML frontmatter and the H1.
 
-- `TASK-ID | Task Title` → `<TASK-ID> | <description from PLAN.md>`
-- **Goal:** derive a one-sentence goal from the PLAN.md line. If the line is too terse to support a clear goal, ask the user before scaffolding.
-- **Priority:** the section heading from Step 1
-- **Area:** resolved in Step 2
-- **Model:** ask the user (`opus` or `sonnet`) using AskUserQuestion. Default recommendation: `opus` for design / multi-file / ambiguous work; `sonnet` for mechanical work with a clear diff in mind. Once set, the task runs end-to-end on this model — see SPEC §"Model field". If the loaded model doesn't match, surface the mismatch and let the user decide before continuing.
-- **Status:** `In Progress`
+**YAML frontmatter** (the `---` block at file top):
+
+- `title:` — concise one-line title derived from the PLAN.md description (may shorten the description; keep it scannable)
+- `status:` — `in-progress` (kebab-case; valid values: `not-started | in-progress | blocked | completed`)
+- `priority:` — the section heading from Step 1, title-case (`Critical | High | Medium | Low | Future Opportunities`)
+- `area:` — resolved in Step 2, lowercase (e.g., `core`, `backend`, `frontend`); matches the archive subfolder name
+- `model:` — ask the user (`opus` or `sonnet`) using AskUserQuestion. Default recommendation: `opus` for design / multi-file / ambiguous work; `sonnet` for mechanical work with a clear diff in mind. Once set, the task runs end-to-end on this model — see SPEC §"Model field". If the loaded model doesn't match, surface the mismatch and let the user decide before continuing.
+- `tags:` — leave as `[]` unless the user supplies tags at scaffold time
+- `created:` — today's date in `YYYY-MM-DD`
+- `due:` — leave empty unless the user supplies a deadline at scaffold time
+- `related-tasks:` — leave as `[]` unless the PLAN.md line cites parent epics, predecessors, or follow-ups (e.g., `[CORE-018, CORE-019]`)
+
+**Body:**
+
+- H1: `# <TASK-ID> | <title>` — match the frontmatter `title:` exactly
+- `**Goal:**` — one-sentence goal derived from the PLAN.md line. If the line is too terse to support a clear goal, ask the user before scaffolding.
 
 ## Step 4 — Phase 1: Discovery (drive now)
 

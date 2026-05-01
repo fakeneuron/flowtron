@@ -1,11 +1,18 @@
+---
+title: Task Title
+status: not-started
+priority: Medium
+area: core
+model: opus
+tags: []
+created: YYYY-MM-DD
+due:
+related-tasks: []
+---
+
 # TASK-ID | Task Title
 
 **Goal:** One-sentence goal of what this task accomplishes.
-
-**Priority:** Medium
-**Area:** core
-**Model:** opus
-**Status:** Not Started
 
 ## Phase 1: Discovery
 

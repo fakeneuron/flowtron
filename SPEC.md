@@ -71,6 +71,38 @@ pipeline). Domain prefixes must be declared in the project's
 Numbering: sequential within prefix. Decimals only for epic subtasks (e.g.,
 `CORE-EPIC-009` parent + `CORE-009.1`, `CORE-009.2` children).
 
+## Tasknote frontmatter
+
+Every tasknote opens with a YAML frontmatter block carrying machine-parseable
+fields, followed by a Markdown body. The canonical schema lives in
+`templates/tasknote-template.md`.
+
+```yaml
+---
+title: <one-line title>
+status: in-progress       # not-started | in-progress | blocked | completed
+priority: High            # Critical | High | Medium | Low | Future Opportunities
+area: core                # lowercase area name (matches archive subfolder)
+model: opus               # opus | sonnet
+tags: []                  # free-form list
+created: YYYY-MM-DD
+due:                      # optional deadline; empty when none
+related-tasks: []         # list of TASK-IDs (parent epic, predecessors, follow-ups)
+---
+```
+
+The block sits above the H1 (`# <TASK-ID> | <title>`). The Goal sentence
+stays in the body as `**Goal:**` because it reads as prose, not as a tag.
+The phase checklists below the Goal are unchanged.
+
+Flowtron itself does not parse this frontmatter — the field contract exists
+so adopting projects' tools (visualizers, dashboards, queries) can consume
+tasknote metadata without scraping the H1 line. Adopting projects can ignore
+the frontmatter and continue working as before.
+
+Archived tasknotes written before this convention landed are left as-is —
+they are write-once historical records.
+
 ## The 4-phase workflow
 
 Every tasknote follows four phases in strict serial order. Do not skip ahead.
