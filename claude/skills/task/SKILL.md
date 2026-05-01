@@ -66,10 +66,17 @@ Copy the template to `_project/tasknote/<TASK-ID>.md` and fill the YAML frontmat
 - `due:` — leave empty unless the user supplies a deadline at scaffold time
 - `related-tasks:` — leave as `[]` unless the PLAN.md line cites parent epics, predecessors, or follow-ups (e.g., `[CORE-018, CORE-019]`)
 
-**Body:**
+**Body** (spec-on-top + log-below shape; see SPEC §"Tasknote body shape" for rationale):
 
 - H1: `# <TASK-ID> | <title>` — match the frontmatter `title:` exactly
-- `**Goal:**` — one-sentence goal derived from the PLAN.md line. If the line is too terse to support a clear goal, ask the user before scaffolding.
+- **Nav header** — single line directly under the H1: `[← PLAN.md](../PLAN.md) · 🟢 In progress · 🔗 [[RELATED-1]] [[RELATED-2]]`
+  - Status icon mirrors YAML `status:` — `🟢 In progress` at scaffold (other values: `⚪ Not started`, `⏸ Blocked`, `✅ Completed`). Updated at Phase 4 closure to match the YAML flip.
+  - Wikilink chips after `🔗` mirror `related-tasks:` from the YAML frontmatter (one wikilink per ID). If `related-tasks: []`, drop the `· 🔗 ...` segment entirely.
+- `## 🎯 Goal` — one-sentence goal derived from the PLAN.md line. If the line is too terse to support a clear goal, ask the user before scaffolding.
+- `## ✅ Acceptance` — empty checklist at scaffold (`- [ ] Criterion 1` / `- [ ] Criterion 2`). Populated during Phase 1 Discovery as the user clarifies what "done" looks like.
+- `## 🧩 Subtasks` — empty checklist at scaffold. Populated during Phase 1 Discovery with concrete, ordered steps (this section replaces the old Phase-1-internal "Execution Steps" block).
+- `## 🔗 Related` — bullet list mirroring `related-tasks:` from the YAML frontmatter, one bullet per ID with short context (e.g., `- [[CORE-017]] — frontmatter (predecessor)`). If `related-tasks: []`, write `- (none)`.
+- `---` divider, then the four phase sections (`📝 Phase 1: Discovery`, `🛠️ Phase 2: Execution`, `🧪 Phase 3: Testing & Linting`, `🚀 Phase 4: Closure`) — leave the phase checklists exactly as the template ships them.
 
 ## Step 4 — Phase 1: Discovery (drive now)
 

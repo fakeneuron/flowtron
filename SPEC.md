@@ -103,11 +103,61 @@ the frontmatter and continue working as before.
 Archived tasknotes written before this convention landed are left as-is —
 they are write-once historical records.
 
+## Tasknote body shape
+
+Below the YAML frontmatter, every tasknote follows a **spec-on-top + log-below**
+structure so it reads like a small, polished spec rather than a pure execution
+log. The canonical layout lives in `templates/tasknote-template.md`.
+
+```
+# <TASK-ID> | <title>
+[← PLAN.md](../PLAN.md) · 🟢 In progress · 🔗 [[RELATED]]   ← nav header
+
+## 🎯 Goal
+## ✅ Acceptance
+## 🧩 Subtasks
+## 🔗 Related
+
+---
+
+## 📝 Phase 1: Discovery
+## 🛠️ Phase 2: Execution
+## 🧪 Phase 3: Testing & Linting
+## 🚀 Phase 4: Closure
+```
+
+**Top sections (the "spec"):**
+
+- **Nav header** — single line under the H1: a `← PLAN.md` back-link, a status
+  chip (🟢 In progress / ✅ Completed / ⏸ Blocked / ⚪ Not started) that mirrors
+  the YAML `status:`, and `[[TASK-ID]]` wikilink chips that mirror
+  `related-tasks:`. The status chip is updated at Phase 4 closure.
+- **🎯 Goal** — one-sentence description of what this task accomplishes.
+- **✅ Acceptance** — checklist of concrete, testable criteria for "done."
+  Populated during Phase 1 Discovery.
+- **🧩 Subtasks** — checklist of the ordered, concrete steps to complete the
+  task. Populated during Phase 1 Discovery (replaces the legacy Phase-1-internal
+  "Execution Steps" block).
+- **🔗 Related** — bullet list of related tasks with one-line context per ID,
+  mirroring `related-tasks:` from the YAML in human-readable form.
+
+**Phase sections (the "log")** — the four-phase checklists below the divider
+remain the execution record.
+
+**Cross-linking** — references to other tasknotes use Obsidian-style
+`[[<TASK-ID>]]` wikilinks throughout. They render as plain text on GitHub but
+are first-class in markdown-vault tooling (Obsidian, Foam, Logseq) and stay
+cheap to write.
+
+**Backwards compatibility** — archived tasknotes from before this convention
+landed are left as-is, the same write-once policy as the frontmatter rollout.
+Adopting projects pick up the new shape on their next flowtron version bump.
+
 ## The 4-phase workflow
 
 Every tasknote follows four phases in strict serial order. Do not skip ahead.
 
-### Phase 1: Discovery
+### 📝 Phase 1: Discovery
 
 Mandatory steps:
 
@@ -116,7 +166,7 @@ Mandatory steps:
 - [ ] Read relevant source files
 - [ ] **Drift check** — verify file paths, line numbers, function names, and root-cause hypotheses cited in the task description still match current code; surface any drift to the user before re-interpreting the task
 - [ ] Asked clarifying questions OR logged "No clarifications needed" with explicit assumptions
-- [ ] Defined concrete execution steps below
+- [ ] Subtasks above populated with concrete, ordered steps
 
 The Relevance Assessment is non-negotiable. If `Re-scope`, update the task
 entry in PLAN.md and the tasknote header before continuing. If `De-scope`,
@@ -129,7 +179,7 @@ the task was written. Do not silently "correct" the plan by executing a
 different task than was approved — flag the drift and confirm the path
 forward first.
 
-### Phase 2: Execution
+### 🛠️ Phase 2: Execution
 
 - [ ] **Pattern survey** — looked at how neighboring code (sibling modules, parallel components, adjacent services) solves the same shape of problem; chose to extend an existing pattern, or justified the new shape if none fits
 - [ ] Implemented the minimal solution
@@ -141,7 +191,7 @@ explicitly calls for it. The pattern survey exists to keep the codebase
 unified — prefer extending what already works over inventing a parallel
 solution.
 
-### Phase 3: Testing & Linting
+### 🧪 Phase 3: Testing & Linting
 
 - [ ] Ran targeted test suite for changed code
 - [ ] Ran lint/type-check on changed code
@@ -150,11 +200,12 @@ solution.
 
 Run the full test suite only when changes are broad or cross-cutting.
 
-### Phase 4: Closure
+### 🚀 Phase 4: Closure
 
 - [ ] Verified all prior phases complete
 - [ ] Updated docs/inventories affected by the change
 - [ ] Updated PLAN.md (status flipped to `Completed YYYY-MM-DD`)
+- [ ] Updated nav header status icon to ✅ Completed
 - [ ] Moved this tasknote to `_project/tasknote/archive/<area>/`
 - [ ] Recapped changes with the user and got confirmation
 

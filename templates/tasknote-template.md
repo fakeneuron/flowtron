@@ -12,9 +12,29 @@ related-tasks: []
 
 # TASK-ID | Task Title
 
-**Goal:** One-sentence goal of what this task accomplishes.
+[← PLAN.md](../PLAN.md) · 🟢 In progress · 🔗 [[RELATED]]
 
-## Phase 1: Discovery
+## 🎯 Goal
+
+One-sentence goal of what this task accomplishes.
+
+## ✅ Acceptance
+
+- [ ] Criterion 1
+- [ ] Criterion 2
+
+## 🧩 Subtasks
+
+- [ ] Step 1
+- [ ] Step 2
+
+## 🔗 Related
+
+- [[TASK-ID]] — short context (predecessor / follow-up / parent epic)
+
+---
+
+## 📝 Phase 1: Discovery
 
 - [ ] Reviewed the task entry in PLAN.md
 - [ ] **Relevance Assessment**
@@ -25,16 +45,11 @@ related-tasks: []
 - [ ] Read relevant source files
 - [ ] **Drift check** — file paths, line numbers, function names, and root-cause hypotheses cited in the task description still match current code; flag any drift before re-interpreting the task
 - [ ] Asked clarifying questions OR logged "No clarifications needed" with explicit assumptions
-- [ ] Defined concrete execution steps below
+- [ ] Subtasks above populated with concrete, ordered steps
 
 **Discovery Notes:**
 
-**Execution Steps:**
-
-1.
-2.
-
-## Phase 2: Execution
+## 🛠️ Phase 2: Execution
 
 - [ ] **Pattern survey** — looked at neighboring code for an existing pattern to extend; justified the new shape if none fits
 - [ ] Implemented the minimal solution
@@ -43,7 +58,7 @@ related-tasks: []
 
 **Implementation Notes:**
 
-## Phase 3: Testing & Linting
+## 🧪 Phase 3: Testing & Linting
 
 - [ ] Ran targeted test suite for changed code
 - [ ] Ran lint/type-check on changed code
@@ -52,11 +67,12 @@ related-tasks: []
 
 **Testing Notes:**
 
-## Phase 4: Closure
+## 🚀 Phase 4: Closure
 
 - [ ] Verified all prior phases complete
 - [ ] Updated docs/inventories affected by the change
 - [ ] Updated PLAN.md (status flipped to `Completed YYYY-MM-DD`)
+- [ ] Updated nav header status icon to ✅ Completed
 - [ ] Moved this tasknote to `_project/tasknote/archive/<area>/`
 - [ ] Recapped changes with the user and got confirmation
 

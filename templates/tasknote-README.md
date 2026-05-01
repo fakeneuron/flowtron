@@ -16,7 +16,7 @@ steps when crossing a major version.
 
 ## Layout
 
-- `tasknote-template.md` — copy this when starting a new task. Tasknotes carry a YAML frontmatter block (`title`, `status`, `priority`, `area`, `model`, `tags`, `created`, `due`, `related-tasks`) followed by the Goal sentence and the four-phase body. See the template for the canonical schema and `_project/flowtron/SPEC.md` §"Tasknote frontmatter" for the field contract.
+- `tasknote-template.md` — copy this when starting a new task. Tasknotes carry a YAML frontmatter block (`title`, `status`, `priority`, `area`, `model`, `tags`, `created`, `due`, `related-tasks`) followed by a spec-on-top + log-below body: nav header + `🎯 Goal` / `✅ Acceptance` / `🧩 Subtasks` / `🔗 Related` sections above a divider, then the four phase sections (`📝 Discovery` / `🛠️ Execution` / `🧪 Testing` / `🚀 Closure`) below. Cross-references use `[[TASK-ID]]` wikilinks. See the template for the canonical schema, `_project/flowtron/SPEC.md` §"Tasknote frontmatter" for field contracts, and §"Tasknote body shape" for the body layout.
 - `<TASK-ID>.md` — active tasknote (one per task in flight)
 - `archive/<area>/<TASK-ID>.md` — completed tasknotes, one folder per area
 
