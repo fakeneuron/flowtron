@@ -11,6 +11,8 @@ Both paths assume the project lives under `~/code/`, has its own git repo, and a
 
 ## 1 — Fresh adoption
 
+> **Want a more opinionated starting point?** [natabula](https://github.com/fakeneuron/natabula) is a project template that pre-wires flowtron alongside FastAPI + React conventions, CI setup, and a richer `CLAUDE.md` starter. If you're starting a new project in that stack, consider cloning natabula instead of wiring flowtron by hand.
+
 ### 1.0 Quick path: `/new-project`
 
 If you have flowtron's `/new-project` skill installed globally (one-time setup below), the manual steps in §1.1–1.6 are wrapped in a single command:
@@ -79,6 +81,8 @@ cp _project/flowtron/templates/tasknote-README.md _project/tasknote/README.md
 ```
 
 Edit the `Pinned to:` line to match the version you checked out in §1.1. Declare any project-specific area prefixes. Replace the "Project quick commands" section with the actual test/lint/dev commands for your project.
+
+The README also describes the current tasknote shape: YAML frontmatter (`title`, `status`, `priority`, `area`, `model`, `tags`, `created`, `due`, `related-tasks`) and a spec-on-top + log-below body (`Goal` / `Acceptance` / `Subtasks` / `Related` above a divider, then the four phase sections below). The `/task` skill scaffolds this shape automatically; see `_project/flowtron/templates/tasknote-template.md` for the canonical layout.
 
 ### 1.6 Commit
 

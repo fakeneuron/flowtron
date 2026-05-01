@@ -23,7 +23,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **CORE-016** — Execute InvisiPaw migration per CORE-008 playbook. Blocked: do not start until user signals InvisiPaw backlog is cleared. Scope: flowtron wiring + plan-file collapse + active-task-ID rename. Out of scope: renaming the 15 in-flight tasknote files (deferred further).
 - [ ] **CORE-019** — Enhance `viz/` to consume the new frontmatter: richer cards (priority badges, tags, due dates, status), full Markdown for description/subtasks in cards, “Open in editor” button, tag/status filters, quick-search. Implementation note: gray-matter + react-markdown; aligns with FE-002 cross-project path.
-- [ ] **CORE-020** — Update `/new-project` skill and `docs/MIGRATION.md` for the new template format; optionally mention “use natabula for a full opinionated setup.”
 - [ ] **FE-003** — Wikilink auto-resolution in `viz/` — parse `[[TASK-ID]]` references in tasknote body text and render as clickable links that jump to the matching Kanban card. Builds on FE-001; pairs naturally with CORE-019 frontmatter-aware cards. Promoted from FUTURE.md §"Tasknote & Template Evolution" (the `[[FE-042]]` auto-resolution piece — wikilink syntax itself shipped in CORE-018).
 
 ## Low
@@ -41,6 +40,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-020** — Update `/new-project` skill and `docs/MIGRATION.md` for the new template format; optionally mention "use natabula for a full opinionated setup." Completed 2026-05-01. Tasknote: `_project/tasknote/archive/core/CORE-020.md`.
 - [x] **CORE-001** — Hard reset flowtron repo (moved old contents to `legacy/`, scaffolded new dirs). Completed 2026-04-28. Bootstrap task — no tasknote (flowtron not yet self-hosting at the time).
 - [x] **CORE-002** — Drafted `SPEC.md` (4-phase + Relevance Gate + post-closure protocol; tightened with drift check, pattern survey, model-field rule, and recap shape after cross-repo audit). Completed 2026-04-28. Bootstrap task — no tasknote.
 - [x] **CORE-003** — Built `templates/` (tasknote-template.md, PLAN.md, tasknote-README.md). Completed 2026-04-28. Bootstrap task — no tasknote (flowtron not yet self-hosting; CORE-004 wires up the `/task` flow).

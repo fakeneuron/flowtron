@@ -90,6 +90,8 @@ Edit `_project/tasknote/README.md`:
 - Replace `vX.Y.Z` on the `**Pinned to:** vX.Y.Z` line with the pinned version from Step 1 (or `main` if unpinned).
 - Leave the project-specific area-prefix table and "Project quick commands" section as placeholders for the user to fill in afterward — surface this in the hand-off in Step 8.
 
+The README includes a description of the current tasknote template shape: YAML frontmatter (`title`, `status`, `priority`, `area`, `model`, `tags`, `created`, `due`, `related-tasks`) and a spec-on-top + log-below body. The `/task` skill scaffolds all new tasknotes in this shape automatically; the canonical layout is at `_project/flowtron/templates/tasknote-template.md`.
+
 Reference: `docs/MIGRATION.md` §1.5.
 
 ## Step 7 — Stage and ask for commit-go
