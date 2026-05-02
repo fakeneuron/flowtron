@@ -1,6 +1,6 @@
 # Flowtron — PLAN.md
 
-**Last updated:** 2026-05-01 (FE-004 shipped — viz/ frontmatter-aware cards, filters, quick-search; FE-005 filed for layout rebuild)
+**Last updated:** 2026-05-02 (FE-005 shipped — viz/ rebuilt as priority-grouped vertical list with epic hierarchy + per-row signals; CORE-023 filed for PLAN.md shortname convention)
 
 ## Vision
 
@@ -17,12 +17,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **FE-005** — Rebuild `viz/` layout: replace 6-column Kanban with a vertical list grouped by priority (Critical → Future); section headers collapse-expand; Completed section collapsed by default. Epics use a parent row with `N/M done` progress + chevron, subtasks collapsed until expanded. Add row signals: phase indicator (4 dots showing active phase from tasknote checkbox state), subtask progress bar, `opus`/`sonnet` text-only model chip, clickable related-tasks chips. Full replacement of the Kanban code path (no toggle). Builds on FE-004 frontmatter parse; related-tasks chip behavior pairs naturally with FE-003. Filed 2026-05-01 after dogfooding FE-004 surfaced "Kanban not intuitive + epics/subtasks need emphasis + want model + richer feedback signals".
+(none — FE-005 shipped 2026-05-02; see Completed)
 
 ## Medium
 
 - [ ] **CORE-016** — Execute InvisiPaw migration per CORE-008 playbook. Blocked: do not start until user signals InvisiPaw backlog is cleared. Scope: flowtron wiring + plan-file collapse + active-task-ID rename. Out of scope: renaming the 15 in-flight tasknote files (deferred further).
 - [ ] **FE-003** — Wikilink auto-resolution in `viz/` — parse `[[TASK-ID]]` references in tasknote body text and render as clickable links that jump to the matching Kanban card. Builds on FE-001; pairs naturally with FE-004 frontmatter-aware cards. Promoted from FUTURE.md §"Tasknote & Template Evolution" (the `[[FE-042]]` auto-resolution piece — wikilink syntax itself shipped in CORE-018).
+- [ ] **CORE-023** — PLAN.md task-line shortname convention. Extend the task-line grammar (SPEC §"Task ID convention" or new §"Task-line format") to support an optional short label distinct from the long description — final syntax TBD (e.g. `- [ ] **TASK-ID** | <short label> — <long description>` or `- [ ] **TASK-ID** — <short label>. <long description>`). Update viz/'s `parser.ts` + `App.tsx` to surface the short label as the row title when present (today the row uses `frontmatter.title` for tasks with tasknotes and the full PLAN.md description for tasks without — the latter requires uniform truncation in the visualizer because no separate short label exists). Filed 2026-05-02 from FE-005 dogfooding.
 
 ## Low
 
@@ -39,6 +40,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-005** — Rebuilt `viz/` layout: replaced the 6-column Kanban with a priority-grouped vertical list (Critical → Future → Completed); section headers chevron-toggle (Completed default-collapsed); epic parents (`<AREA>-EPIC-<N>`) detected by ID convention and rendered with `N/M done` chip + nested collapsible subtask block (subtasks minimal — ID + description + completion checkmark). Top-level rows that have a tasknote show the new signal set: 4-dot phase indicator (earliest-incomplete = active), inline subtask progress bar (counted from the tasknote's 🧩 Subtasks checklist), text-only `opus`/`sonnet` model chip, and clickable related-tasks chips that auto-expand the target's collapsed section + scroll-into-view + briefly outline in amber. Tasks without a tasknote get a uniform "no tasknote" pill in the reserved right gutter, click-to-expand renders the full PLAN.md description below. Old Kanban code path fully removed. Added: `tasknote.ts` `countChecklist` + `activePhaseIndex` + `phases` / `subtasksProgress` on `Tasknote`; `parser.ts` `groupTasks` epic-detection helper. Tests: 18 → 32 (3 new in `countChecklist`, 4 in `activePhaseIndex`, 5 in `groupTasks`, 2 in `parseTasknote` for phase + subtask-progress extraction). Filed CORE-023 follow-up for SPEC-level shortname convention. Completed 2026-05-02. Tasknote: `_project/tasknote/archive/frontend/FE-005.md`.
 - [x] **FE-004** — Enhance `viz/` to consume the new frontmatter: richer cards (priority badge, tag chips, due-date pill, frontmatter-derived status), inline expand-on-click rendering Goal/Acceptance/Subtasks via react-markdown + remark-gfm, "Open in VS Code" link via `vscode://file/<path>`, tag + status multi-select filter chips in header, quick-search extended to match across tags + status + frontmatter title. Server-side gray-matter parse in the Vite dev plugin (`/api/active` now returns parsed `Tasknote[]`); new `src/tasknote.ts` (parseFrontmatter + extractSection + parseTasknote) with 12 unit tests. Backwards-compat preserved — archived tasknotes (no frontmatter) keep FE-001's minimal card layout. Re-scoped from CORE-019 → FE-004 mid-Phase-1 (scope was entirely viz/ frontend, mirroring FE-001/FE-002/FE-003). Bugs surfaced + fixed during execution: gray-matter parses YAML dates as JS Dates (coerced to ISO strings); react-markdown doesn't render task-list checkboxes by default (added remark-gfm). Completed 2026-05-01. Tasknote: `_project/tasknote/archive/frontend/FE-004.md`.
 - [x] **CORE-020** — Update `/new-project` skill and `docs/MIGRATION.md` for the new template format; optionally mention "use natabula for a full opinionated setup." Completed 2026-05-01. Tasknote: `_project/tasknote/archive/core/CORE-020.md`.
 - [x] **CORE-001** — Hard reset flowtron repo (moved old contents to `legacy/`, scaffolded new dirs). Completed 2026-04-28. Bootstrap task — no tasknote (flowtron not yet self-hosting at the time).

@@ -1,5 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { extractSection, parseFrontmatter, parseTasknote } from './tasknote';
+import {
+  activePhaseIndex,
+  countChecklist,
+  extractSection,
+  parseFrontmatter,
+  parseTasknote,
+} from './tasknote';
 
 describe('parseFrontmatter', () => {
   it('returns null for empty data', () => {
@@ -132,6 +138,76 @@ Phase content goes here.
   });
 });
 
+describe('countChecklist', () => {
+  it('returns zero counts for empty input', () => {
+    expect(countChecklist('')).toEqual({ total: 0, done: 0 });
+  });
+
+  it('counts unchecked, lowercase x, and uppercase X items', () => {
+    const md = `- [ ] one
+- [x] two
+- [X] three
+- [ ] four`;
+    expect(countChecklist(md)).toEqual({ total: 4, done: 2 });
+  });
+
+  it('ignores non-checklist lines and indented sub-paragraphs', () => {
+    const md = `- [x] item with body
+
+  some note text under it
+
+- [ ] another item
+plain prose line`;
+    expect(countChecklist(md)).toEqual({ total: 2, done: 1 });
+  });
+});
+
+describe('activePhaseIndex', () => {
+  it('returns 0 when no phases have been started', () => {
+    expect(
+      activePhaseIndex([
+        { total: 6, done: 0 },
+        { total: 4, done: 0 },
+        { total: 4, done: 0 },
+        { total: 6, done: 0 },
+      ]),
+    ).toBe(0);
+  });
+
+  it('returns the earliest phase with any incomplete box', () => {
+    expect(
+      activePhaseIndex([
+        { total: 6, done: 6 },
+        { total: 4, done: 1 },
+        { total: 4, done: 0 },
+        { total: 6, done: 0 },
+      ]),
+    ).toBe(1);
+  });
+
+  it('treats a zero-total phase as the active phase (e.g. archived/empty)', () => {
+    expect(
+      activePhaseIndex([
+        { total: 6, done: 6 },
+        { total: 0, done: 0 },
+        { total: 4, done: 0 },
+        { total: 6, done: 0 },
+      ]),
+    ).toBe(1);
+  });
+
+  it('returns the last phase when all are fully done', () => {
+    expect(
+      activePhaseIndex([
+        { total: 6, done: 6 },
+        { total: 4, done: 4 },
+        { total: 4, done: 4 },
+        { total: 6, done: 6 },
+      ]),
+    ).toBe(3);
+  });
+});
+
 describe('parseTasknote', () => {
   it('parses a tasknote with frontmatter and section extraction', () => {
     const text = `---
@@ -186,5 +262,69 @@ Body
 `;
     const tn = parseTasknote('BAD-1', '/abs/path/BAD-1.md', text);
     expect(tn.frontmatter).toBeNull();
+  });
+
+  it('extracts per-phase checklist counts and subtasksProgress', () => {
+    const text = `# T-1 | Title
+
+## 🧩 Subtasks
+
+- [x] one
+- [x] two
+- [ ] three
+
+---
+
+## 📝 Phase 1: Discovery
+
+- [x] reviewed PLAN.md
+- [x] relevance assessment
+- [x] read source files
+- [x] drift check
+- [x] clarifying questions
+- [x] subtasks populated
+
+## 🛠️ Phase 2: Execution
+
+- [ ] pattern survey
+- [ ] minimal implementation
+- [ ] tests
+- [ ] targeted run
+
+## 🧪 Phase 3: Testing & Linting
+
+- [ ] targeted suite
+- [ ] lint/type-check
+- [ ] visual confirmation
+- [ ] fixed introduced issues
+
+## 🚀 Phase 4: Closure
+
+- [ ] verified prior phases
+- [ ] updated docs
+- [ ] PLAN.md flipped
+- [ ] nav header updated
+- [ ] moved to archive
+- [ ] recap confirmed
+`;
+    const tn = parseTasknote('T-1', '/abs/path/T-1.md', text);
+    expect(tn.subtasksProgress).toEqual({ total: 3, done: 2 });
+    expect(tn.phases).toHaveLength(4);
+    expect(tn.phases[0]).toEqual({ total: 6, done: 6 }); // Phase 1 fully done
+    expect(tn.phases[1]).toEqual({ total: 4, done: 0 }); // Phase 2 not started
+    expect(tn.phases[2]).toEqual({ total: 4, done: 0 });
+    expect(tn.phases[3]).toEqual({ total: 6, done: 0 });
+  });
+
+  it('returns zero phase counts for archived tasknotes with no phase headings', () => {
+    const text = `# OLD-1 | Old\n\nNo phases here.\n`;
+    const tn = parseTasknote('OLD-1', '/abs/OLD-1.md', text);
+    expect(tn.phases).toEqual([
+      { total: 0, done: 0 },
+      { total: 0, done: 0 },
+      { total: 0, done: 0 },
+      { total: 0, done: 0 },
+    ]);
+    expect(tn.subtasksProgress).toEqual({ total: 0, done: 0 });
   });
 });

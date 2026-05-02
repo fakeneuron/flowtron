@@ -36,6 +36,47 @@ function cleanDescription(raw: string): string {
     .replace(/^[\.\s]+|[\.\s]+$/g, '');
 }
 
+export interface TaskNode {
+  task: Task;
+  children: Task[];
+}
+
+const EPIC_ID = /^([A-Z]+)-EPIC-(\d+)$/;
+const SUBTASK_ID = /^([A-Z]+)-(\d+)\.\d+$/;
+
+function epicKey(id: string): string | null {
+  const m = EPIC_ID.exec(id);
+  return m ? `${m[1]}-${m[2]}` : null;
+}
+
+function subtaskParentKey(id: string): string | null {
+  const m = SUBTASK_ID.exec(id);
+  return m ? `${m[1]}-${m[2]}` : null;
+}
+
+export function groupTasks(tasks: Task[]): TaskNode[] {
+  const nodes: TaskNode[] = [];
+  const epicByKey = new Map<string, TaskNode>();
+
+  for (const task of tasks) {
+    const eKey = epicKey(task.id);
+    if (eKey) {
+      const node: TaskNode = { task, children: [] };
+      epicByKey.set(eKey, node);
+      nodes.push(node);
+      continue;
+    }
+    const pKey = subtaskParentKey(task.id);
+    if (pKey && epicByKey.has(pKey)) {
+      epicByKey.get(pKey)!.children.push(task);
+      continue;
+    }
+    nodes.push({ task, children: [] });
+  }
+
+  return nodes;
+}
+
 export function parsePlan(markdown: string): Task[] {
   const lines = markdown.split(/\r?\n/);
   const tasks: Task[] = [];

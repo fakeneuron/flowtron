@@ -15,6 +15,11 @@ export interface TasknoteFrontmatter {
   relatedTasks: string[];
 }
 
+export interface ChecklistCounts {
+  total: number;
+  done: number;
+}
+
 export interface Tasknote {
   id: string;
   path: string;
@@ -23,6 +28,8 @@ export interface Tasknote {
   goal: string;
   acceptance: string;
   subtasks: string;
+  subtasksProgress: ChecklistCounts;
+  phases: ChecklistCounts[];
 }
 
 const STATUS_VALUES = new Set<TasknoteStatus>([
@@ -101,9 +108,35 @@ export function extractSection(body: string, titleSubstring: string): string {
   return collected.join('\n').trim();
 }
 
+const CHECKLIST_LINE = /^\s*-\s+\[([ xX])\]/;
+
+export function activePhaseIndex(phases: ChecklistCounts[]): number {
+  for (let i = 0; i < phases.length; i++) {
+    const p = phases[i];
+    if (p.total === 0) return i;
+    if (p.done < p.total) return i;
+  }
+  return Math.max(0, phases.length - 1);
+}
+
+export function countChecklist(markdown: string): ChecklistCounts {
+  if (!markdown) return { total: 0, done: 0 };
+  let total = 0;
+  let done = 0;
+  for (const line of markdown.split(/\r?\n/)) {
+    const m = CHECKLIST_LINE.exec(line);
+    if (!m) continue;
+    total += 1;
+    if (m[1] === 'x' || m[1] === 'X') done += 1;
+  }
+  return { total, done };
+}
+
 export function parseTasknote(id: string, path: string, text: string): Tasknote {
   const parsed = matter(text);
   const body = parsed.content.trimStart();
+  const subtasks = extractSection(body, 'Subtasks');
+  const phases = [1, 2, 3, 4].map((n) => countChecklist(extractSection(body, `Phase ${n}`)));
   return {
     id,
     path,
@@ -111,6 +144,8 @@ export function parseTasknote(id: string, path: string, text: string): Tasknote 
     body,
     goal: extractSection(body, 'Goal'),
     acceptance: extractSection(body, 'Acceptance'),
-    subtasks: extractSection(body, 'Subtasks'),
+    subtasks,
+    subtasksProgress: countChecklist(subtasks),
+    phases,
   };
 }

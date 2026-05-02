@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parsePlan } from './parser';
+import { groupTasks, parsePlan, type Task } from './parser';
 
 describe('parsePlan', () => {
   it('parses an open task in High', () => {
@@ -78,5 +78,65 @@ describe('parsePlan', () => {
 - [ ] **CORE-001** — first
 `;
     expect(parsePlan(md).map((t) => t.id)).toEqual(['CORE-001']);
+  });
+});
+
+describe('groupTasks', () => {
+  const t = (id: string, completed = false): Task => ({
+    id,
+    description: id,
+    priority: 'Low',
+    completed,
+  });
+
+  it('returns standalone tasks as flat top-level nodes', () => {
+    const nodes = groupTasks([t('FE-001'), t('CORE-002')]);
+    expect(nodes).toHaveLength(2);
+    expect(nodes.every((n) => n.children.length === 0)).toBe(true);
+    expect(nodes.map((n) => n.task.id)).toEqual(['FE-001', 'CORE-002']);
+  });
+
+  it('attaches subtasks to their epic parent by ID convention', () => {
+    const nodes = groupTasks([
+      t('CORE-EPIC-009'),
+      t('CORE-009.1', true),
+      t('CORE-009.2'),
+      t('CORE-009.3'),
+    ]);
+    expect(nodes).toHaveLength(1);
+    expect(nodes[0].task.id).toBe('CORE-EPIC-009');
+    expect(nodes[0].children.map((c) => c.id)).toEqual([
+      'CORE-009.1',
+      'CORE-009.2',
+      'CORE-009.3',
+    ]);
+  });
+
+  it('preserves original order across mixed standalone + epic + standalone', () => {
+    const nodes = groupTasks([
+      t('FE-001'),
+      t('CORE-EPIC-009'),
+      t('CORE-009.1'),
+      t('FE-002'),
+    ]);
+    expect(nodes.map((n) => n.task.id)).toEqual([
+      'FE-001',
+      'CORE-EPIC-009',
+      'FE-002',
+    ]);
+    expect(nodes[1].children.map((c) => c.id)).toEqual(['CORE-009.1']);
+  });
+
+  it('treats orphan subtasks (no matching epic) as top-level rows', () => {
+    const nodes = groupTasks([t('CORE-009.1'), t('FE-001')]);
+    expect(nodes.map((n) => n.task.id)).toEqual(['CORE-009.1', 'FE-001']);
+    expect(nodes.every((n) => n.children.length === 0)).toBe(true);
+  });
+
+  it('handles an epic with no children', () => {
+    const nodes = groupTasks([t('CORE-EPIC-009')]);
+    expect(nodes).toHaveLength(1);
+    expect(nodes[0].task.id).toBe('CORE-EPIC-009');
+    expect(nodes[0].children).toEqual([]);
   });
 });
