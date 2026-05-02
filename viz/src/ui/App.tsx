@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { groupBy } from './utils';
-import { groupTasks, parsePlan, type Priority, type Task, type TaskNode } from '../parser';
+import { groupTasks, parsePlan, type Priority, type Task, type TaskModel, type TaskNode } from '../parser';
 import { activePhaseIndex, type ChecklistCounts, type Tasknote, type TasknoteStatus } from '../tasknote';
 
 const SECTIONS: Priority[] = [
@@ -566,7 +566,7 @@ const TaskRowInner: React.FC<TaskRowInnerProps> = ({
           {task.id}
         </span>
         <span className="min-w-0 flex-1 truncate text-xs text-slate-700">
-          {fm?.title ?? task.description}
+          {task.shortname ?? fm?.title ?? task.description}
         </span>
       </button>
       <div className="flex shrink-0 items-center justify-end gap-1.5 min-w-[30rem]">
@@ -579,7 +579,7 @@ const TaskRowInner: React.FC<TaskRowInnerProps> = ({
         {tn && tn.subtasksProgress.total > 0 && (
           <SubtaskProgress counts={tn.subtasksProgress} />
         )}
-        {fm && <ModelChip model={fm.model} />}
+        {task.model && <ModelChip model={task.model} />}
         {fm && fm.tags.length > 0 && (
           <div className="flex items-center gap-1">
             {fm.tags.map((tag) => (
@@ -696,7 +696,9 @@ const TaskDetail: React.FC<{ task: Task; tasknote: Tasknote | undefined }> = ({
         )}
       </>
     ) : (
-      <DetailSection title="Description" markdown={task.description} />
+      <div className="prose prose-xs max-w-none [&_p]:my-1 [&_ul]:my-1 [&_li]:my-0 [&_input]:mr-1">
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>{task.description}</ReactMarkdown>
+      </div>
     )}
   </div>
 );
@@ -766,7 +768,7 @@ const SubtaskProgress: React.FC<{ counts: ChecklistCounts }> = ({ counts }) => {
   );
 };
 
-const ModelChip: React.FC<{ model: 'opus' | 'sonnet' }> = ({ model }) => (
+const ModelChip: React.FC<{ model: TaskModel }> = ({ model }) => (
   <span className="rounded border border-slate-200 px-1.5 py-0.5 text-[10px] font-mono text-slate-600">
     {model}
   </span>

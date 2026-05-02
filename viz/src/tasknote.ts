@@ -8,7 +8,6 @@ export interface TasknoteFrontmatter {
   status: TasknoteStatus;
   priority: Priority;
   area: string;
-  model: 'opus' | 'sonnet';
   tags: string[];
   created: string;
   due?: string;
@@ -39,8 +38,6 @@ const STATUS_VALUES = new Set<TasknoteStatus>([
   'completed',
 ]);
 
-const MODEL_VALUES = new Set(['opus', 'sonnet']);
-
 function asString(v: unknown): string | undefined {
   if (typeof v === 'string') return v;
   if (v instanceof Date && !isNaN(v.getTime())) {
@@ -63,20 +60,17 @@ export function parseFrontmatter(raw: unknown): TasknoteFrontmatter | null {
   const status = asString(data.status);
   const priority = asString(data.priority);
   const area = asString(data.area);
-  const model = asString(data.model);
   const created = asString(data.created);
   const due = asString(data.due);
 
-  if (!title || !status || !priority || !area || !model || !created) return null;
+  if (!title || !status || !priority || !area || !created) return null;
   if (!STATUS_VALUES.has(status as TasknoteStatus)) return null;
-  if (!MODEL_VALUES.has(model)) return null;
 
   return {
     title,
     status: status as TasknoteStatus,
     priority: priority as Priority,
     area,
-    model: model as 'opus' | 'sonnet',
     tags: asStringArray(data.tags),
     created,
     due: due && due.length > 0 ? due : undefined,

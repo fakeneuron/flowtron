@@ -20,18 +20,17 @@ describe('parseFrontmatter', () => {
         title: 'X',
         status: 'in-progress',
         priority: 'High',
-        // area, model, created missing
+        // area and created missing
       }),
     ).toBeNull();
   });
 
-  it('parses a complete CORE-017 frontmatter object', () => {
+  it('parses a complete frontmatter object', () => {
     const fm = parseFrontmatter({
       title: 'Test task',
       status: 'in-progress',
       priority: 'Medium',
       area: 'frontend',
-      model: 'opus',
       tags: ['ui', 'parser'],
       created: '2026-05-01',
       due: '2026-05-15',
@@ -42,7 +41,6 @@ describe('parseFrontmatter', () => {
       status: 'in-progress',
       priority: 'Medium',
       area: 'frontend',
-      model: 'opus',
       tags: ['ui', 'parser'],
       created: '2026-05-01',
       due: '2026-05-15',
@@ -56,7 +54,6 @@ describe('parseFrontmatter', () => {
       status: 'not-started',
       priority: 'Low',
       area: 'core',
-      model: 'sonnet',
       created: '2026-05-01',
     });
     expect(fm).not.toBeNull();
@@ -65,27 +62,30 @@ describe('parseFrontmatter', () => {
     expect(fm?.relatedTasks).toEqual([]);
   });
 
-  it('rejects invalid status or model values', () => {
+  it('rejects invalid status values', () => {
     expect(
       parseFrontmatter({
         title: 'X',
         status: 'bogus',
         priority: 'Medium',
         area: 'core',
-        model: 'opus',
         created: '2026-05-01',
       }),
     ).toBeNull();
-    expect(
-      parseFrontmatter({
-        title: 'X',
-        status: 'in-progress',
-        priority: 'Medium',
-        area: 'core',
-        model: 'gpt',
-        created: '2026-05-01',
-      }),
-    ).toBeNull();
+  });
+
+  it('tolerates legacy `model:` field on archived tasknotes (ignored, not rejected)', () => {
+    const fm = parseFrontmatter({
+      title: 'Old',
+      status: 'completed',
+      priority: 'High',
+      area: 'core',
+      model: 'opus',
+      created: '2026-04-30',
+    });
+    expect(fm).not.toBeNull();
+    expect(fm?.title).toBe('Old');
+    expect((fm as unknown as { model?: string }).model).toBeUndefined();
   });
 });
 
@@ -215,7 +215,6 @@ title: Demo
 status: in-progress
 priority: High
 area: frontend
-model: opus
 tags: [a, b]
 created: 2026-05-01
 due:

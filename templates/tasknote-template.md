@@ -3,7 +3,6 @@ title: Task Title
 status: not-started
 priority: Medium
 area: core
-model: opus
 tags: []
 created: YYYY-MM-DD
 due:

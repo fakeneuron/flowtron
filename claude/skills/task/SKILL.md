@@ -39,8 +39,27 @@ the task is already closed. **Stop. Do not scaffold.** Surface the conflict to t
 
 Otherwise, capture:
 
-- The one-line description (everything after the `—`)
+- The optional `[model]` segment (`opus` | `sonnet`) — see Step 1.5
+- The optional `| shortname` segment
+- The one-line long description (everything after ` — `; may be empty)
 - The section heading the line lives under (`Critical` / `High` / `Medium` / `Low` / `Future Opportunities`) — this is the task's **Priority**
+
+The full task-line grammar is `- [ ] **TASK-ID** [model] | shortname — long description`; both `[model]` and `| shortname` are optional. See SPEC §"Task-line format" for the canonical grammar.
+
+## Step 1.5 — Model gate (BEFORE scaffolding)
+
+The model decision is made at filing time on the PLAN.md task line, not at scaffold time. Gate on it now, before reading source files or synthesizing the tasknote body — heavy thinking should never run on the wrong model.
+
+Three cases (decide via the `[model]` segment captured in Step 1):
+
+- **PLAN.md `[model]` matches the active model** → proceed silently to Step 2.
+- **PLAN.md `[model]` differs from the active model** → STOP. Surface the mismatch and offer two paths via AskUserQuestion:
+  1. "Switch active model: I'll stop. Run `/model <PLAN-model>` then re-invoke `/task <TASK-ID>`." (recommended — preserves the filed assignment)
+  2. "Retag the PLAN.md line to `<active-model>` and proceed." If chosen, edit the PLAN.md line's `[model]` segment in place, then proceed to Step 2.
+  Do not silently override.
+- **PLAN.md `[model]` is absent (legacy entry, no `[model]` on the line)** → ask the user via AskUserQuestion to choose `opus` or `sonnet` (default recommendation: `opus` for design / multi-file / ambiguous work; `sonnet` for mechanical work with a clear diff in mind). Then write `[<chosen>]` into the PLAN.md line in place (insert immediately after `**TASK-ID**`), then proceed to Step 2. The next time `/task` runs against this line, no question is asked.
+
+The active model is whatever the assistant is currently running as (visible in the runtime; if uncertain, ask the user). See SPEC §"Model field" for the full contract.
 
 ## Step 2 — Pre-flight checks
 
@@ -56,15 +75,16 @@ Copy the template to `_project/tasknote/<TASK-ID>.md` and fill the YAML frontmat
 
 **YAML frontmatter** (the `---` block at file top):
 
-- `title:` — concise one-line title derived from the PLAN.md description (may shorten the description; keep it scannable)
+- `title:` — concise one-line title. Prefer the PLAN.md `| shortname` (Step 1) when present; otherwise derive from the long description (may shorten; keep it scannable).
 - `status:` — `in-progress` (kebab-case; valid values: `not-started | in-progress | blocked | completed`)
 - `priority:` — the section heading from Step 1, title-case (`Critical | High | Medium | Low | Future Opportunities`)
 - `area:` — resolved in Step 2, lowercase (e.g., `core`, `backend`, `frontend`); matches the archive subfolder name
-- `model:` — ask the user (`opus` or `sonnet`) using AskUserQuestion. Default recommendation: `opus` for design / multi-file / ambiguous work; `sonnet` for mechanical work with a clear diff in mind. Once set, the task runs end-to-end on this model — see SPEC §"Model field". If the loaded model doesn't match, surface the mismatch and let the user decide before continuing.
 - `tags:` — leave as `[]` unless the user supplies tags at scaffold time
 - `created:` — today's date in `YYYY-MM-DD`
 - `due:` — leave empty unless the user supplies a deadline at scaffold time
 - `related-tasks:` — leave as `[]` unless the PLAN.md line cites parent epics, predecessors, or follow-ups (e.g., `[CORE-018, CORE-019]`)
+
+> Note: the model is NOT in the frontmatter (retired in flowtron v0.2.0 — the `[model]` segment on the PLAN.md task line is the source of truth, gated in Step 1.5).
 
 **Body** (spec-on-top + log-below shape; see SPEC §"Tasknote body shape" for rationale):
 

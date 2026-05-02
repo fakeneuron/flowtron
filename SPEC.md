@@ -1,6 +1,6 @@
 # Flowtron — Workflow Specification
 
-**Version:** v0.1.1
+**Version:** v0.2.0
 **Status:** Stable
 
 ## What is Flowtron
@@ -71,6 +71,40 @@ pipeline). Domain prefixes must be declared in the project's
 Numbering: sequential within prefix. Decimals only for epic subtasks (e.g.,
 `CORE-EPIC-009` parent + `CORE-009.1`, `CORE-009.2` children).
 
+## Task-line format
+
+Each entry under a priority heading in PLAN.md follows this grammar:
+
+```
+- [ ] **TASK-ID** [model] | shortname — long description
+```
+
+Both `[model]` and `| shortname` are optional. The legacy minimal form
+`- [ ] **TASK-ID** — description` keeps parsing for backwards compatibility.
+
+| Segment | Required | Notes |
+|---|---|---|
+| `- [ ]` / `- [x]` | yes | Open or completed checkbox |
+| `**TASK-ID**` | yes | Bold ID, matching the §"Task ID convention" pattern |
+| ` [model]` | optional | `opus` or `sonnet` only. Owns the model assignment for the task — `/task` reads this BEFORE scaffolding (see §"Model field"). New entries should declare a model. |
+| ` \| shortname` | optional | Short label up to ~30 chars; rendered as the row title in visualizers when present. Falls back to the tasknote frontmatter `title:` for tasks that have a tasknote, or the long description otherwise. |
+| ` — long description` | optional | Full description. Carries `Completed YYYY-MM-DD.` markers, re-scope notes, and any rationale that doesn't fit in the shortname. |
+
+Examples:
+
+```
+- [ ] **CORE-023** [opus] | task-line grammar — Extend grammar to declare shortname + model.
+- [ ] **CORE-016** [sonnet] — Execute InvisiPaw migration per CORE-008 playbook.
+- [ ] **FE-003** | wikilink resolution — Parse [[TASK-ID]] in tasknote body text and render as clickable links.
+- [ ] **CORE-024** [opus] | quick housekeeping
+- [ ] **CORE-016** — Execute InvisiPaw migration per CORE-008 playbook.    (legacy)
+```
+
+Adopting projects' visualizers parse the line with the regex documented in
+`viz/src/parser.ts` (the canonical reference). The grammar is additive —
+bumping flowtron does not require migrating existing legacy entries; new
+entries should follow the extended form.
+
 ## Tasknote frontmatter
 
 Every tasknote opens with a YAML frontmatter block carrying machine-parseable
@@ -83,7 +117,6 @@ title: <one-line title>
 status: in-progress       # not-started | in-progress | blocked | completed
 priority: High            # Critical | High | Medium | Low | Future Opportunities
 area: core                # lowercase area name (matches archive subfolder)
-model: opus               # opus | sonnet
 tags: []                  # free-form list
 created: YYYY-MM-DD
 due:                      # optional deadline; empty when none
@@ -102,6 +135,11 @@ the frontmatter and continue working as before.
 
 Archived tasknotes written before this convention landed are left as-is —
 they are write-once historical records.
+
+**v0.2.0 retired the `model:` field.** The model assignment moved to the
+PLAN.md task line (§"Task-line format" / §"Model field"). Legacy archived
+tasknotes that still carry `model:` parse fine — the field is silently
+ignored by the canonical viz parser; adopters' tools should do the same.
 
 ## Tasknote body shape
 
@@ -277,17 +315,31 @@ Backlog), then by lowest incomplete `<AREA>-<NUMBER>` within that priority.
 
 ## Model field
 
-Each tasknote header carries a `Model` field (`opus` or `sonnet`). It is the
-source of truth for which model runs the task.
+The model assignment (`opus` | `sonnet`) lives on the PLAN.md task line — the
+`[model]` segment of §"Task-line format". PLAN.md is the source of truth.
+
+`/task` reads the model BEFORE scaffolding (see `claude/skills/task/SKILL.md`
+Step 0.5):
+
+- Active model matches the PLAN.md `[model]` → proceed silently.
+- Active model differs → block and offer two paths: switch the active model
+  via `/model <X>` then re-invoke `/task`, or retag the PLAN.md line to the
+  active model and proceed. No silent overrides.
+- PLAN.md line has no `[model]` (legacy entry) → ask the user via
+  AskUserQuestion at `/task` entry, before any scaffolding work.
 
 A task runs end-to-end on a single model — no swapping mid-task between
-Discovery, Execution, Testing, or Closure. If scope grows or ambiguity
-surfaces and the tagged model no longer fits, flag it before continuing and
-ask whether to retag the task; do not silently swap.
+Discovery, Execution, Testing, or Closure. If scope grows and the tagged
+model no longer fits, retag the PLAN.md line and re-invoke; do not silently
+swap.
 
 When suggesting a next task, name the recommended model alongside the task
-ID. Default to `opus` for design, multi-file changes, or ambiguity; reserve
-`sonnet` for mechanical work with a clear diff in mind.
+ID — the model is part of the PLAN.md grammar, so it's already known without
+asking. Default to `opus` for design, multi-file changes, or ambiguity;
+reserve `sonnet` for mechanical work with a clear diff in mind.
+
+Pre-v0.2.0 tasknotes carried a YAML `model:` field; that field has been
+retired (see §"Tasknote frontmatter").
 
 ## Versioning
 

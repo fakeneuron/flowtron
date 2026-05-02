@@ -79,6 +79,75 @@ describe('parsePlan', () => {
 `;
     expect(parsePlan(md).map((t) => t.id)).toEqual(['CORE-001']);
   });
+
+  it('parses [model] segment when present', () => {
+    const md = `## High\n\n- [ ] **CORE-001** [opus] — Hello\n`;
+    const t = parsePlan(md)[0];
+    expect(t.model).toBe('opus');
+    expect(t.shortname).toBeUndefined();
+    expect(t.description).toBe('Hello');
+  });
+
+  it('parses | shortname segment when present', () => {
+    const md = `## High\n\n- [ ] **CORE-001** | quick name — long description\n`;
+    const t = parsePlan(md)[0];
+    expect(t.model).toBeUndefined();
+    expect(t.shortname).toBe('quick name');
+    expect(t.description).toBe('long description');
+  });
+
+  it('parses [model] + | shortname together', () => {
+    const md = `## High\n\n- [ ] **CORE-001** [sonnet] | quick — long\n`;
+    const t = parsePlan(md)[0];
+    expect(t.model).toBe('sonnet');
+    expect(t.shortname).toBe('quick');
+    expect(t.description).toBe('long');
+  });
+
+  it('parses [model] + | shortname with no long description', () => {
+    const md = `## High\n\n- [ ] **CORE-001** [opus] | quick name\n`;
+    const t = parsePlan(md)[0];
+    expect(t.model).toBe('opus');
+    expect(t.shortname).toBe('quick name');
+    expect(t.description).toBe('');
+    expect(t.completedDate).toBeUndefined();
+  });
+
+  it('parses [model] alone with no shortname or long description', () => {
+    const md = `## High\n\n- [ ] **CORE-001** [opus]\n`;
+    const t = parsePlan(md)[0];
+    expect(t.model).toBe('opus');
+    expect(t.shortname).toBeUndefined();
+    expect(t.description).toBe('');
+  });
+
+  it('legacy minimal form leaves model and shortname undefined', () => {
+    const md = `## High\n\n- [ ] **CORE-001** — Hello world\n`;
+    const t = parsePlan(md)[0];
+    expect(t.model).toBeUndefined();
+    expect(t.shortname).toBeUndefined();
+    expect(t.description).toBe('Hello world');
+  });
+
+  it('extracts Completed date from long description with new grammar', () => {
+    const md = `## Completed\n\n- [x] **FE-005** [opus] | viz rebuild — Did the thing. Completed 2026-04-30.\n`;
+    const t = parsePlan(md)[0];
+    expect(t).toMatchObject({
+      id: 'FE-005',
+      model: 'opus',
+      shortname: 'viz rebuild',
+      completed: true,
+      completedDate: '2026-04-30',
+    });
+    expect(t.description).toContain('Did the thing');
+    expect(t.description).not.toContain('2026-04-30');
+  });
+
+  it('rejects unknown model values (regex requires opus|sonnet)', () => {
+    const md = `## High\n\n- [ ] **CORE-001** [haiku] — Hello\n`;
+    // [haiku] is not a recognized model token, so the regex doesn't match — line is ignored.
+    expect(parsePlan(md)).toEqual([]);
+  });
 });
 
 describe('groupTasks', () => {

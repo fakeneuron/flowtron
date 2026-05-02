@@ -6,12 +6,16 @@ export type Priority =
   | 'Future Opportunities'
   | 'Completed';
 
+export type TaskModel = 'opus' | 'sonnet';
+
 export interface Task {
   id: string;
   description: string;
   priority: Priority;
   completed: boolean;
   completedDate?: string;
+  model?: TaskModel;
+  shortname?: string;
 }
 
 const SECTION_HEADINGS = new Set<Priority>([
@@ -23,7 +27,12 @@ const SECTION_HEADINGS = new Set<Priority>([
   'Completed',
 ]);
 
-const TASK_LINE = /^\s*-\s+\[([ xX])\]\s+\*\*([A-Z]+(?:-EPIC)?-\d+(?:\.\d+)?)\*\*\s*[—-]\s*(.+)$/;
+// Grammar (see SPEC §"Task-line format"):
+//   - [ ] **TASK-ID** [model] | shortname — long description
+// Both `[model]` and `| shortname` are optional. The legacy minimal form
+// `- [ ] **TASK-ID** — desc` keeps parsing.
+const TASK_LINE =
+  /^\s*-\s+\[([ xX])\]\s+\*\*([A-Z]+(?:-EPIC)?-\d+(?:\.\d+)?)\*\*(?:\s+\[(opus|sonnet)\])?(?:\s+\|\s+(.+?))?(?:\s+[—-]\s+(.+?))?\s*$/;
 const COMPLETED_DATE = /\bCompleted\s+(\d{4}-\d{2}-\d{2})\.?/;
 const HEADING_LINE = /^##\s+(.+?)\s*$/;
 
@@ -94,16 +103,19 @@ export function parsePlan(markdown: string): Task[] {
     const m = TASK_LINE.exec(line);
     if (!m) continue;
 
-    const [, mark, id, rest] = m;
+    const [, mark, id, modelRaw, shortnameRaw, longRaw] = m;
     const completed = mark === 'x' || mark === 'X';
-    const dateMatch = COMPLETED_DATE.exec(rest);
+    const longText = longRaw ?? '';
+    const dateMatch = COMPLETED_DATE.exec(longText);
 
     tasks.push({
       id,
-      description: cleanDescription(rest),
+      description: longText ? cleanDescription(longText) : '',
       priority: currentPriority,
       completed,
       completedDate: dateMatch ? dateMatch[1] : undefined,
+      model: modelRaw as TaskModel | undefined,
+      shortname: shortnameRaw ? shortnameRaw.trim() : undefined,
     });
   }
 
