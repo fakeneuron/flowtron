@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import { readFile, readdir } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { parseTasknote } from './src/tasknote';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_DIR = resolve(__dirname, '..', '_project');
@@ -26,11 +27,17 @@ function flowtronApi(): Plugin {
       server.middlewares.use('/api/active', async (_req, res) => {
         try {
           const entries = await readdir(TASKNOTE_DIR, { withFileTypes: true });
-          const ids = entries
-            .filter((e) => e.isFile() && e.name.endsWith('.md'))
-            .map((e) => e.name.replace(/\.md$/, ''));
+          const files = entries.filter((e) => e.isFile() && e.name.endsWith('.md'));
+          const tasknotes = await Promise.all(
+            files.map(async (e) => {
+              const id = e.name.replace(/\.md$/, '');
+              const path = join(TASKNOTE_DIR, e.name);
+              const text = await readFile(path, 'utf8');
+              return parseTasknote(id, path, text);
+            }),
+          );
           res.setHeader('Content-Type', 'application/json');
-          res.end(JSON.stringify(ids));
+          res.end(JSON.stringify(tasknotes));
         } catch (e) {
           res.statusCode = 500;
           res.end(`Failed to list tasknotes: ${(e as Error).message}`);

@@ -1,0 +1,116 @@
+import matter from 'gray-matter';
+import type { Priority } from './parser';
+
+export type TasknoteStatus = 'not-started' | 'in-progress' | 'blocked' | 'completed';
+
+export interface TasknoteFrontmatter {
+  title: string;
+  status: TasknoteStatus;
+  priority: Priority;
+  area: string;
+  model: 'opus' | 'sonnet';
+  tags: string[];
+  created: string;
+  due?: string;
+  relatedTasks: string[];
+}
+
+export interface Tasknote {
+  id: string;
+  path: string;
+  frontmatter: TasknoteFrontmatter | null;
+  body: string;
+  goal: string;
+  acceptance: string;
+  subtasks: string;
+}
+
+const STATUS_VALUES = new Set<TasknoteStatus>([
+  'not-started',
+  'in-progress',
+  'blocked',
+  'completed',
+]);
+
+const MODEL_VALUES = new Set(['opus', 'sonnet']);
+
+function asString(v: unknown): string | undefined {
+  if (typeof v === 'string') return v;
+  if (v instanceof Date && !isNaN(v.getTime())) {
+    return v.toISOString().slice(0, 10);
+  }
+  return undefined;
+}
+
+function asStringArray(v: unknown): string[] {
+  if (!Array.isArray(v)) return [];
+  return v.filter((x): x is string => typeof x === 'string');
+}
+
+export function parseFrontmatter(raw: unknown): TasknoteFrontmatter | null {
+  if (!raw || typeof raw !== 'object') return null;
+  const data = raw as Record<string, unknown>;
+  if (Object.keys(data).length === 0) return null;
+
+  const title = asString(data.title);
+  const status = asString(data.status);
+  const priority = asString(data.priority);
+  const area = asString(data.area);
+  const model = asString(data.model);
+  const created = asString(data.created);
+  const due = asString(data.due);
+
+  if (!title || !status || !priority || !area || !model || !created) return null;
+  if (!STATUS_VALUES.has(status as TasknoteStatus)) return null;
+  if (!MODEL_VALUES.has(model)) return null;
+
+  return {
+    title,
+    status: status as TasknoteStatus,
+    priority: priority as Priority,
+    area,
+    model: model as 'opus' | 'sonnet',
+    tags: asStringArray(data.tags),
+    created,
+    due: due && due.length > 0 ? due : undefined,
+    relatedTasks: asStringArray(data['related-tasks']),
+  };
+}
+
+const SECTION_HEADING = /^##\s+(.+?)\s*$/;
+const HORIZONTAL_RULE = /^---\s*$/;
+
+export function extractSection(body: string, titleSubstring: string): string {
+  const lines = body.split(/\r?\n/);
+  let inSection = false;
+  const collected: string[] = [];
+  for (const line of lines) {
+    const heading = SECTION_HEADING.exec(line);
+    if (heading) {
+      if (inSection) break;
+      if (heading[1].includes(titleSubstring)) {
+        inSection = true;
+        continue;
+      }
+      continue;
+    }
+    if (!inSection) continue;
+    if (HORIZONTAL_RULE.test(line)) break;
+    collected.push(line);
+  }
+  return collected.join('\n').trim();
+}
+
+export function parseTasknote(id: string, path: string, text: string): Tasknote {
+  const parsed = matter(text);
+  const body = parsed.content.trimStart();
+  return {
+    id,
+    path,
+    frontmatter: parseFrontmatter(parsed.data),
+    body,
+    goal: extractSection(body, 'Goal'),
+    acceptance: extractSection(body, 'Acceptance'),
+    subtasks: extractSection(body, 'Subtasks'),
+  };
+}

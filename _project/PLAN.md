@@ -1,6 +1,6 @@
 # Flowtron — PLAN.md
 
-**Last updated:** 2026-05-01 (CORE-022 shipped — "Working in Obsidian" section added to README.md)
+**Last updated:** 2026-05-01 (FE-004 shipped — viz/ frontmatter-aware cards, filters, quick-search; FE-005 filed for layout rebuild)
 
 ## Vision
 
@@ -17,13 +17,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-(none — CORE-017 + CORE-018 shipped; see Completed below)
+- [ ] **FE-005** — Rebuild `viz/` layout: replace 6-column Kanban with a vertical list grouped by priority (Critical → Future); section headers collapse-expand; Completed section collapsed by default. Epics use a parent row with `N/M done` progress + chevron, subtasks collapsed until expanded. Add row signals: phase indicator (4 dots showing active phase from tasknote checkbox state), subtask progress bar, `opus`/`sonnet` text-only model chip, clickable related-tasks chips. Full replacement of the Kanban code path (no toggle). Builds on FE-004 frontmatter parse; related-tasks chip behavior pairs naturally with FE-003. Filed 2026-05-01 after dogfooding FE-004 surfaced "Kanban not intuitive + epics/subtasks need emphasis + want model + richer feedback signals".
 
 ## Medium
 
 - [ ] **CORE-016** — Execute InvisiPaw migration per CORE-008 playbook. Blocked: do not start until user signals InvisiPaw backlog is cleared. Scope: flowtron wiring + plan-file collapse + active-task-ID rename. Out of scope: renaming the 15 in-flight tasknote files (deferred further).
-- [ ] **CORE-019** — Enhance `viz/` to consume the new frontmatter: richer cards (priority badges, tags, due dates, status), full Markdown for description/subtasks in cards, “Open in editor” button, tag/status filters, quick-search. Implementation note: gray-matter + react-markdown; aligns with FE-002 cross-project path.
-- [ ] **FE-003** — Wikilink auto-resolution in `viz/` — parse `[[TASK-ID]]` references in tasknote body text and render as clickable links that jump to the matching Kanban card. Builds on FE-001; pairs naturally with CORE-019 frontmatter-aware cards. Promoted from FUTURE.md §"Tasknote & Template Evolution" (the `[[FE-042]]` auto-resolution piece — wikilink syntax itself shipped in CORE-018).
+- [ ] **FE-003** — Wikilink auto-resolution in `viz/` — parse `[[TASK-ID]]` references in tasknote body text and render as clickable links that jump to the matching Kanban card. Builds on FE-001; pairs naturally with FE-004 frontmatter-aware cards. Promoted from FUTURE.md §"Tasknote & Template Evolution" (the `[[FE-042]]` auto-resolution piece — wikilink syntax itself shipped in CORE-018).
 
 ## Low
 
@@ -36,10 +35,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Future Opportunities
 
-- [ ] **FE-002** — Cross-project visualizer (extends FE-001) — Node-side filesystem scan over `~/code/*/_project/PLAN.md`, all projects in one Kanban, optional click-into tasknote detail view. Synergy: **CORE-019** (frontmatter-aware cards/filters on the same viz codebase).
+- [ ] **FE-002** — Cross-project visualizer (extends FE-001) — Node-side filesystem scan over `~/code/*/_project/PLAN.md`, all projects in one Kanban, optional click-into tasknote detail view. Synergy: **FE-004** (frontmatter-aware cards/filters on the same viz codebase).
 
 ## Completed
 
+- [x] **FE-004** — Enhance `viz/` to consume the new frontmatter: richer cards (priority badge, tag chips, due-date pill, frontmatter-derived status), inline expand-on-click rendering Goal/Acceptance/Subtasks via react-markdown + remark-gfm, "Open in VS Code" link via `vscode://file/<path>`, tag + status multi-select filter chips in header, quick-search extended to match across tags + status + frontmatter title. Server-side gray-matter parse in the Vite dev plugin (`/api/active` now returns parsed `Tasknote[]`); new `src/tasknote.ts` (parseFrontmatter + extractSection + parseTasknote) with 12 unit tests. Backwards-compat preserved — archived tasknotes (no frontmatter) keep FE-001's minimal card layout. Re-scoped from CORE-019 → FE-004 mid-Phase-1 (scope was entirely viz/ frontend, mirroring FE-001/FE-002/FE-003). Bugs surfaced + fixed during execution: gray-matter parses YAML dates as JS Dates (coerced to ISO strings); react-markdown doesn't render task-list checkboxes by default (added remark-gfm). Completed 2026-05-01. Tasknote: `_project/tasknote/archive/frontend/FE-004.md`.
 - [x] **CORE-020** — Update `/new-project` skill and `docs/MIGRATION.md` for the new template format; optionally mention "use natabula for a full opinionated setup." Completed 2026-05-01. Tasknote: `_project/tasknote/archive/core/CORE-020.md`.
 - [x] **CORE-001** — Hard reset flowtron repo (moved old contents to `legacy/`, scaffolded new dirs). Completed 2026-04-28. Bootstrap task — no tasknote (flowtron not yet self-hosting at the time).
 - [x] **CORE-002** — Drafted `SPEC.md` (4-phase + Relevance Gate + post-closure protocol; tightened with drift check, pattern survey, model-field rule, and recap shape after cross-repo audit). Completed 2026-04-28. Bootstrap task — no tasknote.
