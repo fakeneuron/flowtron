@@ -717,6 +717,42 @@ const wikilinkifyMarkdown = (text: string): string => {
     .join('');
 };
 
+const WikilinkMarkdown: React.FC<{
+  markdown: string;
+  navigateToTask: (id: string) => void;
+}> = ({ markdown, navigateToTask }) => (
+  <ReactMarkdown
+    remarkPlugins={[remarkGfm]}
+    components={{
+      a: ({ href, children, ...props }) => {
+        if (typeof href === 'string' && href.startsWith(WIKILINK_HREF_PREFIX)) {
+          const id = href.slice(WIKILINK_HREF_PREFIX.length);
+          return (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                navigateToTask(id);
+              }}
+              className="font-mono text-slate-700 hover:underline"
+              title={`Jump to ${id}`}
+            >
+              {children}
+            </button>
+          );
+        }
+        return (
+          <a href={href} {...props}>
+            {children}
+          </a>
+        );
+      },
+    }}
+  >
+    {wikilinkifyMarkdown(markdown)}
+  </ReactMarkdown>
+);
+
 const TaskDetail: React.FC<{
   task: Task;
   tasknote: Tasknote | undefined;
@@ -725,58 +761,43 @@ const TaskDetail: React.FC<{
   <div className="border-t border-slate-100 bg-slate-50/40 px-3 py-2 text-xs text-slate-700">
     {tasknote ? (
       <>
-        {tasknote.goal && <DetailSection title="Goal" markdown={tasknote.goal} />}
+        {tasknote.goal && (
+          <DetailSection title="Goal" markdown={tasknote.goal} navigateToTask={navigateToTask} />
+        )}
         {tasknote.acceptance && (
-          <DetailSection title="Acceptance" markdown={tasknote.acceptance} />
+          <DetailSection
+            title="Acceptance"
+            markdown={tasknote.acceptance}
+            navigateToTask={navigateToTask}
+          />
         )}
         {tasknote.subtasks && (
-          <DetailSection title="Subtasks" markdown={tasknote.subtasks} />
+          <DetailSection
+            title="Subtasks"
+            markdown={tasknote.subtasks}
+            navigateToTask={navigateToTask}
+          />
         )}
       </>
     ) : (
       <div className="prose prose-xs max-w-none [&_p]:my-1 [&_ul]:my-1 [&_li]:my-0 [&_input]:mr-1">
-        <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          components={{
-            a: ({ href, children, ...props }) => {
-              if (typeof href === 'string' && href.startsWith(WIKILINK_HREF_PREFIX)) {
-                const id = href.slice(WIKILINK_HREF_PREFIX.length);
-                return (
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      navigateToTask(id);
-                    }}
-                    className="font-mono text-slate-700 hover:underline"
-                    title={`Jump to ${id}`}
-                  >
-                    {children}
-                  </button>
-                );
-              }
-              return (
-                <a href={href} {...props}>
-                  {children}
-                </a>
-              );
-            },
-          }}
-        >
-          {wikilinkifyMarkdown(task.description)}
-        </ReactMarkdown>
+        <WikilinkMarkdown markdown={task.description} navigateToTask={navigateToTask} />
       </div>
     )}
   </div>
 );
 
-const DetailSection: React.FC<{ title: string; markdown: string }> = ({ title, markdown }) => (
+const DetailSection: React.FC<{
+  title: string;
+  markdown: string;
+  navigateToTask: (id: string) => void;
+}> = ({ title, markdown, navigateToTask }) => (
   <div className="mb-2 last:mb-0">
     <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
       {title}
     </p>
     <div className="prose prose-xs max-w-none [&_p]:my-1 [&_ul]:my-1 [&_li]:my-0 [&_input]:mr-1">
-      <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>
+      <WikilinkMarkdown markdown={markdown} navigateToTask={navigateToTask} />
     </div>
   </div>
 );
