@@ -16,6 +16,8 @@ export interface Task {
   completedDate?: string;
   model?: TaskModel;
   shortname?: string;
+  relatedTasks: string[];
+  blockedBy: string[];
 }
 
 const SECTION_HEADINGS = new Set<Priority>([
@@ -43,6 +45,43 @@ function cleanDescription(raw: string): string {
     .replace(/\s{2,}/g, ' ')
     .trim()
     .replace(/^[\.\s]+|[\.\s]+$/g, '');
+}
+
+// Long-description conventions (see SPEC §"Long-description conventions"):
+//   `[[TASK-ID]]`             — cross-reference; collected into Task.relatedTasks
+//   `Blocked by [[ID]], [[ID]]` — dependency; collected into Task.blockedBy
+// Wikilink-only — bare-ID forms (`Blocked by: CORE-008`) are not recognized.
+// Wikilinks inside markdown inline code spans (between backticks) are treated
+// as literal text and ignored, mirroring how renderers display code spans.
+// A wikilink that appears inside a `Blocked by` block lands in `blockedBy` only;
+// the same ID elsewhere in the description is excluded from `relatedTasks` to
+// avoid double-rendering (blocker is the stronger signal).
+const WIKILINK = /\[\[([A-Z]+(?:-EPIC)?-\d+(?:\.\d+)?)\]\]/g;
+const BLOCKED_BY_BLOCK =
+  /Blocked by\s+(\[\[[A-Z]+(?:-EPIC)?-\d+(?:\.\d+)?\]\](?:\s*,\s*\[\[[A-Z]+(?:-EPIC)?-\d+(?:\.\d+)?\]\])*)/g;
+const CODE_SPAN = /`[^`]*`/g;
+
+function stripCodeSpans(text: string): string {
+  return text.replace(CODE_SPAN, '');
+}
+
+function extractBlockedBy(text: string): string[] {
+  const cleaned = stripCodeSpans(text);
+  const ids = new Set<string>();
+  for (const block of cleaned.matchAll(BLOCKED_BY_BLOCK)) {
+    for (const m of block[1].matchAll(WIKILINK)) ids.add(m[1]);
+  }
+  return Array.from(ids);
+}
+
+function extractRelatedTasks(text: string, blocked: string[]): string[] {
+  const cleaned = stripCodeSpans(text);
+  const blockedSet = new Set(blocked);
+  const ids = new Set<string>();
+  for (const m of cleaned.matchAll(WIKILINK)) {
+    if (!blockedSet.has(m[1])) ids.add(m[1]);
+  }
+  return Array.from(ids);
 }
 
 export interface TaskNode {
@@ -107,6 +146,8 @@ export function parsePlan(markdown: string): Task[] {
     const completed = mark === 'x' || mark === 'X';
     const longText = longRaw ?? '';
     const dateMatch = COMPLETED_DATE.exec(longText);
+    const blockedBy = extractBlockedBy(longText);
+    const relatedTasks = extractRelatedTasks(longText, blockedBy);
 
     tasks.push({
       id,
@@ -116,6 +157,8 @@ export function parsePlan(markdown: string): Task[] {
       completedDate: dateMatch ? dateMatch[1] : undefined,
       model: modelRaw as TaskModel | undefined,
       shortname: shortnameRaw ? shortnameRaw.trim() : undefined,
+      relatedTasks,
+      blockedBy,
     });
   }
 

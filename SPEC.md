@@ -1,6 +1,6 @@
 # Flowtron — Workflow Specification
 
-**Version:** v0.2.0
+**Version:** v0.3.0
 **Status:** Stable
 
 ## What is Flowtron
@@ -104,6 +104,43 @@ Adopting projects' visualizers parse the line with the regex documented in
 `viz/src/parser.ts` (the canonical reference). The grammar is additive —
 bumping flowtron does not require migrating existing legacy entries; new
 entries should follow the extended form.
+
+### Long-description conventions
+
+The long description after `—` is otherwise free prose, but two
+machine-readable conventions are reserved so visualizers can surface
+cross-task signals on rows that don't yet have a tasknote:
+
+| Convention | Meaning | Parses into |
+|---|---|---|
+| `[[TASK-ID]]` | Cross-reference / "see also" | `Task.relatedTasks: string[]` |
+| `Blocked by [[ID]]` | Hard dependency on another task | `Task.blockedBy: string[]` |
+
+Both are **wikilink-only** — bare-ID forms (`Blocked by: CORE-008`) do not
+parse. This keeps the syntax tight and avoids false matches against
+narrative prose. Multiple comma-separated wikilinks are supported in a
+single `Blocked by` clause.
+
+Wikilinks inside markdown inline code spans (between backticks) are treated
+as literal text and ignored. This lets the description prose include
+illustrative `[[TASK-ID]]` examples (e.g., placeholder IDs in documentation
+notes) without polluting the parsed signal set.
+
+A wikilink that appears inside a `Blocked by` block lands in `blockedBy`
+only; the same ID elsewhere in the description is excluded from
+`relatedTasks` to avoid double-rendering (blocker is the stronger signal).
+
+The conventions match the `[[TASK-ID]]` wikilink style introduced in
+§"Tasknote body shape" — adopting projects with markdown-vault tooling
+(Obsidian, Foam, Logseq) get the cross-references for free.
+
+Examples:
+
+```
+- [ ] **CORE-016** [opus] — Execute migration per [[CORE-008]] playbook. Blocked by [[CORE-008]] — wait for upstream signal.
+- [ ] **FE-003** [opus] | wikilink resolution — Builds on [[FE-001]]; pairs with [[FE-004]].
+- [ ] **FE-007** — Touches [[FE-001]], [[FE-004]]. Blocked by [[CORE-008]], [[CORE-016]] — needs both upstream.
+```
 
 ## Tasknote frontmatter
 

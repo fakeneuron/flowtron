@@ -14,6 +14,10 @@ describe('parsePlan', () => {
         priority: 'High',
         completed: false,
         completedDate: undefined,
+        model: undefined,
+        shortname: undefined,
+        relatedTasks: [],
+        blockedBy: [],
       },
     ]);
   });
@@ -148,6 +152,77 @@ describe('parsePlan', () => {
     // [haiku] is not a recognized model token, so the regex doesn't match — line is ignored.
     expect(parsePlan(md)).toEqual([]);
   });
+
+  it('extracts a single [[TASK-ID]] wikilink into relatedTasks', () => {
+    const md = `## Medium\n\n- [ ] **FE-003** | wikilink resolution — Builds on [[FE-001]] in viz/.\n`;
+    const t = parsePlan(md)[0];
+    expect(t.relatedTasks).toEqual(['FE-001']);
+    expect(t.blockedBy).toEqual([]);
+  });
+
+  it('extracts multiple wikilinks into relatedTasks (deduped, in source order)', () => {
+    const md = `## Medium\n\n- [ ] **FE-002** [opus] | cross-project viz — Extends [[FE-001]]; pairs with [[FE-004]] (and [[FE-001]] again).\n`;
+    const t = parsePlan(md)[0];
+    expect(t.relatedTasks).toEqual(['FE-001', 'FE-004']);
+    expect(t.blockedBy).toEqual([]);
+  });
+
+  it('extracts Blocked by [[ID]] into blockedBy', () => {
+    const md = `## Medium\n\n- [ ] **CORE-016** [opus] — Execute migration. Blocked by [[CORE-008]] — do not start until backlog is cleared.\n`;
+    const t = parsePlan(md)[0];
+    expect(t.blockedBy).toEqual(['CORE-008']);
+    // Wikilink inside a Blocked-by block must NOT also land in relatedTasks.
+    expect(t.relatedTasks).toEqual([]);
+  });
+
+  it('extracts Blocked by with multiple comma-separated wikilinks', () => {
+    const md = `## Medium\n\n- [ ] **CORE-016** — Run migration. Blocked by [[CORE-008]], [[CORE-007]] — wait for upstream.\n`;
+    const t = parsePlan(md)[0];
+    expect(t.blockedBy).toEqual(['CORE-008', 'CORE-007']);
+    expect(t.relatedTasks).toEqual([]);
+  });
+
+  it('keeps related and blocked separate within the same description', () => {
+    const md = `## Medium\n\n- [ ] **FE-007** — Builds on [[FE-001]] and [[FE-004]]. Blocked by [[CORE-008]] — wait for migration playbook.\n`;
+    const t = parsePlan(md)[0];
+    expect(t.relatedTasks).toEqual(['FE-001', 'FE-004']);
+    expect(t.blockedBy).toEqual(['CORE-008']);
+  });
+
+  it('puts a wikilink ID in blockedBy only when it appears in BOTH contexts (blocker wins)', () => {
+    const md = `## Medium\n\n- [ ] **FE-009** — Extends [[CORE-008]] in spirit. Blocked by [[CORE-008]] until backlog clears.\n`;
+    const t = parsePlan(md)[0];
+    expect(t.blockedBy).toEqual(['CORE-008']);
+    expect(t.relatedTasks).toEqual([]);
+  });
+
+  it('does NOT match bare-ID `Blocked by: CORE-008` (wikilink-only contract)', () => {
+    const md = `## Medium\n\n- [ ] **CORE-016** — Run migration. Blocked by: CORE-008 — bare ID without wikilinks must not parse.\n`;
+    const t = parsePlan(md)[0];
+    expect(t.blockedBy).toEqual([]);
+    expect(t.relatedTasks).toEqual([]);
+  });
+
+  it('returns empty arrays when the description has neither wikilinks nor blockers', () => {
+    const md = `## High\n\n- [ ] **CORE-001** [opus] — Plain prose with no cross-references.\n`;
+    const t = parsePlan(md)[0];
+    expect(t.relatedTasks).toEqual([]);
+    expect(t.blockedBy).toEqual([]);
+  });
+
+  it('handles legacy minimal task lines with no description (no wikilinks possible)', () => {
+    const md = `## High\n\n- [ ] **CORE-001** [opus] | quick name\n`;
+    const t = parsePlan(md)[0];
+    expect(t.relatedTasks).toEqual([]);
+    expect(t.blockedBy).toEqual([]);
+  });
+
+  it('ignores wikilinks and Blocked-by clauses inside backtick code spans', () => {
+    const md = `## High\n\n- [ ] **FE-003** [opus] — Builds on [[FE-001]]; example placeholder \`[[FE-042]]\` and \`Blocked by [[CORE-999]]\` are literal code.\n`;
+    const t = parsePlan(md)[0];
+    expect(t.relatedTasks).toEqual(['FE-001']);
+    expect(t.blockedBy).toEqual([]);
+  });
 });
 
 describe('groupTasks', () => {
@@ -156,6 +231,8 @@ describe('groupTasks', () => {
     description: id,
     priority: 'Low',
     completed,
+    relatedTasks: [],
+    blockedBy: [],
   });
 
   it('returns standalone tasks as flat top-level nodes', () => {

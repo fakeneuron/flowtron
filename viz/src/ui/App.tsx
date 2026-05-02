@@ -493,7 +493,11 @@ const EpicRow: React.FC<EpicRowProps> = ({
         </div>
       )}
       {expandedId === task.id && (
-        <TaskDetail task={task} tasknote={tasknotesById.get(task.id)} />
+        <TaskDetail
+          task={task}
+          tasknote={tasknotesById.get(task.id)}
+          navigateToTask={navigateToTask}
+        />
       )}
     </div>
   );
@@ -531,7 +535,13 @@ const TaskRow: React.FC<TaskRowProps> = ({
         navigateToTask={navigateToTask}
       />
     </div>
-    {expandedId === task.id && <TaskDetail task={task} tasknote={tasknotesById.get(task.id)} />}
+    {expandedId === task.id && (
+      <TaskDetail
+        task={task}
+        tasknote={tasknotesById.get(task.id)}
+        navigateToTask={navigateToTask}
+      />
+    )}
   </div>
 );
 
@@ -570,11 +580,14 @@ const TaskRowInner: React.FC<TaskRowInnerProps> = ({
         </span>
       </button>
       <div className="flex shrink-0 items-center justify-end gap-1.5 min-w-[30rem]">
-        {!tn && !extraRightSlot && (
-          <span className="rounded-full border border-dashed border-slate-300 px-2 py-0.5 text-[10px] text-slate-400">
-            no tasknote
-          </span>
-        )}
+        {!tn &&
+          !extraRightSlot &&
+          task.blockedBy.length === 0 &&
+          task.relatedTasks.length === 0 && (
+            <span className="rounded-full border border-dashed border-slate-300 px-2 py-0.5 text-[10px] text-slate-400">
+              no tasknote
+            </span>
+          )}
         {tn && <PhaseDots phases={tn.phases} />}
         {tn && tn.subtasksProgress.total > 0 && (
           <SubtaskProgress counts={tn.subtasksProgress} />
@@ -592,9 +605,16 @@ const TaskRowInner: React.FC<TaskRowInnerProps> = ({
             ))}
           </div>
         )}
-        {fm && fm.relatedTasks.length > 0 && (
+        {task.blockedBy.length > 0 && (
           <div className="flex items-center gap-1">
-            {fm.relatedTasks.map((id) => (
+            {task.blockedBy.map((id) => (
+              <BlockerChip key={id} id={id} onClick={() => navigateToTask(id)} />
+            ))}
+          </div>
+        )}
+        {(fm ? fm.relatedTasks : task.relatedTasks).length > 0 && (
+          <div className="flex items-center gap-1">
+            {(fm ? fm.relatedTasks : task.relatedTasks).map((id) => (
               <RelatedChip key={id} id={id} onClick={() => navigateToTask(id)} />
             ))}
           </div>
@@ -680,10 +700,28 @@ const SubtaskRow: React.FC<SubtaskRowProps> = ({ task, highlightId, navigateToTa
   </div>
 );
 
-const TaskDetail: React.FC<{ task: Task; tasknote: Tasknote | undefined }> = ({
-  task,
-  tasknote,
-}) => (
+const WIKILINK_TEXT = /\[\[([A-Z]+(?:-EPIC)?-\d+(?:\.\d+)?)\]\]/g;
+const WIKILINK_HREF_PREFIX = '#wikilink-';
+
+// Convert `[[TASK-ID]]` outside backtick code spans into a markdown link the
+// `components.a` map below renders as a clickable button. Code spans are left
+// untouched so literal `[[ID]]` examples render as code.
+const wikilinkifyMarkdown = (text: string): string => {
+  const segments = text.split(/(`[^`]*`)/g);
+  return segments
+    .map((seg, i) =>
+      i % 2 === 1
+        ? seg
+        : seg.replace(WIKILINK_TEXT, (_m, id) => `[[[${id}]]](${WIKILINK_HREF_PREFIX}${id})`),
+    )
+    .join('');
+};
+
+const TaskDetail: React.FC<{
+  task: Task;
+  tasknote: Tasknote | undefined;
+  navigateToTask: (id: string) => void;
+}> = ({ task, tasknote, navigateToTask }) => (
   <div className="border-t border-slate-100 bg-slate-50/40 px-3 py-2 text-xs text-slate-700">
     {tasknote ? (
       <>
@@ -697,7 +735,36 @@ const TaskDetail: React.FC<{ task: Task; tasknote: Tasknote | undefined }> = ({
       </>
     ) : (
       <div className="prose prose-xs max-w-none [&_p]:my-1 [&_ul]:my-1 [&_li]:my-0 [&_input]:mr-1">
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>{task.description}</ReactMarkdown>
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          components={{
+            a: ({ href, children, ...props }) => {
+              if (typeof href === 'string' && href.startsWith(WIKILINK_HREF_PREFIX)) {
+                const id = href.slice(WIKILINK_HREF_PREFIX.length);
+                return (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigateToTask(id);
+                    }}
+                    className="font-mono text-slate-700 hover:underline"
+                    title={`Jump to ${id}`}
+                  >
+                    {children}
+                  </button>
+                );
+              }
+              return (
+                <a href={href} {...props}>
+                  {children}
+                </a>
+              );
+            },
+          }}
+        >
+          {wikilinkifyMarkdown(task.description)}
+        </ReactMarkdown>
       </div>
     )}
   </div>
@@ -782,5 +849,16 @@ const RelatedChip: React.FC<{ id: string; onClick: () => void }> = ({ id, onClic
     title={`Jump to ${id}`}
   >
     {id}
+  </button>
+);
+
+const BlockerChip: React.FC<{ id: string; onClick: () => void }> = ({ id, onClick }) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className="rounded-full bg-rose-100 px-1.5 py-0.5 font-mono text-[10px] text-rose-800 hover:bg-rose-200"
+    title={`Blocked by ${id}`}
+  >
+    ⛔ {id}
   </button>
 );
