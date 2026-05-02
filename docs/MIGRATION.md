@@ -41,6 +41,8 @@ The canonical wiring snippet (and the `CLAUDE.md` block to paste in the next ste
 
 Open `_project/flowtron/claude/CLAUDE-snippet.md` and copy the markdown block from the "Block to paste into CLAUDE.md" section into your project's `CLAUDE.md`. It tells the assistant where to find the SPEC, where plans and tasknotes live, and how to start a task.
 
+For guidance on what else can live in `CLAUDE.md` and how it composes around the block, see §"Extending `CLAUDE.md`" below.
+
 ### 1.4 Create `_project/PLAN.md`
 
 ```sh
@@ -116,6 +118,34 @@ Remove the block describing the legacy workflow. The flowtron paste-block from �
 ### 2.6 Commit the migration
 
 A migration is itself a tasknote — typically a `CORE-` task in the project's own PLAN.md (or an epic with subtasks if the legacy system is large). Use that tasknote to track the steps above; commit at the end of Phase 4 the same way any other tasknote closes.
+
+---
+
+## Extending `CLAUDE.md`
+
+A repo has exactly one `CLAUDE.md`. Three slices compose in this order:
+
+```markdown
+# <Repo> — CLAUDE.md
+
+<repo header / intro — project-specific, above the block>
+
+## Workflow
+
+<Flowtron snippet block — SSOT, intact, contiguous>
+
+## <Project sections, e.g. Architecture, Quick commands>
+
+<project-specific content — below the block>
+```
+
+Rules:
+
+- The Flowtron **Workflow** snippet block (defined in [`claude/CLAUDE-snippet.md`](../claude/CLAUDE-snippet.md)) is the single source of truth for workflow-contract prose. Keep it intact and contiguous — never interleave project-specific prose inside it.
+- Project-specific content (architecture notes, non-negotiables, quick commands) lives **above** or **below** the block, never inside it.
+- When bumping the pinned flowtron version (see "Pinning and bumping" below), replace the block wholesale rather than merging line-by-line. Diffing the new `CLAUDE-snippet.md` against your pasted block is an optional one-time check at bump time.
+
+This guidance applies to both fresh adoption (§1) and migrating from a prior workflow system (§2). The block's exact text lives in [`claude/CLAUDE-snippet.md`](../claude/CLAUDE-snippet.md) — don't paraphrase or re-author it inside `CLAUDE.md`.
 
 ---
 

@@ -1,6 +1,10 @@
 # Flowtron adoption snippet
 
-Paste the block below into your project's `CLAUDE.md`, then run the symlink commands once to wire `/task` into your project's `.claude/`.
+This snippet has two parts: a markdown block to paste into your project's `CLAUDE.md`, and one-time symlink commands to wire `/task` into your project's `.claude/`.
+
+The pasted block is the single source of truth for flowtron's workflow-contract prose — keep it intact and contiguous. Project-specific instructions (architecture notes, non-negotiables, quick commands) live in other sections of `CLAUDE.md`, above or below the block, never interleaved. When bumping the pinned flowtron version, replace the block wholesale rather than merging line-by-line.
+
+For more on what else lives in `CLAUDE.md` and how it composes around the block, see [`docs/MIGRATION.md`](../docs/MIGRATION.md) §"Extending `CLAUDE.md`".
 
 ---
 
