@@ -80,7 +80,7 @@ mkdir -p _project/tasknote/archive
 cp _project/flowtron/templates/tasknote-README.md _project/tasknote/README.md
 ```
 
-Edit the `Pinned to:` line to match the version you checked out in §1.1. Declare any project-specific area prefixes. Replace the "Project quick commands" section with the actual test/lint/dev commands for your project.
+Declare any project-specific area prefixes. Replace the "Project quick commands" section with the actual test/lint/dev commands for your project.
 
 The README also describes the current tasknote shape: YAML frontmatter (`title`, `status`, `priority`, `area`, `model`, `tags`, `created`, `due`, `related-tasks`) and a spec-on-top + log-below body (`Goal` / `Acceptance` / `Subtasks` / `Related` above a divider, then the four phase sections below). The `/task` skill scaffolds this shape automatically; see `_project/flowtron/templates/tasknote-template.md` for the canonical layout.
 
@@ -147,7 +147,7 @@ A migration is itself a tasknote — typically a `CORE-` task in the project's o
 
 ## Pinning and bumping
 
-The submodule SHA in `_project/flowtron` is what pins the project to a specific flowtron commit. The pinned version is also recorded in `_project/tasknote/README.md`'s "Pinned to:" line — keep them in sync.
+The submodule SHA in `_project/flowtron` is what pins the project to a specific flowtron commit.
 
 To bump:
 
@@ -157,8 +157,7 @@ To bump:
    git -C _project/flowtron fetch --tags
    git -C _project/flowtron checkout vX.Y.Z
    ```
-3. Update the "Pinned to:" line in `_project/tasknote/README.md`.
-4. Commit. The parent repo's submodule pointer (the SHA recorded for `_project/flowtron`) changes; `.gitmodules` itself only changes if the URL or branch field changes.
+3. Commit. The parent repo's submodule pointer (the SHA recorded for `_project/flowtron`) changes; `.gitmodules` itself only changes if the URL or branch field changes.
 
 The symlinks in `.claude/` don't need to be touched — they always track whatever the submodule currently points at.
 
