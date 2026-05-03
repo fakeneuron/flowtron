@@ -1,7 +1,7 @@
 import matter from 'gray-matter';
 import type { Priority } from './parser';
 
-export type TasknoteStatus = 'not-started' | 'in-progress' | 'blocked' | 'completed';
+export type TasknoteStatus = 'starter' | 'not-started' | 'in-progress' | 'blocked' | 'completed';
 
 export interface TasknoteFrontmatter {
   title: string;
@@ -27,11 +27,13 @@ export interface Tasknote {
   goal: string;
   acceptance: string;
   subtasks: string;
+  starterContext: string;
   subtasksProgress: ChecklistCounts;
   phases: ChecklistCounts[];
 }
 
 const STATUS_VALUES = new Set<TasknoteStatus>([
+  'starter',
   'not-started',
   'in-progress',
   'blocked',
@@ -139,6 +141,7 @@ export function parseTasknote(id: string, path: string, text: string): Tasknote 
     goal: extractSection(body, 'Goal'),
     acceptance: extractSection(body, 'Acceptance'),
     subtasks,
+    starterContext: extractSection(body, 'Starter context'),
     subtasksProgress: countChecklist(subtasks),
     phases,
   };

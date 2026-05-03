@@ -33,6 +33,7 @@ const PRIORITY_BADGE: Record<Priority, string> = {
 };
 
 const STATUS_LABEL: Record<TasknoteStatus, string> = {
+  starter: '🌱 Starter',
   'not-started': 'Not started',
   'in-progress': 'In progress',
   blocked: 'Blocked',
@@ -40,6 +41,7 @@ const STATUS_LABEL: Record<TasknoteStatus, string> = {
 };
 
 const STATUS_BADGE: Record<TasknoteStatus, string> = {
+  starter: 'bg-lime-100 text-lime-800',
   'not-started': 'bg-slate-100 text-slate-700',
   'in-progress': 'bg-amber-100 text-amber-800',
   blocked: 'bg-rose-100 text-rose-800',
@@ -47,6 +49,7 @@ const STATUS_BADGE: Record<TasknoteStatus, string> = {
 };
 
 const STATUS_FILTER_VALUES: TasknoteStatus[] = [
+  'starter',
   'not-started',
   'in-progress',
   'blocked',
@@ -166,6 +169,11 @@ export const App: React.FC = () => {
       }).length,
     [tasks, tasknotesById],
   );
+  const starterCount = useMemo(
+    () =>
+      tasks.filter((t) => tasknotesById.get(t.id)?.frontmatter?.status === 'starter').length,
+    [tasks, tasknotesById],
+  );
 
   const toggleTag = (tag: string) =>
     setTagFilter((prev) => {
@@ -237,8 +245,8 @@ export const App: React.FC = () => {
               <h1 className="text-lg font-semibold">Flowtron — PLAN.md</h1>
               <p className="text-xs text-slate-600">
                 {filteredCount === total
-                  ? `${total} tasks · ${inProgress} in progress`
-                  : `${filteredCount} of ${total} matching · ${inProgress} in progress`}
+                  ? `${total} tasks · ${inProgress} in progress${starterCount > 0 ? ` · ${starterCount} ${starterCount === 1 ? 'starter' : 'starters'}` : ''}`
+                  : `${filteredCount} of ${total} matching · ${inProgress} in progress${starterCount > 0 ? ` · ${starterCount} ${starterCount === 1 ? 'starter' : 'starters'}` : ''}`}
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -588,7 +596,7 @@ const TaskRowInner: React.FC<TaskRowInnerProps> = ({
               no tasknote
             </span>
           )}
-        {tn && <PhaseDots phases={tn.phases} />}
+        {tn && fm?.status !== 'starter' && <PhaseDots phases={tn.phases} />}
         {tn && tn.subtasksProgress.total > 0 && (
           <SubtaskProgress counts={tn.subtasksProgress} />
         )}
@@ -757,35 +765,44 @@ const TaskDetail: React.FC<{
   task: Task;
   tasknote: Tasknote | undefined;
   navigateToTask: (id: string) => void;
-}> = ({ task, tasknote, navigateToTask }) => (
-  <div className="border-t border-slate-100 bg-slate-50/40 px-3 py-2 text-xs text-slate-700">
-    {tasknote ? (
-      <>
-        {tasknote.goal && (
-          <DetailSection title="Goal" markdown={tasknote.goal} navigateToTask={navigateToTask} />
-        )}
-        {tasknote.acceptance && (
-          <DetailSection
-            title="Acceptance"
-            markdown={tasknote.acceptance}
-            navigateToTask={navigateToTask}
-          />
-        )}
-        {tasknote.subtasks && (
-          <DetailSection
-            title="Subtasks"
-            markdown={tasknote.subtasks}
-            navigateToTask={navigateToTask}
-          />
-        )}
-      </>
-    ) : (
-      <div className="prose prose-xs max-w-none [&_p]:my-1 [&_ul]:my-1 [&_li]:my-0 [&_input]:mr-1">
-        <WikilinkMarkdown markdown={task.description} navigateToTask={navigateToTask} />
-      </div>
-    )}
-  </div>
-);
+}> = ({ task, tasknote, navigateToTask }) => {
+  const isStarter = tasknote?.frontmatter?.status === 'starter';
+  return (
+    <div className="border-t border-slate-100 bg-slate-50/40 px-3 py-2 text-xs text-slate-700">
+      {isStarter && tasknote ? (
+        <DetailSection
+          title="🌱 Starter context"
+          markdown={tasknote.starterContext}
+          navigateToTask={navigateToTask}
+        />
+      ) : tasknote ? (
+        <>
+          {tasknote.goal && (
+            <DetailSection title="Goal" markdown={tasknote.goal} navigateToTask={navigateToTask} />
+          )}
+          {tasknote.acceptance && (
+            <DetailSection
+              title="Acceptance"
+              markdown={tasknote.acceptance}
+              navigateToTask={navigateToTask}
+            />
+          )}
+          {tasknote.subtasks && (
+            <DetailSection
+              title="Subtasks"
+              markdown={tasknote.subtasks}
+              navigateToTask={navigateToTask}
+            />
+          )}
+        </>
+      ) : (
+        <div className="prose prose-xs max-w-none [&_p]:my-1 [&_ul]:my-1 [&_li]:my-0 [&_input]:mr-1">
+          <WikilinkMarkdown markdown={task.description} navigateToTask={navigateToTask} />
+        </div>
+      )}
+    </div>
+  );
+};
 
 const DetailSection: React.FC<{
   title: string;

@@ -74,6 +74,18 @@ describe('parseFrontmatter', () => {
     ).toBeNull();
   });
 
+  it('accepts status: starter', () => {
+    const fm = parseFrontmatter({
+      title: 'A starter',
+      status: 'starter',
+      priority: 'Medium',
+      area: 'core',
+      created: '2026-05-03',
+    });
+    expect(fm).not.toBeNull();
+    expect(fm?.status).toBe('starter');
+  });
+
   it('tolerates legacy `model:` field on archived tasknotes (ignored, not rejected)', () => {
     const fm = parseFrontmatter({
       title: 'Old',
@@ -325,5 +337,41 @@ Body
       { total: 0, done: 0 },
     ]);
     expect(tn.subtasksProgress).toEqual({ total: 0, done: 0 });
+  });
+
+  it('parses a starter tasknote and populates starterContext', () => {
+    const text = `---
+title: Demo starter
+status: starter
+priority: Medium
+area: frontend
+tags: []
+created: 2026-05-03
+---
+
+# DEMO-2 | Demo starter
+
+[← PLAN.md](../PLAN.md) · 🌱 Starter (filed 2026-05-03)
+
+## 🌱 Starter context
+
+_Captured 2026-05-03._
+
+### Why this exists
+
+Rich context that would otherwise bloat PLAN.md.
+
+### Files to touch
+
+- \`viz/src/tasknote.ts\` — add starter status
+`;
+    const tn = parseTasknote('DEMO-2', '/abs/DEMO-2.md', text);
+    expect(tn.frontmatter?.status).toBe('starter');
+    expect(tn.goal).toBe('');
+    expect(tn.acceptance).toBe('');
+    expect(tn.subtasks).toBe('');
+    expect(tn.starterContext).toContain('Why this exists');
+    expect(tn.starterContext).toContain('Rich context that would otherwise bloat PLAN.md.');
+    expect(tn.starterContext).toContain('viz/src/tasknote.ts');
   });
 });
