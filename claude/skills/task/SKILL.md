@@ -61,22 +61,50 @@ Three cases (decide via the `[model]` segment captured in Step 1):
 
 The active model is whatever the assistant is currently running as (visible in the runtime; if uncertain, ask the user). See SPEC §"Model field" for the full contract.
 
-## Step 2 — Pre-flight checks
+## Step 2 — Pre-flight checks & file-state branch
 
 - Resolve the **Area** from the ID prefix using SPEC §"Task ID convention":
   - `CORE-` → core, `BE-` → backend, `FE-` → frontend, `DB-` → database, `DEPLOY-` → deployment, `TEST-` → testing
   - Unknown prefix: read `_project/tasknote/README.md` for project-specific prefixes. If still unresolved, stop and ask.
-- If `_project/tasknote/<TASK-ID>.md` already exists: stop. Tell the user the tasknote exists and recommend they continue conversationally (e.g., "continue CORE-004") rather than restarting. This skill is start-only by design.
 - If `_project/tasknote/archive/<area>/<TASK-ID>.md` already exists: stop. The task is already closed and archived. Surface the conflict and ask whether the user meant a different task ID — do not scaffold a duplicate.
+- Check `_project/tasknote/<TASK-ID>.md`. **Three-way branch on the file's YAML `status:`:**
+  - **`status: starter`** — starter tasknote awaiting promotion. Continue at **Step 3a (Promote a starter)**.
+  - **Any other `status:`** (`not-started` / `in-progress` / `blocked` / `completed`) — file is in flight or already closed. Stop. Tell the user the tasknote exists and recommend they continue conversationally (e.g., "continue CORE-004") rather than restarting. This skill is start-only by design.
+  - **File absent** — fresh scaffold path. Continue at **Step 3b (Scaffold a fresh tasknote)**.
 
-## Step 3 — Scaffold the tasknote
+## Step 3a — Promote a starter (existing file with `status: starter`)
+
+The starter file already carries frontmatter and a `## 🌱 Starter context` body section captured at filing time. Promotion converts it into a full tasknote in place. See SPEC §"Starter tasknotes" for the lifecycle.
+
+1. **Drift-check the captured context.** Read each path, line number, function name, and root-cause hypothesis cited in `## 🌱 Starter context` against current code. If anything has moved or been renamed since the starter was filed, surface the drift to the user before re-interpreting the task. Do not silently "correct" the seed.
+2. **Update YAML frontmatter** in place:
+   - `status: starter` → `status: in-progress`
+   - Confirm/add `due:` (leave empty if none)
+   - Confirm/add `related-tasks:` from the starter's Related sub-heading if not already present
+3. **Replace the nav header.** Change `🌱 Starter (filed ...)` → `🟢 In progress · 🔗 [[RELATED-1]] [[RELATED-2]]`. Drop the `· 🔗 ...` segment if `related-tasks: []`.
+4. **Insert spec sections** between the nav header and the `## 🌱 Starter context` block:
+   - `## 🎯 Goal` — one-sentence goal derived from the starter context.
+   - `## ✅ Acceptance` — checklist; populate during Phase 1 Discovery as the user clarifies what "done" looks like.
+   - `## 🧩 Subtasks` — checklist; populate during Phase 1 Discovery with concrete, ordered steps.
+   - `## 🔗 Related` — bullet list mirroring `related-tasks:` from the YAML frontmatter (one bullet per ID with short context, e.g., `- [[CORE-017]] — frontmatter (predecessor)`). If `related-tasks: []`, write `- (none)`.
+5. **Decide what to do with the `## 🌱 Starter context` block** — per-task call:
+   - **Absorb (default):** the spec sections capture the distilled content; drop the starter block. Original lives in git history.
+   - **Preserve verbatim:** keep the starter block as a quoted attachment under Phase 1 Discovery Notes.
+
+   Use AskUserQuestion if unclear; default to absorb.
+6. **Add the divider + four phase sections** below the spec sections, copied from `templates/tasknote-template.md` (📝 Phase 1: Discovery / 🛠️ Phase 2: Execution / 🧪 Phase 3: Testing & Linting / 🚀 Phase 4: Closure with their full checklists).
+7. **Tick** `Reviewed the task entry in PLAN.md` in Phase 1 (already done in Step 1). Continue at **Step 4 (Phase 1: Discovery)**.
+
+The starter's "Open at promotion" sub-heading feeds Phase 1 Step 5 (clarifying questions); resolve them via AskUserQuestion as part of Discovery.
+
+## Step 3b — Scaffold a fresh tasknote (no existing file)
 
 Copy the template to `_project/tasknote/<TASK-ID>.md` and fill the YAML frontmatter and the H1.
 
 **YAML frontmatter** (the `---` block at file top):
 
 - `title:` — concise one-line title. Prefer the PLAN.md `| shortname` (Step 1) when present; otherwise derive from the long description (may shorten; keep it scannable).
-- `status:` — `in-progress` (kebab-case; valid values: `not-started | in-progress | blocked | completed`)
+- `status:` — `in-progress` (kebab-case; valid values: `starter | not-started | in-progress | blocked | completed`)
 - `priority:` — the section heading from Step 1, title-case (`Critical | High | Medium | Low | Future Opportunities`)
 - `area:` — resolved in Step 2, lowercase (e.g., `core`, `backend`, `frontend`); matches the archive subfolder name
 - `tags:` — leave as `[]` unless the user supplies tags at scaffold time

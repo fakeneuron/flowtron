@@ -1,6 +1,6 @@
 # Flowtron — Workflow Specification
 
-**Version:** v0.3.0
+**Version:** v0.4.0
 **Status:** Stable
 
 ## What is Flowtron
@@ -151,7 +151,7 @@ fields, followed by a Markdown body. The canonical schema lives in
 ```yaml
 ---
 title: <one-line title>
-status: in-progress       # not-started | in-progress | blocked | completed
+status: in-progress       # starter | not-started | in-progress | blocked | completed
 priority: High            # Critical | High | Medium | Low | Future Opportunities
 area: core                # lowercase area name (matches archive subfolder)
 tags: []                  # free-form list
@@ -178,11 +178,74 @@ PLAN.md task line (§"Task-line format" / §"Model field"). Legacy archived
 tasknotes that still carry `model:` parse fine — the field is silently
 ignored by the canonical viz parser; adopters' tools should do the same.
 
+## Starter tasknotes
+
+A **starter tasknote** is a lightweight, intentionally minimal tasknote shape
+for capturing rich AI-discovered context at task-filing time — when context
+exists but the task isn't ready to start. Starters preserve the rationale,
+suspected files, drift hypotheses, and design decisions that would otherwise
+be lost or bloat the PLAN.md long description.
+
+A starter has the same YAML frontmatter as a standard tasknote but with
+`status: starter`. The body has a single `## 🌱 Starter context` section —
+**no** spec sections (🎯 Goal / ✅ Acceptance / 🧩 Subtasks / 🔗 Related),
+**no** phase scaffolding. Those are added at promotion.
+
+```yaml
+---
+title: <one-line title>
+status: starter
+priority: <Critical|High|Medium|Low|Future Opportunities>
+area: <area>
+tags: []
+created: YYYY-MM-DD
+---
+```
+
+```markdown
+# <TASK-ID> | <title>
+
+[← PLAN.md](../PLAN.md) · 🌱 Starter (filed YYYY-MM-DD)
+
+## 🌱 Starter context
+
+<rich context: rationale, solution shape, file survey, decisions,
+open questions for promotion, related tasks>
+```
+
+Sub-headings within `## 🌱 Starter context` (Why this exists / Solution shape /
+Files to touch / Decisions / Open at promotion / Related) are conventional
+but optional — drop any with nothing to capture. The canonical layout lives
+in `templates/tasknote-starter-template.md`.
+
+**Lifecycle:**
+
+1. **Filing** (mid-flow): when AI surfaces rich context that warrants
+   preserving, the `/starter-task <ID>` skill writes the starter file at
+   `_project/tasknote/<ID>.md` and appends the PLAN.md entry under the
+   appropriate priority section.
+2. **Sitting**: visualizers render a 🌱 chip on the row and exclude starters
+   from "in progress" counts.
+3. **Promotion** at `/task <ID>`: the `/task` skill detects `status: starter`,
+   drift-checks the captured context against current code (paths, line
+   numbers, function names cited in the starter may have moved), scaffolds
+   the rest of the template (🎯 Goal / ✅ Acceptance / 🧩 Subtasks / 🔗 Related
+   above a divider, then the four phase sections), and flips status to
+   `in-progress`. The starter context informs the spec sections; it is not
+   silently authoritative — Phase 1's drift check applies fully.
+
+Starters are filed **selectively** — most newly-discovered tasks stay
+PLAN.md-line-only. See §"When to use a tasknote (and when not to)" for the
+filing threshold.
+
 ## Tasknote body shape
 
-Below the YAML frontmatter, every tasknote follows a **spec-on-top + log-below**
-structure so it reads like a small, polished spec rather than a pure execution
-log. The canonical layout lives in `templates/tasknote-template.md`.
+Below the YAML frontmatter, every **standard** (non-starter) tasknote follows
+a **spec-on-top + log-below** structure so it reads like a small, polished
+spec rather than a pure execution log. The canonical layout lives in
+`templates/tasknote-template.md`. Starter tasknotes (§"Starter tasknotes")
+skip this layout — they carry only the nav header + `## 🌱 Starter context`
+section until promotion.
 
 ```
 # <TASK-ID> | <title>
@@ -334,6 +397,18 @@ After a tasknote is archived and confirmed, the assistant must:
 - Pure formatting tweaks
 - Documentation patches under ~10 lines
 - Trivial config edits with no logic impact
+
+**File a starter (`/starter-task <ID>`) when:**
+
+- A task is discovered mid-flow with rich context (rationale, design decisions, file survey, open questions) but isn't ready to start now
+- The captured context would be lost or would bloat the PLAN.md long description if recorded as inline prose
+- The right shape isn't fully obvious; the AI wants to preserve the survey and open questions for resolution at `/task` checkout
+
+**Skip the starter (just add a one-line PLAN.md entry) when:**
+
+- The task is straightforward enough that the long description suffices
+- No design decisions or file survey work has been done yet
+- The next available `/task <ID>` slot is the user's natural next move (file it, then start it; no sitting time)
 
 When in doubt, write the tasknote. The Discovery phase pays for itself.
 

@@ -1,6 +1,6 @@
 # Flowtron — PLAN.md
 
-**Last updated:** 2026-05-02 (CORE-026 — removed "Pinned to:" redundant version line from templates/docs)
+**Last updated:** 2026-05-03 (CORE-027 closed — starter tasknotes shipped; FE-006 + CORE-028 filed as follow-ups)
 
 ## Vision
 
@@ -17,14 +17,16 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-(none — FE-005 shipped 2026-05-02; see Completed)
+(none currently — see Medium / Low / Completed)
 
 ## Medium
 
 - [ ] **CORE-016** [opus] | InvisiPaw migration — Execute InvisiPaw migration per [[CORE-008]] playbook. Blocked by [[CORE-008]] — do not start until user signals InvisiPaw backlog is cleared. Scope: flowtron wiring + plan-file collapse + active-task-ID rename. Out of scope: renaming the 15 in-flight tasknote files (deferred further).
+- [ ] **FE-006** [opus] | viz/ starter chip — Render `status: starter` tasknotes in `viz/` per [[CORE-027]]: 🌱 chip on the row, exclude starters from "in progress" counts, click-to-expand renders the `## 🌱 Starter context` body. Touches `viz/src/tasknote.ts` (parse `status: starter` + starter-detection helper) and `viz/src/ui/App.tsx` (chip rendering + counts adjustment + starter expand path). Mirrors [[CORE-017]] → [[FE-004]] precedent of splitting viz/ rendering from spec/skill changes.
 
 ## Low
 
+- [ ] **CORE-028** [sonnet] | release v0.4.0 — Tag annotated `v0.4.0` summarizing [[CORE-027]] (and optionally [[FE-006]] if shipped first); push main + tag. Additive minor release — no migration required for existing tasknotes; `starter` is a new optional status value. Follows [[CORE-014]] / [[CORE-025]] release-task pattern.
 - [ ] **CORE-EPIC-009** [opus] | fintown migration — Migrate **fintown** (epic; child tasks below). Demoted from Medium 2026-04-30 — user clearing fintown's pending tasks first + wants flowtron itself to mature before planning the integration. A [[CORE-008]]-style "draft fintown migration playbook" task will likely be filed before execution begins; not yet warranted.
   - [ ] **CORE-009.1** [sonnet] | submodule + CLAUDE.md — Add flowtron submodule + CLAUDE.md block
   - [ ] **CORE-009.2** [opus] | plan.json → PLAN.md — Convert `plan.json` → `PLAN.md` (preserve archive references)
@@ -38,6 +40,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-027** [opus] | starter tasknotes — Shipped a `status: starter` lightweight tasknote shape (frontmatter + `## 🌱 Starter context` only) for capturing rich AI-discovered context at task-filing time without bloating PLAN.md. New `templates/tasknote-starter-template.md`; new `/starter-task <ID>` skill (`claude/skills/starter-task/SKILL.md` + `claude/commands/starter-task.md`); `claude/skills/task/SKILL.md` Step 2 restructured into a 3-way file-state branch (`status: starter` → Step 3a Promote / other → stop / absent → Step 3b Scaffold); `SPEC.md` v0.3.0 → v0.4.0 with new §"Starter tasknotes" section between frontmatter and body-shape sections + body-shape carve-out + parallel "When to file a starter" paragraph in §"When to use a tasknote" + `starter` added to status enum; `templates/tasknote-README.md` parallel bullet. Dogfooded — CORE-027 itself was filed as a starter and promoted via the new flow during the same conversation; the manual promotion (since the skill didn't yet know about starters) validated the Step 3a sequence end-to-end. Drift finding (Phase 1): starter's MIGRATION.md deliverable conflicted with CORE-013/CORE-015 convention (per-version notes belong in tag message + release tasknote, not MIGRATION.md); dropped from Acceptance. Follow-ups: [[FE-006]] (viz/ 🌱 chip rendering), [[CORE-028]] (release v0.4.0). Tests: 51/51 viz pass; tsc clean. Completed 2026-05-03. Tasknote: `_project/tasknote/archive/core/CORE-027.md`.
 - [x] **CORE-026** [sonnet] | remove "Pinned to:" version line — Dropped the redundant `**Pinned to:** vX.Y.Z` line from `templates/tasknote-README.md`; removed matching instructions from `docs/MIGRATION.md` §1.5 + §"Pinning and bumping" (step 3 + intro sentence); collapsed the two-bullet Step 6 in `/new-project` skill. Submodule SHA is the authoritative version pin — the text line was a drift-prone duplicate. No SPEC change. Completed 2026-05-02. No tasknote (doc patch — under SPEC skip threshold).
 - [x] **CORE-025** [sonnet] | release v0.3.0 — Tagged annotated `v0.3.0` summarizing CORE-017 / CORE-018 / CORE-020 / CORE-022 / FE-001 / FE-004 / FE-005 / CORE-023 / CORE-024 / FE-003; pushed main + tag. First viz/ release. SPEC contract at v0.3.0 since CORE-024. No migration required for existing tasknotes (write-once; new fields additive). Completed 2026-05-02. No tasknote (release-only — under SPEC skip threshold).
 - [x] **FE-003** [opus] | wikilink resolution — Extended [[CORE-024]]'s wikilink-resolution behavior from the no-tasknote branch of `TaskDetail` to the tasknote branch's per-section markdown render. Hoisted `wikilinkifyMarkdown` + the `components.a` wikilink-button map into a new `WikilinkMarkdown` component at module scope; both branches of `TaskDetail` and `DetailSection` (Goal / Acceptance / Subtasks) now compose this single source of truth. `[[TASK-ID]]` references inside expanded tasknote body text now render as clickable monospace buttons that invoke `navigateToTask(id)` (auto-expand collapsed section + parent epic, scroll-into-view, amber highlight). Code-span exclusion preserved (wikilinks inside backticks render as literal code); unresolved IDs render identically and silently no-op. Self-dogfooded mid-Phase-3 via FE-003's own Acceptance `[[CORE-024]]` reference. Single-file diff (+56 / −35 in `viz/src/ui/App.tsx`); 51 tests remain green; `tsc --noEmit` clean. Drift captured: PLAN.md description's "Kanban card" phrase is stale (FE-005 replaced the Kanban with a vertical list) — semantic intent unchanged. Completed 2026-05-02. Tasknote: `_project/tasknote/archive/frontend/FE-003.md`.
