@@ -17,7 +17,7 @@ export const PhaseDots: React.FC<{ phases: ChecklistCounts[] }> = ({ phases }) =
           : active
             ? 'bg-amber-400 ring-1 ring-amber-200'
             : 'bg-slate-200';
-        return <span key={i} className={`h-1.5 w-1.5 rounded-full ${cls}`} />;
+        return <span key={i} className={`h-2 w-2 rounded-full ${cls}`} />;
       })}
     </div>
   );

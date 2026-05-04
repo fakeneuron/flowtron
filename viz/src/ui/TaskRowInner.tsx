@@ -7,16 +7,6 @@ import { SubtaskProgress } from './SubtaskProgress';
 import { ModelChip } from './ModelChip';
 import { RelatedChip } from './RelatedChip';
 import { BlockerChip } from './BlockerChip';
-import type { Priority } from '../parser';
-
-const PRIORITY_BADGE: Record<Priority, string> = {
-  Critical: 'bg-red-100 text-red-800',
-  High: 'bg-orange-100 text-orange-800',
-  Medium: 'bg-amber-100 text-amber-800',
-  Low: 'bg-sky-100 text-sky-800',
-  'Future Opportunities': 'bg-violet-100 text-violet-800',
-  Completed: 'bg-emerald-100 text-emerald-800',
-};
 
 export interface TaskRowInnerProps {
   task: Task;
@@ -37,6 +27,12 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
 }) => {
   const tn = tasknotesById.get(task.id);
   const fm = tn?.frontmatter ?? null;
+  const relatedTasks = fm ? fm.relatedTasks : task.relatedTasks;
+  const showNoTasknote =
+    !tn &&
+    !extraRightSlot &&
+    task.blockedBy.length === 0 &&
+    task.relatedTasks.length === 0;
   return (
     <div className="flex min-w-0 flex-1 items-center gap-2">
       <button
@@ -52,85 +48,67 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
           {task.shortname ?? fm?.title ?? task.description}
         </span>
       </button>
-      <div className="flex shrink-0 items-center justify-end gap-1.5 min-w-[30rem]">
-        {!tn &&
-          !extraRightSlot &&
-          task.blockedBy.length === 0 &&
-          task.relatedTasks.length === 0 && (
+      <div className="grid shrink-0 grid-cols-[auto_auto] items-center gap-x-4">
+        <div className="flex items-center justify-end gap-1.5">
+          {tn && fm?.status !== 'starter' && <PhaseDots phases={tn.phases} />}
+          {tn && tn.subtasksProgress.total > 0 && (
+            <SubtaskProgress counts={tn.subtasksProgress} />
+          )}
+          {task.blockedBy.length > 0 && (
+            <div className="flex items-center gap-1">
+              {task.blockedBy.map((id) => (
+                <BlockerChip key={id} id={id} onClick={() => navigateToTask(id)} />
+              ))}
+            </div>
+          )}
+        </div>
+        <div className="flex items-center justify-end gap-1.5">
+          {showNoTasknote && (
             <span className="rounded-full border border-dashed border-slate-300 px-2 py-0.5 text-[10px] text-slate-400">
               no tasknote
             </span>
           )}
-        {tn && fm?.status !== 'starter' && <PhaseDots phases={tn.phases} />}
-        {tn && tn.subtasksProgress.total > 0 && (
-          <SubtaskProgress counts={tn.subtasksProgress} />
-        )}
-        {task.model && <ModelChip model={task.model as TaskModel} />}
-        {fm && fm.tags.length > 0 && (
-          <div className="flex items-center gap-1">
-            {fm.tags.map((tag) => (
-              <span
-                key={tag}
-                className="rounded-full bg-slate-100 px-1.5 py-0.5 text-[10px] text-slate-700"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
-        {task.blockedBy.length > 0 && (
-          <div className="flex items-center gap-1">
-            {task.blockedBy.map((id) => (
-              <BlockerChip key={id} id={id} onClick={() => navigateToTask(id)} />
-            ))}
-          </div>
-        )}
-        {(fm ? fm.relatedTasks : task.relatedTasks).length > 0 && (
-          <div className="flex items-center gap-1">
-            {(fm ? fm.relatedTasks : task.relatedTasks).map((id) => (
-              <RelatedChip key={id} id={id} onClick={() => navigateToTask(id)} />
-            ))}
-          </div>
-        )}
-        {fm?.due && (
-          <span className="rounded-full bg-indigo-100 px-1.5 py-0.5 text-[10px] text-indigo-800">
-            due {fm.due}
-          </span>
-        )}
-        {fm ? (
-          <span
-            className={`rounded px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide ${STATUS_BADGE[fm.status]}`}
-          >
-            {STATUS_LABEL[fm.status]}
-          </span>
-        ) : (
-          tasknotesById.has(task.id) &&
-          !task.completed && (
-            <span className="rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-amber-800">
-              In progress
+          {task.model && <ModelChip model={task.model as TaskModel} />}
+          {fm && fm.tags.length > 0 && (
+            <div className="flex items-center gap-1">
+              {fm.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full bg-slate-100 px-1.5 py-0.5 text-[10px] text-slate-700"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+          {relatedTasks.length > 0 && (
+            <div className="flex items-center gap-1">
+              {relatedTasks.map((id) => (
+                <RelatedChip key={id} id={id} onClick={() => navigateToTask(id)} />
+              ))}
+            </div>
+          )}
+          {fm?.due && (
+            <span className="rounded-full bg-indigo-100 px-1.5 py-0.5 text-[10px] text-indigo-800">
+              due {fm.due}
             </span>
-          )
-        )}
-        {fm && (
-          <span
-            className={`rounded px-1.5 py-0.5 text-[10px] font-medium ${PRIORITY_BADGE[fm.priority]}`}
-          >
-            {fm.priority}
-          </span>
-        )}
-        {task.completed && task.completedDate && (
-          <span className="text-[10px] text-slate-500">{task.completedDate}</span>
-        )}
-        {extraRightSlot}
-        {tn && (
-          <a
-            href={`vscode://file${tn.path}`}
-            className="text-[10px] text-slate-500 hover:text-slate-800 hover:underline"
-            title="Open tasknote in VS Code"
-          >
-            VS Code →
-          </a>
-        )}
+          )}
+          {fm ? (
+            <span
+              className={`rounded px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide ${STATUS_BADGE[fm.status]}`}
+            >
+              {STATUS_LABEL[fm.status]}
+            </span>
+          ) : (
+            tasknotesById.has(task.id) &&
+            !task.completed && (
+              <span className="rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-amber-800">
+                In progress
+              </span>
+            )
+          )}
+          {extraRightSlot}
+        </div>
       </div>
     </div>
   );
