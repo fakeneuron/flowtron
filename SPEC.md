@@ -420,10 +420,10 @@ Used in PLAN.md:
 - **High** — important features and stabilization
 - **Medium** — standard development work
 - **Low** — nice-to-haves, cleanup
-- **Backlog** — unprioritized future work
+- **Future Opportunities** — unprioritized future work
 
 Selection rule: pick by priority first (Critical → High → Medium → Low →
-Backlog), then by lowest incomplete `<AREA>-<NUMBER>` within that priority.
+Future Opportunities), then by lowest incomplete `<AREA>-<NUMBER>` within that priority.
 
 ## Model field
 

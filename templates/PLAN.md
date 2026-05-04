@@ -1,7 +1,5 @@
 # Project Name — PLAN.md
 
-**Last updated:** YYYY-MM-DD
-
 ## Vision
 
 One-paragraph statement of the project's purpose and end state. Replace this
