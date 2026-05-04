@@ -67,9 +67,10 @@ The active model is whatever the assistant is currently running as (visible in t
   - `CORE-` → core, `BE-` → backend, `FE-` → frontend, `DB-` → database, `DEPLOY-` → deployment, `TEST-` → testing
   - Unknown prefix: read `_project/tasknote/README.md` for project-specific prefixes. If still unresolved, stop and ask.
 - If `_project/tasknote/archive/<area>/<TASK-ID>.md` already exists: stop. The task is already closed and archived. Surface the conflict and ask whether the user meant a different task ID — do not scaffold a duplicate.
-- Check `_project/tasknote/<TASK-ID>.md`. **Three-way branch on the file's YAML `status:`:**
+- Check `_project/tasknote/<TASK-ID>.md`. **Four-way branch on the file's YAML `status:`:**
   - **`status: starter`** — starter tasknote awaiting promotion. Continue at **Step 3a (Promote a starter)**.
-  - **Any other `status:`** (`not-started` / `in-progress` / `blocked` / `completed`) — file is in flight or already closed. Stop. Tell the user the tasknote exists and recommend they continue conversationally (e.g., "continue CORE-004") rather than restarting. This skill is start-only by design.
+  - **`status: blocked`** — parked tasknote awaiting resume. Continue at **Step 3c (Resume a blocked tasknote)**.
+  - **Any other `status:`** (`not-started` / `in-progress` / `completed`) — file is in flight or already closed. Stop. Tell the user the tasknote exists and recommend they continue conversationally (e.g., "continue CORE-004") rather than restarting. This skill is start-only by design.
   - **File absent** — fresh scaffold path. Continue at **Step 3b (Scaffold a fresh tasknote)**.
 
 ## Step 3a — Promote a starter (existing file with `status: starter`)
@@ -126,6 +127,16 @@ Copy the template to `_project/tasknote/<TASK-ID>.md` and fill the YAML frontmat
 - `## 🔗 Related` — bullet list mirroring `related-tasks:` from the YAML frontmatter, one bullet per ID with short context (e.g., `- [[CORE-017]] — frontmatter (predecessor)`). If `related-tasks: []`, write `- (none)`.
 - `---` divider, then the four phase sections (`📝 Phase 1: Discovery`, `🛠️ Phase 2: Execution`, `🧪 Phase 3: Testing & Linting`, `🚀 Phase 4: Closure`) — leave the phase checklists exactly as the template ships them.
 
+## Step 3c — Resume a blocked tasknote (existing file with `status: blocked`)
+
+The blocked file already carries frontmatter, the spec sections (🎯 Goal / ✅ Acceptance / 🧩 Subtasks / 🔗 Related), and partial Phase 2 progress captured before the parking event. Resume re-activates it in place. See SPEC §"Blocked tasks" for the full lifecycle.
+
+1. **Drift-check the parked work.** Read each path, line number, function name, and pattern citation in the existing Discovery / Execution notes against current code. Phase 2 progress may rest on symbols that moved while the task was parked. Surface any drift to the user before re-entering execution.
+2. **Update YAML frontmatter** in place: `status: blocked` → `status: in-progress`.
+3. **Update the nav header.** Change `⏸ Blocked` → `🟢 In progress`.
+4. **Optional cleanup of the PLAN.md line** — if `Blocked by [[ID]]` was added to the PLAN.md long description at parking, ask the user (AskUserQuestion) whether to remove it now. Default: leave it (it's accurate historical context and the line remains unchecked until completion).
+5. **Continue at Phase 2.** The Phase 1 checklist is already complete — do not re-run it. Pick up Execution where the parking note left off.
+
 ## Step 4 — Phase 1: Discovery (drive now)
 
 Work through the Phase 1 checklist in order. Tick boxes in the tasknote as you complete them.
@@ -133,6 +144,7 @@ Work through the Phase 1 checklist in order. Tick boxes in the tasknote as you c
 1. **Reviewed the task entry in PLAN.md** — already done in Step 1.
 2. **Relevance Assessment** — non-negotiable. State a verdict (`Proceed` / `Re-scope` / `De-scope`) with a one-line rationale, recorded in the tasknote.
    - `Re-scope`: update both the PLAN.md line and the tasknote header before continuing.
+   - `Re-scope (blocked subset)`: if the Re-scope is because the work is blocked by an unfinished prerequisite, add `Blocked by [[ID]]` to the PLAN.md long description and delete the just-scaffolded tasknote — see SPEC §"Blocked tasks". `status: blocked` is reserved for mid-Phase-2 parking; a Phase 1 blocker leaves no started work to preserve.
    - `De-scope`: skip directly to Phase 4 closure with the de-scope rationale as the final summary.
 3. **Read relevant source files** — pull in any files the PLAN.md line references or implies.
 4. **Drift check** — verify every file path, line number, function name, and root-cause hypothesis cited in the task description still matches current code. If anything drifted, surface it to the user and confirm the path forward before re-interpreting the task. Do not silently "correct" the plan.
@@ -145,7 +157,7 @@ Do not enter Phase 2 until every Phase 1 box is ticked.
 
 Continue with the user through:
 
-- **Phase 2: Execution** — pattern survey first (look at sibling modules / parallel components for an existing shape to extend; justify a new shape if none fits), then minimal implementation, then targeted tests on changed files. Tick boxes as you go.
+- **Phase 2: Execution** — pattern survey first (look at sibling modules / parallel components for an existing shape to extend; justify a new shape if none fits), then minimal implementation, then targeted tests on changed files. Tick boxes as you go. **If a hard dependency surfaces mid-execution**, park the tasknote per SPEC §"Blocked tasks" — flip `status: blocked`, update the nav header to `⏸ Blocked`, and stop. The next `/task <ID>` invocation enters the resume path (Step 3c) automatically.
 - **Phase 3: Testing & Linting** — targeted tests, lint/type-check on changed code, visual confirmation for frontend changes, fix everything you introduced. Run the full suite only for broad/cross-cutting changes.
 - **Phase 4: Closure** — verify prior phases, update affected docs/inventories, flip the PLAN.md line to `[x] **<TASK-ID>** — <description>. Completed YYYY-MM-DD.` (move it to the `Completed` section), move the tasknote to `_project/tasknote/archive/<area>/<TASK-ID>.md`, and recap to the user. The recap = brief summary of what changed and key decisions, plus an optional verification request (one concrete thing for the user to check). Wait for confirmation.
 

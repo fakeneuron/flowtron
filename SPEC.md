@@ -1,6 +1,6 @@
 # Flowtron — Workflow Specification
 
-**Version:** v0.5.0
+**Version:** v0.6.0
 **Status:** Stable
 
 ## What is Flowtron
@@ -366,9 +366,12 @@ Mandatory steps:
 - [ ] Subtasks above populated with concrete, ordered steps
 
 The Relevance Assessment is non-negotiable. If `Re-scope`, update the task
-entry in PLAN.md and the tasknote header before continuing. If `De-scope`,
-jump directly to Phase 4 closure with the de-scope rationale as the final
-summary.
+entry in PLAN.md and the tasknote header before continuing. If the Re-scope
+is because the work is blocked by an unfinished prerequisite, see §"Blocked
+tasks" for the entry path — add `Blocked by [[ID]]` to the PLAN.md long
+description and halt; do not flip the tasknote to `status: blocked` (that
+status is reserved for mid-Phase-2 parking). If `De-scope`, jump directly to
+Phase 4 closure with the de-scope rationale as the final summary.
 
 The drift check exists because the plan is a snapshot, not a spec. Adjacent
 work may have moved files, renamed symbols, or invalidated a hypothesis since
@@ -387,6 +390,12 @@ Keep edits tightly scoped. Resist refactoring adjacent code unless the task
 explicitly calls for it. The pattern survey exists to keep the codebase
 unified — prefer extending what already works over inventing a parallel
 solution.
+
+If a hard dependency surfaces during execution that wasn't visible at Phase
+1, **park the tasknote** per §"Blocked tasks" — flip `status: blocked`,
+update the nav header, and stop. The tasknote sits at
+`_project/tasknote/<TASK-ID>.md` until the blocker clears; resume by
+re-invoking `/task <ID>`.
 
 ### 🧪 Phase 3: Testing & Linting
 
@@ -415,6 +424,93 @@ lives in the post-closure protocol below.
 The tasknote is closed when archived and the user confirms the recap. Commit
 happens *after* closure (see post-closure protocol below) and is not part of
 the tasknote.
+
+## Blocked tasks
+
+A task can be **blocked** at two distinct points in its lifecycle, and
+flowtron records each at a different layer. The two signals are independent
+— they describe different states and serve different consumers.
+
+| Signal | Layer | Means | Entered when |
+|---|---|---|---|
+| `Blocked by [[ID]]` in PLAN.md long description | PLAN-line | Filed task, dependency cited, not yet started | At filing time, or via Phase 1 Re-scope |
+| `status: blocked` in tasknote YAML frontmatter | Tasknote | Started and parked mid-execution | Mid-Phase-2 transition |
+
+A task may carry one, both, or neither. Adopting projects' tools render the
+two signals independently — the canonical viz parser surfaces `Blocked by
+[[ID]]` as a chip on every row whose long description names a blocker
+(regardless of tasknote presence), and the tasknote-level `status:` drives
+the row's status badge for rows that have a tasknote.
+
+### Entry: Phase 1 (Re-scope path)
+
+If Phase 1 Discovery surfaces that the work is real but cannot start because
+a prerequisite isn't done, the verdict is **Re-scope**. The Re-scope action
+is:
+
+1. Edit the PLAN.md long description to include `Blocked by [[ID]]` in the
+   canonical wikilink form (see §"Long-description conventions").
+2. Delete the tasknote file scaffolded during this `/task` invocation —
+   `status: blocked` is reserved for mid-Phase-2 parking; a Phase 1 blocker
+   has no Phase 2 work to preserve. (If Discovery uncovered context worth
+   keeping, copy it into the PLAN.md long description before deleting.)
+3. Halt. The task re-enters the workflow when the blocker clears: remove the
+   `Blocked by [[ID]]` clause from the PLAN.md line, then run `/task <ID>`
+   afresh.
+
+Phase 1 keeps three verdicts (`Proceed | Re-scope | De-scope`); blockers
+reuse Re-scope rather than introducing a fourth.
+
+### Entry: mid-Phase-2 (parking)
+
+If Phase 2 Execution surfaces a hard dependency that wasn't visible at Phase
+1, the tasknote is **parked**:
+
+1. Flip YAML `status:` from `in-progress` to `blocked`.
+2. Flip the nav-header status chip from `🟢 In progress` to `⏸ Blocked` to
+   keep the duplicated chip in sync.
+3. Optionally add `Blocked by [[ID]]` to the PLAN.md long description so the
+   dependency is visible to viz on the row. Recommended but not required —
+   the two signals stay independent.
+4. Stop. Do not run Phase 3 or Phase 4. The tasknote sits at
+   `_project/tasknote/<TASK-ID>.md` until the blocker clears.
+
+### Parked state
+
+A blocked tasknote is **paused, not closed**. Phase 4 closure is reserved
+for actual completion (or a Phase 1 De-scope). While parked:
+
+- The tasknote is not archived.
+- The PLAN.md task line stays unchecked.
+- Phase 1 Discovery and partial Phase 2 work are preserved verbatim.
+- Re-running `/task <ID>` against a blocked tasknote enters the resume path
+  (see `claude/skills/task/SKILL.md`), not a fresh scaffold.
+
+### Exit: resume
+
+When the blocker clears:
+
+1. Drift-check the parked work — Phase 2 progress may rest on file paths or
+   symbols that have moved while the task was parked.
+2. Flip `status: blocked` back to `status: in-progress`.
+3. Flip the nav-header chip `⏸ Blocked` back to `🟢 In progress`.
+4. Optionally remove the `Blocked by [[ID]]` clause from the PLAN.md long
+   description (it has served its purpose; leaving it is also fine as
+   historical context, since the line stays unchecked until completion).
+5. Continue Phase 2 from where the parking note left off. Phase 1 is already
+   complete — do not re-run it.
+
+### Viz interaction
+
+The two signals render independently:
+
+- PLAN-line `Blocked by [[ID]]` → `BlockerChip` on the row, regardless of
+  whether a tasknote exists.
+- Tasknote `status: blocked` → rose `Blocked` status badge, only on rows
+  with a tasknote.
+
+A row may show both, one, or neither, and each rendering is correct in its
+own layer. No enforcement is needed.
 
 ## Post-closure protocol
 
