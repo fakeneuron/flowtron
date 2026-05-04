@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-029** [opus] | epic lifecycle — Codify epic open-with-discovery + close-with-audit pattern in `SPEC.md` (per `_project/SCRATCH.md` notes). Epics typically open with a discovery task to plan child tasks, then close with a final audit task verifying execution sits well in the codebase (catches misses; may spawn follow-up children; re-audit if many surface). Scope guidance: code sweeps + multi-child features only, not simple implementations. Deliverable: SPEC patch + `templates/tasknote-README.md` note. No migration of past epics.
+(none — see Completed below)
 
 ## Medium
 
@@ -48,6 +48,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-029** [opus] | epic lifecycle — Codified the epic open-with-Discovery + close-with-Audit pattern in `SPEC.md` (new top-level §"Epic lifecycle" between §"Task ID convention" and §"Task-line format"): opening definition + epic-vs-Phase-1 Discovery disambiguation, `<AREA>-<N>.1` Discovery + final-`.N` Audit numbering with worked example, 5-step lifecycle (file → run Discovery → run children → run Audit → handle follow-ups: few → additional children; many → fresh Audit subtask), qualitative threshold (code sweeps + multi-child features only; user judgment), forward-looking note (existing in-flight epics like [[CORE-EPIC-009]] need no migration). Parallel one-liner added to `templates/tasknote-README.md` Layout. `claude/skills/task/SKILL.md` Notes "Sub-tasks of an epic" bullet extended to flag Discovery + Audit roles. User clarified via AskUserQuestion: `Discovery`/`Audit` naming, numbered subtasks (no `.0` slot), new top-level SPEC section, qualitative threshold. SPEC bumped v0.4.0 → v0.5.0 (additive minor — new optional convention; no parser/schema change). `viz/` unaffected — 53/53 tests pass, tsc clean. Release tag deferred to follow-up. Completed 2026-05-04. Tasknote: `_project/tasknote/archive/core/CORE-029.md`.
 - [x] **CORE-035** [sonnet] | retire "Last updated:" line — Removed `**Last updated:** ...` from `_project/PLAN.md` and `templates/PLAN.md`. The line was hand-maintained and drift-prone; `git log -1 _project/PLAN.md` is authoritative. Completed 2026-05-04. No tasknote (doc patch — under SPEC skip threshold).
 - [x] **CORE-034** [sonnet] | priority-name reconciliation — `SPEC.md` §"Priority levels" listed `Backlog` while `templates/PLAN.md`, `_project/PLAN.md`, and `viz/src/parser.ts` all use `Future Opportunities`. Replaced `Backlog` → `Future Opportunities` in the bullet line and the selection rule. No SPEC version bump (clarification only). Completed 2026-05-04. No tasknote (doc patch — under SPEC skip threshold).
 - [x] **CORE-028** [sonnet] | release v0.4.0 — Tagged and pushed annotated `v0.4.0` bundling [[CORE-027]] (starter tasknotes + SPEC v0.4.0), [[FE-006]] (viz/ 🌱 chip), and [[CORE-026]] (doc fix). Additive minor release — no migration required; `starter` is a new optional status value only. Completed 2026-05-03. Tasknote: `_project/tasknote/archive/core/CORE-028.md`.

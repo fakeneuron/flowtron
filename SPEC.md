@@ -1,6 +1,6 @@
 # Flowtron — Workflow Specification
 
-**Version:** v0.4.0
+**Version:** v0.5.0
 **Status:** Stable
 
 ## What is Flowtron
@@ -70,6 +70,65 @@ pipeline). Domain prefixes must be declared in the project's
 
 Numbering: sequential within prefix. Decimals only for epic subtasks (e.g.,
 `CORE-EPIC-009` parent + `CORE-009.1`, `CORE-009.2` children).
+
+## Epic lifecycle
+
+Some epics — particularly **code sweeps** and **major multi-child features** —
+benefit from bracketing their implementation children with two coordination
+tasks: an **opening Discovery** subtask that surveys the codebase and files
+the children, and a **closing Audit** subtask that verifies the completed
+work sits well in the codebase as a whole. The Discovery + Audit shape
+catches scoping misses up front and integration misses at the end. Simpler
+implementations don't need it — apply judgment.
+
+This is *epic-level* Discovery, distinct from the per-tasknote Phase 1
+Discovery (§"The 4-phase workflow"). Phase 1 Discovery scopes one task; an
+epic Discovery subtask scopes the whole epic and produces the child task
+list filed in PLAN.md.
+
+**Numbering convention.** Discovery is the first child (`<AREA>-<N>.1`),
+audit is the highest-numbered child at the time of filing (e.g., `.6` if
+five implementation children sit between them). Both are normal subtasks —
+same task-line grammar, same 4-phase tasknote, same model rules.
+
+```
+- [ ] **CORE-EPIC-040** [opus] | example sweep — Drive the X migration.
+  - [ ] **CORE-040.1** [opus] | discovery — Survey existing usage, file children .2–.5
+  - [ ] **CORE-040.2** [sonnet] | step 1 — ...
+  - [ ] **CORE-040.3** [sonnet] | step 2 — ...
+  - [ ] **CORE-040.4** [sonnet] | step 3 — ...
+  - [ ] **CORE-040.5** [sonnet] | step 4 — ...
+  - [ ] **CORE-040.6** [opus] | audit — Verify the sweep sits well; file follow-ups if needed
+```
+
+**Lifecycle:**
+
+1. **File the epic** with a Discovery subtask (`.1`) and a placeholder Audit
+   subtask at the end. Implementation children may be empty at filing — the
+   Discovery subtask's job is to populate them.
+2. **Run Discovery** as a normal `/task <ID>.1`. Its deliverable is the
+   filed child entries in PLAN.md (with shortnames, models, descriptions),
+   not code.
+3. **Run children** in order, normal flow.
+4. **Run Audit** as a normal `/task <ID>.<final>` once all implementation
+   children are closed. Its deliverable is a verification pass: do the
+   children, taken together, sit well in the codebase? Final summary records
+   findings even when nothing is wrong.
+5. **Audit follow-ups.** If the audit surfaces misses:
+   - **Few** (one or two small follow-ups) — file them as additional epic
+     children with new `.<N+1>` numbers and close the audit. Execute them
+     and consider the epic done when the last one closes.
+   - **Many** — file the follow-up children plus a fresh Audit subtask at
+     the new highest number. Close the prior audit; the new audit covers
+     the second wave.
+
+**Apply the lifecycle when** the epic is a code sweep, a multi-subsystem
+feature, or any epic where coordinated planning + verification would catch
+misses that one-task-at-a-time execution would not. **Skip it for** simple
+implementations even if they happen to have a few subtasks — judgment call.
+
+**Forward-looking.** This convention applies to epics filed going forward;
+existing in-flight epics need no migration.
 
 ## Task-line format
 

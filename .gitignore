@@ -6,3 +6,4 @@ dist/
 *.log
 *.tsbuildinfo
 .playwright-mcp/
+SCRATCH.md
