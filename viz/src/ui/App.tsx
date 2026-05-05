@@ -91,8 +91,8 @@ export const App: React.FC = () => {
       }
 
       if (statusFilter.size > 0) {
-        if (!fm) return false;
-        if (!statusFilter.has(fm.status)) return false;
+        const effectiveStatus: TasknoteStatus = fm?.status ?? (task.completed ? 'completed' : 'not-started');
+        if (!statusFilter.has(effectiveStatus)) return false;
       }
 
       const q = query.trim().toLowerCase();
@@ -110,6 +110,16 @@ export const App: React.FC = () => {
   );
 
   const allNodes = useMemo(() => groupTasks(tasks), [tasks]);
+
+  const presentStatuses = useMemo(() => {
+    const set = new Set<TasknoteStatus>();
+    for (const task of tasks) {
+      const fm = tasknotesById.get(task.id)?.frontmatter ?? null;
+      const s: TasknoteStatus = fm?.status ?? (task.completed ? 'completed' : 'not-started');
+      set.add(s);
+    }
+    return set;
+  }, [tasks, tasknotesById]);
 
   const filteredNodes = useMemo(
     () => allNodes.filter((n) => matchesFilter(n.task)),
@@ -221,6 +231,7 @@ export const App: React.FC = () => {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search id, description, tags, status"
+                autoComplete="off"
                 className="w-72 rounded border border-slate-300 bg-white px-3 py-1.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-300"
                 aria-label="Search tasks"
               />
@@ -261,7 +272,7 @@ export const App: React.FC = () => {
             )}
             <div className="flex flex-wrap items-center gap-1.5">
               <span className="text-slate-500">Status:</span>
-              {STATUS_FILTER_VALUES.map((s) => {
+              {STATUS_FILTER_VALUES.filter((s) => presentStatuses.has(s)).map((s) => {
                 const on = statusFilter.has(s);
                 return (
                   <button

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import type { Task, TaskModel } from '../parser';
 import type { Tasknote } from '../tasknote';
 import { STATUS_BADGE, STATUS_LABEL } from './constants';
@@ -7,6 +7,16 @@ import { SubtaskProgress } from './SubtaskProgress';
 import { ModelChip } from './ModelChip';
 import { RelatedChip } from './RelatedChip';
 import { BlockerChip } from './BlockerChip';
+
+function formatDue(iso: string): string {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const due = new Date(`${iso}T00:00:00`);
+  const diffDays = Math.round((due.getTime() - today.getTime()) / 86_400_000);
+  if (diffDays === 0) return 'today';
+  if (diffDays > 0) return `in ${diffDays}d`;
+  return `overdue ${Math.abs(diffDays)}d`;
+}
 
 export interface TaskRowInnerProps {
   task: Task;
@@ -28,6 +38,7 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
   const tn = tasknotesById.get(task.id);
   const fm = tn?.frontmatter ?? null;
   const relatedTasks = fm ? fm.relatedTasks : task.relatedTasks;
+  const dueLabel = useMemo(() => (fm?.due ? formatDue(fm.due) : null), [fm?.due]);
   const showNoTasknote =
     !tn &&
     !extraRightSlot &&
@@ -88,9 +99,18 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
               ))}
             </div>
           )}
-          {fm?.due && (
-            <span className="rounded-full bg-indigo-100 px-1.5 py-0.5 text-[10px] text-indigo-800">
-              due {fm.due}
+          {dueLabel && (
+            <span
+              title={fm!.due}
+              className={`rounded-full px-1.5 py-0.5 text-[10px] ${
+                dueLabel === 'today'
+                  ? 'bg-amber-100 text-amber-800'
+                  : dueLabel.startsWith('overdue')
+                    ? 'bg-red-100 text-red-800'
+                    : 'bg-indigo-100 text-indigo-800'
+              }`}
+            >
+              due {dueLabel}
             </span>
           )}
           {fm ? (
