@@ -65,6 +65,12 @@ export const App: React.FC = () => {
     void load();
   }, [load]);
 
+  useEffect(() => {
+    const es = new EventSource('/api/events');
+    es.addEventListener('change', () => void load());
+    return () => es.close();
+  }, [load]);
+
   useEffect(
     () => () => {
       if (highlightTimer.current) clearTimeout(highlightTimer.current);
