@@ -1,6 +1,6 @@
 # Flowtron — Workflow Specification
 
-**Version:** v0.7.0
+**Version:** v0.8.0
 **Status:** Stable
 
 ## What is Flowtron
@@ -194,9 +194,15 @@ section until promotion.
 **Top sections (the "spec"):**
 
 - **Nav header** — single line under the H1: a `← PLAN.md` back-link, a status
-  chip (🟢 In progress / ✅ Completed / ⏸ Blocked / ⚪ Not started) that mirrors
-  the YAML `status:`, and `[[TASK-ID]]` wikilink chips that mirror
-  `related-tasks:`. The status chip is updated at Phase 4 closure.
+  chip (🟢 In progress / ✅ Completed / ⏸ Blocked / ⚪ Not started / 🌱 Starter)
+  that mirrors the YAML `status:`, and `[[TASK-ID]]` wikilink chips that
+  mirror `related-tasks:`. The chip in the markdown body is hand-authored at
+  state transitions (scaffold, promotion, park, resume) for editor parity but
+  is **not** flipped at Phase 4 closure — visualizers compute the canonical
+  chip from YAML `status:` at render time, so archived tasknotes may show a
+  chip text that lags the YAML state. This is intentional: YAML stays
+  canonical for tasknote-bearing rows, the PLAN.md checkbox stays canonical
+  for the roadmap binary, and the chip is render-derived.
 - **🎯 Goal** — one-sentence description of what this task accomplishes.
 - **✅ Acceptance** — checklist of concrete, testable criteria for "done."
   Populated during Phase 1 Discovery.
@@ -280,7 +286,6 @@ Run the full test suite only when changes are broad or cross-cutting.
 - [ ] Verified all prior phases complete
 - [ ] Updated docs/inventories affected by the change
 - [ ] Updated PLAN.md (status flipped to `Completed YYYY-MM-DD`)
-- [ ] Updated nav header status icon to ✅ Completed
 - [ ] Moved this tasknote to `_project/tasknote/archive/<area>/`
 - [ ] Recapped changes with the user and got confirmation
 

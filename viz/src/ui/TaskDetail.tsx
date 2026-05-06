@@ -3,6 +3,7 @@ import type { Priority, Task } from '../parser';
 import type { Tasknote } from '../tasknote';
 import { WikilinkMarkdown } from './WikilinkMarkdown';
 import { DetailSection } from './DetailSection';
+import { StatusChip } from './StatusChip';
 
 const PRIORITY_BADGE: Record<Priority, string> = {
   Critical: 'bg-red-100 text-red-800',
@@ -18,7 +19,8 @@ export const TaskDetail: React.FC<{
   tasknote: Tasknote | undefined;
   navigateToTask: (id: string) => void;
 }> = ({ task, tasknote, navigateToTask }) => {
-  const isStarter = tasknote?.frontmatter?.status === 'starter';
+  const status = tasknote?.frontmatter?.status;
+  const isStarter = status === 'starter';
   const priority = tasknote ? task.priority : undefined;
   const showMetaHeader = priority || (task.completed && task.completedDate) || tasknote;
   return (
@@ -32,6 +34,7 @@ export const TaskDetail: React.FC<{
               {priority}
             </span>
           )}
+          {status && <StatusChip status={status} />}
           {task.completed && task.completedDate && (
             <span>Completed {task.completedDate}</span>
           )}

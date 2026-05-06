@@ -70,7 +70,6 @@ One-sentence goal of what this task accomplishes.
 - [ ] Verified all prior phases complete
 - [ ] Updated docs/inventories affected by the change
 - [ ] Updated PLAN.md (status flipped to `Completed YYYY-MM-DD`)
-- [ ] Updated nav header status icon to ✅ Completed
 - [ ] Moved this tasknote to `_project/tasknote/archive/<area>/`
 - [ ] Recapped changes with the user and got confirmation
 
