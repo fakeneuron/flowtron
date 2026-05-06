@@ -109,32 +109,18 @@ The starter's "Open at promotion" sub-heading feeds Phase 1 Step 5 (clarifying q
 
 ## Step 3b — Scaffold a fresh tasknote (no existing file)
 
-Copy the template to `_project/tasknote/<TASK-ID>.md` and fill the YAML frontmatter and the H1.
+Copy the template (path resolved in Step 0) to `_project/tasknote/<TASK-ID>.md`. The frontmatter schema and body layout are canonical in SPEC §"Tasknote frontmatter" and §"Tasknote body shape" — fill them as specified there. The template ships the canonical phase checklists; leave them exactly as they ship.
 
-**YAML frontmatter** (the `---` block at file top):
+**Skill-specific values at scaffold time:**
 
-- `title:` — concise one-line title. Prefer the PLAN.md `| shortname` (Step 1) when present; otherwise derive from the long description (may shorten; keep it scannable).
-- `status:` — `in-progress` (kebab-case; valid values: `starter | not-started | in-progress | blocked | completed`)
-- `priority:` — the section heading from Step 1, title-case (`Critical | High | Medium | Low | Future Opportunities`)
-- `area:` — resolved in Step 2, lowercase (e.g., `core`, `backend`, `frontend`); matches the archive subfolder name
-- `tags:` — leave as `[]` unless the user supplies tags at scaffold time
-- `created:` — today's date in `YYYY-MM-DD`
-- `due:` — leave empty unless the user supplies a deadline at scaffold time
-- `related-tasks:` — leave as `[]` unless the PLAN.md line cites parent epics, predecessors, or follow-ups (e.g., `[CORE-018, CORE-019]`)
+- `title:` — prefer the PLAN.md `| shortname` (Step 1) when present; otherwise derive from the long description.
+- `status:` — `in-progress`.
+- `priority:` — the section heading from Step 1, title-case.
+- `area:` — resolved in Step 2, lowercase.
+- `created:` — today's date.
+- `related-tasks:` — from PLAN.md if the line cites parent epics, predecessors, or follow-ups; otherwise `[]`.
 
-> Note: the model is NOT in the frontmatter (retired in flowtron v0.2.0 — the `[model]` segment on the PLAN.md task line is the source of truth, gated in Step 1.5).
-
-**Body** (spec-on-top + log-below shape; see SPEC §"Tasknote body shape" for rationale):
-
-- H1: `# <TASK-ID> | <title>` — match the frontmatter `title:` exactly
-- **Nav header** — single line directly under the H1: `[← PLAN.md](../PLAN.md) · 🟢 In progress · 🔗 [[RELATED-1]] [[RELATED-2]]`
-  - Status icon mirrors YAML `status:` — `🟢 In progress` at scaffold (other values: `⚪ Not started`, `⏸ Blocked`, `✅ Completed`). Updated at Phase 4 closure to match the YAML flip.
-  - Wikilink chips after `🔗` mirror `related-tasks:` from the YAML frontmatter (one wikilink per ID). If `related-tasks: []`, drop the `· 🔗 ...` segment entirely.
-- `## 🎯 Goal` — one-sentence goal derived from the PLAN.md line. If the line is too terse to support a clear goal, ask the user before scaffolding.
-- `## ✅ Acceptance` — empty checklist at scaffold (`- [ ] Criterion 1` / `- [ ] Criterion 2`). Populated during Phase 1 Discovery as the user clarifies what "done" looks like.
-- `## 🧩 Subtasks` — empty checklist at scaffold. Populated during Phase 1 Discovery with concrete, ordered steps (this section replaces the old Phase-1-internal "Execution Steps" block).
-- `## 🔗 Related` — bullet list mirroring `related-tasks:` from the YAML frontmatter, one bullet per ID with short context (e.g., `- [[CORE-017]] — frontmatter (predecessor)`). If `related-tasks: []`, write `- (none)`.
-- `---` divider, then the four phase sections (`📝 Phase 1: Discovery`, `🛠️ Phase 2: Execution`, `🧪 Phase 3: Testing & Linting`, `🚀 Phase 4: Closure`) — leave the phase checklists exactly as the template ships them.
+🎯 Goal is derived from the PLAN.md line at scaffold; ask the user if it's too terse for a clear one-sentence goal. ✅ Acceptance and 🧩 Subtasks are empty checklists at scaffold, populated during Phase 1 Discovery.
 
 ## Step 3c — Resume a blocked tasknote (existing file with `status: blocked`)
 
@@ -148,19 +134,15 @@ The blocked file already carries frontmatter, the spec sections (🎯 Goal / ✅
 
 ## Step 4 — Phase 1: Discovery (drive now)
 
-Work through the Phase 1 checklist in order. Tick boxes in the tasknote as you complete them.
+Work through the Phase 1 checklist per SPEC §"📝 Phase 1: Discovery". Re-scope and De-scope behavior (including the blocked-subset path that defers to §"Blocked tasks") is canonical there.
 
-1. **Reviewed the task entry in PLAN.md** — already done in Step 1.
-2. **Relevance Assessment** — non-negotiable. State a verdict (`Proceed` / `Re-scope` / `De-scope`) with a one-line rationale, recorded in the tasknote.
-   - `Re-scope`: update both the PLAN.md line and the tasknote header before continuing.
-   - `Re-scope (blocked subset)`: if the Re-scope is because the work is blocked by an unfinished prerequisite, add `Blocked by [[ID]]` to the PLAN.md long description and delete the just-scaffolded tasknote — see SPEC §"Blocked tasks". `status: blocked` is reserved for mid-Phase-2 parking; a Phase 1 blocker leaves no started work to preserve.
-   - `De-scope`: skip directly to Phase 4 closure with the de-scope rationale as the final summary.
-3. **Read relevant source files** — pull in any files the PLAN.md line references or implies.
-4. **Drift check** — verify every file path, line number, function name, and root-cause hypothesis cited in the task description still matches current code. If anything drifted, surface it to the user and confirm the path forward before re-interpreting the task. Do not silently "correct" the plan.
-5. **Clarifying questions** — use AskUserQuestion for anything genuinely ambiguous. If nothing is ambiguous, write `No clarifications needed` in the tasknote with the explicit assumptions you're making.
-6. **Define execution steps** — list concrete, ordered steps in the tasknote's `Execution Steps:` section.
+Skill-specific imperatives on top of the SPEC contract:
 
-Do not enter Phase 2 until every Phase 1 box is ticked.
+- Tick boxes in the tasknote as you complete them.
+- The first checklist item (Reviewed PLAN.md) is already done in Step 1 of this skill.
+- For the Clarifying questions step: use AskUserQuestion for anything genuinely ambiguous. If nothing is ambiguous, write `No clarifications needed` in the tasknote with the explicit assumptions.
+- For the "populate Subtasks" step: fill the tasknote's `## 🧩 Subtasks` checklist with concrete, ordered steps.
+- Do not enter Phase 2 until every Phase 1 box is ticked.
 
 ## Step 5 — Phases 2-4 (drive conversationally)
 
@@ -172,19 +154,14 @@ Continue with the user through:
 
 ## Step 6 — Post-closure protocol
 
-After the user confirms the recap, the post-closure motion is **one continuous flow** — commit, suggest the next move, and offer the copy-paste line. The user's commit-go (e.g. "commit", "go", "yes") is the *only* gate; once the commit lands, steps 2 and 3 follow **in the same response as the commit confirmation**, even if the user's reply was terse or only named the commit step. Do not wait for them to prompt the next-task suggestion.
+The three-step protocol (commit / suggest next move / offer copy-paste line) is canonical in SPEC §"Post-closure protocol".
 
-1. **Commit.** Bundle code changes + archived tasknote + PLAN.md flip into a single commit. Message: `feat: <TASK-ID> — <title>` (or `fix:` / `docs:` / `chore:` / `refactor:` as appropriate). Multiple recently-closed tasknotes may bundle into one commit when natural. Confirm with the user before committing — do not commit unprompted.
-2. **Suggest the next move.** Either:
-   - **Epic continuation:** if the closed task is in an active epic with cleared dependencies, name the most natural next task ID with a one-line "why now" and the recommended model.
-   - **Open menu:** surface 2-3 candidates from PLAN.md mixing priority and readiness — one sentence per option, plus the recommended model for each.
-3. **Offer the copy-paste line:**
+Skill-specific orchestration on top of the SPEC contract:
 
-   ```
-   /clear then /task <NEXT-ID>
-   ```
-
-   You cannot run `/clear` yourself; the line is for the user.
+- The motion is **one continuous flow**. The user's commit-go (e.g. "commit", "go", "yes") is the *only* gate; once the commit lands, the suggest-next-move and copy-paste-line steps follow **in the same response as the commit confirmation**, even if the user's reply was terse or only named the commit step. Do not wait for them to prompt the next-task suggestion.
+- Confirm with the user before committing — do not commit unprompted.
+- When suggesting the next move, name the recommended model alongside the task ID (skill addition; not in SPEC).
+- The copy-paste line is `/clear then /task <NEXT-ID>` — you cannot run `/clear` yourself.
 
 ## Notes
 
