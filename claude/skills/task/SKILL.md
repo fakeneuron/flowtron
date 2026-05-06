@@ -97,6 +97,7 @@ The starter file already carries frontmatter and a `## 🌱 Starter context` bod
    - `## ✅ Acceptance` — checklist; populate during Phase 1 Discovery as the user clarifies what "done" looks like.
    - `## 🧩 Subtasks` — checklist; populate during Phase 1 Discovery with concrete, ordered steps.
    - `## 🔗 Related` — bullet list mirroring `related-tasks:` from the YAML frontmatter (one bullet per ID with short context, e.g., `- [[CORE-017]] — frontmatter (predecessor)`). If `related-tasks: []`, write `- (none)`.
+   - **Fidelity check** — verify the starter's `Solution shape` / `Decisions locked` / `Files to touch` are reflected in the synthesized Goal (and earmarked for Phase 1's Acceptance/Subtasks population); flag any dropped substance to the user.
 5. **Decide what to do with the `## 🌱 Starter context` block** — per-task call:
    - **Absorb (default):** the spec sections capture the distilled content; drop the starter block. Original lives in git history.
    - **Preserve verbatim:** keep the starter block as a quoted attachment under Phase 1 Discovery Notes.
