@@ -1,6 +1,6 @@
 # Flowtron — Workflow Specification
 
-**Version:** v0.6.1
+**Version:** v0.6.2
 **Status:** Stable
 
 ## What is Flowtron
@@ -86,49 +86,28 @@ Discovery (§"The 4-phase workflow"). Phase 1 Discovery scopes one task; an
 epic Discovery subtask scopes the whole epic and produces the child task
 list filed in PLAN.md.
 
-**Numbering convention.** Discovery is the first child (`<AREA>-<N>.1`),
-audit is the highest-numbered child at the time of filing (e.g., `.6` if
-five implementation children sit between them). Both are normal subtasks —
-same task-line grammar, same 4-phase tasknote, same model rules.
-
-```
-- [ ] **CORE-EPIC-040** [opus] | example sweep — Drive the X migration.
-  - [ ] **CORE-040.1** [opus] | discovery — Survey existing usage, file children .2–.5
-  - [ ] **CORE-040.2** [sonnet] | step 1 — ...
-  - [ ] **CORE-040.3** [sonnet] | step 2 — ...
-  - [ ] **CORE-040.4** [sonnet] | step 3 — ...
-  - [ ] **CORE-040.5** [sonnet] | step 4 — ...
-  - [ ] **CORE-040.6** [opus] | audit — Verify the sweep sits well; file follow-ups if needed
-```
+**Numbering convention.** Discovery is the first child (`<AREA>-<N>.1`);
+audit is the highest-numbered child at filing time. Both are normal
+subtasks — same grammar, same 4-phase tasknote, same model rules.
 
 **Lifecycle:**
 
 1. **File the epic** with a Discovery subtask (`.1`) and a placeholder Audit
    subtask at the end. Implementation children may be empty at filing — the
-   Discovery subtask's job is to populate them.
-2. **Run Discovery** as a normal `/task <ID>.1`. Its deliverable is the
-   filed child entries in PLAN.md (with shortnames, models, descriptions),
-   not code.
+   Discovery subtask populates them.
+2. **Run Discovery** (`/task <ID>.1`). Deliverable: filed child entries in
+   PLAN.md, not code.
 3. **Run children** in order, normal flow.
-4. **Run Audit** as a normal `/task <ID>.<final>` once all implementation
-   children are closed. Its deliverable is a verification pass: do the
-   children, taken together, sit well in the codebase? Final summary records
-   findings even when nothing is wrong.
-5. **Audit follow-ups.** If the audit surfaces misses:
-   - **Few** (one or two small follow-ups) — file them as additional epic
-     children with new `.<N+1>` numbers and close the audit. Execute them
-     and consider the epic done when the last one closes.
-   - **Many** — file the follow-up children plus a fresh Audit subtask at
-     the new highest number. Close the prior audit; the new audit covers
-     the second wave.
+4. **Run Audit** (`/task <ID>.<final>`) once all implementation children are
+   closed. Final summary records findings even when nothing is wrong.
+5. **Audit follow-ups.** Misses surfaced by the audit get filed as `.<N+1>`
+   children. For a few small follow-ups, close the audit and execute them
+   as normal children. For many, also file a fresh Audit subtask at the new
+   highest number to cover the second wave.
 
-**Apply the lifecycle when** the epic is a code sweep, a multi-subsystem
-feature, or any epic where coordinated planning + verification would catch
-misses that one-task-at-a-time execution would not. **Skip it for** simple
-implementations even if they happen to have a few subtasks — judgment call.
-
-**Forward-looking.** This convention applies to epics filed going forward;
-existing in-flight epics need no migration.
+**Forward-looking.** Applies to new epics; existing in-flight epics need no
+migration. Apply judgment — simple multi-subtask implementations don't need
+the bracket.
 
 ## Task-line format
 
@@ -175,23 +154,16 @@ cross-task signals on rows that don't yet have a tasknote:
 | `[[TASK-ID]]` | Cross-reference / "see also" | `Task.relatedTasks: string[]` |
 | `Blocked by [[ID]]` | Hard dependency on another task | `Task.blockedBy: string[]` |
 
-Both are **wikilink-only** — bare-ID forms (`Blocked by: CORE-008`) do not
-parse. This keeps the syntax tight and avoids false matches against
-narrative prose. Multiple comma-separated wikilinks are supported in a
-single `Blocked by` clause.
+Both are **wikilink-only** — bare-ID forms do not parse. Multiple
+comma-separated wikilinks are supported in a single `Blocked by` clause.
 
 Wikilinks inside markdown inline code spans (between backticks) are treated
-as literal text and ignored. This lets the description prose include
-illustrative `[[TASK-ID]]` examples (e.g., placeholder IDs in documentation
-notes) without polluting the parsed signal set.
+as literal text, so descriptions can include illustrative `[[TASK-ID]]`
+examples without polluting the parsed signal set.
 
-A wikilink that appears inside a `Blocked by` block lands in `blockedBy`
-only; the same ID elsewhere in the description is excluded from
-`relatedTasks` to avoid double-rendering (blocker is the stronger signal).
-
-The conventions match the `[[TASK-ID]]` wikilink style introduced in
-§"Tasknote body shape" — adopting projects with markdown-vault tooling
-(Obsidian, Foam, Logseq) get the cross-references for free.
+A wikilink inside a `Blocked by` block lands in `blockedBy` only; the same
+ID elsewhere in the description is excluded from `relatedTasks` (blocker is
+the stronger signal).
 
 Examples:
 
@@ -203,39 +175,24 @@ Examples:
 
 ## Tasknote frontmatter
 
+**Write-once policy.** Archived tasknotes are historical records — not
+retroactively edited when the spec evolves. Frontmatter and body
+conventions apply to new tasknotes only; legacy archives stay as-is. Tools
+should silently accept and ignore retired fields (e.g., the v0.2.0 `model:`
+field, since moved to the PLAN.md task line — see §"Task-line format" /
+§"Model field") when parsing legacy archives. §"Tasknote body shape" and
+§"Model field" refer back here rather than restating.
+
 Every tasknote opens with a YAML frontmatter block carrying machine-parseable
-fields, followed by a Markdown body. The canonical schema lives in
-`templates/tasknote-template.md`.
-
-```yaml
----
-title: <one-line title>
-status: in-progress       # starter | not-started | in-progress | blocked | completed
-priority: High            # Critical | High | Medium | Low | Future Opportunities
-area: core                # lowercase area name (matches archive subfolder)
-tags: []                  # free-form list
-created: YYYY-MM-DD
-due:                      # optional deadline; empty when none
-related-tasks: []         # list of TASK-IDs (parent epic, predecessors, follow-ups)
----
-```
-
-The block sits above the H1 (`# <TASK-ID> | <title>`). The Goal sentence
-stays in the body as `**Goal:**` because it reads as prose, not as a tag.
-The phase checklists below the Goal are unchanged.
+fields, followed by a Markdown body. The canonical schema (with field
+comments) lives in `templates/tasknote-template.md`. Valid `status:` values:
+`starter | not-started | in-progress | blocked | completed`. Valid
+`priority:` values: `Critical | High | Medium | Low | Future Opportunities`.
 
 Flowtron itself does not parse this frontmatter — the field contract exists
 so adopting projects' tools (visualizers, dashboards, queries) can consume
 tasknote metadata without scraping the H1 line. Adopting projects can ignore
 the frontmatter and continue working as before.
-
-Archived tasknotes written before this convention landed are left as-is —
-they are write-once historical records.
-
-**v0.2.0 retired the `model:` field.** The model assignment moved to the
-PLAN.md task line (§"Task-line format" / §"Model field"). Legacy archived
-tasknotes that still carry `model:` parse fine — the field is silently
-ignored by the canonical viz parser; adopters' tools should do the same.
 
 ## Starter tasknotes
 
@@ -246,20 +203,10 @@ suspected files, drift hypotheses, and design decisions that would otherwise
 be lost or bloat the PLAN.md long description.
 
 A starter has the same YAML frontmatter as a standard tasknote but with
-`status: starter`. The body has a single `## 🌱 Starter context` section —
+`status: starter` and the optional `due:` / `related-tasks:` fields
+typically omitted. The body has a single `## 🌱 Starter context` section —
 **no** spec sections (🎯 Goal / ✅ Acceptance / 🧩 Subtasks / 🔗 Related),
 **no** phase scaffolding. Those are added at promotion.
-
-```yaml
----
-title: <one-line title>
-status: starter
-priority: <Critical|High|Medium|Low|Future Opportunities>
-area: <area>
-tags: []
-created: YYYY-MM-DD
----
-```
 
 ```markdown
 # <TASK-ID> | <title>
@@ -292,10 +239,6 @@ in `templates/tasknote-starter-template.md`.
    above a divider, then the four phase sections), and flips status to
    `in-progress`. The starter context informs the spec sections; it is not
    silently authoritative — Phase 1's drift check applies fully.
-
-Starters are filed **selectively** — most newly-discovered tasks stay
-PLAN.md-line-only. See §"When to use a tasknote (and when not to)" for the
-filing threshold.
 
 ## Tasknote body shape
 
@@ -346,8 +289,7 @@ remain the execution record.
 are first-class in markdown-vault tooling (Obsidian, Foam, Logseq) and stay
 cheap to write.
 
-**Backwards compatibility** — archived tasknotes from before this convention
-landed are left as-is, the same write-once policy as the frontmatter rollout.
+**Backwards compatibility** — see §"Tasknote frontmatter" write-once policy.
 Adopting projects pick up the new shape on their next flowtron version bump.
 
 ## The 4-phase workflow
@@ -365,19 +307,14 @@ Mandatory steps:
 - [ ] Asked clarifying questions OR logged "No clarifications needed" with explicit assumptions
 - [ ] Subtasks above populated with concrete, ordered steps
 
-The Relevance Assessment is non-negotiable. If `Re-scope`, update the task
-entry in PLAN.md and the tasknote header before continuing. If the Re-scope
-is because the work is blocked by an unfinished prerequisite, see §"Blocked
-tasks" for the entry path — add `Blocked by [[ID]]` to the PLAN.md long
-description and halt; do not flip the tasknote to `status: blocked` (that
-status is reserved for mid-Phase-2 parking). If `De-scope`, jump directly to
+The Relevance Assessment is non-negotiable. `Re-scope` updates the PLAN.md
+line and the tasknote header before continuing; if the re-scope is a
+blocked prerequisite, see §"Blocked tasks". `De-scope` jumps directly to
 Phase 4 closure with the de-scope rationale as the final summary.
 
-The drift check exists because the plan is a snapshot, not a spec. Adjacent
-work may have moved files, renamed symbols, or invalidated a hypothesis since
-the task was written. Do not silently "correct" the plan by executing a
-different task than was approved — flag the drift and confirm the path
-forward first.
+The drift check exists because PLAN.md is a snapshot, not a spec. Flag any
+drift and confirm the path forward — do not silently "correct" the plan by
+executing a different task than was approved.
 
 ### 🛠️ Phase 2: Execution
 
@@ -442,75 +379,41 @@ two signals independently — the canonical viz parser surfaces `Blocked by
 (regardless of tasknote presence), and the tasknote-level `status:` drives
 the row's status badge for rows that have a tasknote.
 
-### Entry: Phase 1 (Re-scope path)
+**Phase 1 entry (Re-scope path).** If Discovery surfaces a real-but-blocked
+prerequisite, the verdict is `Re-scope`: add `Blocked by [[ID]]` to the
+PLAN.md long description (canonical wikilink form, see §"Long-description
+conventions"), delete the just-scaffolded tasknote, and halt. `status:
+blocked` is reserved for mid-Phase-2 parking — a Phase 1 blocker has no
+Phase 2 work to preserve. The task re-enters when the blocker clears
+(remove the `Blocked by` clause; run `/task <ID>` afresh). Blockers reuse
+Re-scope rather than introducing a fourth Phase 1 verdict.
 
-If Phase 1 Discovery surfaces that the work is real but cannot start because
-a prerequisite isn't done, the verdict is **Re-scope**. The Re-scope action
-is:
+**Mid-Phase-2 parking.** If a hard dependency surfaces during Execution,
+park the tasknote: flip YAML `status:` from `in-progress` to `blocked`,
+flip the nav-header chip from `🟢 In progress` to `⏸ Blocked`, optionally
+add `Blocked by [[ID]]` to the PLAN.md line (recommended for viz
+visibility, not required — the two signals stay independent), and stop. Do
+not run Phase 3 or Phase 4. The tasknote sits at
+`_project/tasknote/<TASK-ID>.md` until the blocker clears.
 
-1. Edit the PLAN.md long description to include `Blocked by [[ID]]` in the
-   canonical wikilink form (see §"Long-description conventions").
-2. Delete the tasknote file scaffolded during this `/task` invocation —
-   `status: blocked` is reserved for mid-Phase-2 parking; a Phase 1 blocker
-   has no Phase 2 work to preserve. (If Discovery uncovered context worth
-   keeping, copy it into the PLAN.md long description before deleting.)
-3. Halt. The task re-enters the workflow when the blocker clears: remove the
-   `Blocked by [[ID]]` clause from the PLAN.md line, then run `/task <ID>`
-   afresh.
+**Parked state.** A blocked tasknote is paused, not closed — Phase 4 is
+reserved for actual completion (or a Phase 1 De-scope). The tasknote is not
+archived, the PLAN.md task line stays unchecked, and Phase 1 + partial
+Phase 2 work are preserved verbatim.
 
-Phase 1 keeps three verdicts (`Proceed | Re-scope | De-scope`); blockers
-reuse Re-scope rather than introducing a fourth.
-
-### Entry: mid-Phase-2 (parking)
-
-If Phase 2 Execution surfaces a hard dependency that wasn't visible at Phase
-1, the tasknote is **parked**:
-
-1. Flip YAML `status:` from `in-progress` to `blocked`.
-2. Flip the nav-header status chip from `🟢 In progress` to `⏸ Blocked` to
-   keep the duplicated chip in sync.
-3. Optionally add `Blocked by [[ID]]` to the PLAN.md long description so the
-   dependency is visible to viz on the row. Recommended but not required —
-   the two signals stay independent.
-4. Stop. Do not run Phase 3 or Phase 4. The tasknote sits at
-   `_project/tasknote/<TASK-ID>.md` until the blocker clears.
-
-### Parked state
-
-A blocked tasknote is **paused, not closed**. Phase 4 closure is reserved
-for actual completion (or a Phase 1 De-scope). While parked:
-
-- The tasknote is not archived.
-- The PLAN.md task line stays unchecked.
-- Phase 1 Discovery and partial Phase 2 work are preserved verbatim.
-- Re-running `/task <ID>` against a blocked tasknote enters the resume path
-  (see `claude/skills/task/SKILL.md`), not a fresh scaffold.
-
-### Exit: resume
-
-When the blocker clears:
-
-1. Drift-check the parked work — Phase 2 progress may rest on file paths or
-   symbols that have moved while the task was parked.
-2. Flip `status: blocked` back to `status: in-progress`.
-3. Flip the nav-header chip `⏸ Blocked` back to `🟢 In progress`.
-4. Optionally remove the `Blocked by [[ID]]` clause from the PLAN.md long
-   description (it has served its purpose; leaving it is also fine as
-   historical context, since the line stays unchecked until completion).
-5. Continue Phase 2 from where the parking note left off. Phase 1 is already
-   complete — do not re-run it.
+**Exit (resume).** Re-running `/task <ID>` against a blocked tasknote enters
+the resume path: drift-check the parked work first (Phase 2 progress may
+rest on symbols that moved while the task was parked), flip `status:
+blocked` → `in-progress`, flip the nav chip back to `🟢 In progress`,
+optionally remove the `Blocked by` clause from PLAN.md (or leave it as
+historical context), and continue Phase 2 from where parking left off.
+Phase 1 is already complete — do not re-run it.
 
 ### Viz interaction
 
-The two signals render independently:
-
-- PLAN-line `Blocked by [[ID]]` → `BlockerChip` on the row, regardless of
-  whether a tasknote exists.
-- Tasknote `status: blocked` → rose `Blocked` status badge, only on rows
-  with a tasknote.
-
-A row may show both, one, or neither, and each rendering is correct in its
-own layer. No enforcement is needed.
+Adopting projects' tools render `Blocked by [[ID]]` (PLAN-line signal) and
+tasknote `status: blocked` as independent signals; a row may show either,
+both, or neither, and each rendering is correct in its own layer.
 
 ## Post-closure protocol
 
@@ -627,9 +530,6 @@ When suggesting a next task, name the recommended model alongside the task
 ID — the model is part of the PLAN.md grammar, so it's already known without
 asking. Default to `opus` for design, multi-file changes, or ambiguity;
 reserve `sonnet` for mechanical work with a clear diff in mind.
-
-Pre-v0.2.0 tasknotes carried a YAML `model:` field; that field has been
-retired (see §"Tasknote frontmatter").
 
 ## Versioning
 
