@@ -73,41 +73,7 @@ Numbering: sequential within prefix. Decimals only for epic subtasks (e.g.,
 
 ## Epic lifecycle
 
-Some epics — particularly **code sweeps** and **major multi-child features** —
-benefit from bracketing their implementation children with two coordination
-tasks: an **opening Discovery** subtask that surveys the codebase and files
-the children, and a **closing Audit** subtask that verifies the completed
-work sits well in the codebase as a whole. The Discovery + Audit shape
-catches scoping misses up front and integration misses at the end. Simpler
-implementations don't need it — apply judgment.
-
-This is *epic-level* Discovery, distinct from the per-tasknote Phase 1
-Discovery (§"The 4-phase workflow"). Phase 1 Discovery scopes one task; an
-epic Discovery subtask scopes the whole epic and produces the child task
-list filed in PLAN.md.
-
-**Numbering convention.** Discovery is the first child (`<AREA>-<N>.1`);
-audit is the highest-numbered child at filing time. Both are normal
-subtasks — same grammar, same 4-phase tasknote, same model rules.
-
-**Lifecycle:**
-
-1. **File the epic** with a Discovery subtask (`.1`) and a placeholder Audit
-   subtask at the end. Implementation children may be empty at filing — the
-   Discovery subtask populates them.
-2. **Run Discovery** (`/task <ID>.1`). Deliverable: filed child entries in
-   PLAN.md, not code.
-3. **Run children** in order, normal flow.
-4. **Run Audit** (`/task <ID>.<final>`) once all implementation children are
-   closed. Final summary records findings even when nothing is wrong.
-5. **Audit follow-ups.** Misses surfaced by the audit get filed as `.<N+1>`
-   children. For a few small follow-ups, close the audit and execute them
-   as normal children. For many, also file a fresh Audit subtask at the new
-   highest number to cover the second wave.
-
-**Forward-looking.** Applies to new epics; existing in-flight epics need no
-migration. Apply judgment — simple multi-subtask implementations don't need
-the bracket.
+Canonical contract: see [`SPEC/epic.md`](SPEC/epic.md).
 
 ## Task-line format
 
@@ -196,49 +162,7 @@ the frontmatter and continue working as before.
 
 ## Starter tasknotes
 
-A **starter tasknote** is a lightweight, intentionally minimal tasknote shape
-for capturing rich AI-discovered context at task-filing time — when context
-exists but the task isn't ready to start. Starters preserve the rationale,
-suspected files, drift hypotheses, and design decisions that would otherwise
-be lost or bloat the PLAN.md long description.
-
-A starter has the same YAML frontmatter as a standard tasknote but with
-`status: starter` and the optional `due:` / `related-tasks:` fields
-typically omitted. The body has a single `## 🌱 Starter context` section —
-**no** spec sections (🎯 Goal / ✅ Acceptance / 🧩 Subtasks / 🔗 Related),
-**no** phase scaffolding. Those are added at promotion.
-
-```markdown
-# <TASK-ID> | <title>
-
-[← PLAN.md](../PLAN.md) · 🌱 Starter (filed YYYY-MM-DD)
-
-## 🌱 Starter context
-
-<rich context: rationale, solution shape, file survey, decisions,
-open questions for promotion, related tasks>
-```
-
-Sub-headings within `## 🌱 Starter context` (Why this exists / Solution shape /
-Files to touch / Decisions / Open at promotion / Related) are conventional
-but optional — drop any with nothing to capture. The canonical layout lives
-in `templates/tasknote-starter-template.md`.
-
-**Lifecycle:**
-
-1. **Filing** (mid-flow): when AI surfaces rich context that warrants
-   preserving, the `/starter-task <ID>` skill writes the starter file at
-   `_project/tasknote/<ID>.md` and appends the PLAN.md entry under the
-   appropriate priority section.
-2. **Sitting**: visualizers render a 🌱 chip on the row and exclude starters
-   from "in progress" counts.
-3. **Promotion** at `/task <ID>`: the `/task` skill detects `status: starter`,
-   drift-checks the captured context against current code (paths, line
-   numbers, function names cited in the starter may have moved), scaffolds
-   the rest of the template (🎯 Goal / ✅ Acceptance / 🧩 Subtasks / 🔗 Related
-   above a divider, then the four phase sections), and flips status to
-   `in-progress`. The starter context informs the spec sections; it is not
-   silently authoritative — Phase 1's drift check applies fully.
+Canonical contract: see [`SPEC/starter.md`](SPEC/starter.md).
 
 ## Tasknote body shape
 
@@ -371,56 +295,7 @@ the tasknote.
 
 ## Blocked tasks
 
-A task can be **blocked** at two distinct points in its lifecycle, and
-flowtron records each at a different layer. The two signals are independent
-— they describe different states and serve different consumers.
-
-| Signal | Layer | Means | Entered when |
-|---|---|---|---|
-| `Blocked by [[ID]]` in PLAN.md long description | PLAN-line | Filed task, dependency cited, not yet started | At filing time, or via Phase 1 Re-scope |
-| `status: blocked` in tasknote YAML frontmatter | Tasknote | Started and parked mid-execution | Mid-Phase-2 transition |
-
-A task may carry one, both, or neither. Adopting projects' tools render the
-two signals independently — the canonical viz parser surfaces `Blocked by
-[[ID]]` as a chip on every row whose long description names a blocker
-(regardless of tasknote presence), and the tasknote-level `status:` drives
-the row's status badge for rows that have a tasknote.
-
-**Phase 1 entry (Re-scope path).** If Discovery surfaces a real-but-blocked
-prerequisite, the verdict is `Re-scope`: add `Blocked by [[ID]]` to the
-PLAN.md long description (canonical wikilink form, see §"Long-description
-conventions"), delete the just-scaffolded tasknote, and halt. `status:
-blocked` is reserved for mid-Phase-2 parking — a Phase 1 blocker has no
-Phase 2 work to preserve. The task re-enters when the blocker clears
-(remove the `Blocked by` clause; run `/task <ID>` afresh). Blockers reuse
-Re-scope rather than introducing a fourth Phase 1 verdict.
-
-**Mid-Phase-2 parking.** If a hard dependency surfaces during Execution,
-park the tasknote: flip YAML `status:` from `in-progress` to `blocked`,
-flip the nav-header chip from `🟢 In progress` to `⏸ Blocked`, optionally
-add `Blocked by [[ID]]` to the PLAN.md line (recommended for viz
-visibility, not required — the two signals stay independent), and stop. Do
-not run Phase 3 or Phase 4. The tasknote sits at
-`_project/tasknote/<TASK-ID>.md` until the blocker clears.
-
-**Parked state.** A blocked tasknote is paused, not closed — Phase 4 is
-reserved for actual completion (or a Phase 1 De-scope). The tasknote is not
-archived, the PLAN.md task line stays unchecked, and Phase 1 + partial
-Phase 2 work are preserved verbatim.
-
-**Exit (resume).** Re-running `/task <ID>` against a blocked tasknote enters
-the resume path: drift-check the parked work first (Phase 2 progress may
-rest on symbols that moved while the task was parked), flip `status:
-blocked` → `in-progress`, flip the nav chip back to `🟢 In progress`,
-optionally remove the `Blocked by` clause from PLAN.md (or leave it as
-historical context), and continue Phase 2 from where parking left off.
-Phase 1 is already complete — do not re-run it.
-
-### Viz interaction
-
-Adopting projects' tools render `Blocked by [[ID]]` (PLAN-line signal) and
-tasknote `status: blocked` as independent signals; a row may show either,
-both, or neither, and each rendering is correct in its own layer.
+Canonical contract: see [`SPEC/blocked.md`](SPEC/blocked.md).
 
 ## Post-closure protocol
 
@@ -515,48 +390,11 @@ Future Opportunities), then by lowest incomplete `<AREA>-<NUMBER>` within that p
 
 ## Model field
 
-The model assignment (`opus` | `sonnet`) lives on the PLAN.md task line — the
-`[model]` segment of §"Task-line format". PLAN.md is the source of truth.
-
-`/task` reads the model BEFORE scaffolding (see `claude/skills/task/SKILL.md`
-Step 0.5):
-
-- Active model matches the PLAN.md `[model]` → proceed silently.
-- Active model differs → block and offer two paths: switch the active model
-  via `/model <X>` then re-invoke `/task`, or retag the PLAN.md line to the
-  active model and proceed. No silent overrides.
-- PLAN.md line has no `[model]` (legacy entry) → ask the user via
-  AskUserQuestion at `/task` entry, before any scaffolding work.
-
-A task runs end-to-end on a single model — no swapping mid-task between
-Discovery, Execution, Testing, or Closure. If scope grows and the tagged
-model no longer fits, retag the PLAN.md line and re-invoke; do not silently
-swap.
-
-When suggesting a next task, name the recommended model alongside the task
-ID — the model is part of the PLAN.md grammar, so it's already known without
-asking. Default to `opus` for design, multi-file changes, or ambiguity;
-reserve `sonnet` for mechanical work with a clear diff in mind.
+Canonical contract: see [`SPEC/model.md`](SPEC/model.md).
 
 ## Versioning
 
-Flowtron uses semver tags. Each tagged release is consumable by adopting
-projects via submodule checkout.
-
-- **Patch** (`v0.1.0` → `v0.1.1`) — clarifications, doc fixes, no project-side
-  changes needed.
-- **Minor** (`v0.1.x` → `v0.2.0`) — additive features (new optional fields,
-  new template sections). Adopting projects can ignore the new features and
-  continue working.
-- **Major** (`v0.x.y` → `v1.0.0`) — breaking change. The bump task's tasknote
-  and the annotated tag message list explicit migration steps. Adopting
-  projects must follow them when bumping.
-
-Each adopting project's `_project/tasknote/README.md` records the
-currently-pinned flowtron version. Bumping is a project-side task (e.g.,
-`CORE-XYZ: Bump flowtron to vX.Y.Z`) that runs the migration steps from the
-bump's annotated tag message (`git show vX.Y.Z` in the flowtron submodule)
-and commits the new submodule SHA.
+Canonical contract: see [`SPEC/versioning.md`](SPEC/versioning.md).
 
 ## What flowtron does NOT provide
 

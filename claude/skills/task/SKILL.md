@@ -15,16 +15,20 @@ Determine which repo you're in:
 
 - **Adopting project (typical):** `_project/flowtron/SPEC.md` exists. Use:
   - SPEC: `_project/flowtron/SPEC.md`
+  - SPEC_DIR (lazy modules): `_project/flowtron/SPEC/`
   - Template: `_project/flowtron/templates/tasknote-template.md`
   - PLAN: `_project/PLAN.md`
   - Tasknote dir: `_project/tasknote/`
 - **Flowtron itself (self-hosted):** repo-root `SPEC.md` exists with the heading `# Flowtron — Workflow Specification`. Use:
   - SPEC: `SPEC.md`
+  - SPEC_DIR (lazy modules): `SPEC/`
   - Template: `templates/tasknote-template.md`
   - PLAN: `_project/PLAN.md`
   - Tasknote dir: `_project/tasknote/`
 
 If neither layout matches, stop and tell the user this directory doesn't look like a flowtron-using project.
+
+`SPEC.md` is the always-loaded core. `SPEC_DIR/` holds lazy modules (`epic.md`, `starter.md`, `blocked.md`, `model.md`, `versioning.md`) — load each only when the relevant branch fires (Step 1.5 model-gate, Step 2 epic-ID prefix, Step 3a / 3c, Step 5 parking). Each subsequent step names the module to read explicitly.
 
 ## Step 1 — Locate the task in PLAN.md
 
@@ -62,19 +66,20 @@ The model decision is made at filing time on the PLAN.md task line, not at scaff
 Three cases (decide via the `[model]` segment captured in Step 1):
 
 - **PLAN.md `[model]` matches the active model** → proceed silently to Step 2.
-- **PLAN.md `[model]` differs from the active model** → STOP. Surface the mismatch and offer two paths via AskUserQuestion:
+- **PLAN.md `[model]` differs from the active model** → STOP. Read `<SPEC_DIR>/model.md` for the full contract, then surface the mismatch and offer two paths via AskUserQuestion:
   1. "Switch active model: I'll stop. Run `/model <PLAN-model>` then re-invoke `/task <TASK-ID>`." (recommended — preserves the filed assignment)
   2. "Retag the PLAN.md line to `<active-model>` and proceed." If chosen, edit the PLAN.md line's `[model]` segment in place, then proceed to Step 2.
   Do not silently override.
-- **PLAN.md `[model]` is absent (legacy entry, no `[model]` on the line)** → ask the user via AskUserQuestion to choose `opus` or `sonnet` (default recommendation: `opus` for design / multi-file / ambiguous work; `sonnet` for mechanical work with a clear diff in mind). Then write `[<chosen>]` into the PLAN.md line in place (insert immediately after `**TASK-ID**`), then proceed to Step 2. The next time `/task` runs against this line, no question is asked.
+- **PLAN.md `[model]` is absent (legacy entry, no `[model]` on the line)** → Read `<SPEC_DIR>/model.md` for the full contract, then ask the user via AskUserQuestion to choose `opus` or `sonnet` (default recommendation: `opus` for design / multi-file / ambiguous work; `sonnet` for mechanical work with a clear diff in mind). Then write `[<chosen>]` into the PLAN.md line in place (insert immediately after `**TASK-ID**`), then proceed to Step 2. The next time `/task` runs against this line, no question is asked.
 
-The active model is whatever the assistant is currently running as (visible in the runtime; if uncertain, ask the user). See SPEC §"Model field" for the full contract.
+The active model is whatever the assistant is currently running as (visible in the runtime; if uncertain, ask the user).
 
 ## Step 2 — Pre-flight checks & file-state branch
 
 - Resolve the **Area** from the ID prefix using SPEC §"Task ID convention":
   - `CORE-` → core, `BE-` → backend, `FE-` → frontend, `DB-` → database, `DEPLOY-` → deployment, `TEST-` → testing
   - Unknown prefix: read `_project/tasknote/README.md` for project-specific prefixes. If still unresolved, stop and ask.
+- **Epic-ID dispatch.** If the TASK-ID is `<AREA>-EPIC-<N>` (parent epic) or `<AREA>-<N>.<sub>` (epic subtask), Read `<SPEC_DIR>/epic.md` for the lifecycle contract before continuing. Plain `<AREA>-<N>` IDs do not load this module.
 - If `_project/tasknote/archive/<area>/<TASK-ID>.md` already exists: stop. The task is already closed and archived. Surface the conflict and ask whether the user meant a different task ID — do not scaffold a duplicate.
 - Check `_project/tasknote/<TASK-ID>.md`. **Four-way branch on the file's YAML `status:`:**
   - **`status: starter`** — starter tasknote awaiting promotion. Continue at **Step 3a (Promote a starter)**.
@@ -84,7 +89,7 @@ The active model is whatever the assistant is currently running as (visible in t
 
 ## Step 3a — Promote a starter (existing file with `status: starter`)
 
-The starter file already carries frontmatter and a `## 🌱 Starter context` body section captured at filing time. Promotion converts it into a full tasknote in place. See SPEC §"Starter tasknotes" for the lifecycle.
+Read `<SPEC_DIR>/starter.md` for the full lifecycle contract before proceeding. The starter file already carries frontmatter and a `## 🌱 Starter context` body section captured at filing time. Promotion converts it into a full tasknote in place.
 
 1. **Drift-check the captured context.** Read each path, line number, function name, and root-cause hypothesis cited in `## 🌱 Starter context` against current code. If anything has moved or been renamed since the starter was filed, surface the drift to the user before re-interpreting the task. Do not silently "correct" the seed.
 2. **Update YAML frontmatter** in place:
@@ -125,7 +130,7 @@ Copy the template (path resolved in Step 0) to `_project/tasknote/<TASK-ID>.md`.
 
 ## Step 3c — Resume a blocked tasknote (existing file with `status: blocked`)
 
-The blocked file already carries frontmatter, the spec sections (🎯 Goal / ✅ Acceptance / 🧩 Subtasks / 🔗 Related), and partial Phase 2 progress captured before the parking event. Resume re-activates it in place. See SPEC §"Blocked tasks" for the full lifecycle.
+Read `<SPEC_DIR>/blocked.md` for the full lifecycle contract before proceeding. The blocked file already carries frontmatter, the spec sections (🎯 Goal / ✅ Acceptance / 🧩 Subtasks / 🔗 Related), and partial Phase 2 progress captured before the parking event. Resume re-activates it in place.
 
 1. **Drift-check the parked work.** Read each path, line number, function name, and pattern citation in the existing Discovery / Execution notes against current code. Phase 2 progress may rest on symbols that moved while the task was parked. Surface any drift to the user before re-entering execution.
 2. **Update YAML frontmatter** in place: `status: blocked` → `status: in-progress`.
@@ -135,7 +140,7 @@ The blocked file already carries frontmatter, the spec sections (🎯 Goal / ✅
 
 ## Step 4 — Phase 1: Discovery (drive now)
 
-Work through the Phase 1 checklist per SPEC §"📝 Phase 1: Discovery". Re-scope and De-scope behavior (including the blocked-subset path that defers to §"Blocked tasks") is canonical there.
+Work through the Phase 1 checklist per SPEC §"📝 Phase 1: Discovery". Re-scope and De-scope behavior is canonical there; the Re-scope-to-blocked path defers to `<SPEC_DIR>/blocked.md` (Read it if Discovery surfaces a real-but-blocked prerequisite).
 
 Skill-specific imperatives on top of the SPEC contract:
 
@@ -150,7 +155,7 @@ Skill-specific imperatives on top of the SPEC contract:
 
 Continue with the user through:
 
-- **Phase 2: Execution** — pattern survey first (look at sibling modules / parallel components for an existing shape to extend; justify a new shape if none fits), then minimal implementation, then targeted tests on changed files. Tick boxes as you go. **If a hard dependency surfaces mid-execution**, park the tasknote per SPEC §"Blocked tasks" — flip `status: blocked`, update the nav header to `⏸ Blocked`, and stop. The next `/task <ID>` invocation enters the resume path (Step 3c) automatically.
+- **Phase 2: Execution** — pattern survey first (look at sibling modules / parallel components for an existing shape to extend; justify a new shape if none fits), then minimal implementation, then targeted tests on changed files. Tick boxes as you go. **If a hard dependency surfaces mid-execution**, Read `<SPEC_DIR>/blocked.md` and park the tasknote per its contract — flip `status: blocked`, update the nav header to `⏸ Blocked`, and stop. The next `/task <ID>` invocation enters the resume path (Step 3c) automatically.
 - **Phase 3: Testing & Linting** — targeted tests, lint/type-check on changed code, visual confirmation for frontend changes, fix everything you introduced. Run the full suite only for broad/cross-cutting changes.
 - **Phase 4: Closure** — verify prior phases, update affected docs/inventories, flip the PLAN.md line to `[x] **<TASK-ID>** — <description>. Completed YYYY-MM-DD.` (move it to the `Completed` section), move the tasknote to `_project/tasknote/archive/<area>/<TASK-ID>.md`, and recap to the user. The recap = brief summary of what changed and key decisions, plus an optional verification request (one concrete thing for the user to check). Wait for confirmation.
 
@@ -167,6 +172,6 @@ Skill-specific orchestration on top of the SPEC contract:
 
 ## Notes
 
-- **Sub-tasks of an epic** (`<AREA>-<NUMBER>.<SUB>`) follow the same flow. The parent epic line in PLAN.md is not flipped to complete until all children are. For code-sweep / multi-child feature epics, the first subtask (`.1`) is typically a **Discovery** task — its deliverable is the filed child task list in PLAN.md, not code — and the final subtask is an **Audit** task that verifies the completed epic sits well in the codebase. See SPEC §"Epic lifecycle".
+- **Sub-tasks of an epic** (`<AREA>-<NUMBER>.<SUB>`) follow the same flow. The parent epic line in PLAN.md is not flipped to complete until all children are. For code-sweep / multi-child feature epics, the first subtask (`.1`) is typically a **Discovery** task — its deliverable is the filed child task list in PLAN.md, not code — and the final subtask is an **Audit** task that verifies the completed epic sits well in the codebase. Full lifecycle in `<SPEC_DIR>/epic.md` (loaded at Step 2 for epic IDs).
 - **Skip-the-tasknote cases** (single-line typo, formatting tweak, ~10-line doc patch, trivial config edit) — see SPEC §"When to use a tasknote (and when not to)". For these, decline to scaffold and tell the user to make the edit directly.
 - **Date format:** always use `YYYY-MM-DD` for `Completed` and `Archived` fields.

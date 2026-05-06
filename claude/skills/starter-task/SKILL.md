@@ -1,11 +1,11 @@
 ---
 name: starter-task
-description: File a starter tasknote for a task discovered mid-flow with rich AI-captured context that isn't ready to start. Invoke with the task ID as args (e.g., args="CORE-028"). Writes _project/tasknote/<ID>.md from templates/tasknote-starter-template.md, appends the PLAN.md entry, and hands off without committing. See SPEC §"Starter tasknotes" for when to file.
+description: File a starter tasknote for a task discovered mid-flow with rich AI-captured context that isn't ready to start. Invoke with the task ID as args (e.g., args="CORE-028"). Writes _project/tasknote/<ID>.md from templates/tasknote-starter-template.md, appends the PLAN.md entry, and hands off without committing. See SPEC/starter.md for when to file.
 ---
 
 # starter-task — flowtron starter filer
 
-You are filing a **starter tasknote** for the task ID provided in `args`. The full lifecycle contract lives in flowtron's `SPEC.md` §"Starter tasknotes" — this skill is the executable interpretation, not a replacement. Treat SPEC.md as authoritative when this file is silent or in tension.
+You are filing a **starter tasknote** for the task ID provided in `args`. The full lifecycle contract lives in `<SPEC_DIR>/starter.md` (resolve `SPEC_DIR` via Step 0); Read it before drafting the body. This skill is the executable interpretation, not a replacement — treat the SPEC module as authoritative when this file is silent or in tension.
 
 A starter tasknote captures rich AI-discovered context (rationale, suspected files, design decisions, open questions) at filing time, without bloating the PLAN.md long description. The starter sits at `status: starter` until `/task <ID>` checkout promotes it into a full tasknote.
 
@@ -19,16 +19,20 @@ Determine which repo you're in:
 
 - **Adopting project (typical):** `_project/flowtron/SPEC.md` exists. Use:
   - SPEC: `_project/flowtron/SPEC.md`
+  - SPEC_DIR (lazy modules): `_project/flowtron/SPEC/`
   - Starter template: `_project/flowtron/templates/tasknote-starter-template.md`
   - PLAN: `_project/PLAN.md`
   - Tasknote dir: `_project/tasknote/`
 - **Flowtron itself (self-hosted):** repo-root `SPEC.md` exists with the heading `# Flowtron — Workflow Specification`. Use:
   - SPEC: `SPEC.md`
+  - SPEC_DIR (lazy modules): `SPEC/`
   - Starter template: `templates/tasknote-starter-template.md`
   - PLAN: `_project/PLAN.md`
   - Tasknote dir: `_project/tasknote/`
 
 If neither layout matches, stop and tell the user this directory doesn't look like a flowtron-using project.
+
+After resolving paths, Read `<SPEC_DIR>/starter.md` for the canonical starter lifecycle before drafting the body.
 
 ## Step 1 — Pre-flight checks
 
@@ -118,7 +122,7 @@ Surface to the user, in one short message:
 
 - Starter filed at `_project/tasknote/<TASK-ID>.md`.
 - PLAN.md entry appended under `## <Priority>` with model `<opus|sonnet>`.
-- The starter sits until `/task <TASK-ID>` is invoked — that promotion will drift-check the captured context against current code and scaffold the rest of the tasknote (see SPEC §"Starter tasknotes" lifecycle).
+- The starter sits until `/task <TASK-ID>` is invoked — that promotion will drift-check the captured context against current code and scaffold the rest of the tasknote (see `<SPEC_DIR>/starter.md` lifecycle).
 
 Do **not** commit unprompted. The new starter file + PLAN.md flip are typically bundled into whatever commit the conversation produces (if any) or left for the user to handle. If the user asks for a commit, the message format is `chore: file <TASK-ID> starter — <shortname>`.
 
