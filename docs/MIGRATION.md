@@ -82,7 +82,7 @@ cp _project/flowtron/templates/tasknote-README.md _project/tasknote/README.md
 
 Declare any project-specific area prefixes. Replace the "Project quick commands" section with the actual test/lint/dev commands for your project.
 
-The README also describes the current tasknote shape: YAML frontmatter (`title`, `status`, `priority`, `area`, `model`, `tags`, `created`, `due`, `related-tasks`) and a spec-on-top + log-below body (`Goal` / `Acceptance` / `Subtasks` / `Related` above a divider, then the four phase sections below). The `/task` skill scaffolds this shape automatically; see `_project/flowtron/templates/tasknote-template.md` for the canonical layout.
+The README also describes the current tasknote shape: YAML frontmatter (`title`, `status`, `tags`, `created`, `due`, `related-tasks`) and a spec-on-top + log-below body (`Goal` / `Acceptance` / `Subtasks` / `Related` above a divider, then the four phase sections below). The `/task` skill scaffolds this shape automatically; see `_project/flowtron/templates/tasknote-template.md` for the canonical layout.
 
 ### 1.6 Commit
 

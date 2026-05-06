@@ -1,8 +1,6 @@
 ---
 title: Task Title
 status: not-started
-priority: Medium
-area: core
 tags: []
 created: YYYY-MM-DD
 due:

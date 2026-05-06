@@ -1,8 +1,6 @@
 ---
 title: One-line title
 status: starter
-priority: Medium
-area: core
 tags: []
 created: YYYY-MM-DD
 ---

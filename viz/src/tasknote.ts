@@ -1,13 +1,10 @@
 import matter from 'gray-matter';
-import type { Priority } from './parser';
 
 export type TasknoteStatus = 'starter' | 'not-started' | 'in-progress' | 'blocked' | 'completed';
 
 export interface TasknoteFrontmatter {
   title: string;
   status: TasknoteStatus;
-  priority: Priority;
-  area: string;
   tags: string[];
   created: string;
   due?: string;
@@ -60,19 +57,15 @@ export function parseFrontmatter(raw: unknown): TasknoteFrontmatter | null {
 
   const title = asString(data.title);
   const status = asString(data.status);
-  const priority = asString(data.priority);
-  const area = asString(data.area);
   const created = asString(data.created);
   const due = asString(data.due);
 
-  if (!title || !status || !priority || !area || !created) return null;
+  if (!title || !status || !created) return null;
   if (!STATUS_VALUES.has(status as TasknoteStatus)) return null;
 
   return {
     title,
     status: status as TasknoteStatus,
-    priority: priority as Priority,
-    area,
     tags: asStringArray(data.tags),
     created,
     due: due && due.length > 0 ? due : undefined,

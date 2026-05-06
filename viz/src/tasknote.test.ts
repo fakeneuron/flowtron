@@ -19,8 +19,7 @@ describe('parseFrontmatter', () => {
       parseFrontmatter({
         title: 'X',
         status: 'in-progress',
-        priority: 'High',
-        // area and created missing
+        // created missing
       }),
     ).toBeNull();
   });
@@ -29,8 +28,6 @@ describe('parseFrontmatter', () => {
     const fm = parseFrontmatter({
       title: 'Test task',
       status: 'in-progress',
-      priority: 'Medium',
-      area: 'frontend',
       tags: ['ui', 'parser'],
       created: '2026-05-01',
       due: '2026-05-15',
@@ -39,8 +36,6 @@ describe('parseFrontmatter', () => {
     expect(fm).toEqual({
       title: 'Test task',
       status: 'in-progress',
-      priority: 'Medium',
-      area: 'frontend',
       tags: ['ui', 'parser'],
       created: '2026-05-01',
       due: '2026-05-15',
@@ -52,8 +47,6 @@ describe('parseFrontmatter', () => {
     const fm = parseFrontmatter({
       title: 'Test',
       status: 'not-started',
-      priority: 'Low',
-      area: 'core',
       created: '2026-05-01',
     });
     expect(fm).not.toBeNull();
@@ -67,8 +60,6 @@ describe('parseFrontmatter', () => {
       parseFrontmatter({
         title: 'X',
         status: 'bogus',
-        priority: 'Medium',
-        area: 'core',
         created: '2026-05-01',
       }),
     ).toBeNull();
@@ -78,8 +69,6 @@ describe('parseFrontmatter', () => {
     const fm = parseFrontmatter({
       title: 'A starter',
       status: 'starter',
-      priority: 'Medium',
-      area: 'core',
       created: '2026-05-03',
     });
     expect(fm).not.toBeNull();
@@ -90,14 +79,26 @@ describe('parseFrontmatter', () => {
     const fm = parseFrontmatter({
       title: 'Old',
       status: 'completed',
-      priority: 'High',
-      area: 'core',
       model: 'opus',
       created: '2026-04-30',
     });
     expect(fm).not.toBeNull();
     expect(fm?.title).toBe('Old');
     expect((fm as unknown as { model?: string }).model).toBeUndefined();
+  });
+
+  it('tolerates legacy `priority:` and `area:` fields on archived tasknotes (ignored, not rejected)', () => {
+    const fm = parseFrontmatter({
+      title: 'Old with retired frontmatter fields',
+      status: 'completed',
+      priority: 'High',
+      area: 'core',
+      created: '2026-04-30',
+    });
+    expect(fm).not.toBeNull();
+    expect(fm?.title).toBe('Old with retired frontmatter fields');
+    expect((fm as unknown as { priority?: string }).priority).toBeUndefined();
+    expect((fm as unknown as { area?: string }).area).toBeUndefined();
   });
 });
 
@@ -225,8 +226,6 @@ describe('parseTasknote', () => {
     const text = `---
 title: Demo
 status: in-progress
-priority: High
-area: frontend
 tags: [a, b]
 created: 2026-05-01
 due:
@@ -343,8 +342,6 @@ Body
     const text = `---
 title: Demo starter
 status: starter
-priority: Medium
-area: frontend
 tags: []
 created: 2026-05-03
 ---

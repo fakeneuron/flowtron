@@ -19,7 +19,7 @@ export const TaskDetail: React.FC<{
   navigateToTask: (id: string) => void;
 }> = ({ task, tasknote, navigateToTask }) => {
   const isStarter = tasknote?.frontmatter?.status === 'starter';
-  const priority = tasknote?.frontmatter?.priority;
+  const priority = tasknote ? task.priority : undefined;
   const showMetaHeader = priority || (task.completed && task.completedDate) || tasknote;
   return (
     <div className="border-t border-slate-100 bg-slate-50/40 px-3 py-2 text-xs text-slate-700">

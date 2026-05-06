@@ -1,8 +1,6 @@
 ---
 title: PLAN.md Completed section archive strategy
 status: starter
-priority: Future Opportunities
-area: core
 tags: []
 created: 2026-05-05
 ---

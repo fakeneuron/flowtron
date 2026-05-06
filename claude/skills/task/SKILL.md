@@ -121,8 +121,6 @@ Copy the template (path resolved in Step 0) to `_project/tasknote/<TASK-ID>.md`.
 
 - `title:` — prefer the PLAN.md `| shortname` (Step 1) when present; otherwise derive from the long description.
 - `status:` — `in-progress`.
-- `priority:` — the section heading from Step 1, title-case.
-- `area:` — resolved in Step 2, lowercase.
 - `created:` — today's date.
 - `related-tasks:` — from PLAN.md if the line cites parent epics, predecessors, or follow-ups; otherwise `[]`.
 

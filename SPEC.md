@@ -144,16 +144,17 @@ Examples:
 **Write-once policy.** Archived tasknotes are historical records — not
 retroactively edited when the spec evolves. Frontmatter and body
 conventions apply to new tasknotes only; legacy archives stay as-is. Tools
-should silently accept and ignore retired fields (e.g., the v0.2.0 `model:`
-field, since moved to the PLAN.md task line — see §"Task-line format" /
-§"Model field") when parsing legacy archives. §"Tasknote body shape" and
+should silently accept and ignore retired fields (the v0.2.0 `model:` field
+since moved to the PLAN.md task line — see §"Task-line format" /
+§"Model field"; and the v0.8.0 `priority:` and `area:` fields, both
+derivable from the PLAN.md section heading and the task ID prefix
+respectively) when parsing legacy archives. §"Tasknote body shape" and
 §"Model field" refer back here rather than restating.
 
 Every tasknote opens with a YAML frontmatter block carrying machine-parseable
 fields, followed by a Markdown body. The canonical schema (with field
 comments) lives in `templates/tasknote-template.md`. Valid `status:` values:
-`starter | not-started | in-progress | blocked | completed`. Valid
-`priority:` values: `Critical | High | Medium | Low | Future Opportunities`.
+`starter | not-started | in-progress | blocked | completed`.
 
 Flowtron itself does not parse this frontmatter — the field contract exists
 so adopting projects' tools (visualizers, dashboards, queries) can consume

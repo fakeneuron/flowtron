@@ -46,8 +46,8 @@ truth — but two of its choices happen to fit Obsidian natively:
 
 - The `[[TASK-ID]]` cross-references in tasknote bodies are Obsidian's
   native wikilink syntax (clickable links + surfaced in the graph view).
-- The YAML frontmatter on every tasknote (`status`, `priority`, `area`,
-  `tags`, `due`, `related-tasks`) is exactly what the
+- The YAML frontmatter on every tasknote (`status`, `tags`, `due`,
+  `related-tasks`) is exactly what the
   [Dataview](https://blacksmithgu.github.io/obsidian-dataview/) plugin
   queries.
 
@@ -58,10 +58,10 @@ open tasks:
 
 ````
 ```dataview
-TABLE status, priority, area
+TABLE status, due
 FROM "_project/tasknote"
 WHERE status != "completed"
-SORT priority
+SORT due
 ```
 ````
 

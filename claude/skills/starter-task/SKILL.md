@@ -86,8 +86,6 @@ In `_project/tasknote/<TASK-ID>.md`:
 - Fill YAML frontmatter from Step 2 inputs:
   - `title:` — the shortname from Step 2
   - `status: starter` (already correct from template)
-  - `priority:` — from Step 2 (title-case)
-  - `area:` — resolved in Step 1 (lowercase)
   - `tags:`, `due:`, `related-tasks:` — from Step 2
   - `created:` — today's date in `YYYY-MM-DD`
 - Replace the H1 with `# <TASK-ID> | <title>` (matching frontmatter `title:`)
