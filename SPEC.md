@@ -1,6 +1,6 @@
 # Flowtron — Workflow Specification
 
-**Version:** v0.6.2
+**Version:** v0.7.0
 **Status:** Stable
 
 ## What is Flowtron
@@ -303,6 +303,7 @@ Mandatory steps:
 - [ ] Reviewed the task entry in PLAN.md
 - [ ] **Relevance Assessment** — `Proceed` / `Re-scope` / `De-scope` with one-line rationale
 - [ ] Read relevant source files
+- [ ] **Archive skim** — surface prior decisions on the same files / area by skimming `_project/tasknote/archive/<area>/` for tasknotes that touched the source paths in scope; log relevant findings in Discovery Notes before re-interpreting the task
 - [ ] **Drift check** — verify file paths, line numbers, function names, and root-cause hypotheses cited in the task description still match current code; surface any drift to the user before re-interpreting the task
 - [ ] Asked clarifying questions OR logged "No clarifications needed" with explicit assumptions
 - [ ] Subtasks above populated with concrete, ordered steps
@@ -311,6 +312,12 @@ The Relevance Assessment is non-negotiable. `Re-scope` updates the PLAN.md
 line and the tasknote header before continuing; if the re-scope is a
 blocked prerequisite, see §"Blocked tasks". `De-scope` jumps directly to
 Phase 4 closure with the de-scope rationale as the final summary.
+
+The archive skim exists because prior tasknotes often record decisions and
+historical context (file rename trails, regression notes, design
+rationales, hardlink discoveries) that bear on the current task but live
+nowhere else. The cost is trivial when `archive/<area>/` is empty or
+small; the payoff scales as it matures.
 
 The drift check exists because PLAN.md is a snapshot, not a spec. Flag any
 drift and confirm the path forward — do not silently "correct" the plan by

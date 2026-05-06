@@ -140,6 +140,7 @@ Skill-specific imperatives on top of the SPEC contract:
 
 - Tick boxes in the tasknote as you complete them.
 - The first checklist item (Reviewed PLAN.md) is already done in Step 1 of this skill.
+- For the Archive skim step: `ls _project/tasknote/archive/<area>/` to enumerate, then for each source path in scope run `grep -l <path> _project/tasknote/archive/<area>/*.md`. Read the hits and log anything load-bearing in Discovery Notes (file moves, regressions, design decisions, hardlink notes, etc.). If `archive/<area>/` is empty or absent, log "no prior tasknotes" and tick the box.
 - For the Clarifying questions step: use AskUserQuestion for anything genuinely ambiguous. If nothing is ambiguous, write `No clarifications needed` in the tasknote with the explicit assumptions.
 - For the "populate Subtasks" step: fill the tasknote's `## 🧩 Subtasks` checklist with concrete, ordered steps.
 - Do not enter Phase 2 until every Phase 1 box is ticked.
