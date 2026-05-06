@@ -19,6 +19,9 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
+- [ ] **CORE-EPIC-042** [opus] | workflow architecture rethink — Lazy-load SPEC into core + modules; question 4-phase rigidity (micro-tasknote shape + phase consolidation); audit frontmatter/status duplication. Filed prophylactically per [[CORE-037]] follow-on; rich context in [[CORE-042.1]] starter.
+  - [ ] **CORE-042.1** [opus] | discovery — Survey current load shape, propose module split + workflow shape options, scope and file implementation children. (starter)
+  - [ ] **CORE-042.2** [opus] | audit — Verify the new architecture: load actually shrunk, adopters can still adopt cleanly, contracts still discoverable. Will renumber to highest after Discovery files implementation children.
 - [ ] **CORE-016** [opus] | InvisiPaw migration — Execute InvisiPaw migration per [[CORE-008]] playbook. Blocked by [[CORE-008]] — do not start until user signals InvisiPaw backlog is cleared. Scope: flowtron wiring + plan-file collapse + active-task-ID rename. Out of scope: renaming the 15 in-flight tasknote files (deferred further).
 - [ ] **FE-009** [opus] | viz dark mode — `tailwind.config.ts` extends nothing; no `dark:` variants anywhere. Add a dark theme + toggle (system-preference default + manual override persisted to localStorage). Builds on [[FE-007]].
 - [ ] **FE-010** [opus] | viz keyboard nav — Add shortcuts: `/` focuses search, `j/k` arrow-nav rows, `Enter` expands, `r` refreshes, `Esc` collapses detail / clears filters. Builds on [[FE-007]].
