@@ -104,6 +104,14 @@ Placement:
 - If the section carries a `(none — ...)` placeholder, replace the placeholder with the new entry.
 - Update PLAN.md's `**Last updated:**` line if it has one — `YYYY-MM-DD (<TASK-ID> filed with starter — <shortname>)`.
 
+**Threshold check (filing discipline).** Word-count the long description (everything after `— `, excluding the trailing `Filed with starter at ...` pointer). Apply SPEC §"PLAN.md filing-discipline thresholds":
+
+- **≤50 words** — proceed.
+- **51-70 words** — surface the count to the user and trim before writing; the rich context belongs in the starter body, not on the line.
+- **>70 words** — must trim. If the user insists on the long form, document the override rationale in the starter body's `## 🌱 Starter context` (a short "Why the line couldn't be trimmed" sub-heading) before writing. Do not silently breach the cap.
+
+The starter body is the canonical home for rationale, file surveys, decisions, and open questions — moving content there is the point of `/starter-task`.
+
 ## Step 6 — Hand off
 
 Surface to the user, in one short message:

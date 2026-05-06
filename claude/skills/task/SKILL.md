@@ -46,6 +46,15 @@ Otherwise, capture:
 
 The full task-line grammar is `- [ ] **TASK-ID** [model] | shortname — long description`; both `[model]` and `| shortname` are optional. See SPEC §"Task-line format" for the canonical grammar.
 
+**Filing-discipline check (advisory).** Word-count the captured long description (after `— `). If it exceeds the 70-word hard cap from SPEC §"PLAN.md filing-discipline thresholds", surface a one-line warning to the user:
+
+```
+⚠️ PLAN.md description is <N> words (>70w cap). Should this have been filed
+   as a starter? Proceeding with the existing line.
+```
+
+Informational only — do not block scaffolding; the task is already filed and reworking the filing now is too late. The warning nudges future filings.
+
 ## Step 1.5 — Model gate (BEFORE scaffolding)
 
 The model decision is made at filing time on the PLAN.md task line, not at scaffold time. Gate on it now, before reading source files or synthesizing the tasknote body — heavy thinking should never run on the wrong model.

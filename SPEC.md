@@ -1,6 +1,6 @@
 # Flowtron — Workflow Specification
 
-**Version:** v0.6.0
+**Version:** v0.6.1
 **Status:** Stable
 
 ## What is Flowtron
@@ -555,17 +555,40 @@ After a tasknote is archived and confirmed, the assistant must:
 
 **File a starter (`/starter-task <ID>`) when:**
 
+- The PLAN.md long description would exceed **~50 words (target) or 70 words (hard cap)** — richer context belongs in the starter body, not on the line
 - A task is discovered mid-flow with rich context (rationale, design decisions, file survey, open questions) but isn't ready to start now
 - The captured context would be lost or would bloat the PLAN.md long description if recorded as inline prose
 - The right shape isn't fully obvious; the AI wants to preserve the survey and open questions for resolution at `/task` checkout
 
 **Skip the starter (just add a one-line PLAN.md entry) when:**
 
+- The long description fits inside ~50 words (a scannable one-liner)
 - The task is straightforward enough that the long description suffices
 - No design decisions or file survey work has been done yet
 - The next available `/task <ID>` slot is the user's natural next move (file it, then start it; no sitting time)
 
 When in doubt, write the tasknote. The Discovery phase pays for itself.
+
+### PLAN.md filing-discipline thresholds
+
+Active PLAN.md long descriptions (everything after `— ` on the task line)
+are subject to a hard word budget — the index reads cleanly only when each
+line stays scannable, and rich context routes into starter bodies:
+
+| Range | Status | Action |
+|---|---|---|
+| ≤50 words | Target — comfortably scannable | Keep the one-liner |
+| 51-70 words | Yellow flag | Trim if practical; otherwise consider promoting to a starter |
+| >70 words | Hard cap — exceeded | Move the rich context into a starter body via `/starter-task <ID>`; PLAN.md line keeps a ≤50w summary |
+
+The thresholds apply to **active** task lines (`Critical` / `High` /
+`Medium` / `Low` / `Future Opportunities`). Lines under `## Completed`
+record archived task summaries and are out of scope here (they have their
+own archive-strategy track — see CORE-036).
+
+`/starter-task` (filing time) and `/task` (scaffold/promote time) flag
+filings that breach the cap — see the respective skill files for the
+mechanism.
 
 ## Priority levels
 
