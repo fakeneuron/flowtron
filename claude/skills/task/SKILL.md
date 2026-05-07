@@ -15,20 +15,27 @@ Determine which repo you're in:
 
 - **Adopting project (typical):** `_project/flowtron/SPEC.md` exists. Use:
   - SPEC: `_project/flowtron/SPEC.md`
-  - SPEC_DIR (lazy modules): `_project/flowtron/SPEC/`
+  - SPEC_DIR (lazy SPEC modules): `_project/flowtron/SPEC/`
+  - SKILL_DIR (lazy SKILL fragments): `_project/flowtron/claude/skills/task/`
   - Template: `_project/flowtron/templates/tasknote-template.md`
   - PLAN: `_project/PLAN.md`
   - Tasknote dir: `_project/tasknote/`
 - **Flowtron itself (self-hosted):** repo-root `SPEC.md` exists with the heading `# Flowtron — Workflow Specification`. Use:
   - SPEC: `SPEC.md`
-  - SPEC_DIR (lazy modules): `SPEC/`
+  - SPEC_DIR (lazy SPEC modules): `SPEC/`
+  - SKILL_DIR (lazy SKILL fragments): `claude/skills/task/`
   - Template: `templates/tasknote-template.md`
   - PLAN: `_project/PLAN.md`
   - Tasknote dir: `_project/tasknote/`
 
 If neither layout matches, stop and tell the user this directory doesn't look like a flowtron-using project.
 
-`SPEC.md` is the always-loaded core. `SPEC_DIR/` holds lazy modules (`epic.md`, `starter.md`, `blocked.md`, `model.md`, `versioning.md`) — load each only when the relevant branch fires (Step 1.5 model-gate, Step 2 epic-ID prefix, Step 3a / 3c, Step 5 parking). Each subsequent step names the module to read explicitly.
+`SPEC.md` and this `SKILL.md` are the always-loaded core. Two lazy-load surfaces sit alongside:
+
+- `SPEC_DIR/` holds lazy SPEC modules (`epic.md`, `starter.md`, `blocked.md`, `model.md`, `versioning.md`) — canonical workflow contract, loaded when the relevant branch fires (Step 1.5 model-gate, Step 2 epic-ID prefix, Step 3a / 3c, Step 5 parking).
+- `SKILL_DIR/` holds lazy SKILL fragments (`step-1.5-model-edge.md`, `step-3a-promote-starter.md`, `step-3c-resume-blocked.md`) — executable interpretation of the contract, loaded on the same branch fires.
+
+Each subsequent step names the modules and fragments to read explicitly. SKILL stubs typically Read both the SPEC contract and the SKILL fragment in parallel before proceeding.
 
 ## Step 1 — Locate the task in PLAN.md
 
@@ -66,11 +73,8 @@ The model decision is made at filing time on the PLAN.md task line, not at scaff
 Three cases (decide via the `[model]` segment captured in Step 1):
 
 - **PLAN.md `[model]` matches the active model** → proceed silently to Step 2.
-- **PLAN.md `[model]` differs from the active model** → STOP. Read `<SPEC_DIR>/model.md` for the full contract, then surface the mismatch and offer two paths via AskUserQuestion:
-  1. "Switch active model: I'll stop. Run `/model <PLAN-model>` then re-invoke `/task <TASK-ID>`." (recommended — preserves the filed assignment)
-  2. "Retag the PLAN.md line to `<active-model>` and proceed." If chosen, edit the PLAN.md line's `[model]` segment in place, then proceed to Step 2.
-  Do not silently override.
-- **PLAN.md `[model]` is absent (legacy entry, no `[model]` on the line)** → Read `<SPEC_DIR>/model.md` for the full contract, then ask the user via AskUserQuestion to choose `opus` or `sonnet` (default recommendation: `opus` for design / multi-file / ambiguous work; `sonnet` for mechanical work with a clear diff in mind). Then write `[<chosen>]` into the PLAN.md line in place (insert immediately after `**TASK-ID**`), then proceed to Step 2. The next time `/task` runs against this line, no question is asked.
+- **PLAN.md `[model]` differs from the active model** → STOP. Read `<SPEC_DIR>/model.md` (contract) and `<SKILL_DIR>/step-1.5-model-edge.md` (operational steps), then follow the "Mismatch" branch.
+- **PLAN.md `[model]` is absent (legacy entry, no `[model]` on the line)** → Read `<SPEC_DIR>/model.md` (contract) and `<SKILL_DIR>/step-1.5-model-edge.md` (operational steps), then follow the "Legacy entry" branch.
 
 The active model is whatever the assistant is currently running as (visible in the runtime; if uncertain, ask the user).
 
@@ -89,29 +93,7 @@ The active model is whatever the assistant is currently running as (visible in t
 
 ## Step 3a — Promote a starter (existing file with `status: starter`)
 
-Read `<SPEC_DIR>/starter.md` for the full lifecycle contract before proceeding. The starter file already carries frontmatter and a `## 🌱 Starter context` body section captured at filing time. Promotion converts it into a full tasknote in place.
-
-1. **Drift-check the captured context.** Read each path, line number, function name, and root-cause hypothesis cited in `## 🌱 Starter context` against current code. If anything has moved or been renamed since the starter was filed, surface the drift to the user before re-interpreting the task. Do not silently "correct" the seed.
-2. **Update YAML frontmatter** in place:
-   - `status: starter` → `status: in-progress`
-   - Confirm/add `due:` (leave empty if none)
-   - Confirm/add `related-tasks:` from the starter's Related sub-heading if not already present
-3. **Replace the nav header.** Change `🌱 Starter (filed ...)` → `🟢 In progress · 🔗 [[RELATED-1]] [[RELATED-2]]`. Drop the `· 🔗 ...` segment if `related-tasks: []`.
-4. **Insert spec sections** between the nav header and the `## 🌱 Starter context` block:
-   - `## 🎯 Goal` — one-sentence goal derived from the starter context.
-   - `## ✅ Acceptance` — checklist; populate during Phase 1 Discovery as the user clarifies what "done" looks like.
-   - `## 🧩 Subtasks` — checklist; populate during Phase 1 Discovery with concrete, ordered steps.
-   - `## 🔗 Related` — bullet list mirroring `related-tasks:` from the YAML frontmatter (one bullet per ID with short context, e.g., `- [[CORE-017]] — frontmatter (predecessor)`). If `related-tasks: []`, write `- (none)`.
-   - **Fidelity check** — verify the starter's `Solution shape` / `Decisions locked` / `Files to touch` are reflected in the synthesized Goal (and earmarked for Phase 1's Acceptance/Subtasks population); flag any dropped substance to the user.
-5. **Decide what to do with the `## 🌱 Starter context` block** — per-task call:
-   - **Absorb (default):** the spec sections capture the distilled content; drop the starter block. Original lives in git history.
-   - **Preserve verbatim:** keep the starter block as a quoted attachment under Phase 1 Discovery Notes.
-
-   Use AskUserQuestion if unclear; default to absorb.
-6. **Add the divider + four phase sections** below the spec sections, copied from `templates/tasknote-template.md` (📝 Phase 1: Discovery / 🛠️ Phase 2: Execution / 🧪 Phase 3: Testing & Linting / 🚀 Phase 4: Closure with their full checklists).
-7. **Tick** `Reviewed the task entry in PLAN.md` in Phase 1 (already done in Step 1). Continue at **Step 4 (Phase 1: Discovery)**.
-
-The starter's "Open at promotion" sub-heading feeds Phase 1 Step 5 (clarifying questions); resolve them via AskUserQuestion as part of Discovery.
+Read `<SPEC_DIR>/starter.md` (lifecycle contract) and `<SKILL_DIR>/step-3a-promote-starter.md` (executable steps), then continue at **Step 4 (Phase 1: Discovery)**.
 
 ## Step 3b — Scaffold a fresh tasknote (no existing file)
 
@@ -128,13 +110,7 @@ Copy the template (path resolved in Step 0) to `_project/tasknote/<TASK-ID>.md`.
 
 ## Step 3c — Resume a blocked tasknote (existing file with `status: blocked`)
 
-Read `<SPEC_DIR>/blocked.md` for the full lifecycle contract before proceeding. The blocked file already carries frontmatter, the spec sections (🎯 Goal / ✅ Acceptance / 🧩 Subtasks / 🔗 Related), and partial Phase 2 progress captured before the parking event. Resume re-activates it in place.
-
-1. **Drift-check the parked work.** Read each path, line number, function name, and pattern citation in the existing Discovery / Execution notes against current code. Phase 2 progress may rest on symbols that moved while the task was parked. Surface any drift to the user before re-entering execution.
-2. **Update YAML frontmatter** in place: `status: blocked` → `status: in-progress`.
-3. **Update the nav header.** Change `⏸ Blocked` → `🟢 In progress`.
-4. **Optional cleanup of the PLAN.md line** — if `Blocked by [[ID]]` was added to the PLAN.md long description at parking, ask the user (AskUserQuestion) whether to remove it now. Default: leave it (it's accurate historical context and the line remains unchecked until completion).
-5. **Continue at Phase 2.** The Phase 1 checklist is already complete — do not re-run it. Pick up Execution where the parking note left off.
+Read `<SPEC_DIR>/blocked.md` (lifecycle contract) and `<SKILL_DIR>/step-3c-resume-blocked.md` (executable steps), then continue at **Step 5** at Phase 2 (the lazy fragment's step 5 directs there; Phase 1 is already complete on a parked tasknote).
 
 ## Step 4 — Phase 1: Discovery (drive now)
 
