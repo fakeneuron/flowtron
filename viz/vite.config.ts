@@ -147,6 +147,13 @@ function flowtronApi(): Plugin {
 
 export default defineConfig({
   plugins: [react(), flowtronApi()],
+  // Pin the dev port and refuse to auto-bump. Without strictPort, vite climbs
+  // 5173 → 5174 → ... and can land on 5180, which conflicts with another local
+  // project. Better to fail loudly so the user can free 5173.
+  server: {
+    port: 5173,
+    strictPort: true,
+  },
   test: {
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
