@@ -6,12 +6,13 @@ import { EpicRow } from './EpicRow';
 import { TaskRow } from './TaskRow';
 
 const SECTION_TINT: Record<Priority, string> = {
-  Critical: 'bg-red-50 border-red-200',
-  High: 'bg-orange-50 border-orange-200',
-  Medium: 'bg-amber-50 border-amber-200',
-  Low: 'bg-sky-50 border-sky-200',
-  'Future Opportunities': 'bg-violet-50 border-violet-200',
-  Completed: 'bg-emerald-50 border-emerald-200',
+  Critical: 'bg-red-50 border-red-200 dark:bg-red-950/30 dark:border-red-900',
+  High: 'bg-orange-50 border-orange-200 dark:bg-orange-950/30 dark:border-orange-900',
+  Medium: 'bg-amber-50 border-amber-200 dark:bg-amber-950/30 dark:border-amber-900',
+  Low: 'bg-sky-50 border-sky-200 dark:bg-sky-950/30 dark:border-sky-900',
+  'Future Opportunities':
+    'bg-violet-50 border-violet-200 dark:bg-violet-950/30 dark:border-violet-900',
+  Completed: 'bg-emerald-50 border-emerald-200 dark:bg-emerald-950/30 dark:border-emerald-900',
 };
 
 interface PrioritySectionProps {
@@ -52,12 +53,12 @@ export const PrioritySection: React.FC<PrioritySectionProps> = ({
       >
         <Chevron expanded={!collapsed} />
         <span className="text-sm font-medium">{priority}</span>
-        <span className="text-xs text-slate-600">{totalCount}</span>
+        <span className="text-xs text-slate-600 dark:text-slate-400">{totalCount}</span>
       </button>
       {!collapsed && (
-        <div className="flex flex-col gap-1.5 border-t border-slate-200/70 bg-white/60 p-2">
+        <div className="flex flex-col gap-1.5 border-t border-slate-200/70 bg-white/60 p-2 dark:border-slate-800/70 dark:bg-slate-900/60">
           {nodes.length === 0 && (
-            <div className="px-2 py-1 text-xs text-slate-400">No tasks</div>
+            <div className="px-2 py-1 text-xs text-slate-400 dark:text-slate-500">No tasks</div>
           )}
           {nodes.map((node) => {
             const isEpic = node.children.length > 0 || /-EPIC-/.test(node.task.id);

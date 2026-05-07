@@ -23,8 +23,10 @@ export const TaskRow: React.FC<TaskRowProps> = ({
 }) => (
   <div
     id={`row-${task.id}`}
-    className={`rounded border bg-white ${
-      highlightId === task.id ? 'border-amber-400 ring-2 ring-amber-300' : 'border-slate-200'
+    className={`rounded border bg-white dark:bg-slate-900 ${
+      highlightId === task.id
+        ? 'border-amber-400 ring-2 ring-amber-300 dark:border-amber-500 dark:ring-amber-600'
+        : 'border-slate-200 dark:border-slate-800'
     } transition-colors`}
   >
     <div className="flex items-center gap-2 px-2.5 py-1.5 pl-9">

@@ -20,7 +20,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Medium
 
 - [ ] **CORE-016** [opus] | InvisiPaw migration — Execute InvisiPaw migration per [[CORE-008]] playbook. Blocked by [[CORE-008]] — do not start until user signals InvisiPaw backlog is cleared. Scope: flowtron wiring + plan-file collapse + active-task-ID rename. Out of scope: renaming the 15 in-flight tasknote files (deferred further).
-- [ ] **FE-009** [opus] | viz dark mode — `tailwind.config.ts` extends nothing; no `dark:` variants anywhere. Add a dark theme + toggle (system-preference default + manual override persisted to localStorage). Builds on [[FE-007]].
 - [ ] **FE-010** [opus] | viz keyboard nav — Add shortcuts: `/` focuses search, `j/k` arrow-nav rows, `Enter` expands, `r` refreshes, `Esc` collapses detail / clears filters. Builds on [[FE-007]].
 - [ ] **FE-012** [opus] | viz inbound wikilink back-refs — Surface inbound references: when a task's `related-tasks:` frontmatter or PLAN long-description points at another task, the target's row gets a "← referenced by N" chip. Build a `Map<id, Set<id>>` once at load (data is already parsed) and render in `TaskRowInner`. Builds on [[FE-007]].
 
@@ -52,6 +51,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-042.8** [opus] | audit — Completed 2026-05-07.
   - [x] **CORE-042.9** [opus] | SKILL-side lazy-load — Completed 2026-05-07.
 
+- [x] **FE-009** [opus] | viz dark mode — Completed 2026-05-07.
 - [x] **FE-016** [opus] | viz consume archive — Completed 2026-05-07.
 - [x] **CORE-036** [opus] | PLAN.md `## Completed` archive strategy — Completed 2026-05-07.
 - [x] **CORE-033** [sonnet] | extract legacy/ to a tag — Completed 2026-05-06.

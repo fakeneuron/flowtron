@@ -9,13 +9,13 @@ export const SubtaskProgress: React.FC<{ counts: ChecklistCounts }> = ({ counts 
       title={`Subtasks: ${counts.done}/${counts.total}`}
       aria-label={`Subtasks ${counts.done} of ${counts.total} done`}
     >
-      <div className="h-2 w-16 overflow-hidden rounded-full bg-slate-200">
+      <div className="h-2 w-16 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
         <div
           className="h-full bg-sky-500"
           style={{ width: `${pct}%` }}
         />
       </div>
-      <span className="text-[10px] font-medium tabular-nums text-slate-600">
+      <span className="text-[10px] font-medium tabular-nums text-slate-600 dark:text-slate-400">
         {counts.done}/{counts.total}
       </span>
     </div>

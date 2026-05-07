@@ -36,7 +36,7 @@ export const WikilinkMarkdown: React.FC<{
                 e.preventDefault();
                 navigateToTask(id);
               }}
-              className="font-mono text-slate-700 hover:underline"
+              className="font-mono text-slate-700 hover:underline dark:text-slate-300"
               title={`Jump to ${id}`}
             >
               {children}

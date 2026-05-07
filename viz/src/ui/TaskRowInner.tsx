@@ -57,7 +57,7 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
         <span className="shrink-0 font-mono text-xs font-medium tabular-nums">
           {task.id}
         </span>
-        <span className="min-w-0 flex-1 truncate text-xs text-slate-700">
+        <span className="min-w-0 flex-1 truncate text-xs text-slate-700 dark:text-slate-300">
           {task.shortname ?? fm?.title ?? task.description}
         </span>
       </button>
@@ -77,7 +77,7 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
         </div>
         <div className="flex items-center justify-end gap-1.5">
           {showNoTasknote && (
-            <span className="rounded-full border border-dashed border-slate-300 px-2 py-0.5 text-[10px] text-slate-400">
+            <span className="rounded-full border border-dashed border-slate-300 px-2 py-0.5 text-[10px] text-slate-400 dark:border-slate-700 dark:text-slate-500">
               no tasknote
             </span>
           )}
@@ -87,7 +87,7 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
               {fm.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full bg-slate-100 px-1.5 py-0.5 text-[10px] text-slate-700"
+                  className="rounded-full bg-slate-100 px-1.5 py-0.5 text-[10px] text-slate-700 dark:bg-slate-800 dark:text-slate-300"
                 >
                   {tag}
                 </span>
@@ -106,10 +106,10 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
               title={fm!.due}
               className={`rounded-full px-1.5 py-0.5 text-[10px] ${
                 dueLabel === 'today'
-                  ? 'bg-amber-100 text-amber-800'
+                  ? 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-200'
                   : dueLabel.startsWith('overdue')
-                    ? 'bg-red-100 text-red-800'
-                    : 'bg-indigo-100 text-indigo-800'
+                    ? 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-200'
+                    : 'bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-200'
               }`}
             >
               due {dueLabel}
@@ -124,7 +124,7 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
           ) : (
             tasknotesById.has(task.id) &&
             !task.completed && (
-              <span className="rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-amber-800">
+              <span className="rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-amber-800 dark:bg-amber-950 dark:text-amber-200">
                 In progress
               </span>
             )

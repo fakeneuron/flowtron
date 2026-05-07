@@ -7,12 +7,13 @@ import { StatusChip } from './StatusChip';
 import { effectiveStatus } from './utils';
 
 const PRIORITY_BADGE: Record<Priority, string> = {
-  Critical: 'bg-red-100 text-red-800',
-  High: 'bg-orange-100 text-orange-800',
-  Medium: 'bg-amber-100 text-amber-800',
-  Low: 'bg-sky-100 text-sky-800',
-  'Future Opportunities': 'bg-violet-100 text-violet-800',
-  Completed: 'bg-emerald-100 text-emerald-800',
+  Critical: 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-200',
+  High: 'bg-orange-100 text-orange-800 dark:bg-orange-950 dark:text-orange-200',
+  Medium: 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-200',
+  Low: 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-200',
+  'Future Opportunities':
+    'bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-200',
+  Completed: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200',
 };
 
 export const TaskDetail: React.FC<{
@@ -25,9 +26,9 @@ export const TaskDetail: React.FC<{
   const priority = tasknote ? task.priority : undefined;
   const showMetaHeader = priority || (task.completed && task.completedDate) || tasknote;
   return (
-    <div className="border-t border-slate-100 bg-slate-50/40 px-3 py-2 text-xs text-slate-700">
+    <div className="border-t border-slate-100 bg-slate-50/40 px-3 py-2 text-xs text-slate-700 dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-300">
       {showMetaHeader && (
-        <div className="mb-2 flex items-center gap-2 text-[10px] text-slate-500">
+        <div className="mb-2 flex items-center gap-2 text-[10px] text-slate-500 dark:text-slate-400">
           {priority && (
             <span
               className={`rounded px-1.5 py-0.5 font-medium ${PRIORITY_BADGE[priority]}`}
@@ -42,7 +43,7 @@ export const TaskDetail: React.FC<{
           {tasknote && (
             <a
               href={`vscode://file${tasknote.path}`}
-              className="ml-auto hover:text-slate-800 hover:underline"
+              className="ml-auto hover:text-slate-800 hover:underline dark:hover:text-slate-100"
               title="Open tasknote in VS Code"
             >
               VS Code →

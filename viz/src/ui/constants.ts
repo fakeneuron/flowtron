@@ -9,9 +9,9 @@ export const STATUS_LABEL: Record<TasknoteStatus, string> = {
 };
 
 export const STATUS_BADGE: Record<TasknoteStatus, string> = {
-  starter: 'bg-lime-100 text-lime-800',
-  'not-started': 'bg-slate-100 text-slate-700',
-  'in-progress': 'bg-amber-100 text-amber-800',
-  blocked: 'bg-rose-100 text-rose-800',
-  completed: 'bg-emerald-100 text-emerald-800',
+  starter: 'bg-lime-100 text-lime-800 dark:bg-lime-950 dark:text-lime-200',
+  'not-started': 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300',
+  'in-progress': 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-200',
+  blocked: 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-200',
+  completed: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200',
 };

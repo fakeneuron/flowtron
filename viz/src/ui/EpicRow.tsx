@@ -33,8 +33,10 @@ export const EpicRow: React.FC<EpicRowProps> = ({
   return (
     <div
       id={`row-${task.id}`}
-      className={`rounded border bg-white ${
-        highlightId === task.id ? 'border-amber-400 ring-2 ring-amber-300' : 'border-slate-200'
+      className={`rounded border bg-white dark:bg-slate-900 ${
+        highlightId === task.id
+          ? 'border-amber-400 ring-2 ring-amber-300 dark:border-amber-500 dark:ring-amber-600'
+          : 'border-slate-200 dark:border-slate-800'
       } transition-colors`}
     >
       <div className="flex items-center gap-2 px-2.5 py-1.5">
@@ -43,7 +45,7 @@ export const EpicRow: React.FC<EpicRowProps> = ({
           onClick={toggleExpanded}
           aria-expanded={expanded}
           aria-label={expanded ? 'Collapse subtasks' : 'Expand subtasks'}
-          className="flex h-5 w-5 shrink-0 items-center justify-center rounded hover:bg-slate-100"
+          className="flex h-5 w-5 shrink-0 items-center justify-center rounded hover:bg-slate-100 dark:hover:bg-slate-800"
         >
           <Chevron expanded={expanded} />
         </button>
@@ -55,7 +57,7 @@ export const EpicRow: React.FC<EpicRowProps> = ({
           navigateToTask={navigateToTask}
           extraRightSlot={
             total > 0 ? (
-              <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-700">
+              <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300">
                 {done}/{total} done
               </span>
             ) : null
@@ -63,7 +65,7 @@ export const EpicRow: React.FC<EpicRowProps> = ({
         />
       </div>
       {expanded && total > 0 && (
-        <div className="flex flex-col gap-1 border-t border-slate-100 bg-slate-50/50 px-2 py-1.5">
+        <div className="flex flex-col gap-1 border-t border-slate-100 bg-slate-50/50 px-2 py-1.5 dark:border-slate-800 dark:bg-slate-950/50">
           {children.map((c) => (
             <SubtaskRow
               key={c.id}

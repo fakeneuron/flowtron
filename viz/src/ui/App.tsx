@@ -4,6 +4,7 @@ import { groupTasks, parsePlan, type Priority, type Task, type TaskNode } from '
 import { type Tasknote, type TasknoteStatus } from '../tasknote';
 import { STATUS_LABEL, STATUS_BADGE } from './constants';
 import { PrioritySection } from './PrioritySection';
+import { ThemeToggle } from './ThemeToggle';
 
 const SECTIONS: Priority[] = [
   'Critical',
@@ -224,13 +225,13 @@ export const App: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
-      <header className="border-b border-slate-200 bg-white px-4 py-3">
+    <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+      <header className="border-b border-slate-200 bg-white px-4 py-3 dark:border-slate-800 dark:bg-slate-900">
         <div className="mx-auto flex max-w-screen-xl flex-col gap-2">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h1 className="text-lg font-semibold">Flowtron — PLAN.md</h1>
-              <p className="text-xs text-slate-600">
+              <p className="text-xs text-slate-600 dark:text-slate-400">
                 {filteredCount === total
                   ? `${total} tasks · ${inProgress} in progress${starterCount > 0 ? ` · ${starterCount} ${starterCount === 1 ? 'starter' : 'starters'}` : ''}`
                   : `${filteredCount} of ${total} matching · ${inProgress} in progress${starterCount > 0 ? ` · ${starterCount} ${starterCount === 1 ? 'starter' : 'starters'}` : ''}`}
@@ -243,24 +244,25 @@ export const App: React.FC = () => {
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search id, description, tags, status"
                 autoComplete="off"
-                className="w-72 rounded border border-slate-300 bg-white px-3 py-1.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-300"
+                className="w-72 rounded border border-slate-300 bg-white px-3 py-1.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:ring-slate-600"
                 aria-label="Search tasks"
               />
               <button
                 type="button"
                 onClick={() => void load()}
                 disabled={loading}
-                className="rounded border border-slate-300 bg-white px-3 py-1.5 text-sm shadow-sm hover:bg-slate-50 disabled:opacity-50"
+                className="rounded border border-slate-300 bg-white px-3 py-1.5 text-sm shadow-sm hover:bg-slate-50 disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
                 aria-busy={loading}
               >
                 {loading ? 'Loading…' : 'Refresh'}
               </button>
+              <ThemeToggle />
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
             {allTags.length > 0 && (
               <div className="flex flex-wrap items-center gap-1.5">
-                <span className="text-slate-500">Tags:</span>
+                <span className="text-slate-500 dark:text-slate-400">Tags:</span>
                 {allTags.map((tag) => {
                   const on = tagFilter.has(tag);
                   return (
@@ -271,8 +273,8 @@ export const App: React.FC = () => {
                       aria-pressed={on}
                       className={`rounded-full px-2 py-0.5 ${
                         on
-                          ? 'bg-slate-800 text-white'
-                          : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                          ? 'bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900'
+                          : 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
                       }`}
                     >
                       {tag}
@@ -282,7 +284,7 @@ export const App: React.FC = () => {
               </div>
             )}
             <div className="flex flex-wrap items-center gap-1.5">
-              <span className="text-slate-500">Status:</span>
+              <span className="text-slate-500 dark:text-slate-400">Status:</span>
               {STATUS_FILTER_VALUES.filter((s) => presentStatuses.has(s)).map((s) => {
                 const on = statusFilter.has(s);
                 return (
@@ -293,7 +295,7 @@ export const App: React.FC = () => {
                     aria-pressed={on}
                     className={`rounded-full px-2 py-0.5 ${
                       on
-                        ? 'bg-slate-800 text-white'
+                        ? 'bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900'
                         : `${STATUS_BADGE[s]} hover:opacity-80`
                     }`}
                   >
@@ -307,7 +309,7 @@ export const App: React.FC = () => {
       </header>
 
       {error && (
-        <div className="mx-4 mt-3 rounded border border-red-300 bg-red-50 p-3 text-sm text-red-800">
+        <div className="mx-4 mt-3 rounded border border-red-300 bg-red-50 p-3 text-sm text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200">
           {error}
         </div>
       )}
