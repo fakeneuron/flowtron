@@ -47,14 +47,24 @@ git -C _project/flowtron checkout vX.Y.Z   # replace with the version you want t
 
 The `checkout` step is what pins the project to a specific flowtron version. Without it, the submodule tracks `main` and updates would be undeliberate.
 
-### 1.2 Wire `/task` via symlinks
+### 1.2 Wire `/task`, `/starter-task`, `/micro-task` via symlinks
 
-The `/task` slash command and its skill live inside the submodule. Adopting projects expose them through their own `.claude/` folder using symlinks:
+Flowtron ships three slash commands and their skills inside the submodule:
+
+- **`/task <ID>`** — standard 4-phase tasknote runner.
+- **`/starter-task <ID>`** — file a starter (rich AI-discovered context for tasks not yet ready to start; promoted to a full tasknote at `/task` checkout).
+- **`/micro-task <ID>`** — file + execute a small, single-file change with the relevance/drift/archive-skim/pattern-survey contracts but without the full 4-phase ceremony.
+
+Adopting projects expose all three through their own `.claude/` folder using symlinks:
 
 ```sh
 mkdir -p .claude/commands .claude/skills
-ln -s ../../_project/flowtron/claude/commands/task.md .claude/commands/task.md
-ln -s ../../_project/flowtron/claude/skills/task     .claude/skills/task
+ln -s ../../_project/flowtron/claude/commands/task.md         .claude/commands/task.md
+ln -s ../../_project/flowtron/claude/commands/starter-task.md .claude/commands/starter-task.md
+ln -s ../../_project/flowtron/claude/commands/micro-task.md   .claude/commands/micro-task.md
+ln -s ../../_project/flowtron/claude/skills/task         .claude/skills/task
+ln -s ../../_project/flowtron/claude/skills/starter-task .claude/skills/starter-task
+ln -s ../../_project/flowtron/claude/skills/micro-task   .claude/skills/micro-task
 ```
 
 The relative paths are intentional — they survive `git clone` and always point at whichever flowtron commit the submodule is currently checked out at. The symlinks themselves never need to change when bumping flowtron.
@@ -95,7 +105,9 @@ For multi-child code-sweep or feature epics, flowtron also defines an opening **
 
 ```sh
 git add .gitmodules _project/flowtron _project/PLAN.md _project/tasknote/ \
-        .claude/commands/task.md .claude/skills/task CLAUDE.md
+        .claude/commands/task.md .claude/commands/starter-task.md .claude/commands/micro-task.md \
+        .claude/skills/task .claude/skills/starter-task .claude/skills/micro-task \
+        CLAUDE.md
 git commit -m "chore: adopt flowtron at vX.Y.Z"
 ```
 
@@ -103,9 +115,9 @@ If your project already has other files under `.claude/` (settings, other skills
 
 ### 1.7 Verify
 
-In a fresh Claude Code session in the project, type `/task`. The command should appear in the slash-command menu with its description. Running `/task <SOME-ID>` against a real entry in your `_project/PLAN.md` should scaffold a tasknote and begin Phase 1 Discovery.
+In a fresh Claude Code session in the project, type `/task`. The command should appear in the slash-command menu (alongside `/starter-task` and `/micro-task`) with its description. Running `/task <SOME-ID>` against a real entry in your `_project/PLAN.md` should scaffold a tasknote and begin Phase 1 Discovery.
 
-If `/task` doesn't appear, the symlinks are likely wrong — check `readlink .claude/commands/task.md` resolves under the submodule.
+If any command doesn't appear, the symlinks are likely wrong — check that each `readlink .claude/commands/<name>.md` and `readlink .claude/skills/<name>` resolves under the submodule.
 
 ---
 

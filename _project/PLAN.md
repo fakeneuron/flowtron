@@ -40,6 +40,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-043** [opus] | release v1.0.0 — Completed 2026-05-07.
 - [x] **CORE-EPIC-042** [opus] | workflow architecture rethink — Completed 2026-05-07.
   - [x] **CORE-042.1** [opus] | discovery — Completed 2026-05-06.
   - [x] **CORE-042.2** [opus] | SPEC modularization — Completed 2026-05-06.
