@@ -30,7 +30,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [ ] **CORE-009.3** [sonnet] | retire shell scripts — Retire `create_tasknote.py`, `archive_tasknote.py`, `validate_plan.py`
   - [ ] **CORE-009.4** [opus] | reconcile in-flight tasknotes — Reconcile in-flight tasknotes (BE-128, BE-138, FE-145, FE-146)
   - [ ] **CORE-009.5** [sonnet] | update workflow docs — Update fintown's `WORKFLOW.md` and `TASKNOTE_QUICK_REFERENCE.md` to point at flowtron
-- [ ] **FE-014** [opus] | viz UI component tests — Vitest + react-testing-library tests for App.tsx logic now that components are extracted: `matchesFilter` intersection, `navigateToTask` (epic auto-expand, scroll + highlight), expand-on-click toggling, status badge selection. Establish the testing pattern; subsequent component tests follow it. Builds on [[FE-007]].
 
 ## Future Opportunities
 
@@ -39,6 +38,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-014** [opus] | viz UI component tests — Completed 2026-05-07.
 - [x] **FE-010** [opus] | viz keyboard nav — Completed 2026-05-07.
 - [x] **CORE-045** [opus] | MIGRATION.md pre-flight + post-cleanup — Completed 2026-05-07.
 - [x] **CORE-044** [opus] | new-project legacy detection — Completed 2026-05-07.
