@@ -29,7 +29,7 @@ See [_project/flowtron/SPEC.md](flowtron/SPEC.md) for the canonical workflow con
 
 ## Completed
 
-- [x] **TASK-ID** [opus] | shortname — Short description. Completed YYYY-MM-DD.
+- [x] **TASK-ID** [opus] | shortname — Completed YYYY-MM-DD.
 
 <!--
 Task-line grammar (see _project/flowtron/SPEC.md §"Task-line format"):

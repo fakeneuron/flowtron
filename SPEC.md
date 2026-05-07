@@ -1,6 +1,6 @@
 # Flowtron — Workflow Specification
 
-**Version:** v0.9.1
+**Version:** v0.10.0
 **Status:** Stable
 
 ## What is Flowtron
@@ -282,7 +282,7 @@ Run the full test suite only when changes are broad or cross-cutting.
 ### 🚀 Phase 4: Closure
 
 - [ ] Updated docs/inventories affected by the change
-- [ ] Closed — PLAN.md status flipped to `Completed YYYY-MM-DD` and tasknote moved to `_project/tasknote/archive/<area>/`
+- [ ] Closed — PLAN.md line flipped to stub form `Completed YYYY-MM-DD.` (see §"`## Completed` archive convention") and tasknote moved to `_project/tasknote/archive/<area>/`
 - [ ] Recapped changes with the user and got confirmation
 
 The recap has two parts: a brief summary of what changed and key decisions,
@@ -386,12 +386,34 @@ line stays scannable, and rich context routes into starter bodies:
 
 The thresholds apply to **active** task lines (`Critical` / `High` /
 `Medium` / `Low` / `Future Opportunities`). Lines under `## Completed`
-record archived task summaries and are out of scope here (they have their
-own archive-strategy track — see CORE-036).
+are governed by §"`## Completed` archive convention" below.
 
 `/starter-task` (filing time) and `/task` (scaffold/promote time) flag
 filings that breach the cap — see the respective skill files for the
 mechanism.
+
+### `## Completed` archive convention
+
+Closed task lines under `## Completed` collapse to a stub form:
+
+```
+- [x] **TASK-ID** [model] | shortname — Completed YYYY-MM-DD.
+```
+
+The long description is dropped — the archived tasknote at
+`_project/tasknote/archive/<area>/<TASK-ID>.md` is the canonical record.
+PLAN.md keeps the cross-reference accessible via the ID; rich detail is
+one click away in the archive.
+
+This is enforced at Phase 4 closure: the flip rewrites the line to the
+stub form, not just the checkbox + date. The `| shortname` segment is
+required in the stub form so visualizers have a row title — without it,
+the empty long description leaves the row label blank. `[model]` stays
+optional (legacy entries without a model continue to parse and render).
+
+Adopting projects pick up the convention on their next flowtron version
+bump and may migrate existing entries at their own cadence (additive
+change; legacy paragraph-form entries continue to parse).
 
 ## Priority levels
 

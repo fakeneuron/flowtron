@@ -110,7 +110,7 @@ The single closure step. In one motion:
 
 1. **Fill ✅ Recap** — brief final summary: what changed, key decisions, anything an audit pass should know.
 2. **Set `Archived:`** — today's date (`YYYY-MM-DD`).
-3. **Update PLAN.md** — flip the line to `- [x] **<TASK-ID>** [model] | shortname — <description>. Completed YYYY-MM-DD.` and move it to the `## Completed` section.
+3. **Update PLAN.md** — flip the line to the stub form `- [x] **<TASK-ID>** [model] | shortname — Completed YYYY-MM-DD.` per SPEC §"`## Completed` archive convention" (drop the long description — the archived tasknote is the canonical record), and move it to the `## Completed` section.
 4. **Move the tasknote** — `mv _project/tasknote/<TASK-ID>.md _project/tasknote/archive/<area>/<TASK-ID>.md`.
 5. **Recap to the user** — brief summary of what changed and key decisions, plus an optional verification request (one concrete thing for the user to check before they confirm). Wait for confirmation.
 
