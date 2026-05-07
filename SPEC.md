@@ -1,6 +1,6 @@
 # Flowtron — Workflow Specification
 
-**Version:** v0.8.0
+**Version:** v0.9.0
 **Status:** Stable
 
 ## What is Flowtron
@@ -358,7 +358,23 @@ After a tasknote is archived and confirmed, the assistant must:
 - No design decisions or file survey work has been done yet
 - The next available `/task <ID>` slot is the user's natural next move (file it, then start it; no sitting time)
 
-When in doubt, write the tasknote. The Discovery phase pays for itself.
+**File a micro-tasknote (`/micro-task <ID>`) when:**
+
+- The task is above the skip threshold (more than a one-liner; touches code or non-trivial doc state) but small enough that the full 4-phase ceremony is overkill — typically under ~30 minutes of effort
+- The change is single-file or near-single-file, with no design tradeoffs worth recording across multiple subtasks
+- The shape is obvious enough that Acceptance/Subtasks checklists would just restate the goal — but you still want the relevance / drift / archive-skim / pattern-survey contracts before writing code
+- Examples: small audits, focused doc patches, single-file behavior tweaks with clear scope
+
+A micro-tasknote uses a single `## ⚡ Notes` section with bold-prefix prompts (Relevance · Drift check · Archive skim · Pattern survey · Implementation) instead of the four phase checklists, plus a `## ✅ Recap` and an `Archived:` line. Closure flips two places (PLAN.md + tasknote location), the same as a normal tasknote. The `/micro-task` skill is **file + execute (one-shot)** — it scaffolds, drives execution inline, and closes in a single conversation.
+
+**Skip the micro-tasknote (use `/task` instead) when:**
+
+- The task touches multiple files or has design tradeoffs to record
+- The task is likely to take more than ~30 minutes
+- The 4-phase log would carry useful state (Discovery findings, intermediate Phase 2 work) for downstream tasknotes or audits
+- You're unsure — default to `/task`. The Discovery phase pays for itself.
+
+When in doubt, write the full tasknote. The 4-phase ceremony pays for itself.
 
 ### PLAN.md filing-discipline thresholds
 
