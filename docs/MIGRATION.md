@@ -84,6 +84,13 @@ Declare any project-specific area prefixes. Replace the "Project quick commands"
 
 The README also describes the current tasknote shape: YAML frontmatter (`title`, `status`, `tags`, `created`, `due`, `related-tasks`) and a spec-on-top + log-below body (`Goal` / `Acceptance` / `Subtasks` / `Related` above a divider, then the four phase sections below). The `/task` skill scaffolds this shape automatically; see `_project/flowtron/templates/tasknote-template.md` for the canonical layout.
 
+Two lightweight tasknote variants exist alongside the standard 4-phase shape:
+
+- **Starter tasknotes** (`tasknote-starter-template.md`, scaffolded via `/starter-task`) — capture rich AI-discovered context for tasks that aren't ready to start yet. Single `## 🌱 Starter context` body section, no phase scaffolding; promoted to a full tasknote at `/task <ID>`. See `_project/flowtron/SPEC/starter.md`.
+- **Micro tasknotes** (`tasknote-micro-template.md`, scaffolded via `/micro-task`) — for tasks above the skip-tasknote threshold but small enough that the 4-phase ceremony is overkill (~30 min, single-file, focused). Single `## ⚡ Notes` section with bold-prefix prompts plus a `## ✅ Recap`. See SPEC §"When to use a tasknote (and when not to)".
+
+For multi-child code-sweep or feature epics, flowtron also defines an opening **Discovery** subtask (`<AREA>-<N>.1`) and a closing **Audit** subtask (highest `.N`) that bracket the implementation children. See `_project/flowtron/SPEC/epic.md`. Simple multi-subtask implementations don't need the bracket — apply judgment.
+
 ### 1.6 Commit
 
 ```sh
@@ -105,6 +112,8 @@ If `/task` doesn't appear, the symlinks are likely wrong — check `readlink .cl
 ## 2 — Migrating from a prior workflow system
 
 If the project already has its own workflow tooling, do **Section 1 first** — flowtron lives alongside the legacy system until you finish converting. Then work through the items below in order.
+
+This section assumes you want to lift the **full** plan, including completed entries, into flowtron's shape. If you only want the active queue and are happy to leave historical tasknotes frozen as a read-only legacy reference, jump to **[Section 3](#3--lightweight-migration-current-tasks-only)** instead — it's a much shorter playbook.
 
 ### 2.1 Convert `plan.json` (or equivalent) to `PLAN.md`
 
@@ -142,6 +151,100 @@ Remove the block describing the legacy workflow. The flowtron paste-block from �
 ### 2.6 Commit the migration
 
 A migration is itself a tasknote — typically a `CORE-` task in the project's own PLAN.md (or an epic with subtasks if the legacy system is large). Use that tasknote to track the steps above; commit at the end of Phase 4 the same way any other tasknote closes.
+
+---
+
+## 3 — Lightweight migration: current tasks only
+
+Most real-world adoptions don't want to lift the full archive. The legacy plan might be hundreds of closed entries, narrative-heavy, and irrelevant to day-to-day work going forward. This section is the **active-queue-only** playbook: freeze legacy as a read-only reference, lift only the open tasks into flowtron, and don't try to preserve historical link integrity.
+
+Do **Section 1 first** — flowtron lives alongside legacy until you finish the steps below.
+
+**Tradeoffs vs §2.** §2 preserves task IDs exactly so archived tasknotes stay addressable. §3 sacrifices that link integrity in exchange for a much smaller migration: closed entries stay frozen in legacy form, only the active queue moves. Pick §3 when the archive is large enough that converting it is its own multi-day project, or when the legacy plan format (narrative paragraphs, JSON, custom schema) is too far from flowtron's shape to translate cleanly.
+
+### 3.1 Freeze the legacy plan + tasknote dirs
+
+Move the legacy directories under a clearly-labeled umbrella so it's obvious at a glance which world is which. The exact layout depends on where legacy currently lives:
+
+```sh
+# If PLAN.md and friends live at the repo root:
+mkdir -p legacy
+git mv PLAN.md legacy/PLAN.md
+git mv PLAN_ARCHIVE.md legacy/PLAN_ARCHIVE.md      # if present
+git mv ROADMAP.md legacy/ROADMAP.md                # if it duplicates PLAN.md content
+
+# If legacy already lives under _project/ (e.g., _project/plan/plan.json):
+git mv _project/plan _project/legacy-plan
+git mv _project/tasknote _project/legacy-tasknote  # only if you also want a fresh _project/tasknote/
+```
+
+If the legacy `_project/tasknote/` is already organized with `archive/<area>/` subfolders matching flowtron's shape, you can leave it in place and **only freeze the legacy plan file** — new flowtron tasknotes can land in the same directory alongside the legacy archive without a conflict. Adopt the path of least surgery.
+
+Add a one-line `legacy/README.md` (or wherever the legacy umbrella ended up):
+
+```markdown
+Read-only reference — the project's pre-flowtron plan and tasknotes.
+For active work, see `_project/PLAN.md` and `_project/tasknote/`.
+```
+
+### 3.2 Cross-walk the active queue to canonical IDs
+
+If the legacy IDs already follow flowtron's `<AREA>-<NUMBER>` convention (e.g. `FE-`, `BE-`, `CORE-`), they carry over unchanged.
+
+If the legacy IDs follow a non-canonical scheme (phase-prefixed `P11.7-1`, sequential numerics, project-internal codes), do a one-time rename of the **open queue only**. Map each open task to a canonical area prefix and record the cross-walk in the migration tasknote:
+
+| Legacy ID | Flowtron ID | Notes |
+|---|---|---|
+| P41-2 | BE-001 | Spread/fee-aware entry redesign |
+| P42-1 | BE-002 | Boot-banner observability |
+| P28-6 | TEST-001 | Playwright UX smoke |
+| P28-7 | FE-001 | Full-screen blotter modal |
+| P33-1 | FE-002 | Halt UX banner |
+| P33-3 | BE-003 | Opt-in daily-loss USD cap |
+
+Closed legacy IDs stay as-is in the frozen `legacy/` tree — they are no longer addressable from new tasknotes via flowtron's `[[TASK-ID]]` wikilinks, and that is the whole point of "current tasks only." External references (commit messages, code comments, doc cross-refs) still resolve into `legacy/` if needed; new work uses the new ID space.
+
+If a renamed task's description references a closed legacy ID, write the cross-link as a plain markdown link (`[P29-2 (legacy)](../legacy/tasknote/P29-2.md)`) rather than a `[[]]` wikilink — flowtron's wikilink resolver assumes the new ID space and `_project/tasknote/archive/<area>/` layout.
+
+### 3.3 Populate `_project/PLAN.md` from the active queue
+
+For each open legacy task, write a new line in the right priority section of the freshly-templated `_project/PLAN.md` using the renamed ID and the task-line grammar from `SPEC.md` §"Task-line format":
+
+```markdown
+## High
+
+- [ ] **BE-001** [opus] | strategy entry redesign — Spread/fee-aware EV-positive entry predicate. Supersedes legacy P41-2.
+- [ ] **BE-002** [sonnet] | boot banner — Per-strategy `VERSION` + `strategies.py` mtime in startup banner. Supersedes legacy P42-1.
+```
+
+Leave `## Completed` empty or seed it with a single pointer line:
+
+```markdown
+## Completed
+
+(legacy completions live in `legacy/PLAN.md` — flowtron-era completions land here in stub form per SPEC §"`## Completed` archive convention")
+```
+
+The stub-form (CORE-036, v0.10.0) means new flowtron-era completions are one-liners pointing into `_project/tasknote/archive/<area>/`. Don't try to reproduce legacy narrative blocks here — they belong in the frozen legacy plan, not in the new one.
+
+### 3.4 Decide per active tasknote: finish-as-is or rewrap
+
+Same call as §2.2, but the universe is small — only the currently-open tasknotes. For each:
+
+- **Finish-as-is** in the legacy directory if the task is mid-Phase 2 or later. When it closes, archive it alongside the other legacy tasknotes; the line in flowtron's `_project/PLAN.md` flips to `[x] | <shortname> — Completed YYYY-MM-DD. (closed under legacy workflow)`. The new tasknote at `_project/tasknote/archive/<area>/` does **not** get created — the legacy artifact is sufficient.
+- **Rewrap** under the new ID if the task is in Phase 1 or stale: scaffold via `/task <NEW-ID>` against the renamed PLAN.md entry. The starter context can be transcribed from the legacy tasknote's discovery notes; apply Phase 1's drift check fully (legacy notes can be weeks old).
+
+### 3.5 Retire helpers and project-side workflow docs
+
+Same as §2.3 and §2.4. Helper scripts (`create_tasknote.py`, `archive_tasknote.py`, `validate_plan.py`) and project-side workflow docs (`WORKFLOW.md`, `TASKNOTE_QUICK_REFERENCE.md`) go away — the flowtron submodule + paste-block in CLAUDE.md cover their job. Project-specific notes shrink and get a pointer at the top.
+
+### 3.6 Update `CLAUDE.md`
+
+Same as §2.5. Replace any block referencing the legacy workflow with the flowtron paste-block from §1.3. Project-specific instructions (architecture notes, non-negotiables, quick commands) stay.
+
+### 3.7 Commit the migration
+
+A lightweight migration is itself a tasknote — typically a `CORE-` task in the project's own freshly-populated `_project/PLAN.md`. Use it to track §3.1–§3.6 including the ID cross-walk table, and commit at Phase 4 closure the same way any other tasknote closes. The cross-walk table belongs in the tasknote body, not in `_project/PLAN.md` — once the migration closes, anyone searching for a legacy ID can find it in the archived migration tasknote.
 
 ---
 
