@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-045** [opus] | MIGRATION.md pre-flight + post-cleanup — Generalize the pre-flight collision check + post-migration cleanup checklists from fintown's CORE-098 and invisipaw's P43-1 migration tasknotes into a permanent §3.x subsection of `docs/MIGRATION.md`. Project-specific items stay in adopter tasknotes. Pairs with [[CORE-044]].
+(none)
 
 ## Medium
 
@@ -40,6 +40,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-045** [opus] | MIGRATION.md pre-flight + post-cleanup — Completed 2026-05-07.
 - [x] **CORE-044** [opus] | new-project legacy detection — Completed 2026-05-07.
 - [x] **CORE-043** [opus] | release v1.0.0 — Completed 2026-05-07.
 - [x] **CORE-EPIC-042** [opus] | workflow architecture rethink — Completed 2026-05-07.
