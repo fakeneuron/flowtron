@@ -5,9 +5,9 @@
 Flowtron uses semver tags. Each tagged release is consumable by adopting
 projects via submodule checkout.
 
-- **Patch** (`v1.0.0` → `v1.0.1`) — clarifications, doc fixes, no project-side
+- **Patch** (`v1.1.0` → `v1.1.1`) — clarifications, doc fixes, no project-side
   changes needed.
-- **Minor** (`v1.0.x` → `v1.1.0`) — additive features (new optional fields,
+- **Minor** (`v1.1.x` → `v1.2.0`) — additive features (new optional fields,
   new template sections). Adopting projects can ignore the new features and
   continue working.
 - **Major** (`v1.x.y` → `v2.0.0`) — breaking change. The bump task's tasknote

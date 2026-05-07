@@ -1,6 +1,6 @@
 # Flowtron — Workflow Specification
 
-**Version:** v1.0.0
+**Version:** v1.1.0
 **Status:** Stable
 
 ## What is Flowtron
@@ -288,8 +288,11 @@ Run the full test suite only when changes are broad or cross-cutting.
 The recap has two parts: a brief summary of what changed and key decisions,
 and an optional verification request — something concrete for the user to
 check before they confirm (review the diff, run the feature end-to-end,
-eyeball a generated artifact). The next-task suggestion is separate and
-lives in the post-closure protocol below.
+eyeball a generated artifact).
+
+> **Recap is recap-only.** The recap is *what changed + verification ask*
+> and stops there. The next-task suggestion belongs in the post-closure
+> protocol, after the commit lands — not inside the Phase 4 recap.
 
 The tasknote is closed when archived and the user confirms the recap. Commit
 happens *after* closure (see post-closure protocol below) and is not part of
@@ -318,11 +321,15 @@ After a tasknote is archived and confirmed, the assistant must:
 3. **Offer the copy-paste line:**
 
    ```
-   /clear then /task <NEXT-ID>
+   /clear then /model <opus|sonnet> then /task <NEXT-ID>
    ```
 
    Claude cannot run `/clear` itself; the line is for the user to paste to
-   start the next task in a fresh context.
+   start the next task in a fresh context. The `/model` segment matches
+   the next task's PLAN-line `[model]` tag — a no-op when the active
+   model already matches, but pre-empts the Step 1.5 model gate on
+   assistant-driven hand-offs (the gate still fires on cold starts where
+   the assistant didn't pick the model).
 
 ## When to use a tasknote (and when not to)
 

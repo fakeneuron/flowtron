@@ -112,7 +112,7 @@ The single closure step. In one motion:
 2. **Set `Archived:`** — today's date (`YYYY-MM-DD`).
 3. **Update PLAN.md** — flip the line to the stub form `- [x] **<TASK-ID>** [model] | shortname — Completed YYYY-MM-DD.` per SPEC §"`## Completed` archive convention" (drop the long description — the archived tasknote is the canonical record), and move it to the `## Completed` section.
 4. **Move the tasknote** — `mv _project/tasknote/<TASK-ID>.md _project/tasknote/archive/<area>/<TASK-ID>.md`.
-5. **Recap to the user** — brief summary of what changed and key decisions, plus an optional verification request (one concrete thing for the user to check before they confirm). Wait for confirmation.
+5. **Recap to the user** — brief summary of what changed and key decisions, plus an optional verification request (one concrete thing for the user to check before they confirm). **Recap is recap-only — do not include the next-task suggestion until the commit lands (Step 5); see SPEC §"🚀 Phase 4: Closure" callout.** Wait for confirmation.
 
 Closure flips two places (PLAN.md line + tasknote location); the YAML `status:` stays `in-progress` per SPEC §"Tasknote body shape" (visualizers compute the canonical chip from YAML at render time; archived tasknote's YAML may lag — intentional and matches `/task`'s closure shape).
 
@@ -126,7 +126,7 @@ Skill-specific orchestration on top of the SPEC contract:
 - Confirm with the user before committing — do not commit unprompted.
 - Commit message format: `feat: <TASK-ID> — <title>` or `fix:` / `docs:` / `chore:` as appropriate. The micro-tasknote scaffold + closure typically bundle into a single commit alongside the code/doc change.
 - When suggesting the next move, name the recommended model alongside the task ID.
-- The copy-paste line is `/clear then /<task|micro-task|starter-task> <NEXT-ID>` — you cannot run `/clear` yourself.
+- The copy-paste line is `/clear then /model <opus|sonnet> then /<task|micro-task|starter-task> <NEXT-ID>` — you cannot run `/clear` yourself. Substitute the next task's PLAN-line `[model]` tag for `<opus|sonnet>` and the appropriate slash command for the alternation so the user pastes a fully resolved line.
 
 ## Notes
 

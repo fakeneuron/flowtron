@@ -38,6 +38,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-046** [opus] | flowtron v1.1.0 — post-closure /model + recap-only — Completed 2026-05-07.
 - [x] **FE-014** [opus] | viz UI component tests — Completed 2026-05-07.
 - [x] **FE-010** [opus] | viz keyboard nav — Completed 2026-05-07.
 - [x] **CORE-045** [opus] | MIGRATION.md pre-flight + post-cleanup — Completed 2026-05-07.
