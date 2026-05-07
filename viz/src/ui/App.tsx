@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { groupBy, effectiveStatus } from './utils';
+import { groupBy, effectiveStatus, buildInboundRefs } from './utils';
 import { groupTasks, parsePlan, type Priority, type Task, type TaskNode } from '../parser';
 import { type Tasknote, type TasknoteStatus } from '../tasknote';
 import { STATUS_LABEL, STATUS_BADGE } from './constants';
@@ -121,6 +121,11 @@ export const App: React.FC = () => {
   );
 
   const allNodes = useMemo(() => groupTasks(tasks), [tasks]);
+
+  const inboundRefs = useMemo(
+    () => buildInboundRefs(tasks, tasknotesById),
+    [tasks, tasknotesById],
+  );
 
   const presentStatuses = useMemo(() => {
     const set = new Set<TasknoteStatus>();
@@ -368,6 +373,7 @@ export const App: React.FC = () => {
                 collapsed={collapsed}
                 onToggle={() => toggleSection(p)}
                 tasknotesById={tasknotesById}
+                inboundRefs={inboundRefs}
                 expandedId={expandedId}
                 setExpandedId={setExpandedId}
                 expandedEpicIds={expandedEpicIds}

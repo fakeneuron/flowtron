@@ -7,6 +7,7 @@ import { TaskDetail } from './TaskDetail';
 interface TaskRowProps {
   task: Task;
   tasknotesById: Map<string, Tasknote>;
+  inboundRefs: Map<string, Set<string>>;
   expandedId: string | null;
   setExpandedId: (id: string | null) => void;
   highlightId: string | null;
@@ -17,6 +18,7 @@ interface TaskRowProps {
 export const TaskRow: React.FC<TaskRowProps> = ({
   task,
   tasknotesById,
+  inboundRefs,
   expandedId,
   setExpandedId,
   highlightId,
@@ -37,6 +39,7 @@ export const TaskRow: React.FC<TaskRowProps> = ({
       <TaskRowInner
         task={task}
         tasknotesById={tasknotesById}
+        inboundRefs={inboundRefs}
         isExpandedDetail={expandedId === task.id}
         onToggleDetail={() => setExpandedId(expandedId === task.id ? null : task.id)}
         navigateToTask={navigateToTask}

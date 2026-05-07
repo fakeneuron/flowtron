@@ -176,6 +176,66 @@ describe('App — expand-on-click toggling', () => {
   });
 });
 
+describe('App — inbound back-refs', () => {
+  const plan = `## High
+
+- [ ] **CORE-100** | target — Target task with no outbound refs.
+- [ ] **CORE-200** | refers-via-plan — Builds on [[CORE-100]].
+- [ ] **CORE-300** | refers-via-frontmatter — Has a tasknote linking to [[CORE-100]].
+- [ ] **CORE-400** | dup — Both PLAN ref [[CORE-100]] and frontmatter point at it.
+`;
+
+  const active = [
+    makeTasknote({
+      id: 'CORE-300',
+      goal: 'Goal of refers-via-frontmatter.',
+      frontmatter: {
+        title: 'refers-via-frontmatter',
+        status: 'in-progress',
+        tags: [],
+        created: '2026-05-07',
+        relatedTasks: ['CORE-100'],
+      },
+    }),
+    makeTasknote({
+      id: 'CORE-400',
+      frontmatter: {
+        title: 'dup',
+        status: 'in-progress',
+        tags: [],
+        created: '2026-05-07',
+        relatedTasks: ['CORE-100'],
+      },
+    }),
+    makeTasknote({
+      id: 'CORE-100',
+      goal: 'Goal of the target task.',
+      frontmatter: {
+        title: 'target',
+        status: 'in-progress',
+        tags: [],
+        created: '2026-05-07',
+        relatedTasks: [],
+      },
+    }),
+  ];
+
+  it('shows "← referenced by N" with deduped count and opens detail on click', async () => {
+    const user = userEvent.setup();
+    renderApp({ plan, active });
+
+    const chip = await screen.findByRole('button', { name: /referenced by 3/ });
+    expect(chip).toHaveTextContent(/^← referenced by 3$/);
+    expect(screen.queryAllByRole('button', { name: /referenced by/ })).toHaveLength(1);
+
+    expect(screen.queryByText('Goal of the target task.')).not.toBeInTheDocument();
+    await user.click(chip);
+    await waitFor(() =>
+      expect(screen.getByText('Goal of the target task.')).toBeInTheDocument(),
+    );
+  });
+});
+
 describe('App — status badge selection', () => {
   const plan = `## High
 

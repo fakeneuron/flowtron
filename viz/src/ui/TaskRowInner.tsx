@@ -8,6 +8,7 @@ import { SubtaskProgress } from './SubtaskProgress';
 import { ModelChip } from './ModelChip';
 import { RelatedChip } from './RelatedChip';
 import { BlockerChip } from './BlockerChip';
+import { BackRefChip } from './BackRefChip';
 
 function formatDue(iso: string): string {
   const today = new Date();
@@ -22,6 +23,7 @@ function formatDue(iso: string): string {
 export interface TaskRowInnerProps {
   task: Task;
   tasknotesById: Map<string, Tasknote>;
+  inboundRefs: Map<string, Set<string>>;
   isExpandedDetail: boolean;
   onToggleDetail: () => void;
   navigateToTask: (id: string) => void;
@@ -31,6 +33,7 @@ export interface TaskRowInnerProps {
 export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
   task,
   tasknotesById,
+  inboundRefs,
   isExpandedDetail,
   onToggleDetail,
   navigateToTask,
@@ -40,12 +43,14 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
   const fm = tn?.frontmatter ?? null;
   const status = effectiveStatus(task, tn);
   const relatedTasks = fm ? fm.relatedTasks : task.relatedTasks;
+  const inboundCount = inboundRefs.get(task.id)?.size ?? 0;
   const dueLabel = useMemo(() => (fm?.due ? formatDue(fm.due) : null), [fm?.due]);
   const showNoTasknote =
     !tn &&
     !extraRightSlot &&
     task.blockedBy.length === 0 &&
-    task.relatedTasks.length === 0;
+    task.relatedTasks.length === 0 &&
+    inboundCount === 0;
   return (
     <div className="flex min-w-0 flex-1 items-center gap-2">
       <button
@@ -100,6 +105,9 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
                 <RelatedChip key={id} id={id} onClick={() => navigateToTask(id)} />
               ))}
             </div>
+          )}
+          {inboundCount > 0 && (
+            <BackRefChip count={inboundCount} onClick={onToggleDetail} />
           )}
           {dueLabel && (
             <span

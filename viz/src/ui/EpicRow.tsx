@@ -9,6 +9,7 @@ import { TaskDetail } from './TaskDetail';
 interface EpicRowProps {
   node: TaskNode;
   tasknotesById: Map<string, Tasknote>;
+  inboundRefs: Map<string, Set<string>>;
   expandedId: string | null;
   setExpandedId: (id: string | null) => void;
   expanded: boolean;
@@ -21,6 +22,7 @@ interface EpicRowProps {
 export const EpicRow: React.FC<EpicRowProps> = ({
   node,
   tasknotesById,
+  inboundRefs,
   expandedId,
   setExpandedId,
   expanded,
@@ -56,6 +58,7 @@ export const EpicRow: React.FC<EpicRowProps> = ({
         <TaskRowInner
           task={task}
           tasknotesById={tasknotesById}
+          inboundRefs={inboundRefs}
           isExpandedDetail={expandedId === task.id}
           onToggleDetail={() => setExpandedId(expandedId === task.id ? null : task.id)}
           navigateToTask={navigateToTask}
