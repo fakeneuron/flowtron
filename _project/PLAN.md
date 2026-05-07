@@ -15,7 +15,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-044** [sonnet] | new-project legacy detection — Extend `claude/skills/new-project/SKILL.md` Step 0 precondition check to detect root-level `PLAN.md`, `plan.json`, `WORKFLOW.md`, or other legacy workflow tells; bail with pointer at `docs/MIGRATION.md` §3 instead of scaffolding alongside. Gap surfaced during [[CORE-043]] v1.0 cut.
 - [ ] **CORE-045** [opus] | MIGRATION.md pre-flight + post-cleanup — Generalize the pre-flight collision check + post-migration cleanup checklists from fintown's CORE-098 and invisipaw's P43-1 migration tasknotes into a permanent §3.x subsection of `docs/MIGRATION.md`. Project-specific items stay in adopter tasknotes. Pairs with [[CORE-044]].
 
 ## Medium
@@ -41,6 +40,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-044** [opus] | new-project legacy detection — Completed 2026-05-07.
 - [x] **CORE-043** [opus] | release v1.0.0 — Completed 2026-05-07.
 - [x] **CORE-EPIC-042** [opus] | workflow architecture rethink — Completed 2026-05-07.
   - [x] **CORE-042.1** [opus] | discovery — Completed 2026-05-06.

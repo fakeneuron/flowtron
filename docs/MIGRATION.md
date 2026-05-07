@@ -22,7 +22,7 @@ cd ~/code/<your-new-project>
 /new-project
 ```
 
-The skill verifies preconditions (cwd is a git repo with `CLAUDE.md`, no existing flowtron wiring), asks for the project name and pinned flowtron version, and walks through §1.1–1.6 conversationally. It stages all bootstrap files and surfaces the commit message for your approval — no unprompted commits.
+The skill verifies preconditions (cwd is a git repo with `CLAUDE.md`, no existing flowtron wiring, and no legacy workflow tooling at the root — `PLAN.md`, `plan.json`, or `WORKFLOW.md` route to §3 / §2 instead), asks for the project name and pinned flowtron version, and walks through §1.1–1.6 conversationally. It stages all bootstrap files and surfaces the commit message for your approval — no unprompted commits.
 
 **One-time global install** (run once per machine, after cloning flowtron to `~/code/flowtron/`):
 

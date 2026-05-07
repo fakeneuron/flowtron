@@ -7,7 +7,7 @@ description: Bootstrap a fresh ~/code/ project with flowtron — adds the submod
 
 You are bootstrapping flowtron into a fresh project. The full procedural reference lives in flowtron's `docs/MIGRATION.md` §1 — this skill is the executable interpretation, not a replacement. Treat MIGRATION.md as authoritative when this file is silent or in tension.
 
-This skill is **fresh-adoption only**. If the project already has a `plan.json`, `WORKFLOW.md`, helper scripts, or other prior workflow tooling, stop and point the user at MIGRATION.md §2 — the migration path involves judgment calls (which tasks survive, which docs to delete) that don't fit a recipe.
+This skill is **fresh-adoption only** — Step 0 detects prior workflow tooling at the project root and bails with a pointer at `docs/MIGRATION.md` §3 (lightweight, active-queue-only — the typical case) or §2 (heavier path that preserves task-ID continuity). Both paths involve judgment calls that don't fit a recipe.
 
 ## Step 0 — Verify preconditions
 
@@ -22,6 +22,13 @@ The skill operates on the current working directory. Before doing anything:
   - `.claude/skills/task`
 
   If any are present, stop. Surface what's already there and ask whether the user meant to bump the pinned version (see `docs/MIGRATION.md` §"Pinning and bumping") instead of bootstrapping fresh.
+
+- None of the following exist at the project root (their presence means a legacy workflow system is in place — flowtron would conflict, e.g. a root `PLAN.md` collides with `_project/PLAN.md`):
+  - `PLAN.md`
+  - `plan.json`
+  - `WORKFLOW.md`
+
+  If any are present, stop. Surface what's there and point the user at `docs/MIGRATION.md` §3 (lightweight migration: lift the active queue only, freeze legacy as read-only — the typical case) or §2 (heavier path that preserves task-ID continuity across the full archive). Do not bootstrap alongside legacy.
 
 If any precondition fails, do not modify any files.
 
@@ -142,5 +149,5 @@ Reference: `docs/MIGRATION.md` §1.7.
 ## Notes
 
 - This skill does not touch existing files except `CLAUDE.md` (appended-to in Step 4). Everything else is new.
-- For migrating from a prior workflow system (existing `plan.json`, `WORKFLOW.md`, etc.), use `docs/MIGRATION.md` §2 manually — the migration path involves judgment calls that don't fit a recipe.
+- For migrating from a prior workflow system (existing `plan.json`, `WORKFLOW.md`, etc.), use `docs/MIGRATION.md` §3 (lightweight, active-queue-only) or §2 (full, ID-preserving) manually — the migration path involves judgment calls that don't fit a recipe.
 - For bumping flowtron's pinned version in an already-adopted project, see `docs/MIGRATION.md` §"Pinning and bumping" — that's a different task (`CORE-XXX: Bump flowtron to vX.Y.Z`).
