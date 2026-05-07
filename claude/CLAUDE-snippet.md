@@ -15,7 +15,7 @@ This project uses **flowtron** for task tracking. The canonical workflow contrac
 - Tasknotes live in `_project/tasknote/<TASK-ID>.md` while active and `_project/tasknote/archive/<area>/<TASK-ID>.md` once closed.
 - Start a task with `/task <TASK-ID>` (e.g., `/task BE-014`). The slash command scaffolds the tasknote from the flowtron template and drives Phase 1 Discovery before any code is written.
 - Every tasknote runs the 4-phase workflow in serial order — Discovery → Execution → Testing & Linting → Closure — followed by the post-closure protocol (commit + next-task suggestion). Do not skip phases.
-- Each tasknote header carries a `Model` field (`opus` / `sonnet`). The task runs end-to-end on the tagged model. If the loaded model doesn't match, surface the mismatch before continuing.
+- Each PLAN.md task line carries a `[model]` segment (`opus` / `sonnet`). The task runs end-to-end on the tagged model. If the loaded model doesn't match, surface the mismatch before continuing.
 - The `_project/flowtron/` submodule is read-only here. Edits go upstream to flowtron and arrive via deliberate version bumps — see `_project/flowtron/SPEC/versioning.md` and `_project/tasknote/README.md` for the pinned version.
 ```
 

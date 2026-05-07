@@ -6,7 +6,7 @@ The model assignment (`opus` | `sonnet`) lives on the PLAN.md task line — the
 `[model]` segment of §"Task-line format". PLAN.md is the source of truth.
 
 `/task` reads the model BEFORE scaffolding (see `claude/skills/task/SKILL.md`
-Step 0.5):
+Step 1.5):
 
 - Active model matches the PLAN.md `[model]` → proceed silently.
 - Active model differs → block and offer two paths: switch the active model
