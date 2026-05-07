@@ -1,0 +1,137 @@
+import { useEffect, type RefObject } from 'react';
+import type { TasknoteStatus } from '../tasknote';
+
+interface UseKeyboardNavParams {
+  visibleIds: string[];
+  epicIds: Set<string>;
+  searchInputRef: RefObject<HTMLInputElement | null>;
+  selectedId: string | null;
+  setSelectedId: (id: string | null) => void;
+  expandedId: string | null;
+  setExpandedId: (id: string | null) => void;
+  expandedEpicIds: Set<string>;
+  toggleEpic: (id: string) => void;
+  query: string;
+  setQuery: (q: string) => void;
+  tagFilter: Set<string>;
+  setTagFilter: (s: Set<string>) => void;
+  statusFilter: Set<TasknoteStatus>;
+  setStatusFilter: (s: Set<TasknoteStatus>) => void;
+  load: () => void;
+}
+
+const scrollRowIntoView = (id: string) => {
+  const el = document.getElementById(`row-${id}`);
+  el?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+};
+
+export function useKeyboardNav(params: UseKeyboardNavParams) {
+  const {
+    visibleIds,
+    epicIds,
+    searchInputRef,
+    selectedId,
+    setSelectedId,
+    expandedId,
+    setExpandedId,
+    expandedEpicIds,
+    toggleEpic,
+    query,
+    setQuery,
+    tagFilter,
+    setTagFilter,
+    statusFilter,
+    setStatusFilter,
+    load,
+  } = params;
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+      const target = e.target as HTMLElement | null;
+      const tag = target?.tagName;
+      const isTyping = tag === 'INPUT' || tag === 'TEXTAREA' || !!target?.isContentEditable;
+
+      if (e.key === 'Escape') {
+        if (expandedId !== null) {
+          setExpandedId(null);
+        } else if (query || tagFilter.size > 0 || statusFilter.size > 0) {
+          setQuery('');
+          setTagFilter(new Set());
+          setStatusFilter(new Set());
+        } else if (target === searchInputRef.current) {
+          searchInputRef.current?.blur();
+        } else {
+          return;
+        }
+        e.preventDefault();
+        return;
+      }
+
+      if (e.key === '/') {
+        if (isTyping) return;
+        searchInputRef.current?.focus();
+        e.preventDefault();
+        return;
+      }
+
+      if (isTyping) return;
+
+      if (e.key === 'j' || e.key === 'k') {
+        if (visibleIds.length === 0) return;
+        const idx = selectedId ? visibleIds.indexOf(selectedId) : -1;
+        const next =
+          e.key === 'j'
+            ? idx < 0
+              ? 0
+              : Math.min(idx + 1, visibleIds.length - 1)
+            : idx < 0
+              ? visibleIds.length - 1
+              : Math.max(idx - 1, 0);
+        const nextId = visibleIds[next];
+        setSelectedId(nextId);
+        scrollRowIntoView(nextId);
+        e.preventDefault();
+        return;
+      }
+
+      if (e.key === 'Enter') {
+        if (!selectedId) return;
+        if (epicIds.has(selectedId) && !expandedEpicIds.has(selectedId)) {
+          toggleEpic(selectedId);
+        } else {
+          setExpandedId(expandedId === selectedId ? null : selectedId);
+        }
+        e.preventDefault();
+        return;
+      }
+
+      if (e.key === 'r') {
+        load();
+        e.preventDefault();
+        return;
+      }
+    };
+
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, [
+    visibleIds,
+    epicIds,
+    searchInputRef,
+    selectedId,
+    setSelectedId,
+    expandedId,
+    setExpandedId,
+    expandedEpicIds,
+    toggleEpic,
+    query,
+    setQuery,
+    tagFilter,
+    setTagFilter,
+    statusFilter,
+    setStatusFilter,
+    load,
+  ]);
+}

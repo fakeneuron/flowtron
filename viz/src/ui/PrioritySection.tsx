@@ -26,6 +26,7 @@ interface PrioritySectionProps {
   expandedEpicIds: Set<string>;
   toggleEpic: (id: string) => void;
   highlightId: string | null;
+  selectedId: string | null;
   navigateToTask: (id: string) => void;
 }
 
@@ -40,6 +41,7 @@ export const PrioritySection: React.FC<PrioritySectionProps> = ({
   expandedEpicIds,
   toggleEpic,
   highlightId,
+  selectedId,
   navigateToTask,
 }) => {
   const totalCount = nodes.reduce((s, n) => s + 1 + n.children.length, 0);
@@ -73,6 +75,7 @@ export const PrioritySection: React.FC<PrioritySectionProps> = ({
                   expanded={expandedEpicIds.has(node.task.id)}
                   toggleExpanded={() => toggleEpic(node.task.id)}
                   highlightId={highlightId}
+                  selectedId={selectedId}
                   navigateToTask={navigateToTask}
                 />
               );
@@ -85,6 +88,7 @@ export const PrioritySection: React.FC<PrioritySectionProps> = ({
                 expandedId={expandedId}
                 setExpandedId={setExpandedId}
                 highlightId={highlightId}
+                isSelected={selectedId === node.task.id}
                 navigateToTask={navigateToTask}
               />
             );

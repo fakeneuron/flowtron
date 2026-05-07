@@ -14,6 +14,7 @@ interface EpicRowProps {
   expanded: boolean;
   toggleExpanded: () => void;
   highlightId: string | null;
+  selectedId: string | null;
   navigateToTask: (id: string) => void;
 }
 
@@ -25,6 +26,7 @@ export const EpicRow: React.FC<EpicRowProps> = ({
   expanded,
   toggleExpanded,
   highlightId,
+  selectedId,
   navigateToTask,
 }) => {
   const { task, children } = node;
@@ -36,7 +38,9 @@ export const EpicRow: React.FC<EpicRowProps> = ({
       className={`rounded border bg-white dark:bg-slate-900 ${
         highlightId === task.id
           ? 'border-amber-400 ring-2 ring-amber-300 dark:border-amber-500 dark:ring-amber-600'
-          : 'border-slate-200 dark:border-slate-800'
+          : selectedId === task.id
+            ? 'border-slate-200 ring-2 ring-sky-400 dark:border-slate-800 dark:ring-sky-600'
+            : 'border-slate-200 dark:border-slate-800'
       } transition-colors`}
     >
       <div className="flex items-center gap-2 px-2.5 py-1.5">
@@ -71,6 +75,7 @@ export const EpicRow: React.FC<EpicRowProps> = ({
               key={c.id}
               task={c}
               highlightId={highlightId}
+              isSelected={selectedId === c.id}
               navigateToTask={navigateToTask}
             />
           ))}

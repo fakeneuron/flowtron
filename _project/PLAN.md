@@ -20,7 +20,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Medium
 
 - [ ] **CORE-016** [opus] | InvisiPaw migration — Execute InvisiPaw migration per [[CORE-008]] playbook. Blocked by [[CORE-008]] — do not start until user signals InvisiPaw backlog is cleared. Scope: flowtron wiring + plan-file collapse + active-task-ID rename. Out of scope: renaming the 15 in-flight tasknote files (deferred further).
-- [ ] **FE-010** [opus] | viz keyboard nav — Add shortcuts: `/` focuses search, `j/k` arrow-nav rows, `Enter` expands, `r` refreshes, `Esc` collapses detail / clears filters. Builds on [[FE-007]].
 - [ ] **FE-012** [opus] | viz inbound wikilink back-refs — Surface inbound references: when a task's `related-tasks:` frontmatter or PLAN long-description points at another task, the target's row gets a "← referenced by N" chip. Build a `Map<id, Set<id>>` once at load (data is already parsed) and render in `TaskRowInner`. Builds on [[FE-007]].
 
 ## Low
@@ -40,6 +39,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-010** [opus] | viz keyboard nav — Completed 2026-05-07.
 - [x] **CORE-045** [opus] | MIGRATION.md pre-flight + post-cleanup — Completed 2026-05-07.
 - [x] **CORE-044** [opus] | new-project legacy detection — Completed 2026-05-07.
 - [x] **CORE-043** [opus] | release v1.0.0 — Completed 2026-05-07.

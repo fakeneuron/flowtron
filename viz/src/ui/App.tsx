@@ -5,6 +5,7 @@ import { type Tasknote, type TasknoteStatus } from '../tasknote';
 import { STATUS_LABEL, STATUS_BADGE } from './constants';
 import { PrioritySection } from './PrioritySection';
 import { ThemeToggle } from './ThemeToggle';
+import { useKeyboardNav } from './useKeyboardNav';
 
 const SECTIONS: Priority[] = [
   'Critical',
@@ -29,7 +30,6 @@ export const App: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [tasknotesById, setTasknotesById] = useState<Map<string, Tasknote>>(new Map());
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
   const [tagFilter, setTagFilter] = useState<Set<string>>(new Set());
   const [statusFilter, setStatusFilter] = useState<Set<TasknoteStatus>>(new Set());
@@ -39,10 +39,11 @@ export const App: React.FC = () => {
   );
   const [expandedEpicIds, setExpandedEpicIds] = useState<Set<string>>(new Set());
   const [highlightId, setHighlightId] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const searchInputRef = useRef<HTMLInputElement | null>(null);
 
   const load = useCallback(async () => {
-    setLoading(true);
     setError(null);
     try {
       const [planRes, activeRes, archiveRes] = await Promise.all([
@@ -62,8 +63,6 @@ export const App: React.FC = () => {
       setTasknotesById(merged);
     } catch (e) {
       setError((e as Error).message);
-    } finally {
-      setLoading(false);
     }
   }, []);
 
@@ -141,6 +140,29 @@ export const App: React.FC = () => {
     () => groupBy(filteredNodes, (n) => n.task.priority),
     [filteredNodes],
   );
+
+  const epicIds = useMemo(() => {
+    const set = new Set<string>();
+    for (const node of allNodes) {
+      if (node.children.length > 0 || /-EPIC-/.test(node.task.id)) set.add(node.task.id);
+    }
+    return set;
+  }, [allNodes]);
+
+  const visibleIds = useMemo(() => {
+    const ids: string[] = [];
+    for (const p of SECTIONS) {
+      if (collapsedSections.has(p)) continue;
+      const nodes = bySection[p] ?? [];
+      for (const node of nodes) {
+        ids.push(node.task.id);
+        if (expandedEpicIds.has(node.task.id)) {
+          for (const c of node.children) ids.push(c.id);
+        }
+      }
+    }
+    return ids;
+  }, [bySection, collapsedSections, expandedEpicIds]);
 
   const total = tasks.length;
   const filteredCount = useMemo(
@@ -224,6 +246,25 @@ export const App: React.FC = () => {
     [tasks],
   );
 
+  useKeyboardNav({
+    visibleIds,
+    epicIds,
+    searchInputRef,
+    selectedId,
+    setSelectedId,
+    expandedId,
+    setExpandedId,
+    expandedEpicIds,
+    toggleEpic,
+    query,
+    setQuery,
+    tagFilter,
+    setTagFilter,
+    statusFilter,
+    setStatusFilter,
+    load,
+  });
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
       <header className="border-b border-slate-200 bg-white px-4 py-3 dark:border-slate-800 dark:bg-slate-900">
@@ -239,6 +280,7 @@ export const App: React.FC = () => {
             </div>
             <div className="flex items-center gap-2">
               <input
+                ref={searchInputRef}
                 type="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
@@ -249,12 +291,11 @@ export const App: React.FC = () => {
               />
               <button
                 type="button"
-                onClick={() => void load()}
-                disabled={loading}
-                className="rounded border border-slate-300 bg-white px-3 py-1.5 text-sm shadow-sm hover:bg-slate-50 disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
-                aria-busy={loading}
+                title={'Keyboard shortcuts:\n/  focus search\nj / k  navigate rows\nEnter  expand\nr  refresh\nEsc  close detail / clear filters'}
+                aria-label="Keyboard shortcuts"
+                className="rounded border border-slate-300 bg-white px-2 py-1.5 text-sm shadow-sm hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
               >
-                {loading ? 'Loading…' : 'Refresh'}
+                ⓘ
               </button>
               <ThemeToggle />
             </div>
@@ -332,6 +373,7 @@ export const App: React.FC = () => {
                 expandedEpicIds={expandedEpicIds}
                 toggleEpic={toggleEpic}
                 highlightId={highlightId}
+                selectedId={selectedId}
                 navigateToTask={navigateToTask}
               />
             );

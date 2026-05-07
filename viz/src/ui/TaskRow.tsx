@@ -10,6 +10,7 @@ interface TaskRowProps {
   expandedId: string | null;
   setExpandedId: (id: string | null) => void;
   highlightId: string | null;
+  isSelected: boolean;
   navigateToTask: (id: string) => void;
 }
 
@@ -19,6 +20,7 @@ export const TaskRow: React.FC<TaskRowProps> = ({
   expandedId,
   setExpandedId,
   highlightId,
+  isSelected,
   navigateToTask,
 }) => (
   <div
@@ -26,7 +28,9 @@ export const TaskRow: React.FC<TaskRowProps> = ({
     className={`rounded border bg-white dark:bg-slate-900 ${
       highlightId === task.id
         ? 'border-amber-400 ring-2 ring-amber-300 dark:border-amber-500 dark:ring-amber-600'
-        : 'border-slate-200 dark:border-slate-800'
+        : isSelected
+          ? 'border-slate-200 ring-2 ring-sky-400 dark:border-slate-800 dark:ring-sky-600'
+          : 'border-slate-200 dark:border-slate-800'
     } transition-colors`}
   >
     <div className="flex items-center gap-2 px-2.5 py-1.5 pl-9">

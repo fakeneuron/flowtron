@@ -4,16 +4,24 @@ import type { Task } from '../parser';
 interface SubtaskRowProps {
   task: Task;
   highlightId: string | null;
+  isSelected: boolean;
   navigateToTask: (id: string) => void;
 }
 
-export const SubtaskRow: React.FC<SubtaskRowProps> = ({ task, highlightId, navigateToTask }) => (
+export const SubtaskRow: React.FC<SubtaskRowProps> = ({
+  task,
+  highlightId,
+  isSelected,
+  navigateToTask,
+}) => (
   <div
     id={`row-${task.id}`}
     className={`flex items-center gap-2 rounded px-2 py-1 ${
       highlightId === task.id
         ? 'bg-amber-100 ring-1 ring-amber-300 dark:bg-amber-900/30 dark:ring-amber-700'
-        : ''
+        : isSelected
+          ? 'ring-1 ring-sky-400 dark:ring-sky-600'
+          : ''
     } transition-colors`}
   >
     <span
