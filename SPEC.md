@@ -1,6 +1,6 @@
 # Flowtron — Workflow Specification
 
-**Version:** v0.9.0
+**Version:** v0.9.1
 **Status:** Stable
 
 ## What is Flowtron
@@ -259,7 +259,6 @@ executing a different task than was approved.
 - [ ] **Pattern survey** — looked at how neighboring code (sibling modules, parallel components, adjacent services) solves the same shape of problem; chose to extend an existing pattern, or justified the new shape if none fits
 - [ ] Implemented the minimal solution
 - [ ] Updated/added tests for non-trivial behavior
-- [ ] Ran targeted tests on changed files
 
 Keep edits tightly scoped. Resist refactoring adjacent code unless the task
 explicitly calls for it. The pattern survey exists to keep the codebase
@@ -277,16 +276,13 @@ re-invoking `/task <ID>`.
 - [ ] Ran targeted test suite for changed code
 - [ ] Ran lint/type-check on changed code
 - [ ] (frontend) Asked the user for visual confirmation
-- [ ] Fixed all introduced issues
 
 Run the full test suite only when changes are broad or cross-cutting.
 
 ### 🚀 Phase 4: Closure
 
-- [ ] Verified all prior phases complete
 - [ ] Updated docs/inventories affected by the change
-- [ ] Updated PLAN.md (status flipped to `Completed YYYY-MM-DD`)
-- [ ] Moved this tasknote to `_project/tasknote/archive/<area>/`
+- [ ] Closed — PLAN.md status flipped to `Completed YYYY-MM-DD` and tasknote moved to `_project/tasknote/archive/<area>/`
 - [ ] Recapped changes with the user and got confirmation
 
 The recap has two parts: a brief summary of what changed and key decisions,

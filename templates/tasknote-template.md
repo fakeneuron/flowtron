@@ -52,7 +52,6 @@ One-sentence goal of what this task accomplishes.
 - [ ] **Pattern survey** — looked at neighboring code for an existing pattern to extend; justified the new shape if none fits
 - [ ] Implemented the minimal solution
 - [ ] Updated/added tests for non-trivial behavior
-- [ ] Ran targeted tests on changed files
 
 **Implementation Notes:**
 
@@ -61,16 +60,13 @@ One-sentence goal of what this task accomplishes.
 - [ ] Ran targeted test suite for changed code
 - [ ] Ran lint/type-check on changed code
 - [ ] (frontend) Asked the user for visual confirmation
-- [ ] Fixed all introduced issues
 
 **Testing Notes:**
 
 ## 🚀 Phase 4: Closure
 
-- [ ] Verified all prior phases complete
 - [ ] Updated docs/inventories affected by the change
-- [ ] Updated PLAN.md (status flipped to `Completed YYYY-MM-DD`)
-- [ ] Moved this tasknote to `_project/tasknote/archive/<area>/`
+- [ ] Closed — PLAN.md status flipped to `Completed YYYY-MM-DD` and tasknote moved to `_project/tasknote/archive/<area>/`
 - [ ] Recapped changes with the user and got confirmation
 
 **Final Summary:**
