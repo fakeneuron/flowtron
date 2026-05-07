@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-(none — see Completed below)
+- [ ] **CORE-044** [sonnet] | new-project legacy detection — Extend `claude/skills/new-project/SKILL.md` Step 0 precondition check to detect root-level `PLAN.md`, `plan.json`, `WORKFLOW.md`, or other legacy workflow tells; bail with pointer at `docs/MIGRATION.md` §3 instead of scaffolding alongside. Gap surfaced during [[CORE-043]] v1.0 cut.
 
 ## Medium
 
