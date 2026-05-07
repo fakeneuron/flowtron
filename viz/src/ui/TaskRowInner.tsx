@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import type { Task, TaskModel } from '../parser';
 import type { Tasknote } from '../tasknote';
 import { STATUS_BADGE, STATUS_LABEL } from './constants';
+import { effectiveStatus } from './utils';
 import { PhaseDots } from './PhaseDots';
 import { SubtaskProgress } from './SubtaskProgress';
 import { ModelChip } from './ModelChip';
@@ -37,6 +38,7 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
 }) => {
   const tn = tasknotesById.get(task.id);
   const fm = tn?.frontmatter ?? null;
+  const status = effectiveStatus(task, tn);
   const relatedTasks = fm ? fm.relatedTasks : task.relatedTasks;
   const dueLabel = useMemo(() => (fm?.due ? formatDue(fm.due) : null), [fm?.due]);
   const showNoTasknote =
@@ -61,7 +63,7 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
       </button>
       <div className="grid shrink-0 grid-cols-[auto_auto] items-center gap-x-4">
         <div className="flex items-center justify-end gap-1.5">
-          {tn && fm?.status !== 'starter' && <PhaseDots phases={tn.phases} />}
+          {tn && status !== 'starter' && <PhaseDots phases={tn.phases} />}
           {tn && tn.subtasksProgress.total > 0 && (
             <SubtaskProgress counts={tn.subtasksProgress} />
           )}
@@ -113,11 +115,11 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
               due {dueLabel}
             </span>
           )}
-          {fm ? (
+          {status ? (
             <span
-              className={`rounded px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide ${STATUS_BADGE[fm.status]}`}
+              className={`rounded px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide ${STATUS_BADGE[status]}`}
             >
-              {STATUS_LABEL[fm.status]}
+              {STATUS_LABEL[status]}
             </span>
           ) : (
             tasknotesById.has(task.id) &&

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { groupBy } from './utils';
+import { groupBy, effectiveStatus } from './utils';
 import { groupTasks, parsePlan, type Priority, type Task, type TaskNode } from '../parser';
 import { type Tasknote, type TasknoteStatus } from '../tasknote';
 import { STATUS_LABEL, STATUS_BADGE } from './constants';
@@ -44,16 +44,21 @@ export const App: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const [planRes, activeRes] = await Promise.all([
+      const [planRes, activeRes, archiveRes] = await Promise.all([
         fetch('/api/plan'),
         fetch('/api/active'),
+        fetch('/api/archive'),
       ]);
       if (!planRes.ok) throw new Error(`PLAN.md fetch failed: HTTP ${planRes.status}`);
       if (!activeRes.ok) throw new Error(`Tasknote list failed: HTTP ${activeRes.status}`);
+      if (!archiveRes.ok) throw new Error(`Archive list failed: HTTP ${archiveRes.status}`);
       const md = await planRes.text();
-      const tasknotes = (await activeRes.json()) as Tasknote[];
+      const active = (await activeRes.json()) as Tasknote[];
+      const archived = (await archiveRes.json()) as Tasknote[];
       setTasks(parsePlan(md));
-      setTasknotesById(new Map(tasknotes.map((t) => [t.id, t])));
+      const merged = new Map<string, Tasknote>(archived.map((t) => [t.id, t]));
+      for (const t of active) merged.set(t.id, t);
+      setTasknotesById(merged);
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -97,8 +102,8 @@ export const App: React.FC = () => {
       }
 
       if (statusFilter.size > 0) {
-        const effectiveStatus: TasknoteStatus = fm?.status ?? (task.completed ? 'completed' : 'not-started');
-        if (!statusFilter.has(effectiveStatus)) return false;
+        const s: TasknoteStatus = effectiveStatus(task, tn) ?? 'not-started';
+        if (!statusFilter.has(s)) return false;
       }
 
       const q = query.trim().toLowerCase();
@@ -120,9 +125,8 @@ export const App: React.FC = () => {
   const presentStatuses = useMemo(() => {
     const set = new Set<TasknoteStatus>();
     for (const task of tasks) {
-      const fm = tasknotesById.get(task.id)?.frontmatter ?? null;
-      const s: TasknoteStatus = fm?.status ?? (task.completed ? 'completed' : 'not-started');
-      set.add(s);
+      const tn = tasknotesById.get(task.id);
+      set.add(effectiveStatus(task, tn) ?? 'not-started');
     }
     return set;
   }, [tasks, tasknotesById]);
@@ -146,7 +150,8 @@ export const App: React.FC = () => {
     () =>
       tasks.filter((t) => {
         const tn = tasknotesById.get(t.id);
-        if (tn?.frontmatter) return tn.frontmatter.status === 'in-progress';
+        const s = effectiveStatus(t, tn);
+        if (s) return s === 'in-progress';
         return tasknotesById.has(t.id) && !t.completed;
       }).length,
     [tasks, tasknotesById],

@@ -1,3 +1,6 @@
+import type { Task } from '../parser';
+import type { Tasknote, TasknoteStatus } from '../tasknote';
+
 export function groupBy<T, K extends string | number>(
   items: T[],
   keySelector: (item: T) => K,
@@ -11,4 +14,12 @@ export function groupBy<T, K extends string | number>(
     groups[key].push(item);
   }
   return groups;
+}
+
+// PLAN.md wins on completion: if the row is `[x]` in PLAN.md, the row is
+// authoritatively done regardless of frontmatter status (some archives still
+// say `in-progress` because of closure-protocol drift).
+export function effectiveStatus(task: Task, tn: Tasknote | undefined): TasknoteStatus | null {
+  if (task.completed) return 'completed';
+  return tn?.frontmatter?.status ?? null;
 }

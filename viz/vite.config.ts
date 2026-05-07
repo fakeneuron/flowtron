@@ -11,6 +11,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_DIR = resolve(__dirname, '..', '_project');
 const PLAN_PATH = join(PROJECT_DIR, 'PLAN.md');
 const TASKNOTE_DIR = join(PROJECT_DIR, 'tasknote');
+const ARCHIVE_DIR = join(TASKNOTE_DIR, 'archive');
 
 const SSE_DEBOUNCE_MS = 200;
 const SSE_HEARTBEAT_MS = 30_000;
@@ -36,12 +37,19 @@ function flowtronApi(): Plugin {
     name: 'flowtron-api',
     configureServer(server) {
       if (server.httpServer) {
-        watcher = chokidar.watch([PLAN_PATH, join(TASKNOTE_DIR, '*.md')], {
-          ignoreInitial: true,
-          depth: 0,
-          usePolling: true,
-          interval: 200,
-        });
+        watcher = chokidar.watch(
+          [
+            PLAN_PATH,
+            join(TASKNOTE_DIR, '*.md'),
+            join(ARCHIVE_DIR, '*', '*.md'),
+          ],
+          {
+            ignoreInitial: true,
+            depth: 2,
+            usePolling: true,
+            interval: 200,
+          },
+        );
         watcher.on('all', scheduleBroadcast);
 
         heartbeat = setInterval(() => {
@@ -96,6 +104,40 @@ function flowtronApi(): Plugin {
         } catch (e) {
           res.statusCode = 500;
           res.end(`Failed to list tasknotes: ${(e as Error).message}`);
+        }
+      });
+      server.middlewares.use('/api/archive', async (_req, res) => {
+        try {
+          let areas: Array<{ name: string }> = [];
+          try {
+            areas = (await readdir(ARCHIVE_DIR, { withFileTypes: true })).filter((e) =>
+              e.isDirectory(),
+            );
+          } catch {
+            areas = [];
+          }
+          const tasknotes = (
+            await Promise.all(
+              areas.map(async (area) => {
+                const areaDir = join(ARCHIVE_DIR, area.name);
+                const entries = await readdir(areaDir, { withFileTypes: true });
+                const files = entries.filter((e) => e.isFile() && e.name.endsWith('.md'));
+                return Promise.all(
+                  files.map(async (e) => {
+                    const id = e.name.replace(/\.md$/, '');
+                    const path = join(areaDir, e.name);
+                    const text = await readFile(path, 'utf8');
+                    return parseTasknote(id, path, text);
+                  }),
+                );
+              }),
+            )
+          ).flat();
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify(tasknotes));
+        } catch (e) {
+          res.statusCode = 500;
+          res.end(`Failed to list archived tasknotes: ${(e as Error).message}`);
         }
       });
     },
