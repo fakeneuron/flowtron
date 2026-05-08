@@ -1,7 +1,8 @@
 # Tasknote Directory
 
-This directory holds active tasknotes, the local tasknote template, and
-archived tasknotes for completed work. The canonical workflow lives in
+This directory holds active tasknotes and archived tasknotes for completed
+work. Tasknote templates are resolved from the flowtron submodule at
+`_project/flowtron/templates/`. The canonical workflow lives in
 `_project/flowtron/SPEC.md`.
 
 ## Flowtron version
@@ -14,12 +15,17 @@ steps when crossing a major version.
 
 ## Layout
 
-- `tasknote-template.md` — copy this when starting a new task. Tasknotes carry a YAML frontmatter block (`title`, `status`, `tags`, `created`, `due`, `related-tasks`) followed by a spec-on-top + log-below body: nav header + `🎯 Goal` / `✅ Acceptance` / `🧩 Subtasks` / `🔗 Related` sections above a divider, then the four phase sections (`📝 Discovery` / `🛠️ Execution` / `🧪 Testing` / `🚀 Closure`) below. The model assignment (`opus` | `sonnet`) lives on the PLAN.md task line, not in the frontmatter — see `_project/flowtron/SPEC.md` §"Task-line format" + `_project/flowtron/SPEC/model.md`. The task's priority and area are derivable from the PLAN.md section heading and the task ID prefix respectively, so they don't repeat in the frontmatter. Cross-references use `[[TASK-ID]]` wikilinks. See the template for the canonical schema, §"Tasknote frontmatter" for field contracts, and §"Tasknote body shape" for the body layout.
-- `tasknote-starter-template.md` — copy this when filing a starter via `/starter-task` for a task discovered mid-flow with rich AI-captured context that isn't ready to start. Starters share the standard YAML frontmatter but use `status: starter` and a single body section (`## 🌱 Starter context`); spec sections + phase scaffolding are added at `/task` promotion. See `_project/flowtron/SPEC/starter.md` for the lifecycle.
-- `tasknote-micro-template.md` — copy this when running `/micro-task` for a task above the skip-tasknote threshold but small enough that the full 4-phase ceremony is overkill (single-file changes, focused doc patches, small audits; typically under ~30 minutes). Micro-tasknotes share the standard YAML frontmatter but use a single `## ⚡ Notes` section with bold-prefix prompts (Relevance · Drift check · Archive skim · Pattern survey · Implementation) instead of the four phase checklists, plus a `## ✅ Recap` and an `Archived:` line. See `_project/flowtron/SPEC.md` §"When to use a tasknote (and when not to)" for the threshold.
-- **Epic lifecycle** — for code-sweep or major multi-child feature epics, bracket the implementation children with a **Discovery** subtask (`<AREA>-<N>.1`, plans the children) and an **Audit** subtask (final `.N`, verifies the completed work). See `_project/flowtron/SPEC/epic.md`. Simple implementations don't need it.
 - `<TASK-ID>.md` — active tasknote (one per task in flight)
 - `archive/<area>/<TASK-ID>.md` — completed tasknotes, one folder per area
+
+Tasknotes are scaffolded automatically by the slash commands from
+`_project/flowtron/templates/`; inspect those files directly for the
+canonical shapes. Three variants:
+
+- **Standard 4-phase tasknote** — `/task <ID>` scaffolds from `tasknote-template.md`. YAML frontmatter (`title`, `status`, `tags`, `created`, `due`, `related-tasks`) followed by a spec-on-top + log-below body: nav header + `🎯 Goal` / `✅ Acceptance` / `🧩 Subtasks` / `🔗 Related` sections above a divider, then the four phase sections (`📝 Discovery` / `🛠️ Execution` / `🧪 Testing` / `🚀 Closure`) below. The model assignment (`opus` | `sonnet`) lives on the PLAN.md task line, not in the frontmatter — see `_project/flowtron/SPEC.md` §"Task-line format" + `_project/flowtron/SPEC/model.md`. The task's priority and area are derivable from the PLAN.md section heading and the task ID prefix respectively, so they don't repeat in the frontmatter. Cross-references use `[[TASK-ID]]` wikilinks. See `_project/flowtron/SPEC.md` §"Tasknote frontmatter" + §"Tasknote body shape" for the canonical schema.
+- **Starter tasknote** — `/starter-task <ID>` scaffolds from `tasknote-starter-template.md` for tasks discovered mid-flow with rich AI-captured context that isn't ready to start. Starters share the standard YAML frontmatter but use `status: starter` and a single body section (`## 🌱 Starter context`); spec sections + phase scaffolding are added at `/task` promotion. See `_project/flowtron/SPEC/starter.md` for the lifecycle.
+- **Micro-tasknote** — `/micro-task <ID>` scaffolds from `tasknote-micro-template.md` for tasks above the skip-tasknote threshold but small enough that the full 4-phase ceremony is overkill (single-file changes, focused doc patches, small audits; typically under ~30 minutes). Micro-tasknotes share the standard YAML frontmatter but use a single `## ⚡ Notes` section with bold-prefix prompts (Relevance · Drift check · Archive skim · Pattern survey · Implementation · Docs touched) instead of the four phase checklists, plus a `## ✅ Recap` and an `Archived:` line. See `_project/flowtron/SPEC.md` §"When to use a tasknote (and when not to)" for the threshold.
+- **Epic lifecycle** — for code-sweep or major multi-child feature epics, bracket the implementation children with a **Discovery** subtask (`<AREA>-<N>.1`, plans the children) and an **Audit** subtask (final `.N`, verifies the completed work). See `_project/flowtron/SPEC/epic.md`. Simple implementations don't need it.
 
 ## Area prefixes
 
