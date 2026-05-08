@@ -11,7 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Critical
 
-(none — bootstrap tasks complete; see Completed below)
+- [ ] **CORE-048** [opus] | release v1.2.0 — Cut v1.2.0 minor release covering [[FE-012]] (viz inbound wikilink back-refs) and [[CORE-047]] (doc-set drift contract). Bump SPEC.md v1.1.0→v1.2.0, draft annotated tag with adopter-facing notes, push tag.
 
 ## High
 
