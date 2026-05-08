@@ -20,6 +20,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Medium
 
 - [ ] **CORE-016** [opus] | InvisiPaw migration — Execute InvisiPaw migration per [[CORE-008]] playbook. Blocked by [[CORE-008]] — do not start until user signals InvisiPaw backlog is cleared. Scope: flowtron wiring + plan-file collapse + active-task-ID rename. Out of scope: renaming the 15 in-flight tasknote files (deferred further).
+- [ ] **CORE-047** [opus] | doc-set drift contract — Phase 4 + epic-audit doc-update steps too narrow; bananapeel's BP-300.x closures each ticked "no docs affected" while README + CLAUDE.md drifted from shipped reality. Adopt a per-project AI-referenced doc set declared in `_project/tasknote/README.md`; tighten Phase 4 (light) + add fixed doc-drift line to `SPEC/epic.md` audit-subtask acceptance (strict). Filed with starter at `_project/tasknote/CORE-047.md`.
 
 ## Low
 
