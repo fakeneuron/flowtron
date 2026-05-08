@@ -11,7 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Critical
 
-- [ ] **CORE-048** [opus] | release v1.2.0 — Cut v1.2.0 minor release covering [[FE-012]] (viz inbound wikilink back-refs) and [[CORE-047]] (doc-set drift contract). Bump SPEC.md v1.1.0→v1.2.0, draft annotated tag with adopter-facing notes, push tag.
+(none)
 
 ## High
 
@@ -32,6 +32,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-048** [opus] | release v1.2.0 — Completed 2026-05-08.
 - [x] **CORE-016** [opus] | InvisiPaw migration (executed out-of-band) — Completed 2026-05-08. Done in InvisiPaw's own repo chat; flowtron now adopted there.
 - [x] **CORE-EPIC-009** [opus] | fintown migration (executed out-of-band) — Completed 2026-05-08. Done in fintown's own repo chat; flowtron now adopted there. Children CORE-009.1–.5 closed as part of the same migration.
 - [x] **CORE-047** [opus] | doc-set drift contract — Completed 2026-05-08.
