@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **FE-002** [opus] | cross-project viz — Promote `viz/` to a single global server scanning `FLOWTRON_VIZ_WORKSPACE` (default `~/code/`) for `*/_project/PLAN.md` + each project's full `_project/tasknote/`. Project selector in header rail swaps the active project; existing per-project view ([[FE-001]] / [[FE-004]] / [[FE-006]] / [[FE-010]] / [[FE-012]]) renders unchanged. Single instance, port 5173 strictPort. Replaces per-project viz invocation. Starter captures the design.
 
 ## Low
 
@@ -27,7 +27,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Future Opportunities
 
-- [ ] **FE-002** [opus] | cross-project viz — Cross-project visualizer (extends [[FE-001]]) — Node-side filesystem scan over `~/code/*/_project/PLAN.md`, all projects in one Kanban, optional click-into tasknote detail view. Synergy: [[FE-004]] (frontmatter-aware cards/filters on the same viz codebase).
 - [ ] **CORE-041** [opus] | dynamic-index direction — explore Dataview-style frontmatter queries / DB-backed index if flowtron scales beyond solo single-user planning. See [[CORE-037]] audit + [[CORE-040]] discipline conversation.
 
 ## Completed
