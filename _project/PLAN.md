@@ -19,16 +19,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-016** [opus] | InvisiPaw migration — Execute InvisiPaw migration per [[CORE-008]] playbook. Blocked by [[CORE-008]] — do not start until user signals InvisiPaw backlog is cleared. Scope: flowtron wiring + plan-file collapse + active-task-ID rename. Out of scope: renaming the 15 in-flight tasknote files (deferred further).
+(none)
 
 ## Low
 
-- [ ] **CORE-EPIC-009** [opus] | fintown migration — Migrate **fintown** (epic; child tasks below). Demoted from Medium 2026-04-30 — user clearing fintown's pending tasks first + wants flowtron itself to mature before planning the integration. A [[CORE-008]]-style "draft fintown migration playbook" task will likely be filed before execution begins; not yet warranted.
-  - [ ] **CORE-009.1** [sonnet] | submodule + CLAUDE.md — Add flowtron submodule + CLAUDE.md block
-  - [ ] **CORE-009.2** [opus] | plan.json → PLAN.md — Convert `plan.json` → `PLAN.md` (preserve archive references)
-  - [ ] **CORE-009.3** [sonnet] | retire shell scripts — Retire `create_tasknote.py`, `archive_tasknote.py`, `validate_plan.py`
-  - [ ] **CORE-009.4** [opus] | reconcile in-flight tasknotes — Reconcile in-flight tasknotes (BE-128, BE-138, FE-145, FE-146)
-  - [ ] **CORE-009.5** [sonnet] | update workflow docs — Update fintown's `WORKFLOW.md` and `TASKNOTE_QUICK_REFERENCE.md` to point at flowtron
+(none)
 
 ## Future Opportunities
 
@@ -37,6 +32,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-016** [opus] | InvisiPaw migration (executed out-of-band) — Completed 2026-05-08. Done in InvisiPaw's own repo chat; flowtron now adopted there.
+- [x] **CORE-EPIC-009** [opus] | fintown migration (executed out-of-band) — Completed 2026-05-08. Done in fintown's own repo chat; flowtron now adopted there. Children CORE-009.1–.5 closed as part of the same migration.
 - [x] **CORE-047** [opus] | doc-set drift contract — Completed 2026-05-08.
 - [x] **FE-012** [opus] | viz inbound wikilink back-refs — Completed 2026-05-07.
 - [x] **CORE-046** [opus] | flowtron v1.1.0 — post-closure /model + recap-only — Completed 2026-05-07.
