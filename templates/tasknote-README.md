@@ -54,6 +54,19 @@ Project-specific prefixes (declare yours here, or delete this section if none):
 Project-specific prefixes archive under their own subfolder named for the area
 (e.g., `OCR-*` → `archive/ocr/`).
 
+## AI-referenced docs
+
+Canonical docs that AI sessions consume as cold-start ground truth — the
+project-declared doc set walked at every Phase 4 closure (per
+`_project/flowtron/SPEC.md` §"🚀 Phase 4: Closure") and at every
+epic-audit subtask (per `_project/flowtron/SPEC/epic.md`). Flat list,
+one-line purpose each. Extend as the architecture matures (architecture
+notes, API specs, DB schema docs, ADRs, inventories).
+
+- `README.md` — project overview, current shipped feature surface
+- `CLAUDE.md` — assistant-facing project guide; quick commands, conventions
+- `_project/PLAN.md` — roadmap and active task queue
+
 ## Project quick commands
 
 Replace this section with the commands an assistant should run for this

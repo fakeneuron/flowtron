@@ -22,6 +22,7 @@ related-tasks: []
 **Archive skim:** <relevant findings from `_project/tasknote/archive/<area>/`, OR "no prior tasknotes touch these paths">
 **Pattern survey:** <neighboring code or sibling shape extended, OR justification for a new shape>
 **Implementation:** <ad-hoc free text — what changed, key decisions, anything load-bearing for future readers>
+**Docs touched:** <per-entry verdict for `_project/tasknote/README.md` §"AI-referenced docs" — "no change" or the update>
 
 ## ✅ Recap
 

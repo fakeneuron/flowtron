@@ -65,7 +65,7 @@ One-sentence goal of what this task accomplishes.
 
 ## 🚀 Phase 4: Closure
 
-- [ ] Updated docs/inventories affected by the change
+- [ ] **Doc-drift sweep** — for each entry in `_project/tasknote/README.md` §"AI-referenced docs", state "no change" or the update
 - [ ] Closed — PLAN.md line flipped to stub form `Completed YYYY-MM-DD.` (see §"`## Completed` archive convention") and tasknote moved to `_project/tasknote/archive/<area>/`
 - [ ] Recapped changes with the user and got confirmation
 

@@ -141,7 +141,7 @@ Then surface to the user, in one short message:
 - Bootstrap is complete; flowtron is pinned to `vX.Y.Z` (or `main` if unpinned).
 - **Next steps for them** (the skill leaves these as placeholders):
   - Edit `_project/PLAN.md` — fill in the vision paragraph and initial task list.
-  - Edit `_project/tasknote/README.md` — declare any project-specific area prefixes; replace the "Project quick commands" section with real commands.
+  - Edit `_project/tasknote/README.md` — declare any project-specific area prefixes; replace the "Project quick commands" section with real commands; extend `## AI-referenced docs` (seeded with `README.md` / `CLAUDE.md` / `_project/PLAN.md`) as the architecture matures (architecture notes, API specs, DB schema docs, ADRs, inventories).
 - **To verify the wiring:** type `/task` in a fresh Claude Code session in the project root. The command should appear in the slash-command menu (alongside `/starter-task` and `/micro-task`) with its description.
 
 Reference: `docs/MIGRATION.md` §1.7.

@@ -34,6 +34,13 @@ subtasks — same grammar, same 4-phase tasknote, same model rules.
    as normal children. For many, also file a fresh Audit subtask at the new
    highest number to cover the second wave.
 
+**Audit acceptance — fixed doc-drift line.** Every audit subtask's
+`## ✅ Acceptance` includes a doc-drift sweep across
+`_project/tasknote/README.md` §"AI-referenced docs": for each entry,
+"no change" or the update. Always present — ticks fast when nothing
+drifted, surfaces the cumulative slice-local staleness that per-task
+Phase 4 closures can miss.
+
 **Forward-looking.** Applies to new epics; existing in-flight epics need no
 migration. Apply judgment — simple multi-subtask implementations don't need
 the bracket.

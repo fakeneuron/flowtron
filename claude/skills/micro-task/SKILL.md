@@ -100,7 +100,7 @@ Walk through the four bold-prefix prompts in `## ⚡ Notes` and fill each before
 3. **Archive skim:** `ls _project/tasknote/archive/<area>/`, then `grep -l <path> _project/tasknote/archive/<area>/*.md` for source paths in scope. Read hits and log anything load-bearing inline. If `archive/<area>/` is empty or absent, write `no prior tasknotes` and move on.
 4. **Pattern survey:** Read sibling modules / parallel components for an existing shape to extend; justify a new shape if none fits.
 
-Then **do the work**: minimal implementation, targeted tests on changed files where they matter, lint/type-check on changed code. Update the **Implementation** bold-prefix line as you go (ad-hoc free text — what changed, key decisions, anything load-bearing for future readers).
+Then **do the work**: minimal implementation, targeted tests on changed files where they matter, lint/type-check on changed code. Update the **Implementation** bold-prefix line as you go (ad-hoc free text — what changed, key decisions, anything load-bearing for future readers). At closure-readiness time fill the **Docs touched:** bold-prefix line — for each entry in `_project/tasknote/README.md` §"AI-referenced docs", state "no change" or the update (the micro-tasknote equivalent of `/task`'s Phase 4 doc-drift sweep).
 
 If a hard dependency surfaces mid-execution that wasn't visible at relevance, the right move is usually to abandon the micro-tasknote and re-file as a normal `/task` (or `/starter-task`) — micro-tasks are not designed to park. Surface the situation and ask.
 
