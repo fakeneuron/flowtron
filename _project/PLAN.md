@@ -19,7 +19,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **CORE-054** [opus] | expand-shipped-skills — Survey candidate skills to ship beyond task / starter-task / micro-task / new-project (e.g., /release, /audit-skill, /epic-discovery, /close-epic, /file-followup); walk with user, file approved as children. Mirrors CORE-049 audit-then-cohort model. Filed with starter.
+- [ ] **CORE-055** [opus] | CLAUDE-snippet-review — Review claude/CLAUDE-snippet.md against current Claude Code best-practices (Anthropic docs, Claude Engineer repo, X posts); gap-analyze; revise. Adopter-leverage: propagates to every adopting project on next bump. Filed with starter.
+- [ ] **CORE-056** [opus] | conventions-techdebt-audit — Audit flowtron repo on the conventions + coherence axis (file naming, heading style, cross-refs, template/SPEC/skill parity, dead surfaces). Distinct from CORE-049's token axis and FE-018's viz code axis. Filed with starter.
+- [ ] **FE-017** [opus] | viz-visual-UX-audit — Boot viz dev server, walk every interaction (priority groups, dark mode, keyboard nav, filters, wikilinks, back-refs, archive view, cross-project, starter chip); screenshot; log inconsistencies + regressions + polish targets; file follow-ups.
+- [ ] **FE-018** [opus] | viz-code-token-audit — Code/token audit of viz/ (analog to CORE-049 for the React side): component duplication, prop-shape drift, dead utilities, restatements between components. File trim follow-ups per CORE-049 model.
+- [ ] **FE-019** [opus] | viz-a11y-perf-pass — A11y + perf pass on viz/. Run Lighthouse + axe; check focus-trap / contrast / keyboard nav (FE-010) coverage / bundle-size baseline. File specific fixes as follow-ups.
+- [ ] **FE-020** [opus] | cross-project-viz-dogfooding — FE-002 follow-up: run workspace scanner against real ~/code/ projects; walk each surfaced project; log surprises and rough edges before declaring FE-002 done.
 
 ## Low
 
