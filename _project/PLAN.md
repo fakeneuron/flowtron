@@ -29,7 +29,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-057.1** [opus] | discovery — Completed 2026-05-09.
   - [x] **CORE-057.2** [opus] | /release skill — Completed 2026-05-09.
   - [x] **CORE-057.3** [opus] | /epic-discovery skill — Completed 2026-05-09.
-  - [ ] **CORE-057.4** [opus] | /close-epic skill — Ship `/close-epic` per SPEC/epic.md. Scaffolds + drives audit `.N` tasknote with fixed doc-drift sweep acceptance line across `tasknote/README.md` §"AI-referenced docs". At audit closure surfaces parent `<AREA>-EPIC-<N>` state and asks user whether to flip parent to `Completed`. Auto-wired into adopters via `/new-project` and `docs/MIGRATION.md` §1.2.
+  - [x] **CORE-057.4** [opus] | /close-epic skill — Completed 2026-05-09.
   - [x] **CORE-057.5** [opus] | /file-followup skill — Completed 2026-05-09.
   - [ ] **CORE-057.6** [opus] | audit — Final-subtask audit per SPEC/epic.md: verify the 4 new shipped skills sit coherently with existing /task /starter-task /micro-task /new-project (naming consistency, snippet style parity, MIGRATION.md currency). Acceptance includes fixed doc-drift sweep line. Filed at filing time as highest `.N` child.
 

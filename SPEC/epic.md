@@ -45,7 +45,8 @@ Phase 4 closures can miss.
 migration. Apply judgment — simple multi-subtask implementations don't need
 the bracket.
 
-**Skill.** The filing-and-Discovery side of the lifecycle (steps 1-2 above)
-is codified in `claude/skills/epic-discovery/`. Auto-wired into adopter
-projects via `claude/skills/new-project/SKILL.md` Step 3 +
-`docs/MIGRATION.md` §1.2.
+**Skills.** The filing-and-Discovery side of the lifecycle (steps 1-2
+above) is codified in `claude/skills/epic-discovery/`; the audit-and-close
+side (steps 4-5) is codified in `claude/skills/close-epic/`. Both are
+auto-wired into adopter projects via `claude/skills/new-project/SKILL.md`
+Step 3 + `docs/MIGRATION.md` §1.2.

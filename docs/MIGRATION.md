@@ -47,17 +47,18 @@ git -C _project/flowtron checkout vX.Y.Z   # replace with the version you want t
 
 The `checkout` step is what pins the project to a specific flowtron version. Without it, the submodule tracks `main` and updates would be undeliberate.
 
-### 1.2 Wire `/task`, `/starter-task`, `/micro-task`, `/file-followup`, `/epic-discovery` via symlinks
+### 1.2 Wire `/task`, `/starter-task`, `/micro-task`, `/file-followup`, `/epic-discovery`, `/close-epic` via symlinks
 
-Flowtron ships five slash commands and their skills inside the submodule:
+Flowtron ships six slash commands and their skills inside the submodule:
 
 - **`/task <ID>`** — standard 4-phase tasknote runner.
 - **`/starter-task <ID>`** — file a starter (rich AI-discovered context for tasks not yet ready to start; promoted to a full tasknote at `/task` checkout).
 - **`/micro-task <ID>`** — file + execute a small, single-file change with the relevance/drift/archive-skim/pattern-survey contracts but without the full 4-phase ceremony.
 - **`/file-followup <ID>`** — file a mid-flow follow-up: one PLAN.md line on disk + a short context paragraph delivered conversationally only (no tasknote artifact). Lighter than `/starter-task`; declines filings >70w and routes to `/starter-task` instead.
 - **`/epic-discovery`** — file a new epic (parent `<AREA>-EPIC-<N>` + `.1` Discovery + `.N` audit placeholder) AND drive its `.1` Discovery tasknote through closure in one motion (Phase 2 deliverable = filed implementation children). See `_project/flowtron/SPEC/epic.md` for the lifecycle contract.
+- **`/close-epic <AUDIT-SUBTASK-ID>`** — bracket twin of `/epic-discovery`. Scaffolds and drives the audit `.N` tasknote of an epic (with the fixed doc-drift sweep acceptance line per `SPEC/epic.md`) through closure, then prompts to flip the parent `<AREA>-EPIC-<N>` to `Completed` and move the cohort to `## Completed`.
 
-Adopting projects expose all five through their own `.claude/` folder using symlinks:
+Adopting projects expose all six through their own `.claude/` folder using symlinks:
 
 ```sh
 mkdir -p .claude/commands .claude/skills
@@ -66,11 +67,13 @@ ln -s ../../_project/flowtron/claude/commands/starter-task.md    .claude/command
 ln -s ../../_project/flowtron/claude/commands/micro-task.md      .claude/commands/micro-task.md
 ln -s ../../_project/flowtron/claude/commands/file-followup.md   .claude/commands/file-followup.md
 ln -s ../../_project/flowtron/claude/commands/epic-discovery.md  .claude/commands/epic-discovery.md
+ln -s ../../_project/flowtron/claude/commands/close-epic.md      .claude/commands/close-epic.md
 ln -s ../../_project/flowtron/claude/skills/task            .claude/skills/task
 ln -s ../../_project/flowtron/claude/skills/starter-task    .claude/skills/starter-task
 ln -s ../../_project/flowtron/claude/skills/micro-task      .claude/skills/micro-task
 ln -s ../../_project/flowtron/claude/skills/file-followup   .claude/skills/file-followup
 ln -s ../../_project/flowtron/claude/skills/epic-discovery  .claude/skills/epic-discovery
+ln -s ../../_project/flowtron/claude/skills/close-epic      .claude/skills/close-epic
 ```
 
 The relative paths are intentional — they survive `git clone` and always point at whichever flowtron commit the submodule is currently checked out at. The symlinks themselves never need to change when bumping flowtron.
