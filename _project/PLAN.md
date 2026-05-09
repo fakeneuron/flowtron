@@ -19,13 +19,19 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-054** [opus] | expand-shipped-skills — Survey candidate skills to ship beyond task / starter-task / micro-task / new-project (e.g., /release, /audit-skill, /epic-discovery, /close-epic, /file-followup); walk with user, file approved as children. Mirrors CORE-049 audit-then-cohort model. Filed with starter.
 - [ ] **CORE-055** [opus] | CLAUDE-snippet-review — Review claude/CLAUDE-snippet.md against current Claude Code best-practices (Anthropic docs, Claude Engineer repo, X posts); gap-analyze; revise. Adopter-leverage: propagates to every adopting project on next bump. Filed with starter.
 - [ ] **CORE-056** [opus] | conventions-techdebt-audit — Audit flowtron repo on the conventions + coherence axis (file naming, heading style, cross-refs, template/SPEC/skill parity, dead surfaces). Distinct from CORE-049's token axis and FE-018's viz code axis. Filed with starter.
 - [ ] **FE-017** [opus] | viz-visual-UX-audit — Boot viz dev server, walk every interaction (priority groups, dark mode, keyboard nav, filters, wikilinks, back-refs, archive view, cross-project, starter chip); screenshot; log inconsistencies + regressions + polish targets; file follow-ups.
 - [ ] **FE-018** [opus] | viz-code-token-audit — Code/token audit of viz/ (analog to CORE-049 for the React side): component duplication, prop-shape drift, dead utilities, restatements between components. File trim follow-ups per CORE-049 model.
 - [ ] **FE-019** [opus] | viz-a11y-perf-pass — A11y + perf pass on viz/. Run Lighthouse + axe; check focus-trap / contrast / keyboard nav (FE-010) coverage / bundle-size baseline. File specific fixes as follow-ups.
 - [ ] **FE-020** [opus] | cross-project-viz-dogfooding — FE-002 follow-up: run workspace scanner against real ~/code/ projects; walk each surfaced project; log surprises and rough edges before declaring FE-002 done.
+- [ ] **CORE-EPIC-057** [opus] | expand-shipped-skills — Ship 4 new flowtron skills (/release, /epic-discovery, /close-epic, /file-followup) approved at CORE-054 candidate walk. Discovery (.1) scopes shared design (install logic, command stubs, MIGRATION.md §1.2, SPEC additions); children .2-.5 ship one skill each; audit (.6) verifies coherence with existing 4 shipped skills.
+  - [ ] **CORE-057.1** [opus] | discovery — Scope shared design across the 4 approved skills before sibling children fire: install logic in claude/skills/new-project/, slash-command stubs, MIGRATION.md §1.2 symlink wiring update (add 3 of 4; /release stays flowtron-only), SPEC/contract additions if any. Deliverable = filed concrete sub-task scopes, not code.
+  - [ ] **CORE-057.2** [opus] | /release skill — Ship /release. Scaffolds flowtron's own per-release tasknote per CORE-043/046/048 recipe: SPEC.md version bump, SPEC/versioning.md example shifts, docs/MIGRATION.md pin example bump, doc-drift sweep, single feat commit, annotated tag, push. Flowtron-self only — not auto-wired into adopters.
+  - [ ] **CORE-057.3** [opus] | /epic-discovery skill — Ship /epic-discovery. Scaffolds first-subtask Discovery tasknote (`<AREA>-<N>.1`) per SPEC/epic.md. Discovery deliverable is the filed child cohort, not code. Auto-wired into adopters via /new-project alongside /task /starter-task /micro-task.
+  - [ ] **CORE-057.4** [opus] | /close-epic skill — Ship /close-epic. Symmetric pair with /epic-discovery; scaffolds final-subtask audit tasknote (highest `.N`) per SPEC/epic.md. Acceptance always carries fixed doc-drift sweep across tasknote-README §AI-referenced docs. Auto-wired into adopters via /new-project.
+  - [ ] **CORE-057.5** [opus] | /file-followup skill — Ship /file-followup. Lighter than /starter-task: outputs one PLAN.md line + a short context paragraph for mid-flow follow-up filing without starter-task overhead. Use case: surface a follow-up while inside an active tasknote. Auto-wired into adopters via /new-project.
+  - [ ] **CORE-057.6** [opus] | audit — Final-subtask audit per SPEC/epic.md: verify the 4 new shipped skills sit coherently with existing /task /starter-task /micro-task /new-project (naming consistency, snippet style parity, MIGRATION.md currency). Acceptance includes fixed doc-drift sweep line. Filed at filing time as highest `.N` child.
 
 ## Low
 
@@ -37,6 +43,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-054** [opus] | expand-shipped-skills — Completed 2026-05-09.
 - [x] **CORE-053** [opus] | MIGRATION-variant-trim — Completed 2026-05-09.
 - [x] **CORE-052** [opus] | tasknote-README variant trim — Completed 2026-05-09.
 - [x] **CORE-051** [opus] | starter-task SKILL cite-don't-restate — Completed 2026-05-09.
