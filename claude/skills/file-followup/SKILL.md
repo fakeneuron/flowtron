@@ -1,0 +1,110 @@
+---
+name: file-followup
+description: File a mid-flow follow-up task from inside an active tasknote. Invoke with the task ID as args (e.g., args="CORE-058"). Writes one PLAN.md line and delivers a short context paragraph conversationally only — no tasknote artifact. Lighter than `/starter-task`. See SPEC §"When to use a tasknote" for the threshold.
+---
+
+# file-followup — flowtron lightweight follow-up filer
+
+You are filing a **follow-up task** for the task ID provided in `args`. The full filing thresholds live in `SPEC.md` §"When to use a tasknote (and when not to)" — this skill is the executable interpretation, not a replacement. Treat SPEC.md as authoritative when this file is silent or in tension.
+
+A `/file-followup` filing produces **zero artifacts on disk beyond a single PLAN.md task line**. The "short context paragraph" — rationale + suspected scope + recommended priority/model — is delivered conversationally only, in the same response as the filing confirmation. There is no tasknote file. Active tasknotes (if `/file-followup` runs mid-flow inside `/task`) are **not** edited — no breadcrumb, no log entry. The active tasknote stays a record of what it was for, not a coordination ledger.
+
+This skill is **filing-only and lighter than `/starter-task`**: use it when the description fits in ≤50 words and no rich context (file survey / open questions / design decisions) needs to persist. If the description would breach 70 words or rich context warrants preserving, escalate to `/starter-task` instead — the SKILL surfaces this gate at Step 2.
+
+If `args` is missing or doesn't match `<AREA>-<NUMBER>` (or `<AREA>-<NUMBER>.<SUB>` for epic subtasks), stop and ask the user for a valid task ID. Do not guess.
+
+## Step 0 — Resolve paths
+
+Determine which repo you're in:
+
+- **Adopting project (typical):** `_project/flowtron/SPEC.md` exists. Use:
+  - SPEC: `_project/flowtron/SPEC.md`
+  - PLAN: `_project/PLAN.md`
+  - Tasknote dir: `_project/tasknote/`
+- **Flowtron itself (self-hosted):** repo-root `SPEC.md` exists with the heading `# Flowtron — Workflow Specification`. Use:
+  - SPEC: `SPEC.md`
+  - PLAN: `_project/PLAN.md`
+  - Tasknote dir: `_project/tasknote/`
+
+If neither layout matches, stop and tell the user this directory doesn't look like a flowtron-using project.
+
+## Step 1 — Pre-flight checks
+
+- Resolve the **Area** from the ID prefix using SPEC §"Task ID convention":
+  - `CORE-` → core, `BE-` → backend, `FE-` → frontend, `DB-` → database, `DEPLOY-` → deployment, `TEST-` → testing
+  - Unknown prefix: read `_project/tasknote/README.md` for project-specific prefixes. If still unresolved, stop and ask.
+- The task ID must NOT already exist in PLAN.md. If it does, stop and ask whether the user meant a different ID — `/file-followup` files NEW tasks; reusing an existing entry is out of scope.
+- `_project/tasknote/<TASK-ID>.md` must NOT already exist. If it does, stop. Surface the conflict (could be in-flight, blocked, completed, starter, or already a follow-up that was promoted).
+- `_project/tasknote/archive/<area>/<TASK-ID>.md` must NOT already exist. If it does, stop — the ID has been used and archived; pick a fresh ID.
+
+## Step 2 — Collect inputs
+
+Use AskUserQuestion to confirm the key fields. Pre-populate from conversation context where possible — the AI proposes; the user confirms or overrides.
+
+1. **Title (shortname)** — concise; up to ~30 chars. Used as the `| shortname` segment on the PLAN.md line.
+2. **Priority** — `Critical | High | Medium | Low | Future Opportunities`. AI proposes its best read.
+3. **Model** — `opus | sonnet`, per SPEC §"Model field". AI proposes; goes on the PLAN.md task line.
+4. **Long description** — the one-line PLAN.md long description (everything after `— ` on the task line). AI drafts from conversation context.
+
+**Filing-discipline gate** (per SPEC §"PLAN.md filing-discipline thresholds"). Word-count the drafted long description:
+
+- **≤50 words:** proceed.
+- **51-70 words:** trim if practical; otherwise proceed with a yellow-flag note in the review surface (Step 3).
+- **>70 words:** STOP. The description breaches the hard cap — `/file-followup` is the wrong tool. Surface to the user: "The drafted description is `<N>` words (>70w cap). This belongs in a starter body, not a one-line PLAN.md entry. Recommend `/starter-task <ID>` instead." Do not proceed unless the user trims the description below the cap.
+
+The 70w cap exists so PLAN.md stays scannable; rich context belongs in starter bodies (`/starter-task`) or full tasknotes (`/task`). `/file-followup`'s niche is the ≤50w + ephemeral-context band only.
+
+## Step 3 — Draft and surface for review
+
+Draft the conversational paragraph from prior conversation context. **Free-form prose**, no fixed schema or bold-prefix prompts; the SKILL prescribes intent only:
+
+- **What surfaced this follow-up** (the rationale tying it to the current conversation or active tasknote).
+- **Suspected scope** (files / paths / hypotheses, when the conversation has surfaced any).
+- **Why this priority and model** (one short clause when non-obvious; skip if obvious from the line itself).
+
+Keep the paragraph under ~80 words. If the conversation has surfaced more context than fits, that is itself a signal to use `/starter-task` instead — surface to the user.
+
+**Surface for review.** Show the user, in one short message:
+
+- The proposed PLAN.md line, exactly as it will be appended.
+- The drafted conversational paragraph.
+
+Edit per their feedback before writing anything. Do not skip the review.
+
+## Step 4 — File the entry
+
+In one continuous motion:
+
+1. **Append the PLAN.md entry.** Append a new entry under the appropriate `## <Priority>` heading using the canonical task-line grammar (SPEC §"Task-line format"):
+
+   ```
+   - [ ] **<TASK-ID>** [<model>] | <shortname> — <one-line long description>
+   ```
+
+   Placement:
+   - If the priority section already has entries, append to the bottom of that section.
+   - If the section carries a `(none — ...)` placeholder, replace the placeholder with the new entry.
+   - Update PLAN.md's `**Last updated:**` line if it has one — `YYYY-MM-DD (<TASK-ID> filed via /file-followup — <shortname>)`.
+
+   No `Filed with starter at ...` pointer (that suffix is `/starter-task`'s contract). The new line carries only the long description — no breadcrumb to a tasknote that doesn't exist.
+
+2. **Deliver the conversational paragraph.** Surface the reviewed paragraph from Step 3 in the same response as the filing confirmation. The paragraph is **chat-only** — never persisted to disk, never written into the active tasknote.
+
+## Step 5 — Hand off
+
+Surface to the user, in one short message:
+
+- `<TASK-ID>` filed at `_project/PLAN.md` under `## <Priority>` with model `<opus|sonnet>`.
+- The follow-up sits as a one-line PLAN.md entry until `/task <TASK-ID>` (or `/micro-task` / `/starter-task` for promotion) fires.
+- (Conversational paragraph from Step 4.2 is included in this response.)
+
+Do **not** commit unprompted. The new PLAN.md line is typically bundled into whatever commit the surrounding conversation produces (if any) or left for the user to handle. If the user asks for a commit, the message format is `chore: file <TASK-ID> follow-up — <shortname>`.
+
+## Notes
+
+- **Filing-only — no design decisions in the skill flow itself.** All context (rationale, suspected files, recommended priority/model) comes from the prior conversation; the skill just records the line and surfaces the paragraph.
+- **Compare with `/starter-task`** — files a tasknote with rich AI-captured context (`## 🌱 Starter context` body, file survey, open questions). Use that when the description would breach 50w or persistent context warrants preserving.
+- **Compare with `/micro-task`** — files + executes a small change in one shot. `/file-followup` is filing-only; it never runs the work.
+- **Compare with `/task`** — starts an existing PLAN.md entry and drives it through the 4-phase workflow. `/file-followup`'s output line is the input `/task` consumes later.
+- **No active-tasknote breadcrumb.** When invoked from inside `/task`, `/file-followup` does not write into the active tasknote — keeps the active tasknote a record of what it was for, not a coordination ledger. This is the strict reading of "only one PLAN.md line on disk."
+- **Date format:** always use `YYYY-MM-DD`.

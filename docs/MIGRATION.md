@@ -47,24 +47,27 @@ git -C _project/flowtron checkout vX.Y.Z   # replace with the version you want t
 
 The `checkout` step is what pins the project to a specific flowtron version. Without it, the submodule tracks `main` and updates would be undeliberate.
 
-### 1.2 Wire `/task`, `/starter-task`, `/micro-task` via symlinks
+### 1.2 Wire `/task`, `/starter-task`, `/micro-task`, `/file-followup` via symlinks
 
-Flowtron ships three slash commands and their skills inside the submodule:
+Flowtron ships four slash commands and their skills inside the submodule:
 
 - **`/task <ID>`** — standard 4-phase tasknote runner.
 - **`/starter-task <ID>`** — file a starter (rich AI-discovered context for tasks not yet ready to start; promoted to a full tasknote at `/task` checkout).
 - **`/micro-task <ID>`** — file + execute a small, single-file change with the relevance/drift/archive-skim/pattern-survey contracts but without the full 4-phase ceremony.
+- **`/file-followup <ID>`** — file a mid-flow follow-up: one PLAN.md line on disk + a short context paragraph delivered conversationally only (no tasknote artifact). Lighter than `/starter-task`; declines filings >70w and routes to `/starter-task` instead.
 
-Adopting projects expose all three through their own `.claude/` folder using symlinks:
+Adopting projects expose all four through their own `.claude/` folder using symlinks:
 
 ```sh
 mkdir -p .claude/commands .claude/skills
-ln -s ../../_project/flowtron/claude/commands/task.md         .claude/commands/task.md
-ln -s ../../_project/flowtron/claude/commands/starter-task.md .claude/commands/starter-task.md
-ln -s ../../_project/flowtron/claude/commands/micro-task.md   .claude/commands/micro-task.md
-ln -s ../../_project/flowtron/claude/skills/task         .claude/skills/task
-ln -s ../../_project/flowtron/claude/skills/starter-task .claude/skills/starter-task
-ln -s ../../_project/flowtron/claude/skills/micro-task   .claude/skills/micro-task
+ln -s ../../_project/flowtron/claude/commands/task.md          .claude/commands/task.md
+ln -s ../../_project/flowtron/claude/commands/starter-task.md  .claude/commands/starter-task.md
+ln -s ../../_project/flowtron/claude/commands/micro-task.md    .claude/commands/micro-task.md
+ln -s ../../_project/flowtron/claude/commands/file-followup.md .claude/commands/file-followup.md
+ln -s ../../_project/flowtron/claude/skills/task          .claude/skills/task
+ln -s ../../_project/flowtron/claude/skills/starter-task  .claude/skills/starter-task
+ln -s ../../_project/flowtron/claude/skills/micro-task    .claude/skills/micro-task
+ln -s ../../_project/flowtron/claude/skills/file-followup .claude/skills/file-followup
 ```
 
 The relative paths are intentional — they survive `git clone` and always point at whichever flowtron commit the submodule is currently checked out at. The symlinks themselves never need to change when bumping flowtron.

@@ -361,6 +361,20 @@ After a tasknote is archived and confirmed, the assistant must:
 - No design decisions or file survey work has been done yet
 - The next available `/task <ID>` slot is the user's natural next move (file it, then start it; no sitting time)
 
+**File a follow-up (`/file-followup <ID>`) when:**
+
+- A new task surfaces mid-flow (typically inside an active `/task`) and the long description fits in ≤50 words, but the surrounding conversation context (why this came up, suspected files, recommended priority/model) is worth surfacing once at filing time without persisting it to disk
+- The follow-up is clear enough that it doesn't need a starter body — but you still want a paragraph of rationale visible in chat alongside the new PLAN.md line
+- You want the lightest filing motion in the cohort: one PLAN.md line written, a short paragraph delivered conversationally, zero edits to the active tasknote
+
+A `/file-followup` filing produces **zero artifacts on disk beyond a single PLAN.md task line**. The "short context paragraph" — rationale + suspected scope + recommended priority/model — is delivered conversationally only; there is no tasknote file, and the active tasknote (if any) is not edited. If the description would breach the 70w cap, `/file-followup` declines the filing and points at `/starter-task` instead — rich context belongs in starter bodies, not chat.
+
+**Skip the follow-up (use `/starter-task` or just inline a PLAN.md line) when:**
+
+- The description would breach 50 words — `/starter-task` is the right tool; rich context belongs in the starter body
+- Persistent context (file survey, open questions, design decisions) is worth preserving to disk — same call: use `/starter-task`
+- You're outside any active conversation that produced the rationale — write the PLAN.md line directly; the conversational paragraph would have nothing meaningful to surface
+
 **File a micro-tasknote (`/micro-task <ID>`) when:**
 
 - The task is above the skip threshold (more than a one-liner; touches code or non-trivial doc state) but small enough that the full 4-phase ceremony is overkill — typically under ~30 minutes of effort
@@ -395,9 +409,10 @@ The thresholds apply to **active** task lines (`Critical` / `High` /
 `Medium` / `Low` / `Future Opportunities`). Lines under `## Completed`
 are governed by §"`## Completed` archive convention" below.
 
-`/starter-task` (filing time) and `/task` (scaffold/promote time) flag
-filings that breach the cap — see the respective skill files for the
-mechanism.
+`/starter-task` (filing time), `/file-followup` (filing time), and `/task`
+(scaffold/promote time) flag filings that breach the cap — see the respective
+skill files for the mechanism. `/file-followup` declines the filing entirely
+at >70w and routes the user to `/starter-task` instead.
 
 ### `## Completed` archive convention
 
