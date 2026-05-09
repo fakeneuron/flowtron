@@ -44,3 +44,8 @@ Phase 4 closures can miss.
 **Forward-looking.** Applies to new epics; existing in-flight epics need no
 migration. Apply judgment — simple multi-subtask implementations don't need
 the bracket.
+
+**Skill.** The filing-and-Discovery side of the lifecycle (steps 1-2 above)
+is codified in `claude/skills/epic-discovery/`. Auto-wired into adopter
+projects via `claude/skills/new-project/SKILL.md` Step 3 +
+`docs/MIGRATION.md` §1.2.

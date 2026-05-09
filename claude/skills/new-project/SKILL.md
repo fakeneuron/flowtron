@@ -55,18 +55,20 @@ The `checkout` step is what pins the project to a specific flowtron commit. Skip
 
 Reference: `docs/MIGRATION.md` §1.1.
 
-## Step 3 — Wire /task, /starter-task, /micro-task, /file-followup via symlinks
+## Step 3 — Wire /task, /starter-task, /micro-task, /file-followup, /epic-discovery via symlinks
 
 ```sh
 mkdir -p .claude/commands .claude/skills
-ln -s ../../_project/flowtron/claude/commands/task.md          .claude/commands/task.md
-ln -s ../../_project/flowtron/claude/commands/starter-task.md  .claude/commands/starter-task.md
-ln -s ../../_project/flowtron/claude/commands/micro-task.md    .claude/commands/micro-task.md
-ln -s ../../_project/flowtron/claude/commands/file-followup.md .claude/commands/file-followup.md
-ln -s ../../_project/flowtron/claude/skills/task          .claude/skills/task
-ln -s ../../_project/flowtron/claude/skills/starter-task  .claude/skills/starter-task
-ln -s ../../_project/flowtron/claude/skills/micro-task    .claude/skills/micro-task
-ln -s ../../_project/flowtron/claude/skills/file-followup .claude/skills/file-followup
+ln -s ../../_project/flowtron/claude/commands/task.md            .claude/commands/task.md
+ln -s ../../_project/flowtron/claude/commands/starter-task.md    .claude/commands/starter-task.md
+ln -s ../../_project/flowtron/claude/commands/micro-task.md      .claude/commands/micro-task.md
+ln -s ../../_project/flowtron/claude/commands/file-followup.md   .claude/commands/file-followup.md
+ln -s ../../_project/flowtron/claude/commands/epic-discovery.md  .claude/commands/epic-discovery.md
+ln -s ../../_project/flowtron/claude/skills/task            .claude/skills/task
+ln -s ../../_project/flowtron/claude/skills/starter-task    .claude/skills/starter-task
+ln -s ../../_project/flowtron/claude/skills/micro-task      .claude/skills/micro-task
+ln -s ../../_project/flowtron/claude/skills/file-followup   .claude/skills/file-followup
+ln -s ../../_project/flowtron/claude/skills/epic-discovery  .claude/skills/epic-discovery
 ```
 
 The relative paths are intentional — they survive `git clone` and pin to whichever flowtron commit the submodule is currently checked out at. Do not use absolute paths.
@@ -110,8 +112,8 @@ Stage the bootstrap files explicitly. Do **not** use `git add .` or `git add -A`
 
 ```sh
 git add .gitmodules _project/flowtron _project/PLAN.md _project/tasknote/ \
-        .claude/commands/task.md .claude/commands/starter-task.md .claude/commands/micro-task.md .claude/commands/file-followup.md \
-        .claude/skills/task .claude/skills/starter-task .claude/skills/micro-task .claude/skills/file-followup \
+        .claude/commands/task.md .claude/commands/starter-task.md .claude/commands/micro-task.md .claude/commands/file-followup.md .claude/commands/epic-discovery.md \
+        .claude/skills/task .claude/skills/starter-task .claude/skills/micro-task .claude/skills/file-followup .claude/skills/epic-discovery \
         CLAUDE.md
 ```
 
@@ -125,17 +127,19 @@ Reference: `docs/MIGRATION.md` §1.6.
 
 ## Step 8 — Verify and hand off
 
-Confirm all eight symlinks resolve correctly:
+Confirm all ten symlinks resolve correctly:
 
 ```sh
-readlink .claude/commands/task.md          # → ../../_project/flowtron/claude/commands/task.md
-readlink .claude/commands/starter-task.md  # → ../../_project/flowtron/claude/commands/starter-task.md
-readlink .claude/commands/micro-task.md    # → ../../_project/flowtron/claude/commands/micro-task.md
-readlink .claude/commands/file-followup.md # → ../../_project/flowtron/claude/commands/file-followup.md
-readlink .claude/skills/task               # → ../../_project/flowtron/claude/skills/task
-readlink .claude/skills/starter-task       # → ../../_project/flowtron/claude/skills/starter-task
-readlink .claude/skills/micro-task         # → ../../_project/flowtron/claude/skills/micro-task
-readlink .claude/skills/file-followup      # → ../../_project/flowtron/claude/skills/file-followup
+readlink .claude/commands/task.md            # → ../../_project/flowtron/claude/commands/task.md
+readlink .claude/commands/starter-task.md    # → ../../_project/flowtron/claude/commands/starter-task.md
+readlink .claude/commands/micro-task.md      # → ../../_project/flowtron/claude/commands/micro-task.md
+readlink .claude/commands/file-followup.md   # → ../../_project/flowtron/claude/commands/file-followup.md
+readlink .claude/commands/epic-discovery.md  # → ../../_project/flowtron/claude/commands/epic-discovery.md
+readlink .claude/skills/task                 # → ../../_project/flowtron/claude/skills/task
+readlink .claude/skills/starter-task         # → ../../_project/flowtron/claude/skills/starter-task
+readlink .claude/skills/micro-task           # → ../../_project/flowtron/claude/skills/micro-task
+readlink .claude/skills/file-followup        # → ../../_project/flowtron/claude/skills/file-followup
+readlink .claude/skills/epic-discovery       # → ../../_project/flowtron/claude/skills/epic-discovery
 ```
 
 If any resolves wrong, fix before reporting success.
@@ -146,7 +150,7 @@ Then surface to the user, in one short message:
 - **Next steps for them** (the skill leaves these as placeholders):
   - Edit `_project/PLAN.md` — fill in the vision paragraph and initial task list.
   - Edit `_project/tasknote/README.md` — declare any project-specific area prefixes; replace the "Project quick commands" section with real commands; extend `## AI-referenced docs` (seeded with `README.md` / `CLAUDE.md` / `_project/PLAN.md`) as the architecture matures (architecture notes, API specs, DB schema docs, ADRs, inventories).
-- **To verify the wiring:** type `/task` in a fresh Claude Code session in the project root. The command should appear in the slash-command menu (alongside `/starter-task`, `/micro-task`, and `/file-followup`) with its description.
+- **To verify the wiring:** type `/task` in a fresh Claude Code session in the project root. The command should appear in the slash-command menu (alongside `/starter-task`, `/micro-task`, `/file-followup`, and `/epic-discovery`) with its description.
 
 Reference: `docs/MIGRATION.md` §1.7.
 
