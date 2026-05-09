@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **CORE-053** [opus] | MIGRATION-variant-trim — Trim docs/MIGRATION.md §1.5 lines 95, 97-102 (~150-200w variant/body-shape restatement) via cite-don't-restate, mirroring CORE-052. Filed with starter.
 
 ## Low
 
