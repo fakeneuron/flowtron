@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **CORE-049** [opus] | workflow token audit — Audit the flowtron AI workflow surfaces (SPEC modules, SKILL stubs, tasknote template, doc-drift sweep, archive skim, post-closure protocol) for redundant or low-signal token usage. Deliverable: filed follow-up tasks in PLAN.md (or "no changes needed"). May spawn a CORE-EPIC if multiple meaningful workstreams surface.
 
 ## Low
 
@@ -27,7 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Future Opportunities
 
-- [ ] **CORE-041** [opus] | dynamic-index direction — explore Dataview-style frontmatter queries / DB-backed index if flowtron scales beyond solo single-user planning. See [[CORE-037]] audit + [[CORE-040]] discipline conversation.
+(none)
 
 ## Completed
 
