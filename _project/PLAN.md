@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-060** [opus] | release v1.3.0 — ship cohort-expanded skill set (/release, /epic-discovery, /close-epic, /file-followup), cite-don't-restate sweep across SKILLs, task-skill early model-switch catch (CORE-058), command-stub cross-ref equalization. `/release` proposes/confirms bump kind from commits since v1.2.0 (CORE-048).
+(none)
 
 ## Medium
 
@@ -37,6 +37,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-060** [opus] | release v1.3.0 — Completed 2026-05-09.
 - [x] **CORE-EPIC-057** [opus] | expand-shipped-skills — Completed 2026-05-09.
   - [x] **CORE-057.1** [opus] | discovery — Completed 2026-05-09.
   - [x] **CORE-057.2** [opus] | /release skill — Completed 2026-05-09.
