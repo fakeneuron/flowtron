@@ -25,15 +25,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **FE-018** [opus] | viz-code-token-audit — Code/token audit of viz/ (analog to CORE-049 for the React side): component duplication, prop-shape drift, dead utilities, restatements between components. File trim follow-ups per CORE-049 model.
 - [ ] **FE-019** [opus] | viz-a11y-perf-pass — A11y + perf pass on viz/. Run Lighthouse + axe; check focus-trap / contrast / keyboard nav (FE-010) coverage / bundle-size baseline. File specific fixes as follow-ups.
 - [ ] **FE-020** [opus] | cross-project-viz-dogfooding — FE-002 follow-up: run workspace scanner against real ~/code/ projects; walk each surfaced project; log surprises and rough edges before declaring FE-002 done.
-- [ ] **CORE-EPIC-057** [opus] | expand-shipped-skills — Ship 4 new flowtron skills (/release, /epic-discovery, /close-epic, /file-followup) approved at CORE-054 candidate walk. Discovery (.1) scopes shared design (install logic, command stubs, MIGRATION.md §1.2, SPEC additions); children .2-.5 ship one skill each; audit (.6) verifies coherence with existing 4 shipped skills.
-  - [x] **CORE-057.1** [opus] | discovery — Completed 2026-05-09.
-  - [x] **CORE-057.2** [opus] | /release skill — Completed 2026-05-09.
-  - [x] **CORE-057.3** [opus] | /epic-discovery skill — Completed 2026-05-09.
-  - [x] **CORE-057.4** [opus] | /close-epic skill — Completed 2026-05-09.
-  - [x] **CORE-057.5** [opus] | /file-followup skill — Completed 2026-05-09.
-  - [x] **CORE-057.6** [opus] | audit — Completed 2026-05-09.
-  - [x] **CORE-057.7** [opus] | epic-md inline-cmds — Completed 2026-05-09.
-  - [ ] **CORE-057.8** [opus] | command-stub cross-refs — Sibling cross-refs in `task.md` / `micro-task.md` / `starter-task.md` / `release.md` are sparser than the cohort-shipped stubs (`close-epic.md` / `epic-discovery.md` / `file-followup.md`). Equalize the "For X, use /Y" lists for discovery parity. Surfaced by CORE-057.6 audit.
 - [ ] **CORE-059** [opus] | task workflow visual gate cues — Add banner-style operator-gate cues to /task at every approval point (Phase 1→2, 2→3, ready-to-commit, ready-to-push, Phase 4 closure). Format: separator + phase emoji + AWAITING APPROVAL / READY status. Update task SKILL.md gate phrasing and matching SPEC.md phase descriptions; consider whether other skills (/epic-discovery, /close-epic) inherit the same convention.
 
 ## Low
@@ -46,6 +37,15 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-057** [opus] | expand-shipped-skills — Completed 2026-05-09.
+  - [x] **CORE-057.1** [opus] | discovery — Completed 2026-05-09.
+  - [x] **CORE-057.2** [opus] | /release skill — Completed 2026-05-09.
+  - [x] **CORE-057.3** [opus] | /epic-discovery skill — Completed 2026-05-09.
+  - [x] **CORE-057.4** [opus] | /close-epic skill — Completed 2026-05-09.
+  - [x] **CORE-057.5** [opus] | /file-followup skill — Completed 2026-05-09.
+  - [x] **CORE-057.6** [opus] | audit — Completed 2026-05-09.
+  - [x] **CORE-057.7** [opus] | epic-md inline-cmds — Completed 2026-05-09.
+  - [x] **CORE-057.8** [opus] | command-stub cross-refs — Completed 2026-05-09.
 - [x] **CORE-058** [opus] | task-skill early model-switch catch — Completed 2026-05-09.
 - [x] **CORE-054** [opus] | expand-shipped-skills — Completed 2026-05-09.
 - [x] **CORE-053** [opus] | MIGRATION-variant-trim — Completed 2026-05-09.

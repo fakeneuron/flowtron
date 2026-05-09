@@ -7,4 +7,4 @@ Invoke the `micro-task` skill with `args="$ARGUMENTS"`. The skill validates the 
 
 If `$ARGUMENTS` is empty, ask the user for a task ID before invoking the skill.
 
-For full 4-phase tasks, use `/task <TASK-ID>`. For filing a starter (rich-context mid-flow capture, not ready to start), use `/starter-task <TASK-ID>`.
+For full 4-phase tasks, use `/task <TASK-ID>`. For filing a starter (rich-context mid-flow capture, not ready to start), use `/starter-task <TASK-ID>`. For lightweight follow-up filings (no tasknote artifact), use `/file-followup <TASK-ID>`. For opening a new epic, use `/epic-discovery`. For closing one, use `/close-epic`. For bootstrapping a fresh repo with flowtron, use `/new-project`.

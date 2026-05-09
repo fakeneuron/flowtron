@@ -6,4 +6,4 @@ Invoke the `release` skill. The skill verifies cwd is the flowtron repo, scans `
 
 Takes no arguments — file the PLAN.md release line first (e.g., `**CORE-058** [opus] | release v1.3.0 — ...`), then run `/release`.
 
-For starting a non-release task, use `/task <TASK-ID>`. For bumping flowtron in an adopter project, see flowtron's `docs/MIGRATION.md` §"Pinning and bumping" (manual procedure — `/release` is flowtron-self only).
+For starting a non-release task, use `/task <TASK-ID>`. For small file + execute one-shots, use `/micro-task <TASK-ID>`. For filing rich-context starters mid-flow, use `/starter-task <TASK-ID>`. For lightweight follow-up filings (no tasknote artifact), use `/file-followup <TASK-ID>`. For opening a new epic, use `/epic-discovery`. For closing one, use `/close-epic`. For bootstrapping a fresh repo with flowtron, use `/new-project`. For bumping flowtron in an adopter project, see flowtron's `docs/MIGRATION.md` §"Pinning and bumping" (manual procedure — `/release` is flowtron-self only).
