@@ -4,6 +4,8 @@ if (!Element.prototype.scrollIntoView) {
   Element.prototype.scrollIntoView = function () {};
 }
 
+window.scrollTo = (() => {}) as typeof window.scrollTo;
+
 if (typeof window.matchMedia !== 'function') {
   window.matchMedia = (query: string) =>
     ({

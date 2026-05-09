@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **FE-002** [opus] | cross-project viz — Promote `viz/` to a single global server scanning `FLOWTRON_VIZ_WORKSPACE` (default `~/code/`) for `*/_project/PLAN.md` + each project's full `_project/tasknote/`. Project selector in header rail swaps the active project; existing per-project view ([[FE-001]] / [[FE-004]] / [[FE-006]] / [[FE-010]] / [[FE-012]]) renders unchanged. Single instance, port 5173 strictPort. Replaces per-project viz invocation. Starter captures the design.
+(none)
 
 ## Low
 
@@ -31,6 +31,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-002** [opus] | cross-project viz — Completed 2026-05-08.
 - [x] **CORE-048** [opus] | release v1.2.0 — Completed 2026-05-08.
 - [x] **CORE-016** [opus] | InvisiPaw migration (executed out-of-band) — Completed 2026-05-08. Done in InvisiPaw's own repo chat; flowtron now adopted there.
 - [x] **CORE-EPIC-009** [opus] | fintown migration (executed out-of-band) — Completed 2026-05-08. Done in fintown's own repo chat; flowtron now adopted there. Children CORE-009.1–.5 closed as part of the same migration.

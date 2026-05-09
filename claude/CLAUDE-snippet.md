@@ -43,3 +43,13 @@ To verify: type `/task` in Claude Code. The command should appear in the slash-c
 ## Bumping the pinned flowtron version
 
 Submodule bumps are themselves a project-side task (e.g., `CORE-XXX: Bump flowtron to vX.Y.Z`). Flowtron has no `CHANGELOG.md` — release notes and migration steps live in the annotated tag message (`cd _project/flowtron && git show vX.Y.Z`) and the per-release tasknote in `_project/flowtron/_project/tasknote/archive/core/`. The symlinks above don't change on bump — they always track whatever the submodule currently points at.
+
+## Visualizer
+
+The flowtron visualizer is a single global instance — run it **once per machine** from flowtron's own checkout, not from this project's `_project/flowtron/viz/`:
+
+```sh
+cd ~/code/flowtron/viz && npm run dev
+```
+
+It scans `${FLOWTRON_VIZ_WORKSPACE:-~/code}/*/_project/PLAN.md` and renders every adopting project; the header-rail project selector swaps the active project. Port `5173` is pinned with `strictPort`, so a second instance fails fast. The adopter-side `_project/flowtron/viz/` still works for offline / submodule-pinned use, but the global instance above is the recommended path.

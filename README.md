@@ -25,19 +25,32 @@ one-time global install.
 
 ## Visualizer
 
-`viz/` is a read-only Kanban view of the current project's `_project/PLAN.md`,
-grouped by priority. Open tasks with an active tasknote in
-`_project/tasknote/` are flagged **In progress**.
+`viz/` is a read-only Kanban view of every flowtron-adopting project under
+your workspace, grouped by priority. Open tasks with an active tasknote in
+each project's `_project/tasknote/` are flagged **In progress**. A
+project-selector chip group in the header rail swaps the active project;
+filters and scroll position reset on switch.
+
+Run **once per machine** from flowtron's own checkout — there is no
+per-project install step. The dev server is pinned to port `5173` with
+`strictPort`, so a second instance fails fast rather than scanning the same
+workspace on a different port.
 
 ```
-cd viz
+cd ~/code/flowtron/viz
 npm install
 npm run dev
 ```
 
-Single-project for now (reads flowtron's own `_project/PLAN.md`). The
-cross-project version that scans every `~/code/*/_project/PLAN.md` is queued
-as **FE-002** in the plan.
+The scanner globs `${FLOWTRON_VIZ_WORKSPACE:-~/code}/*/_project/PLAN.md` to
+discover projects; the directory name (e.g., `fintown`) becomes the project
+label. Dirs without a `_project/PLAN.md` are silently skipped. Set
+`FLOWTRON_VIZ_WORKSPACE` if your projects live somewhere other than
+`~/code/`.
+
+Adopter projects' own `_project/flowtron/viz/` continues to work (read-only
+submodule, unchanged) but is no longer the recommended path — prefer the
+single global instance above.
 
 ## Working in Obsidian
 

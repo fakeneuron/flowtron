@@ -4,6 +4,7 @@ import { groupTasks, parsePlan, type Priority, type Task, type TaskNode } from '
 import { type Tasknote, type TasknoteStatus } from '../tasknote';
 import { STATUS_LABEL, STATUS_BADGE } from './constants';
 import { PrioritySection } from './PrioritySection';
+import { ProjectSelector } from './ProjectSelector';
 import { ThemeToggle } from './ThemeToggle';
 import { useKeyboardNav } from './useKeyboardNav';
 
@@ -25,8 +26,27 @@ const STATUS_FILTER_VALUES: TasknoteStatus[] = [
 ];
 
 const HIGHLIGHT_MS = 1500;
+const ACTIVE_PROJECT_KEY = 'flowtron-viz-active-project';
+
+const readStoredProject = (): string | null => {
+  try {
+    return window.localStorage.getItem(ACTIVE_PROJECT_KEY);
+  } catch {
+    return null;
+  }
+};
+
+const writeStoredProject = (name: string): void => {
+  try {
+    window.localStorage.setItem(ACTIVE_PROJECT_KEY, name);
+  } catch {
+    /* ignore quota / disabled storage */
+  }
+};
 
 export const App: React.FC = () => {
+  const [projects, setProjects] = useState<string[]>([]);
+  const [activeProject, setActiveProject] = useState<string | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [tasknotesById, setTasknotesById] = useState<Map<string, Tasknote>>(new Map());
   const [error, setError] = useState<string | null>(null);
@@ -42,14 +62,17 @@ export const App: React.FC = () => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
+  const activeProjectRef = useRef<string | null>(null);
+  activeProjectRef.current = activeProject;
 
-  const load = useCallback(async () => {
+  const load = useCallback(async (project: string) => {
     setError(null);
     try {
+      const q = `?project=${encodeURIComponent(project)}`;
       const [planRes, activeRes, archiveRes] = await Promise.all([
-        fetch('/api/plan'),
-        fetch('/api/active'),
-        fetch('/api/archive'),
+        fetch(`/api/plan${q}`),
+        fetch(`/api/active${q}`),
+        fetch(`/api/archive${q}`),
       ]);
       if (!planRes.ok) throw new Error(`PLAN.md fetch failed: HTTP ${planRes.status}`);
       if (!activeRes.ok) throw new Error(`Tasknote list failed: HTTP ${activeRes.status}`);
@@ -67,14 +90,43 @@ export const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    void load();
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch('/api/projects');
+        if (!res.ok) throw new Error(`Project list failed: HTTP ${res.status}`);
+        const list = (await res.json()) as Array<{ name: string }>;
+        if (cancelled) return;
+        const names = list.map((p) => p.name);
+        setProjects(names);
+        const stored = readStoredProject();
+        const initial = stored && names.includes(stored) ? stored : (names[0] ?? null);
+        setActiveProject(initial);
+      } catch (e) {
+        if (!cancelled) setError((e as Error).message);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!activeProject) return;
+    writeStoredProject(activeProject);
+    void load(activeProject);
+  }, [activeProject, load]);
+
+  const refresh = useCallback(() => {
+    const current = activeProjectRef.current;
+    if (current) void load(current);
   }, [load]);
 
   useEffect(() => {
     const es = new EventSource('/api/events');
-    es.addEventListener('change', () => void load());
+    es.addEventListener('change', refresh);
     return () => es.close();
-  }, [load]);
+  }, [refresh]);
 
   useEffect(
     () => () => {
@@ -218,6 +270,21 @@ export const App: React.FC = () => {
       return next;
     });
 
+  const handleSelectProject = (name: string) => {
+    if (name === activeProject) return;
+    setQuery('');
+    setTagFilter(new Set());
+    setStatusFilter(new Set());
+    setExpandedId(null);
+    setExpandedEpicIds(new Set());
+    setSelectedId(null);
+    setCollapsedSections(new Set(['Completed']));
+    if (highlightTimer.current) clearTimeout(highlightTimer.current);
+    setHighlightId(null);
+    window.scrollTo({ top: 0, behavior: 'auto' });
+    setActiveProject(name);
+  };
+
   const navigateToTask = useCallback(
     (id: string) => {
       const target = tasks.find((t) => t.id === id);
@@ -267,7 +334,7 @@ export const App: React.FC = () => {
     setTagFilter,
     statusFilter,
     setStatusFilter,
-    load,
+    load: refresh,
   });
 
   return (
@@ -276,7 +343,9 @@ export const App: React.FC = () => {
         <div className="mx-auto flex max-w-screen-xl flex-col gap-2">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h1 className="text-lg font-semibold">Flowtron — PLAN.md</h1>
+              <h1 className="text-lg font-semibold">
+                Flowtron — {activeProject ?? '…'}
+              </h1>
               <p className="text-xs text-slate-600 dark:text-slate-400">
                 {filteredCount === total
                   ? `${total} tasks · ${inProgress} in progress${starterCount > 0 ? ` · ${starterCount} ${starterCount === 1 ? 'starter' : 'starters'}` : ''}`
@@ -306,6 +375,11 @@ export const App: React.FC = () => {
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
+            <ProjectSelector
+              projects={projects}
+              active={activeProject}
+              onSelect={handleSelectProject}
+            />
             {allTags.length > 0 && (
               <div className="flex flex-wrap items-center gap-1.5">
                 <span className="text-slate-500 dark:text-slate-400">Tags:</span>

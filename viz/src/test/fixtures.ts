@@ -8,6 +8,7 @@ export interface FetchSeed {
   plan: string;
   active?: Tasknote[];
   archive?: Tasknote[];
+  projects?: string[];
 }
 
 export function makeTasknote(partial: Partial<Tasknote> & Pick<Tasknote, 'id'>): Tasknote {
@@ -39,21 +40,29 @@ export function makeTasknote(partial: Partial<Tasknote> & Pick<Tasknote, 'id'>):
 export function seedFetch(seed: FetchSeed): void {
   const active = seed.active ?? [];
   const archive = seed.archive ?? [];
+  const projects = (seed.projects ?? ['flowtron']).map((name) => ({ name }));
   const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
-    const url = typeof input === 'string' ? input : input.toString();
-    if (url.endsWith('/api/plan')) {
+    const raw = typeof input === 'string' ? input : input.toString();
+    const path = raw.split('?')[0];
+    if (path.endsWith('/api/projects')) {
+      return new Response(JSON.stringify(projects), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+    if (path.endsWith('/api/plan')) {
       return new Response(seed.plan, {
         status: 200,
         headers: { 'Content-Type': 'text/plain; charset=utf-8' },
       });
     }
-    if (url.endsWith('/api/active')) {
+    if (path.endsWith('/api/active')) {
       return new Response(JSON.stringify(active), {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
       });
     }
-    if (url.endsWith('/api/archive')) {
+    if (path.endsWith('/api/archive')) {
       return new Response(JSON.stringify(archive), {
         status: 200,
         headers: { 'Content-Type': 'application/json' },

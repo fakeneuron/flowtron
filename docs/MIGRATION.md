@@ -318,9 +318,21 @@ The symlinks in `.claude/` don't need to be touched — they always track whatev
 
 A bump is itself a project-side task (e.g., `CORE-XXX: Bump flowtron to vX.Y.Z`), with a tasknote and the usual 4-phase flow. Don't bump in passing.
 
+## Visualizer
+
+The flowtron visualizer is a single global instance, not a per-project install. Run it once per machine from flowtron's own checkout:
+
+```sh
+cd ~/code/flowtron/viz && npm install   # one-time
+cd ~/code/flowtron/viz && npm run dev
+```
+
+It scans `${FLOWTRON_VIZ_WORKSPACE:-~/code}/*/_project/PLAN.md` and renders every adopting project; the header-rail chip group swaps the active project. Port `5173` is pinned with `strictPort` — a second instance fails fast rather than scanning the same workspace on a different port. Set `FLOWTRON_VIZ_WORKSPACE` if your projects live somewhere other than `~/code/`. Adopter-side `_project/flowtron/viz/` still works (read-only submodule, unchanged) but is no longer the recommended path.
+
 ## Common gotchas
 
 - **Symlinks survive `git clone`.** Don't recreate them after cloning a project — they're already there.
 - **The submodule is read-only in adopting projects.** Edits to flowtron itself happen in the flowtron repo; adopting projects pick them up via deliberate version bumps.
 - **`/task` not appearing in the menu** almost always means the symlinks are broken or the submodule isn't checked out. `readlink .claude/commands/task.md` should resolve into `_project/flowtron/claude/commands/task.md`.
 - **Don't renumber tasks during migration.** Archived tasknotes reference the old IDs by name; renumbering silently invalidates those links.
+- **Two viz instances refuse to coexist.** The dev server pins port `5173` with `strictPort`; if a second `npm run dev` errors, an instance is already running — visit it at `http://localhost:5173/`.

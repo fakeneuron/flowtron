@@ -236,6 +236,86 @@ describe('App — inbound back-refs', () => {
   });
 });
 
+describe('App — project switching', () => {
+  const plan = `## High
+
+- [ ] **CORE-100** | one — Task one
+`;
+  const active = [
+    makeTasknote({
+      id: 'CORE-100',
+      frontmatter: {
+        title: 'one',
+        status: 'in-progress',
+        tags: ['alpha'],
+        created: '2026-05-07',
+        relatedTasks: [],
+      },
+    }),
+  ];
+
+  beforeEach(() => {
+    window.localStorage.clear();
+  });
+
+  it('fetches /api/projects, renders chips, and marks the stored or first project active', async () => {
+    window.localStorage.setItem('flowtron-viz-active-project', 'fintown');
+    renderApp({ plan, active, projects: ['flowtron', 'fintown', 'invisipaw'] });
+
+    await waitFor(() =>
+      expect(screen.getByRole('button', { name: 'Project: fintown' })).toHaveAttribute(
+        'aria-pressed',
+        'true',
+      ),
+    );
+    expect(screen.getByRole('button', { name: 'Project: flowtron' })).toHaveAttribute(
+      'aria-pressed',
+      'false',
+    );
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Flowtron — fintown');
+  });
+
+  it('falls back to the first project when stored value is unknown', async () => {
+    window.localStorage.setItem('flowtron-viz-active-project', 'gone-project');
+    renderApp({ plan, active, projects: ['alpha', 'beta'] });
+
+    await waitFor(() =>
+      expect(screen.getByRole('button', { name: 'Project: alpha' })).toHaveAttribute(
+        'aria-pressed',
+        'true',
+      ),
+    );
+  });
+
+  it('on switch: updates active state, persists to localStorage, and resets filters', async () => {
+    const user = userEvent.setup();
+    renderApp({ plan, active, projects: ['flowtron', 'fintown'] });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+
+    await user.click(screen.getByRole('button', { name: 'alpha' }));
+    expect(screen.getByRole('button', { name: 'alpha' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Project: fintown' }));
+
+    await waitFor(() =>
+      expect(screen.getByRole('button', { name: 'Project: fintown' })).toHaveAttribute(
+        'aria-pressed',
+        'true',
+      ),
+    );
+    expect(window.localStorage.getItem('flowtron-viz-active-project')).toBe('fintown');
+    expect(screen.getByRole('button', { name: 'alpha' })).toHaveAttribute(
+      'aria-pressed',
+      'false',
+    );
+    expect(screen.getByRole('searchbox')).toHaveValue('');
+  });
+});
+
 describe('App — status badge selection', () => {
   const plan = `## High
 

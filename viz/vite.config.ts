@@ -2,26 +2,42 @@ import { defineConfig } from 'vitest/config';
 import type { Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import { readFile, readdir } from 'node:fs/promises';
-import { dirname, join, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import type { ServerResponse } from 'node:http';
+import type { Dirent } from 'node:fs';
+import { join } from 'node:path';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 import chokidar from 'chokidar';
 import { parseTasknote } from './src/tasknote';
+import { discoverProjects, workspaceRoot, type ProjectDescriptor } from './src/workspace';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const PROJECT_DIR = resolve(__dirname, '..', '_project');
-const PLAN_PATH = join(PROJECT_DIR, 'PLAN.md');
-const TASKNOTE_DIR = join(PROJECT_DIR, 'tasknote');
-const ARCHIVE_DIR = join(TASKNOTE_DIR, 'archive');
+async function safeReaddir(dir: string): Promise<Dirent[]> {
+  try {
+    return (await readdir(dir, { withFileTypes: true })) as Dirent[];
+  } catch {
+    return [];
+  }
+}
 
 const SSE_DEBOUNCE_MS = 200;
 const SSE_HEARTBEAT_MS = 30_000;
+
+function projectFromQuery(
+  req: IncomingMessage,
+  projects: Map<string, ProjectDescriptor>,
+): ProjectDescriptor | { error: string } {
+  const url = new URL(req.url ?? '', 'http://localhost');
+  const name = url.searchParams.get('project');
+  if (!name) return { error: 'missing ?project=<name>' };
+  const project = projects.get(name);
+  if (!project) return { error: `unknown project: ${name}` };
+  return project;
+}
 
 function flowtronApi(): Plugin {
   const sseClients = new Set<ServerResponse>();
   let debounceTimer: ReturnType<typeof setTimeout> | null = null;
   let watcher: ReturnType<typeof chokidar.watch> | null = null;
   let heartbeat: ReturnType<typeof setInterval> | null = null;
+  const projects = new Map<string, ProjectDescriptor>();
 
   const broadcastChange = () => {
     for (const res of sseClients) {
@@ -36,21 +52,19 @@ function flowtronApi(): Plugin {
 
   return {
     name: 'flowtron-api',
-    configureServer(server) {
+    async configureServer(server) {
+      const root = workspaceRoot();
+      const discovered = await discoverProjects(root);
+      for (const p of discovered) projects.set(p.name, p);
+
       if (server.httpServer) {
-        watcher = chokidar.watch(
-          [
-            PLAN_PATH,
-            join(TASKNOTE_DIR, '*.md'),
-            join(ARCHIVE_DIR, '*', '*.md'),
-          ],
-          {
-            ignoreInitial: true,
-            depth: 2,
-            usePolling: true,
-            interval: 200,
-          },
-        );
+        const watchPaths = discovered.flatMap((p) => [p.planPath, join(p.tasknoteDir, '*.md')]);
+        watcher = chokidar.watch(watchPaths, {
+          ignoreInitial: true,
+          depth: 1,
+          usePolling: true,
+          interval: 200,
+        });
         watcher.on('all', scheduleBroadcast);
 
         heartbeat = setInterval(() => {
@@ -78,9 +92,21 @@ function flowtronApi(): Plugin {
         });
       }
 
-      server.middlewares.use('/api/plan', async (_req, res) => {
+      server.middlewares.use('/api/projects', (_req, res) => {
+        const list = Array.from(projects.values()).map((p) => ({ name: p.name }));
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify(list));
+      });
+
+      server.middlewares.use('/api/plan', async (req, res) => {
+        const project = projectFromQuery(req, projects);
+        if ('error' in project) {
+          res.statusCode = 400;
+          res.end(project.error);
+          return;
+        }
         try {
-          const text = await readFile(PLAN_PATH, 'utf8');
+          const text = await readFile(project.planPath, 'utf8');
           res.setHeader('Content-Type', 'text/plain; charset=utf-8');
           res.end(text);
         } catch (e) {
@@ -88,14 +114,21 @@ function flowtronApi(): Plugin {
           res.end(`Failed to read PLAN.md: ${(e as Error).message}`);
         }
       });
-      server.middlewares.use('/api/active', async (_req, res) => {
+
+      server.middlewares.use('/api/active', async (req, res) => {
+        const project = projectFromQuery(req, projects);
+        if ('error' in project) {
+          res.statusCode = 400;
+          res.end(project.error);
+          return;
+        }
         try {
-          const entries = await readdir(TASKNOTE_DIR, { withFileTypes: true });
+          const entries = await safeReaddir(project.tasknoteDir);
           const files = entries.filter((e) => e.isFile() && e.name.endsWith('.md'));
           const tasknotes = await Promise.all(
             files.map(async (e) => {
               const id = e.name.replace(/\.md$/, '');
-              const path = join(TASKNOTE_DIR, e.name);
+              const path = join(project.tasknoteDir, e.name);
               const text = await readFile(path, 'utf8');
               return parseTasknote(id, path, text);
             }),
@@ -107,21 +140,21 @@ function flowtronApi(): Plugin {
           res.end(`Failed to list tasknotes: ${(e as Error).message}`);
         }
       });
-      server.middlewares.use('/api/archive', async (_req, res) => {
+
+      server.middlewares.use('/api/archive', async (req, res) => {
+        const project = projectFromQuery(req, projects);
+        if ('error' in project) {
+          res.statusCode = 400;
+          res.end(project.error);
+          return;
+        }
         try {
-          let areas: Array<{ name: string }> = [];
-          try {
-            areas = (await readdir(ARCHIVE_DIR, { withFileTypes: true })).filter((e) =>
-              e.isDirectory(),
-            );
-          } catch {
-            areas = [];
-          }
+          const areas = (await safeReaddir(project.archiveDir)).filter((e) => e.isDirectory());
           const tasknotes = (
             await Promise.all(
               areas.map(async (area) => {
-                const areaDir = join(ARCHIVE_DIR, area.name);
-                const entries = await readdir(areaDir, { withFileTypes: true });
+                const areaDir = join(project.archiveDir, area.name);
+                const entries = await safeReaddir(areaDir);
                 const files = entries.filter((e) => e.isFile() && e.name.endsWith('.md'));
                 return Promise.all(
                   files.map(async (e) => {
@@ -149,7 +182,10 @@ export default defineConfig({
   plugins: [react(), flowtronApi()],
   // Pin the dev port and refuse to auto-bump. Without strictPort, vite climbs
   // 5173 → 5174 → ... and can land on 5180, which conflicts with another local
-  // project. Better to fail loudly so the user can free 5173.
+  // project. Better to fail loudly so the user can free 5173. The single-port
+  // discipline also enforces the "one global viz" model: if a second instance
+  // is launched, it errors out instead of silently scanning the same workspace
+  // on a different port.
   server: {
     port: 5173,
     strictPort: true,
