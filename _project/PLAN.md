@@ -19,7 +19,9 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-049** [opus] | workflow token audit — Audit the flowtron AI workflow surfaces (SPEC modules, SKILL stubs, tasknote template, doc-drift sweep, archive skim, post-closure protocol) for redundant or low-signal token usage. Deliverable: filed follow-up tasks in PLAN.md (or "no changes needed"). May spawn a CORE-EPIC if multiple meaningful workstreams surface.
+- [ ] **CORE-050** [opus] | micro-task SKILL cite-don't-restate — Trim ~400-500w from `claude/skills/micro-task/SKILL.md` via cite-don't-restate at Steps 1.5/2/4/5 + Step 0 path-resolve tightening (sibling of [[CORE-038]]). Filed with starter at `_project/tasknote/CORE-050.md`.
+- [ ] **CORE-051** [opus] | starter-task SKILL cite-don't-restate — Trim ~200-300w from `claude/skills/starter-task/SKILL.md` via cite-don't-restate at Steps 0/3/5 (sibling of [[CORE-050]] / [[CORE-038]]). Filed with starter at `_project/tasknote/CORE-051.md`.
+- [ ] **CORE-052** [opus] | tasknote-README variant trim — Trim ~150-200w from `templates/tasknote-README.md` by collapsing three variant paragraphs (lines 25-28) to one-sentence pointers + SPEC citations. Filed with starter at `_project/tasknote/CORE-052.md`.
 
 ## Low
 
@@ -31,6 +33,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-049** [opus] | workflow token audit — Completed 2026-05-08.
 - [x] **FE-002** [opus] | cross-project viz — Completed 2026-05-08.
 - [x] **CORE-048** [opus] | release v1.2.0 — Completed 2026-05-08.
 - [x] **CORE-016** [opus] | InvisiPaw migration (executed out-of-band) — Completed 2026-05-08. Done in InvisiPaw's own repo chat; flowtron now adopted there.
