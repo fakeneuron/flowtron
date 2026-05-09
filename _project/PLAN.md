@@ -34,6 +34,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-057.6** [opus] | audit — Completed 2026-05-09.
   - [x] **CORE-057.7** [opus] | epic-md inline-cmds — Completed 2026-05-09.
   - [ ] **CORE-057.8** [opus] | command-stub cross-refs — Sibling cross-refs in `task.md` / `micro-task.md` / `starter-task.md` / `release.md` are sparser than the cohort-shipped stubs (`close-epic.md` / `epic-discovery.md` / `file-followup.md`). Equalize the "For X, use /Y" lists for discovery parity. Surfaced by CORE-057.6 audit.
+- [ ] **CORE-059** [opus] | task workflow visual gate cues — Add banner-style operator-gate cues to /task at every approval point (Phase 1→2, 2→3, ready-to-commit, ready-to-push, Phase 4 closure). Format: separator + phase emoji + AWAITING APPROVAL / READY status. Update task SKILL.md gate phrasing and matching SPEC.md phase descriptions; consider whether other skills (/epic-discovery, /close-epic) inherit the same convention.
 
 ## Low
 
@@ -45,6 +46,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-058** [opus] | task-skill early model-switch catch — Completed 2026-05-09.
 - [x] **CORE-054** [opus] | expand-shipped-skills — Completed 2026-05-09.
 - [x] **CORE-053** [opus] | MIGRATION-variant-trim — Completed 2026-05-09.
 - [x] **CORE-052** [opus] | tasknote-README variant trim — Completed 2026-05-09.
