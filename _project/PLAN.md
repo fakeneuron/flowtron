@@ -19,7 +19,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-055** [opus] | CLAUDE-snippet-review — Review claude/CLAUDE-snippet.md against current Claude Code best-practices (Anthropic docs, Claude Engineer repo, X posts); gap-analyze; revise. Adopter-leverage: propagates to every adopting project on next bump. Filed with starter.
 - [ ] **CORE-056** [opus] | conventions-techdebt-audit — Audit flowtron repo on the conventions + coherence axis (file naming, heading style, cross-refs, template/SPEC/skill parity, dead surfaces). Distinct from CORE-049's token axis and FE-018's viz code axis. Filed with starter.
 - [ ] **FE-017** [opus] | viz-visual-UX-audit — Boot viz dev server, walk every interaction (priority groups, dark mode, keyboard nav, filters, wikilinks, back-refs, archive view, cross-project, starter chip); screenshot; log inconsistencies + regressions + polish targets; file follow-ups.
 - [ ] **FE-018** [opus] | viz-code-token-audit — Code/token audit of viz/ (analog to CORE-049 for the React side): component duplication, prop-shape drift, dead utilities, restatements between components. File trim follow-ups per CORE-049 model.
@@ -37,6 +36,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-055** [opus] | CLAUDE-snippet-review — Completed 2026-05-09.
 - [x] **CORE-060** [opus] | release v1.3.0 — Completed 2026-05-09.
 - [x] **CORE-EPIC-057** [opus] | expand-shipped-skills — Completed 2026-05-09.
   - [x] **CORE-057.1** [opus] | discovery — Completed 2026-05-09.
