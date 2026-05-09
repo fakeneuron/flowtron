@@ -19,20 +19,22 @@ Determine which repo you're in:
 
 - **Adopting project (typical):** `_project/flowtron/SPEC.md` exists. Use:
   - SPEC: `_project/flowtron/SPEC.md`
-  - SPEC_DIR (lazy modules): `_project/flowtron/SPEC/`
+  - SPEC_DIR (lazy SPEC modules): `_project/flowtron/SPEC/`
+  - SKILL_DIR (lazy SKILL fragments): `_project/flowtron/claude/skills/micro-task/`
   - Micro template: `_project/flowtron/templates/tasknote-micro-template.md`
   - PLAN: `_project/PLAN.md`
   - Tasknote dir: `_project/tasknote/`
 - **Flowtron itself (self-hosted):** repo-root `SPEC.md` exists with the heading `# Flowtron — Workflow Specification`. Use:
   - SPEC: `SPEC.md`
-  - SPEC_DIR (lazy modules): `SPEC/`
+  - SPEC_DIR (lazy SPEC modules): `SPEC/`
+  - SKILL_DIR (lazy SKILL fragments): `claude/skills/micro-task/`
   - Micro template: `templates/tasknote-micro-template.md`
   - PLAN: `_project/PLAN.md`
   - Tasknote dir: `_project/tasknote/`
 
 If neither layout matches, stop and tell the user this directory doesn't look like a flowtron-using project.
 
-`SPEC.md` is the always-loaded core. `SPEC_DIR/` holds lazy modules (`epic.md`, `starter.md`, `blocked.md`, `model.md`, `versioning.md`) — load each only when the relevant branch fires (Step 1.5 model-gate, Step 1 epic-ID prefix). Each subsequent step names the module to read explicitly.
+`SPEC.md` is the always-loaded core. `SPEC_DIR/` holds lazy SPEC modules (`epic.md`, `model.md`); `SKILL_DIR/` holds the lazy `step-1.5-model-edge.md` fragment. Each subsequent step names the modules to read; Step 1.5 Reads both `<SPEC_DIR>/model.md` and `<SKILL_DIR>/step-1.5-model-edge.md` in parallel.
 
 ## Step 1 — Locate the task in PLAN.md and pre-flight
 
@@ -67,66 +69,58 @@ The model decision is made at filing time on the PLAN.md task line. Gate on it n
 Three cases (decide via the `[model]` segment captured in Step 1):
 
 - **PLAN.md `[model]` matches the active model** → proceed silently to Step 2.
-- **PLAN.md `[model]` differs from the active model** → STOP. Read `<SPEC_DIR>/model.md` for the full contract, then surface the mismatch and offer two paths via AskUserQuestion:
-  1. "Switch active model: I'll stop. Run `/model <PLAN-model>` then re-invoke `/micro-task <TASK-ID>`." (recommended)
-  2. "Retag the PLAN.md line to `<active-model>` and proceed." If chosen, edit the PLAN.md line's `[model]` segment in place, then proceed to Step 2.
-  Do not silently override.
-- **PLAN.md `[model]` is absent (legacy entry)** → Read `<SPEC_DIR>/model.md`, then ask the user via AskUserQuestion to choose `opus` or `sonnet`. Write `[<chosen>]` into the PLAN.md line in place, then proceed to Step 2.
+- **PLAN.md `[model]` differs from the active model** → STOP. Read `<SPEC_DIR>/model.md` (contract) and `<SKILL_DIR>/step-1.5-model-edge.md` (operational steps), then follow the "Mismatch" branch.
+- **PLAN.md `[model]` is absent (legacy entry, no `[model]` on the line)** → Read `<SPEC_DIR>/model.md` (contract) and `<SKILL_DIR>/step-1.5-model-edge.md` (operational steps), then follow the "Legacy entry" branch.
 
 The active model is whatever the assistant is currently running as (visible in the runtime; if uncertain, ask the user).
 
 ## Step 2 — Scaffold the micro-tasknote
 
-Copy the micro template (path resolved in Step 0) to `_project/tasknote/<TASK-ID>.md`. The frontmatter schema is canonical in SPEC §"Tasknote frontmatter"; the body shape is a micro-specific variant of SPEC §"Tasknote body shape" (see SPEC §"When to use a tasknote" micro carve-out).
+Copy the micro template (path resolved in Step 0) to `_project/tasknote/<TASK-ID>.md`. Frontmatter and body shape: see SPEC §"Tasknote frontmatter" + §"Tasknote body shape" + §"When to use a tasknote (and when not to)" micro carve-out for the `## ⚡ Notes` / `## ✅ Recap` skeleton.
 
-**Skill-specific values at scaffold time:**
+**Skill-specific scaffold values:**
 
-- `title:` — prefer the PLAN.md `| shortname` (Step 1) when present; otherwise derive from the long description.
-- `status:` — `in-progress`.
-- `created:` — today's date (`YYYY-MM-DD`).
-- `tags:` / `due:` / `related-tasks:` — from PLAN.md line context where applicable; default to empty.
-- H1 — `# <TASK-ID> | <title>`.
-- Nav header — `[← PLAN.md](../PLAN.md) · 🟢 In progress` plus `· 🔗 [[RELATED]]` chips if `related-tasks:` is non-empty.
-- 🎯 Goal — derived from the PLAN.md line at scaffold; ask the user if it's too terse for a clear one-sentence goal.
-- ⚡ Notes — leave the bold-prefix prompts in place as scaffolding; they get filled during Step 3.
-- ✅ Recap — leave the placeholder; filled at Step 4.
+- `title:` — prefer PLAN.md `| shortname` (Step 1); else derive from long description.
+- `status:` `in-progress`. `created:` today (`YYYY-MM-DD`). `tags:` / `due:` / `related-tasks:` from PLAN.md line context; default empty.
+- 🎯 Goal — derived from the PLAN.md line; ask if too terse for a one-sentence goal.
+- ⚡ Notes ships with bold-prefix prompts in place (filled in Step 3); ✅ Recap is placeholder (filled in Step 4).
 
 ## Step 3 — Drive execution inline
 
-Walk through the four bold-prefix prompts in `## ⚡ Notes` and fill each before touching code. They mirror the non-negotiable Phase 1 + Phase 2 contracts from `/task`'s 4-phase flow:
+Fill the four bold-prefix prompts in `## ⚡ Notes` before touching code. They mirror SPEC §"📝 Phase 1: Discovery" (Relevance / Drift / Archive skim) + §"🛠️ Phase 2: Execution" (Pattern survey).
 
-1. **Relevance:** State `Proceed` / `Re-scope` / `De-scope` with a one-line rationale. If `Re-scope`, update the PLAN.md line and the tasknote header before continuing — but a meaningful re-scope usually means this should be a full `/task`, not a micro-task; surface that to the user and consider archiving the micro and re-invoking `/task <ID>`. If `De-scope`, jump straight to Step 4 with the de-scope rationale as the recap.
-2. **Drift check:** Read each path, line number, function name, and root-cause hypothesis cited in the PLAN.md description. Confirm they match current code; surface any drift to the user before re-interpreting the task.
-3. **Archive skim:** `ls _project/tasknote/archive/<area>/`, then `grep -l <path> _project/tasknote/archive/<area>/*.md` for source paths in scope. Read hits and log anything load-bearing inline. If `archive/<area>/` is empty or absent, write `no prior tasknotes` and move on.
-4. **Pattern survey:** Read sibling modules / parallel components for an existing shape to extend; justify a new shape if none fits.
+Skill-specific imperatives on top of the SPEC contracts:
 
-Then **do the work**: minimal implementation, targeted tests on changed files where they matter, lint/type-check on changed code. Update the **Implementation** bold-prefix line as you go (ad-hoc free text — what changed, key decisions, anything load-bearing for future readers). At closure-readiness time fill the **Docs touched:** bold-prefix line — for each entry in `_project/tasknote/README.md` §"AI-referenced docs", state "no change" or the update (the micro-tasknote equivalent of `/task`'s Phase 4 doc-drift sweep).
+- **Relevance:** if `Re-scope`, a meaningful re-scope usually means promote to `/task` — archive the micro and re-invoke `/task <ID>`. If `De-scope`, jump to Step 4 with the de-scope rationale as the recap.
+- **Archive skim recipe:** `ls _project/tasknote/archive/<area>/`, then `grep -l <path> _project/tasknote/archive/<area>/*.md` for source paths in scope. Read hits; log load-bearing findings inline. Empty archive → `no prior tasknotes` and move on.
 
-If a hard dependency surfaces mid-execution that wasn't visible at relevance, the right move is usually to abandon the micro-tasknote and re-file as a normal `/task` (or `/starter-task`) — micro-tasks are not designed to park. Surface the situation and ask.
+Then **do the work**: minimal implementation, targeted tests + lint/type-check on changed files. Update **Implementation** bold-prefix as you go (what changed, key decisions). At closure-readiness fill **Docs touched:** per `_project/tasknote/README.md` §"AI-referenced docs" (the micro-tasknote equivalent of `/task`'s Phase 4 doc-drift sweep): "no change" or the specific update.
+
+If a hard dependency surfaces, abandon the micro-tasknote and re-file as `/task` (or `/starter-task`) — micro-tasks are not designed to park. Surface and ask.
 
 ## Step 4 — Recap and close
 
 The single closure step. In one motion:
 
-1. **Fill ✅ Recap** — brief final summary: what changed, key decisions, anything an audit pass should know.
+1. **Fill ✅ Recap** — brief final summary (what changed, key decisions).
 2. **Set `Archived:`** — today's date (`YYYY-MM-DD`).
-3. **Update PLAN.md** — flip the line to the stub form `- [x] **<TASK-ID>** [model] | shortname — Completed YYYY-MM-DD.` per SPEC §"`## Completed` archive convention" (drop the long description — the archived tasknote is the canonical record), and move it to the `## Completed` section.
+3. **Update PLAN.md** — flip the line to the stub form per SPEC §"`## Completed` archive convention" and move it to the `## Completed` section.
 4. **Move the tasknote** — `mv _project/tasknote/<TASK-ID>.md _project/tasknote/archive/<area>/<TASK-ID>.md`.
-5. **Recap to the user** — brief summary of what changed and key decisions, plus an optional verification request (one concrete thing for the user to check before they confirm). **Recap is recap-only — do not include the next-task suggestion until the commit lands (Step 5); see SPEC §"🚀 Phase 4: Closure" callout.** Wait for confirmation.
+5. **Recap to the user** per SPEC §"🚀 Phase 4: Closure" — brief summary + optional verification request. **Recap is recap-only**; the next-task suggestion belongs in Step 5, not the recap. Wait for confirmation.
 
-Closure flips two places (PLAN.md line + tasknote location); the YAML `status:` stays `in-progress` per SPEC §"Tasknote body shape" (visualizers compute the canonical chip from YAML at render time; archived tasknote's YAML may lag — intentional and matches `/task`'s closure shape).
+Closure flips PLAN.md line + tasknote location; YAML `status:` stays `in-progress` per SPEC §"Tasknote body shape".
 
 ## Step 5 — Post-closure protocol
 
-The three-step protocol (commit / suggest next move / offer copy-paste line) is canonical in SPEC §"Post-closure protocol".
+Canonical protocol: SPEC §"Post-closure protocol".
 
-Skill-specific orchestration on top of the SPEC contract:
+Skill-specific orchestration:
 
-- The motion is **one continuous flow**. The user's commit-go (e.g. "commit", "go", "yes") is the *only* gate; once the commit lands, the suggest-next-move and copy-paste-line steps follow **in the same response as the commit confirmation**.
-- Confirm with the user before committing — do not commit unprompted.
-- Commit message format: `feat: <TASK-ID> — <title>` or `fix:` / `docs:` / `chore:` as appropriate. The micro-tasknote scaffold + closure typically bundle into a single commit alongside the code/doc change.
-- When suggesting the next move, name the recommended model alongside the task ID.
-- The copy-paste line is `/clear then /model <opus|sonnet> then /<task|micro-task|starter-task> <NEXT-ID>` — you cannot run `/clear` yourself. Substitute the next task's PLAN-line `[model]` tag for `<opus|sonnet>` and the appropriate slash command for the alternation so the user pastes a fully resolved line.
+- **One continuous flow** — the user's commit-go ("commit", "go", "yes") is the *only* gate; suggest-next-move and copy-paste-line follow **in the same response as the commit confirmation**.
+- Confirm before committing — never commit unprompted.
+- **Commit message:** `feat: <TASK-ID> — <title>` (or `fix:` / `docs:` / `chore:`). Scaffold + closure typically bundle into one commit alongside the code/doc change.
+- Name the recommended model alongside the next task ID.
+- **Copy-paste line:** `/clear then /model <opus|sonnet> then /<task|micro-task|starter-task> <NEXT-ID>` — substitute the next task's PLAN-line `[model]` and the right slash command.
 
 ## Notes
 
