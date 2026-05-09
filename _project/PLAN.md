@@ -19,7 +19,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-051** [opus] | starter-task SKILL cite-don't-restate — Trim ~200-300w from `claude/skills/starter-task/SKILL.md` via cite-don't-restate at Steps 0/3/5 (sibling of [[CORE-050]] / [[CORE-038]]). Filed with starter at `_project/tasknote/CORE-051.md`.
 - [ ] **CORE-052** [opus] | tasknote-README variant trim — Trim ~150-200w from `templates/tasknote-README.md` by collapsing three variant paragraphs (lines 25-28) to one-sentence pointers + SPEC citations. Filed with starter at `_project/tasknote/CORE-052.md`.
 
 ## Low
@@ -32,6 +31,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-051** [opus] | starter-task SKILL cite-don't-restate — Completed 2026-05-09.
 - [x] **CORE-050** [opus] | micro-task SKILL cite-don't-restate — Completed 2026-05-09.
 - [x] **CORE-049** [opus] | workflow token audit — Completed 2026-05-08.
 - [x] **FE-002** [opus] | cross-project viz — Completed 2026-05-08.

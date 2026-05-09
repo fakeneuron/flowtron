@@ -49,33 +49,19 @@ Use AskUserQuestion to confirm the key fields. Pre-populate from conversation co
 
 1. **Title (shortname)** — concise; up to ~30 chars. Used as the YAML `title:` and the H1.
 2. **Priority** — `Critical | High | Medium | Low | Future Opportunities`. AI proposes its best read.
-3. **Model** — `opus | sonnet`. AI proposes based on task shape (default `opus` for design / multi-file / ambiguous work; `sonnet` for mechanical work with a clear diff in mind). Goes on the PLAN.md task line, not in the frontmatter.
+3. **Model** — `opus | sonnet`, per SPEC §"Model field". AI proposes; goes on the PLAN.md task line, not in frontmatter.
 
-Optional inputs the AI may pre-fill silently (user can correct on Step 3 review):
-
-- `tags:` — free-form list; useful for visualizer filtering
-- `due:` — only if the conversation specified a deadline
-- `related-tasks:` — wikilinks to predecessors / parent epic / follow-ups surfaced in conversation
+Optional inputs the AI may pre-fill silently (user corrects on Step 3 review): `tags:` (visualizer filter), `due:` (only if the conversation specified a deadline), `related-tasks:` (wikilinks to predecessors / parent epic / follow-ups surfaced in conversation).
 
 ## Step 3 — Draft the starter body
 
-Compose the `## 🌱 Starter context` body from conversation context, using the sub-heading conventions from `tasknote-starter-template.md`:
-
-- **Why this exists** — rationale, problem statement, why captured context is rich enough to preserve.
-- **Solution shape** — design decisions made in the current conversation.
-- **Files to touch (preliminary survey — drift-check at promotion)** — paths, line numbers, function names. These will be drift-checked at promotion.
-- **Explicitly out of scope** — what's deliberately split to a follow-up task.
-- **Decisions locked in this conversation** — table of decision / choice / rationale.
-- **Open at promotion (Phase 1 should resolve)** — questions to revisit; include the AI's lean.
-- **Related** — `[[TASK-ID]]` wikilinks to predecessors / parent epics / follow-ups.
-
-Drop any sub-heading with nothing genuine to capture. The whole body remains under the single `## 🌱 Starter context` section.
+Compose the `## 🌱 Starter context` body from conversation context using the canonical sub-headings in `templates/tasknote-starter-template.md`; drop any sub-heading with nothing genuine to capture (per `<SPEC_DIR>/starter.md`, Read in Step 0). The whole body remains under the single `## 🌱 Starter context` section.
 
 **Surface the drafted body and proposed PLAN.md entry to the user for review before writing anything.** Edit per their feedback.
 
 ## Step 4 — Write the starter file
 
-Copy the starter template, then fill it:
+Copy the starter template (path resolved in Step 0), then fill it:
 
 ```sh
 cp <starter template path> _project/tasknote/<TASK-ID>.md
@@ -83,14 +69,10 @@ cp <starter template path> _project/tasknote/<TASK-ID>.md
 
 In `_project/tasknote/<TASK-ID>.md`:
 
-- Fill YAML frontmatter from Step 2 inputs:
-  - `title:` — the shortname from Step 2
-  - `status: starter` (already correct from template)
-  - `tags:`, `due:`, `related-tasks:` — from Step 2
-  - `created:` — today's date in `YYYY-MM-DD`
-- Replace the H1 with `# <TASK-ID> | <title>` (matching frontmatter `title:`)
-- Update the nav header: replace `🌱 Starter (filed YYYY-MM-DD)` with `🌱 Starter (filed <today>)`; if the conversation context warrants it, append `· 🔗 [[RELATED]]` chips mirroring `related-tasks:`
-- Replace the `## 🌱 Starter context` placeholder body with the Step 3 draft
+- Fill YAML frontmatter per SPEC §"Tasknote frontmatter" using Step 2 inputs. Skill-specific values: `title:` = the shortname from Step 2; `status: starter` (already correct from template); `created:` = today's date in `YYYY-MM-DD`.
+- Replace the H1 with `# <TASK-ID> | <title>` (matching frontmatter `title:`).
+- Update the nav header: replace `🌱 Starter (filed YYYY-MM-DD)` with `🌱 Starter (filed <today>)`; if conversation context warrants it, append `· 🔗 [[RELATED]]` chips mirroring `related-tasks:`.
+- Replace the `## 🌱 Starter context` placeholder body with the Step 3 draft.
 
 ## Step 5 — Append the PLAN.md entry
 
@@ -106,13 +88,9 @@ Placement:
 - If the section carries a `(none — ...)` placeholder, replace the placeholder with the new entry.
 - Update PLAN.md's `**Last updated:**` line if it has one — `YYYY-MM-DD (<TASK-ID> filed with starter — <shortname>)`.
 
-**Threshold check (filing discipline).** Word-count the long description (everything after `— `, excluding the trailing `Filed with starter at ...` pointer). Apply SPEC §"PLAN.md filing-discipline thresholds":
+**Threshold check.** Word-count the long description (excluding the trailing `Filed with starter at ...` pointer) and apply SPEC §"PLAN.md filing-discipline thresholds". **Skill-specific override:** at >70w, if the user insists, document the rationale in the starter body's `## 🌱 Starter context` (under a `Why the line couldn't be trimmed` sub-heading) before writing. Do not silently breach the cap.
 
-- **≤50 words** — proceed.
-- **51-70 words** — surface the count to the user and trim before writing; the rich context belongs in the starter body, not on the line.
-- **>70 words** — must trim. If the user insists on the long form, document the override rationale in the starter body's `## 🌱 Starter context` (a short "Why the line couldn't be trimmed" sub-heading) before writing. Do not silently breach the cap.
-
-The starter body is the canonical home for rationale, file surveys, decisions, and open questions — moving content there is the point of `/starter-task`.
+The starter body is the canonical home for rationale, file surveys, and decisions — moving content there is the point of `/starter-task`.
 
 ## Step 6 — Hand off
 
