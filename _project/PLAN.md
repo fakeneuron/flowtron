@@ -32,7 +32,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-057.4** [opus] | /close-epic skill — Completed 2026-05-09.
   - [x] **CORE-057.5** [opus] | /file-followup skill — Completed 2026-05-09.
   - [x] **CORE-057.6** [opus] | audit — Completed 2026-05-09.
-  - [ ] **CORE-057.7** [opus] | epic-md inline-cmds — SPEC/epic.md lifecycle steps 2 + 4 cite only `/task <ID>.1` / `/task <ID>.<final>`, but the bottom "Skills." paragraph names `/epic-discovery` + `/close-epic` as canonical for new epics. Update the inline steps so first-time readers learn the cohort. Surfaced by CORE-057.6 audit.
+  - [x] **CORE-057.7** [opus] | epic-md inline-cmds — Completed 2026-05-09.
   - [ ] **CORE-057.8** [opus] | command-stub cross-refs — Sibling cross-refs in `task.md` / `micro-task.md` / `starter-task.md` / `release.md` are sparser than the cohort-shipped stubs (`close-epic.md` / `epic-discovery.md` / `file-followup.md`). Equalize the "For X, use /Y" lists for discovery parity. Surfaced by CORE-057.6 audit.
 
 ## Low

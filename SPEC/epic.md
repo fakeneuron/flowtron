@@ -24,11 +24,13 @@ subtasks — same grammar, same 4-phase tasknote, same model rules.
 1. **File the epic** with a Discovery subtask (`.1`) and a placeholder Audit
    subtask at the end. Implementation children may be empty at filing — the
    Discovery subtask populates them.
-2. **Run Discovery** (`/task <ID>.1`). Deliverable: filed child entries in
-   PLAN.md, not code.
+2. **Run Discovery** via `/epic-discovery` (which also files the epic in
+   step 1) or `/task <ID>.1` if filed manually. Deliverable: filed child
+   entries in PLAN.md, not code.
 3. **Run children** in order, normal flow.
-4. **Run Audit** (`/task <ID>.<final>`) once all implementation children are
-   closed. Final summary records findings even when nothing is wrong.
+4. **Run Audit** via `/close-epic <ID>.<final>` (or `/task <ID>.<final>`)
+   once all implementation children are closed. Final summary records
+   findings even when nothing is wrong.
 5. **Audit follow-ups.** Misses surfaced by the audit get filed as `.<N+1>`
    children. For a few small follow-ups, close the audit and execute them
    as normal children. For many, also file a fresh Audit subtask at the new
