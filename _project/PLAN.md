@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-053** [opus] | MIGRATION-variant-trim — Trim docs/MIGRATION.md §1.5 lines 95, 97-102 (~150-200w variant/body-shape restatement) via cite-don't-restate, mirroring CORE-052. Filed with starter.
+(none)
 
 ## Low
 
@@ -31,6 +31,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-053** [opus] | MIGRATION-variant-trim — Completed 2026-05-09.
 - [x] **CORE-052** [opus] | tasknote-README variant trim — Completed 2026-05-09.
 - [x] **CORE-051** [opus] | starter-task SKILL cite-don't-restate — Completed 2026-05-09.
 - [x] **CORE-050** [opus] | micro-task SKILL cite-don't-restate — Completed 2026-05-09.

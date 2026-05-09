@@ -92,12 +92,10 @@ cp _project/flowtron/templates/tasknote-README.md _project/tasknote/README.md
 
 Declare any project-specific area prefixes. Replace the "Project quick commands" section with the actual test/lint/dev commands for your project. Extend the `## AI-referenced docs` section as the architecture matures — the template seeds it with `README.md` / `CLAUDE.md` / `_project/PLAN.md`; add architecture notes, API specs, DB schema docs, ADRs, inventories. This list is walked at every Phase 4 closure (per `_project/flowtron/SPEC.md` §"🚀 Phase 4: Closure") and at every epic-audit subtask.
 
-The README also describes the current tasknote shape: YAML frontmatter (`title`, `status`, `tags`, `created`, `due`, `related-tasks`) and a spec-on-top + log-below body (`Goal` / `Acceptance` / `Subtasks` / `Related` above a divider, then the four phase sections below). The `/task` skill scaffolds this shape automatically; see `_project/flowtron/templates/tasknote-template.md` for the canonical layout.
+The README also describes the canonical tasknote shape — see `_project/flowtron/SPEC.md` §"Tasknote frontmatter" + §"Tasknote body shape" and `_project/flowtron/templates/tasknote-template.md`. Two lightweight variants exist alongside it:
 
-Two lightweight tasknote variants exist alongside the standard 4-phase shape:
-
-- **Starter tasknotes** (`tasknote-starter-template.md`, scaffolded via `/starter-task`) — capture rich AI-discovered context for tasks that aren't ready to start yet. Single `## 🌱 Starter context` body section, no phase scaffolding; promoted to a full tasknote at `/task <ID>`. See `_project/flowtron/SPEC/starter.md`.
-- **Micro tasknotes** (`tasknote-micro-template.md`, scaffolded via `/micro-task`) — for tasks above the skip-tasknote threshold but small enough that the 4-phase ceremony is overkill (~30 min, single-file, focused). Single `## ⚡ Notes` section with bold-prefix prompts plus a `## ✅ Recap`. See SPEC §"When to use a tasknote (and when not to)".
+- **Starter tasknote** — `/starter-task <ID>` scaffolds from `tasknote-starter-template.md` for mid-flow context capture; lifecycle at `_project/flowtron/SPEC/starter.md`.
+- **Micro tasknote** — `/micro-task <ID>` scaffolds from `tasknote-micro-template.md` for tasks above the skip-tasknote threshold but below full 4-phase ceremony; threshold at `_project/flowtron/SPEC.md` §"When to use a tasknote (and when not to)".
 
 For multi-child code-sweep or feature epics, flowtron also defines an opening **Discovery** subtask (`<AREA>-<N>.1`) and a closing **Audit** subtask (highest `.N`) that bracket the implementation children. See `_project/flowtron/SPEC/epic.md`. Simple multi-subtask implementations don't need the bracket — apply judgment.
 
