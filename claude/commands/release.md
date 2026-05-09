@@ -1,0 +1,9 @@
+---
+description: Cut a flowtron release — version bump, doc-currency shifts, doc-drift sweep, single feat: commit, annotated tag, push. Flowtron-self only.
+---
+
+Invoke the `release` skill. The skill verifies cwd is the flowtron repo, scans `_project/PLAN.md` for the next pending `release v*` task line (bails on 0 or >1 matches), classifies commits since the last tag to propose a bump kind (user confirms/overrides), scaffolds + drives a release tasknote through the 4-phase workflow, and at closure auto-drafts the annotated-tag message for user review before committing/tagging/pushing.
+
+Takes no arguments — file the PLAN.md release line first (e.g., `**CORE-058** [opus] | release v1.3.0 — ...`), then run `/release`.
+
+For starting a non-release task, use `/task <TASK-ID>`. For bumping flowtron in an adopter project, see flowtron's `docs/MIGRATION.md` §"Pinning and bumping" (manual procedure — `/release` is flowtron-self only).
