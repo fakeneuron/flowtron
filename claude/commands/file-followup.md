@@ -7,4 +7,4 @@ Invoke the `file-followup` skill with `args="$ARGUMENTS"`. The skill validates t
 
 If `$ARGUMENTS` is empty, ask the user for a task ID before invoking the skill.
 
-For tasks with rich context (file survey / design decisions / open questions) that warrant persisting, use `/starter-task <TASK-ID>`. For starting an existing task (starter, follow-up line, or fresh), use `/task <TASK-ID>`. For small file + execute one-shots, use `/micro-task <TASK-ID>`. For bootstrapping a fresh repo with flowtron, use `/new-project`.
+For tasks with rich context (file survey / design decisions / open questions) that warrant persisting, use `/starter-task <TASK-ID>`. For starting an existing task (starter, follow-up line, or fresh), use `/task <TASK-ID>`. For small file + execute one-shots, use `/micro-task <TASK-ID>`. For opening a new epic, use `/epic-discovery`. For closing one, use `/close-epic`. For bootstrapping a fresh repo with flowtron, use `/new-project`.
