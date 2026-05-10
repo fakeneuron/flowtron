@@ -7,4 +7,3 @@ dist/
 *.tsbuildinfo
 .playwright-mcp/
 SCRATCH.md
-_project/FUTURE.md
