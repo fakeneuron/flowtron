@@ -141,7 +141,7 @@ Walk the Phase 1 checklist per SPEC §"📝 Phase 1: Discovery". Tick boxes as e
 - **Clarifying questions** — use AskUserQuestion to resolve open scoping decisions for the implementation children. Typical questions: per-child shortname + scope; cross-cutting adopter-wiring policy; SPEC contract impact per child. Record answers in a "Resolved scoping" table in Discovery Notes.
 - **Subtasks populated** — the Step 5 scaffold pre-filled the canonical epic-Discovery subtask list; refine them now if Discovery surfaced a scope shift.
 
-Do not enter Phase 2 until every Phase 1 box is ticked.
+Do not enter Phase 2 until every Phase 1 box is ticked. Once ticked, surface the **Phase 1→2 operator-gate cue** (per SPEC §"Operator-gate cues") and wait for the user's go before starting Step 7 Phase 2.
 
 ## Step 7 — Drive Phase 2: Execution
 
@@ -152,6 +152,8 @@ The Phase 2 deliverable is the filed child lines. Walk the Phase 2 checklist:
 - **Updated/added tests** — N/A (pure PLAN.md filing; no executable code surface).
 
 Capture in Implementation Notes: the count of lines written, word-count per line, and any audit-number bump (if Discovery decided N was wrong and the audit's number shifted).
+
+After Phase 2 boxes ticked, surface the **Phase 2→3 operator-gate cue** and wait for the user's go before the Step 8 markdown mental-pass.
 
 ## Step 8 — Drive Phase 3: Testing & Linting
 
@@ -174,7 +176,7 @@ Walk the closure steps in order:
 - **Doc-drift sweep** — for each entry in `<tasknote dir>/README.md` §"AI-referenced docs" (typical adopter set: `README.md` / `CLAUDE.md` / `_project/PLAN.md`; flowtron self-hosted set: `README.md` / `SPEC.md` / `docs/MIGRATION.md` / `claude/CLAUDE-snippet.md`), state per-entry verdict ("no change" or the specific update). Pure Discovery filing typically lands "no change" across the board — contract edits live inside the implementation children.
 - **Flip the `.1` PLAN.md line to stub form** — `- [ ] **<AREA>-<next-N>.1** [<model>] | <shortname> discovery — Completed YYYY-MM-DD.` per SPEC §"`## Completed` archive convention". Keep nested under `<AREA>-EPIC-<next-N>` in its current `## <Priority>` section (per epic-cohort grouping; parent + cohort move to `## Completed` only when all children close — see CORE-057.1 / .2 / .5 closure precedents).
 - **Move the `.1` tasknote** — `git mv <tasknote dir>/<AREA>-<next-N>.1.md <tasknote dir>/archive/<area>/<AREA>-<next-N>.1.md`. Set `**Archived:** YYYY-MM-DD` in the tasknote's Phase 4 block.
-- **Recap** — one short paragraph: epic filed, Discovery closed, children scoped, next move (typically `/task <AREA>-<next-N>.2` to fire the first implementation child).
+- **Recap** — one short paragraph: epic filed, Discovery closed, children scoped, next move (typically `/task <AREA>-<next-N>.2` to fire the first implementation child). Surface the recap behind the **Phase 4 closure operator-gate cue**.
 
 Wait for user confirmation before continuing to Step 10.
 
@@ -182,7 +184,7 @@ Wait for user confirmation before continuing to Step 10.
 
 The three-step post-closure protocol (commit / suggest next move / offer copy-paste line) is canonical in SPEC §"Post-closure protocol". Skill-specific orchestration:
 
-- Confirm with the user before committing — do not commit unprompted.
+- Confirm with the user before committing — surface the proposed commit message behind the **ready-to-commit operator-gate cue** and wait for commit-go. Do not commit unprompted.
 - The proposed commit message is `feat: <AREA>-<next-N>.1 — file <AREA>-EPIC-<next-N> + scope children` (or a user-edited variant).
 - On commit-go, the suggest-next-move and copy-paste-line follow in the same response (motion is one continuous flow per the SPEC contract).
 - The next move is typically `/task <AREA>-<next-N>.2` (first implementation child) — name the recommended model alongside the task ID.

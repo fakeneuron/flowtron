@@ -229,6 +229,34 @@ Adopting projects pick up the new shape on their next flowtron version bump.
 
 Every tasknote follows four phases in strict serial order. Do not skip ahead.
 
+### Operator-gate cues
+
+Every transition between phases — and the post-Phase-4 commit — is an
+**operator gate**: a moment where the assistant pauses for explicit user
+approval before continuing. To make these gates visually scannable in the
+transcript, the assistant surfaces a banner cue at each one:
+
+```
+---
+
+<emoji>  **AWAITING APPROVAL — <label>**
+
+---
+```
+
+| Gate | Emoji | Label |
+|---|---|---|
+| Phase 1→2 | 🛠️ | `AWAITING APPROVAL — Phase 2: Execution ready` |
+| Phase 2→3 | 🧪 | `AWAITING APPROVAL — Phase 3: Testing & Linting ready` |
+| Phase 4 closure (recap) | 🚀 | `AWAITING APPROVAL — Phase 4 closure complete; recap ready` |
+| Ready-to-commit | 📦 | `AWAITING APPROVAL — Ready to commit` |
+
+Phase 3 flows into Phase 4's closure operations without a separate gate;
+the next gate after Phase 2→3 is the Phase 4 recap cue. Skill-level gates
+outside the four-phase flow (epic parent-flip, release push-go, etc.)
+follow the same shape with their own label and emoji. The convention is a
+UX layer over the existing pause points — it does not introduce new gates.
+
 ### 📝 Phase 1: Discovery
 
 Mandatory steps:
@@ -256,6 +284,10 @@ The drift check exists because PLAN.md is a snapshot, not a spec. Flag any
 drift and confirm the path forward — do not silently "correct" the plan by
 executing a different task than was approved.
 
+**Exit gate:** once every Phase 1 box is ticked, surface the Phase 2
+operator-gate cue (see §"Operator-gate cues") and wait for the user's go
+before starting execution.
+
 ### 🛠️ Phase 2: Execution
 
 - [ ] **Pattern survey** — looked at how neighboring code (sibling modules, parallel components, adjacent services) solves the same shape of problem; chose to extend an existing pattern, or justified the new shape if none fits
@@ -272,6 +304,9 @@ If a hard dependency surfaces during execution that wasn't visible at Phase
 update the nav header, and stop. The tasknote sits at
 `_project/tasknote/<TASK-ID>.md` until the blocker clears; resume by
 re-invoking `/task <ID>`.
+
+**Exit gate:** once every Phase 2 box is ticked, surface the Phase 3
+operator-gate cue and wait for the user's go before running tests.
 
 ### 🧪 Phase 3: Testing & Linting
 
@@ -290,7 +325,8 @@ Run the full test suite only when changes are broad or cross-cutting.
 The recap has two parts: a brief summary of what changed and key decisions,
 and an optional verification request — something concrete for the user to
 check before they confirm (review the diff, run the feature end-to-end,
-eyeball a generated artifact).
+eyeball a generated artifact). Surface the recap behind the Phase 4 closure
+operator-gate cue and wait for confirmation.
 
 > **Recap is recap-only.** The recap is *what changed + verification ask*
 > and stops there. The next-task suggestion belongs in the post-closure
@@ -308,10 +344,12 @@ Canonical contract: see [`SPEC/blocked.md`](SPEC/blocked.md).
 
 After a tasknote is archived and confirmed, the assistant must:
 
-1. **Commit.** Bundle code changes, archived tasknote, and PLAN.md status flip
-   into a single commit (`feat: <TASK-ID> — <title>` or `fix:` / `docs:` as
-   appropriate). Multiple recently-closed tasknotes may bundle into one commit
-   when natural.
+1. **Commit.** Surface the proposed commit message behind the
+   ready-to-commit operator-gate cue (see §"Operator-gate cues") and wait
+   for commit-go. Bundle code changes, archived tasknote, and PLAN.md status
+   flip into a single commit (`feat: <TASK-ID> — <title>` or `fix:` /
+   `docs:` as appropriate). Multiple recently-closed tasknotes may bundle
+   into one commit when natural.
 
 2. **Suggest the next move.** Do not idle. Either:
    - **Epic continuation:** if the closed task is in an active epic with

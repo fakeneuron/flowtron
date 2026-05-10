@@ -124,7 +124,7 @@ Walk the Phase 1 checklist per SPEC §"📝 Phase 1: Discovery". Tick boxes as e
 - **Clarifying questions** — for an audit, typically none. If cohort scope is ambiguous (some children deferred, partial-cohort early-audit per Step 2), use AskUserQuestion to confirm audit scope.
 - **Subtasks populated** — Step 3 scaffold pre-filled the canonical epic-audit subtask list; refine if Discovery surfaces a scope shift.
 
-Do not enter Phase 2 until every Phase 1 box is ticked.
+Do not enter Phase 2 until every Phase 1 box is ticked. Once ticked, surface the **Phase 1→2 operator-gate cue** (per SPEC §"Operator-gate cues") and wait for the user's go before starting Step 5 Phase 2.
 
 ## Step 5 — Drive Phase 2: Execution
 
@@ -141,6 +141,8 @@ Capture in Implementation Notes:
 - Any inline fixes applied (file:line + diff shape).
 - Misses logged as `/file-followup <NEW-ID>` candidates (one bullet per miss with one-line rationale; user invokes `/file-followup` per miss after audit closure).
 
+After Phase 2 boxes ticked, surface the **Phase 2→3 operator-gate cue** and wait for the user's go before the Step 6 lint/test pass.
+
 ## Step 6 — Drive Phase 3: Testing & Linting
 
 Markdown-prose verification only for most audits — no test surface. If the audit applied an inline fix, run lint/type-check on changed files; otherwise tick all three Phase 3 boxes (test suite N/A, lint N/A, frontend N/A — capture rationale in Testing Notes).
@@ -152,7 +154,7 @@ Walk the Phase 4 checklist for the audit subtask itself (parent-epic flip is sep
 - **Doc-drift sweep (fixed line)** — for each entry in `<tasknote dir>/README.md` §"AI-referenced docs", state per-entry verdict ("no change" or the specific update). This is the contractually-required sweep per `SPEC/epic.md` §"Audit acceptance — fixed doc-drift line"; never skip.
 - **Flip the audit's PLAN.md line to stub form** — `- [ ] **<AUDIT-SUBTASK-ID>** [<model>] | <shortname> audit — Completed YYYY-MM-DD.` per SPEC §"`## Completed` archive convention". Keep nested under `<AREA>-EPIC-<NUMBER>` in its current `## <Priority>` section (parent + cohort move only on Step 8 confirmation).
 - **Move the audit tasknote** — `git mv <tasknote dir>/<AUDIT-SUBTASK-ID>.md <tasknote dir>/archive/<area>/<AUDIT-SUBTASK-ID>.md`. Set `**Archived:** YYYY-MM-DD` in the tasknote.
-- **Recap** — one short paragraph: audit ran, findings summary, follow-ups to file (if any). Do NOT include the parent-flip prompt yet — that's Step 8.
+- **Recap** — one short paragraph: audit ran, findings summary, follow-ups to file (if any). Surface the recap behind the **Phase 4 closure operator-gate cue**. Do NOT include the parent-flip prompt yet — that's Step 8.
 
 Wait for user confirmation before continuing to Step 8.
 
@@ -163,7 +165,7 @@ After the audit closes cleanly, scan `_project/PLAN.md` for the parent epic line
 - All children `[x]` (including the audit just closed) → **all-children-closed**.
 - Any child `[ ]` (typical only when Step 2's early-audit gate was bypassed) → **not-all-closed**: surface the open children to the user as a heads-up but skip the flip prompt and continue to Step 9.
 
-If all-children-closed, surface to the user via AskUserQuestion:
+If all-children-closed, surface to the user via AskUserQuestion behind the **parent-flip operator-gate cue** (`🏁  **AWAITING APPROVAL — Parent epic flip ready**`, per SPEC §"Operator-gate cues" skill-level extension):
 
 ```
 All <AREA>-EPIC-<NUMBER> children closed. Flip parent + move cohort to `## Completed`?
@@ -187,7 +189,7 @@ Capture the flip decision in the audit tasknote's Final Summary block (still edi
 
 The three-step post-closure protocol (commit / suggest next move / offer copy-paste line) is canonical in SPEC §"Post-closure protocol". Skill-specific orchestration:
 
-- Confirm with the user before committing — do not commit unprompted.
+- Confirm with the user before committing — surface the proposed commit message behind the **ready-to-commit operator-gate cue** and wait for commit-go. Do not commit unprompted.
 - The proposed commit message is `feat: <AUDIT-SUBTASK-ID> — audit <AREA>-EPIC-<NUMBER>` (or `chore: <AUDIT-SUBTASK-ID> — audit <AREA>-EPIC-<NUMBER>` if no code edits landed; user picks at commit-message-review).
 - On commit-go, the suggest-next-move and copy-paste-line follow in the same response (motion is one continuous flow per the SPEC contract).
 - The next move depends on audit outcome:
