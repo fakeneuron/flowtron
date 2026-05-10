@@ -3,6 +3,7 @@ import type { Task } from '../parser';
 import type { Tasknote } from '../tasknote';
 import { TaskRowInner } from './TaskRowInner';
 import { TaskDetail } from './TaskDetail';
+import { rowOutlineClass } from './utils';
 
 interface TaskRowProps {
   task: Task;
@@ -27,13 +28,10 @@ export const TaskRow: React.FC<TaskRowProps> = ({
 }) => (
   <div
     id={`row-${task.id}`}
-    className={`rounded border bg-white dark:bg-slate-900 ${
-      highlightId === task.id
-        ? 'border-amber-400 ring-2 ring-amber-300 dark:border-amber-500 dark:ring-amber-600'
-        : isSelected
-          ? 'border-slate-200 ring-2 ring-sky-400 dark:border-slate-800 dark:ring-sky-600'
-          : 'border-slate-200 dark:border-slate-800'
-    } transition-colors`}
+    className={`rounded border bg-white dark:bg-slate-900 ${rowOutlineClass(
+      highlightId === task.id,
+      isSelected,
+    )} transition-colors`}
   >
     <div className="flex items-center gap-2 px-2.5 py-1.5 pl-9">
       <TaskRowInner

@@ -78,6 +78,7 @@ export const PrioritySection: React.FC<PrioritySectionProps> = ({
                   expanded={expandedEpicIds.has(node.task.id)}
                   toggleExpanded={() => toggleEpic(node.task.id)}
                   highlightId={highlightId}
+                  isSelected={selectedId === node.task.id}
                   selectedId={selectedId}
                   navigateToTask={navigateToTask}
                 />

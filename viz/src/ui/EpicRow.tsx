@@ -5,6 +5,7 @@ import { Chevron } from './Chevron';
 import { TaskRowInner } from './TaskRowInner';
 import { SubtaskRow } from './SubtaskRow';
 import { TaskDetail } from './TaskDetail';
+import { rowOutlineClass } from './utils';
 
 interface EpicRowProps {
   node: TaskNode;
@@ -15,6 +16,7 @@ interface EpicRowProps {
   expanded: boolean;
   toggleExpanded: () => void;
   highlightId: string | null;
+  isSelected: boolean;
   selectedId: string | null;
   navigateToTask: (id: string) => void;
 }
@@ -28,6 +30,7 @@ export const EpicRow: React.FC<EpicRowProps> = ({
   expanded,
   toggleExpanded,
   highlightId,
+  isSelected,
   selectedId,
   navigateToTask,
 }) => {
@@ -37,13 +40,10 @@ export const EpicRow: React.FC<EpicRowProps> = ({
   return (
     <div
       id={`row-${task.id}`}
-      className={`rounded border bg-white dark:bg-slate-900 ${
-        highlightId === task.id
-          ? 'border-amber-400 ring-2 ring-amber-300 dark:border-amber-500 dark:ring-amber-600'
-          : selectedId === task.id
-            ? 'border-slate-200 ring-2 ring-sky-400 dark:border-slate-800 dark:ring-sky-600'
-            : 'border-slate-200 dark:border-slate-800'
-      } transition-colors`}
+      className={`rounded border bg-white dark:bg-slate-900 ${rowOutlineClass(
+        highlightId === task.id,
+        isSelected,
+      )} transition-colors`}
     >
       <div className="flex items-center gap-2 px-2.5 py-1.5">
         <button

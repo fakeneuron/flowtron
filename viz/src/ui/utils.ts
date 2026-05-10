@@ -50,3 +50,11 @@ export function buildInboundRefs(
   }
   return refs;
 }
+
+export function rowOutlineClass(isHighlighted: boolean, isSelected: boolean): string {
+  if (isHighlighted)
+    return 'border-amber-400 ring-2 ring-amber-300 dark:border-amber-500 dark:ring-amber-600';
+  if (isSelected)
+    return 'border-slate-200 ring-2 ring-sky-400 dark:border-slate-800 dark:ring-sky-600';
+  return 'border-slate-200 dark:border-slate-800';
+}
