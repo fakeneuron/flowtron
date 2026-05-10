@@ -127,11 +127,13 @@ Skill-specific imperatives on top of the SPEC contract:
 
 ## Step 5 — Phases 2-4 (drive conversationally)
 
-Continue with the user through:
+After the Phase 1→2 cue clears, Phase 2 → Phase 3 → Phase 4 closure ops
+flow continuously without an intermediate gate. The next operator-gate
+cue is the 📦 ready-to-commit banner in Step 6.
 
-- **Phase 2: Execution** — pattern survey first (look at sibling modules / parallel components for an existing shape to extend; justify a new shape if none fits), then minimal implementation, then targeted tests on changed files. Tick boxes as you go. After Phase 2 boxes ticked, surface the **Phase 2→3 operator-gate cue** and wait for the user's go before running tests. **If a hard dependency surfaces mid-execution**, Read `<SPEC_DIR>/blocked.md` and park the tasknote per its contract — flip `status: blocked`, update the nav header to `⏸ Blocked`, and stop. The next `/task <ID>` invocation enters the resume path (Step 3c) automatically.
-- **Phase 3: Testing & Linting** — targeted tests, lint/type-check on changed code, visual confirmation for frontend changes. Run the full suite only for broad/cross-cutting changes. Phase 3 flows into Phase 4's closure operations without a separate gate.
-- **Phase 4: Closure** — run the doc-drift sweep across `_project/tasknote/README.md` §"AI-referenced docs" (per-entry verdict: "no change" or the specific update), flip the PLAN.md line to the stub form `[x] **<TASK-ID>** [model] | shortname — Completed YYYY-MM-DD.` per SPEC §"`## Completed` archive convention" (drop the long description — the archived tasknote is the canonical record), move it to the `## Completed` section, and move the tasknote file to `_project/tasknote/archive/<area>/<TASK-ID>.md` as a single closure write, then surface the **Phase 4 closure operator-gate cue** with the recap. The recap = brief summary of what changed and key decisions, plus an optional verification request (one concrete thing for the user to check). **Recap is recap-only — do not include the next-task suggestion until the commit lands (Step 6); see SPEC §"🚀 Phase 4: Closure" callout.** Wait for confirmation.
+- **Phase 2: Execution** — pattern survey first (look at sibling modules / parallel components for an existing shape to extend; justify a new shape if none fits), then minimal implementation, then targeted tests on changed files. Tick boxes as you go. **If a hard dependency surfaces mid-execution**, Read `<SPEC_DIR>/blocked.md` and park the tasknote per its contract — flip `status: blocked`, update the nav header to `⏸ Blocked`, and stop. The next `/task <ID>` invocation enters the resume path (Step 3c) automatically.
+- **Phase 3: Testing & Linting** — targeted tests, lint/type-check on changed code, visual confirmation for frontend changes. Run the full suite only for broad/cross-cutting changes. Flows directly into Phase 4 closure ops; no gate between them.
+- **Phase 4: Closure (auto-run)** — run the doc-drift sweep across `_project/tasknote/README.md` §"AI-referenced docs" (per-entry verdict: "no change" or the specific update), flip the PLAN.md line to the stub form `[x] **<TASK-ID>** [model] | shortname — Completed YYYY-MM-DD.` per SPEC §"`## Completed` archive convention" (drop the long description — the archived tasknote is the canonical record), move the line to the `## Completed` section, and move the tasknote file to `_project/tasknote/archive/<area>/<TASK-ID>.md` as a single closure write. Draft the recap (brief summary + key decisions + optional verification request) but **do not surface a banner here** — the recap bundles into Step 6's 📦 gate. **Recap is recap-only — do not include the next-task suggestion in the recap; that lands after the commit (Step 6); see SPEC §"🚀 Phase 4: Closure" callout.**
 
 ## Step 6 — Post-closure protocol
 
@@ -140,8 +142,11 @@ The three-step protocol (commit / suggest next move / offer copy-paste line) is 
 Skill-specific orchestration on top of the SPEC contract:
 
 - The motion is **one continuous flow**. The user's commit-go (e.g. "commit", "go", "yes") is the *only* gate; once the commit lands, the suggest-next-move and copy-paste-line steps follow **in the same response as the commit confirmation**, even if the user's reply was terse or only named the commit step. Do not wait for them to prompt the next-task suggestion.
-- Confirm with the user before committing — surface the proposed commit message behind the **ready-to-commit operator-gate cue** (per SPEC §"Operator-gate cues") and wait for commit-go. Do not commit unprompted.
-- When suggesting the next move, name the recommended model alongside the task ID (skill addition; not in SPEC).
+- Surface the **bundled 📦 ready-to-commit gate** (per SPEC §"Operator-gate cues" + §"Post-closure protocol" step 1) and wait for commit-go. Do not commit unprompted. The bundle has three parts surfaced together under the banner:
+  1. **Closure review** — per-entry doc-drift verdicts, the new PLAN.md stub-form line, and the archive path the tasknote moved to.
+  2. **Recap (work summary)** — brief summary of what changed + key decisions + optional verification request.
+  3. **Proposed commit message** — `feat: <TASK-ID> — <title>` (or `fix:` / `docs:` / `chore:` as appropriate).
+- When suggesting the next move (after commit lands), surface candidates with `[model]` tags visible **inline per option** in the PLAN.md task-line shape: `**<TASK-ID>** [model] | shortname — one-sentence "why now"`. Mirrors PLAN.md so the user can scan model assignments without cross-referencing.
 - The copy-paste line is `/clear then /model <opus|sonnet> then /task <NEXT-ID>` — you cannot run `/clear` yourself. Substitute the next task's PLAN-line `[model]` tag for `<opus|sonnet>` so the user pastes a fully resolved line.
 
 ## Notes

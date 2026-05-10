@@ -141,47 +141,36 @@ Capture in Implementation Notes:
 - Any inline fixes applied (file:line + diff shape).
 - Misses logged as `/file-followup <NEW-ID>` candidates (one bullet per miss with one-line rationale; user invokes `/file-followup` per miss after audit closure).
 
-After Phase 2 boxes ticked, surface the **Phase 2→3 operator-gate cue** and wait for the user's go before the Step 6 lint/test pass.
+Phase 2 flows continuously into the Step 6 lint/test pass and Step 7 closure ops without an intermediate gate; the next operator-gate cue is the 📦 ready-to-commit banner in Step 9.
 
 ## Step 6 — Drive Phase 3: Testing & Linting
 
 Markdown-prose verification only for most audits — no test surface. If the audit applied an inline fix, run lint/type-check on changed files; otherwise tick all three Phase 3 boxes (test suite N/A, lint N/A, frontend N/A — capture rationale in Testing Notes).
 
-## Step 7 — Drive Phase 4: Closure (audit subtask)
+## Step 7 — Drive Phase 4: Closure (audit subtask, auto-run)
 
-Walk the Phase 4 checklist for the audit subtask itself (parent-epic flip is separate, in Step 8):
+Walk the Phase 4 checklist for the audit subtask itself. **No banner here** — closure ops auto-run; the recap drafted at the end bundles into Step 9's 📦 gate (parent-flip prompt also bundles there per Step 8).
 
 - **Doc-drift sweep (fixed line)** — for each entry in `<tasknote dir>/README.md` §"AI-referenced docs", state per-entry verdict ("no change" or the specific update). This is the contractually-required sweep per `SPEC/epic.md` §"Audit acceptance — fixed doc-drift line"; never skip.
-- **Flip the audit's PLAN.md line to stub form** — `- [ ] **<AUDIT-SUBTASK-ID>** [<model>] | <shortname> audit — Completed YYYY-MM-DD.` per SPEC §"`## Completed` archive convention". Keep nested under `<AREA>-EPIC-<NUMBER>` in its current `## <Priority>` section (parent + cohort move only on Step 8 confirmation).
+- **Flip the audit's PLAN.md line to stub form** — `- [ ] **<AUDIT-SUBTASK-ID>** [<model>] | <shortname> audit — Completed YYYY-MM-DD.` per SPEC §"`## Completed` archive convention". Keep nested under `<AREA>-EPIC-<NUMBER>` in its current `## <Priority>` section (parent + cohort move only on Step 9 confirmation).
 - **Move the audit tasknote** — `git mv <tasknote dir>/<AUDIT-SUBTASK-ID>.md <tasknote dir>/archive/<area>/<AUDIT-SUBTASK-ID>.md`. Set `**Archived:** YYYY-MM-DD` in the tasknote.
-- **Recap** — one short paragraph: audit ran, findings summary, follow-ups to file (if any). Surface the recap behind the **Phase 4 closure operator-gate cue**. Do NOT include the parent-flip prompt yet — that's Step 8.
+- **Draft the recap** — one short paragraph: audit ran, findings summary, follow-ups to file (if any). Hold it for Step 9's 📦 bundle; do not surface a banner now.
 
-Wait for user confirmation before continuing to Step 8.
+## Step 8 — Parent-epic flip eligibility (no banner)
 
-## Step 8 — Parent-epic flip prompt
+After the audit closes cleanly, scan `_project/PLAN.md` for the parent epic line + all its children. Determine eligibility:
 
-After the audit closes cleanly, scan `_project/PLAN.md` for the parent epic line + all its children. Determine:
+- All children `[x]` (including the audit just closed) → **all-children-closed**: parent-flip is eligible. The Yes/No prompt fires inside Step 9's 📦 bundle.
+- Any child `[ ]` (typical only when Step 2's early-audit gate was bypassed) → **not-all-closed**: parent-flip is **not eligible**. Note the open children for surfacing inside Step 9's bundle as a heads-up; the prompt is skipped.
 
-- All children `[x]` (including the audit just closed) → **all-children-closed**.
-- Any child `[ ]` (typical only when Step 2's early-audit gate was bypassed) → **not-all-closed**: surface the open children to the user as a heads-up but skip the flip prompt and continue to Step 9.
+This step computes state only — **no banner here**. The user-facing prompt (when eligible) bundles into Step 9's 📦 ready-to-commit gate alongside the recap + closure review + commit message.
 
-If all-children-closed, surface to the user via AskUserQuestion behind the **parent-flip operator-gate cue** (`🏁  **AWAITING APPROVAL — Parent epic flip ready**`, per SPEC §"Operator-gate cues" skill-level extension):
-
-```
-All <AREA>-EPIC-<NUMBER> children closed. Flip parent + move cohort to `## Completed`?
-
-  Parent: <AREA>-EPIC-<NUMBER> | <shortname>
-  Children to move (N total): <AREA>-<N>.1 .. <AREA>-<N>.<HIGHEST>
-
-(default Yes; declines leave cohort nested under current `## <Priority>` section)
-```
-
-On Yes:
+When the prompt fires in Step 9 and the user answers **Yes**:
 
 1. **Flip the parent line to stub form** — `- [x] **<AREA>-EPIC-<NUMBER>** [<model>] | <shortname> — Completed YYYY-MM-DD.` (drop the long description per stub-form, SPEC §"`## Completed` archive convention").
 2. **Atomic move** — cut the parent line + all nested children from their current `## <Priority>` section; paste at the top of `## Completed`. Preserve the 2-space child indent. If the cohort was the last entry in its source section, restore the `(none)` placeholder under that section heading.
 
-On No: leave cohort nested under current section. Surface "Cohort stays under `## <Priority>`. Re-run `/close-epic` later or flip manually when ready."
+On **No** (still in Step 9's bundle): leave cohort nested under current section. Note "Cohort stays under `## <Priority>`. Re-run `/close-epic` later or flip manually when ready." in the post-commit response.
 
 Capture the flip decision in the audit tasknote's Final Summary block (still editable until git commit lands in Step 9).
 
@@ -189,10 +178,22 @@ Capture the flip decision in the audit tasknote's Final Summary block (still edi
 
 The three-step post-closure protocol (commit / suggest next move / offer copy-paste line) is canonical in SPEC §"Post-closure protocol". Skill-specific orchestration:
 
-- Confirm with the user before committing — surface the proposed commit message behind the **ready-to-commit operator-gate cue** and wait for commit-go. Do not commit unprompted.
-- The proposed commit message is `feat: <AUDIT-SUBTASK-ID> — audit <AREA>-EPIC-<NUMBER>` (or `chore: <AUDIT-SUBTASK-ID> — audit <AREA>-EPIC-<NUMBER>` if no code edits landed; user picks at commit-message-review).
-- On commit-go, the suggest-next-move and copy-paste-line follow in the same response (motion is one continuous flow per the SPEC contract).
-- The next move depends on audit outcome:
+- Surface the **bundled 📦 ready-to-commit gate** (per SPEC §"Operator-gate cues" + §"Post-closure protocol" step 1) and wait for commit-go. Do not commit unprompted. The bundle has four parts surfaced together under the banner:
+  1. **Closure review** — per-entry doc-drift verdicts, the audit's new stub-form line, and the archive path.
+  2. **Recap (work summary)** — the paragraph drafted at end of Step 7.
+  3. **Parent-flip prompt** (when eligible per Step 8) — AskUserQuestion with default Yes:
+     ```
+     All <AREA>-EPIC-<NUMBER> children closed. Flip parent + move cohort to `## Completed`?
+
+       Parent: <AREA>-EPIC-<NUMBER> | <shortname>
+       Children to move (N total): <AREA>-<N>.1 .. <AREA>-<N>.<HIGHEST>
+
+     (default Yes; declines leave cohort nested under current `## <Priority>` section)
+     ```
+     If not eligible (open children remain), surface a heads-up listing the open children instead — no prompt fires.
+  4. **Proposed commit message** — `feat: <AUDIT-SUBTASK-ID> — audit <AREA>-EPIC-<NUMBER>` (or `chore: ...` if no code edits landed).
+- On commit-go: if parent-flip Yes, apply the flip + atomic move (per Step 8) before staging, so the commit captures the parent-flip in one atomic write. Then the suggest-next-move and copy-paste-line follow in the same response (motion is one continuous flow per the SPEC contract).
+- When suggesting the next move, surface candidates with `[model]` tags **inline per option** in the PLAN.md task-line shape: `**<TASK-ID>** [model] | shortname — one-sentence "why now"`. The next move depends on audit outcome:
   - Misses logged → `/file-followup <NEW-ID>` per miss (suggest one at a time; the user paces).
   - No misses + parent flipped → suggest the next epic / standalone task in PLAN.md.
   - No misses + parent declined flip → the audit is already closed and archived; re-running `/close-epic <AUDIT-SUBTASK-ID>` would hit Step 1's already-archived bail. Suggest manual parent flip when ready (edit PLAN.md directly: flip the parent line to stub form, move parent + nested children to top of `## Completed`).

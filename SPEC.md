@@ -231,10 +231,10 @@ Every tasknote follows four phases in strict serial order. Do not skip ahead.
 
 ### Operator-gate cues
 
-Every transition between phases — and the post-Phase-4 commit — is an
-**operator gate**: a moment where the assistant pauses for explicit user
-approval before continuing. To make these gates visually scannable in the
-transcript, the assistant surfaces a banner cue at each one:
+The 4-phase workflow surfaces **two** operator-gate banners — moments
+where the assistant pauses for explicit user approval before continuing.
+To make these gates visually scannable in the transcript, the assistant
+surfaces a banner cue at each one:
 
 ```
 ---
@@ -246,16 +246,22 @@ transcript, the assistant surfaces a banner cue at each one:
 
 | Gate | Emoji | Label |
 |---|---|---|
-| Phase 1→2 | 🛠️ | `AWAITING APPROVAL — Phase 2: Execution ready` |
-| Phase 2→3 | 🧪 | `AWAITING APPROVAL — Phase 3: Testing & Linting ready` |
-| Phase 4 closure (recap) | 🚀 | `AWAITING APPROVAL — Phase 4 closure complete; recap ready` |
-| Ready-to-commit | 📦 | `AWAITING APPROVAL — Ready to commit` |
+| Phase 1→2 (post-Discovery) | 🛠️ | `AWAITING APPROVAL — Phase 2: Execution ready` |
+| Ready-to-commit (closure review + work summary bundled) | 📦 | `AWAITING APPROVAL — Ready to commit` |
 
-Phase 3 flows into Phase 4's closure operations without a separate gate;
-the next gate after Phase 2→3 is the Phase 4 recap cue. Skill-level gates
-outside the four-phase flow (epic parent-flip, release push-go, etc.)
-follow the same shape with their own label and emoji. The convention is a
-UX layer over the existing pause points — it does not introduce new gates.
+After the user clears the 🛠️ gate, Phase 2 → Phase 3 → Phase 4 closure
+ops (doc-drift sweep, PLAN.md flip, archive move) **flow continuously
+without intermediate gates**. The recap (work summary) is drafted during
+closure ops but does not surface its own banner — it bundles into the 📦
+ready-to-commit gate alongside the closure review (per-entry doc-drift
+verdicts, PLAN.md line preview, archive path) and the proposed commit
+message. One bundled approval, one commit.
+
+Skill-level extensions (epic parent-flip, release push-go, etc.) **bundle
+into the 📦 gate** rather than adding their own banners — the prompt is
+presented inside the ready-to-commit content, not behind a separate cue.
+The convention is a UX layer over the existing pause points — it does
+not introduce new gates.
 
 ### 📝 Phase 1: Discovery
 
@@ -305,8 +311,9 @@ update the nav header, and stop. The tasknote sits at
 `_project/tasknote/<TASK-ID>.md` until the blocker clears; resume by
 re-invoking `/task <ID>`.
 
-**Exit gate:** once every Phase 2 box is ticked, surface the Phase 3
-operator-gate cue and wait for the user's go before running tests.
+Phase 2 flows continuously into Phase 3 (and Phase 4 closure ops) without
+an intermediate gate; the next operator-gate cue is the 📦 ready-to-commit
+banner in §"Post-closure protocol".
 
 ### 🧪 Phase 3: Testing & Linting
 
@@ -320,21 +327,25 @@ Run the full test suite only when changes are broad or cross-cutting.
 
 - [ ] **Doc-drift sweep** — for each entry in `_project/tasknote/README.md` §"AI-referenced docs", state "no change" or the update
 - [ ] Closed — PLAN.md line flipped to stub form `Completed YYYY-MM-DD.` (see §"`## Completed` archive convention") and tasknote moved to `_project/tasknote/archive/<area>/`
-- [ ] Recapped changes with the user and got confirmation
+- [ ] Recap drafted (surfaces at the 📦 ready-to-commit gate)
 
-The recap has two parts: a brief summary of what changed and key decisions,
-and an optional verification request — something concrete for the user to
-check before they confirm (review the diff, run the feature end-to-end,
-eyeball a generated artifact). Surface the recap behind the Phase 4 closure
-operator-gate cue and wait for confirmation.
+Phase 4 closure ops (doc-drift sweep, PLAN.md flip, archive move) auto-run
+without an intermediate gate. The recap — a brief summary of what changed
+and key decisions, plus an optional verification request (something concrete
+for the user to check: review the diff, run the feature, eyeball a generated
+artifact) — is drafted alongside but **does not surface its own banner**.
+It bundles into the 📦 ready-to-commit gate (see §"Post-closure protocol")
+where the user sees recap + closure review + commit message together and
+gives one bundled approval.
 
 > **Recap is recap-only.** The recap is *what changed + verification ask*
 > and stops there. The next-task suggestion belongs in the post-closure
-> protocol, after the commit lands — not inside the Phase 4 recap.
+> protocol, after the commit lands — not inside the recap.
 
-The tasknote is closed when archived and the user confirms the recap. Commit
-happens *after* closure (see post-closure protocol below) and is not part of
-the tasknote.
+The tasknote is closed when archived. The user's commit-go (at the 📦
+gate) is the bundled approval that confirms the recap and authorizes the
+commit. Commit itself happens after that go (see post-closure protocol
+below) and is not part of the tasknote.
 
 ## Blocked tasks
 
@@ -342,21 +353,41 @@ Canonical contract: see [`SPEC/blocked.md`](SPEC/blocked.md).
 
 ## Post-closure protocol
 
-After a tasknote is archived and confirmed, the assistant must:
+After a tasknote is archived, the assistant must:
 
-1. **Commit.** Surface the proposed commit message behind the
-   ready-to-commit operator-gate cue (see §"Operator-gate cues") and wait
-   for commit-go. Bundle code changes, archived tasknote, and PLAN.md status
-   flip into a single commit (`feat: <TASK-ID> — <title>` or `fix:` /
-   `docs:` as appropriate). Multiple recently-closed tasknotes may bundle
-   into one commit when natural.
+1. **Commit (bundled gate).** Surface the **bundled ready-to-commit gate**
+   behind the 📦 operator-gate cue (see §"Operator-gate cues") and wait
+   for commit-go. The bundle has three parts surfaced together:
 
-2. **Suggest the next move.** Do not idle. Either:
+   - **Closure review** — per-entry doc-drift verdicts, the new PLAN.md
+     stub-form line, and the archive path the tasknote moved to.
+   - **Recap (work summary)** — what changed + key decisions + the
+     optional verification ask (per §"🚀 Phase 4: Closure").
+   - **Proposed commit message** — `feat: <TASK-ID> — <title>` (or
+     `fix:` / `docs:` / `chore:` as appropriate). Multiple
+     recently-closed tasknotes may bundle into one commit when natural.
+
+   Skill-level extensions (e.g., /close-epic's parent-flip Yes/No prompt)
+   ride inside this bundle rather than getting their own banner. The
+   user's commit-go is the single approval that authorizes recap +
+   closure + bundled prompts + commit.
+
+2. **Suggest the next move.** Do not idle. Surface candidates with
+   `[model]` tags visible inline per option, mirroring the PLAN.md
+   task-line shape so the user can scan model assignments without
+   cross-referencing PLAN.md:
+
+   ```
+   - **<TASK-ID>** [model] | shortname — one-sentence "why now"
+   ```
+
+   Either form:
    - **Epic continuation:** if the closed task is in an active epic with
-     cleared dependencies, name the most natural next task ID with a one-line
-     "why now."
-   - **Open menu:** surface 2-3 candidate directions from PLAN.md mixing
-     priority and readiness. One sentence per option; let the user pick.
+     cleared dependencies, name the single most natural next task ID
+     using the inline shape above.
+   - **Open menu:** surface 2-3 candidates from PLAN.md mixing priority
+     and readiness, one per line in the inline shape above; let the user
+     pick.
 
 3. **Offer the copy-paste line:**
 

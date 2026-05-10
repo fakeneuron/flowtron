@@ -153,7 +153,7 @@ The Phase 2 deliverable is the filed child lines. Walk the Phase 2 checklist:
 
 Capture in Implementation Notes: the count of lines written, word-count per line, and any audit-number bump (if Discovery decided N was wrong and the audit's number shifted).
 
-After Phase 2 boxes ticked, surface the **Phase 2→3 operator-gate cue** and wait for the user's go before the Step 8 markdown mental-pass.
+Phase 2 flows continuously into the Step 8 markdown mental-pass and Step 9 closure ops without an intermediate gate; the next operator-gate cue is the 📦 ready-to-commit banner in Step 10.
 
 ## Step 8 — Drive Phase 3: Testing & Linting
 
@@ -169,25 +169,25 @@ Markdown-prose edits only — no test surface. Markdown mental-pass on the edite
 
 Tick all three Phase 3 boxes (test suite N/A, lint N/A, frontend N/A).
 
-## Step 9 — Drive Phase 4: Closure
+## Step 9 — Drive Phase 4: Closure (auto-run)
 
-Walk the closure steps in order:
+Walk the closure steps in order. **No banner here** — closure ops auto-run; the recap drafted at the end bundles into Step 10's 📦 gate.
 
 - **Doc-drift sweep** — for each entry in `<tasknote dir>/README.md` §"AI-referenced docs" (typical adopter set: `README.md` / `CLAUDE.md` / `_project/PLAN.md`; flowtron self-hosted set: `README.md` / `SPEC.md` / `docs/MIGRATION.md` / `claude/CLAUDE-snippet.md`), state per-entry verdict ("no change" or the specific update). Pure Discovery filing typically lands "no change" across the board — contract edits live inside the implementation children.
 - **Flip the `.1` PLAN.md line to stub form** — `- [ ] **<AREA>-<next-N>.1** [<model>] | <shortname> discovery — Completed YYYY-MM-DD.` per SPEC §"`## Completed` archive convention". Keep nested under `<AREA>-EPIC-<next-N>` in its current `## <Priority>` section (per epic-cohort grouping; parent + cohort move to `## Completed` only when all children close — see CORE-057.1 / .2 / .5 closure precedents).
 - **Move the `.1` tasknote** — `git mv <tasknote dir>/<AREA>-<next-N>.1.md <tasknote dir>/archive/<area>/<AREA>-<next-N>.1.md`. Set `**Archived:** YYYY-MM-DD` in the tasknote's Phase 4 block.
-- **Recap** — one short paragraph: epic filed, Discovery closed, children scoped, next move (typically `/task <AREA>-<next-N>.2` to fire the first implementation child). Surface the recap behind the **Phase 4 closure operator-gate cue**.
-
-Wait for user confirmation before continuing to Step 10.
+- **Draft the recap** — one short paragraph: epic filed, Discovery closed, children scoped. Hold it for Step 10's 📦 bundle; do not surface a banner now.
 
 ## Step 10 — Post-closure protocol
 
 The three-step post-closure protocol (commit / suggest next move / offer copy-paste line) is canonical in SPEC §"Post-closure protocol". Skill-specific orchestration:
 
-- Confirm with the user before committing — surface the proposed commit message behind the **ready-to-commit operator-gate cue** and wait for commit-go. Do not commit unprompted.
-- The proposed commit message is `feat: <AREA>-<next-N>.1 — file <AREA>-EPIC-<next-N> + scope children` (or a user-edited variant).
+- Surface the **bundled 📦 ready-to-commit gate** (per SPEC §"Operator-gate cues" + §"Post-closure protocol" step 1) and wait for commit-go. Do not commit unprompted. The bundle has three parts surfaced together under the banner:
+  1. **Closure review** — per-entry doc-drift verdicts, the `.1` line's new stub form, and the archive path.
+  2. **Recap (work summary)** — the paragraph drafted at end of Step 9.
+  3. **Proposed commit message** — `feat: <AREA>-<next-N>.1 — file <AREA>-EPIC-<next-N> + scope children` (or a user-edited variant).
 - On commit-go, the suggest-next-move and copy-paste-line follow in the same response (motion is one continuous flow per the SPEC contract).
-- The next move is typically `/task <AREA>-<next-N>.2` (first implementation child) — name the recommended model alongside the task ID.
+- When suggesting the next move, surface candidates with `[model]` tags **inline per option** in the PLAN.md task-line shape: `**<AREA>-<next-N>.2** [model] | <shortname> — one-sentence "why now"`. The next move is typically `/task <AREA>-<next-N>.2` (first implementation child).
 - The copy-paste line is `/clear then /model <opus|sonnet> then /task <AREA>-<next-N>.2`. Substitute the next child's PLAN-line `[model]` tag.
 
 ## Notes

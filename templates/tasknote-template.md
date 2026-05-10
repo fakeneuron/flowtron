@@ -67,7 +67,7 @@ One-sentence goal of what this task accomplishes.
 
 - [ ] **Doc-drift sweep** — for each entry in `_project/tasknote/README.md` §"AI-referenced docs", state "no change" or the update
 - [ ] Closed — PLAN.md line flipped to stub form `Completed YYYY-MM-DD.` (see §"`## Completed` archive convention") and tasknote moved to `_project/tasknote/archive/<area>/`
-- [ ] Recapped changes with the user and got confirmation
+- [ ] Recap drafted (surfaces at the 📦 ready-to-commit gate)
 
 **Final Summary:**
 

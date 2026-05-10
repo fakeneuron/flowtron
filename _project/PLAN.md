@@ -23,7 +23,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **FE-018** [opus] | viz-code-token-audit — Code/token audit of viz/ (analog to CORE-049 for the React side): component duplication, prop-shape drift, dead utilities, restatements between components. File trim follow-ups per CORE-049 model.
 - [ ] **FE-019** [opus] | viz-a11y-perf-pass — A11y + perf pass on viz/. Run Lighthouse + axe; check focus-trap / contrast / keyboard nav (FE-010) coverage / bundle-size baseline. File specific fixes as follow-ups.
 - [ ] **FE-020** [opus] | cross-project-viz-dogfooding — FE-002 follow-up: run workspace scanner against real ~/code/ projects; walk each surfaced project; log surprises and rough edges before declaring FE-002 done.
-- [ ] **CORE-065** [opus] | trim gates to 2 — Trim CORE-059's 4 gates to 2: post-discovery and ready-to-commit (closure review + work summary bundled). Drop Phase 2→3 + Phase 4 closure gates — testing and closure ops auto-proceed. Post-commit must surface next-task options with `[model]` tags visible. Update SPEC + /task, /epic-discovery, /close-epic SKILLs.
 
 ## Low
 
@@ -35,6 +34,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-065** [opus] | trim gates to 2 — Completed 2026-05-09.
 - [x] **CORE-059** [opus] | task workflow visual gate cues — Completed 2026-05-09.
 - [x] **CORE-064** [sonnet] | equalize step-1.5 fragments — Completed 2026-05-09.
 - [x] **CORE-063** [sonnet] | equalize stub cross-refs — Completed 2026-05-09.
