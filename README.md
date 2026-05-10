@@ -32,7 +32,7 @@ project-selector chip group in the header rail swaps the active project;
 filters and scroll position reset on switch.
 
 Run **once per machine** from flowtron's own checkout — there is no
-per-project install step. The dev server is pinned to port `5173` with
+per-project install step. The dev server is pinned to port `5176` with
 `strictPort`, so a second instance fails fast rather than scanning the same
 workspace on a different port.
 

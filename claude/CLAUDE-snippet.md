@@ -58,4 +58,4 @@ The flowtron visualizer is a single global instance — run it **once per machin
 cd ~/code/flowtron/viz && npm run dev
 ```
 
-It scans `${FLOWTRON_VIZ_WORKSPACE:-~/code}/*/_project/PLAN.md` and renders every adopting project; the header-rail project selector swaps the active project. Port `5173` is pinned with `strictPort`, so a second instance fails fast. The adopter-side `_project/flowtron/viz/` still works for offline / submodule-pinned use, but the global instance above is the recommended path.
+It scans `${FLOWTRON_VIZ_WORKSPACE:-~/code}/*/_project/PLAN.md` and renders every adopting project; the header-rail project selector swaps the active project. Port `5176` is pinned with `strictPort`, so a second instance fails fast. The adopter-side `_project/flowtron/viz/` still works for offline / submodule-pinned use, but the global instance above is the recommended path.
