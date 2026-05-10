@@ -19,15 +19,16 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **FE-020** [opus] | cross-project-viz-dogfooding — FE-002 follow-up: run workspace scanner against real ~/code/ projects; walk each surfaced project; log surprises and rough edges before declaring FE-002 done.
+- [ ] **FE-028** [opus] | viz-archive-cache — `/api/archive` is 1.26s warm for fintown (699 tasknotes, 3MB JSON) and 421ms for flowtron (91); every project switch re-readFiles + parses the entire archive tree. Add a per-project parsed-archive cache invalidated by chokidar (widen watcher to `archive/**/*.md`). FE-002 follow-up surfaced during FE-020 partial sweep 2026-05-10.
 
 ## Low
 
 - [ ] **FE-026** [opus] | viz-bundle-code-split — FE-019 follow-up: ~80 KiB (~65% of gzipped JS) unused at first paint. Lazy-load `WikilinkMarkdown` (carries `react-markdown` + `remark-gfm`, only mounted when a row's detail panel is expanded) and dynamic-import `gray-matter` from the parser. Target: drop initial-bundle gzip from ~124 KB toward ~50 KB.
+- [ ] **FE-027** [sonnet] | viz-archive-500-race — Transient 500 on `/api/archive` when a chokidar broadcast (file edit → SSE → browser refetch) races a concurrent reader; reproduces under load on large-archive projects, subsequent requests heal. Serialize archive reads behind a per-project mutex, or subsumed by FE-028's cache. FE-002 follow-up surfaced during FE-020 partial sweep 2026-05-10.
 
 ## Future Opportunities
 
-(none)
+- [ ] **FE-020** [opus] | cross-project-viz-dogfooding — FE-002 follow-up: run workspace scanner against real ~/code/ projects; walk each surfaced project; log surprises and rough edges before declaring FE-002 done.
 
 ## Completed
 
