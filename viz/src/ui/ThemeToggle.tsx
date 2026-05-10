@@ -1,22 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import {
-  applyResolved,
-  readPreference,
-  subscribeSystem,
-  writePreference,
-  type ThemePreference,
-} from './theme';
+import { applyResolved, readPreference, writePreference, type ThemePreference } from './theme';
 
 const NEXT: Record<ThemePreference, ThemePreference> = {
   light: 'dark',
-  dark: 'system',
-  system: 'light',
+  dark: 'light',
 };
 
 const LABEL: Record<ThemePreference, string> = {
   light: '☀️ Light',
   dark: '🌙 Dark',
-  system: '💻 System',
 };
 
 export const ThemeToggle: React.FC = () => {
@@ -24,8 +16,6 @@ export const ThemeToggle: React.FC = () => {
 
   useEffect(() => {
     applyResolved(pref);
-    if (pref !== 'system') return;
-    return subscribeSystem(() => applyResolved('system'));
   }, [pref]);
 
   const cycle = () => {

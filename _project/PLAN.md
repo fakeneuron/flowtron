@@ -20,7 +20,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Medium
 
 - [ ] **FE-020** [opus] | cross-project-viz-dogfooding — FE-002 follow-up: run workspace scanner against real ~/code/ projects; walk each surfaced project; log surprises and rough edges before declaring FE-002 done.
-- [ ] **FE-025** [sonnet] | viz-contrast-fix — FE-019 follow-up: serious-impact contrast failure (3.83–3.91:1, expected 4.5:1) on `text-slate-400 dark:text-slate-500` for small text in `PrioritySection.tsx:65` ("No tasks" placeholder) and `SubtaskRow.tsx:48` (completed-date badge). Swap to `text-slate-500 dark:text-slate-400` (or another ≥4.5:1 pair) and verify in both themes.
 
 ## Low
 
@@ -32,6 +31,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-025** [sonnet] | viz-contrast-fix — Completed 2026-05-10.
 - [x] **FE-019** [opus] | viz-a11y-perf-pass — Completed 2026-05-10.
 - [x] **CORE-067** [opus] | gate-UX check-in — Completed 2026-05-10.
 - [x] **FE-024** [opus] | viz-app-decomposition — Completed 2026-05-10.

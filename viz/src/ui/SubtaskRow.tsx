@@ -45,7 +45,7 @@ export const SubtaskRow: React.FC<SubtaskRowProps> = ({
       {task.description}
     </span>
     {task.completed && task.completedDate && (
-      <span className="text-[10px] text-slate-400 dark:text-slate-500">{task.completedDate}</span>
+      <span className="text-[10px] text-slate-500 dark:text-slate-400">{task.completedDate}</span>
     )}
   </div>
 );

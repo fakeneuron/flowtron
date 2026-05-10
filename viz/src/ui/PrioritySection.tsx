@@ -62,7 +62,7 @@ export const PrioritySection: React.FC<PrioritySectionProps> = ({
       {!collapsed && (
         <div className="flex flex-col gap-1.5 border-t border-slate-200/70 bg-white/60 p-2 dark:border-slate-800/70 dark:bg-slate-900/60">
           {nodes.length === 0 && (
-            <div className="px-2 py-1 text-xs text-slate-400 dark:text-slate-500">No tasks</div>
+            <div className="px-2 py-1 text-xs text-slate-500 dark:text-slate-400">No tasks</div>
           )}
           {nodes.map((node) => {
             if (isEpic(node)) {
