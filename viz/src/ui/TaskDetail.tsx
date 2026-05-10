@@ -16,7 +16,7 @@ const PRIORITY_BADGE: Record<Priority, string> = {
   Completed: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200',
 };
 
-export const TaskDetail: React.FC<{
+const TaskDetail: React.FC<{
   task: Task;
   tasknote: Tasknote | undefined;
   navigateToTask: (id: string) => void;
@@ -85,3 +85,5 @@ export const TaskDetail: React.FC<{
     </div>
   );
 };
+
+export default TaskDetail;

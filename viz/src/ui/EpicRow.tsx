@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import type { TaskNode } from '../parser';
 import type { Tasknote } from '../tasknote';
 import { Chevron } from './Chevron';
 import { TaskRowInner } from './TaskRowInner';
 import { SubtaskRow } from './SubtaskRow';
-import { TaskDetail } from './TaskDetail';
 import { rowOutlineClass } from './utils';
+
+const TaskDetail = lazy(() => import('./TaskDetail'));
 
 interface EpicRowProps {
   node: TaskNode;
@@ -85,11 +86,13 @@ export const EpicRow: React.FC<EpicRowProps> = ({
         </div>
       )}
       {expandedId === task.id && (
-        <TaskDetail
-          task={task}
-          tasknote={tasknotesById.get(task.id)}
-          navigateToTask={navigateToTask}
-        />
+        <Suspense fallback={null}>
+          <TaskDetail
+            task={task}
+            tasknote={tasknotesById.get(task.id)}
+            navigateToTask={navigateToTask}
+          />
+        </Suspense>
       )}
     </div>
   );

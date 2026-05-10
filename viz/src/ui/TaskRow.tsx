@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import type { Task } from '../parser';
 import type { Tasknote } from '../tasknote';
 import { TaskRowInner } from './TaskRowInner';
-import { TaskDetail } from './TaskDetail';
 import { rowOutlineClass } from './utils';
+
+const TaskDetail = lazy(() => import('./TaskDetail'));
 
 interface TaskRowProps {
   task: Task;
@@ -44,11 +45,13 @@ export const TaskRow: React.FC<TaskRowProps> = ({
       />
     </div>
     {expandedId === task.id && (
-      <TaskDetail
-        task={task}
-        tasknote={tasknotesById.get(task.id)}
-        navigateToTask={navigateToTask}
-      />
+      <Suspense fallback={null}>
+        <TaskDetail
+          task={task}
+          tasknote={tasknotesById.get(task.id)}
+          navigateToTask={navigateToTask}
+        />
+      </Suspense>
     )}
   </div>
 );

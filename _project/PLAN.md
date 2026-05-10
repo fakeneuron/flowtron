@@ -23,7 +23,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **FE-026** [opus] | viz-bundle-code-split — FE-019 follow-up: ~80 KiB (~65% of gzipped JS) unused at first paint. Lazy-load `WikilinkMarkdown` (carries `react-markdown` + `remark-gfm`, only mounted when a row's detail panel is expanded) and dynamic-import `gray-matter` from the parser. Target: drop initial-bundle gzip from ~124 KB toward ~50 KB.
+(none)
 
 ## Future Opportunities
 
@@ -31,6 +31,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-026** [opus] | viz-bundle-code-split — Completed 2026-05-10.
 - [x] **FE-028** [opus] | viz-archive-cache — Completed 2026-05-10.
 - [x] **FE-027** [sonnet] | viz-archive-500-race — Completed 2026-05-10. Subsumed by FE-028's promise-valued cache (in-flight de-dup eliminates the race).
 - [x] **FE-025** [sonnet] | viz-contrast-fix — Completed 2026-05-10.

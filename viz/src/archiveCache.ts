@@ -1,7 +1,8 @@
 import { readdir, readFile } from 'node:fs/promises';
 import type { Dirent } from 'node:fs';
 import { join } from 'node:path';
-import { parseTasknote, type Tasknote } from './tasknote';
+import { parseTasknote } from './tasknote-parse';
+import type { Tasknote } from './tasknote';
 import type { ProjectDescriptor } from './workspace';
 
 async function safeReaddir(dir: string): Promise<Dirent[]> {

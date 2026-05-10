@@ -4,8 +4,8 @@ import {
   countChecklist,
   extractSection,
   parseFrontmatter,
-  parseTasknote,
 } from './tasknote';
+import { parseTasknote } from './tasknote-parse';
 
 describe('parseFrontmatter', () => {
   it('returns null for empty data', () => {

@@ -6,7 +6,7 @@ import type { Dirent } from 'node:fs';
 import { join } from 'node:path';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import chokidar from 'chokidar';
-import { parseTasknote } from './src/tasknote';
+import { parseTasknote } from './src/tasknote-parse';
 import { discoverProjects, workspaceRoot, type ProjectDescriptor } from './src/workspace';
 import { createArchiveCache } from './src/archiveCache';
 
