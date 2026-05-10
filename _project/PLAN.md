@@ -19,12 +19,15 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-056** [opus] | conventions-techdebt-audit — Audit flowtron repo on the conventions + coherence axis (file naming, heading style, cross-refs, template/SPEC/skill parity, dead surfaces). Distinct from CORE-049's token axis and FE-018's viz code axis. Filed with starter.
 - [ ] **FE-017** [opus] | viz-visual-UX-audit — Boot viz dev server, walk every interaction (priority groups, dark mode, keyboard nav, filters, wikilinks, back-refs, archive view, cross-project, starter chip); screenshot; log inconsistencies + regressions + polish targets; file follow-ups.
 - [ ] **FE-018** [opus] | viz-code-token-audit — Code/token audit of viz/ (analog to CORE-049 for the React side): component duplication, prop-shape drift, dead utilities, restatements between components. File trim follow-ups per CORE-049 model.
 - [ ] **FE-019** [opus] | viz-a11y-perf-pass — A11y + perf pass on viz/. Run Lighthouse + axe; check focus-trap / contrast / keyboard nav (FE-010) coverage / bundle-size baseline. File specific fixes as follow-ups.
 - [ ] **FE-020** [opus] | cross-project-viz-dogfooding — FE-002 follow-up: run workspace scanner against real ~/code/ projects; walk each surfaced project; log surprises and rough edges before declaring FE-002 done.
 - [ ] **CORE-059** [opus] | task workflow visual gate cues — Add banner-style operator-gate cues to /task at every approval point (Phase 1→2, 2→3, ready-to-commit, ready-to-push, Phase 4 closure). Format: separator + phase emoji + AWAITING APPROVAL / READY status. Update task SKILL.md gate phrasing and matching SPEC.md phase descriptions; consider whether other skills (/epic-discovery, /close-epic) inherit the same convention.
+- [ ] **CORE-061** [opus] | FUTURE.md cleanup — Delete `_project/FUTURE.md` (orphan + stale + retired "Last updated:" line per [[CORE-056]] audit). Surviving design filters covered by `docs/PHILOSOPHY.md`; surviving open ideas declined for PLAN.md per audit user-walk.
+- [ ] **CORE-062** [sonnet] | lift date-format bullet — Lift the trailing "Date format: YYYY-MM-DD..." Notes bullet from 7 SKILL.md files into SPEC (§"Tasknote frontmatter" or §"`## Completed` archive convention"); drop from each SKILL per [[CORE-038]] / [[CORE-049]] cite-don't-restate pattern.
+- [ ] **CORE-063** [sonnet] | equalize stub cross-refs — Equalize sibling cross-refs across `claude/commands/{file-followup,epic-discovery,new-project}.md` to the 6-OTHER-non-release convention; closes [[CORE-057.8]]'s incomplete sweep per [[CORE-056]] audit.
+- [ ] **CORE-064** [sonnet] | equalize step-1.5 fragments — Equalize `claude/skills/micro-task/step-1.5-model-edge.md` content with `task/step-1.5-model-edge.md` (default-recommendation guidance + "next-time no question" note) per [[CORE-056]] audit.
 
 ## Low
 
@@ -36,6 +39,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-056** [opus] | conventions-techdebt-audit — Completed 2026-05-09.
 - [x] **CORE-055** [opus] | CLAUDE-snippet-review — Completed 2026-05-09.
 - [x] **CORE-060** [opus] | release v1.3.0 — Completed 2026-05-09.
 - [x] **CORE-EPIC-057** [opus] | expand-shipped-skills — Completed 2026-05-09.
