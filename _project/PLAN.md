@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-071** [opus] | release-global-install-doc — Add `/release` to `docs/MIGRATION.md` §1.0 one-time global install. Consider splitting §1.0 into adopter-facing vs flowtron-self-developer variants to absorb future self-only skills. Surfaced by audit 2026-05-10 (Finding #4, High).
+(none)
 
 ## Medium
 
@@ -32,6 +32,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-071** [opus] | release-global-install-doc — Completed 2026-05-10.
 - [x] **CORE-069** [opus] | template-status-default — Completed 2026-05-10.
 - [x] **FE-026** [opus] | viz-bundle-code-split — Completed 2026-05-10.
 - [x] **FE-028** [opus] | viz-archive-cache — Completed 2026-05-10.

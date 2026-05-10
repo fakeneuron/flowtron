@@ -24,14 +24,23 @@ cd ~/code/<your-new-project>
 
 The skill verifies preconditions (cwd is a git repo with `CLAUDE.md`, no existing flowtron wiring, and no legacy workflow tooling at the root — `PLAN.md`, `plan.json`, or `WORKFLOW.md` route to §3 / §2 instead), asks for the project name and pinned flowtron version, and walks through §1.1–1.6 conversationally. It stages all bootstrap files and surfaces the commit message for your approval — no unprompted commits.
 
-**One-time global install** (run once per machine, after cloning flowtron to `~/code/flowtron/`):
+**One-time global installs** (run once per machine, after cloning flowtron to `~/code/flowtron/`):
+
+_Adopter-facing — `/new-project` (also useful for flowtron-self developers bootstrapping new projects):_
 
 ```sh
 ln -s ~/code/flowtron/claude/skills/new-project    ~/.claude/skills/new-project
 ln -s ~/code/flowtron/claude/commands/new-project.md ~/.claude/commands/new-project.md
 ```
 
-The symlinks point at flowtron's working tree, so they pick up flowtron edits immediately rather than tracking a versioned submodule. If you prefer to pin a specific flowtron version of the skill itself, copy the files instead of symlinking and re-copy on bump.
+_Flowtron-self developers only — `/release` (bails outside flowtron's checkout; never useful in adopter projects):_
+
+```sh
+ln -s ~/code/flowtron/claude/skills/release       ~/.claude/skills/release
+ln -s ~/code/flowtron/claude/commands/release.md   ~/.claude/commands/release.md
+```
+
+The symlinks point at flowtron's working tree, so they pick up flowtron edits immediately rather than tracking a versioned submodule. If you prefer to pin a specific flowtron version of a skill, copy the files instead of symlinking and re-copy on bump.
 
 If you don't have the skill installed, follow §1.1–1.7 manually below — the skill is a convenience wrapper, not a requirement.
 
