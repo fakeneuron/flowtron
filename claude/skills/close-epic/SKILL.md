@@ -194,6 +194,7 @@ The three-step post-closure protocol (commit / suggest next move / offer copy-pa
   4. **Proposed commit message** — `feat: <AUDIT-SUBTASK-ID> — audit <AREA>-EPIC-<NUMBER>` (or `chore: ...` if no code edits landed).
 - The commit-go prompt at the bottom of the bundle carries a `🟢` emoji prefix (e.g., `🟢 Reply commit / go to land.`).
 - On commit-go: if parent-flip Yes, apply the flip + atomic move (per Step 8) before staging, so the commit captures the parent-flip in one atomic write. Then the suggest-next-move and copy-paste-line follow in the same response (motion is one continuous flow per the SPEC contract).
+- The post-commit response carries a 🏁 state-marker line immediately above the next-move suggestion (per SPEC §"Post-closure protocol" step 2): `` 🏁 **<AUDIT-SUBTASK-ID> — committed `<sha>`** · archived to `<archive-path>` ``. Visually closes the 🛠️ → 📦 → 🏁 lifecycle in the transcript.
 - When suggesting the next move, surface candidates with `[model]` tags **inline per option** in the PLAN.md task-line shape: `**<TASK-ID>** [model] | shortname — one-sentence "why now"`. The next move depends on audit outcome:
   - Misses logged → `/file-followup <NEW-ID>` per miss (suggest one at a time; the user paces).
   - No misses + parent flipped → suggest the next epic / standalone task in PLAN.md.

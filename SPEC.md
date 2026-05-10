@@ -400,10 +400,18 @@ After a tasknote is archived, the assistant must:
    user's commit-go is the single approval that authorizes recap +
    closure + bundled prompts + commit.
 
-2. **Suggest the next move.** Do not idle. Surface candidates with
-   `[model]` tags visible inline per option, mirroring the PLAN.md
-   task-line shape so the user can scan model assignments without
-   cross-referencing PLAN.md:
+2. **Mark the commit landed and suggest the next move.** Once the commit
+   lands, prefix the post-commit response's tail (immediately above the
+   next-move suggestion) with a 🏁 state-marker line so the task's
+   lifecycle visually closes in the transcript (parallels 🛠️ → 📦 → 🏁):
+
+   ```
+   🏁 **<TASK-ID> — committed `<sha>`** · archived to `<archive-path>`
+   ```
+
+   Then surface candidates with `[model]` tags visible inline per option,
+   mirroring the PLAN.md task-line shape so the user can scan model
+   assignments without cross-referencing PLAN.md:
 
    ```
    - **<TASK-ID>** [model] | shortname — one-sentence "why now"

@@ -34,6 +34,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-068** [opus] | committed-state-marker — Completed 2026-05-10.
 - [x] **CORE-066** [opus] | gate-UX refinements — Completed 2026-05-10.
 - [x] **FE-023** [opus] | viz-constants-consolidation — Completed 2026-05-10.
 - [x] **FE-022** [opus] | viz-id-prefix-helpers — Completed 2026-05-10.

@@ -188,6 +188,7 @@ The three-step post-closure protocol (commit / suggest next move / offer copy-pa
   3. **Proposed commit message** — `feat: <AREA>-<next-N>.1 — file <AREA>-EPIC-<next-N> + scope children` (or a user-edited variant).
 - The commit-go prompt at the bottom of the bundle carries a `🟢` emoji prefix (e.g., `🟢 Reply commit / go to land.`).
 - On commit-go, the suggest-next-move and copy-paste-line follow in the same response (motion is one continuous flow per the SPEC contract).
+- The post-commit response carries a 🏁 state-marker line immediately above the next-move suggestion (per SPEC §"Post-closure protocol" step 2): `` 🏁 **<AREA>-<next-N>.1 — committed `<sha>`** · archived to `<archive-path>` ``. Visually closes the 🛠️ → 📦 → 🏁 lifecycle in the transcript.
 - When suggesting the next move, surface candidates with `[model]` tags **inline per option** in the PLAN.md task-line shape: `**<AREA>-<next-N>.2** [model] | <shortname> — one-sentence "why now"`. The next move is typically `/task <AREA>-<next-N>.2` (first implementation child).
 - The copy-paste line is `/clear then /model <opus|sonnet> then /task <AREA>-<next-N>.2`. Substitute the next child's PLAN-line `[model]` tag.
 

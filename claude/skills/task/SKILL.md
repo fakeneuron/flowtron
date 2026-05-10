@@ -142,6 +142,7 @@ The three-step protocol (commit / suggest next move / offer copy-paste line) is 
 Skill-specific orchestration on top of the SPEC contract:
 
 - The motion is **one continuous flow**. The user's commit-go (e.g. "commit", "go", "yes") is the *only* gate; once the commit lands, the suggest-next-move and copy-paste-line steps follow **in the same response as the commit confirmation**, even if the user's reply was terse or only named the commit step. Do not wait for them to prompt the next-task suggestion.
+- The post-commit response carries a 🏁 state-marker line immediately above the next-move suggestion (per SPEC §"Post-closure protocol" step 2): `` 🏁 **<TASK-ID> — committed `<sha>`** · archived to `<archive-path>` ``. Visually closes the 🛠️ → 📦 → 🏁 lifecycle in the transcript.
 - Surface the **bundled 📦 ready-to-commit gate** (per SPEC §"Operator-gate cues" + §"Post-closure protocol" step 1) and wait for commit-go. Do not commit unprompted. The 📦 banner carries the mandatory 1-2 sentence plain-English preview line (per SPEC §"Operator-gate cues") immediately above the closing rule. The bundle has three parts surfaced together under the banner:
   1. **Closure review** — per-entry doc-drift verdicts, the new PLAN.md stub-form line, and the archive path the tasknote moved to.
   2. **Recap (work summary)** — leads with a 1-2 sentence plain-English summary of what the task accomplished, then technical detail (file paths / LOC / key decisions + optional verification request).
