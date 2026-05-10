@@ -8,6 +8,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import chokidar from 'chokidar';
 import { parseTasknote } from './src/tasknote';
 import { discoverProjects, workspaceRoot, type ProjectDescriptor } from './src/workspace';
+import { createArchiveCache } from './src/archiveCache';
 
 async function safeReaddir(dir: string): Promise<Dirent[]> {
   try {
@@ -38,6 +39,7 @@ function flowtronApi(): Plugin {
   let watcher: ReturnType<typeof chokidar.watch> | null = null;
   let heartbeat: ReturnType<typeof setInterval> | null = null;
   const projects = new Map<string, ProjectDescriptor>();
+  const archiveCache = createArchiveCache();
 
   const broadcastChange = () => {
     for (const res of sseClients) {
@@ -58,14 +60,21 @@ function flowtronApi(): Plugin {
       for (const p of discovered) projects.set(p.name, p);
 
       if (server.httpServer) {
-        const watchPaths = discovered.flatMap((p) => [p.planPath, join(p.tasknoteDir, '*.md')]);
+        const watchPaths = discovered.flatMap((p) => [
+          p.planPath,
+          join(p.tasknoteDir, '*.md'),
+          join(p.archiveDir, '**/*.md'),
+        ]);
         watcher = chokidar.watch(watchPaths, {
           ignoreInitial: true,
-          depth: 1,
+          depth: 2,
           usePolling: true,
           interval: 200,
         });
-        watcher.on('all', scheduleBroadcast);
+        watcher.on('all', (_event, filepath) => {
+          if (typeof filepath === 'string') archiveCache.invalidate(filepath, projects.values());
+          scheduleBroadcast();
+        });
 
         heartbeat = setInterval(() => {
           for (const res of sseClients) res.write(': ping\n\n');
@@ -75,6 +84,7 @@ function flowtronApi(): Plugin {
           if (debounceTimer) clearTimeout(debounceTimer);
           if (heartbeat) clearInterval(heartbeat);
           void watcher?.close();
+          archiveCache.clear();
           for (const res of sseClients) res.end();
           sseClients.clear();
         });
@@ -149,24 +159,7 @@ function flowtronApi(): Plugin {
           return;
         }
         try {
-          const areas = (await safeReaddir(project.archiveDir)).filter((e) => e.isDirectory());
-          const tasknotes = (
-            await Promise.all(
-              areas.map(async (area) => {
-                const areaDir = join(project.archiveDir, area.name);
-                const entries = await safeReaddir(areaDir);
-                const files = entries.filter((e) => e.isFile() && e.name.endsWith('.md'));
-                return Promise.all(
-                  files.map(async (e) => {
-                    const id = e.name.replace(/\.md$/, '');
-                    const path = join(areaDir, e.name);
-                    const text = await readFile(path, 'utf8');
-                    return parseTasknote(id, path, text);
-                  }),
-                );
-              }),
-            )
-          ).flat();
+          const tasknotes = await archiveCache.get(project);
           res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify(tasknotes));
         } catch (e) {
