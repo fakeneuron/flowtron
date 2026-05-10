@@ -1,6 +1,6 @@
 ---
 title: Task Title
-status: not-started
+status: in-progress
 tags: []
 created: YYYY-MM-DD
 due:

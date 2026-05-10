@@ -15,11 +15,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-(none)
+- [ ] **CORE-071** [opus] | release-global-install-doc — Add `/release` to `docs/MIGRATION.md` §1.0 one-time global install. Consider splitting §1.0 into adopter-facing vs flowtron-self-developer variants to absorb future self-only skills. Surfaced by audit 2026-05-10 (Finding #4, High).
 
 ## Medium
 
-(none)
+- [ ] **CORE-070** [opus] | repo-layout-doc-currency — Update `README.md` §"Repo layout" + §"Documents" and `SPEC.md` §"Working in the flowtron repo itself" to surface `SPEC/` (lazy modules) and `claude/` (commands + skills). Bundles two drift findings against the same root cause. Surfaced by audit 2026-05-10 (Findings #3 + #5, Medium/Low).
 
 ## Low
 
@@ -28,9 +28,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Future Opportunities
 
 - [ ] **FE-020** [opus] | cross-project-viz-dogfooding — FE-002 follow-up: run workspace scanner against real ~/code/ projects; walk each surfaced project; log surprises and rough edges before declaring FE-002 done.
+- [ ] **CORE-072** [opus] | audit-skill — Generalize invisipaw's audit pattern (5 passes, capped findings, ticket-writes-to-PLAN) into a single stack-neutral `/audit` flowtron skill adopters fork per stack. Pre-work: this 2026-05-10 audit's findings + pass adaptations. Surfaced by audit 2026-05-10.
 
 ## Completed
 
+- [x] **CORE-069** [opus] | template-status-default — Completed 2026-05-10.
 - [x] **FE-026** [opus] | viz-bundle-code-split — Completed 2026-05-10.
 - [x] **FE-028** [opus] | viz-archive-cache — Completed 2026-05-10.
 - [x] **FE-027** [sonnet] | viz-archive-500-race — Completed 2026-05-10. Subsumed by FE-028's promise-valued cache (in-flight de-dup eliminates the race).
