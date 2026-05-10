@@ -59,7 +59,7 @@ One-sentence goal of what this task accomplishes.
 
 - [ ] Ran targeted test suite for changed code
 - [ ] Ran lint/type-check on changed code
-- [ ] (frontend) Asked the user for visual confirmation
+- [ ] (frontend) Asked the user for visual confirmation (👁️ prefix on the prose ask)
 
 **Testing Notes:**
 

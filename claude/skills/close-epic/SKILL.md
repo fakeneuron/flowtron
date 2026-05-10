@@ -124,7 +124,7 @@ Walk the Phase 1 checklist per SPEC §"📝 Phase 1: Discovery". Tick boxes as e
 - **Clarifying questions** — for an audit, typically none. If cohort scope is ambiguous (some children deferred, partial-cohort early-audit per Step 2), use AskUserQuestion to confirm audit scope.
 - **Subtasks populated** — Step 3 scaffold pre-filled the canonical epic-audit subtask list; refine if Discovery surfaces a scope shift.
 
-Do not enter Phase 2 until every Phase 1 box is ticked. Once ticked, surface the **Phase 1→2 operator-gate cue** (per SPEC §"Operator-gate cues") and wait for the user's go before starting Step 5 Phase 2.
+Do not enter Phase 2 until every Phase 1 box is ticked. Once ticked, surface the **Phase 1→2 operator-gate cue** with the mandatory 1-2 sentence plain-English preview line (per SPEC §"Operator-gate cues") and wait for the user's go before starting Step 5 Phase 2.
 
 ## Step 5 — Drive Phase 2: Execution
 
@@ -154,7 +154,7 @@ Walk the Phase 4 checklist for the audit subtask itself. **No banner here** — 
 - **Doc-drift sweep (fixed line)** — for each entry in `<tasknote dir>/README.md` §"AI-referenced docs", state per-entry verdict ("no change" or the specific update). This is the contractually-required sweep per `SPEC/epic.md` §"Audit acceptance — fixed doc-drift line"; never skip.
 - **Flip the audit's PLAN.md line to stub form** — `- [ ] **<AUDIT-SUBTASK-ID>** [<model>] | <shortname> audit — Completed YYYY-MM-DD.` per SPEC §"`## Completed` archive convention". Keep nested under `<AREA>-EPIC-<NUMBER>` in its current `## <Priority>` section (parent + cohort move only on Step 9 confirmation).
 - **Move the audit tasknote** — `git mv <tasknote dir>/<AUDIT-SUBTASK-ID>.md <tasknote dir>/archive/<area>/<AUDIT-SUBTASK-ID>.md`. Set `**Archived:** YYYY-MM-DD` in the tasknote.
-- **Draft the recap** — one short paragraph: audit ran, findings summary, follow-ups to file (if any). Hold it for Step 9's 📦 bundle; do not surface a banner now.
+- **Draft the recap** — leads with a 1-2 sentence plain-English summary (audit ran; key finding or "no inconsistencies surfaced"), then technical detail (cohort children inventoried, follow-ups to file, any inline fixes applied). Hold it for Step 9's 📦 bundle; do not surface a banner now.
 
 ## Step 8 — Parent-epic flip eligibility (no banner)
 
@@ -178,9 +178,9 @@ Capture the flip decision in the audit tasknote's Final Summary block (still edi
 
 The three-step post-closure protocol (commit / suggest next move / offer copy-paste line) is canonical in SPEC §"Post-closure protocol". Skill-specific orchestration:
 
-- Surface the **bundled 📦 ready-to-commit gate** (per SPEC §"Operator-gate cues" + §"Post-closure protocol" step 1) and wait for commit-go. Do not commit unprompted. The bundle has four parts surfaced together under the banner:
+- Surface the **bundled 📦 ready-to-commit gate** (per SPEC §"Operator-gate cues" + §"Post-closure protocol" step 1) and wait for commit-go. Do not commit unprompted. The 📦 banner carries the mandatory 1-2 sentence plain-English preview line (per SPEC §"Operator-gate cues") immediately above the closing rule. The bundle has four parts surfaced together under the banner:
   1. **Closure review** — per-entry doc-drift verdicts, the audit's new stub-form line, and the archive path.
-  2. **Recap (work summary)** — the paragraph drafted at end of Step 7.
+  2. **Recap (work summary)** — the two-pass paragraph drafted at end of Step 7 (plain-English first, then technical).
   3. **Parent-flip prompt** (when eligible per Step 8) — AskUserQuestion with default Yes:
      ```
      All <AREA>-EPIC-<NUMBER> children closed. Flip parent + move cohort to `## Completed`?
@@ -192,6 +192,7 @@ The three-step post-closure protocol (commit / suggest next move / offer copy-pa
      ```
      If not eligible (open children remain), surface a heads-up listing the open children instead — no prompt fires.
   4. **Proposed commit message** — `feat: <AUDIT-SUBTASK-ID> — audit <AREA>-EPIC-<NUMBER>` (or `chore: ...` if no code edits landed).
+- The commit-go prompt at the bottom of the bundle carries a `🟢` emoji prefix (e.g., `🟢 Reply commit / go to land.`).
 - On commit-go: if parent-flip Yes, apply the flip + atomic move (per Step 8) before staging, so the commit captures the parent-flip in one atomic write. Then the suggest-next-move and copy-paste-line follow in the same response (motion is one continuous flow per the SPEC contract).
 - When suggesting the next move, surface candidates with `[model]` tags **inline per option** in the PLAN.md task-line shape: `**<TASK-ID>** [model] | shortname — one-sentence "why now"`. The next move depends on audit outcome:
   - Misses logged → `/file-followup <NEW-ID>` per miss (suggest one at a time; the user paces).

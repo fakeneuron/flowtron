@@ -241,6 +241,8 @@ surfaces a banner cue at each one:
 
 <emoji>  **AWAITING APPROVAL — <label>**
 
+_<1-2 sentence plain-English preview of what executes on approval>_
+
 ---
 ```
 
@@ -248,6 +250,13 @@ surfaces a banner cue at each one:
 |---|---|---|
 | Phase 1→2 (post-Discovery) | 🛠️ | `AWAITING APPROVAL — Phase 2: Execution ready` |
 | Ready-to-commit (closure review + work summary bundled) | 📦 | `AWAITING APPROVAL — Ready to commit` |
+
+The preview line is **mandatory** on both gates: a 1-2 sentence
+plain-English summary of *what executes if the user approves*, italicized,
+placed inside the banner block immediately above the closing `---`. The
+preview is for scanning intent ("what am I greenlighting?") — file paths,
+LOC counts, and key decisions belong in the recap (per §"🚀 Phase 4:
+Closure"), not the preview.
 
 After the user clears the 🛠️ gate, Phase 2 → Phase 3 → Phase 4 closure
 ops (doc-drift sweep, PLAN.md flip, archive move) **flow continuously
@@ -319,9 +328,17 @@ banner in §"Post-closure protocol".
 
 - [ ] Ran targeted test suite for changed code
 - [ ] Ran lint/type-check on changed code
-- [ ] (frontend) Asked the user for visual confirmation
+- [ ] (frontend) Asked the user for visual confirmation (👁️ prefix on the prose ask)
 
 Run the full test suite only when changes are broad or cross-cutting.
+
+The visual-confirmation ask carries a `👁️` inline prefix on the
+conversational prompt (e.g., `👁️ Could you take a look at viz at
+http://localhost:5176 and confirm the new outline behaves as expected
+before I move to closure?`). Inline emoji prefix only — **no banner
+block, no operator-gate**. Gate count stays at 2; the prefix is a
+scannable visual cue parallel to 🛠️ / 📦 without elevating
+visual-confirmation to gate status.
 
 ### 🚀 Phase 4: Closure
 
@@ -330,17 +347,20 @@ Run the full test suite only when changes are broad or cross-cutting.
 - [ ] Recap drafted (surfaces at the 📦 ready-to-commit gate)
 
 Phase 4 closure ops (doc-drift sweep, PLAN.md flip, archive move) auto-run
-without an intermediate gate. The recap — a brief summary of what changed
-and key decisions, plus an optional verification request (something concrete
-for the user to check: review the diff, run the feature, eyeball a generated
-artifact) — is drafted alongside but **does not surface its own banner**.
-It bundles into the 📦 ready-to-commit gate (see §"Post-closure protocol")
-where the user sees recap + closure review + commit message together and
-gives one bundled approval.
+without an intermediate gate. The recap — a two-pass summary leading with
+1-2 plain-English sentences of *what the task accomplished* (non-technical,
+suitable for fast scanning), then technical detail (file paths, LOC, key
+decisions, plus an optional verification request: something concrete for
+the user to check, like reviewing the diff, running the feature, or
+eyeballing a generated artifact) — is drafted alongside but **does not
+surface its own banner**. It bundles into the 📦 ready-to-commit gate
+(see §"Post-closure protocol") where the user sees recap + closure review
++ commit message together and gives one bundled approval.
 
-> **Recap is recap-only.** The recap is *what changed + verification ask*
-> and stops there. The next-task suggestion belongs in the post-closure
-> protocol, after the commit lands — not inside the recap.
+> **Recap is recap-only.** The recap leads with a 1-2 sentence plain-English
+> summary, then technical detail (file paths / LOC / decisions / verification
+> ask), and stops there. The next-task suggestion belongs in the
+> post-closure protocol, after the commit lands — not inside the recap.
 
 The tasknote is closed when archived. The user's commit-go (at the 📦
 gate) is the bundled approval that confirms the recap and authorizes the
@@ -357,15 +377,23 @@ After a tasknote is archived, the assistant must:
 
 1. **Commit (bundled gate).** Surface the **bundled ready-to-commit gate**
    behind the 📦 operator-gate cue (see §"Operator-gate cues") and wait
-   for commit-go. The bundle has three parts surfaced together:
+   for commit-go. The 📦 banner carries the mandatory 1-2 sentence
+   plain-English preview line (per §"Operator-gate cues") immediately
+   above the closing rule. The bundle has three parts surfaced together:
 
    - **Closure review** — per-entry doc-drift verdicts, the new PLAN.md
      stub-form line, and the archive path the tasknote moved to.
-   - **Recap (work summary)** — what changed + key decisions + the
-     optional verification ask (per §"🚀 Phase 4: Closure").
+   - **Recap (work summary)** — leads with a 1-2 sentence plain-English
+     summary of what the task accomplished, then technical detail (file
+     paths / LOC / key decisions + the optional verification ask). Per
+     §"🚀 Phase 4: Closure".
    - **Proposed commit message** — `feat: <TASK-ID> — <title>` (or
      `fix:` / `docs:` / `chore:` as appropriate). Multiple
      recently-closed tasknotes may bundle into one commit when natural.
+
+   The commit-go prompt at the bottom of the bundle carries a `🟢` emoji
+   prefix (e.g., `🟢 Reply commit / go to land.`) so the call-to-action
+   stands out under the closure-review tables.
 
    Skill-level extensions (e.g., /close-epic's parent-flip Yes/No prompt)
    ride inside this bundle rather than getting their own banner. The
