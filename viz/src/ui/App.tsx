@@ -15,6 +15,8 @@ import { PrioritySection } from './PrioritySection';
 import { ProjectSelector } from './ProjectSelector';
 import { ThemeToggle } from './ThemeToggle';
 import { useKeyboardNav } from './useKeyboardNav';
+import { useToggleSet } from './useToggleSet';
+import { readStoredProject, writeStoredProject } from '../projectStorage';
 
 const SECTIONS: Priority[] = [
   'Critical',
@@ -34,23 +36,6 @@ const STATUS_FILTER_VALUES: TasknoteStatus[] = [
 ];
 
 const HIGHLIGHT_MS = 1500;
-const ACTIVE_PROJECT_KEY = 'flowtron-viz-active-project';
-
-const readStoredProject = (): string | null => {
-  try {
-    return window.localStorage.getItem(ACTIVE_PROJECT_KEY);
-  } catch {
-    return null;
-  }
-};
-
-const writeStoredProject = (name: string): void => {
-  try {
-    window.localStorage.setItem(ACTIVE_PROJECT_KEY, name);
-  } catch {
-    /* ignore quota / disabled storage */
-  }
-};
 
 export const App: React.FC = () => {
   const [projects, setProjects] = useState<string[]>([]);
@@ -59,13 +44,13 @@ export const App: React.FC = () => {
   const [tasknotesById, setTasknotesById] = useState<Map<string, Tasknote>>(new Map());
   const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState<string>('');
-  const [tagFilter, setTagFilter] = useState<Set<string>>(new Set());
-  const [statusFilter, setStatusFilter] = useState<Set<TasknoteStatus>>(new Set());
+  const [tagFilter, toggleTag, setTagFilter] = useToggleSet<string>();
+  const [statusFilter, toggleStatus, setStatusFilter] = useToggleSet<TasknoteStatus>();
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [collapsedSections, setCollapsedSections] = useState<Set<Priority>>(
+  const [collapsedSections, toggleSection, setCollapsedSections] = useToggleSet<Priority>(
     new Set(['Completed']),
   );
-  const [expandedEpicIds, setExpandedEpicIds] = useState<Set<string>>(new Set());
+  const [expandedEpicIds, toggleEpic, setExpandedEpicIds] = useToggleSet<string>();
   const [highlightId, setHighlightId] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -249,34 +234,6 @@ export const App: React.FC = () => {
       tasks.filter((t) => tasknotesById.get(t.id)?.frontmatter?.status === 'starter').length,
     [tasks, tasknotesById],
   );
-
-  const toggleTag = (tag: string) =>
-    setTagFilter((prev) => {
-      const next = new Set(prev);
-      next.has(tag) ? next.delete(tag) : next.add(tag);
-      return next;
-    });
-
-  const toggleStatus = (status: TasknoteStatus) =>
-    setStatusFilter((prev) => {
-      const next = new Set(prev);
-      next.has(status) ? next.delete(status) : next.add(status);
-      return next;
-    });
-
-  const toggleSection = (p: Priority) =>
-    setCollapsedSections((prev) => {
-      const next = new Set(prev);
-      next.has(p) ? next.delete(p) : next.add(p);
-      return next;
-    });
-
-  const toggleEpic = (id: string) =>
-    setExpandedEpicIds((prev) => {
-      const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
-      return next;
-    });
 
   const handleSelectProject = (name: string) => {
     if (name === activeProject) return;
