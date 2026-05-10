@@ -24,7 +24,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **FE-019** [opus] | viz-a11y-perf-pass — A11y + perf pass on viz/. Run Lighthouse + axe; check focus-trap / contrast / keyboard nav (FE-010) coverage / bundle-size baseline. File specific fixes as follow-ups.
 - [ ] **FE-020** [opus] | cross-project-viz-dogfooding — FE-002 follow-up: run workspace scanner against real ~/code/ projects; walk each surfaced project; log surprises and rough edges before declaring FE-002 done.
 - [ ] **CORE-059** [opus] | task workflow visual gate cues — Add banner-style operator-gate cues to /task at every approval point (Phase 1→2, 2→3, ready-to-commit, ready-to-push, Phase 4 closure). Format: separator + phase emoji + AWAITING APPROVAL / READY status. Update task SKILL.md gate phrasing and matching SPEC.md phase descriptions; consider whether other skills (/epic-discovery, /close-epic) inherit the same convention.
-- [ ] **CORE-064** [sonnet] | equalize step-1.5 fragments — Equalize `claude/skills/micro-task/step-1.5-model-edge.md` content with `task/step-1.5-model-edge.md` (default-recommendation guidance + "next-time no question" note) per [[CORE-056]] audit.
 
 ## Low
 
@@ -36,6 +35,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-064** [sonnet] | equalize step-1.5 fragments — Completed 2026-05-09.
 - [x] **CORE-063** [sonnet] | equalize stub cross-refs — Completed 2026-05-09.
 - [x] **CORE-062** [sonnet] | lift date-format bullet — Completed 2026-05-09.
 - [x] **CORE-061** [opus] | FUTURE.md cleanup — Completed 2026-05-09.

@@ -13,4 +13,4 @@ Do not silently override.
 
 ## Legacy entry — PLAN.md `[model]` is absent (no `[model]` on the line)
 
-Ask the user via AskUserQuestion to choose `opus` or `sonnet`. Write `[<chosen>]` into the PLAN.md line in place, then proceed to Step 2.
+Ask the user via AskUserQuestion to choose `opus` or `sonnet` (default recommendation: `opus` for design / multi-file / ambiguous work; `sonnet` for mechanical work with a clear diff in mind). Then write `[<chosen>]` into the PLAN.md line in place (insert immediately after `**TASK-ID**`), then proceed to Step 2. The next time `/micro-task` runs against this line, no question is asked.
