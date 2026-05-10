@@ -198,4 +198,3 @@ The three-step post-closure protocol (commit / suggest next move / offer copy-pa
 - **Compare with `/close-epic`** — the sibling skill that scaffolds + drives the audit `.N` tasknote at the end of an epic and prompts the user to flip the parent line to `Completed`. `/epic-discovery` opens an epic; `/close-epic` closes it.
 - **Compare with `/task`** — `/task <ID>` runs an existing PLAN.md entry (starter, in-progress, or fresh) through the 4-phase workflow. `/epic-discovery` files a new epic AND its first child AND drives that first child to closure. The two skills don't overlap.
 - **Compare with `/starter-task`** — `/starter-task <ID>` files a single starter tasknote with rich AI-captured context. `/epic-discovery` files an epic + its first two child lines + drives a full Discovery. Use `/starter-task` when scope is single-task; use `/epic-discovery` when scope warrants the Discovery + Audit bracket.
-- **Date format:** always use `YYYY-MM-DD`.

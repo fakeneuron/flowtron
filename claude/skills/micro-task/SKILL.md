@@ -127,4 +127,3 @@ Skill-specific orchestration:
 - **When NOT to use this skill** — see SPEC §"When to use a tasknote (and when not to)" micro carve-out. If the task touches multiple files, has design tradeoffs to record, or is likely to take more than ~30 minutes, use `/task` instead. If unsure, default to `/task` — the 4-phase ceremony pays for itself.
 - **Compare with `/task`** — full 4-phase flow with per-phase checklists; for normal-size tasks. **Compare with `/starter-task`** — filing-only for tasks discovered mid-flow with rich context not ready to start. Each owns one workflow entry point.
 - **Sub-tasks of an epic** (`<AREA>-<NUMBER>.<SUB>`) follow the same flow. The parent epic line is not flipped to complete until all children are. Full lifecycle in `<SPEC_DIR>/epic.md`.
-- **Date format:** always use `YYYY-MM-DD` for `created:`, `Completed`, and `Archived` fields.

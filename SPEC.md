@@ -161,6 +161,8 @@ so adopting projects' tools (visualizers, dashboards, queries) can consume
 tasknote metadata without scraping the H1 line. Adopting projects can ignore
 the frontmatter and continue working as before.
 
+**Date format:** always use `YYYY-MM-DD` for `created:`, `Completed`, and `Archived` date fields.
+
 ## Starter tasknotes
 
 Canonical contract: see [`SPEC/starter.md`](SPEC/starter.md).

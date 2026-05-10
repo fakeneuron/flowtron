@@ -107,4 +107,3 @@ Do **not** commit unprompted. The new PLAN.md line is typically bundled into wha
 - **Compare with `/micro-task`** — files + executes a small change in one shot. `/file-followup` is filing-only; it never runs the work.
 - **Compare with `/task`** — starts an existing PLAN.md entry and drives it through the 4-phase workflow. `/file-followup`'s output line is the input `/task` consumes later.
 - **No active-tasknote breadcrumb.** When invoked from inside `/task`, `/file-followup` does not write into the active tasknote — keeps the active tasknote a record of what it was for, not a coordination ledger. This is the strict reading of "only one PLAN.md line on disk."
-- **Date format:** always use `YYYY-MM-DD`.

@@ -107,4 +107,3 @@ Do **not** commit unprompted. The new starter file + PLAN.md flip are typically 
 - This skill is filing-only — no design decisions are made in the skill flow itself. All rich context comes from the prior conversation; the skill just records it.
 - **Compare with `/task`** — that skill starts an existing task (starter or fresh) and drives it to completion. **Compare with `/new-project`** — that skill bootstraps a fresh repo with flowtron. Each owns one workflow entry point.
 - **When NOT to use this skill** — when a one-line PLAN.md entry is enough. See SPEC §"When to use a tasknote (and when not to)" for the threshold.
-- **Date format:** always use `YYYY-MM-DD`.
