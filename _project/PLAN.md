@@ -19,12 +19,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **FE-019** [opus] | viz-a11y-perf-pass — A11y + perf pass on viz/. Run Lighthouse + axe; check focus-trap / contrast / keyboard nav (FE-010) coverage / bundle-size baseline. File specific fixes as follow-ups.
 - [ ] **FE-020** [opus] | cross-project-viz-dogfooding — FE-002 follow-up: run workspace scanner against real ~/code/ projects; walk each surfaced project; log surprises and rough edges before declaring FE-002 done.
+- [ ] **FE-025** [sonnet] | viz-contrast-fix — FE-019 follow-up: serious-impact contrast failure (3.83–3.91:1, expected 4.5:1) on `text-slate-400 dark:text-slate-500` for small text in `PrioritySection.tsx:65` ("No tasks" placeholder) and `SubtaskRow.tsx:48` (completed-date badge). Swap to `text-slate-500 dark:text-slate-400` (or another ≥4.5:1 pair) and verify in both themes.
 
 ## Low
 
-(none)
+- [ ] **FE-026** [opus] | viz-bundle-code-split — FE-019 follow-up: ~80 KiB (~65% of gzipped JS) unused at first paint. Lazy-load `WikilinkMarkdown` (carries `react-markdown` + `remark-gfm`, only mounted when a row's detail panel is expanded) and dynamic-import `gray-matter` from the parser. Target: drop initial-bundle gzip from ~124 KB toward ~50 KB.
 
 ## Future Opportunities
 
@@ -32,6 +32,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-019** [opus] | viz-a11y-perf-pass — Completed 2026-05-10.
 - [x] **CORE-067** [opus] | gate-UX check-in — Completed 2026-05-10.
 - [x] **FE-024** [opus] | viz-app-decomposition — Completed 2026-05-10.
 - [x] **CORE-068** [opus] | committed-state-marker — Completed 2026-05-10.
