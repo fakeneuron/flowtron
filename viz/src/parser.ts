@@ -56,7 +56,7 @@ function cleanDescription(raw: string): string {
 // A wikilink that appears inside a `Blocked by` block lands in `blockedBy` only;
 // the same ID elsewhere in the description is excluded from `relatedTasks` to
 // avoid double-rendering (blocker is the stronger signal).
-const WIKILINK = /\[\[([A-Z]+(?:-EPIC)?-\d+(?:\.\d+)?)\]\]/g;
+export const WIKILINK_PATTERN = /\[\[([A-Z]+(?:-EPIC)?-\d+(?:\.\d+)?)\]\]/g;
 const BLOCKED_BY_BLOCK =
   /Blocked by\s+(\[\[[A-Z]+(?:-EPIC)?-\d+(?:\.\d+)?\]\](?:\s*,\s*\[\[[A-Z]+(?:-EPIC)?-\d+(?:\.\d+)?\]\])*)/g;
 const CODE_SPAN = /`[^`]*`/g;
@@ -69,7 +69,7 @@ function extractBlockedBy(text: string): string[] {
   const cleaned = stripCodeSpans(text);
   const ids = new Set<string>();
   for (const block of cleaned.matchAll(BLOCKED_BY_BLOCK)) {
-    for (const m of block[1].matchAll(WIKILINK)) ids.add(m[1]);
+    for (const m of block[1].matchAll(WIKILINK_PATTERN)) ids.add(m[1]);
   }
   return Array.from(ids);
 }
@@ -78,7 +78,7 @@ function extractRelatedTasks(text: string, blocked: string[]): string[] {
   const cleaned = stripCodeSpans(text);
   const blockedSet = new Set(blocked);
   const ids = new Set<string>();
-  for (const m of cleaned.matchAll(WIKILINK)) {
+  for (const m of cleaned.matchAll(WIKILINK_PATTERN)) {
     if (!blockedSet.has(m[1])) ids.add(m[1]);
   }
   return Array.from(ids);
@@ -100,6 +100,15 @@ function epicKey(id: string): string | null {
 function subtaskParentKey(id: string): string | null {
   const m = SUBTASK_ID.exec(id);
   return m ? `${m[1]}-${m[2]}` : null;
+}
+
+export function isEpic(node: TaskNode): boolean {
+  return node.children.length > 0 || EPIC_ID.test(node.task.id);
+}
+
+export function getSubtaskParentEpicId(id: string): string | null {
+  const m = SUBTASK_ID.exec(id);
+  return m ? `${m[1]}-EPIC-${m[2]}` : null;
 }
 
 export function groupTasks(tasks: Task[]): TaskNode[] {

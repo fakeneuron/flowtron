@@ -1,6 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { groupBy, effectiveStatus, buildInboundRefs } from './utils';
-import { groupTasks, parsePlan, type Priority, type Task, type TaskNode } from '../parser';
+import {
+  getSubtaskParentEpicId,
+  groupTasks,
+  isEpic,
+  parsePlan,
+  type Priority,
+  type Task,
+  type TaskNode,
+} from '../parser';
 import { type Tasknote, type TasknoteStatus } from '../tasknote';
 import { STATUS_LABEL, STATUS_BADGE } from './constants';
 import { PrioritySection } from './PrioritySection';
@@ -201,7 +209,7 @@ export const App: React.FC = () => {
   const epicIds = useMemo(() => {
     const set = new Set<string>();
     for (const node of allNodes) {
-      if (node.children.length > 0 || /-EPIC-/.test(node.task.id)) set.add(node.task.id);
+      if (isEpic(node)) set.add(node.task.id);
     }
     return set;
   }, [allNodes]);
@@ -295,9 +303,8 @@ export const App: React.FC = () => {
           next.delete(target.priority);
           return next;
         });
-        const sub = /^([A-Z]+)-(\d+)\.\d+$/.exec(id);
-        if (sub) {
-          const epicId = `${sub[1]}-EPIC-${sub[2]}`;
+        const epicId = getSubtaskParentEpicId(id);
+        if (epicId) {
           setExpandedEpicIds((prev) => {
             if (prev.has(epicId)) return prev;
             const next = new Set(prev);

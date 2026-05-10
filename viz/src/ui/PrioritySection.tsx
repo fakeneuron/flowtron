@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Priority, TaskNode } from '../parser';
+import { isEpic, type Priority, type TaskNode } from '../parser';
 import type { Tasknote } from '../tasknote';
 import { Chevron } from './Chevron';
 import { EpicRow } from './EpicRow';
@@ -65,8 +65,7 @@ export const PrioritySection: React.FC<PrioritySectionProps> = ({
             <div className="px-2 py-1 text-xs text-slate-400 dark:text-slate-500">No tasks</div>
           )}
           {nodes.map((node) => {
-            const isEpic = node.children.length > 0 || /-EPIC-/.test(node.task.id);
-            if (isEpic) {
+            if (isEpic(node)) {
               return (
                 <EpicRow
                   key={node.task.id}

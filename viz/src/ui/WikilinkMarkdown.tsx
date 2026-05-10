@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { WIKILINK_PATTERN } from '../parser';
 
-const WIKILINK_TEXT = /\[\[([A-Z]+(?:-EPIC)?-\d+(?:\.\d+)?)\]\]/g;
 const WIKILINK_HREF_PREFIX = '#wikilink-';
 
 // Convert `[[TASK-ID]]` outside backtick code spans into a markdown link the
@@ -14,7 +14,7 @@ const wikilinkifyMarkdown = (text: string): string => {
     .map((seg, i) =>
       i % 2 === 1
         ? seg
-        : seg.replace(WIKILINK_TEXT, (_m, id) => `[[[${id}]]](${WIKILINK_HREF_PREFIX}${id})`),
+        : seg.replace(WIKILINK_PATTERN, (_m, id) => `[[[${id}]]](${WIKILINK_HREF_PREFIX}${id})`),
     )
     .join('');
 };
