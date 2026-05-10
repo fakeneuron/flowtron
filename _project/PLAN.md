@@ -21,7 +21,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **FE-019** [opus] | viz-a11y-perf-pass — A11y + perf pass on viz/. Run Lighthouse + axe; check focus-trap / contrast / keyboard nav (FE-010) coverage / bundle-size baseline. File specific fixes as follow-ups.
 - [ ] **FE-020** [opus] | cross-project-viz-dogfooding — FE-002 follow-up: run workspace scanner against real ~/code/ projects; walk each surfaced project; log surprises and rough edges before declaring FE-002 done.
-- [ ] **FE-023** [opus] | viz-constants-consolidation — Co-locate `STATUS_CHIP_LABEL` from `StatusChip.tsx` into `constants.ts` next to `STATUS_LABEL` (both maps preserved; same enum, divergent emoji-prefixed values). Extract `PILL_ACTIVE` + `PILL_DEFAULT_SLATE` Tailwind class constants used by App.tsx tag/status rails and `ProjectSelector`. Per [[FE-018]] audit.
 - [ ] **FE-024** [opus] | viz-app-decomposition — Move App.tsx localStorage helpers (`ACTIVE_PROJECT_KEY`, `readStoredProject`, `writeStoredProject`) to `projectStorage.ts`. Extract `useToggleSet<T>()` custom hook replacing the 4 Set-toggle helpers (`toggleTag`, `toggleStatus`, `toggleSection`, `toggleEpic`). ~20 LOC + readability. Per [[FE-018]] audit.
 
 ## Low
@@ -34,6 +33,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-023** [opus] | viz-constants-consolidation — Completed 2026-05-10.
 - [x] **FE-022** [opus] | viz-id-prefix-helpers — Completed 2026-05-10.
 - [x] **FE-021** [opus] | viz-row-outline-dedup — Completed 2026-05-10.
 - [x] **FE-018** [opus] | viz-code-token-audit — Completed 2026-05-10.

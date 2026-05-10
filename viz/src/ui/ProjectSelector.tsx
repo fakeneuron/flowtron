@@ -1,4 +1,5 @@
 import React from 'react';
+import { PILL_ACTIVE, PILL_DEFAULT_SLATE } from './constants';
 
 interface Props {
   projects: string[];
@@ -20,11 +21,7 @@ export const ProjectSelector: React.FC<Props> = ({ projects, active, onSelect })
             onClick={() => onSelect(name)}
             aria-pressed={on}
             aria-label={`Project: ${name}`}
-            className={`rounded-full px-2 py-0.5 ${
-              on
-                ? 'bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900'
-                : 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
-            }`}
+            className={`rounded-full px-2 py-0.5 ${on ? PILL_ACTIVE : PILL_DEFAULT_SLATE}`}
           >
             {name}
           </button>

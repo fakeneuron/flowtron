@@ -10,7 +10,7 @@ import {
   type TaskNode,
 } from '../parser';
 import { type Tasknote, type TasknoteStatus } from '../tasknote';
-import { STATUS_LABEL, STATUS_BADGE } from './constants';
+import { STATUS_LABEL, STATUS_BADGE, PILL_ACTIVE, PILL_DEFAULT_SLATE } from './constants';
 import { PrioritySection } from './PrioritySection';
 import { ProjectSelector } from './ProjectSelector';
 import { ThemeToggle } from './ThemeToggle';
@@ -398,11 +398,7 @@ export const App: React.FC = () => {
                       type="button"
                       onClick={() => toggleTag(tag)}
                       aria-pressed={on}
-                      className={`rounded-full px-2 py-0.5 ${
-                        on
-                          ? 'bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900'
-                          : 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
-                      }`}
+                      className={`rounded-full px-2 py-0.5 ${on ? PILL_ACTIVE : PILL_DEFAULT_SLATE}`}
                     >
                       {tag}
                     </button>
@@ -421,9 +417,7 @@ export const App: React.FC = () => {
                     onClick={() => toggleStatus(s)}
                     aria-pressed={on}
                     className={`rounded-full px-2 py-0.5 ${
-                      on
-                        ? 'bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900'
-                        : `${STATUS_BADGE[s]} hover:opacity-80`
+                      on ? PILL_ACTIVE : `${STATUS_BADGE[s]} hover:opacity-80`
                     }`}
                   >
                     {STATUS_LABEL[s]}
