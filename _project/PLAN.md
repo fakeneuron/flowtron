@@ -28,10 +28,10 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Future Opportunities
 
 - [ ] **FE-020** [opus] | cross-project-viz-dogfooding — FE-002 follow-up: run workspace scanner against real ~/code/ projects; walk each surfaced project; log surprises and rough edges before declaring FE-002 done.
-- [ ] **CORE-072** [opus] | audit-skill — Generalize invisipaw's audit pattern (5 passes, capped findings, ticket-writes-to-PLAN) into a single stack-neutral `/audit` flowtron skill adopters fork per stack. Pre-work: this 2026-05-10 audit's findings + pass adaptations. Surfaced by audit 2026-05-10.
 
 ## Completed
 
+- [x] **CORE-072** [opus] | audit-skill — Completed 2026-05-10.
 - [x] **CORE-070** [opus] | repo-layout-doc-currency — Completed 2026-05-10.
 - [x] **CORE-071** [opus] | release-global-install-doc — Completed 2026-05-10.
 - [x] **CORE-069** [opus] | template-status-default — Completed 2026-05-10.

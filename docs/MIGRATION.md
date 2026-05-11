@@ -89,6 +89,24 @@ The relative paths are intentional — they survive `git clone` and always point
 
 The canonical wiring snippet (and the `CLAUDE.md` block to paste in the next step) lives in `_project/flowtron/claude/CLAUDE-snippet.md`. Refer to it directly rather than copying the commands here — that file is the single source of truth.
 
+### 1.2.1 Optional: fork `/audit` per stack
+
+Flowtron also ships a stack-neutral `/audit` skill at `_project/flowtron/claude/skills/audit/` — a 5-pass / capped-findings / writes-tickets-to-`_project/PLAN.md` scaffold (Security · Idioms · Hygiene · Orphans · Doc drift). **Unlike the six skills in §1.2, this one is forked, not symlinked.** Per-stack divergence in rubric files, verification commands, and per-pass examples is the reason — one symlinked scaffold cannot serve every stack without becoming bland enough to miss real issues.
+
+To install:
+
+```sh
+mkdir -p .claude/skills/audit
+cp _project/flowtron/claude/skills/audit/SKILL.md      .claude/skills/audit/SKILL.md
+cp _project/flowtron/claude/commands/audit.md          .claude/commands/audit.md
+```
+
+Then open `.claude/skills/audit/SKILL.md` and walk the **§0 Forker checklist** at the top — set the default glob, list your rubric files, pin your verification commands, fill in stack-specific pass examples, and call out your project's sacred invariants under Critical severity. Delete the §0 block from your fork once filled in. You can also split into per-stack forks (`audit-backend`, `audit-frontend`, …) by copying the SKILL.md into multiple sibling directories and customizing each independently — adjust the `cp` targets accordingly.
+
+The fork is yours — flowtron version bumps do not touch it. Re-copy from `_project/flowtron/claude/skills/audit/SKILL.md` if you ever want to pick up scaffold improvements upstream.
+
+This subsection is **optional**. Projects that don't want a structured audit skill can skip §1.2.1 entirely.
+
 ### 1.3 Paste the workflow block into `CLAUDE.md`
 
 Open `_project/flowtron/claude/CLAUDE-snippet.md` and copy the markdown block from the "Block to paste into CLAUDE.md" section into your project's `CLAUDE.md`. It tells the assistant where to find the SPEC, where plans and tasknotes live, and how to start a task.
