@@ -47,8 +47,12 @@ bumps (see Versioning below).
 Flowtron does not submodule itself. When working in `~/code/flowtron/`:
 
 - This `SPEC.md` IS the canonical reference.
+- `SPEC/` — lazy SPEC modules loaded on demand by skills.
 - The flowtron `_project/PLAN.md` tracks flowtron's own development.
 - The `templates/` folder holds the canonical tasknote and PLAN.md templates.
+- `claude/` — Claude Code commands + skills (`/task`, `/release`, `/new-project`, …); the adopter snippet lives at `claude/CLAUDE-snippet.md`.
+
+For flowtron-self global installs (e.g. `/release`), see [`docs/MIGRATION.md`](docs/MIGRATION.md) §1.0 "One-time global installs" → flowtron-self developers block.
 
 ## Task ID convention
 

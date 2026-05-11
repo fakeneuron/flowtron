@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-070** [opus] | repo-layout-doc-currency — Update `README.md` §"Repo layout" + §"Documents" and `SPEC.md` §"Working in the flowtron repo itself" to surface `SPEC/` (lazy modules) and `claude/` (commands + skills). Bundles two drift findings against the same root cause. Surfaced by audit 2026-05-10 (Findings #3 + #5, Medium/Low).
+(none)
 
 ## Low
 
@@ -32,6 +32,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-070** [opus] | repo-layout-doc-currency — Completed 2026-05-10.
 - [x] **CORE-071** [opus] | release-global-install-doc — Completed 2026-05-10.
 - [x] **CORE-069** [opus] | template-status-default — Completed 2026-05-10.
 - [x] **FE-026** [opus] | viz-bundle-code-split — Completed 2026-05-10.

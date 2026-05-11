@@ -83,8 +83,9 @@ Obsidian is opt-in companion tooling. None of the above is required.
 ## Repo layout
 
 - `SPEC.md` — workflow contract (authoritative)
+- `SPEC/` — lazy SPEC modules (epic, starter, blocked, model, versioning); loaded on demand by skills
 - `templates/` — canonical tasknote and `PLAN.md` templates
-- `claude/` — Claude Code skills + slash commands (`/task`, `/new-project`)
+- `claude/` — Claude Code skills + slash commands (adopter-facing snippet + self-hosted skills like `/task`, `/release`)
 - `docs/` — philosophy and migration guides
 - `_project/` — flowtron's own roadmap and tasknotes (self-hosted)
 - `viz/` — Vite/React Kanban visualizer (single-project MVP)
