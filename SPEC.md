@@ -25,7 +25,7 @@ maintain.
 
 After adopting flowtron, a project looks like:
 
-```
+```text
 <project>/
 ├── CLAUDE.md                       # references _project/flowtron/SPEC.md
 ├── _project/
@@ -83,7 +83,7 @@ Canonical contract: see [`SPEC/epic.md`](SPEC/epic.md).
 
 Each entry under a priority heading in PLAN.md follows this grammar:
 
-```
+```markdown
 - [ ] **TASK-ID** [model] | shortname — long description
 ```
 
@@ -100,7 +100,7 @@ Both `[model]` and `| shortname` are optional. The legacy minimal form
 
 Examples:
 
-```
+```markdown
 - [ ] **CORE-023** [opus] | task-line grammar — Extend grammar to declare shortname + model.
 - [ ] **CORE-016** [sonnet] — Execute InvisiPaw migration per CORE-008 playbook.
 - [ ] **FE-003** | wikilink resolution — Parse [[TASK-ID]] in tasknote body text and render as clickable links.
@@ -141,7 +141,7 @@ the stronger signal).
 
 Examples:
 
-```
+```markdown
 - [ ] **CORE-016** [opus] — Execute migration per [[CORE-008]] playbook. Blocked by [[CORE-008]] — wait for upstream signal.
 - [ ] **FE-003** [opus] | wikilink resolution — Builds on [[FE-001]]; pairs with [[FE-004]].
 - [ ] **FE-007** — Touches [[FE-001]], [[FE-004]]. Blocked by [[CORE-008]], [[CORE-016]] — needs both upstream.
@@ -184,7 +184,7 @@ spec rather than a pure execution log. The canonical layout lives in
 skip this layout — they carry only the nav header + `## 🌱 Starter context`
 section until promotion.
 
-```
+```markdown
 # <TASK-ID> | <title>
 [← PLAN.md](../PLAN.md) · 🟢 In progress · 🔗 [[RELATED]]   ← nav header
 
@@ -244,7 +244,7 @@ where the assistant pauses for explicit user approval before continuing.
 To make these gates visually scannable in the transcript, the assistant
 surfaces a banner cue at each one:
 
-```
+```markdown
 ---
 
 <emoji>  **AWAITING APPROVAL — <label>**
@@ -413,7 +413,7 @@ After a tasknote is archived, the assistant must:
    next-move suggestion) with a 🏁 state-marker line so the task's
    lifecycle visually closes in the transcript (parallels 🛠️ → 📦 → 🏁):
 
-   ```
+   ```markdown
    🏁 **<TASK-ID> — committed `<sha>`** · archived to `<archive-path>`
    ```
 
@@ -421,7 +421,7 @@ After a tasknote is archived, the assistant must:
    mirroring the PLAN.md task-line shape so the user can scan model
    assignments without cross-referencing PLAN.md:
 
-   ```
+   ```markdown
    - **<TASK-ID>** [model] | shortname — one-sentence "why now"
    ```
 
@@ -435,7 +435,7 @@ After a tasknote is archived, the assistant must:
 
 3. **Offer the copy-paste line:**
 
-   ```
+   ```text
    /clear then /model <opus|sonnet> then /task <NEXT-ID>
    ```
 
@@ -533,7 +533,7 @@ at >70w and routes the user to `/starter-task` instead.
 
 Closed task lines under `## Completed` collapse to a stub form:
 
-```
+```markdown
 - [x] **TASK-ID** [model] | shortname — Completed YYYY-MM-DD.
 ```
 
