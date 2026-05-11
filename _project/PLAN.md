@@ -15,7 +15,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-(none)
+- [ ] **FE-029** [opus] | viz-archive-cold-start-500 — Surfaced during FE-020 dogfooding: first `/api/archive?project=<name>` request after `npm run dev` returns 500 for some projects (observed: bananapeel, fintown, flowtron); retry succeeds. Likely a `parseTasknote` exception on a specific archive file propagating through `Promise.all` in `viz/src/archiveCache.ts:readArchive`. Instrument per-file errors, identify the failing file(s), and either fix source or make the cache tolerant of per-file failures.
+- [ ] **FE-030** [opus] | viz-load-stale-state-on-failure — Surfaced during FE-020 dogfooding: when any of `/api/plan`/`/api/active`/`/api/archive` returns non-200, `App.tsx:61-83 load()` throws before calling `setTasks`/`setTasknotesById`, leaving the previous project's data in state under the new project's title (Frankenstein view). Pre-clear `tasks` + `tasknotesById` at the top of `load()`, or fetch the three endpoints independently so a partial failure doesn't drop the whole load.
 
 ## Medium
 
@@ -27,10 +28,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Future Opportunities
 
-- [ ] **FE-020** [opus] | cross-project-viz-dogfooding — FE-002 follow-up: run workspace scanner against real ~/code/ projects; walk each surfaced project; log surprises and rough edges before declaring FE-002 done.
+(none)
 
 ## Completed
 
+- [x] **FE-020** [opus] | cross-project-viz-dogfooding — Completed 2026-05-11.
 - [x] **CORE-079** [sonnet] | spec-fence-langtags — Completed 2026-05-11.
 - [x] **CORE-078** [sonnet] | plan-none-placeholder — Completed 2026-05-10.
 - [x] **CORE-077** [opus] | viz-mvp-residue — Completed 2026-05-10.
