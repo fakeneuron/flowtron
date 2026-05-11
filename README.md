@@ -88,7 +88,7 @@ Obsidian is opt-in companion tooling. None of the above is required.
 - `claude/` — Claude Code skills + slash commands (adopter-facing snippet + self-hosted skills like `/task`, `/release`)
 - `docs/` — philosophy and migration guides
 - `_project/` — flowtron's own roadmap and tasknotes (self-hosted)
-- `viz/` — Vite/React Kanban visualizer (single-project MVP)
+- `viz/` — Vite/React Kanban visualizer
 - pre-v0.1.0 source preserved in git tag `legacy-pre-v0.1.0`
 
 ## Version

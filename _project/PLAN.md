@@ -30,6 +30,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-077** [opus] | viz-mvp-residue — Completed 2026-05-10.
 - [x] **CORE-076** [sonnet] | wikilink-token placeholder hygiene — Completed 2026-05-10.
 - [x] **CORE-074** [sonnet] | cite-not-restate sweep — Completed 2026-05-10.
 - [x] **CORE-075** [opus] | drop Last-updated residue — Completed 2026-05-10.
