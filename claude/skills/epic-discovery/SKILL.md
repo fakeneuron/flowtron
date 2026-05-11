@@ -39,7 +39,7 @@ After resolving paths, Read `<SPEC_DIR>/epic.md` for the canonical lifecycle bef
 
 Use AskUserQuestion to gather all inputs in one motion. Pre-populate from conversation context where possible — the AI proposes; the user confirms or overrides:
 
-1. **Area** — `CORE | BE | FE | DB | DEPLOY | TEST` (per `SPEC.md` §"Task ID convention") + any project-specific prefixes declared in `_project/tasknote/README.md`. AI proposes from conversation context.
+1. **Area** — per SPEC §"Task ID convention"; any project-specific prefixes declared in `_project/tasknote/README.md`. AI proposes from conversation context.
 2. **Shortname** — concise label up to ~30 chars (e.g., `expand-shipped-skills`, `viz-keyboard-overhaul`). Used as the parent epic's `| shortname` segment.
 3. **Priority** — `Critical | High | Medium | Low | Future Opportunities`. AI proposes its best read.
 4. **Model** — `opus | sonnet`, per SPEC §"Model field". AI proposes; goes on every PLAN.md line this skill writes.
@@ -182,11 +182,7 @@ Walk the closure steps in order. **No banner here** — closure ops auto-run; th
 
 The three-step post-closure protocol (commit / suggest next move / offer copy-paste line) is canonical in SPEC §"Post-closure protocol". Skill-specific orchestration:
 
-- Surface the **bundled 📦 ready-to-commit gate** (per SPEC §"Operator-gate cues" + §"Post-closure protocol" step 1) and wait for commit-go. Do not commit unprompted. The 📦 banner carries the mandatory 1-2 sentence plain-English preview line (per SPEC §"Operator-gate cues") immediately above the closing rule. The bundle has three parts surfaced together under the banner:
-  1. **Closure review** — per-entry doc-drift verdicts, the `.1` line's new stub form, and the archive path.
-  2. **Recap (work summary)** — the two-pass paragraph drafted at end of Step 9 (plain-English first, then technical).
-  3. **Proposed commit message** — `feat: <AREA>-<next-N>.1 — file <AREA>-EPIC-<next-N> + scope children` (or a user-edited variant).
-- The commit-go prompt at the bottom of the bundle carries a `🟢` emoji prefix (e.g., `🟢 Reply commit / go to land.`).
+- Surface the **bundled 📦 ready-to-commit gate** (per SPEC §"Post-closure protocol" step 1) and wait for commit-go. Do not commit unprompted. Proposed commit message (skill-specific): `feat: <AREA>-<next-N>.1 — file <AREA>-EPIC-<next-N> + scope children` (or a user-edited variant).
 - On commit-go, the suggest-next-move and copy-paste-line follow in the same response (motion is one continuous flow per the SPEC contract).
 - The post-commit response carries a 🏁 state-marker line immediately above the next-move suggestion (per SPEC §"Post-closure protocol" step 2): `` 🏁 **<AREA>-<next-N>.1 — committed `<sha>`** · archived to `<archive-path>` ``. Visually closes the 🛠️ → 📦 → 🏁 lifecycle in the transcript.
 - When suggesting the next move, surface candidates with `[model]` tags **inline per option** in the PLAN.md task-line shape: `**<AREA>-<next-N>.2** [model] | <shortname> — one-sentence "why now"`. The next move is typically `/task <AREA>-<next-N>.2` (first implementation child).

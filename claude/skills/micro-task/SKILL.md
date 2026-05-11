@@ -55,9 +55,7 @@ The full task-line grammar is `- [ ] **TASK-ID** [model] | shortname — long de
 
 **Pre-flight checks:**
 
-- Resolve the **Area** from the ID prefix using SPEC §"Task ID convention":
-  - `CORE-` → core, `BE-` → backend, `FE-` → frontend, `DB-` → database, `DEPLOY-` → deployment, `TEST-` → testing
-  - Unknown prefix: read `_project/tasknote/README.md` for project-specific prefixes. If still unresolved, stop and ask.
+- Resolve the **Area** from the task ID prefix per SPEC §"Task ID convention". Unknown prefix → read `_project/tasknote/README.md`; if still unresolved, stop and ask.
 - **Epic-ID dispatch.** If the TASK-ID is `<AREA>-EPIC-<N>` or `<AREA>-<N>.<sub>`, Read `<SPEC_DIR>/epic.md` for the lifecycle contract before continuing. (Micro-tasknotes for epic subtasks are valid — same lifecycle, lighter ceremony.)
 - If `_project/tasknote/<TASK-ID>.md` already exists: stop. The tasknote is in flight or already closed-but-not-archived. Surface the conflict; recommend the user continue conversationally rather than restarting.
 - If `_project/tasknote/archive/<area>/<TASK-ID>.md` already exists: stop. The task is closed and archived. Surface the conflict.

@@ -80,9 +80,7 @@ The active model is whatever the assistant is currently running as (visible in t
 
 ## Step 2 — Pre-flight checks & file-state branch
 
-- Resolve the **Area** from the ID prefix using SPEC §"Task ID convention":
-  - `CORE-` → core, `BE-` → backend, `FE-` → frontend, `DB-` → database, `DEPLOY-` → deployment, `TEST-` → testing
-  - Unknown prefix: read `_project/tasknote/README.md` for project-specific prefixes. If still unresolved, stop and ask.
+- Resolve the **Area** from the task ID prefix per SPEC §"Task ID convention". Unknown prefix → read `_project/tasknote/README.md`; if still unresolved, stop and ask.
 - **Epic-ID dispatch.** If the TASK-ID is `<AREA>-EPIC-<N>` (parent epic) or `<AREA>-<N>.<sub>` (epic subtask), Read `<SPEC_DIR>/epic.md` for the lifecycle contract before continuing. Plain `<AREA>-<N>` IDs do not load this module.
 - If `_project/tasknote/archive/<area>/<TASK-ID>.md` already exists: stop. The task is already closed and archived. Surface the conflict and ask whether the user meant a different task ID — do not scaffold a duplicate.
 - Check `_project/tasknote/<TASK-ID>.md`. **Four-way branch on the file's YAML `status:`:**
@@ -143,11 +141,7 @@ Skill-specific orchestration on top of the SPEC contract:
 
 - The motion is **one continuous flow**. The user's commit-go (e.g. "commit", "go", "yes") is the *only* gate; once the commit lands, the suggest-next-move and copy-paste-line steps follow **in the same response as the commit confirmation**, even if the user's reply was terse or only named the commit step. Do not wait for them to prompt the next-task suggestion.
 - The post-commit response carries a 🏁 state-marker line immediately above the next-move suggestion (per SPEC §"Post-closure protocol" step 2): `` 🏁 **<TASK-ID> — committed `<sha>`** · archived to `<archive-path>` ``. Visually closes the 🛠️ → 📦 → 🏁 lifecycle in the transcript.
-- Surface the **bundled 📦 ready-to-commit gate** (per SPEC §"Operator-gate cues" + §"Post-closure protocol" step 1) and wait for commit-go. Do not commit unprompted. The 📦 banner carries the mandatory 1-2 sentence plain-English preview line (per SPEC §"Operator-gate cues") immediately above the closing rule. The bundle has three parts surfaced together under the banner:
-  1. **Closure review** — per-entry doc-drift verdicts, the new PLAN.md stub-form line, and the archive path the tasknote moved to.
-  2. **Recap (work summary)** — leads with a 1-2 sentence plain-English summary of what the task accomplished, then technical detail (file paths / LOC / key decisions + optional verification request).
-  3. **Proposed commit message** — `feat: <TASK-ID> — <title>` (or `fix:` / `docs:` / `chore:` as appropriate).
-- The commit-go prompt at the bottom of the bundle carries a `🟢` emoji prefix (e.g., `🟢 Reply commit / go to land.`) so the call-to-action stands out under the closure-review tables.
+- Surface the **bundled 📦 ready-to-commit gate** (per SPEC §"Post-closure protocol" step 1) and wait for commit-go. Do not commit unprompted.
 - When suggesting the next move (after commit lands), surface candidates with `[model]` tags visible **inline per option** in the PLAN.md task-line shape: `**<TASK-ID>** [model] | shortname — one-sentence "why now"`. Mirrors PLAN.md so the user can scan model assignments without cross-referencing.
 - The copy-paste line is `/clear then /model <opus|sonnet> then /task <NEXT-ID>` — you cannot run `/clear` yourself. Substitute the next task's PLAN-line `[model]` tag for `<opus|sonnet>` so the user pastes a fully resolved line.
 

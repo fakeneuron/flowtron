@@ -30,9 +30,7 @@ If neither layout matches, stop and tell the user this directory doesn't look li
 
 ## Step 1 — Pre-flight checks
 
-- Resolve the **Area** from the ID prefix using SPEC §"Task ID convention":
-  - `CORE-` → core, `BE-` → backend, `FE-` → frontend, `DB-` → database, `DEPLOY-` → deployment, `TEST-` → testing
-  - Unknown prefix: read `_project/tasknote/README.md` for project-specific prefixes. If still unresolved, stop and ask.
+- Resolve the **Area** from the task ID prefix per SPEC §"Task ID convention". Unknown prefix → read `_project/tasknote/README.md`; if still unresolved, stop and ask.
 - The task ID must NOT already exist in PLAN.md. If it does, stop and ask whether the user meant a different ID — `/file-followup` files NEW tasks; reusing an existing entry is out of scope.
 - `_project/tasknote/<TASK-ID>.md` must NOT already exist. If it does, stop. Surface the conflict (could be in-flight, blocked, completed, starter, or already a follow-up that was promoted).
 - `_project/tasknote/archive/<area>/<TASK-ID>.md` must NOT already exist. If it does, stop — the ID has been used and archived; pick a fresh ID.

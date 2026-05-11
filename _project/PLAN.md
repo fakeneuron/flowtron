@@ -19,8 +19,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-074** [sonnet] | cite-not-restate sweep — Replace inline area-prefix decoder lists across 6 SKILLs (`task`, `micro-task`, `file-followup`, `starter-task`, `close-epic`, `epic-discovery`) and 📦 bundle-parts restatements across 3 SKILLs (`task`, `epic-discovery`, `close-epic`) with citations to SPEC §"Task ID convention" / §"Post-closure protocol". Generalizes [[CORE-038]] / [[CORE-050]] / [[CORE-051]] to mechanical lookups and convention extensions. Surfaced by audit 2026-05-10 (Findings #1 and #2, Medium).
-
 ## Low
 
 - [ ] **CORE-076** [sonnet] | wikilink-token placeholder hygiene — Rewrite `[[RELATED-1]] [[RELATED-2]]` in `claude/skills/task/step-3a-promote-starter.md:12` to a form that does not collide with wikilink-integrity grep (e.g., `[[<related-id>]]` angle-bracket-inside or prose-only). Pin the placeholder-inside-wikilink shape with a one-liner in SPEC §"Long-description conventions" so future template authors don't repeat the collision. Surfaced by audit 2026-05-10 (Finding #4, Low).
@@ -31,6 +29,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-074** [sonnet] | cite-not-restate sweep — Completed 2026-05-10.
 - [x] **CORE-075** [opus] | drop Last-updated residue — Completed 2026-05-10.
 - [x] **CORE-073** [opus] | audit-flowtron-self — Completed 2026-05-10.
 - [x] **CORE-072** [opus] | audit-skill — Completed 2026-05-10.

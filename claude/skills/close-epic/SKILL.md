@@ -34,7 +34,7 @@ After resolving paths, Read `<SPEC_DIR>/epic.md` for the canonical lifecycle bef
 
 - `_project/PLAN.md` must exist (cwd is a flowtron-adopting project or flowtron itself).
 - Parse `args` as `<AREA>-<NUMBER>.<SUB>`:
-  - **Area** must resolve via SPEC §"Task ID convention" (`CORE-` → core, `BE-` → backend, `FE-` → frontend, `DB-` → database, `DEPLOY-` → deployment, `TEST-` → testing) or via `_project/tasknote/README.md`'s project-specific prefixes. Unknown prefix → stop and ask.
+  - **Area** must resolve per SPEC §"Task ID convention" or via `_project/tasknote/README.md`'s project-specific prefixes. Unknown prefix → stop and ask.
   - **`.<SUB>` segment is required** — `/close-epic` only runs against epic subtasks, not standalone tasks. If the ID matches `<AREA>-<NUMBER>` (no `.<SUB>` suffix), stop and tell the user "`/close-epic` runs against the audit `.N` subtask of an epic, not a standalone task. Use `/task <ID>` for standalone tasks."
 - Check `<tasknote dir>/<AUDIT-SUBTASK-ID>.md`:
   - If the file already exists with `status: in-progress`, stop and tell the user the audit tasknote is already in flight. Recommend continuing conversationally (e.g., "continue CORE-057.6") rather than restarting — this skill is start-only by design.
@@ -178,10 +178,8 @@ Capture the flip decision in the audit tasknote's Final Summary block (still edi
 
 The three-step post-closure protocol (commit / suggest next move / offer copy-paste line) is canonical in SPEC §"Post-closure protocol". Skill-specific orchestration:
 
-- Surface the **bundled 📦 ready-to-commit gate** (per SPEC §"Operator-gate cues" + §"Post-closure protocol" step 1) and wait for commit-go. Do not commit unprompted. The 📦 banner carries the mandatory 1-2 sentence plain-English preview line (per SPEC §"Operator-gate cues") immediately above the closing rule. The bundle has four parts surfaced together under the banner:
-  1. **Closure review** — per-entry doc-drift verdicts, the audit's new stub-form line, and the archive path.
-  2. **Recap (work summary)** — the two-pass paragraph drafted at end of Step 7 (plain-English first, then technical).
-  3. **Parent-flip prompt** (when eligible per Step 8) — AskUserQuestion with default Yes:
+- Surface the **bundled 📦 ready-to-commit gate** (per SPEC §"Post-closure protocol" step 1) and wait for commit-go. Do not commit unprompted. Alongside the SPEC-defined bundle structure, the skill carries two additional parts:
+  - **Parent-flip prompt** (when eligible per Step 8) — AskUserQuestion with default Yes:
      ```
      All <AREA>-EPIC-<NUMBER> children closed. Flip parent + move cohort to `## Completed`?
 
@@ -191,8 +189,7 @@ The three-step post-closure protocol (commit / suggest next move / offer copy-pa
      (default Yes; declines leave cohort nested under current `## <Priority>` section)
      ```
      If not eligible (open children remain), surface a heads-up listing the open children instead — no prompt fires.
-  4. **Proposed commit message** — `feat: <AUDIT-SUBTASK-ID> — audit <AREA>-EPIC-<NUMBER>` (or `chore: ...` if no code edits landed).
-- The commit-go prompt at the bottom of the bundle carries a `🟢` emoji prefix (e.g., `🟢 Reply commit / go to land.`).
+  - **Proposed commit message** — `feat: <AUDIT-SUBTASK-ID> — audit <AREA>-EPIC-<NUMBER>` (or `chore: ...` if no code edits landed).
 - On commit-go: if parent-flip Yes, apply the flip + atomic move (per Step 8) before staging, so the commit captures the parent-flip in one atomic write. Then the suggest-next-move and copy-paste-line follow in the same response (motion is one continuous flow per the SPEC contract).
 - The post-commit response carries a 🏁 state-marker line immediately above the next-move suggestion (per SPEC §"Post-closure protocol" step 2): `` 🏁 **<AUDIT-SUBTASK-ID> — committed `<sha>`** · archived to `<archive-path>` ``. Visually closes the 🛠️ → 📦 → 🏁 lifecycle in the transcript.
 - When suggesting the next move, surface candidates with `[model]` tags **inline per option** in the PLAN.md task-line shape: `**<TASK-ID>** [model] | shortname — one-sentence "why now"`. The next move depends on audit outcome:
