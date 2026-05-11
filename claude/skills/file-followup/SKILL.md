@@ -84,7 +84,6 @@ In one continuous motion:
    Placement:
    - If the priority section already has entries, append to the bottom of that section.
    - If the section carries a `(none — ...)` placeholder, replace the placeholder with the new entry.
-   - Update PLAN.md's `**Last updated:**` line if it has one — `YYYY-MM-DD (<TASK-ID> filed via /file-followup — <shortname>)`.
 
    No `Filed with starter at ...` pointer (that suffix is `/starter-task`'s contract). The new line carries only the long description — no breadcrumb to a tasknote that doesn't exist.
 
