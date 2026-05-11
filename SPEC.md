@@ -131,6 +131,10 @@ Wikilinks inside markdown inline code spans (between backticks) are treated
 as literal text, so descriptions can include illustrative `[[TASK-ID]]`
 examples without polluting the parsed signal set.
 
+In skill and doc files (outside PLAN.md), use `[[<placeholder>]]`
+(angle-bracket-inside) for illustrative wikilinks — the leading `<`
+prevents a collision with the `[A-Z]+-[0-9]+` wikilink-integrity grep.
+
 A wikilink inside a `Blocked by` block lands in `blockedBy` only; the same
 ID elsewhere in the description is excluded from `relatedTasks` (blocker is
 the stronger signal).

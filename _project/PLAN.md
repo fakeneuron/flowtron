@@ -21,14 +21,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-076** [sonnet] | wikilink-token placeholder hygiene — Rewrite `[[RELATED-1]] [[RELATED-2]]` in `claude/skills/task/step-3a-promote-starter.md:12` to a form that does not collide with wikilink-integrity grep (e.g., `[[<related-id>]]` angle-bracket-inside or prose-only). Pin the placeholder-inside-wikilink shape with a one-liner in SPEC §"Long-description conventions" so future template authors don't repeat the collision. Surfaced by audit 2026-05-10 (Finding #4, Low).
-
 ## Future Opportunities
 
 - [ ] **FE-020** [opus] | cross-project-viz-dogfooding — FE-002 follow-up: run workspace scanner against real ~/code/ projects; walk each surfaced project; log surprises and rough edges before declaring FE-002 done.
 
 ## Completed
 
+- [x] **CORE-076** [sonnet] | wikilink-token placeholder hygiene — Completed 2026-05-10.
 - [x] **CORE-074** [sonnet] | cite-not-restate sweep — Completed 2026-05-10.
 - [x] **CORE-075** [opus] | drop Last-updated residue — Completed 2026-05-10.
 - [x] **CORE-073** [opus] | audit-flowtron-self — Completed 2026-05-10.

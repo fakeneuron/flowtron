@@ -9,7 +9,7 @@ The starter file already carries frontmatter and a `## 🌱 Starter context` bod
    - `status: starter` → `status: in-progress`
    - Confirm/add `due:` (leave empty if none)
    - Confirm/add `related-tasks:` from the starter's Related sub-heading if not already present
-3. **Replace the nav header.** Change `🌱 Starter (filed ...)` → `🟢 In progress · 🔗 [[RELATED-1]] [[RELATED-2]]`. Drop the `· 🔗 ...` segment if `related-tasks: []`.
+3. **Replace the nav header.** Change `🌱 Starter (filed ...)` → `🟢 In progress · 🔗 [[<related-id-1>]] [[<related-id-2>]]`. Drop the `· 🔗 ...` segment if `related-tasks: []`.
 4. **Insert spec sections** between the nav header and the `## 🌱 Starter context` block:
    - `## 🎯 Goal` — one-sentence goal derived from the starter context.
    - `## ✅ Acceptance` — checklist; populate during Phase 1 Discovery as the user clarifies what "done" looks like.
