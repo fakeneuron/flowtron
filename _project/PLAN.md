@@ -19,11 +19,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-073** [opus] | audit-flowtron-self — Fork the just-shipped `/audit` skill ([[CORE-072]]) into flowtron-self's `.claude/skills/audit/`, customize for flowtron's markdown-doc + skill-scaffold surface (rubric: `SPEC.md` / `SPEC/`, `claude/skills/`, `docs/`, `README.md`; verification gate: cross-link integrity grep), then run a real audit pass on `SPEC.md` + `claude/skills/`. Findings land as their own follow-up tickets per `/audit` §5.
+- [ ] **CORE-074** [sonnet] | cite-not-restate sweep — Replace inline area-prefix decoder lists across 6 SKILLs (`task`, `micro-task`, `file-followup`, `starter-task`, `close-epic`, `epic-discovery`) and 📦 bundle-parts restatements across 3 SKILLs (`task`, `epic-discovery`, `close-epic`) with citations to SPEC §"Task ID convention" / §"Post-closure protocol". Generalizes [[CORE-038]] / [[CORE-050]] / [[CORE-051]] to mechanical lookups and convention extensions. Surfaced by audit 2026-05-10 (Findings #1 and #2, Medium).
+- [ ] **CORE-075** [sonnet] | drop Last-updated residue — Remove the `Update PLAN.md's **Last updated:** line if it has one` bullet from `claude/skills/starter-task/SKILL.md:89` and `claude/skills/file-followup/SKILL.md:87`. [[CORE-035]] retired the convention; defensive guards now misdirect adopters into thinking they should add one. Surfaced by audit 2026-05-10 (Finding #3, Medium).
 
 ## Low
 
-(none)
+- [ ] **CORE-076** [sonnet] | wikilink-token placeholder hygiene — Rewrite `[[RELATED-1]] [[RELATED-2]]` in `claude/skills/task/step-3a-promote-starter.md:12` to a form that does not collide with wikilink-integrity grep (e.g., `[[<related-id>]]` angle-bracket-inside or prose-only). Pin the placeholder-inside-wikilink shape with a one-liner in SPEC §"Long-description conventions" so future template authors don't repeat the collision. Surfaced by audit 2026-05-10 (Finding #4, Low).
 
 ## Future Opportunities
 
@@ -31,6 +32,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-073** [opus] | audit-flowtron-self — Completed 2026-05-10.
 - [x] **CORE-072** [opus] | audit-skill — Completed 2026-05-10.
 - [x] **CORE-070** [opus] | repo-layout-doc-currency — Completed 2026-05-10.
 - [x] **CORE-071** [opus] | release-global-install-doc — Completed 2026-05-10.
