@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **CORE-073** [opus] | audit-flowtron-self — Fork the just-shipped `/audit` skill ([[CORE-072]]) into flowtron-self's `.claude/skills/audit/`, customize for flowtron's markdown-doc + skill-scaffold surface (rubric: `SPEC.md` / `SPEC/`, `claude/skills/`, `docs/`, `README.md`; verification gate: cross-link integrity grep), then run a real audit pass on `SPEC.md` + `claude/skills/`. Findings land as their own follow-up tickets per `/audit` §5.
 
 ## Low
 
