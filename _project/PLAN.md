@@ -21,6 +21,9 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
+- [ ] **CORE-078** [sonnet] | plan-none-placeholder — Insert `(none)` under empty `## Medium` heading in `_project/PLAN.md` to match the `templates/PLAN.md` empty-section convention. Surfaced by audit 2026-05-10 (Finding #2, Low).
+- [ ] **CORE-079** [sonnet] | spec-fence-langtags — Tag SPEC.md's ~10 bare code fences (line 28/86/103/144/187/247/416/424/438/536) with `text` (tree) / `markdown` (grammar + body + banner examples) to align with the rest of the doc-set's hygiene. Surfaced by audit 2026-05-10 (Finding #1, Low).
+
 ## Future Opportunities
 
 - [ ] **FE-020** [opus] | cross-project-viz-dogfooding — FE-002 follow-up: run workspace scanner against real ~/code/ projects; walk each surfaced project; log surprises and rough edges before declaring FE-002 done.
