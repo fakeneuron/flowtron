@@ -19,9 +19,10 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
+(none)
+
 ## Low
 
-- [ ] **CORE-078** [sonnet] | plan-none-placeholder — Insert `(none)` under empty `## Medium` heading in `_project/PLAN.md` to match the `templates/PLAN.md` empty-section convention. Surfaced by audit 2026-05-10 (Finding #2, Low).
 - [ ] **CORE-079** [sonnet] | spec-fence-langtags — Tag SPEC.md's ~10 bare code fences (line 28/86/103/144/187/247/416/424/438/536) with `text` (tree) / `markdown` (grammar + body + banner examples) to align with the rest of the doc-set's hygiene. Surfaced by audit 2026-05-10 (Finding #1, Low).
 
 ## Future Opportunities
@@ -30,6 +31,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-078** [sonnet] | plan-none-placeholder — Completed 2026-05-10.
 - [x] **CORE-077** [opus] | viz-mvp-residue — Completed 2026-05-10.
 - [x] **CORE-076** [sonnet] | wikilink-token placeholder hygiene — Completed 2026-05-10.
 - [x] **CORE-074** [sonnet] | cite-not-restate sweep — Completed 2026-05-10.
