@@ -31,6 +31,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-083** [sonnet] | release v2.0.1 — Completed 2026-05-11.
 - [x] **CORE-082** [sonnet] | audit doc-drift sweep — Completed 2026-05-11.
 - [x] **CORE-081** [opus] | release-skill example genericize — Completed 2026-05-11.
 - [x] **CORE-080** [opus] | release v2.0.0 — Completed 2026-05-11.
