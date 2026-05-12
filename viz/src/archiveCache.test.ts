@@ -154,22 +154,37 @@ describe('createArchiveCache', () => {
     expect(bAfter).toBe(bFirst);
   });
 
-  it('does not poison the cache when a populate fails (next call retries)', async () => {
+  it('drops files with malformed frontmatter and returns the rest', async () => {
     const project = await makeProject('alpha', {
-      'frontend/FE-001.md': '---\n: : malformed yaml :\n---\nbody\n',
+      'frontend/FE-001.md': tasknote('FE-001', 'good-one'),
+      'frontend/FE-002.md': '---\nkey:\n\tdrops-good-rest\n---\nbody\n',
+      'core/CORE-001.md': tasknote('CORE-001', 'good-two'),
     });
     const cache = createArchiveCache();
 
-    await expect(cache.get(project)).rejects.toThrow();
+    const result = await cache.get(project);
+
+    expect(result.map((t) => t.id).sort()).toEqual(['CORE-001', 'FE-001']);
+  });
+
+  it('recovers a dropped malformed file once it is fixed and the cache invalidates', async () => {
+    const project = await makeProject('alpha', {
+      'frontend/FE-001.md': '---\nkey: [unclosed-recovers-fixed\n---\nbody\n',
+    });
+    const cache = createArchiveCache();
+
+    const first = await cache.get(project);
+    expect(first).toEqual([]);
 
     await writeFile(
       join(project.archiveDir, 'frontend', 'FE-001.md'),
       tasknote('FE-001', 'recovered'),
     );
-    const result = await cache.get(project);
+    cache.invalidate(join(project.archiveDir, 'frontend', 'FE-001.md'), [project]);
+    const second = await cache.get(project);
 
-    expect(result).toHaveLength(1);
-    expect(result[0].frontmatter?.title).toBe('recovered');
+    expect(second).toHaveLength(1);
+    expect(second[0].frontmatter?.title).toBe('recovered');
   });
 
   it('clear() drops every cached project', async () => {

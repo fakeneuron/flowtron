@@ -24,13 +24,20 @@ async function readArchive(project: ProjectDescriptor): Promise<Tasknote[]> {
         files.map(async (e) => {
           const id = e.name.replace(/\.md$/, '');
           const path = join(areaDir, e.name);
-          const text = await readFile(path, 'utf8');
-          return parseTasknote(id, path, text);
+          try {
+            const text = await readFile(path, 'utf8');
+            return parseTasknote(id, path, text);
+          } catch (err) {
+            console.error(
+              `[archiveCache] failed to read/parse ${path}: ${(err as Error).message}`,
+            );
+            return null;
+          }
         }),
       );
     }),
   );
-  return nested.flat();
+  return nested.flat().filter((t): t is Tasknote => t !== null);
 }
 
 export interface ArchiveCache {
