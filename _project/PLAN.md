@@ -31,6 +31,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-080** [opus] | release v2.0.0 — Completed 2026-05-11.
 - [x] **FE-030** [opus] | viz-load-stale-state-on-failure — Completed 2026-05-11.
 - [x] **FE-029** [opus] | viz-archive-cold-start-500 — Completed 2026-05-11.
 - [x] **FE-020** [opus] | cross-project-viz-dogfooding — Completed 2026-05-11.
