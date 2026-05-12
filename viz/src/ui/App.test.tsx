@@ -316,6 +316,54 @@ describe('App — project switching', () => {
   });
 });
 
+describe('App — load() partial failure on project switch', () => {
+  const plan = `## High
+
+- [ ] **CORE-100** | one — Task one
+`;
+  const active = [
+    makeTasknote({
+      id: 'CORE-100',
+      frontmatter: {
+        title: 'one',
+        status: 'in-progress',
+        tags: [],
+        created: '2026-05-07',
+        relatedTasks: [],
+      },
+    }),
+  ];
+
+  beforeEach(() => {
+    window.localStorage.clear();
+  });
+
+  it('clears stale rows when the new project /api/archive fails', async () => {
+    const user = userEvent.setup();
+    renderApp({
+      plan,
+      active,
+      projects: ['flowtron', 'fintown'],
+      perProject: {
+        fintown: { fail: { archive: 500 } },
+      },
+    });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+
+    await user.click(screen.getByRole('button', { name: 'Project: fintown' }));
+
+    await waitFor(() =>
+      expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Flowtron — fintown'),
+    );
+    await waitFor(() =>
+      expect(screen.getByText(/Archive list failed: HTTP 500/)).toBeInTheDocument(),
+    );
+
+    expect(screen.queryByText('CORE-100')).not.toBeInTheDocument();
+  });
+});
+
 describe('App — status badge selection', () => {
   const plan = `## High
 

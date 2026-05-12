@@ -244,6 +244,8 @@ export const App: React.FC = () => {
     setExpandedEpicIds(new Set());
     setSelectedId(null);
     setCollapsedSections(new Set(['Completed']));
+    setTasks([]);
+    setTasknotesById(new Map());
     if (highlightTimer.current) clearTimeout(highlightTimer.current);
     setHighlightId(null);
     window.scrollTo({ top: 0, behavior: 'auto' });

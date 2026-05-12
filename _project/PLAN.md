@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **FE-030** [opus] | viz-load-stale-state-on-failure — Surfaced during FE-020 dogfooding: when any of `/api/plan`/`/api/active`/`/api/archive` returns non-200, `App.tsx:61-83 load()` throws before calling `setTasks`/`setTasknotesById`, leaving the previous project's data in state under the new project's title (Frankenstein view). Pre-clear `tasks` + `tasknotesById` at the top of `load()`, or fetch the three endpoints independently so a partial failure doesn't drop the whole load.
+(none)
 
 ## Medium
 
@@ -31,6 +31,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-030** [opus] | viz-load-stale-state-on-failure — Completed 2026-05-11.
 - [x] **FE-029** [opus] | viz-archive-cold-start-500 — Completed 2026-05-11.
 - [x] **FE-020** [opus] | cross-project-viz-dogfooding — Completed 2026-05-11.
 - [x] **CORE-079** [sonnet] | spec-fence-langtags — Completed 2026-05-11.

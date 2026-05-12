@@ -4,11 +4,19 @@ import { vi } from 'vitest';
 import { App } from '../ui/App';
 import type { Tasknote } from '../tasknote';
 
+export interface ProjectFetchOverride {
+  plan?: string;
+  active?: Tasknote[];
+  archive?: Tasknote[];
+  fail?: { plan?: number; active?: number; archive?: number };
+}
+
 export interface FetchSeed {
   plan: string;
   active?: Tasknote[];
   archive?: Tasknote[];
   projects?: string[];
+  perProject?: Record<string, ProjectFetchOverride>;
 }
 
 export function makeTasknote(partial: Partial<Tasknote> & Pick<Tasknote, 'id'>): Tasknote {
@@ -38,32 +46,39 @@ export function makeTasknote(partial: Partial<Tasknote> & Pick<Tasknote, 'id'>):
 }
 
 export function seedFetch(seed: FetchSeed): void {
-  const active = seed.active ?? [];
-  const archive = seed.archive ?? [];
+  const defaultActive = seed.active ?? [];
+  const defaultArchive = seed.archive ?? [];
   const projects = (seed.projects ?? ['flowtron']).map((name) => ({ name }));
+  const perProject = seed.perProject ?? {};
   const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
     const raw = typeof input === 'string' ? input : input.toString();
-    const path = raw.split('?')[0];
-    if (path.endsWith('/api/projects')) {
+    const url = new URL(raw, 'http://localhost');
+    const project = url.searchParams.get('project') ?? '';
+    const override: ProjectFetchOverride = perProject[project] ?? {};
+    const fail = override.fail ?? {};
+    if (url.pathname.endsWith('/api/projects')) {
       return new Response(JSON.stringify(projects), {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
       });
     }
-    if (path.endsWith('/api/plan')) {
-      return new Response(seed.plan, {
+    if (url.pathname.endsWith('/api/plan')) {
+      if (fail.plan) return new Response('plan failed', { status: fail.plan });
+      return new Response(override.plan ?? seed.plan, {
         status: 200,
         headers: { 'Content-Type': 'text/plain; charset=utf-8' },
       });
     }
-    if (path.endsWith('/api/active')) {
-      return new Response(JSON.stringify(active), {
+    if (url.pathname.endsWith('/api/active')) {
+      if (fail.active) return new Response('active failed', { status: fail.active });
+      return new Response(JSON.stringify(override.active ?? defaultActive), {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
       });
     }
-    if (path.endsWith('/api/archive')) {
-      return new Response(JSON.stringify(archive), {
+    if (url.pathname.endsWith('/api/archive')) {
+      if (fail.archive) return new Response('archive failed', { status: fail.archive });
+      return new Response(JSON.stringify(override.archive ?? defaultArchive), {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
       });
