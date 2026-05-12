@@ -1,0 +1,63 @@
+---
+name: flowtron
+description: Display a flowtron info screen — version, what it is, core principles, and the full bundled skill roster with one-liner descriptions. No args. Read-only; writes nothing.
+---
+
+# flowtron — info screen
+
+Output an info screen about the flowtron workflow system. This is read-only: write nothing, create no files, open no tasknotes.
+
+## Step 0 — Resolve version
+
+Determine which repo context you're in:
+
+- **Flowtron-self:** repo-root `SPEC.md` exists with heading `# Flowtron — Workflow Specification`. Read it from `SPEC.md`.
+- **Adopting project:** read it from `_project/flowtron/SPEC.md`.
+
+Extract the `**Version:**` line near the top. Use that literal version string.
+
+## Step 1 — Output the info screen
+
+Print the following block in the conversation (fill in `VERSION` from Step 0). Do not wrap it in a code block — render it as formatted markdown.
+
+---
+
+# flowtron `VERSION`
+
+A lightweight, project-agnostic tasknote system for solo AI-assisted coding. Keeps context windows small, tasks self-contained, and scope from drifting — with no scripts, daemons, or databases.
+
+**Spec:** `SPEC.md` (adopters: `_project/flowtron/SPEC.md`)
+**Adoption guide:** `docs/MIGRATION.md`
+
+## Core principles
+
+1. **Markdown over JSON.** Plans and tasknotes are plain markdown — human-editable, diffable, AI-scannable.
+2. **Zero scripts.** All operations are `cp`, `mv`, and editing markdown.
+3. **One task per context window.** Tasks are sized so the full scope fits in working memory.
+4. **Relevance before action.** Every task starts with a hard gate: is this still the right work?
+5. **Versioned and pinned.** Adopters pin a specific flowtron commit; updates are deliberate.
+
+## Bundled skills
+
+| Skill | Description |
+|---|---|
+| `/task` | Drive a full 4-phase tasknote (Discovery → Design → Execution → Closure). Primary workflow for normal-size tasks. |
+| `/micro-task` | Single-section lightweight tasknote for tasks above the skip threshold but too small for full ceremony (~30 min or under). |
+| `/starter-task` | File a rich-context starter tasknote discovered mid-flow — writes the artifact and PLAN entry, does not start it. |
+| `/file-followup` | File a follow-up task from inside an active tasknote — one PLAN line + context paragraph only, no tasknote artifact. |
+| `/epic-discovery` | Scaffold and drive a new epic: files parent + `.1` Discovery + audit placeholder, then drives Discovery inline. |
+| `/close-epic` | Close an epic by scaffolding and driving its audit subtask, then flips the parent entry to Completed. |
+| `/audit` | Ruthless principal-engineer audit of flowtron's markdown contract surface — 5 passes, capped findings, writes tickets to PLAN. |
+| `/new-project` | Bootstrap a fresh repo with flowtron — submodule, PLAN.md, tasknote README, CLAUDE.md patch, staged commit. |
+| `/release` | Cut a flowtron release — version bump, doc shifts, drift sweep, single feat: commit, annotated tag, push. (Flowtron-self only.) |
+
+## Key docs
+
+- `SPEC.md` — canonical workflow contract (4-phase lifecycle, relevance gate, post-closure protocol, versioning)
+- `docs/PHILOSOPHY.md` — design rationale and the problems flowtron solves
+- `docs/MIGRATION.md` — adoption guide, global skill install recipe, migration from legacy systems
+- `templates/` — tasknote templates (full, micro, starter, epic)
+
+---
+
+After printing the screen, stop. Do not open a tasknote, ask a follow-up question, or offer next steps unless the user asks.
