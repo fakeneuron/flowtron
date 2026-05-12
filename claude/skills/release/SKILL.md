@@ -12,7 +12,7 @@ This skill is **flowtron-self only**. It is symlinked under `~/.claude/skills/re
 The release task ID must already be filed in `_project/PLAN.md` as a one-line entry — for example:
 
 ```
-- [ ] **CORE-058** [opus] | release v1.3.0 — Cut v1.3.0 minor release tagging FE-013 + CORE-051 since v1.2.0.
+- [ ] **<TASK-ID>** [opus] | release vX.Y.Z — Cut vX.Y.Z minor release tagging <FEAT-A> + <FEAT-B> since v<prev>.
 ```
 
 `/release` then scans PLAN for the entry and drives it. The skill takes **no arguments**.
@@ -29,9 +29,9 @@ If any check fails, stop. Tell the user `/release` only runs from inside the flo
 
 ## Step 1 — Find the pending release task in PLAN.md
 
-Read `_project/PLAN.md`. Scan un-checked task lines under `## Critical | High | Medium | Low` (skip `## Completed` and `## Future Opportunities`) whose `| <shortname>` segment matches `release v*` (case-insensitive — e.g., `release v1.3.0`, `release v2.0.0`).
+Read `_project/PLAN.md`. Scan un-checked task lines under `## Critical | High | Medium | Low` (skip `## Completed` and `## Future Opportunities`) whose `| <shortname>` segment matches `release v*` (case-insensitive — e.g., `release vX.Y.Z`).
 
-- **Zero matches.** Stop. Tell the user "No pending `release v*` task in PLAN.md. File a one-liner first (e.g., `**CORE-058** [opus] | release v1.3.0 — ...`), then run `/release` again." Do not scaffold.
+- **Zero matches.** Stop. Tell the user "No pending `release v*` task in PLAN.md. File a one-liner first (e.g., `**<TASK-ID>** [opus] | release vX.Y.Z — ...`), then run `/release` again." Do not scaffold.
 - **Multiple matches.** Stop. List the matches and tell the user `/release` requires exactly one pending release task. Ask them to close/de-scope the duplicates or restructure to a single line. Do not scaffold.
 - **Exactly one match.** Capture the `<TASK-ID>`, the `[model]` segment, the `| <shortname>` segment, the long description, and the section heading (priority). Continue.
 
@@ -83,10 +83,10 @@ If the proposed bump and the PLAN-line target match, the user confirms in one sh
 
 Copy `templates/tasknote-template.md` to `_project/tasknote/<TASK-ID>.md` and populate the frontmatter:
 
-- `title:` — the PLAN-line shortname (e.g., `release v1.3.0`).
+- `title:` — the PLAN-line shortname (e.g., `release vX.Y.Z`).
 - `status:` — `in-progress`.
 - `created:` — today's date (`YYYY-MM-DD`).
-- `related-tasks:` — populate from the PLAN-line long description's referenced task IDs (e.g., `[FE-013, CORE-051]` when those features triggered the bump). Include the most recent prior release tasknote as a precedent reference (e.g., `[FE-013, CORE-051, CORE-048]`).
+- `related-tasks:` — populate from the PLAN-line long description's referenced task IDs (e.g., `[<FEAT-A>, <FEAT-B>]` when those features triggered the bump). Include the most recent prior release tasknote as a precedent reference (e.g., `[<FEAT-A>, <FEAT-B>, <PREV-RELEASE>]`).
 
 🎯 Goal — one sentence drafted from the PLAN-line long description.
 
@@ -128,7 +128,7 @@ Tick boxes as each step completes. Do not enter Phase 2 until every Phase 1 box 
 Apply the 3 doc edits in order:
 
 1. **`SPEC.md:3`** — `**Version:** vX.Y.Z` → `**Version:** vA.B.C`.
-2. **`SPEC/versioning.md`** — patch example shift `vX.Y.Z → vX.Y.(Z+1)` → `vA.B.C → vA.B.(C+1)`; minor example shift `vX.Y.x → vX.(Y+1).0` → `vA.B.x → vA.(B+1).0`. Major (`v1.x.y → v2.0.0` style) stays as-is — already future-looking. Locate by content, not by line number — the lines drift between releases.
+2. **`SPEC/versioning.md`** — patch example shift `vX.Y.Z → vX.Y.(Z+1)` → `vA.B.C → vA.B.(C+1)`; minor example shift `vX.Y.x → vX.(Y+1).0` → `vA.B.x → vA.(B+1).0`. Major (`vN.x.y → v(N+1).0.0` style) stays as-is — already future-looking. Locate by content, not by line number — the lines drift between releases.
 3. **`docs/MIGRATION.md`** — locate the example pin (grep for `(e.g., v`) and bump `(e.g., vX.Y.Z)` → `(e.g., vA.B.C)`. Historical references like `v1.0 additions` stay (write-once historical context, per CORE-046 precedent).
 
 Verify post-edit with a single grep across the live doc set:
