@@ -53,7 +53,7 @@ Optional inputs the AI may pre-fill silently (user corrects on Step 3 review): `
 
 ## Step 3 — Draft the starter body
 
-Compose the `## 🌱 Starter context` body from conversation context using the canonical sub-headings in `templates/tasknote-starter-template.md`; drop any sub-heading with nothing genuine to capture (per `<SPEC_DIR>/starter.md`, Read in Step 0). The whole body remains under the single `## 🌱 Starter context` section.
+Compose the `## 🌱 Starter context` body from conversation context using the canonical sub-headings in the starter template (path resolved in Step 0); drop any sub-heading with nothing genuine to capture (per `<SPEC_DIR>/starter.md`, Read in Step 0). The whole body remains under the single `## 🌱 Starter context` section.
 
 **Surface the drafted body and proposed PLAN.md entry to the user for review before writing anything.** Edit per their feedback.
 
