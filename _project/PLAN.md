@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-087** [opus] | conditional-phase2-gate — Skip the 🛠️ Phase 1→2 operator gate when Discovery surfaces zero clarifying questions; flow straight into Execution. Update SPEC.md §"Operator-gate cues" + §"Phase 1: Discovery" exit gate, the /task skill, and the gate-cue table accordingly.
+(none)
 
 ## Low
 
@@ -31,6 +31,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-087** [opus] | conditional-phase2-gate — Completed 2026-05-14.
 - [x] **FE-031** [opus] | viz-chip-system-trim — Completed 2026-05-14.
 - [x] **CORE-086** [sonnet] | contract-surface-fence-langtags — Completed 2026-05-14.
 - [x] **CORE-085** [opus] | flowtron-skill-phase-row — Completed 2026-05-14.

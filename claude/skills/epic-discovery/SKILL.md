@@ -141,7 +141,10 @@ Walk the Phase 1 checklist per SPEC §"📝 Phase 1: Discovery". Tick boxes as e
 - **Clarifying questions** — use AskUserQuestion to resolve open scoping decisions for the implementation children. Typical questions: per-child shortname + scope; cross-cutting adopter-wiring policy; SPEC contract impact per child. Record answers in a "Resolved scoping" table in Discovery Notes.
 - **Subtasks populated** — the Step 5 scaffold pre-filled the canonical epic-Discovery subtask list; refine them now if Discovery surfaced a scope shift.
 
-Do not enter Phase 2 until every Phase 1 box is ticked. Once ticked, surface the **Phase 1→2 operator-gate cue** with the mandatory 1-2 sentence plain-English preview line (per SPEC §"Operator-gate cues") and wait for the user's go before starting Step 7 Phase 2.
+Do not enter Phase 2 until every Phase 1 box is ticked. Once ticked, branch on the clarifying-questions outcome per SPEC §"📝 Phase 1: Discovery" exit gate:
+
+- **"No clarifications needed" branch** — emit the inline marker `✅ Phase 1 Discovery complete (no clarifications needed); entering Phase 2 Execution.` and start Step 7 Phase 2 immediately. Plain prose, not a banner; not a new gate.
+- **Clarifications-surfaced branch** — surface the **🛠️ Phase 1→2 operator-gate cue** with the mandatory 1-2 sentence plain-English preview line (per SPEC §"Operator-gate cues") and wait for the user's go before starting Step 7 Phase 2.
 
 ## Step 7 — Drive Phase 2: Execution
 

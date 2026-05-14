@@ -124,7 +124,10 @@ Walk the Phase 1 checklist per SPEC §"📝 Phase 1: Discovery". Tick boxes as e
 - **Clarifying questions** — for an audit, typically none. If cohort scope is ambiguous (some children deferred, partial-cohort early-audit per Step 2), use AskUserQuestion to confirm audit scope.
 - **Subtasks populated** — Step 3 scaffold pre-filled the canonical epic-audit subtask list; refine if Discovery surfaces a scope shift.
 
-Do not enter Phase 2 until every Phase 1 box is ticked. Once ticked, surface the **Phase 1→2 operator-gate cue** with the mandatory 1-2 sentence plain-English preview line (per SPEC §"Operator-gate cues") and wait for the user's go before starting Step 5 Phase 2.
+Do not enter Phase 2 until every Phase 1 box is ticked. Once ticked, branch on the clarifying-questions outcome per SPEC §"📝 Phase 1: Discovery" exit gate:
+
+- **"No clarifications needed" branch** — emit the inline marker `✅ Phase 1 Discovery complete (no clarifications needed); entering Phase 2 Execution.` and start Step 5 Phase 2 immediately. Plain prose, not a banner; not a new gate.
+- **Clarifications-surfaced branch** — surface the **🛠️ Phase 1→2 operator-gate cue** with the mandatory 1-2 sentence plain-English preview line (per SPEC §"Operator-gate cues") and wait for the user's go before starting Step 5 Phase 2.
 
 ## Step 5 — Drive Phase 2: Execution
 

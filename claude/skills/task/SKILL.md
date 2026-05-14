@@ -121,7 +121,9 @@ Skill-specific imperatives on top of the SPEC contract:
 - For the Archive skim step: `ls _project/tasknote/archive/<area>/` to enumerate, then for each source path in scope run `grep -l <path> _project/tasknote/archive/<area>/*.md`. Read the hits and log anything load-bearing in Discovery Notes (file moves, regressions, design decisions, hardlink notes, etc.). If `archive/<area>/` is empty or absent, log "no prior tasknotes" and tick the box.
 - For the Clarifying questions step: use AskUserQuestion for anything genuinely ambiguous. If nothing is ambiguous, write `No clarifications needed` in the tasknote with the explicit assumptions.
 - For the "populate Subtasks" step: fill the tasknote's `## 🧩 Subtasks` checklist with concrete, ordered steps.
-- Do not enter Phase 2 until every Phase 1 box is ticked. Once ticked, surface the **Phase 1→2 operator-gate cue** with the mandatory 1-2 sentence plain-English preview line (per SPEC §"Operator-gate cues") and wait for the user's go before starting Step 5 Phase 2.
+- Do not enter Phase 2 until every Phase 1 box is ticked. Once ticked, branch on the clarifying-questions outcome per SPEC §"📝 Phase 1: Discovery" exit gate:
+  - **"No clarifications needed" branch** — emit the inline marker `✅ Phase 1 Discovery complete (no clarifications needed); entering Phase 2 Execution.` and start Step 5 Phase 2 immediately. Plain prose, not a banner; not a new gate.
+  - **Clarifications-surfaced branch** — surface the **🛠️ Phase 1→2 operator-gate cue** with the mandatory 1-2 sentence plain-English preview line (per SPEC §"Operator-gate cues") and wait for the user's go before starting Step 5 Phase 2.
 
 ## Step 5 — Phases 2-4 (drive conversationally)
 

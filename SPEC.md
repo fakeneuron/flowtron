@@ -239,10 +239,13 @@ Every tasknote follows four phases in strict serial order. Do not skip ahead.
 
 ### Operator-gate cues
 
-The 4-phase workflow surfaces **two** operator-gate banners — moments
-where the assistant pauses for explicit user approval before continuing.
-To make these gates visually scannable in the transcript, the assistant
-surfaces a banner cue at each one:
+The 4-phase workflow surfaces **up to two** operator-gate banners —
+moments where the assistant pauses for explicit user approval before
+continuing. The 🛠️ Phase 1→2 banner is **conditional** (skipped when
+Discovery surfaced zero clarifying questions — see §"📝 Phase 1:
+Discovery" exit gate for the full rule); the 📦 ready-to-commit banner
+always fires. To make these gates visually scannable in the transcript,
+the assistant surfaces a banner cue at each one that fires:
 
 ```markdown
 ---
@@ -254,25 +257,26 @@ _<1-2 sentence plain-English preview of what executes on approval>_
 ---
 ```
 
-| Gate | Emoji | Label |
-|---|---|---|
-| Phase 1→2 (post-Discovery) | 🛠️ | `AWAITING APPROVAL — Phase 2: Execution ready` |
-| Ready-to-commit (closure review + work summary bundled) | 📦 | `AWAITING APPROVAL — Ready to commit` |
+| Gate | Emoji | Label | Trigger |
+|---|---|---|---|
+| Phase 1→2 (post-Discovery) | 🛠️ | `AWAITING APPROVAL — Phase 2: Execution ready` | **Conditional** — fires when Discovery surfaced clarifying questions; skipped via the "No clarifications needed" branch (see §"📝 Phase 1: Discovery" exit gate) |
+| Ready-to-commit (closure review + work summary bundled) | 📦 | `AWAITING APPROVAL — Ready to commit` | Always |
 
-The preview line is **mandatory** on both gates: a 1-2 sentence
-plain-English summary of *what executes if the user approves*, italicized,
-placed inside the banner block immediately above the closing `---`. The
-preview is for scanning intent ("what am I greenlighting?") — file paths,
-LOC counts, and key decisions belong in the recap (per §"🚀 Phase 4:
-Closure"), not the preview.
+The preview line is **mandatory** on every banner that fires: a 1-2
+sentence plain-English summary of *what executes if the user approves*,
+italicized, placed inside the banner block immediately above the closing
+`---`. The preview is for scanning intent ("what am I greenlighting?") —
+file paths, LOC counts, and key decisions belong in the recap (per §"🚀
+Phase 4: Closure"), not the preview.
 
-After the user clears the 🛠️ gate, Phase 2 → Phase 3 → Phase 4 closure
-ops (doc-drift sweep, PLAN.md flip, archive move) **flow continuously
-without intermediate gates**. The recap (work summary) is drafted during
-closure ops but does not surface its own banner — it bundles into the 📦
-ready-to-commit gate alongside the closure review (per-entry doc-drift
-verdicts, PLAN.md line preview, archive path) and the proposed commit
-message. One bundled approval, one commit.
+Once Phase 1 closes (either via the 🛠️ banner clearing or via the
+conditional-skip path — see §"📝 Phase 1: Discovery" exit gate), Phase 2 →
+Phase 3 → Phase 4 closure ops (doc-drift sweep, PLAN.md flip, archive move)
+**flow continuously without intermediate gates**. The recap (work summary)
+is drafted during closure ops but does not surface its own banner — it
+bundles into the 📦 ready-to-commit gate alongside the closure review
+(per-entry doc-drift verdicts, PLAN.md line preview, archive path) and the
+proposed commit message. One bundled approval, one commit.
 
 Skill-level extensions (epic parent-flip, release push-go, etc.) **bundle
 into the 📦 gate** rather than adding their own banners — the prompt is
@@ -307,9 +311,30 @@ The drift check exists because PLAN.md is a snapshot, not a spec. Flag any
 drift and confirm the path forward — do not silently "correct" the plan by
 executing a different task than was approved.
 
-**Exit gate:** once every Phase 1 box is ticked, surface the Phase 2
-operator-gate cue (see §"Operator-gate cues") and wait for the user's go
-before starting execution.
+**Exit gate (conditional):** once every Phase 1 box is ticked, branch on
+the clarifying-questions outcome:
+
+- **"No clarifications needed" branch** (zero AskUserQuestion calls and
+  zero prose asks during Discovery; explicit assumptions logged) — skip
+  the 🛠️ banner. Emit a single inline marker and proceed directly into
+  Phase 2:
+
+  ```text
+  ✅ Phase 1 Discovery complete (no clarifications needed); entering Phase 2 Execution.
+  ```
+
+  The marker is plain prose, not a banner block, and not a new operator
+  gate — it's a scannable phase-boundary cue so the user can spot the
+  transition in the transcript and intervene if Discovery looks off.
+
+- **Clarifications-surfaced branch** (AskUserQuestion fired, prose asks
+  reshaped scope, or a Re-scope verdict landed) — surface the 🛠️ Phase 2
+  operator-gate cue per §"Operator-gate cues" (with the mandatory preview
+  line) and wait for the user's go before starting execution.
+
+The skip rule binds to the Phase 1 checklist branch, not a raw count of
+tool calls — Re-scope deliberations and prose asks that reshape work both
+keep the banner.
 
 ### 🛠️ Phase 2: Execution
 
