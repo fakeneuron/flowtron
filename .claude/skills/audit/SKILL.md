@@ -13,7 +13,7 @@ This SKILL.md is a fork of the stack-neutral scaffold at `claude/skills/audit/SK
 
 1. **Resolve scope** from `$ARGUMENTS`:
    - `all` or empty → the full markdown contract surface:
-     ```
+     ```text
      SPEC.md
      SPEC/**/*.md
      claude/skills/**/*.md
@@ -58,7 +58,7 @@ Run in this exact order. **Cap each pass at 5 findings max.** If a pass has more
 
 ## 3. Finding format (use exactly this)
 
-```
+```text
 **Finding #[N] – [Critical|High|Medium|Low] – [Pass # / Category]**
 - Location: `path/to/file:LINE` (or section heading / wikilink ID)
 - Issue: one sentence

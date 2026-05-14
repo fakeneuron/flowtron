@@ -36,7 +36,7 @@ Once the checklist is satisfied, delete this §0 block from your fork — leavin
    - `<rubric file 1>` — _(forker: what it defines)_
    - `<rubric file 2>` — _(forker: ...)_
 3. **Run verification gates** so passes 1–2 don't report noise the toolchain catches:
-   ```
+   ```sh
    <lint command for your stack>
    <type-check or build command>
    <test command>
@@ -56,7 +56,7 @@ Run in this exact order. **Cap each pass at 5 findings max.** If a pass has more
 
 ## 3. Finding format (use exactly this)
 
-```
+```text
 **Finding #[N] – [Critical|High|Medium|Low] – [Pass # / Category]**
 - Location: `path/to/file:LINE` (or endpoint / component / function name)
 - Issue: one sentence

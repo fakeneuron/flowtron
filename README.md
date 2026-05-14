@@ -36,7 +36,7 @@ per-project install step. The dev server is pinned to port `5176` with
 `strictPort`, so a second instance fails fast rather than scanning the same
 workspace on a different port.
 
-```
+```sh
 cd ~/code/flowtron/viz
 npm install
 npm run dev
