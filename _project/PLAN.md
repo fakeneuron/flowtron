@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-088** [opus] | gate-UX check-in 2 — Deferred check-in after [[CORE-087]] conditional 🛠️ skip sees use across 2-3 task closures. Re-evaluate skip ergonomics, inline `✅ Phase 1 Discovery complete…` marker clarity, and edge cases (Re-scope branching, micro-task interaction). Adjust SPEC + SKILLs only if real friction surfaced — otherwise close as no-op. Mirrors [[CORE-067]] check-in pattern.
+(none)
 
 ## Low
 
@@ -31,6 +31,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-088** [opus] | gate-UX check-in 2 — Completed 2026-05-14.
 - [x] **CORE-089** [opus] | conditional-precommit-gate — Completed 2026-05-14.
 - [x] **CORE-087** [opus] | conditional-phase2-gate — Completed 2026-05-14.
 - [x] **FE-031** [opus] | viz-chip-system-trim — Completed 2026-05-14.
