@@ -137,14 +137,16 @@ cue is the 📦 ready-to-commit banner in Step 6.
 
 ## Step 6 — Post-closure protocol
 
-The three-step protocol (commit / suggest next move / offer copy-paste line) is canonical in SPEC §"Post-closure protocol".
+The three-step protocol (commit / suggest next move / offer copy-paste line) is canonical in SPEC §"Post-closure protocol", with the conditional skip rule for the 📦 gate in SPEC §"Post-closure protocol" §"Conditional skip rule".
 
 Skill-specific orchestration on top of the SPEC contract:
 
-- The motion is **one continuous flow**. The user's commit-go (e.g. "commit", "go", "yes") is the *only* gate; once the commit lands, the suggest-next-move and copy-paste-line steps follow **in the same response as the commit confirmation**, even if the user's reply was terse or only named the commit step. Do not wait for them to prompt the next-task suggestion.
-- The post-commit response carries a 🏁 state-marker line immediately above the next-move suggestion (per SPEC §"Post-closure protocol" step 2): `` 🏁 **<TASK-ID> — committed `<sha>`** · archived to `<archive-path>` ``. Visually closes the 🛠️ → 📦 → 🏁 lifecycle in the transcript.
-- Surface the **bundled 📦 ready-to-commit gate** (per SPEC §"Post-closure protocol" step 1) and wait for commit-go. Do not commit unprompted.
-- When suggesting the next move (after commit lands), surface candidates with `[model]` tags visible **inline per option** in the PLAN.md task-line shape: `**<TASK-ID>** [model] | shortname — one-sentence "why now"`. Mirrors PLAN.md so the user can scan model assignments without cross-referencing.
+- Evaluate the **📦 conditional skip rule** (SPEC §"Post-closure protocol" §"Conditional skip rule") against the closure diff before deciding how to surface the bundle. Branch:
+  - **Skip branch** (zero frontend files AND zero privileged-ops paths AND no perf-narrative concern; no bundled in-📦 prompt queued) — emit the inline marker `✅ Closure complete; committing autonomously (<concrete-signal-summary>).` (parenthetical names the cleared signals as diff-specific facts, e.g., `4 markdown files; no frontend/privileged surface`), then run closure review + recap + commit + 🏁 state-marker + suggest-next-move + copy-paste line in a single continuous response. Do not surface a 📦 banner. Do not wait for commit-go — the marker stands in for the approval.
+  - **Fire branch** (any signal hits, OR a bundled in-📦 prompt is queued) — surface the **bundled 📦 ready-to-commit gate** (per SPEC §"Post-closure protocol" step 1) and wait for commit-go. Do not commit unprompted.
+- The motion is **one continuous flow** in both branches. On the fire branch the user's commit-go (e.g. "commit", "go", "yes") is the gate; on the skip branch the inline marker is. Once the commit lands, the suggest-next-move and copy-paste-line steps follow **in the same response as the commit confirmation** (skip branch: same response as the marker; fire branch: same response as the commit-go reply), even if the reply was terse or only named the commit step.
+- The post-commit response carries a 🏁 state-marker line immediately above the next-move suggestion (per SPEC §"Post-closure protocol" step 2): `` 🏁 **<TASK-ID> — committed `<sha>`** · archived to `<archive-path>` ``. Visually closes the 🛠️ → 📦 → 🏁 lifecycle in the transcript (skip branch collapses 🛠️ and/or 📦 to inline markers but 🏁 still fires).
+- When suggesting the next move, surface candidates with `[model]` tags visible **inline per option** in the PLAN.md task-line shape: `**<TASK-ID>** [model] | shortname — one-sentence "why now"`. Mirrors PLAN.md so the user can scan model assignments without cross-referencing.
 - The copy-paste line is `/clear then /model <opus|sonnet> then /task <NEXT-ID>` — you cannot run `/clear` yourself. Substitute the next task's PLAN-line `[model]` tag for `<opus|sonnet>` so the user pastes a fully resolved line.
 
 ## Notes

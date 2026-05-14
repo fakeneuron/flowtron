@@ -241,11 +241,15 @@ Every tasknote follows four phases in strict serial order. Do not skip ahead.
 
 The 4-phase workflow surfaces **up to two** operator-gate banners —
 moments where the assistant pauses for explicit user approval before
-continuing. The 🛠️ Phase 1→2 banner is **conditional** (skipped when
-Discovery surfaced zero clarifying questions — see §"📝 Phase 1:
-Discovery" exit gate for the full rule); the 📦 ready-to-commit banner
-always fires. To make these gates visually scannable in the transcript,
-the assistant surfaces a banner cue at each one that fires:
+continuing. Both banners are conditional: 🛠️ Phase 1→2 skips when
+Discovery surfaced zero clarifying questions (see §"📝 Phase 1:
+Discovery" exit gate for the full rule); 📦 ready-to-commit skips when
+the closure's diff content clears the deterministic signal rule (see
+§"Post-closure protocol" for the full rule). On a fully unambiguous
+mechanical task both banners skip and the assistant runs end-to-end with
+inline state markers in place of approval pauses. To make these gates
+visually scannable in the transcript, the assistant surfaces a banner
+cue at each one that fires:
 
 ```markdown
 ---
@@ -260,7 +264,7 @@ _<1-2 sentence plain-English preview of what executes on approval>_
 | Gate | Emoji | Label | Trigger |
 |---|---|---|---|
 | Phase 1→2 (post-Discovery) | 🛠️ | `AWAITING APPROVAL — Phase 2: Execution ready` | **Conditional** — fires when Discovery surfaced clarifying questions; skipped via the "No clarifications needed" branch (see §"📝 Phase 1: Discovery" exit gate) |
-| Ready-to-commit (closure review + work summary bundled) | 📦 | `AWAITING APPROVAL — Ready to commit` | Always |
+| Ready-to-commit (closure review + work summary bundled) | 📦 | `AWAITING APPROVAL — Ready to commit` | **Conditional** — fires when the closure diff trips any signal in §"Post-closure protocol" §"Conditional skip rule" (frontend / privileged-ops path-match or perf-narrative present) OR a bundled in-📦 user prompt is queued (e.g., /close-epic parent-flip); skipped otherwise via the autonomous-commit motion |
 
 The preview line is **mandatory** on every banner that fires: a 1-2
 sentence plain-English summary of *what executes if the user approves*,
@@ -274,9 +278,13 @@ conditional-skip path — see §"📝 Phase 1: Discovery" exit gate), Phase 2 �
 Phase 3 → Phase 4 closure ops (doc-drift sweep, PLAN.md flip, archive move)
 **flow continuously without intermediate gates**. The recap (work summary)
 is drafted during closure ops but does not surface its own banner — it
-bundles into the 📦 ready-to-commit gate alongside the closure review
-(per-entry doc-drift verdicts, PLAN.md line preview, archive path) and the
-proposed commit message. One bundled approval, one commit.
+bundles with the closure review (per-entry doc-drift verdicts, PLAN.md
+line preview, archive path) and the proposed commit message into the
+📦 ready-to-commit motion. On the 📦-fires branch one bundled approval
+clears the commit; on the 📦-skips branch the bundle is delivered inline
+with an `✅ Closure complete; committing autonomously (<rationale>).`
+marker and the commit + 🏁 state-marker + next-move suggestion follow in
+the same response (see §"Post-closure protocol" §"Conditional skip rule").
 
 Skill-level extensions (epic parent-flip, release push-go, etc.) **bundle
 into the 📦 gate** rather than adding their own banners — the prompt is
@@ -369,7 +377,7 @@ The visual-confirmation ask carries a `👁️` inline prefix on the
 conversational prompt (e.g., `👁️ Could you take a look at viz at
 http://localhost:5176 and confirm the new outline behaves as expected
 before I move to closure?`). Inline emoji prefix only — **no banner
-block, no operator-gate**. Gate count stays at 2; the prefix is a
+block, no operator-gate**. Gate count stays at up-to-2; the prefix is a
 scannable visual cue parallel to 🛠️ / 📦 without elevating
 visual-confirmation to gate status.
 
@@ -377,7 +385,7 @@ visual-confirmation to gate status.
 
 - [ ] **Doc-drift sweep** — for each entry in `_project/tasknote/README.md` §"AI-referenced docs", state "no change" or the update
 - [ ] Closed — PLAN.md line flipped to stub form `Completed YYYY-MM-DD.` (see §"`## Completed` archive convention") and tasknote moved to `_project/tasknote/archive/<area>/`
-- [ ] Recap drafted (surfaces at the 📦 ready-to-commit gate)
+- [ ] Recap drafted (surfaces at the 📦 ready-to-commit gate, or inline on conditional skip)
 
 Phase 4 closure ops (doc-drift sweep, PLAN.md flip, archive move) auto-run
 without an intermediate gate. The recap — a two-pass summary leading with
@@ -386,19 +394,22 @@ suitable for fast scanning), then technical detail (file paths, LOC, key
 decisions, plus an optional verification request: something concrete for
 the user to check, like reviewing the diff, running the feature, or
 eyeballing a generated artifact) — is drafted alongside but **does not
-surface its own banner**. It bundles into the 📦 ready-to-commit gate
-(see §"Post-closure protocol") where the user sees recap + closure review
-+ commit message together and gives one bundled approval.
+surface its own banner**. It bundles into the 📦 ready-to-commit motion
+(see §"Post-closure protocol") — on the fire branch behind the 📦 banner
+where the user gives one bundled approval; on the skip branch inline with
+an `✅ Closure complete; …` marker and an autonomous commit.
 
 > **Recap is recap-only.** The recap leads with a 1-2 sentence plain-English
 > summary, then technical detail (file paths / LOC / decisions / verification
 > ask), and stops there. The next-task suggestion belongs in the
 > post-closure protocol, after the commit lands — not inside the recap.
 
-The tasknote is closed when archived. The user's commit-go (at the 📦
-gate) is the bundled approval that confirms the recap and authorizes the
-commit. Commit itself happens after that go (see post-closure protocol
-below) and is not part of the tasknote.
+The tasknote is closed when archived. On the 📦-fire branch the user's
+commit-go at the gate is the bundled approval that confirms the recap
+and authorizes the commit; on the 📦-skip branch the inline `✅ Closure
+complete; …` marker stands in for the approval and the autonomous
+commit follows in the same response (see §"Post-closure protocol"
+§"Conditional skip rule"). Commit itself is not part of the tasknote.
 
 ## Blocked tasks
 
@@ -406,13 +417,80 @@ Canonical contract: see [`SPEC/blocked.md`](SPEC/blocked.md).
 
 ## Post-closure protocol
 
-After a tasknote is archived, the assistant must:
+After a tasknote is archived, the assistant must run the three-step
+protocol (commit / mark landed / offer copy-paste line). Step 1 (commit)
+branches on the **Conditional skip rule** below — the 📦 banner fires on
+diff content that warrants explicit review and skips on mechanical
+closures via the autonomous-commit motion. Steps 2 and 3 are identical
+across both branches.
 
-1. **Commit (bundled gate).** Surface the **bundled ready-to-commit gate**
-   behind the 📦 operator-gate cue (see §"Operator-gate cues") and wait
-   for commit-go. The 📦 banner carries the mandatory 1-2 sentence
-   plain-English preview line (per §"Operator-gate cues") immediately
-   above the closing rule. The bundle has three parts surfaced together:
+### Conditional skip rule
+
+The 📦 ready-to-commit gate is **conditional**: it fires when the
+closure's diff content trips any of the signals below or when a bundled
+in-📦 user prompt is queued; otherwise it skips and the assistant runs
+the autonomous-commit motion in one continuous response.
+
+**Skip signals (deterministic — all three must clear to skip):**
+
+- **Zero frontend files changed.** A changed path is "frontend" if it
+  matches the glob set `**/*.tsx`, `**/*.jsx`, `**/*.css`, `**/*.scss`,
+  `**/*.html`, `**/*.vue`, `**/*.svelte`, or `**/*.ts` *under an explicit
+  UI dir* (e.g., `viz/`). Adopters declare project-specific UI dirs in
+  `_project/tasknote/README.md`; those dirs join the glob set for that
+  project. The "explicit UI dir" qualifier on `.ts` matters because
+  TypeScript is also used backend-side in many adopters — the signal
+  targets UI surface specifically.
+- **Zero privileged-ops paths changed.** A changed path is
+  "privileged-ops" if it matches any of:
+  - **Migrations** — `**/migrations/**`, `**/alembic/**`, `**/db/migrations/**`, `**/prisma/migrations/**`
+  - **Auth** — `**/auth/**`, `**/authn/**`, `**/authz/**`, `**/oauth/**`, `**/session*/**`
+  - **Security / secrets** — `**/security/**`, `**/secrets/**`, `**/credentials/**`, `.env*`, plus any file whose diff hunk includes credential-shaped keyword hits (`API_KEY`, `SECRET`, `TOKEN`, `PASSWORD` — uppercase to avoid prose collision)
+  - **External integrations** — `**/integrations/**`, `**/clients/**` (when housing third-party SDK callers), `**/webhooks/**`
+- **No perf-sensitive narrative concern.** Narrative fallback (the only
+  judgment surface in the rule): the gate fires if the assistant
+  reasoned about performance during execution (hot-path optimization,
+  indexing/query-plan change, cache invalidation pattern, batch sizing,
+  throughput target, p99 SLO concern) OR if the changed files sit under
+  a project-declared perf-critical directory. Default-clear for pure
+  SPEC/SKILL/template/doc edits, refactors of non-perf-critical
+  internal code, type-only changes. **The narrative branch biases
+  conservative — fire on doubt.**
+
+**Bundled-prompt override (autonomous-commit constraint):** if a
+skill-level prompt is queued inside the 📦 bundle (e.g.,
+/close-epic's parent-flip Yes/No), the gate **fires regardless** of
+signal state. Autonomous-commit cannot resolve a user-input question.
+
+**"No AI override" semantics.** The rule is bidirectionally locked: the
+assistant cannot escalate (force the banner on a clean diff) nor
+de-escalate (skip when a signal hits). The perf-narrative branch is the
+only judgment surface, and its conservative bias (fire on doubt) is the
+only valve.
+
+**On skip (autonomous-commit motion).** Emit the inline marker
+
+```text
+✅ Closure complete; committing autonomously (<concrete-signal-summary>).
+```
+
+where `<concrete-signal-summary>` names the cleared signals as
+diff-specific facts (e.g., `4 markdown files; no frontend/privileged
+surface` or `SPEC + 3 SKILLs; docs only`). Then run the full bundle in
+one continuous response: closure review → recap → commit → 🏁
+state-marker → suggest-next-move → copy-paste line. Same response
+shape as the post-commit response on the fire branch — the marker just
+replaces the banner + commit-go wait. Plain prose, not a banner block,
+not a new gate.
+
+**On fire (bundled approval motion).** Proceed with step 1 below.
+
+1. **Commit (bundled gate, fire branch).** Surface the **bundled
+   ready-to-commit gate** behind the 📦 operator-gate cue (see
+   §"Operator-gate cues") and wait for commit-go. The 📦 banner carries
+   the mandatory 1-2 sentence plain-English preview line (per
+   §"Operator-gate cues") immediately above the closing rule. The
+   bundle has three parts surfaced together:
 
    - **Closure review** — per-entry doc-drift verdicts, the new PLAN.md
      stub-form line, and the archive path the tasknote moved to.
@@ -429,9 +507,10 @@ After a tasknote is archived, the assistant must:
    stands out under the closure-review tables.
 
    Skill-level extensions (e.g., /close-epic's parent-flip Yes/No prompt)
-   ride inside this bundle rather than getting their own banner. The
-   user's commit-go is the single approval that authorizes recap +
-   closure + bundled prompts + commit.
+   ride inside this bundle rather than getting their own banner — and
+   their presence is precisely what forces this fire branch via the
+   bundled-prompt override above. The user's commit-go is the single
+   approval that authorizes recap + closure + bundled prompts + commit.
 
 2. **Mark the commit landed and suggest the next move.** Once the commit
    lands, prefix the post-commit response's tail (immediately above the

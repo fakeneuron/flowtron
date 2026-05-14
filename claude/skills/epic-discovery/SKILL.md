@@ -183,11 +183,13 @@ Walk the closure steps in order. **No banner here** — closure ops auto-run; th
 
 ## Step 10 — Post-closure protocol
 
-The three-step post-closure protocol (commit / suggest next move / offer copy-paste line) is canonical in SPEC §"Post-closure protocol". Skill-specific orchestration:
+The three-step post-closure protocol (commit / suggest next move / offer copy-paste line) is canonical in SPEC §"Post-closure protocol", with the conditional skip rule for the 📦 gate in SPEC §"Post-closure protocol" §"Conditional skip rule". Skill-specific orchestration:
 
-- Surface the **bundled 📦 ready-to-commit gate** (per SPEC §"Post-closure protocol" step 1) and wait for commit-go. Do not commit unprompted. Proposed commit message (skill-specific): `feat: <AREA>-<next-N>.1 — file <AREA>-EPIC-<next-N> + scope children` (or a user-edited variant).
-- On commit-go, the suggest-next-move and copy-paste-line follow in the same response (motion is one continuous flow per the SPEC contract).
-- The post-commit response carries a 🏁 state-marker line immediately above the next-move suggestion (per SPEC §"Post-closure protocol" step 2): `` 🏁 **<AREA>-<next-N>.1 — committed `<sha>`** · archived to `<archive-path>` ``. Visually closes the 🛠️ → 📦 → 🏁 lifecycle in the transcript.
+- Evaluate the **📦 conditional skip rule** against the closure diff. For pure `/epic-discovery` filings the diff is typically PLAN.md edits + a tasknote scaffold/archive — no frontend, no privileged-ops, no perf concern — so the skip branch is the common case. Branch:
+  - **Skip branch** (signals clear; no bundled in-📦 prompt — `/epic-discovery` carries none) — emit the inline marker `✅ Closure complete; committing autonomously (<concrete-signal-summary>).` (e.g., `PLAN.md edit + tasknote scaffold/archive; no frontend/privileged surface`), then run closure review + recap + commit + 🏁 state-marker + suggest-next-move + copy-paste line in a single response. Do not surface a 📦 banner.
+  - **Fire branch** (any signal hits — rare for pure filing but possible if the Discovery surfaced a perf-narrative concern that bled into Implementation Notes) — surface the **bundled 📦 ready-to-commit gate** (per SPEC §"Post-closure protocol" step 1) and wait for commit-go.
+- Proposed commit message (skill-specific): `feat: <AREA>-<next-N>.1 — file <AREA>-EPIC-<next-N> + scope children` (or a user-edited variant). Do not commit unprompted on the fire branch.
+- The post-commit response carries a 🏁 state-marker line immediately above the next-move suggestion (per SPEC §"Post-closure protocol" step 2): `` 🏁 **<AREA>-<next-N>.1 — committed `<sha>`** · archived to `<archive-path>` ``. Visually closes the 🛠️ → 📦 → 🏁 lifecycle in the transcript (skip branch collapses 🛠️ and/or 📦 to inline markers but 🏁 still fires).
 - When suggesting the next move, surface candidates with `[model]` tags **inline per option** in the PLAN.md task-line shape: `**<AREA>-<next-N>.2** [model] | <shortname> — one-sentence "why now"`. The next move is typically `/task <AREA>-<next-N>.2` (first implementation child).
 - The copy-paste line is `/clear then /model <opus|sonnet> then /task <AREA>-<next-N>.2`. Substitute the next child's PLAN-line `[model]` tag.
 

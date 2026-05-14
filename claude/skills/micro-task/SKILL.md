@@ -110,12 +110,14 @@ Closure flips PLAN.md line + tasknote location; YAML `status:` stays `in-progres
 
 ## Step 5 — Post-closure protocol
 
-Canonical protocol: SPEC §"Post-closure protocol".
+Canonical protocol: SPEC §"Post-closure protocol", with the conditional skip rule for the commit-go gate in SPEC §"Post-closure protocol" §"Conditional skip rule".
 
 Skill-specific orchestration:
 
-- **One continuous flow** — the user's commit-go ("commit", "go", "yes") is the *only* gate; suggest-next-move and copy-paste-line follow **in the same response as the commit confirmation**.
-- Confirm before committing — never commit unprompted.
+- Evaluate the **conditional skip rule** against the closure diff. `/micro-task` carries no explicit 📦 banner today — its commit-go is a prose ask, not a banner block — but the same rule applies: signals clear → autonomous-commit motion; signals fire → prose commit-go ask. Branch:
+  - **Skip branch** (zero frontend files AND zero privileged-ops paths AND no perf-narrative concern) — emit the inline marker `✅ Closure complete; committing autonomously (<concrete-signal-summary>).` (e.g., `single-file doc patch; no frontend/privileged surface`), then run recap + commit + 🏁 state-marker + suggest-next-move + copy-paste line in a single response. Do not surface the prose commit-go ask. Micro-tasknotes hit this branch often by design — their threshold ("small audits, focused doc patches, single-file behavior tweaks with no design tradeoffs") aligns with the rule's clean-diff target.
+  - **Fire branch** (any signal hits — e.g., a single-file `viz/` tweak, an `auth/` config touch, a perf-narrative concern surfaced inline) — surface the prose commit-go ask ("Ready to commit? Reply `commit`/`go`/`yes`."). Confirm before committing — never commit unprompted.
+- **One continuous flow** in both branches. On the fire branch the user's commit-go ("commit", "go", "yes") is the gate; on the skip branch the inline marker stands in for it. Suggest-next-move and copy-paste-line follow **in the same response as the commit confirmation** (skip branch: same response as the marker; fire branch: same response as the commit-go reply).
 - **Commit message:** `feat: <TASK-ID> — <title>` (or `fix:` / `docs:` / `chore:`). Scaffold + closure typically bundle into one commit alongside the code/doc change.
 - Name the recommended model alongside the next task ID.
 - **Copy-paste line:** `/clear then /model <opus|sonnet> then /<task|micro-task|starter-task> <NEXT-ID>` — substitute the next task's PLAN-line `[model]` and the right slash command.

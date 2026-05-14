@@ -179,22 +179,23 @@ Capture the flip decision in the audit tasknote's Final Summary block (still edi
 
 ## Step 9 — Post-closure protocol
 
-The three-step post-closure protocol (commit / suggest next move / offer copy-paste line) is canonical in SPEC §"Post-closure protocol". Skill-specific orchestration:
+The three-step post-closure protocol (commit / suggest next move / offer copy-paste line) is canonical in SPEC §"Post-closure protocol", with the conditional skip rule for the 📦 gate in SPEC §"Post-closure protocol" §"Conditional skip rule". Skill-specific orchestration:
 
-- Surface the **bundled 📦 ready-to-commit gate** (per SPEC §"Post-closure protocol" step 1) and wait for commit-go. Do not commit unprompted. Alongside the SPEC-defined bundle structure, the skill carries two additional parts:
-  - **Parent-flip prompt** (when eligible per Step 8) — AskUserQuestion with default Yes:
-     ```
-     All <AREA>-EPIC-<NUMBER> children closed. Flip parent + move cohort to `## Completed`?
+- Evaluate the **📦 conditional skip rule** against the audit closure diff. **Parent-flip override:** when Step 8 marked parent-flip *eligible* (all children closed), the parent-flip Yes/No prompt is a bundled in-📦 user prompt and triggers the bundled-prompt override in SPEC §"Post-closure protocol" §"Conditional skip rule" — the 📦 gate **fires regardless** of signal state. When Step 8 marked parent-flip *ineligible* (open children remain), no in-📦 prompt is queued and the signal rule evaluates normally. Branch:
+  - **Skip branch** (parent-flip ineligible AND signals clear) — emit the inline marker `✅ Closure complete; committing autonomously (<concrete-signal-summary>).` (e.g., `audit closure: PLAN.md flip + tasknote archive; no frontend/privileged surface`), then run closure review + recap + commit + 🏁 state-marker + suggest-next-move + copy-paste line in a single response. Heads-up listing of the open children (per Step 8 ineligible branch) is delivered inline alongside the closure review. Do not surface a 📦 banner.
+  - **Fire branch** (parent-flip eligible — forces fire via bundled-prompt override; OR any signal hits) — surface the **bundled 📦 ready-to-commit gate** (per SPEC §"Post-closure protocol" step 1) and wait for commit-go. Do not commit unprompted. Alongside the SPEC-defined bundle structure, the skill carries two additional parts:
+    - **Parent-flip prompt** (when eligible per Step 8) — AskUserQuestion with default Yes:
+       ```
+       All <AREA>-EPIC-<NUMBER> children closed. Flip parent + move cohort to `## Completed`?
 
-       Parent: <AREA>-EPIC-<NUMBER> | <shortname>
-       Children to move (N total): <AREA>-<N>.1 .. <AREA>-<N>.<HIGHEST>
+         Parent: <AREA>-EPIC-<NUMBER> | <shortname>
+         Children to move (N total): <AREA>-<N>.1 .. <AREA>-<N>.<HIGHEST>
 
-     (default Yes; declines leave cohort nested under current `## <Priority>` section)
-     ```
-     If not eligible (open children remain), surface a heads-up listing the open children instead — no prompt fires.
-  - **Proposed commit message** — `feat: <AUDIT-SUBTASK-ID> — audit <AREA>-EPIC-<NUMBER>` (or `chore: ...` if no code edits landed).
-- On commit-go: if parent-flip Yes, apply the flip + atomic move (per Step 8) before staging, so the commit captures the parent-flip in one atomic write. Then the suggest-next-move and copy-paste-line follow in the same response (motion is one continuous flow per the SPEC contract).
-- The post-commit response carries a 🏁 state-marker line immediately above the next-move suggestion (per SPEC §"Post-closure protocol" step 2): `` 🏁 **<AUDIT-SUBTASK-ID> — committed `<sha>`** · archived to `<archive-path>` ``. Visually closes the 🛠️ → 📦 → 🏁 lifecycle in the transcript.
+       (default Yes; declines leave cohort nested under current `## <Priority>` section)
+       ```
+    - **Proposed commit message** — `feat: <AUDIT-SUBTASK-ID> — audit <AREA>-EPIC-<NUMBER>` (or `chore: ...` if no code edits landed).
+- On commit (commit-go on the fire branch; autonomous on the skip branch): if parent-flip Yes, apply the flip + atomic move (per Step 8) before staging, so the commit captures the parent-flip in one atomic write. Then the suggest-next-move and copy-paste-line follow in the same response (motion is one continuous flow per the SPEC contract).
+- The post-commit response carries a 🏁 state-marker line immediately above the next-move suggestion (per SPEC §"Post-closure protocol" step 2): `` 🏁 **<AUDIT-SUBTASK-ID> — committed `<sha>`** · archived to `<archive-path>` ``. Visually closes the 🛠️ → 📦 → 🏁 lifecycle in the transcript (skip branch collapses 🛠️ and/or 📦 to inline markers but 🏁 still fires).
 - When suggesting the next move, surface candidates with `[model]` tags **inline per option** in the PLAN.md task-line shape: `**<TASK-ID>** [model] | shortname — one-sentence "why now"`. The next move depends on audit outcome:
   - Misses logged → `/file-followup <NEW-ID>` per miss (suggest one at a time; the user paces).
   - No misses + parent flipped → suggest the next epic / standalone task in PLAN.md.
