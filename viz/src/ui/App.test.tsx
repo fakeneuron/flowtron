@@ -22,7 +22,7 @@ describe('App — matchesFilter intersection', () => {
       frontmatter: {
         title: 'one',
         status: 'in-progress',
-        tags: ['alpha'],
+        tags: [],
         created: '2026-05-07',
         relatedTasks: [],
       },
@@ -32,7 +32,7 @@ describe('App — matchesFilter intersection', () => {
       frontmatter: {
         title: 'two',
         status: 'blocked',
-        tags: ['alpha'],
+        tags: [],
         created: '2026-05-07',
         relatedTasks: [],
       },
@@ -42,14 +42,14 @@ describe('App — matchesFilter intersection', () => {
       frontmatter: {
         title: 'three',
         status: 'in-progress',
-        tags: ['beta'],
+        tags: [],
         created: '2026-05-07',
         relatedTasks: [],
       },
     }),
   ];
 
-  it('intersects tag, status, and query (AND across dimensions)', async () => {
+  it('intersects status and query (AND across dimensions)', async () => {
     const user = userEvent.setup();
     renderApp({ plan, active });
 
@@ -57,20 +57,16 @@ describe('App — matchesFilter intersection', () => {
     expect(screen.getByText('CORE-200')).toBeInTheDocument();
     expect(screen.getByText('CORE-300')).toBeInTheDocument();
 
-    await user.click(screen.getByRole('button', { name: 'alpha' }));
-    await waitFor(() => expect(screen.queryByText('CORE-300')).not.toBeInTheDocument());
-    expect(screen.getByText('CORE-100')).toBeInTheDocument();
-    expect(screen.getByText('CORE-200')).toBeInTheDocument();
-
-    await user.click(screen.getByRole('button', { name: /^In progress$/ }));
+    const statusGroup = screen.getByText('Status:').parentElement!;
+    await user.click(within(statusGroup).getByRole('button', { name: /^In progress$/ }));
     await waitFor(() => expect(screen.queryByText('CORE-200')).not.toBeInTheDocument());
     expect(screen.getByText('CORE-100')).toBeInTheDocument();
+    expect(screen.getByText('CORE-300')).toBeInTheDocument();
 
-    await user.click(screen.getByRole('button', { name: /^In progress$/ }));
-    await user.type(screen.getByRole('searchbox'), '200');
+    await user.type(screen.getByRole('searchbox'), '300');
     await waitFor(() => expect(screen.queryByText('CORE-100')).not.toBeInTheDocument());
-    expect(screen.getByText('CORE-200')).toBeInTheDocument();
-    expect(screen.queryByText('CORE-300')).not.toBeInTheDocument();
+    expect(screen.getByText('CORE-300')).toBeInTheDocument();
+    expect(screen.queryByText('CORE-200')).not.toBeInTheDocument();
   });
 });
 
@@ -86,19 +82,6 @@ describe('App — navigateToTask', () => {
 - [ ] **CORE-900** | jumper — Has [[CORE-1.1]] in related.
 `;
 
-  const active = [
-    makeTasknote({
-      id: 'CORE-900',
-      frontmatter: {
-        title: 'jumper',
-        status: 'in-progress',
-        tags: [],
-        created: '2026-05-07',
-        relatedTasks: ['CORE-1.1'],
-      },
-    }),
-  ];
-
   beforeEach(() => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
   });
@@ -107,10 +90,10 @@ describe('App — navigateToTask', () => {
     vi.useRealTimers();
   });
 
-  it('auto-expands the parent epic, scrolls into view, and clears highlight after HIGHLIGHT_MS', async () => {
+  it('clicking a wikilink in TaskDetail auto-expands the parent epic, scrolls, and clears highlight', async () => {
     const scrollSpy = vi.spyOn(Element.prototype, 'scrollIntoView').mockImplementation(() => {});
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    renderApp({ plan, active });
+    renderApp({ plan });
 
     await waitFor(() => expect(screen.getByText('CORE-EPIC-1')).toBeInTheDocument());
 
@@ -118,8 +101,10 @@ describe('App — navigateToTask', () => {
     expect(epicChevron).toHaveAttribute('aria-expanded', 'false');
     expect(document.getElementById('row-CORE-1.1')).toBeNull();
 
-    const relatedChip = screen.getByRole('button', { name: 'CORE-1.1' });
-    await user.click(relatedChip);
+    await user.click(screen.getByRole('button', { name: /CORE-900/, expanded: false }));
+
+    const wikilink = await screen.findByRole('button', { name: /\[\[CORE-1\.1\]\]/ });
+    await user.click(wikilink);
 
     await waitFor(() =>
       expect(screen.getByRole('button', { name: 'Collapse subtasks' })).toBeInTheDocument(),
@@ -176,42 +161,16 @@ describe('App — expand-on-click toggling', () => {
   });
 });
 
-describe('App — inbound back-refs', () => {
+describe('App — row StatusChip', () => {
   const plan = `## High
 
-- [ ] **CORE-100** | target — Target task with no outbound refs.
-- [ ] **CORE-200** | refers-via-plan — Builds on [[CORE-100]].
-- [ ] **CORE-300** | refers-via-frontmatter — Has a tasknote linking to [[CORE-100]].
-- [ ] **CORE-400** | dup — Both PLAN ref [[CORE-100]] and frontmatter point at it.
+- [ ] **CORE-100** | active — Active task
 `;
-
   const active = [
     makeTasknote({
-      id: 'CORE-300',
-      goal: 'Goal of refers-via-frontmatter.',
-      frontmatter: {
-        title: 'refers-via-frontmatter',
-        status: 'in-progress',
-        tags: [],
-        created: '2026-05-07',
-        relatedTasks: ['CORE-100'],
-      },
-    }),
-    makeTasknote({
-      id: 'CORE-400',
-      frontmatter: {
-        title: 'dup',
-        status: 'in-progress',
-        tags: [],
-        created: '2026-05-07',
-        relatedTasks: ['CORE-100'],
-      },
-    }),
-    makeTasknote({
       id: 'CORE-100',
-      goal: 'Goal of the target task.',
       frontmatter: {
-        title: 'target',
+        title: 'active',
         status: 'in-progress',
         tags: [],
         created: '2026-05-07',
@@ -220,19 +179,10 @@ describe('App — inbound back-refs', () => {
     }),
   ];
 
-  it('shows "← referenced by N" with deduped count and opens detail on click', async () => {
-    const user = userEvent.setup();
+  it('renders the emoji-prefixed StatusChip in the row', async () => {
     renderApp({ plan, active });
-
-    const chip = await screen.findByRole('button', { name: /referenced by 3/ });
-    expect(chip).toHaveTextContent(/^← referenced by 3$/);
-    expect(screen.queryAllByRole('button', { name: /referenced by/ })).toHaveLength(1);
-
-    expect(screen.queryByText('Goal of the target task.')).not.toBeInTheDocument();
-    await user.click(chip);
-    await waitFor(() =>
-      expect(screen.getByText('Goal of the target task.')).toBeInTheDocument(),
-    );
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+    expect(screen.getByText('🟢 In progress')).toBeInTheDocument();
   });
 });
 
@@ -247,7 +197,7 @@ describe('App — project switching', () => {
       frontmatter: {
         title: 'one',
         status: 'in-progress',
-        tags: ['alpha'],
+        tags: [],
         created: '2026-05-07',
         relatedTasks: [],
       },
@@ -293,11 +243,8 @@ describe('App — project switching', () => {
 
     await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
 
-    await user.click(screen.getByRole('button', { name: 'alpha' }));
-    expect(screen.getByRole('button', { name: 'alpha' })).toHaveAttribute(
-      'aria-pressed',
-      'true',
-    );
+    await user.type(screen.getByRole('searchbox'), 'one');
+    expect(screen.getByRole('searchbox')).toHaveValue('one');
 
     await user.click(screen.getByRole('button', { name: 'Project: fintown' }));
 
@@ -308,10 +255,6 @@ describe('App — project switching', () => {
       ),
     );
     expect(window.localStorage.getItem('flowtron-viz-active-project')).toBe('fintown');
-    expect(screen.getByRole('button', { name: 'alpha' })).toHaveAttribute(
-      'aria-pressed',
-      'false',
-    );
     expect(screen.getByRole('searchbox')).toHaveValue('');
   });
 });

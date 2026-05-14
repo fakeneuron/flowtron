@@ -11,7 +11,6 @@ const TaskDetail = lazy(() => import('./TaskDetail'));
 interface EpicRowProps {
   node: TaskNode;
   tasknotesById: Map<string, Tasknote>;
-  inboundRefs: Map<string, Set<string>>;
   expandedId: string | null;
   setExpandedId: (id: string | null) => void;
   expanded: boolean;
@@ -25,7 +24,6 @@ interface EpicRowProps {
 export const EpicRow: React.FC<EpicRowProps> = ({
   node,
   tasknotesById,
-  inboundRefs,
   expandedId,
   setExpandedId,
   expanded,
@@ -59,10 +57,8 @@ export const EpicRow: React.FC<EpicRowProps> = ({
         <TaskRowInner
           task={task}
           tasknotesById={tasknotesById}
-          inboundRefs={inboundRefs}
           isExpandedDetail={expandedId === task.id}
           onToggleDetail={() => setExpandedId(expandedId === task.id ? null : task.id)}
-          navigateToTask={navigateToTask}
           extraRightSlot={
             total > 0 ? (
               <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300">

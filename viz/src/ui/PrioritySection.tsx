@@ -21,7 +21,6 @@ interface PrioritySectionProps {
   collapsed: boolean;
   onToggle: () => void;
   tasknotesById: Map<string, Tasknote>;
-  inboundRefs: Map<string, Set<string>>;
   expandedId: string | null;
   setExpandedId: (id: string | null) => void;
   expandedEpicIds: Set<string>;
@@ -37,7 +36,6 @@ export const PrioritySection: React.FC<PrioritySectionProps> = ({
   collapsed,
   onToggle,
   tasknotesById,
-  inboundRefs,
   expandedId,
   setExpandedId,
   expandedEpicIds,
@@ -71,7 +69,6 @@ export const PrioritySection: React.FC<PrioritySectionProps> = ({
                   key={node.task.id}
                   node={node}
                   tasknotesById={tasknotesById}
-                  inboundRefs={inboundRefs}
                   expandedId={expandedId}
                   setExpandedId={setExpandedId}
                   expanded={expandedEpicIds.has(node.task.id)}
@@ -88,7 +85,6 @@ export const PrioritySection: React.FC<PrioritySectionProps> = ({
                 key={node.task.id}
                 task={node.task}
                 tasknotesById={tasknotesById}
-                inboundRefs={inboundRefs}
                 expandedId={expandedId}
                 setExpandedId={setExpandedId}
                 highlightId={highlightId}

@@ -13,8 +13,6 @@ interface UseKeyboardNavParams {
   toggleEpic: (id: string) => void;
   query: string;
   setQuery: (q: string) => void;
-  tagFilter: Set<string>;
-  setTagFilter: (s: Set<string>) => void;
   statusFilter: Set<TasknoteStatus>;
   setStatusFilter: (s: Set<TasknoteStatus>) => void;
   load: () => void;
@@ -38,8 +36,6 @@ export function useKeyboardNav(params: UseKeyboardNavParams) {
     toggleEpic,
     query,
     setQuery,
-    tagFilter,
-    setTagFilter,
     statusFilter,
     setStatusFilter,
     load,
@@ -56,9 +52,8 @@ export function useKeyboardNav(params: UseKeyboardNavParams) {
       if (e.key === 'Escape') {
         if (expandedId !== null) {
           setExpandedId(null);
-        } else if (query || tagFilter.size > 0 || statusFilter.size > 0) {
+        } else if (query || statusFilter.size > 0) {
           setQuery('');
-          setTagFilter(new Set());
           setStatusFilter(new Set());
         } else if (target === searchInputRef.current) {
           searchInputRef.current?.blur();
@@ -128,8 +123,6 @@ export function useKeyboardNav(params: UseKeyboardNavParams) {
     toggleEpic,
     query,
     setQuery,
-    tagFilter,
-    setTagFilter,
     statusFilter,
     setStatusFilter,
     load,

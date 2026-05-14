@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { groupBy, effectiveStatus, buildInboundRefs } from './utils';
+import { groupBy, effectiveStatus } from './utils';
 import {
   getSubtaskParentEpicId,
   groupTasks,
@@ -10,7 +10,7 @@ import {
   type TaskNode,
 } from '../parser';
 import { type Tasknote, type TasknoteStatus } from '../tasknote';
-import { STATUS_LABEL, STATUS_BADGE, PILL_ACTIVE, PILL_DEFAULT_SLATE } from './constants';
+import { STATUS_LABEL, STATUS_BADGE, PILL_ACTIVE } from './constants';
 import { PrioritySection } from './PrioritySection';
 import { ProjectSelector } from './ProjectSelector';
 import { ThemeToggle } from './ThemeToggle';
@@ -44,7 +44,6 @@ export const App: React.FC = () => {
   const [tasknotesById, setTasknotesById] = useState<Map<string, Tasknote>>(new Map());
   const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState<string>('');
-  const [tagFilter, toggleTag, setTagFilter] = useToggleSet<string>();
   const [statusFilter, toggleStatus, setStatusFilter] = useToggleSet<TasknoteStatus>();
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [collapsedSections, toggleSection, setCollapsedSections] = useToggleSet<Priority>(
@@ -128,23 +127,10 @@ export const App: React.FC = () => {
     [],
   );
 
-  const allTags = useMemo(() => {
-    const set = new Set<string>();
-    for (const tn of tasknotesById.values()) {
-      tn.frontmatter?.tags.forEach((t) => set.add(t));
-    }
-    return Array.from(set).sort();
-  }, [tasknotesById]);
-
   const matchesFilter = useCallback(
     (task: Task): boolean => {
       const tn = tasknotesById.get(task.id);
       const fm = tn?.frontmatter ?? null;
-
-      if (tagFilter.size > 0) {
-        if (!fm) return false;
-        if (!fm.tags.some((tag) => tagFilter.has(tag))) return false;
-      }
 
       if (statusFilter.size > 0) {
         const s: TasknoteStatus = effectiveStatus(task, tn) ?? 'not-started';
@@ -156,21 +142,16 @@ export const App: React.FC = () => {
         const parts = [
           task.id,
           task.description,
-          ...(fm ? [fm.tags.join(' '), fm.status, fm.title] : []),
+          ...(fm ? [fm.status, fm.title] : []),
         ];
         if (!parts.join(' ').toLowerCase().includes(q)) return false;
       }
       return true;
     },
-    [tasknotesById, query, tagFilter, statusFilter],
+    [tasknotesById, query, statusFilter],
   );
 
   const allNodes = useMemo(() => groupTasks(tasks), [tasks]);
-
-  const inboundRefs = useMemo(
-    () => buildInboundRefs(tasks, tasknotesById),
-    [tasks, tasknotesById],
-  );
 
   const presentStatuses = useMemo(() => {
     const set = new Set<TasknoteStatus>();
@@ -238,7 +219,6 @@ export const App: React.FC = () => {
   const handleSelectProject = (name: string) => {
     if (name === activeProject) return;
     setQuery('');
-    setTagFilter(new Set());
     setStatusFilter(new Set());
     setExpandedId(null);
     setExpandedEpicIds(new Set());
@@ -296,8 +276,6 @@ export const App: React.FC = () => {
     toggleEpic,
     query,
     setQuery,
-    tagFilter,
-    setTagFilter,
     statusFilter,
     setStatusFilter,
     load: refresh,
@@ -324,7 +302,7 @@ export const App: React.FC = () => {
                 type="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search id, description, tags, status"
+                placeholder="Search id, description, status"
                 autoComplete="off"
                 className="w-72 rounded border border-slate-300 bg-white px-3 py-1.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:ring-slate-600"
                 aria-label="Search tasks"
@@ -346,25 +324,6 @@ export const App: React.FC = () => {
               active={activeProject}
               onSelect={handleSelectProject}
             />
-            {allTags.length > 0 && (
-              <div className="flex flex-wrap items-center gap-1.5">
-                <span className="text-slate-500 dark:text-slate-400">Tags:</span>
-                {allTags.map((tag) => {
-                  const on = tagFilter.has(tag);
-                  return (
-                    <button
-                      key={tag}
-                      type="button"
-                      onClick={() => toggleTag(tag)}
-                      aria-pressed={on}
-                      className={`rounded-full px-2 py-0.5 ${on ? PILL_ACTIVE : PILL_DEFAULT_SLATE}`}
-                    >
-                      {tag}
-                    </button>
-                  );
-                })}
-              </div>
-            )}
             <div className="flex flex-wrap items-center gap-1.5">
               <span className="text-slate-500 dark:text-slate-400">Status:</span>
               {STATUS_FILTER_VALUES.filter((s) => presentStatuses.has(s)).map((s) => {
@@ -407,7 +366,6 @@ export const App: React.FC = () => {
                 collapsed={collapsed}
                 onToggle={() => toggleSection(p)}
                 tasknotesById={tasknotesById}
-                inboundRefs={inboundRefs}
                 expandedId={expandedId}
                 setExpandedId={setExpandedId}
                 expandedEpicIds={expandedEpicIds}
