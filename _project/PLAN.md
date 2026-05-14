@@ -23,7 +23,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-(none)
+- [ ] **CORE-086** [sonnet] | contract-surface-fence-langtags — Add explicit code-fence language tags where the contract surface still uses bare fences (notably `README.md` viz dev commands as sh; `claude/skills/audit/SKILL.md` verification-gate placeholder block as text) per markdown-hygiene guidance in the forked audit pass rubric. (Surfaced by audit 2026-05-14 (Finding #2–#3, Low))
 
 ## Future Opportunities
 
@@ -31,6 +31,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-085** [opus] | flowtron-skill-phase-row — Completed 2026-05-14.
 - [x] **CORE-084** [sonnet] | flowtron-info-skill — Completed 2026-05-11.
 - [x] **CORE-083** [sonnet] | release v2.0.1 — Completed 2026-05-11.
 - [x] **CORE-082** [sonnet] | audit doc-drift sweep — Completed 2026-05-11.

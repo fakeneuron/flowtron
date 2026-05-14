@@ -41,7 +41,7 @@ A lightweight, project-agnostic tasknote system for solo AI-assisted coding. Kee
 
 | Skill | Description |
 |---|---|
-| `/task` | Drive a full 4-phase tasknote (Discovery → Design → Execution → Closure). Primary workflow for normal-size tasks. |
+| `/task` | Drive a full 4-phase tasknote (Discovery → Execution → Testing & Linting → Closure). Primary workflow for normal-size tasks. |
 | `/micro-task` | Single-section lightweight tasknote for tasks above the skip threshold but too small for full ceremony (~30 min or under). |
 | `/starter-task` | File a rich-context starter tasknote discovered mid-flow — writes the artifact and PLAN entry, does not start it. |
 | `/file-followup` | File a follow-up task from inside an active tasknote — one PLAN line + context paragraph only, no tasknote artifact. |
