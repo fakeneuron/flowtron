@@ -31,6 +31,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-094** [opus] | release v2.1.0 — Completed 2026-05-14.
 - [x] **CORE-091** [opus] | wiring-snippet single-source collapse — Completed 2026-05-14.
 - [x] **CORE-090** [sonnet] | flowtron-info-skill adopter framing — Completed 2026-05-14.
 - [x] **CORE-093** [sonnet] | SPEC tasknote-template claim trim — Completed 2026-05-14.
