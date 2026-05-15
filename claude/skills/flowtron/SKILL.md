@@ -47,7 +47,7 @@ A lightweight, project-agnostic tasknote system for solo AI-assisted coding. Kee
 | `/file-followup` | File a follow-up task from inside an active tasknote — one PLAN line + context paragraph only, no tasknote artifact. |
 | `/epic-discovery` | Scaffold and drive a new epic: files parent + `.1` Discovery + audit placeholder, then drives Discovery inline. |
 | `/close-epic` | Close an epic by scaffolding and driving its audit subtask, then flips the parent entry to Completed. |
-| `/audit` | Ruthless principal-engineer audit of flowtron's markdown contract surface — 5 passes, capped findings, writes tickets to PLAN. |
+| `/audit` | Stack-neutral scaffold for a ruthless principal-engineer code audit — 5 passes (Security · Idioms · Hygiene · Orphans · Doc drift), capped findings, writes tickets to PLAN. Fork and customize per stack. |
 | `/new-project` | Bootstrap a fresh repo with flowtron — submodule, PLAN.md, tasknote README, CLAUDE.md patch, staged commit. |
 | `/release` | Cut a flowtron release — version bump, doc shifts, drift sweep, single feat: commit, annotated tag, push. (Flowtron-self only.) |
 
