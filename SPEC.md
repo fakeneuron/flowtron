@@ -142,9 +142,9 @@ the stronger signal).
 Examples:
 
 ```markdown
-- [ ] **CORE-016** [opus] — Execute migration per [[CORE-008]] playbook. Blocked by [[CORE-008]] — wait for upstream signal.
-- [ ] **FE-003** [opus] | wikilink resolution — Builds on [[FE-001]]; pairs with [[FE-004]].
-- [ ] **FE-007** — Touches [[FE-001]], [[FE-004]]. Blocked by [[CORE-008]], [[CORE-016]] — needs both upstream.
+- [ ] **CORE-016** [opus] — Execute migration per [[<CORE-008>]] playbook. Blocked by [[<CORE-008>]] — wait for upstream signal.
+- [ ] **FE-003** [opus] | wikilink resolution — Builds on [[<FE-001>]]; pairs with [[<FE-004>]].
+- [ ] **FE-007** — Touches [[<FE-001>]], [[<FE-004>]]. Blocked by [[<CORE-008>]], [[<CORE-016>]] — needs both upstream.
 ```
 
 ## Tasknote frontmatter
