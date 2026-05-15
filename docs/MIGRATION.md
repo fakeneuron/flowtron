@@ -67,27 +67,7 @@ Flowtron ships six slash commands and their skills inside the submodule:
 - **`/epic-discovery`** — file a new epic (parent `<AREA>-EPIC-<N>` + `.1` Discovery + `.N` audit placeholder) AND drive its `.1` Discovery tasknote through closure in one motion (Phase 2 deliverable = filed implementation children). See `_project/flowtron/SPEC/epic.md` for the lifecycle contract.
 - **`/close-epic <AUDIT-SUBTASK-ID>`** — bracket twin of `/epic-discovery`. Scaffolds and drives the audit `.N` tasknote of an epic (with the fixed doc-drift sweep acceptance line per `SPEC/epic.md`) through closure, then prompts to flip the parent `<AREA>-EPIC-<N>` to `Completed` and move the cohort to `## Completed`.
 
-Adopting projects expose all six through their own `.claude/` folder using symlinks:
-
-```sh
-mkdir -p .claude/commands .claude/skills
-ln -s ../../_project/flowtron/claude/commands/task.md            .claude/commands/task.md
-ln -s ../../_project/flowtron/claude/commands/starter-task.md    .claude/commands/starter-task.md
-ln -s ../../_project/flowtron/claude/commands/micro-task.md      .claude/commands/micro-task.md
-ln -s ../../_project/flowtron/claude/commands/file-followup.md   .claude/commands/file-followup.md
-ln -s ../../_project/flowtron/claude/commands/epic-discovery.md  .claude/commands/epic-discovery.md
-ln -s ../../_project/flowtron/claude/commands/close-epic.md      .claude/commands/close-epic.md
-ln -s ../../_project/flowtron/claude/skills/task            .claude/skills/task
-ln -s ../../_project/flowtron/claude/skills/starter-task    .claude/skills/starter-task
-ln -s ../../_project/flowtron/claude/skills/micro-task      .claude/skills/micro-task
-ln -s ../../_project/flowtron/claude/skills/file-followup   .claude/skills/file-followup
-ln -s ../../_project/flowtron/claude/skills/epic-discovery  .claude/skills/epic-discovery
-ln -s ../../_project/flowtron/claude/skills/close-epic      .claude/skills/close-epic
-```
-
-The relative paths are intentional — they survive `git clone` and always point at whichever flowtron commit the submodule is currently checked out at. The symlinks themselves never need to change when bumping flowtron.
-
-The canonical wiring snippet (and the `CLAUDE.md` block to paste in the next step) lives in `_project/flowtron/claude/CLAUDE-snippet.md`. Refer to it directly rather than copying the commands here — that file is the single source of truth.
+Adopting projects expose all six through their own `.claude/` folder using symlinks. Open `_project/flowtron/claude/CLAUDE-snippet.md` §"One-time symlink wiring" and run the commands listed there from the project root — that file is the single source of truth for the wiring block. The relative paths in the snippet are intentional (they survive `git clone` and pin to whichever flowtron commit the submodule is currently checked out at), so the symlinks never need touching on a version bump. The same file also holds the `CLAUDE.md` paste-block for the next step.
 
 ### 1.2.1 Optional: fork `/audit` per stack
 

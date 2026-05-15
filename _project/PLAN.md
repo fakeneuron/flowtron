@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-091** [opus] | wiring-snippet single-source collapse — Pick `claude/CLAUDE-snippet.md` as canonical owner of the 12-line symlink wiring block; trim `docs/MIGRATION.md` §1.2 + `claude/skills/new-project/SKILL.md` Step 3 to pointer blocks referencing the snippet. Honors the single-source-of-truth claim already stated at MIGRATION.md:90. Surfaced by audit 2026-05-14 (Finding #3, Medium).
+(none)
 
 ## Low
 
@@ -31,6 +31,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-091** [opus] | wiring-snippet single-source collapse — Completed 2026-05-14.
 - [x] **CORE-090** [sonnet] | flowtron-info-skill adopter framing — Completed 2026-05-14.
 - [x] **CORE-093** [sonnet] | SPEC tasknote-template claim trim — Completed 2026-05-14.
 - [x] **CORE-092** [sonnet] | epic-discovery cite-don't-restate — Completed 2026-05-14.

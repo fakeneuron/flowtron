@@ -57,25 +57,9 @@ Reference: `docs/MIGRATION.md` §1.1.
 
 ## Step 3 — Wire /task, /starter-task, /micro-task, /file-followup, /epic-discovery, /close-epic via symlinks
 
-```sh
-mkdir -p .claude/commands .claude/skills
-ln -s ../../_project/flowtron/claude/commands/task.md            .claude/commands/task.md
-ln -s ../../_project/flowtron/claude/commands/starter-task.md    .claude/commands/starter-task.md
-ln -s ../../_project/flowtron/claude/commands/micro-task.md      .claude/commands/micro-task.md
-ln -s ../../_project/flowtron/claude/commands/file-followup.md   .claude/commands/file-followup.md
-ln -s ../../_project/flowtron/claude/commands/epic-discovery.md  .claude/commands/epic-discovery.md
-ln -s ../../_project/flowtron/claude/commands/close-epic.md      .claude/commands/close-epic.md
-ln -s ../../_project/flowtron/claude/skills/task            .claude/skills/task
-ln -s ../../_project/flowtron/claude/skills/starter-task    .claude/skills/starter-task
-ln -s ../../_project/flowtron/claude/skills/micro-task      .claude/skills/micro-task
-ln -s ../../_project/flowtron/claude/skills/file-followup   .claude/skills/file-followup
-ln -s ../../_project/flowtron/claude/skills/epic-discovery  .claude/skills/epic-discovery
-ln -s ../../_project/flowtron/claude/skills/close-epic      .claude/skills/close-epic
-```
+Read `_project/flowtron/claude/CLAUDE-snippet.md` and run the bash block under the §"One-time symlink wiring" heading from the project root. Run it verbatim — relative paths are intentional (they survive `git clone` and pin to whichever flowtron commit the submodule is checked out at). Do not substitute absolute paths.
 
-The relative paths are intentional — they survive `git clone` and pin to whichever flowtron commit the submodule is currently checked out at. Do not use absolute paths.
-
-Reference: `docs/MIGRATION.md` §1.2 + `claude/CLAUDE-snippet.md` §"One-time symlink wiring".
+Reference: `claude/CLAUDE-snippet.md` §"One-time symlink wiring" (canonical) · `docs/MIGRATION.md` §1.2 (adopter doc, points to the snippet).
 
 ## Step 4 — Patch CLAUDE.md
 
