@@ -160,8 +160,7 @@ respectively) when parsing legacy archives. §"Tasknote body shape" and
 §"Model field" refer back here rather than restating.
 
 Every tasknote opens with a YAML frontmatter block carrying machine-parseable
-fields, followed by a Markdown body. The canonical schema (with field
-comments) lives in `templates/tasknote-template.md`. Valid `status:` values:
+fields, followed by a Markdown body. The canonical schema lives in `templates/tasknote-template.md`. Valid `status:` values:
 `starter | not-started | in-progress | blocked | completed`.
 
 Flowtron itself does not parse this frontmatter — the field contract exists

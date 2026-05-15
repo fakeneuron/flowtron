@@ -21,7 +21,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **CORE-090** [sonnet] | flowtron-info-skill adopter framing — Rewrite `claude/skills/flowtron/SKILL.md:50` `/audit` row to match the stack-neutral-scaffold framing (per `docs/MIGRATION.md` §1.2.1); the current "flowtron's markdown contract surface" wording mismatches what adopters see when they consume the shipped SKILL. Surfaced by audit 2026-05-14 (Finding #2, High).
 - [ ] **CORE-091** [opus] | wiring-snippet single-source collapse — Pick `claude/CLAUDE-snippet.md` as canonical owner of the 12-line symlink wiring block; trim `docs/MIGRATION.md` §1.2 + `claude/skills/new-project/SKILL.md` Step 3 to pointer blocks referencing the snippet. Honors the single-source-of-truth claim already stated at MIGRATION.md:90. Surfaced by audit 2026-05-14 (Finding #3, Medium).
-- [ ] **CORE-093** [sonnet] | SPEC tasknote-template claim trim — Drop "with field comments" from `SPEC.md:163` since `templates/tasknote-template.md` carries none; reader following SPEC → template hits a mismatch. Surfaced by audit 2026-05-14 (Finding #4, Medium).
 
 ## Low
 
@@ -33,6 +32,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-093** [sonnet] | SPEC tasknote-template claim trim — Completed 2026-05-14.
 - [x] **CORE-092** [sonnet] | epic-discovery cite-don't-restate — Completed 2026-05-14.
 - [x] **CORE-088** [opus] | gate-UX check-in 2 — Completed 2026-05-14.
 - [x] **CORE-089** [opus] | conditional-precommit-gate — Completed 2026-05-14.
