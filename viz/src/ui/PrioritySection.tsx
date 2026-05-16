@@ -3,7 +3,7 @@ import { isEpic, type Priority, type TaskNode } from '../parser';
 import type { Tasknote } from '../tasknote';
 import type { VisibilityPrefs } from '../visibilityPrefs';
 import { Chevron } from './Chevron';
-import { SECTION_TINT } from './constants';
+import { DENSITY_TOKENS, SECTION_TINT } from './constants';
 import { EpicRow } from './EpicRow';
 import { TaskRow } from './TaskRow';
 
@@ -39,6 +39,7 @@ export const PrioritySection: React.FC<PrioritySectionProps> = ({
   navigateToTask,
 }) => {
   const totalCount = nodes.reduce((s, n) => s + 1 + n.children.length, 0);
+  const tokens = DENSITY_TOKENS[visibility.density];
   return (
     <section className={`rounded-lg border ${SECTION_TINT[priority]}`}>
       <button
@@ -52,7 +53,9 @@ export const PrioritySection: React.FC<PrioritySectionProps> = ({
         <span className="text-xs text-slate-600 dark:text-slate-400">{totalCount}</span>
       </button>
       {!collapsed && (
-        <div className="flex flex-col gap-1.5 border-t border-slate-200/70 bg-white/60 p-2 dark:border-slate-800/70 dark:bg-slate-900/60">
+        <div
+          className={`flex flex-col ${tokens.interRowGap} border-t border-slate-200/70 bg-white/60 ${tokens.sectionInteriorPad} dark:border-slate-800/70 dark:bg-slate-900/60`}
+        >
           {nodes.length === 0 && (
             <div className="px-2 py-1 text-xs text-slate-500 dark:text-slate-400">No tasks</div>
           )}

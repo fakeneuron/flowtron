@@ -1,5 +1,6 @@
 import type { Priority } from '../parser';
 import type { TasknoteStatus } from '../tasknote';
+import type { DensityMode } from '../visibilityPrefs';
 
 /**
  * Viz UI token registry — semantic mapping for typography + color.
@@ -93,3 +94,50 @@ export const ROW_NEUTRAL = 'border-slate-200 dark:border-slate-800';
 
 export const PILL_ACTIVE = 'bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900';
 export const PILL_DEFAULT_SLATE = 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700';
+
+/**
+ * Density tokens (CORE-098.4). Three opt-in modes selectable from the
+ * settings modal: Default = today's spacing (post-FE-031 lean baseline);
+ * Comfortable adds one step of breathing room; Compact tightens one step.
+ * Scope: row-surface only — TaskDetail and header chrome stay fixed.
+ * Chip text size stays on `TYPOGRAPHY.caption`; density scales padding.
+ */
+export interface DensityTokens {
+  rowPad: string;
+  subtaskRowPad: string;
+  sectionInteriorPad: string;
+  interRowGap: string;
+  subtaskInterRowGap: string;
+  betweenSectionsGap: string;
+  chipPad: string;
+}
+
+export const DENSITY_TOKENS: Record<DensityMode, DensityTokens> = {
+  comfortable: {
+    rowPad: 'px-3 py-2',
+    subtaskRowPad: 'px-2.5 py-1.5',
+    sectionInteriorPad: 'p-3',
+    interRowGap: 'gap-2',
+    subtaskInterRowGap: 'gap-1.5',
+    betweenSectionsGap: 'gap-4',
+    chipPad: 'px-2 py-1',
+  },
+  default: {
+    rowPad: 'px-2.5 py-1.5',
+    subtaskRowPad: 'px-2 py-1',
+    sectionInteriorPad: 'p-2',
+    interRowGap: 'gap-1.5',
+    subtaskInterRowGap: 'gap-1',
+    betweenSectionsGap: 'gap-3',
+    chipPad: 'px-1.5 py-0.5',
+  },
+  compact: {
+    rowPad: 'px-2 py-1',
+    subtaskRowPad: 'px-1.5 py-0.5',
+    sectionInteriorPad: 'p-1.5',
+    interRowGap: 'gap-1',
+    subtaskInterRowGap: 'gap-0.5',
+    betweenSectionsGap: 'gap-2',
+    chipPad: 'px-1 py-0',
+  },
+};

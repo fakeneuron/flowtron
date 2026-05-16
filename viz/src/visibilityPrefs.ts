@@ -1,3 +1,5 @@
+export type DensityMode = 'comfortable' | 'default' | 'compact';
+
 export interface VisibilityPrefs {
   version: 1;
   rowChips: {
@@ -11,12 +13,14 @@ export interface VisibilityPrefs {
     acceptance: boolean;
     subtasks: boolean;
   };
+  density: DensityMode;
 }
 
 export const DEFAULT_PREFS: VisibilityPrefs = {
   version: 1,
   rowChips: { tags: false, model: true, related: false, due: false },
   detailSections: { goal: true, acceptance: true, subtasks: true },
+  density: 'default',
 };
 
 const KEY_PREFIX = 'flowtron-viz-prefs:';
@@ -24,6 +28,9 @@ const KEY_PREFIX = 'flowtron-viz-prefs:';
 const storageKey = (project: string): string => `${KEY_PREFIX}${project}`;
 
 const isBool = (v: unknown): v is boolean => typeof v === 'boolean';
+
+const isDensity = (v: unknown): v is DensityMode =>
+  v === 'comfortable' || v === 'default' || v === 'compact';
 
 const parsePrefs = (raw: string | null): VisibilityPrefs => {
   if (!raw) return DEFAULT_PREFS;
@@ -52,6 +59,7 @@ const parsePrefs = (raw: string | null): VisibilityPrefs => {
       acceptance: isBool(ds.acceptance) ? ds.acceptance : DEFAULT_PREFS.detailSections.acceptance,
       subtasks: isBool(ds.subtasks) ? ds.subtasks : DEFAULT_PREFS.detailSections.subtasks,
     },
+    density: isDensity(d.density) ? d.density : DEFAULT_PREFS.density,
   };
 };
 

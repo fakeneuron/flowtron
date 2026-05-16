@@ -3,6 +3,7 @@ import type { TaskNode } from '../parser';
 import type { Tasknote } from '../tasknote';
 import type { VisibilityPrefs } from '../visibilityPrefs';
 import { Chevron } from './Chevron';
+import { DENSITY_TOKENS } from './constants';
 import { TaskRowInner } from './TaskRowInner';
 import { SubtaskRow } from './SubtaskRow';
 import { rowOutlineClass } from './utils';
@@ -39,6 +40,8 @@ export const EpicRow: React.FC<EpicRowProps> = ({
   const { task, children } = node;
   const done = children.filter((c) => c.completed).length;
   const total = children.length;
+  const density = visibility.density;
+  const tokens = DENSITY_TOKENS[density];
   return (
     <div
       id={`row-${task.id}`}
@@ -47,7 +50,7 @@ export const EpicRow: React.FC<EpicRowProps> = ({
         isSelected,
       )} transition-colors`}
     >
-      <div className="flex items-center gap-2 px-2.5 py-1.5">
+      <div className={`flex items-center gap-2 ${tokens.rowPad}`}>
         <button
           type="button"
           onClick={toggleExpanded}
@@ -61,11 +64,14 @@ export const EpicRow: React.FC<EpicRowProps> = ({
           task={task}
           tasknotesById={tasknotesById}
           rowChips={visibility.rowChips}
+          density={density}
           isExpandedDetail={expandedId === task.id}
           onToggleDetail={() => setExpandedId(expandedId === task.id ? null : task.id)}
           extraRightSlot={
             total > 0 ? (
-              <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300">
+              <span
+                className={`rounded-full bg-slate-100 ${tokens.chipPad} text-[10px] font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300`}
+              >
                 {done}/{total} done
               </span>
             ) : null
@@ -73,11 +79,14 @@ export const EpicRow: React.FC<EpicRowProps> = ({
         />
       </div>
       {expanded && total > 0 && (
-        <div className="flex flex-col gap-1 border-t border-slate-100 bg-slate-50/50 px-2 py-1.5 dark:border-slate-800 dark:bg-slate-950/50">
+        <div
+          className={`flex flex-col ${tokens.subtaskInterRowGap} border-t border-slate-100 bg-slate-50/50 px-2 py-1.5 dark:border-slate-800 dark:bg-slate-950/50`}
+        >
           {children.map((c) => (
             <SubtaskRow
               key={c.id}
               task={c}
+              density={density}
               highlightId={highlightId}
               isSelected={selectedId === c.id}
               navigateToTask={navigateToTask}

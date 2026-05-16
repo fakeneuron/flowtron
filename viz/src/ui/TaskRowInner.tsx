@@ -1,8 +1,9 @@
 import React from 'react';
 import type { Task } from '../parser';
 import type { Tasknote } from '../tasknote';
-import type { VisibilityPrefs } from '../visibilityPrefs';
+import type { DensityMode, VisibilityPrefs } from '../visibilityPrefs';
 import { effectiveStatus } from './utils';
+import { DENSITY_TOKENS } from './constants';
 import { PhaseDots } from './PhaseDots';
 import { SubtaskProgress } from './SubtaskProgress';
 import { StatusChip } from './StatusChip';
@@ -13,6 +14,7 @@ export interface TaskRowInnerProps {
   task: Task;
   tasknotesById: Map<string, Tasknote>;
   rowChips: VisibilityPrefs['rowChips'];
+  density: DensityMode;
   isExpandedDetail: boolean;
   onToggleDetail: () => void;
   extraRightSlot?: React.ReactNode;
@@ -22,6 +24,7 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
   task,
   tasknotesById,
   rowChips,
+  density,
   isExpandedDetail,
   onToggleDetail,
   extraRightSlot,
@@ -35,6 +38,7 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
   const showRelated = rowChips.related && task.relatedTasks.length > 0;
   const showDue = rowChips.due && !!due;
   const showOptionalChips = showTags || showModel || showRelated || showDue;
+  const chipPad = DENSITY_TOKENS[density].chipPad;
   return (
     <div className="flex min-w-0 flex-1 items-center gap-2">
       <button
@@ -63,13 +67,13 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
               tags.map((t) => (
                 <span
                   key={t}
-                  className="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] text-slate-700 dark:bg-slate-800 dark:text-slate-300"
+                  className={`rounded bg-slate-100 ${chipPad} text-[10px] text-slate-700 dark:bg-slate-800 dark:text-slate-300`}
                 >
                   {t}
                 </span>
               ))}
-            {showModel && task.model && <ModelChip model={task.model} />}
-            {showRelated && <RelatedChip ids={task.relatedTasks} />}
+            {showModel && task.model && <ModelChip model={task.model} density={density} />}
+            {showRelated && <RelatedChip ids={task.relatedTasks} density={density} />}
             {showDue && due && (
               <span className="text-[10px] text-slate-500 dark:text-slate-400">
                 Due {due}
@@ -80,7 +84,7 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
           <div />
         )}
         <div className="flex items-center justify-end gap-1.5 text-[10px]">
-          {status && <StatusChip status={status} />}
+          {status && <StatusChip status={status} density={density} />}
           {extraRightSlot}
         </div>
       </div>

@@ -33,7 +33,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-098.1** [opus] | discovery — Completed 2026-05-15.
   - [x] **CORE-098.2** [opus] | typography & color audit — Completed 2026-05-15.
   - [x] **CORE-098.3** [opus] | settings-modal scaffold — Completed 2026-05-15.
-  - [ ] **CORE-098.4** [opus] | density modes — Add Comfortable / Default / Compact density toggles to the settings modal; each mode adjusts row padding + chip sizing + section gap; persists alongside visibility prefs.
+  - [x] **CORE-098.4** [opus] | density modes — Completed 2026-05-15.
   - [ ] **CORE-098.5** [opus] | board view-switcher — Add a List / Board segmented control to the header; Board lays the 6 priority sections out as columns, re-using `TaskRow` / `EpicRow` / `SubtaskRow` verbatim; persist `viewMode` in `localStorage`.
   - [ ] **CORE-098.6** [sonnet] | focus-ring system — Audit all interactive elements (chip buttons, gear, view-switcher segments, modal controls) and add explicit `focus:ring-*` classes where browser-default focus is invisible in either theme.
   - [ ] **CORE-098.7** [sonnet] | epic-row visual lift — Subtle visual distinction for epic rows (heavier border + leading icon + background tint, picked via Discovery) so the epic-vs-task hierarchy reads at a glance without the chevron.
@@ -41,6 +41,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [ ] **CORE-098.9** [sonnet] | keyboard-shortcuts overlay — Replace the `ⓘ`-tooltip with a `?`-triggered overlay modal listing all shortcuts; reuses the `<dialog>` infra from CORE-098.3.
   - [ ] **CORE-098.10** [sonnet] | empty + loading states — Informative empty-state ("No matches. Press Esc to clear filters.") and a loading skeleton on initial fetch.
   - [ ] **CORE-098.11** [opus] | audit — Verify the completed embellishment epic sits well in the codebase: a11y baseline preserved (FE-019), bundle-size budget intact (FE-026), typography/color/density interactions clean; doc-drift sweep per `SPEC/epic.md`.
+  - [ ] **CORE-098.12** [sonnet] | typography scale bump — Audit and bump the 4-step typography scale codified by CORE-098.2 (heading / subhead / body / caption); user-requested in CORE-098.4 confirmation feedback that the site reads slightly small. Per-step bumps decided via Discovery; preserve density-token interactions.
 - [ ] **CORE-EPIC-099** [opus] | external-conventions-survey — Investigate missing/expected workflow conventions flowtron should adopt or be compatible with (commit conventions, semver discipline, markdown patterns, Obsidian/Foam interop, etc.). Discovery deliverable: gap analysis + adoption candidates.
   - [ ] **CORE-099.1** [opus] | discovery — Survey external workflow / convention surfaces + identify gaps + recommend adoptions per SPEC/epic.md.
 

@@ -10,7 +10,7 @@ import {
   type TaskNode,
 } from '../parser';
 import { type Tasknote, type TasknoteStatus } from '../tasknote';
-import { STATUS_LABEL, STATUS_BADGE, PILL_ACTIVE } from './constants';
+import { DENSITY_TOKENS, STATUS_LABEL, STATUS_BADGE, PILL_ACTIVE } from './constants';
 import { PrioritySection } from './PrioritySection';
 import { ProjectSelector } from './ProjectSelector';
 import { SettingsModal } from './SettingsModal';
@@ -381,7 +381,7 @@ export const App: React.FC = () => {
       )}
 
       <main className="mx-auto max-w-screen-xl px-4 py-4">
-        <div className="flex flex-col gap-3">
+        <div className={`flex flex-col ${DENSITY_TOKENS[visibilityPrefs.density].betweenSectionsGap}`}>
           {SECTIONS.map((p) => {
             const nodes = bySection[p] ?? [];
             const collapsed = collapsedSections.has(p);

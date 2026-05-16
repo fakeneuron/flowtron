@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import type { Task } from '../parser';
 import type { Tasknote } from '../tasknote';
 import type { VisibilityPrefs } from '../visibilityPrefs';
+import { DENSITY_TOKENS } from './constants';
 import { TaskRowInner } from './TaskRowInner';
 import { rowOutlineClass } from './utils';
 
@@ -35,11 +36,12 @@ export const TaskRow: React.FC<TaskRowProps> = ({
       isSelected,
     )} transition-colors`}
   >
-    <div className="flex items-center gap-2 px-2.5 py-1.5 pl-9">
+    <div className={`flex items-center gap-2 ${DENSITY_TOKENS[visibility.density].rowPad} pl-9`}>
       <TaskRowInner
         task={task}
         tasknotesById={tasknotesById}
         rowChips={visibility.rowChips}
+        density={visibility.density}
         isExpandedDetail={expandedId === task.id}
         onToggleDetail={() => setExpandedId(expandedId === task.id ? null : task.id)}
       />

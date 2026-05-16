@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { DEFAULT_PREFS, type VisibilityPrefs } from '../visibilityPrefs';
+import { DEFAULT_PREFS, type DensityMode, type VisibilityPrefs } from '../visibilityPrefs';
 
 interface SettingsModalProps {
   open: boolean;
@@ -24,8 +24,15 @@ const DETAIL_SECTION_LABEL: Record<DetailSectionKey, string> = {
   subtasks: 'Subtasks',
 };
 
+const DENSITY_LABEL: Record<DensityMode, string> = {
+  comfortable: 'Comfortable',
+  default: 'Default',
+  compact: 'Compact',
+};
+
 const ROW_CHIP_KEYS: RowChipKey[] = ['tags', 'model', 'related', 'due'];
 const DETAIL_SECTION_KEYS: DetailSectionKey[] = ['goal', 'acceptance', 'subtasks'];
+const DENSITY_KEYS: DensityMode[] = ['comfortable', 'default', 'compact'];
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose, prefs, onChange }) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -58,6 +65,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose, pre
   const setDetailSection = (key: DetailSectionKey, value: boolean) => {
     onChange({ ...prefs, detailSections: { ...prefs.detailSections, [key]: value } });
   };
+  const setDensity = (value: DensityMode) => {
+    onChange({ ...prefs, density: value });
+  };
 
   return (
     <dialog
@@ -82,6 +92,25 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose, pre
                   onChange={(e) => setRowChip(key, e.target.checked)}
                 />
                 {ROW_CHIP_LABEL[key]}
+              </label>
+            ))}
+          </div>
+        </fieldset>
+        <fieldset className="mb-4">
+          <legend className="mb-1.5 text-[10px] font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
+            Density
+          </legend>
+          <div className="flex items-center gap-4">
+            {DENSITY_KEYS.map((key) => (
+              <label key={key} className="flex items-center gap-2 text-xs">
+                <input
+                  type="radio"
+                  name="density-mode"
+                  value={key}
+                  checked={prefs.density === key}
+                  onChange={() => setDensity(key)}
+                />
+                {DENSITY_LABEL[key]}
               </label>
             ))}
           </div>

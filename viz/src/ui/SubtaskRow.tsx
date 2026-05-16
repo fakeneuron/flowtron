@@ -1,9 +1,11 @@
 import React from 'react';
 import type { Task } from '../parser';
-import { ROW_HIGHLIGHT_SUBTASK, ROW_SELECTION_SUBTASK } from './constants';
+import type { DensityMode } from '../visibilityPrefs';
+import { DENSITY_TOKENS, ROW_HIGHLIGHT_SUBTASK, ROW_SELECTION_SUBTASK } from './constants';
 
 interface SubtaskRowProps {
   task: Task;
+  density: DensityMode;
   highlightId: string | null;
   isSelected: boolean;
   navigateToTask: (id: string) => void;
@@ -11,13 +13,14 @@ interface SubtaskRowProps {
 
 export const SubtaskRow: React.FC<SubtaskRowProps> = ({
   task,
+  density,
   highlightId,
   isSelected,
   navigateToTask,
 }) => (
   <div
     id={`row-${task.id}`}
-    className={`flex items-center gap-2 rounded px-2 py-1 ${
+    className={`flex items-center gap-2 rounded ${DENSITY_TOKENS[density].subtaskRowPad} ${
       highlightId === task.id
         ? ROW_HIGHLIGHT_SUBTASK
         : isSelected

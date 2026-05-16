@@ -427,6 +427,121 @@ describe('App — settings modal', () => {
   });
 });
 
+describe('App — density modes', () => {
+  const plan = `## High
+
+- [ ] **CORE-100** [opus] | one — Task one
+`;
+  const active = [
+    makeTasknote({
+      id: 'CORE-100',
+      frontmatter: {
+        title: 'one',
+        status: 'in-progress',
+        tags: [],
+        created: '2026-05-07',
+        relatedTasks: [],
+      },
+    }),
+  ];
+
+  beforeEach(() => {
+    window.localStorage.clear();
+  });
+
+  const rowPadClasses = (): string => {
+    const row = document.getElementById('row-CORE-100');
+    const inner = row?.querySelector(':scope > div');
+    return inner?.className ?? '';
+  };
+
+  it('renders three Density radios in the settings modal', async () => {
+    const user = userEvent.setup();
+    renderApp({ plan, active });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+
+    await user.click(screen.getByRole('button', { name: 'Open settings' }));
+
+    const comfortable = screen.getByRole('radio', { name: 'Comfortable' });
+    const def = screen.getByRole('radio', { name: 'Default' });
+    const compact = screen.getByRole('radio', { name: 'Compact' });
+    expect(comfortable).not.toBeChecked();
+    expect(def).toBeChecked();
+    expect(compact).not.toBeChecked();
+  });
+
+  it('selecting Compact tightens row padding', async () => {
+    const user = userEvent.setup();
+    renderApp({ plan, active });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+    expect(rowPadClasses()).toContain('px-2.5 py-1.5');
+
+    await user.click(screen.getByRole('button', { name: 'Open settings' }));
+    await user.click(screen.getByRole('radio', { name: 'Compact' }));
+
+    await waitFor(() => expect(rowPadClasses()).toContain('px-2 py-1'));
+    expect(rowPadClasses()).not.toContain('px-2.5');
+  });
+
+  it('selecting Comfortable loosens row padding', async () => {
+    const user = userEvent.setup();
+    renderApp({ plan, active });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+
+    await user.click(screen.getByRole('button', { name: 'Open settings' }));
+    await user.click(screen.getByRole('radio', { name: 'Comfortable' }));
+
+    await waitFor(() => expect(rowPadClasses()).toContain('px-3 py-2'));
+    expect(rowPadClasses()).not.toContain('px-2.5');
+  });
+
+  it('Reset to defaults restores Default density', async () => {
+    const user = userEvent.setup();
+    window.localStorage.setItem(
+      'flowtron-viz-prefs:flowtron',
+      JSON.stringify({
+        version: 1,
+        rowChips: { tags: false, model: true, related: false, due: false },
+        detailSections: { goal: true, acceptance: true, subtasks: true },
+        density: 'compact',
+      }),
+    );
+    renderApp({ plan, active });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+    expect(rowPadClasses()).toContain('px-2 py-1');
+
+    await user.click(screen.getByRole('button', { name: 'Open settings' }));
+    await user.click(screen.getByRole('button', { name: 'Reset to defaults' }));
+
+    await waitFor(() => expect(rowPadClasses()).toContain('px-2.5 py-1.5'));
+  });
+
+  it('per-project: switching projects reloads density from that project key', async () => {
+    const user = userEvent.setup();
+    window.localStorage.setItem(
+      'flowtron-viz-prefs:fintown',
+      JSON.stringify({
+        version: 1,
+        rowChips: { tags: false, model: true, related: false, due: false },
+        detailSections: { goal: true, acceptance: true, subtasks: true },
+        density: 'comfortable',
+      }),
+    );
+    renderApp({ plan, active, projects: ['flowtron', 'fintown'] });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+    expect(rowPadClasses()).toContain('px-2.5 py-1.5');
+
+    await user.click(screen.getByRole('button', { name: 'Project: fintown' }));
+
+    await waitFor(() => expect(rowPadClasses()).toContain('px-3 py-2'));
+  });
+});
+
 describe('App — status badge selection', () => {
   const plan = `## High
 

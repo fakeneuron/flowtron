@@ -20,6 +20,7 @@ describe('visibilityPrefs', () => {
       version: 1,
       rowChips: { tags: true, model: false, related: true, due: false },
       detailSections: { goal: false, acceptance: true, subtasks: true },
+      density: 'compact',
     };
     writeVisibilityPrefs('flowtron', next);
     expect(readVisibilityPrefs('flowtron')).toEqual(next);
@@ -70,5 +71,41 @@ describe('visibilityPrefs', () => {
     expect(result.rowChips.related).toBe(DEFAULT_PREFS.rowChips.related);
     expect(result.detailSections.goal).toBe(false);
     expect(result.detailSections.acceptance).toBe(true);
+  });
+
+  it('falls back density to "default" when the field is missing (v1 pre-density payload)', () => {
+    window.localStorage.setItem(
+      'flowtron-viz-prefs:flowtron',
+      JSON.stringify({
+        version: 1,
+        rowChips: { tags: true, model: false, related: false, due: false },
+        detailSections: { goal: true, acceptance: true, subtasks: true },
+      }),
+    );
+    const result = readVisibilityPrefs('flowtron');
+    expect(result.density).toBe('default');
+    expect(result.rowChips.tags).toBe(true);
+  });
+
+  it('falls back density to "default" when the field is an unknown string', () => {
+    window.localStorage.setItem(
+      'flowtron-viz-prefs:flowtron',
+      JSON.stringify({
+        version: 1,
+        rowChips: { tags: false, model: true, related: false, due: false },
+        detailSections: { goal: true, acceptance: true, subtasks: true },
+        density: 'super-dense',
+      }),
+    );
+    expect(readVisibilityPrefs('flowtron').density).toBe('default');
+  });
+
+  it('isolates density across projects', () => {
+    const a: VisibilityPrefs = { ...DEFAULT_PREFS, density: 'compact' };
+    const b: VisibilityPrefs = { ...DEFAULT_PREFS, density: 'comfortable' };
+    writeVisibilityPrefs('flowtron', a);
+    writeVisibilityPrefs('fintown', b);
+    expect(readVisibilityPrefs('flowtron').density).toBe('compact');
+    expect(readVisibilityPrefs('fintown').density).toBe('comfortable');
   });
 });
