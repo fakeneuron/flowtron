@@ -25,7 +25,7 @@ export const SubtaskRow: React.FC<SubtaskRowProps> = ({
         ? ROW_HIGHLIGHT_SUBTASK
         : isSelected
           ? ROW_SELECTION_SUBTASK
-          : ''
+          : 'hover:bg-slate-100/70 dark:hover:bg-slate-700/30'
     } transition-colors`}
   >
     <span

@@ -31,7 +31,7 @@ export const TaskRow: React.FC<TaskRowProps> = ({
 }) => (
   <div
     id={`row-${task.id}`}
-    className={`rounded border bg-white dark:bg-slate-900 ${rowOutlineClass(
+    className={`rounded border bg-white hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800/60 ${rowOutlineClass(
       highlightId === task.id,
       isSelected,
     )} transition-colors`}

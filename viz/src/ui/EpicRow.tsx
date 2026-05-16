@@ -51,7 +51,7 @@ export const EpicRow: React.FC<EpicRowProps> = ({
       )} transition-colors`}
     >
       <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 w-0.5 rounded-l bg-slate-400 dark:bg-slate-500" />
-      <div className={`flex items-center gap-2 ${tokens.rowPad}`}>
+      <div className={`flex items-center gap-2 ${tokens.rowPad} rounded transition-colors hover:bg-black/[0.03] dark:hover:bg-white/[0.03]`}>
         <button
           type="button"
           onClick={toggleExpanded}
@@ -79,20 +79,28 @@ export const EpicRow: React.FC<EpicRowProps> = ({
           }
         />
       </div>
-      {expanded && total > 0 && (
+      {total > 0 && (
         <div
-          className={`flex flex-col ${tokens.subtaskInterRowGap} border-t border-slate-100 bg-slate-50/50 px-2 py-1.5 dark:border-slate-800 dark:bg-slate-950/50`}
+          className={`grid transition-[grid-template-rows] duration-200 motion-reduce:transition-none ${
+            expanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+          }`}
         >
-          {children.map((c) => (
-            <SubtaskRow
-              key={c.id}
-              task={c}
-              density={density}
-              highlightId={highlightId}
-              isSelected={selectedId === c.id}
-              navigateToTask={navigateToTask}
-            />
-          ))}
+          <div className="overflow-hidden">
+            <div
+              className={`flex flex-col ${tokens.subtaskInterRowGap} border-t border-slate-100 bg-slate-50/50 px-2 py-1.5 dark:border-slate-800 dark:bg-slate-950/50`}
+            >
+              {children.map((c) => (
+                <SubtaskRow
+                  key={c.id}
+                  task={c}
+                  density={density}
+                  highlightId={highlightId}
+                  isSelected={selectedId === c.id}
+                  navigateToTask={navigateToTask}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       )}
       {expandedId === task.id && (

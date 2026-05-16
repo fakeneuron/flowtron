@@ -37,7 +37,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [ ] **CORE-098.5** [opus] | board view-switcher — Add a List / Board segmented control to the header; Board lays the 6 priority sections out as columns, re-using `TaskRow` / `EpicRow` / `SubtaskRow` verbatim; persist `viewMode` in `localStorage`.
   - [x] **CORE-098.6** [sonnet] | focus-ring system — Completed 2026-05-16.
   - [x] **CORE-098.7** [sonnet] | epic-row visual lift — Completed 2026-05-16.
-  - [ ] **CORE-098.8** [sonnet] | motion polish — Chevron-rotation on expand/collapse, subtle height-animated section + row expand, hover-tint on rows. Small bundle; easy to overdo — keep subtle.
+  - [x] **CORE-098.8** [sonnet] | motion polish — Completed 2026-05-16.
   - [ ] **CORE-098.9** [sonnet] | keyboard-shortcuts overlay — Replace the `ⓘ`-tooltip with a `?`-triggered overlay modal listing all shortcuts; reuses the `<dialog>` infra from CORE-098.3.
   - [ ] **CORE-098.10** [sonnet] | empty + loading states — Informative empty-state ("No matches. Press Esc to clear filters.") and a loading skeleton on initial fetch.
   - [ ] **CORE-098.11** [opus] | audit — Verify the completed embellishment epic sits well in the codebase: a11y baseline preserved (FE-019), bundle-size budget intact (FE-026), typography/color/density interactions clean; doc-drift sweep per `SPEC/epic.md`.

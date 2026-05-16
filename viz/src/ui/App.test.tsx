@@ -99,7 +99,6 @@ describe('App — navigateToTask', () => {
 
     const epicChevron = screen.getByRole('button', { name: 'Expand subtasks' });
     expect(epicChevron).toHaveAttribute('aria-expanded', 'false');
-    expect(document.getElementById('row-CORE-1.1')).toBeNull();
 
     await user.click(screen.getByRole('button', { name: /CORE-900/, expanded: false }));
 
