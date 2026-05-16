@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Task } from '../parser';
-import type { Tasknote } from '../tasknote';
+import { STARTER_SUBSECTION_KEYS, type StarterSubsectionKey, type Tasknote } from '../tasknote';
 import type { VisibilityPrefs } from '../visibilityPrefs';
 import { WikilinkMarkdown } from './WikilinkMarkdown';
 import { DetailSection } from './DetailSection';
@@ -8,18 +8,30 @@ import { PRIORITY_BADGE } from './constants';
 import { StatusChip } from './StatusChip';
 import { effectiveStatus } from './utils';
 
+const STARTER_SUBSECTION_LABEL: Record<StarterSubsectionKey, string> = {
+  whyExists: 'Why this exists',
+  solutionShape: 'Solution shape',
+  filesToTouch: 'Files to touch',
+  outOfScope: 'Out of scope',
+};
+
 const TaskDetail: React.FC<{
   task: Task;
   tasknote: Tasknote | undefined;
   detailSections: VisibilityPrefs['detailSections'];
+  starterSections: VisibilityPrefs['starterSections'];
   navigateToTask: (id: string) => void;
-}> = ({ task, tasknote, detailSections, navigateToTask }) => {
+  compact?: boolean;
+}> = ({ task, tasknote, detailSections, starterSections, navigateToTask, compact = false }) => {
   const status = effectiveStatus(task, tasknote);
   const isStarter = status === 'starter';
   const priority = tasknote ? task.priority : undefined;
   const showMetaHeader = priority || (task.completed && task.completedDate) || tasknote;
+  const rootClass = compact
+    ? '-mx-2 mt-2 mb-0.5 rounded border border-slate-200 bg-white pl-9 pr-3 py-2.5 text-sm text-slate-700 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300'
+    : 'border-t border-slate-100 bg-slate-50/40 pl-9 pr-3 py-2 text-sm text-slate-700 dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-300';
   return (
-    <div className="border-t border-slate-100 bg-slate-50/40 px-3 py-2 text-sm text-slate-700 dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-300">
+    <div className={rootClass}>
       {showMetaHeader && (
         <div className="mb-2 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
           {priority && (
@@ -45,11 +57,20 @@ const TaskDetail: React.FC<{
         </div>
       )}
       {isStarter && tasknote ? (
-        <DetailSection
-          title="🌱 Starter context"
-          markdown={tasknote.starterContext}
-          navigateToTask={navigateToTask}
-        />
+        <>
+          {STARTER_SUBSECTION_KEYS.map((key) => {
+            const body = tasknote.starterSubsections[key];
+            if (!starterSections[key] || !body) return null;
+            return (
+              <DetailSection
+                key={key}
+                title={STARTER_SUBSECTION_LABEL[key]}
+                markdown={body}
+                navigateToTask={navigateToTask}
+              />
+            );
+          })}
+        </>
       ) : tasknote ? (
         <>
           {detailSections.goal && tasknote.goal && (
@@ -71,7 +92,7 @@ const TaskDetail: React.FC<{
           )}
         </>
       ) : (
-        <div className="prose prose-xs max-w-none [&_p]:my-1 [&_ul]:my-1 [&_li]:my-0 [&_input]:mr-1">
+        <div className="prose prose-sm max-w-none [&_p]:my-1 [&_ul]:my-1 [&_li]:my-0 [&_input]:mr-1">
           <WikilinkMarkdown markdown={task.description} navigateToTask={navigateToTask} />
         </div>
       )}

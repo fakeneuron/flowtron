@@ -20,6 +20,12 @@ describe('visibilityPrefs', () => {
       version: 1,
       rowChips: { tags: true, model: false, related: true, due: false },
       detailSections: { goal: false, acceptance: true, subtasks: true },
+      starterSections: {
+        whyExists: true,
+        solutionShape: false,
+        filesToTouch: true,
+        outOfScope: false,
+      },
       density: 'compact',
     };
     writeVisibilityPrefs('flowtron', next);
@@ -98,6 +104,40 @@ describe('visibilityPrefs', () => {
       }),
     );
     expect(readVisibilityPrefs('flowtron').density).toBe('default');
+  });
+
+  it('falls back starterSections to defaults when the field is missing (pre-starterSections payload)', () => {
+    window.localStorage.setItem(
+      'flowtron-viz-prefs:flowtron',
+      JSON.stringify({
+        version: 1,
+        rowChips: { tags: true, model: false, related: false, due: false },
+        detailSections: { goal: true, acceptance: true, subtasks: true },
+        density: 'compact',
+      }),
+    );
+    const result = readVisibilityPrefs('flowtron');
+    expect(result.starterSections).toEqual(DEFAULT_PREFS.starterSections);
+    expect(result.density).toBe('compact');
+    expect(result.rowChips.tags).toBe(true);
+  });
+
+  it('coerces missing starterSections booleans to defaults but preserves provided ones', () => {
+    window.localStorage.setItem(
+      'flowtron-viz-prefs:flowtron',
+      JSON.stringify({
+        version: 1,
+        rowChips: { tags: false, model: true, related: false, due: false },
+        detailSections: { goal: true, acceptance: true, subtasks: true },
+        starterSections: { whyExists: false, filesToTouch: false },
+        density: 'default',
+      }),
+    );
+    const result = readVisibilityPrefs('flowtron');
+    expect(result.starterSections.whyExists).toBe(false);
+    expect(result.starterSections.filesToTouch).toBe(false);
+    expect(result.starterSections.solutionShape).toBe(DEFAULT_PREFS.starterSections.solutionShape);
+    expect(result.starterSections.outOfScope).toBe(DEFAULT_PREFS.starterSections.outOfScope);
   });
 
   it('isolates density across projects', () => {

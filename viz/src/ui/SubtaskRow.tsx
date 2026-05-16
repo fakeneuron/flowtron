@@ -74,7 +74,9 @@ export const SubtaskRow: React.FC<SubtaskRowProps> = ({
             task={task}
             tasknote={tasknotesById.get(task.id)}
             detailSections={visibility.detailSections}
+            starterSections={visibility.starterSections}
             navigateToTask={navigateToTask}
+            compact
           />
         </Suspense>
       )}

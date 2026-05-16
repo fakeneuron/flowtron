@@ -2,7 +2,7 @@ import { render, type RenderResult } from '@testing-library/react';
 import React from 'react';
 import { vi } from 'vitest';
 import { App } from '../ui/App';
-import type { Tasknote } from '../tasknote';
+import { emptyStarterSubsections, type Tasknote } from '../tasknote';
 
 export interface ProjectFetchOverride {
   plan?: string;
@@ -35,6 +35,7 @@ export function makeTasknote(partial: Partial<Tasknote> & Pick<Tasknote, 'id'>):
     acceptance: partial.acceptance ?? '',
     subtasks: partial.subtasks ?? '',
     starterContext: partial.starterContext ?? '',
+    starterSubsections: partial.starterSubsections ?? emptyStarterSubsections(),
     subtasksProgress: partial.subtasksProgress ?? { total: 0, done: 0 },
     phases: partial.phases ?? [
       { total: 0, done: 0 },

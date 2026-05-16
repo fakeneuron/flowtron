@@ -14,6 +14,10 @@ export interface ChecklistCounts {
   done: number;
 }
 
+export type StarterSubsectionKey = 'whyExists' | 'solutionShape' | 'filesToTouch' | 'outOfScope';
+
+export type StarterSubsections = Record<StarterSubsectionKey, string>;
+
 export interface Tasknote {
   id: string;
   path: string;
@@ -23,9 +27,31 @@ export interface Tasknote {
   acceptance: string;
   subtasks: string;
   starterContext: string;
+  starterSubsections: StarterSubsections;
   subtasksProgress: ChecklistCounts;
   phases: ChecklistCounts[];
 }
+
+export const STARTER_SUBSECTION_KEYS: StarterSubsectionKey[] = [
+  'whyExists',
+  'solutionShape',
+  'filesToTouch',
+  'outOfScope',
+];
+
+const STARTER_SUBSECTION_TITLES: Record<StarterSubsectionKey, string> = {
+  whyExists: 'Why this exists',
+  solutionShape: 'Solution shape',
+  filesToTouch: 'Files to touch',
+  outOfScope: 'Explicitly out of scope',
+};
+
+export const emptyStarterSubsections = (): StarterSubsections => ({
+  whyExists: '',
+  solutionShape: '',
+  filesToTouch: '',
+  outOfScope: '',
+});
 
 const STATUS_VALUES = new Set<TasknoteStatus>([
   'starter',
@@ -72,6 +98,7 @@ export function parseFrontmatter(raw: unknown): TasknoteFrontmatter | null {
 }
 
 const SECTION_HEADING = /^##\s+(.+?)\s*$/;
+const SUBSECTION_HEADING = /^###\s+(.+?)\s*$/;
 const HORIZONTAL_RULE = /^---\s*$/;
 
 export function extractSection(body: string, titleSubstring: string): string {
@@ -93,6 +120,39 @@ export function extractSection(body: string, titleSubstring: string): string {
     collected.push(line);
   }
   return collected.join('\n').trim();
+}
+
+export function extractStarterSubsections(starterContext: string): StarterSubsections {
+  const result = emptyStarterSubsections();
+  if (!starterContext) return result;
+  const lines = starterContext.split(/\r?\n/);
+  let activeKey: StarterSubsectionKey | null = null;
+  const buffers: Record<StarterSubsectionKey, string[]> = {
+    whyExists: [],
+    solutionShape: [],
+    filesToTouch: [],
+    outOfScope: [],
+  };
+  for (const line of lines) {
+    const heading = SUBSECTION_HEADING.exec(line);
+    if (heading) {
+      const title = heading[1];
+      const matchedKey =
+        STARTER_SUBSECTION_KEYS.find((k) => title.includes(STARTER_SUBSECTION_TITLES[k])) ?? null;
+      activeKey = matchedKey;
+      continue;
+    }
+    if (!activeKey) continue;
+    if (HORIZONTAL_RULE.test(line)) {
+      activeKey = null;
+      continue;
+    }
+    buffers[activeKey].push(line);
+  }
+  for (const key of STARTER_SUBSECTION_KEYS) {
+    result[key] = buffers[key].join('\n').trim();
+  }
+  return result;
 }
 
 const CHECKLIST_LINE = /^\s*-\s+\[([ xX])\]/;

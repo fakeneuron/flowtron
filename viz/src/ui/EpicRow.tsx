@@ -112,6 +112,7 @@ export const EpicRow: React.FC<EpicRowProps> = ({
             task={task}
             tasknote={tasknotesById.get(task.id)}
             detailSections={visibility.detailSections}
+            starterSections={visibility.starterSections}
             navigateToTask={navigateToTask}
           />
         </Suspense>

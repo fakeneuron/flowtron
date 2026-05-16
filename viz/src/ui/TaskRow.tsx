@@ -52,6 +52,7 @@ export const TaskRow: React.FC<TaskRowProps> = ({
           task={task}
           tasknote={tasknotesById.get(task.id)}
           detailSections={visibility.detailSections}
+          starterSections={visibility.starterSections}
           navigateToTask={navigateToTask}
         />
       </Suspense>

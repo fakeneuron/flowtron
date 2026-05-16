@@ -13,6 +13,12 @@ export interface VisibilityPrefs {
     acceptance: boolean;
     subtasks: boolean;
   };
+  starterSections: {
+    whyExists: boolean;
+    solutionShape: boolean;
+    filesToTouch: boolean;
+    outOfScope: boolean;
+  };
   density: DensityMode;
 }
 
@@ -20,6 +26,12 @@ export const DEFAULT_PREFS: VisibilityPrefs = {
   version: 1,
   rowChips: { tags: false, model: true, related: false, due: false },
   detailSections: { goal: true, acceptance: true, subtasks: true },
+  starterSections: {
+    whyExists: true,
+    solutionShape: true,
+    filesToTouch: true,
+    outOfScope: true,
+  },
   density: 'default',
 };
 
@@ -46,6 +58,7 @@ const parsePrefs = (raw: string | null): VisibilityPrefs => {
   const rc = d.rowChips as Record<string, unknown> | undefined;
   const ds = d.detailSections as Record<string, unknown> | undefined;
   if (!rc || !ds) return DEFAULT_PREFS;
+  const ss = (d.starterSections as Record<string, unknown> | undefined) ?? {};
   return {
     version: 1,
     rowChips: {
@@ -58,6 +71,16 @@ const parsePrefs = (raw: string | null): VisibilityPrefs => {
       goal: isBool(ds.goal) ? ds.goal : DEFAULT_PREFS.detailSections.goal,
       acceptance: isBool(ds.acceptance) ? ds.acceptance : DEFAULT_PREFS.detailSections.acceptance,
       subtasks: isBool(ds.subtasks) ? ds.subtasks : DEFAULT_PREFS.detailSections.subtasks,
+    },
+    starterSections: {
+      whyExists: isBool(ss.whyExists) ? ss.whyExists : DEFAULT_PREFS.starterSections.whyExists,
+      solutionShape: isBool(ss.solutionShape)
+        ? ss.solutionShape
+        : DEFAULT_PREFS.starterSections.solutionShape,
+      filesToTouch: isBool(ss.filesToTouch)
+        ? ss.filesToTouch
+        : DEFAULT_PREFS.starterSections.filesToTouch,
+      outOfScope: isBool(ss.outOfScope) ? ss.outOfScope : DEFAULT_PREFS.starterSections.outOfScope,
     },
     density: isDensity(d.density) ? d.density : DEFAULT_PREFS.density,
   };

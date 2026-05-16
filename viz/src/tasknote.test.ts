@@ -3,6 +3,7 @@ import {
   activePhaseIndex,
   countChecklist,
   extractSection,
+  extractStarterSubsections,
   parseFrontmatter,
 } from './tasknote';
 import { parseTasknote } from './tasknote-parse';
@@ -148,6 +149,81 @@ Phase content goes here.
 
   it('returns empty string for missing sections', () => {
     expect(extractSection(body, 'DoesNotExist')).toBe('');
+  });
+});
+
+describe('extractStarterSubsections', () => {
+  const fullStarterBody = `_Captured 2026-05-03 during mid-flow discovery._
+
+### Why this exists
+
+Rationale paragraph.
+Spans two lines.
+
+### Solution shape
+
+- Decision one
+- Decision two
+
+### Files to touch (preliminary survey — drift-check at promotion)
+
+- \`viz/src/tasknote.ts\` — add starter parsing
+
+### Explicitly out of scope
+
+- thing — why split
+
+### Decisions locked in this conversation
+
+| Decision | Choice | Rationale |
+|---|---|---|
+| X | Y | Z |
+
+### Open at promotion (Phase 1 should resolve)
+
+- Question. Lean: answer.
+
+### Related
+
+- [[TASK-001]] — predecessor
+`;
+
+  it('extracts the four keep-keys from a complete starter body', () => {
+    const subs = extractStarterSubsections(fullStarterBody);
+    expect(subs.whyExists).toBe('Rationale paragraph.\nSpans two lines.');
+    expect(subs.solutionShape).toBe('- Decision one\n- Decision two');
+    expect(subs.filesToTouch).toBe('- `viz/src/tasknote.ts` — add starter parsing');
+    expect(subs.outOfScope).toBe('- thing — why split');
+  });
+
+  it('returns empty strings (not undefined) for missing sub-headings', () => {
+    const partial = `### Why this exists
+
+Just this one.
+`;
+    const subs = extractStarterSubsections(partial);
+    expect(subs.whyExists).toBe('Just this one.');
+    expect(subs.solutionShape).toBe('');
+    expect(subs.filesToTouch).toBe('');
+    expect(subs.outOfScope).toBe('');
+  });
+
+  it('returns all empty strings for empty input', () => {
+    expect(extractStarterSubsections('')).toEqual({
+      whyExists: '',
+      solutionShape: '',
+      filesToTouch: '',
+      outOfScope: '',
+    });
+  });
+
+  it('does not collect content from Decisions / Open / Related sub-sections', () => {
+    const subs = extractStarterSubsections(fullStarterBody);
+    const joined = `${subs.whyExists}\n${subs.solutionShape}\n${subs.filesToTouch}\n${subs.outOfScope}`;
+    expect(joined).not.toContain('Decisions locked');
+    expect(joined).not.toContain('Open at promotion');
+    expect(joined).not.toContain('TASK-001');
+    expect(joined).not.toContain('| X | Y | Z |');
   });
 });
 
@@ -370,5 +446,11 @@ Rich context that would otherwise bloat PLAN.md.
     expect(tn.starterContext).toContain('Why this exists');
     expect(tn.starterContext).toContain('Rich context that would otherwise bloat PLAN.md.');
     expect(tn.starterContext).toContain('viz/src/tasknote.ts');
+    expect(tn.starterSubsections.whyExists).toBe(
+      'Rich context that would otherwise bloat PLAN.md.',
+    );
+    expect(tn.starterSubsections.filesToTouch).toBe('- `viz/src/tasknote.ts` — add starter status');
+    expect(tn.starterSubsections.solutionShape).toBe('');
+    expect(tn.starterSubsections.outOfScope).toBe('');
   });
 });
