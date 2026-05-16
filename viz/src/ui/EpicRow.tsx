@@ -6,7 +6,7 @@ import { Chevron } from './Chevron';
 import { DENSITY_TOKENS } from './constants';
 import { TaskRowInner } from './TaskRowInner';
 import { SubtaskRow } from './SubtaskRow';
-import { rowOutlineClass } from './utils';
+import { epicRowOutlineClass } from './utils';
 
 const TaskDetail = lazy(() => import('./TaskDetail'));
 
@@ -45,11 +45,12 @@ export const EpicRow: React.FC<EpicRowProps> = ({
   return (
     <div
       id={`row-${task.id}`}
-      className={`rounded border bg-white dark:bg-slate-900 ${rowOutlineClass(
+      className={`relative rounded border-2 bg-slate-50 dark:bg-slate-800/50 ${epicRowOutlineClass(
         highlightId === task.id,
         isSelected,
       )} transition-colors`}
     >
+      <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 w-0.5 rounded-l bg-slate-400 dark:bg-slate-500" />
       <div className={`flex items-center gap-2 ${tokens.rowPad}`}>
         <button
           type="button"

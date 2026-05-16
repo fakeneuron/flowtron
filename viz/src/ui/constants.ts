@@ -92,6 +92,7 @@ export const ROW_SELECTION =
   'border-slate-200 ring-2 ring-sky-400 dark:border-slate-800 dark:ring-sky-600';
 export const ROW_SELECTION_SUBTASK = 'ring-1 ring-sky-400 dark:ring-sky-600';
 export const ROW_NEUTRAL = 'border-slate-200 dark:border-slate-800';
+export const EPIC_ROW_NEUTRAL = 'border-slate-300 dark:border-slate-700';
 
 export const PILL_FOCUS_RING =
   'focus:outline-none focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500';

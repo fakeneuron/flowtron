@@ -1,6 +1,6 @@
 import type { Task } from '../parser';
 import type { Tasknote, TasknoteStatus } from '../tasknote';
-import { ROW_HIGHLIGHT, ROW_NEUTRAL, ROW_SELECTION } from './constants';
+import { EPIC_ROW_NEUTRAL, ROW_HIGHLIGHT, ROW_NEUTRAL, ROW_SELECTION } from './constants';
 
 export function groupBy<T, K extends string | number>(
   items: T[],
@@ -29,4 +29,10 @@ export function rowOutlineClass(isHighlighted: boolean, isSelected: boolean): st
   if (isHighlighted) return ROW_HIGHLIGHT;
   if (isSelected) return ROW_SELECTION;
   return ROW_NEUTRAL;
+}
+
+export function epicRowOutlineClass(isHighlighted: boolean, isSelected: boolean): string {
+  if (isHighlighted) return ROW_HIGHLIGHT;
+  if (isSelected) return ROW_SELECTION;
+  return EPIC_ROW_NEUTRAL;
 }
