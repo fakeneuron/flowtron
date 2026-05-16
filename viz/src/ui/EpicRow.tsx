@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import type { TaskNode } from '../parser';
 import type { Tasknote } from '../tasknote';
+import type { VisibilityPrefs } from '../visibilityPrefs';
 import { Chevron } from './Chevron';
 import { TaskRowInner } from './TaskRowInner';
 import { SubtaskRow } from './SubtaskRow';
@@ -11,6 +12,7 @@ const TaskDetail = lazy(() => import('./TaskDetail'));
 interface EpicRowProps {
   node: TaskNode;
   tasknotesById: Map<string, Tasknote>;
+  visibility: VisibilityPrefs;
   expandedId: string | null;
   setExpandedId: (id: string | null) => void;
   expanded: boolean;
@@ -24,6 +26,7 @@ interface EpicRowProps {
 export const EpicRow: React.FC<EpicRowProps> = ({
   node,
   tasknotesById,
+  visibility,
   expandedId,
   setExpandedId,
   expanded,
@@ -57,6 +60,7 @@ export const EpicRow: React.FC<EpicRowProps> = ({
         <TaskRowInner
           task={task}
           tasknotesById={tasknotesById}
+          rowChips={visibility.rowChips}
           isExpandedDetail={expandedId === task.id}
           onToggleDetail={() => setExpandedId(expandedId === task.id ? null : task.id)}
           extraRightSlot={
@@ -86,6 +90,7 @@ export const EpicRow: React.FC<EpicRowProps> = ({
           <TaskDetail
             task={task}
             tasknote={tasknotesById.get(task.id)}
+            detailSections={visibility.detailSections}
             navigateToTask={navigateToTask}
           />
         </Suspense>

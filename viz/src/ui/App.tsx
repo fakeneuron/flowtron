@@ -13,10 +13,17 @@ import { type Tasknote, type TasknoteStatus } from '../tasknote';
 import { STATUS_LABEL, STATUS_BADGE, PILL_ACTIVE } from './constants';
 import { PrioritySection } from './PrioritySection';
 import { ProjectSelector } from './ProjectSelector';
+import { SettingsModal } from './SettingsModal';
 import { ThemeToggle } from './ThemeToggle';
 import { useKeyboardNav } from './useKeyboardNav';
 import { useToggleSet } from './useToggleSet';
 import { readStoredProject, writeStoredProject } from '../projectStorage';
+import {
+  DEFAULT_PREFS,
+  readVisibilityPrefs,
+  writeVisibilityPrefs,
+  type VisibilityPrefs,
+} from '../visibilityPrefs';
 
 const SECTIONS: Priority[] = [
   'Critical',
@@ -52,6 +59,8 @@ export const App: React.FC = () => {
   const [expandedEpicIds, toggleEpic, setExpandedEpicIds] = useToggleSet<string>();
   const [highlightId, setHighlightId] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [visibilityPrefs, setVisibilityPrefs] = useState<VisibilityPrefs>(DEFAULT_PREFS);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const activeProjectRef = useRef<string | null>(null);
@@ -106,8 +115,17 @@ export const App: React.FC = () => {
   useEffect(() => {
     if (!activeProject) return;
     writeStoredProject(activeProject);
+    setVisibilityPrefs(readVisibilityPrefs(activeProject));
     void load(activeProject);
   }, [activeProject, load]);
+
+  const updateVisibilityPrefs = useCallback(
+    (next: VisibilityPrefs) => {
+      setVisibilityPrefs(next);
+      if (activeProject) writeVisibilityPrefs(activeProject, next);
+    },
+    [activeProject],
+  );
 
   const refresh = useCallback(() => {
     const current = activeProjectRef.current;
@@ -316,6 +334,15 @@ export const App: React.FC = () => {
                 ⓘ
               </button>
               <ThemeToggle />
+              <button
+                type="button"
+                onClick={() => setSettingsOpen(true)}
+                aria-label="Open settings"
+                title="Settings"
+                className="rounded border border-slate-300 bg-white px-2 py-1.5 text-sm shadow-sm hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+              >
+                ⚙️
+              </button>
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
@@ -366,6 +393,7 @@ export const App: React.FC = () => {
                 collapsed={collapsed}
                 onToggle={() => toggleSection(p)}
                 tasknotesById={tasknotesById}
+                visibility={visibilityPrefs}
                 expandedId={expandedId}
                 setExpandedId={setExpandedId}
                 expandedEpicIds={expandedEpicIds}
@@ -378,6 +406,12 @@ export const App: React.FC = () => {
           })}
         </div>
       </main>
+      <SettingsModal
+        open={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+        prefs={visibilityPrefs}
+        onChange={updateVisibilityPrefs}
+      />
     </div>
   );
 };

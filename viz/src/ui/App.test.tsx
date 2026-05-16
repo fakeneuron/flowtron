@@ -307,6 +307,126 @@ describe('App — load() partial failure on project switch', () => {
   });
 });
 
+describe('App — settings modal', () => {
+  const plan = `## High
+
+- [ ] **CORE-100** [opus] | one — Task one [[CORE-200]]
+`;
+  const active = [
+    makeTasknote({
+      id: 'CORE-100',
+      goal: 'The goal sentence.',
+      subtasks: '- [ ] step a\n- [ ] step b',
+      frontmatter: {
+        title: 'one',
+        status: 'in-progress',
+        tags: ['viz', 'ui'],
+        created: '2026-05-07',
+        due: '2026-06-01',
+        relatedTasks: [],
+      },
+    }),
+  ];
+
+  beforeEach(() => {
+    window.localStorage.clear();
+  });
+
+  it('gear opens the dialog; Done closes it', async () => {
+    const user = userEvent.setup();
+    renderApp({ plan, active });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+
+    const dialog = document.querySelector('dialog') as HTMLDialogElement;
+    expect(dialog.open).toBe(false);
+
+    await user.click(screen.getByRole('button', { name: 'Open settings' }));
+    await waitFor(() => expect(dialog.open).toBe(true));
+
+    await user.click(screen.getByRole('button', { name: 'Done' }));
+    await waitFor(() => expect(dialog.open).toBe(false));
+  });
+
+  it('toggling row-chip prefs surfaces hidden chips and hides shown ones', async () => {
+    const user = userEvent.setup();
+    renderApp({ plan, active });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+    expect(screen.queryByText('viz')).not.toBeInTheDocument();
+    expect(screen.getByText('Opus')).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Open settings' }));
+    await user.click(screen.getByRole('checkbox', { name: 'Tags' }));
+    await user.click(screen.getByRole('checkbox', { name: 'Model' }));
+
+    await waitFor(() => expect(screen.getByText('viz')).toBeInTheDocument());
+    expect(screen.getByText('ui')).toBeInTheDocument();
+    expect(screen.queryByText('Opus')).not.toBeInTheDocument();
+  });
+
+  it('toggling detailSections.subtasks hides the Subtasks section when the row is expanded', async () => {
+    const user = userEvent.setup();
+    renderApp({ plan, active });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+
+    await user.click(screen.getByRole('button', { expanded: false, name: /CORE-100/ }));
+    await waitFor(() => expect(screen.getByText('The goal sentence.')).toBeInTheDocument());
+    expect(screen.getByText('Subtasks', { selector: 'p' })).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Open settings' }));
+    await user.click(screen.getByRole('checkbox', { name: 'Subtasks' }));
+
+    await waitFor(() =>
+      expect(screen.queryByText('Subtasks', { selector: 'p' })).not.toBeInTheDocument(),
+    );
+    expect(screen.getByText('The goal sentence.')).toBeInTheDocument();
+  });
+
+  it('Reset to defaults restores tags OFF / model ON and detail-sections ON', async () => {
+    const user = userEvent.setup();
+    window.localStorage.setItem(
+      'flowtron-viz-prefs:flowtron',
+      JSON.stringify({
+        version: 1,
+        rowChips: { tags: true, model: false, related: false, due: false },
+        detailSections: { goal: false, acceptance: true, subtasks: true },
+      }),
+    );
+    renderApp({ plan, active });
+
+    await waitFor(() => expect(screen.getByText('viz')).toBeInTheDocument());
+    expect(screen.queryByText('Opus')).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Open settings' }));
+    await user.click(screen.getByRole('button', { name: 'Reset to defaults' }));
+
+    await waitFor(() => expect(screen.queryByText('viz')).not.toBeInTheDocument());
+    expect(screen.getByText('Opus')).toBeInTheDocument();
+  });
+
+  it('per-project: switching projects reloads prefs from that project key', async () => {
+    const user = userEvent.setup();
+    window.localStorage.setItem(
+      'flowtron-viz-prefs:fintown',
+      JSON.stringify({
+        version: 1,
+        rowChips: { tags: true, model: false, related: false, due: false },
+        detailSections: { goal: true, acceptance: true, subtasks: true },
+      }),
+    );
+    renderApp({ plan, active, projects: ['flowtron', 'fintown'] });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+    expect(screen.queryByText('viz')).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Project: fintown' }));
+
+    await waitFor(() => expect(screen.getByText('viz')).toBeInTheDocument());
+  });
+});
+
 describe('App — status badge selection', () => {
   const plan = `## High
 

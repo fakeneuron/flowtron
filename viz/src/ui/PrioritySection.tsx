@@ -1,6 +1,7 @@
 import React from 'react';
 import { isEpic, type Priority, type TaskNode } from '../parser';
 import type { Tasknote } from '../tasknote';
+import type { VisibilityPrefs } from '../visibilityPrefs';
 import { Chevron } from './Chevron';
 import { SECTION_TINT } from './constants';
 import { EpicRow } from './EpicRow';
@@ -12,6 +13,7 @@ interface PrioritySectionProps {
   collapsed: boolean;
   onToggle: () => void;
   tasknotesById: Map<string, Tasknote>;
+  visibility: VisibilityPrefs;
   expandedId: string | null;
   setExpandedId: (id: string | null) => void;
   expandedEpicIds: Set<string>;
@@ -27,6 +29,7 @@ export const PrioritySection: React.FC<PrioritySectionProps> = ({
   collapsed,
   onToggle,
   tasknotesById,
+  visibility,
   expandedId,
   setExpandedId,
   expandedEpicIds,
@@ -60,6 +63,7 @@ export const PrioritySection: React.FC<PrioritySectionProps> = ({
                   key={node.task.id}
                   node={node}
                   tasknotesById={tasknotesById}
+                  visibility={visibility}
                   expandedId={expandedId}
                   setExpandedId={setExpandedId}
                   expanded={expandedEpicIds.has(node.task.id)}
@@ -76,6 +80,7 @@ export const PrioritySection: React.FC<PrioritySectionProps> = ({
                 key={node.task.id}
                 task={node.task}
                 tasknotesById={tasknotesById}
+                visibility={visibility}
                 expandedId={expandedId}
                 setExpandedId={setExpandedId}
                 highlightId={highlightId}

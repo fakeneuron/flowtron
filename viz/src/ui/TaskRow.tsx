@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import type { Task } from '../parser';
 import type { Tasknote } from '../tasknote';
+import type { VisibilityPrefs } from '../visibilityPrefs';
 import { TaskRowInner } from './TaskRowInner';
 import { rowOutlineClass } from './utils';
 
@@ -9,6 +10,7 @@ const TaskDetail = lazy(() => import('./TaskDetail'));
 interface TaskRowProps {
   task: Task;
   tasknotesById: Map<string, Tasknote>;
+  visibility: VisibilityPrefs;
   expandedId: string | null;
   setExpandedId: (id: string | null) => void;
   highlightId: string | null;
@@ -19,6 +21,7 @@ interface TaskRowProps {
 export const TaskRow: React.FC<TaskRowProps> = ({
   task,
   tasknotesById,
+  visibility,
   expandedId,
   setExpandedId,
   highlightId,
@@ -36,6 +39,7 @@ export const TaskRow: React.FC<TaskRowProps> = ({
       <TaskRowInner
         task={task}
         tasknotesById={tasknotesById}
+        rowChips={visibility.rowChips}
         isExpandedDetail={expandedId === task.id}
         onToggleDetail={() => setExpandedId(expandedId === task.id ? null : task.id)}
       />
@@ -45,6 +49,7 @@ export const TaskRow: React.FC<TaskRowProps> = ({
         <TaskDetail
           task={task}
           tasknote={tasknotesById.get(task.id)}
+          detailSections={visibility.detailSections}
           navigateToTask={navigateToTask}
         />
       </Suspense>

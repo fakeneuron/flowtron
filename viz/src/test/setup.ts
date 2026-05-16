@@ -38,3 +38,30 @@ if (typeof globalThis.EventSource === 'undefined') {
   (globalThis as unknown as { EventSource: typeof MockEventSource }).EventSource =
     MockEventSource;
 }
+
+// jsdom 25 ships HTMLDialogElement but not showModal/close behavior.
+// Minimal polyfill: toggle the `open` attribute and fire the `close` event.
+if (typeof HTMLDialogElement !== 'undefined') {
+  const proto = HTMLDialogElement.prototype as HTMLDialogElement & {
+    showModal: () => void;
+    show: () => void;
+    close: (returnValue?: string) => void;
+  };
+  if (typeof proto.showModal !== 'function') {
+    proto.showModal = function () {
+      this.setAttribute('open', '');
+    };
+  }
+  if (typeof proto.show !== 'function') {
+    proto.show = function () {
+      this.setAttribute('open', '');
+    };
+  }
+  if (typeof proto.close !== 'function') {
+    proto.close = function (returnValue?: string) {
+      this.removeAttribute('open');
+      if (returnValue !== undefined) this.setAttribute('returnvalue', returnValue);
+      this.dispatchEvent(new Event('close'));
+    };
+  }
+}

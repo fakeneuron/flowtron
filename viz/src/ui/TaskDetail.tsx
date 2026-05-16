@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Task } from '../parser';
 import type { Tasknote } from '../tasknote';
+import type { VisibilityPrefs } from '../visibilityPrefs';
 import { WikilinkMarkdown } from './WikilinkMarkdown';
 import { DetailSection } from './DetailSection';
 import { PRIORITY_BADGE } from './constants';
@@ -10,8 +11,9 @@ import { effectiveStatus } from './utils';
 const TaskDetail: React.FC<{
   task: Task;
   tasknote: Tasknote | undefined;
+  detailSections: VisibilityPrefs['detailSections'];
   navigateToTask: (id: string) => void;
-}> = ({ task, tasknote, navigateToTask }) => {
+}> = ({ task, tasknote, detailSections, navigateToTask }) => {
   const status = effectiveStatus(task, tasknote);
   const isStarter = status === 'starter';
   const priority = tasknote ? task.priority : undefined;
@@ -50,17 +52,17 @@ const TaskDetail: React.FC<{
         />
       ) : tasknote ? (
         <>
-          {tasknote.goal && (
+          {detailSections.goal && tasknote.goal && (
             <DetailSection title="Goal" markdown={tasknote.goal} navigateToTask={navigateToTask} />
           )}
-          {tasknote.acceptance && (
+          {detailSections.acceptance && tasknote.acceptance && (
             <DetailSection
               title="Acceptance"
               markdown={tasknote.acceptance}
               navigateToTask={navigateToTask}
             />
           )}
-          {tasknote.subtasks && (
+          {detailSections.subtasks && tasknote.subtasks && (
             <DetailSection
               title="Subtasks"
               markdown={tasknote.subtasks}
