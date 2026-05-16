@@ -109,6 +109,7 @@ export const PILL_DEFAULT_SLATE = `bg-slate-100 text-slate-700 hover:bg-slate-20
 export interface DensityTokens {
   rowPad: string;
   subtaskRowPad: string;
+  subtaskContainerPad: string;
   sectionInteriorPad: string;
   interRowGap: string;
   subtaskInterRowGap: string;
@@ -120,6 +121,7 @@ export const DENSITY_TOKENS: Record<DensityMode, DensityTokens> = {
   comfortable: {
     rowPad: 'px-3 py-2',
     subtaskRowPad: 'px-2.5 py-1.5',
+    subtaskContainerPad: 'px-2.5 py-2',
     sectionInteriorPad: 'p-3',
     interRowGap: 'gap-2',
     subtaskInterRowGap: 'gap-1.5',
@@ -129,6 +131,7 @@ export const DENSITY_TOKENS: Record<DensityMode, DensityTokens> = {
   default: {
     rowPad: 'px-2.5 py-1.5',
     subtaskRowPad: 'px-2 py-1',
+    subtaskContainerPad: 'px-2 py-1.5',
     sectionInteriorPad: 'p-2',
     interRowGap: 'gap-1.5',
     subtaskInterRowGap: 'gap-1',
@@ -138,6 +141,7 @@ export const DENSITY_TOKENS: Record<DensityMode, DensityTokens> = {
   compact: {
     rowPad: 'px-2 py-1',
     subtaskRowPad: 'px-1.5 py-0.5',
+    subtaskContainerPad: 'px-1.5 py-1',
     sectionInteriorPad: 'p-1.5',
     interRowGap: 'gap-1',
     subtaskInterRowGap: 'gap-0.5',

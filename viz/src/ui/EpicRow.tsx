@@ -87,7 +87,7 @@ export const EpicRow: React.FC<EpicRowProps> = ({
         >
           <div className="overflow-hidden">
             <div
-              className={`flex flex-col ${tokens.subtaskInterRowGap} border-t border-slate-100 bg-slate-50/50 px-2 py-1.5 dark:border-slate-800 dark:bg-slate-950/50`}
+              className={`flex flex-col ${tokens.subtaskInterRowGap} ${tokens.subtaskContainerPad} border-t border-slate-100 bg-slate-50/50 dark:border-slate-800 dark:bg-slate-950/50`}
             >
               {children.map((c) => (
                 <SubtaskRow

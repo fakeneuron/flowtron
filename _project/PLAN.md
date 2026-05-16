@@ -42,7 +42,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-098.10** [sonnet] | empty + loading states — Completed 2026-05-16.
   - [x] **CORE-098.11** [opus] | audit — Completed 2026-05-16.
   - [x] **CORE-098.12** [sonnet] | typography scale bump — Completed 2026-05-16.
-  - [ ] **CORE-098.13** [sonnet] | subtask-list wrapper density — Filed by `.11` audit. `EpicRow.tsx:90` subtask-list container has hardcoded `px-2 py-1.5`; add `subtaskContainerPad` to `DENSITY_TOKENS` (Comfortable `px-2.5 py-2`, Default `px-2 py-1.5`, Compact `px-1.5 py-1`) and consume.
+  - [x] **CORE-098.13** [opus] | subtask-list wrapper density — Completed 2026-05-16.
   - [x] **CORE-098.14** [opus] | subtask detail-panel expand — Completed 2026-05-16.
   - [x] **CORE-098.15** [opus] | TaskDetail visual polish — Completed 2026-05-16.
 - [ ] **CORE-EPIC-099** [opus] | external-conventions-survey — Investigate missing/expected workflow conventions flowtron should adopt or be compatible with (commit conventions, semver discipline, markdown patterns, Obsidian/Foam interop, etc.). Discovery deliverable: gap analysis + adoption candidates.
