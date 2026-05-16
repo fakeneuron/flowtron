@@ -173,15 +173,15 @@ function flowtronApi(): Plugin {
 
 export default defineConfig({
   plugins: [react(), flowtronApi()],
-  // Pin the dev port and refuse to auto-bump. 5176 sits between sibling local
-  // projects (BananaPeel on Vite's default 5173; Invisipaw on 5180), buffered
-  // on both sides. Without strictPort, vite climbs 5176 → 5177 → ... and can
-  // collide with whichever neighbour is up. Better to fail loudly so the user
-  // can free the port. The single-port discipline also enforces the "one
-  // global viz" model: if a second instance is launched, it errors out
-  // instead of silently scanning the same workspace on a different port.
+  // Pin the dev port and refuse to auto-bump. 5120 is well outside the 5173+
+  // Vite default cluster used by sibling projects (BananaPeel, Invisipaw).
+  // Without strictPort, vite climbs 5120 → 5121 → ... and can collide
+  // unexpectedly. Better to fail loudly so the user can free the port.
+  // The single-port discipline also enforces the "one global viz" model:
+  // if a second instance is launched, it errors out instead of silently
+  // scanning the same workspace on a different port.
   server: {
-    port: 5176,
+    port: 5120,
     strictPort: true,
   },
   test: {

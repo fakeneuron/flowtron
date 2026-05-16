@@ -38,7 +38,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-098.6** [sonnet] | focus-ring system — Completed 2026-05-16.
   - [x] **CORE-098.7** [sonnet] | epic-row visual lift — Completed 2026-05-16.
   - [x] **CORE-098.8** [sonnet] | motion polish — Completed 2026-05-16.
-  - [ ] **CORE-098.9** [sonnet] | keyboard-shortcuts overlay — Replace the `ⓘ`-tooltip with a `?`-triggered overlay modal listing all shortcuts; reuses the `<dialog>` infra from CORE-098.3.
+  - [x] **CORE-098.9** [sonnet] | keyboard-shortcuts overlay — Completed 2026-05-16.
   - [ ] **CORE-098.10** [sonnet] | empty + loading states — Informative empty-state ("No matches. Press Esc to clear filters.") and a loading skeleton on initial fetch.
   - [ ] **CORE-098.11** [opus] | audit — Verify the completed embellishment epic sits well in the codebase: a11y baseline preserved (FE-019), bundle-size budget intact (FE-026), typography/color/density interactions clean; doc-drift sweep per `SPEC/epic.md`.
   - [x] **CORE-098.12** [sonnet] | typography scale bump — Completed 2026-05-16.

@@ -14,6 +14,7 @@ import { DENSITY_TOKENS, STATUS_LABEL, STATUS_BADGE, PILL_ACTIVE, PILL_FOCUS_RIN
 import { PrioritySection } from './PrioritySection';
 import { ProjectSelector } from './ProjectSelector';
 import { SettingsModal } from './SettingsModal';
+import { ShortcutsModal } from './ShortcutsModal';
 import { ThemeToggle } from './ThemeToggle';
 import { useKeyboardNav } from './useKeyboardNav';
 import { useToggleSet } from './useToggleSet';
@@ -61,6 +62,7 @@ export const App: React.FC = () => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [visibilityPrefs, setVisibilityPrefs] = useState<VisibilityPrefs>(DEFAULT_PREFS);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [shortcutsOpen, setShortcutsOpen] = useState(false);
   const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const activeProjectRef = useRef<string | null>(null);
@@ -297,6 +299,7 @@ export const App: React.FC = () => {
     statusFilter,
     setStatusFilter,
     load: refresh,
+    onOpenShortcuts: () => setShortcutsOpen(true),
   });
 
   return (
@@ -327,8 +330,9 @@ export const App: React.FC = () => {
               />
               <button
                 type="button"
-                title={'Keyboard shortcuts:\n/  focus search\nj / k  navigate rows\nEnter  expand\nr  refresh\nEsc  close detail / clear filters'}
+                onClick={() => setShortcutsOpen(true)}
                 aria-label="Keyboard shortcuts"
+                title="Keyboard shortcuts"
                 className="rounded border border-slate-300 bg-white px-2 py-1.5 text-base shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 dark:focus:ring-slate-500"
               >
                 ⓘ
@@ -412,6 +416,7 @@ export const App: React.FC = () => {
         prefs={visibilityPrefs}
         onChange={updateVisibilityPrefs}
       />
+      <ShortcutsModal open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
     </div>
   );
 };

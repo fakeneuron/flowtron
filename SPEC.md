@@ -374,7 +374,7 @@ Run the full test suite only when changes are broad or cross-cutting.
 
 The visual-confirmation ask carries a `👁️` inline prefix on the
 conversational prompt (e.g., `👁️ Could you take a look at viz at
-http://localhost:5176 and confirm the new outline behaves as expected
+http://localhost:5120 and confirm the new outline behaves as expected
 before I move to closure?`). Inline emoji prefix only — **no banner
 block, no operator-gate**. Gate count stays at up-to-2; the prefix is a
 scannable visual cue parallel to 🛠️ / 📦 without elevating

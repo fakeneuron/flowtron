@@ -16,6 +16,7 @@ interface UseKeyboardNavParams {
   statusFilter: Set<TasknoteStatus>;
   setStatusFilter: (s: Set<TasknoteStatus>) => void;
   load: () => void;
+  onOpenShortcuts: () => void;
 }
 
 const scrollRowIntoView = (id: string) => {
@@ -39,6 +40,7 @@ export function useKeyboardNav(params: UseKeyboardNavParams) {
     statusFilter,
     setStatusFilter,
     load,
+    onOpenShortcuts,
   } = params;
 
   useEffect(() => {
@@ -67,6 +69,13 @@ export function useKeyboardNav(params: UseKeyboardNavParams) {
       if (e.key === '/') {
         if (isTyping) return;
         searchInputRef.current?.focus();
+        e.preventDefault();
+        return;
+      }
+
+      if (e.key === '?') {
+        if (isTyping) return;
+        onOpenShortcuts();
         e.preventDefault();
         return;
       }
@@ -126,5 +135,6 @@ export function useKeyboardNav(params: UseKeyboardNavParams) {
     statusFilter,
     setStatusFilter,
     load,
+    onOpenShortcuts,
   ]);
 }

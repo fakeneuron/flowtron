@@ -600,3 +600,57 @@ describe('App — status badge selection', () => {
     );
   });
 });
+
+describe('App — shortcuts modal', () => {
+  const plan = `## High
+
+- [ ] **CORE-100** | one — Task one
+`;
+  const active = [
+    makeTasknote({
+      id: 'CORE-100',
+      frontmatter: {
+        title: 'one',
+        status: 'in-progress',
+        tags: [],
+        created: '2026-05-07',
+        relatedTasks: [],
+      },
+    }),
+  ];
+
+  it('? button opens the dialog; Done closes it', async () => {
+    const user = userEvent.setup();
+    renderApp({ plan, active });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+
+    const dialogs = document.querySelectorAll('dialog');
+    const shortcutsDialog = Array.from(dialogs).find(
+      (d) => d.getAttribute('aria-labelledby') === 'shortcuts-modal-title',
+    ) as HTMLDialogElement;
+    expect(shortcutsDialog.open).toBe(false);
+
+    await user.click(screen.getByRole('button', { name: 'Keyboard shortcuts' }));
+    await waitFor(() => expect(shortcutsDialog.open).toBe(true));
+
+    await user.click(screen.getByRole('button', { name: 'Done' }));
+    await waitFor(() => expect(shortcutsDialog.open).toBe(false));
+  });
+
+  it('pressing ? key opens the dialog', async () => {
+    const user = userEvent.setup();
+    renderApp({ plan, active });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+
+    const dialogs = document.querySelectorAll('dialog');
+    const shortcutsDialog = Array.from(dialogs).find(
+      (d) => d.getAttribute('aria-labelledby') === 'shortcuts-modal-title',
+    ) as HTMLDialogElement;
+    expect(shortcutsDialog.open).toBe(false);
+
+    await user.keyboard('?');
+    await waitFor(() => expect(shortcutsDialog.open).toBe(true));
+  });
+});
