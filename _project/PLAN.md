@@ -27,7 +27,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Future Opportunities
 
-(none)
+- [ ] **CORE-EPIC-097** [opus] | external-skill-survey — Survey skills bundled by comparable claude-code / AI-coding workflow repos (GitHub-style CLI workflows, caveman-claude's token-minimization pattern popularized on social media, etc.). Discovery deliverable: shortlist of skills worth adopting into flowtron + adoption rationale per candidate.
+  - [ ] **CORE-097.1** [opus] | discovery — Scope which comparable repos to survey + adoption criteria + per-candidate findings per SPEC/epic.md.
+- [ ] **CORE-EPIC-098** [opus] | viz-embellishment — Embellish viz with graphic-design best practices, fill missing UI features, and add selective-visibility controls for tasknote components in the rendering. Discovery deliverable: prioritized improvement list with sketches/refs.
+  - [ ] **CORE-098.1** [opus] | discovery — Inventory viz's current design + UX gaps + feature parity vs comparable Kanban tools per SPEC/epic.md.
+- [ ] **CORE-EPIC-099** [opus] | external-conventions-survey — Investigate missing/expected workflow conventions flowtron should adopt or be compatible with (commit conventions, semver discipline, markdown patterns, Obsidian/Foam interop, etc.). Discovery deliverable: gap analysis + adoption candidates.
+  - [ ] **CORE-099.1** [opus] | discovery — Survey external workflow / convention surfaces + identify gaps + recommend adoptions per SPEC/epic.md.
 
 ## Completed
 
