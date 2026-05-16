@@ -1,5 +1,6 @@
 import React from 'react';
 import { activePhaseIndex, type ChecklistCounts } from '../tasknote';
+import { PHASE_DOT } from './constants';
 
 export const PhaseDots: React.FC<{ phases: ChecklistCounts[] }> = ({ phases }) => {
   const activeIdx = activePhaseIndex(phases);
@@ -12,11 +13,7 @@ export const PhaseDots: React.FC<{ phases: ChecklistCounts[] }> = ({ phases }) =
       {phases.map((_, i) => {
         const filled = i < activeIdx;
         const active = i === activeIdx;
-        const cls = filled
-          ? 'bg-emerald-500'
-          : active
-            ? 'bg-amber-400 ring-1 ring-amber-200 dark:ring-amber-700'
-            : 'bg-slate-200 dark:bg-slate-700';
+        const cls = filled ? PHASE_DOT.filled : active ? PHASE_DOT.active : PHASE_DOT.inactive;
         return <span key={i} className={`h-2 w-2 rounded-full ${cls}`} />;
       })}
     </div>

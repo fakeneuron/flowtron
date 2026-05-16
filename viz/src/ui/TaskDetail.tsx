@@ -1,20 +1,11 @@
 import React from 'react';
-import type { Priority, Task } from '../parser';
+import type { Task } from '../parser';
 import type { Tasknote } from '../tasknote';
 import { WikilinkMarkdown } from './WikilinkMarkdown';
 import { DetailSection } from './DetailSection';
+import { PRIORITY_BADGE } from './constants';
 import { StatusChip } from './StatusChip';
 import { effectiveStatus } from './utils';
-
-const PRIORITY_BADGE: Record<Priority, string> = {
-  Critical: 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-200',
-  High: 'bg-orange-100 text-orange-800 dark:bg-orange-950 dark:text-orange-200',
-  Medium: 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-200',
-  Low: 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-200',
-  'Future Opportunities':
-    'bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-200',
-  Completed: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200',
-};
 
 const TaskDetail: React.FC<{
   task: Task;

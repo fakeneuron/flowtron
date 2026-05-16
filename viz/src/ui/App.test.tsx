@@ -114,10 +114,10 @@ describe('App — navigateToTask', () => {
     expect(scrollSpy).toHaveBeenCalledWith({ behavior: 'smooth', block: 'center' });
 
     const targetRow = document.getElementById('row-CORE-1.1')!;
-    expect(targetRow.className).toMatch(/ring-amber/);
+    expect(targetRow.className).toMatch(/ring-indigo/);
 
     await vi.advanceTimersByTimeAsync(1500);
-    await waitFor(() => expect(targetRow.className).not.toMatch(/ring-amber/));
+    await waitFor(() => expect(targetRow.className).not.toMatch(/ring-indigo/));
   });
 });
 

@@ -31,7 +31,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [ ] **CORE-097.1** [opus] | discovery — Scope which comparable repos to survey + adoption criteria + per-candidate findings per SPEC/epic.md.
 - [ ] **CORE-EPIC-098** [opus] | viz-embellishment — Embellish viz with graphic-design best practices, fill missing UI features, and add selective-visibility controls for tasknote components in the rendering. Discovery deliverable: prioritized improvement list with sketches/refs.
   - [x] **CORE-098.1** [opus] | discovery — Completed 2026-05-15.
-  - [ ] **CORE-098.2** [opus] | typography & color audit — Codify a 4-step typography scale and consolidate the color palette (resolve amber-collision across active-phase / highlight / in-progress / Medium); document semantic mapping in `viz/src/ui/theme.ts` and apply across components.
+  - [x] **CORE-098.2** [opus] | typography & color audit — Completed 2026-05-15.
   - [ ] **CORE-098.3** [opus] | settings-modal scaffold — Gear-icon trigger in header rail + native-`<dialog>` settings modal with selective-visibility controls for row chips (tags / model / related / due, all opt-in) and detail-panel sections; persist prefs in `localStorage` per-project.
   - [ ] **CORE-098.4** [opus] | density modes — Add Comfortable / Default / Compact density toggles to the settings modal; each mode adjusts row padding + chip sizing + section gap; persists alongside visibility prefs.
   - [ ] **CORE-098.5** [opus] | board view-switcher — Add a List / Board segmented control to the header; Board lays the 6 priority sections out as columns, re-using `TaskRow` / `EpicRow` / `SubtaskRow` verbatim; persist `viewMode` in `localStorage`.

@@ -2,18 +2,9 @@ import React from 'react';
 import { isEpic, type Priority, type TaskNode } from '../parser';
 import type { Tasknote } from '../tasknote';
 import { Chevron } from './Chevron';
+import { SECTION_TINT } from './constants';
 import { EpicRow } from './EpicRow';
 import { TaskRow } from './TaskRow';
-
-const SECTION_TINT: Record<Priority, string> = {
-  Critical: 'bg-red-50 border-red-200 dark:bg-red-950/30 dark:border-red-900',
-  High: 'bg-orange-50 border-orange-200 dark:bg-orange-950/30 dark:border-orange-900',
-  Medium: 'bg-amber-50 border-amber-200 dark:bg-amber-950/30 dark:border-amber-900',
-  Low: 'bg-sky-50 border-sky-200 dark:bg-sky-950/30 dark:border-sky-900',
-  'Future Opportunities':
-    'bg-violet-50 border-violet-200 dark:bg-violet-950/30 dark:border-violet-900',
-  Completed: 'bg-emerald-50 border-emerald-200 dark:bg-emerald-950/30 dark:border-emerald-900',
-};
 
 interface PrioritySectionProps {
   priority: Priority;
