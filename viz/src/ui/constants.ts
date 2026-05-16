@@ -93,8 +93,10 @@ export const ROW_SELECTION =
 export const ROW_SELECTION_SUBTASK = 'ring-1 ring-sky-400 dark:ring-sky-600';
 export const ROW_NEUTRAL = 'border-slate-200 dark:border-slate-800';
 
-export const PILL_ACTIVE = 'bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900';
-export const PILL_DEFAULT_SLATE = 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700';
+export const PILL_FOCUS_RING =
+  'focus:outline-none focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500';
+export const PILL_ACTIVE = `bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900 ${PILL_FOCUS_RING}`;
+export const PILL_DEFAULT_SLATE = `bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 ${PILL_FOCUS_RING}`;
 
 /**
  * Density tokens (CORE-098.4). Three opt-in modes selectable from the

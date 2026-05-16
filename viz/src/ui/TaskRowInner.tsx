@@ -45,7 +45,7 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
         type="button"
         onClick={onToggleDetail}
         aria-expanded={isExpandedDetail}
-        className="flex min-w-0 flex-1 items-center gap-2 text-left"
+        className="flex min-w-0 flex-1 items-center gap-2 rounded text-left focus:outline-none focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
       >
         <span className="shrink-0 font-mono text-sm font-medium tabular-nums">
           {task.id}

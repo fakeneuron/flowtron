@@ -10,7 +10,7 @@ import {
   type TaskNode,
 } from '../parser';
 import { type Tasknote, type TasknoteStatus } from '../tasknote';
-import { DENSITY_TOKENS, STATUS_LABEL, STATUS_BADGE, PILL_ACTIVE } from './constants';
+import { DENSITY_TOKENS, STATUS_LABEL, STATUS_BADGE, PILL_ACTIVE, PILL_FOCUS_RING } from './constants';
 import { PrioritySection } from './PrioritySection';
 import { ProjectSelector } from './ProjectSelector';
 import { SettingsModal } from './SettingsModal';
@@ -329,7 +329,7 @@ export const App: React.FC = () => {
                 type="button"
                 title={'Keyboard shortcuts:\n/  focus search\nj / k  navigate rows\nEnter  expand\nr  refresh\nEsc  close detail / clear filters'}
                 aria-label="Keyboard shortcuts"
-                className="rounded border border-slate-300 bg-white px-2 py-1.5 text-base shadow-sm hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+                className="rounded border border-slate-300 bg-white px-2 py-1.5 text-base shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 dark:focus:ring-slate-500"
               >
                 ⓘ
               </button>
@@ -339,7 +339,7 @@ export const App: React.FC = () => {
                 onClick={() => setSettingsOpen(true)}
                 aria-label="Open settings"
                 title="Settings"
-                className="rounded border border-slate-300 bg-white px-2 py-1.5 text-base shadow-sm hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+                className="rounded border border-slate-300 bg-white px-2 py-1.5 text-base shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 dark:focus:ring-slate-500"
               >
                 ⚙️
               </button>
@@ -362,7 +362,7 @@ export const App: React.FC = () => {
                     onClick={() => toggleStatus(s)}
                     aria-pressed={on}
                     className={`rounded-full px-2 py-0.5 ${
-                      on ? PILL_ACTIVE : `${STATUS_BADGE[s]} hover:opacity-80`
+                      on ? PILL_ACTIVE : `${STATUS_BADGE[s]} hover:opacity-80 ${PILL_FOCUS_RING}`
                     }`}
                   >
                     {STATUS_LABEL[s]}

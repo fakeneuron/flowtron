@@ -56,7 +56,7 @@ export const EpicRow: React.FC<EpicRowProps> = ({
           onClick={toggleExpanded}
           aria-expanded={expanded}
           aria-label={expanded ? 'Collapse subtasks' : 'Expand subtasks'}
-          className="flex h-5 w-5 shrink-0 items-center justify-center rounded hover:bg-slate-100 dark:hover:bg-slate-800"
+          className="flex h-5 w-5 shrink-0 items-center justify-center rounded hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-400 dark:hover:bg-slate-800 dark:focus:ring-slate-500"
         >
           <Chevron expanded={expanded} />
         </button>

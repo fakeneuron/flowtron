@@ -41,7 +41,7 @@ export const SubtaskRow: React.FC<SubtaskRowProps> = ({
     <button
       type="button"
       onClick={() => navigateToTask(task.id)}
-      className="font-mono text-sm font-medium text-slate-700 hover:underline dark:text-slate-300"
+      className="rounded font-mono text-sm font-medium text-slate-700 hover:underline focus:outline-none focus:ring-2 focus:ring-slate-400 dark:text-slate-300 dark:focus:ring-slate-500"
     >
       {task.id}
     </button>
