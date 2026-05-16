@@ -47,10 +47,10 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
         aria-expanded={isExpandedDetail}
         className="flex min-w-0 flex-1 items-center gap-2 text-left"
       >
-        <span className="shrink-0 font-mono text-xs font-medium tabular-nums">
+        <span className="shrink-0 font-mono text-sm font-medium tabular-nums">
           {task.id}
         </span>
-        <span className="min-w-0 flex-1 truncate text-xs text-slate-700 dark:text-slate-300">
+        <span className="min-w-0 flex-1 truncate text-sm text-slate-700 dark:text-slate-300">
           {task.shortname ?? tn?.frontmatter?.title ?? task.description}
         </span>
       </button>
@@ -67,7 +67,7 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
               tags.map((t) => (
                 <span
                   key={t}
-                  className={`rounded bg-slate-100 ${chipPad} text-[10px] text-slate-700 dark:bg-slate-800 dark:text-slate-300`}
+                  className={`rounded bg-slate-100 ${chipPad} text-xs text-slate-700 dark:bg-slate-800 dark:text-slate-300`}
                 >
                   {t}
                 </span>
@@ -75,7 +75,7 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
             {showModel && task.model && <ModelChip model={task.model} density={density} />}
             {showRelated && <RelatedChip ids={task.relatedTasks} density={density} />}
             {showDue && due && (
-              <span className="text-[10px] text-slate-500 dark:text-slate-400">
+              <span className="text-xs text-slate-500 dark:text-slate-400">
                 Due {due}
               </span>
             )}
@@ -83,7 +83,7 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
         ) : (
           <div />
         )}
-        <div className="flex items-center justify-end gap-1.5 text-[10px]">
+        <div className="flex items-center justify-end gap-1.5 text-xs">
           {status && <StatusChip status={status} density={density} />}
           {extraRightSlot}
         </div>

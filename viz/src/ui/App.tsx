@@ -308,7 +308,7 @@ export const App: React.FC = () => {
               <h1 className="text-lg font-semibold">
                 Flowtron — {activeProject ?? '…'}
               </h1>
-              <p className="text-xs text-slate-600 dark:text-slate-400">
+              <p className="text-sm text-slate-600 dark:text-slate-400">
                 {filteredCount === total
                   ? `${total} tasks · ${inProgress} in progress${starterCount > 0 ? ` · ${starterCount} ${starterCount === 1 ? 'starter' : 'starters'}` : ''}`
                   : `${filteredCount} of ${total} matching · ${inProgress} in progress${starterCount > 0 ? ` · ${starterCount} ${starterCount === 1 ? 'starter' : 'starters'}` : ''}`}
@@ -322,14 +322,14 @@ export const App: React.FC = () => {
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search id, description, status"
                 autoComplete="off"
-                className="w-72 rounded border border-slate-300 bg-white px-3 py-1.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:ring-slate-600"
+                className="w-72 rounded border border-slate-300 bg-white px-3 py-1.5 text-base shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:ring-slate-600"
                 aria-label="Search tasks"
               />
               <button
                 type="button"
                 title={'Keyboard shortcuts:\n/  focus search\nj / k  navigate rows\nEnter  expand\nr  refresh\nEsc  close detail / clear filters'}
                 aria-label="Keyboard shortcuts"
-                className="rounded border border-slate-300 bg-white px-2 py-1.5 text-sm shadow-sm hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+                className="rounded border border-slate-300 bg-white px-2 py-1.5 text-base shadow-sm hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
               >
                 ⓘ
               </button>
@@ -339,13 +339,13 @@ export const App: React.FC = () => {
                 onClick={() => setSettingsOpen(true)}
                 aria-label="Open settings"
                 title="Settings"
-                className="rounded border border-slate-300 bg-white px-2 py-1.5 text-sm shadow-sm hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+                className="rounded border border-slate-300 bg-white px-2 py-1.5 text-base shadow-sm hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
               >
                 ⚙️
               </button>
             </div>
           </div>
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
             <ProjectSelector
               projects={projects}
               active={activeProject}
@@ -375,7 +375,7 @@ export const App: React.FC = () => {
       </header>
 
       {error && (
-        <div className="mx-4 mt-3 rounded border border-red-300 bg-red-50 p-3 text-sm text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200">
+        <div className="mx-4 mt-3 rounded border border-red-300 bg-red-50 p-3 text-base text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200">
           {error}
         </div>
       )}

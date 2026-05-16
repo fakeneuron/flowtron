@@ -13,7 +13,7 @@ export const ModelChip: React.FC<{ model: TaskModel; density?: DensityMode }> = 
   density = 'default',
 }) => (
   <span
-    className={`rounded border border-slate-300 ${DENSITY_TOKENS[density].chipPad} font-mono text-[10px] text-slate-700 dark:border-slate-600 dark:text-slate-300`}
+    className={`rounded border border-slate-300 ${DENSITY_TOKENS[density].chipPad} font-mono text-xs text-slate-700 dark:border-slate-600 dark:text-slate-300`}
   >
     {LABEL[model]}
   </span>

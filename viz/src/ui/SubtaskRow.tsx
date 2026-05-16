@@ -34,22 +34,22 @@ export const SubtaskRow: React.FC<SubtaskRowProps> = ({
         task.completed
           ? 'border-emerald-500 bg-emerald-500 text-white'
           : 'border-slate-300 bg-white dark:border-slate-600 dark:bg-slate-800'
-      } text-[10px]`}
+      } text-xs`}
     >
       {task.completed ? '✓' : ''}
     </span>
     <button
       type="button"
       onClick={() => navigateToTask(task.id)}
-      className="font-mono text-xs font-medium text-slate-700 hover:underline dark:text-slate-300"
+      className="font-mono text-sm font-medium text-slate-700 hover:underline dark:text-slate-300"
     >
       {task.id}
     </button>
-    <span className="flex-1 truncate text-xs text-slate-600 dark:text-slate-400">
+    <span className="flex-1 truncate text-sm text-slate-600 dark:text-slate-400">
       {task.description}
     </span>
     {task.completed && task.completedDate && (
-      <span className="text-[10px] text-slate-500 dark:text-slate-400">{task.completedDate}</span>
+      <span className="text-xs text-slate-500 dark:text-slate-400">{task.completedDate}</span>
     )}
   </div>
 );

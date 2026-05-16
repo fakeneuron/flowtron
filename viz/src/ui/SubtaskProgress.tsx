@@ -15,7 +15,7 @@ export const SubtaskProgress: React.FC<{ counts: ChecklistCounts }> = ({ counts 
           style={{ width: `${pct}%` }}
         />
       </div>
-      <span className="text-[10px] font-medium tabular-nums text-slate-600 dark:text-slate-400">
+      <span className="text-xs font-medium tabular-nums text-slate-600 dark:text-slate-400">
         {counts.done}/{counts.total}
       </span>
     </div>

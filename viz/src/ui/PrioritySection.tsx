@@ -49,15 +49,15 @@ export const PrioritySection: React.FC<PrioritySectionProps> = ({
         className="flex w-full items-center gap-2 px-3 py-2 text-left"
       >
         <Chevron expanded={!collapsed} />
-        <span className="text-sm font-medium">{priority}</span>
-        <span className="text-xs text-slate-600 dark:text-slate-400">{totalCount}</span>
+        <span className="text-base font-medium">{priority}</span>
+        <span className="text-sm text-slate-600 dark:text-slate-400">{totalCount}</span>
       </button>
       {!collapsed && (
         <div
           className={`flex flex-col ${tokens.interRowGap} border-t border-slate-200/70 bg-white/60 ${tokens.sectionInteriorPad} dark:border-slate-800/70 dark:bg-slate-900/60`}
         >
           {nodes.length === 0 && (
-            <div className="px-2 py-1 text-xs text-slate-500 dark:text-slate-400">No tasks</div>
+            <div className="px-2 py-1 text-sm text-slate-500 dark:text-slate-400">No tasks</div>
           )}
           {nodes.map((node) => {
             if (isEpic(node)) {

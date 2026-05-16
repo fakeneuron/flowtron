@@ -12,10 +12,11 @@ import type { DensityMode } from '../visibilityPrefs';
  * | Role       | Tailwind size  | Examples                                                            |
  * |------------|----------------|---------------------------------------------------------------------|
  * | `heading`  | `text-lg`      | H1 in App header                                                    |
- * | `subhead`  | `text-sm`      | Section headers, search input, ⓘ button, ThemeToggle, error banner |
- * | `body`     | `text-xs`      | Task IDs, row titles, stats caption, filter pills, "No tasks"      |
- * | `caption`  | `text-[10px]`  | Chips, metadata rows, chevron, detail labels, subtask date         |
+ * | `subhead`  | `text-base`    | Section headers, search input, ⓘ button, ThemeToggle, error banner |
+ * | `body`     | `text-sm`      | Task IDs, row titles, stats caption, filter pills, "No tasks"      |
+ * | `caption`  | `text-xs`      | Chips, metadata rows, chevron, detail labels, subtask date         |
  *
+ * Scale bumped one step at subhead/body/caption tiers (CORE-098.12).
  * Off-grid sizes (`text-[11px]`, `text-[9px]`) are deprecated — fold to
  * `body` and `caption` respectively (CORE-098.2).
  *
@@ -28,9 +29,9 @@ import type { DensityMode } from '../visibilityPrefs';
 
 export const TYPOGRAPHY = {
   heading: 'text-lg',
-  subhead: 'text-sm',
-  body: 'text-xs',
-  caption: 'text-[10px]',
+  subhead: 'text-base',
+  body: 'text-sm',
+  caption: 'text-xs',
 } as const;
 
 export const STATUS_LABEL: Record<TasknoteStatus, string> = {

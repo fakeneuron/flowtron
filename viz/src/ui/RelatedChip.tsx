@@ -13,7 +13,7 @@ export const RelatedChip: React.FC<{ ids: string[]; density?: DensityMode }> = (
   const overflow = ids.length - visible.length;
   return (
     <span
-      className={`inline-flex items-center gap-1 rounded bg-slate-100 ${DENSITY_TOKENS[density].chipPad} text-[10px] text-slate-700 dark:bg-slate-800 dark:text-slate-300`}
+      className={`inline-flex items-center gap-1 rounded bg-slate-100 ${DENSITY_TOKENS[density].chipPad} text-xs text-slate-700 dark:bg-slate-800 dark:text-slate-300`}
     >
       <span aria-hidden className="text-slate-500 dark:text-slate-400">
         →

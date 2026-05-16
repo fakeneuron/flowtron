@@ -70,7 +70,7 @@ export const EpicRow: React.FC<EpicRowProps> = ({
           extraRightSlot={
             total > 0 ? (
               <span
-                className={`rounded-full bg-slate-100 ${tokens.chipPad} text-[10px] font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300`}
+                className={`rounded-full bg-slate-100 ${tokens.chipPad} text-xs font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300`}
               >
                 {done}/{total} done
               </span>

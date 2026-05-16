@@ -19,9 +19,9 @@ const TaskDetail: React.FC<{
   const priority = tasknote ? task.priority : undefined;
   const showMetaHeader = priority || (task.completed && task.completedDate) || tasknote;
   return (
-    <div className="border-t border-slate-100 bg-slate-50/40 px-3 py-2 text-xs text-slate-700 dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-300">
+    <div className="border-t border-slate-100 bg-slate-50/40 px-3 py-2 text-sm text-slate-700 dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-300">
       {showMetaHeader && (
-        <div className="mb-2 flex items-center gap-2 text-[10px] text-slate-500 dark:text-slate-400">
+        <div className="mb-2 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
           {priority && (
             <span
               className={`rounded px-1.5 py-0.5 font-medium ${PRIORITY_BADGE[priority]}`}

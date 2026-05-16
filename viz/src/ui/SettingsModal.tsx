@@ -76,16 +76,16 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose, pre
       className="rounded-lg border border-slate-200 bg-white p-0 text-slate-900 shadow-xl backdrop:bg-slate-900/40 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
     >
       <div className="min-w-[20rem] p-4">
-        <h2 id="settings-modal-title" className="mb-3 text-sm font-semibold">
+        <h2 id="settings-modal-title" className="mb-3 text-base font-semibold">
           Settings
         </h2>
         <fieldset className="mb-4">
-          <legend className="mb-1.5 text-[10px] font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
+          <legend className="mb-1.5 text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
             Row chips
           </legend>
           <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
             {ROW_CHIP_KEYS.map((key) => (
-              <label key={key} className="flex items-center gap-2 text-xs">
+              <label key={key} className="flex items-center gap-2 text-sm">
                 <input
                   type="checkbox"
                   checked={prefs.rowChips[key]}
@@ -97,12 +97,12 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose, pre
           </div>
         </fieldset>
         <fieldset className="mb-4">
-          <legend className="mb-1.5 text-[10px] font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
+          <legend className="mb-1.5 text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
             Density
           </legend>
           <div className="flex items-center gap-4">
             {DENSITY_KEYS.map((key) => (
-              <label key={key} className="flex items-center gap-2 text-xs">
+              <label key={key} className="flex items-center gap-2 text-sm">
                 <input
                   type="radio"
                   name="density-mode"
@@ -116,12 +116,12 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose, pre
           </div>
         </fieldset>
         <fieldset className="mb-4">
-          <legend className="mb-1.5 text-[10px] font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
+          <legend className="mb-1.5 text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
             Detail panel
           </legend>
           <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
             {DETAIL_SECTION_KEYS.map((key) => (
-              <label key={key} className="flex items-center gap-2 text-xs">
+              <label key={key} className="flex items-center gap-2 text-sm">
                 <input
                   type="checkbox"
                   checked={prefs.detailSections[key]}
@@ -136,7 +136,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose, pre
           <button
             type="button"
             onClick={() => onChange(DEFAULT_PREFS)}
-            className="rounded border border-slate-300 bg-white px-2 py-1 text-xs text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+            className="rounded border border-slate-300 bg-white px-2 py-1 text-sm text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
           >
             Reset to defaults
           </button>
@@ -144,7 +144,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose, pre
             type="button"
             onClick={() => dialogRef.current?.close()}
             autoFocus
-            className="rounded bg-slate-800 px-3 py-1 text-xs text-white hover:bg-slate-700 dark:bg-slate-200 dark:text-slate-900 dark:hover:bg-slate-300"
+            className="rounded bg-slate-800 px-3 py-1 text-sm text-white hover:bg-slate-700 dark:bg-slate-200 dark:text-slate-900 dark:hover:bg-slate-300"
           >
             Done
           </button>

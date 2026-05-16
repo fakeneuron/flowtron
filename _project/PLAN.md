@@ -41,7 +41,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [ ] **CORE-098.9** [sonnet] | keyboard-shortcuts overlay — Replace the `ⓘ`-tooltip with a `?`-triggered overlay modal listing all shortcuts; reuses the `<dialog>` infra from CORE-098.3.
   - [ ] **CORE-098.10** [sonnet] | empty + loading states — Informative empty-state ("No matches. Press Esc to clear filters.") and a loading skeleton on initial fetch.
   - [ ] **CORE-098.11** [opus] | audit — Verify the completed embellishment epic sits well in the codebase: a11y baseline preserved (FE-019), bundle-size budget intact (FE-026), typography/color/density interactions clean; doc-drift sweep per `SPEC/epic.md`.
-  - [ ] **CORE-098.12** [sonnet] | typography scale bump — Audit and bump the 4-step typography scale codified by CORE-098.2 (heading / subhead / body / caption); user-requested in CORE-098.4 confirmation feedback that the site reads slightly small. Per-step bumps decided via Discovery; preserve density-token interactions.
+  - [x] **CORE-098.12** [sonnet] | typography scale bump — Completed 2026-05-16.
 - [ ] **CORE-EPIC-099** [opus] | external-conventions-survey — Investigate missing/expected workflow conventions flowtron should adopt or be compatible with (commit conventions, semver discipline, markdown patterns, Obsidian/Foam interop, etc.). Discovery deliverable: gap analysis + adoption candidates.
   - [ ] **CORE-099.1** [opus] | discovery — Survey external workflow / convention surfaces + identify gaps + recommend adoptions per SPEC/epic.md.
 
