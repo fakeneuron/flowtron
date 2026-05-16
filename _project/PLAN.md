@@ -39,7 +39,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-098.7** [sonnet] | epic-row visual lift — Completed 2026-05-16.
   - [x] **CORE-098.8** [sonnet] | motion polish — Completed 2026-05-16.
   - [x] **CORE-098.9** [sonnet] | keyboard-shortcuts overlay — Completed 2026-05-16.
-  - [ ] **CORE-098.10** [sonnet] | empty + loading states — Informative empty-state ("No matches. Press Esc to clear filters.") and a loading skeleton on initial fetch.
+  - [x] **CORE-098.10** [sonnet] | empty + loading states — Completed 2026-05-16.
   - [ ] **CORE-098.11** [opus] | audit — Verify the completed embellishment epic sits well in the codebase: a11y baseline preserved (FE-019), bundle-size budget intact (FE-026), typography/color/density interactions clean; doc-drift sweep per `SPEC/epic.md`.
   - [x] **CORE-098.12** [sonnet] | typography scale bump — Completed 2026-05-16.
 - [ ] **CORE-EPIC-099** [opus] | external-conventions-survey — Investigate missing/expected workflow conventions flowtron should adopt or be compatible with (commit conventions, semver discipline, markdown patterns, Obsidian/Foam interop, etc.). Discovery deliverable: gap analysis + adoption candidates.

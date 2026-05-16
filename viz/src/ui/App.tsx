@@ -10,7 +10,8 @@ import {
   type TaskNode,
 } from '../parser';
 import { type Tasknote, type TasknoteStatus } from '../tasknote';
-import { DENSITY_TOKENS, STATUS_LABEL, STATUS_BADGE, PILL_ACTIVE, PILL_FOCUS_RING } from './constants';
+import { DENSITY_TOKENS, STATUS_LABEL, STATUS_BADGE, PILL_ACTIVE, PILL_FOCUS_RING, TYPOGRAPHY } from './constants';
+import { LoadingSkeleton } from './LoadingSkeleton';
 import { PrioritySection } from './PrioritySection';
 import { ProjectSelector } from './ProjectSelector';
 import { SettingsModal } from './SettingsModal';
@@ -50,6 +51,7 @@ export const App: React.FC = () => {
   const [activeProject, setActiveProject] = useState<string | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [tasknotesById, setTasknotesById] = useState<Map<string, Tasknote>>(new Map());
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState<string>('');
   const [statusFilter, toggleStatus, setStatusFilter] = useToggleSet<TasknoteStatus>();
@@ -68,8 +70,9 @@ export const App: React.FC = () => {
   const activeProjectRef = useRef<string | null>(null);
   activeProjectRef.current = activeProject;
 
-  const load = useCallback(async (project: string) => {
+  const load = useCallback(async (project: string, showSkeleton = true) => {
     setError(null);
+    if (showSkeleton) setLoading(true);
     try {
       const q = `?project=${encodeURIComponent(project)}`;
       const [planRes, activeRes, archiveRes] = await Promise.all([
@@ -89,6 +92,8 @@ export const App: React.FC = () => {
       setTasknotesById(merged);
     } catch (e) {
       setError((e as Error).message);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -105,8 +110,12 @@ export const App: React.FC = () => {
         const stored = readStoredProject();
         const initial = stored && names.includes(stored) ? stored : (names[0] ?? null);
         setActiveProject(initial);
+        if (!initial) setLoading(false);
       } catch (e) {
-        if (!cancelled) setError((e as Error).message);
+        if (!cancelled) {
+          setError((e as Error).message);
+          setLoading(false);
+        }
       }
     })();
     return () => {
@@ -131,7 +140,7 @@ export const App: React.FC = () => {
 
   const refresh = useCallback(() => {
     const current = activeProjectRef.current;
-    if (current) void load(current);
+    if (current) void load(current, false);
   }, [load]);
 
   useEffect(() => {
@@ -238,6 +247,7 @@ export const App: React.FC = () => {
 
   const handleSelectProject = (name: string) => {
     if (name === activeProject) return;
+    setLoading(true);
     setQuery('');
     setStatusFilter(new Set());
     setExpandedId(null);
@@ -385,30 +395,40 @@ export const App: React.FC = () => {
       )}
 
       <main className="mx-auto max-w-screen-xl px-4 py-4">
-        <div className={`flex flex-col ${DENSITY_TOKENS[visibilityPrefs.density].betweenSectionsGap}`}>
-          {SECTIONS.map((p) => {
-            const nodes = bySection[p] ?? [];
-            const collapsed = collapsedSections.has(p);
-            return (
-              <PrioritySection
-                key={p}
-                priority={p}
-                nodes={nodes}
-                collapsed={collapsed}
-                onToggle={() => toggleSection(p)}
-                tasknotesById={tasknotesById}
-                visibility={visibilityPrefs}
-                expandedId={expandedId}
-                setExpandedId={setExpandedId}
-                expandedEpicIds={expandedEpicIds}
-                toggleEpic={toggleEpic}
-                highlightId={highlightId}
-                selectedId={selectedId}
-                navigateToTask={navigateToTask}
-              />
-            );
-          })}
-        </div>
+        {loading ? (
+          <LoadingSkeleton density={visibilityPrefs.density} />
+        ) : (statusFilter.size > 0 || query.trim()) && filteredCount === 0 ? (
+          <div className="flex items-center justify-center py-16">
+            <p className={`${TYPOGRAPHY.body} text-slate-500 dark:text-slate-400`}>
+              No matches. Press Esc to clear filters.
+            </p>
+          </div>
+        ) : (
+          <div className={`flex flex-col ${DENSITY_TOKENS[visibilityPrefs.density].betweenSectionsGap}`}>
+            {SECTIONS.map((p) => {
+              const nodes = bySection[p] ?? [];
+              const collapsed = collapsedSections.has(p);
+              return (
+                <PrioritySection
+                  key={p}
+                  priority={p}
+                  nodes={nodes}
+                  collapsed={collapsed}
+                  onToggle={() => toggleSection(p)}
+                  tasknotesById={tasknotesById}
+                  visibility={visibilityPrefs}
+                  expandedId={expandedId}
+                  setExpandedId={setExpandedId}
+                  expandedEpicIds={expandedEpicIds}
+                  toggleEpic={toggleEpic}
+                  highlightId={highlightId}
+                  selectedId={selectedId}
+                  navigateToTask={navigateToTask}
+                />
+              );
+            })}
+          </div>
+        )}
       </main>
       <SettingsModal
         open={settingsOpen}
