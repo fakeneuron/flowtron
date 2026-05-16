@@ -93,7 +93,10 @@ export const EpicRow: React.FC<EpicRowProps> = ({
                 <SubtaskRow
                   key={c.id}
                   task={c}
-                  density={density}
+                  tasknotesById={tasknotesById}
+                  visibility={visibility}
+                  expandedId={expandedId}
+                  setExpandedId={setExpandedId}
                   highlightId={highlightId}
                   isSelected={selectedId === c.id}
                   navigateToTask={navigateToTask}

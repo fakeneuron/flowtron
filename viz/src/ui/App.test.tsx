@@ -160,6 +160,56 @@ describe('App — expand-on-click toggling', () => {
   });
 });
 
+describe('App — subtask expand-on-click toggling', () => {
+  const plan = `## High
+
+- [ ] **CORE-EPIC-1** | epic — Parent epic
+- [ ] **CORE-1.1** | sub one — Subtask one
+`;
+
+  const active = [
+    makeTasknote({
+      id: 'CORE-1.1',
+      goal: 'The subtask goal sentence.',
+      frontmatter: {
+        title: 'sub one',
+        status: 'in-progress',
+        tags: [],
+        created: '2026-05-07',
+        relatedTasks: [],
+      },
+    }),
+  ];
+
+  it('reveals TaskDetail on first click of a subtask and hides it on the second click', async () => {
+    const user = userEvent.setup();
+    renderApp({ plan, active });
+
+    await waitFor(() => expect(screen.getByText('CORE-EPIC-1')).toBeInTheDocument());
+
+    await user.click(screen.getByRole('button', { name: 'Expand subtasks' }));
+    await waitFor(() =>
+      expect(screen.getByRole('button', { name: 'Collapse subtasks' })).toBeInTheDocument(),
+    );
+
+    const subtaskToggle = screen.getByRole('button', { name: /CORE-1\.1/, expanded: false });
+    expect(screen.queryByText('The subtask goal sentence.')).not.toBeInTheDocument();
+
+    await user.click(subtaskToggle);
+    await waitFor(() =>
+      expect(screen.getByText('The subtask goal sentence.')).toBeInTheDocument(),
+    );
+    expect(
+      screen.getByRole('button', { name: /CORE-1\.1/, expanded: true }),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /CORE-1\.1/, expanded: true }));
+    await waitFor(() =>
+      expect(screen.queryByText('The subtask goal sentence.')).not.toBeInTheDocument(),
+    );
+  });
+});
+
 describe('App — row StatusChip', () => {
   const plan = `## High
 

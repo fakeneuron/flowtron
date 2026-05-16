@@ -43,7 +43,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-098.11** [opus] | audit — Completed 2026-05-16.
   - [x] **CORE-098.12** [sonnet] | typography scale bump — Completed 2026-05-16.
   - [ ] **CORE-098.13** [sonnet] | subtask-list wrapper density — Filed by `.11` audit. `EpicRow.tsx:90` subtask-list container has hardcoded `px-2 py-1.5`; add `subtaskContainerPad` to `DENSITY_TOKENS` (Comfortable `px-2.5 py-2`, Default `px-2 py-1.5`, Compact `px-1.5 py-1`) and consume.
-  - [ ] **CORE-098.14** [opus] | subtask detail-panel expand — Filed by `.11` audit. Subtasks under expanded epics can't open a TaskDetail panel (no `expandedId` plumbing in `SubtaskRow.tsx`). Add lazy-`TaskDetail` mount + detail-toggle behavior matching `TaskRow`/`EpicRow`.
+  - [x] **CORE-098.14** [opus] | subtask detail-panel expand — Completed 2026-05-16.
+  - [ ] **CORE-098.15** [opus] | TaskDetail visual polish — Filed by `.14` user feedback ("could be prettier"). Subtask `TaskDetail` panel from `.14` renders inside `EpicRow`'s subtask-list grid wrapper (visually cramped vs the same panel under a standalone `TaskRow`); starter-context body rendering in `TaskDetail.tsx` also wants a polish pass. Discovery scopes whether to lift the subtask panel out of the grid wrapper or restyle in place; covers both subtask + starter rendering paths.
 - [ ] **CORE-EPIC-099** [opus] | external-conventions-survey — Investigate missing/expected workflow conventions flowtron should adopt or be compatible with (commit conventions, semver discipline, markdown patterns, Obsidian/Foam interop, etc.). Discovery deliverable: gap analysis + adoption candidates.
   - [ ] **CORE-099.1** [opus] | discovery — Survey external workflow / convention surfaces + identify gaps + recommend adoptions per SPEC/epic.md.
 
