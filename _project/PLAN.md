@@ -20,7 +20,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Medium
 
 - [ ] **CORE-105** [opus] | release v3.0.0 — Cut flowtron v3.0.0 shipping CORE-104's `ft-` skill namespace rename. Hard cutover: annotated tag message must call out the breaking change + adopter re-symlink steps (per `docs/MIGRATION.md` §1.2 / §1.0). Run `/ft-release`; doc-drift sweep via `/ft-audit-docs`.
-- [ ] **CORE-107** [sonnet] | ft-flowtron template-list trim — Drop the bogus "epic" template from `claude/skills/ft-flowtron/SKILL.md:64` "Key docs" bullet (`templates/ — tasknote templates (full, micro, starter, epic)` → `(full, micro, starter)`); no `tasknote-epic-template.md` ships on disk — epic subtasks use the standard template. Surfaced by audit 2026-05-17 (Finding #5, Medium).
 - [ ] **CORE-108** [sonnet] | version-pin Pinned-to slot — Seed a `Pinned to: vX.Y.Z` line in `templates/tasknote-README.md` `## Flowtron version` section so adopters' tasknote READMEs record the pinned version (matches the existing claim in `SPEC/versioning.md:18` + `claude/CLAUDE-snippet.md:20`). Wire `claude/skills/ft-new-project/SKILL.md` Step 6 to substitute the chosen version at adoption time. Surfaced by audit 2026-05-17 (Finding #6, Medium).
 
 ## Low
@@ -43,6 +42,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-107** [sonnet] | ft-flowtron template-list trim — Completed 2026-05-17.
 - [x] **CORE-106** [opus] | ft- namespace residue sweep — Completed 2026-05-17.
 - [x] **CORE-104** [opus] | skill namespace prefix — Completed 2026-05-17.
 - [x] **CORE-103** [opus] | /ft-flowtron adopter-wiring gap — Completed 2026-05-17. (folded into CORE-104)

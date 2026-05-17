@@ -61,7 +61,7 @@ A lightweight, project-agnostic tasknote system for solo AI-assisted coding. Kee
 - `SPEC.md` — canonical workflow contract (4-phase lifecycle, relevance gate, post-closure protocol, versioning)
 - `docs/PHILOSOPHY.md` — design rationale and the problems flowtron solves
 - `docs/MIGRATION.md` — adoption guide, global skill install recipe, migration from legacy systems
-- `templates/` — tasknote templates (full, micro, starter, epic)
+- `templates/` — tasknote templates (full, micro, starter)
 
 ---
 
