@@ -23,7 +23,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-(none)
+- [ ] **CORE-103** [opus] | /flowtron adopter-wiring gap — `claude/skills/flowtron/SKILL.md` advertises `/flowtron` in its bundled-skill table but it's not wired for adopters (missing from `docs/MIGRATION.md` §1.0 global installs and `claude/CLAUDE-snippet.md` symlink block). Either trim the table to flowtron-self-only entries or add a wiring path (likely global install per §1.0, matching `/release`'s flowtron-self framing — `/flowtron` reads the adopter's `_project/flowtron/SPEC.md` per Step 0, so global is the right shape). Surfaced by audit-docs 2026-05-17 during CORE-102 release cut.
 
 ## Future Opportunities
 
