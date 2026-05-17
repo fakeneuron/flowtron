@@ -120,7 +120,7 @@ Skill-specific orchestration:
 - **One continuous flow** in both branches. On the fire branch the user's commit-go ("commit", "go", "yes") is the gate; on the skip branch the inline marker stands in for it. Suggest-next-move and copy-paste-line follow **in the same response as the commit confirmation** (skip branch: same response as the marker; fire branch: same response as the commit-go reply).
 - **Commit message:** `feat: <TASK-ID> — <title>` (or `fix:` / `docs:` / `chore:`). Scaffold + closure typically bundle into one commit alongside the code/doc change.
 - Name the recommended model alongside the next task ID.
-- **Copy-paste line:** `/clear then /model <opus|sonnet> then /<task|micro-task|starter-task> <NEXT-ID>` — substitute the next task's PLAN-line `[model]` and the right slash command.
+- **Copy-paste line:** `/clear then /model <opus|sonnet> then /<ft-task|ft-micro-task|ft-starter-task> <NEXT-ID>` — substitute the next task's PLAN-line `[model]` and the right slash command.
 
 ## Notes
 

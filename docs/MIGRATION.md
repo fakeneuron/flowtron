@@ -98,9 +98,11 @@ To install one skill (repeat per skill you want):
 ```sh
 SKILL=audit-docs   # or audit, audit-security, audit-frontend, audit-backend, audit-performance
 mkdir -p .claude/skills/$SKILL
-cp _project/flowtron/claude/skills/$SKILL/SKILL.md  .claude/skills/$SKILL/SKILL.md
-cp _project/flowtron/claude/commands/$SKILL.md      .claude/commands/$SKILL.md
+cp _project/flowtron/claude/skills/ft-$SKILL/SKILL.md  .claude/skills/$SKILL/SKILL.md
+cp _project/flowtron/claude/commands/ft-$SKILL.md      .claude/commands/$SKILL.md
 ```
+
+Upstream paths carry the `ft-` prefix (the namespace bundled flowtron owns per SPEC §"Skill namespace"); the local fork is named **without** the prefix so ownership stays clear in skill resolution — the same SPEC clause mandates this for adopter forks.
 
 Then open each `.claude/skills/<skill>/SKILL.md` and walk the **§0 Forker checklist** at the top — set the default glob, list your rubric files, pin your verification commands, fill in stack-specific pass examples, and call out your project's sacred invariants under Critical severity. Delete the §0 block from each fork once filled in.
 
