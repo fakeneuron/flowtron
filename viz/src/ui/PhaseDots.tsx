@@ -1,9 +1,10 @@
 import React from 'react';
 import { activePhaseIndex, type ChecklistCounts } from '../tasknote';
-import { PHASE_DOT } from './constants';
+import { usePalette } from './VisibilityContext';
 
 export const PhaseDots: React.FC<{ phases: ChecklistCounts[] }> = ({ phases }) => {
   const activeIdx = activePhaseIndex(phases);
+  const palette = usePalette();
   return (
     <div
       className="flex items-center gap-0.5"
@@ -13,7 +14,11 @@ export const PhaseDots: React.FC<{ phases: ChecklistCounts[] }> = ({ phases }) =
       {phases.map((_, i) => {
         const filled = i < activeIdx;
         const active = i === activeIdx;
-        const cls = filled ? PHASE_DOT.filled : active ? PHASE_DOT.active : PHASE_DOT.inactive;
+        const cls = filled
+          ? palette.PHASE_DOT.filled
+          : active
+            ? palette.PHASE_DOT.active
+            : palette.PHASE_DOT.inactive;
         return <span key={i} className={`h-2 w-2 rounded-full ${cls}`} />;
       })}
     </div>

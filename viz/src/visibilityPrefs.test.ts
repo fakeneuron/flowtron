@@ -27,6 +27,7 @@ describe('visibilityPrefs', () => {
         outOfScope: false,
       },
       density: 'compact',
+      palette: 'linear',
     };
     writeVisibilityPrefs('flowtron', next);
     expect(readVisibilityPrefs('flowtron')).toEqual(next);
@@ -174,5 +175,43 @@ describe('visibilityPrefs', () => {
     writeVisibilityPrefs('fintown', b);
     expect(readVisibilityPrefs('flowtron').density).toBe('compact');
     expect(readVisibilityPrefs('fintown').density).toBe('comfortable');
+  });
+
+  it('falls back palette to "default" when the field is missing (v1 pre-palette payload)', () => {
+    window.localStorage.setItem(
+      'flowtron-viz-prefs:flowtron',
+      JSON.stringify({
+        version: 1,
+        rowChips: { tags: true, model: false, related: false, due: false },
+        detailSections: { goal: true, acceptance: true, subtasks: true },
+        density: 'default',
+      }),
+    );
+    const result = readVisibilityPrefs('flowtron');
+    expect(result.palette).toBe('default');
+    expect(result.density).toBe('default');
+  });
+
+  it('falls back palette to "default" when the field is an unknown string', () => {
+    window.localStorage.setItem(
+      'flowtron-viz-prefs:flowtron',
+      JSON.stringify({
+        version: 1,
+        rowChips: { tags: false, model: true, related: false, due: false },
+        detailSections: { goal: true, acceptance: true, subtasks: true },
+        density: 'default',
+        palette: 'solarized',
+      }),
+    );
+    expect(readVisibilityPrefs('flowtron').palette).toBe('default');
+  });
+
+  it('isolates palette across projects', () => {
+    const a: VisibilityPrefs = { ...DEFAULT_PREFS, palette: 'linear' };
+    const b: VisibilityPrefs = { ...DEFAULT_PREFS, palette: 'github' };
+    writeVisibilityPrefs('flowtron', a);
+    writeVisibilityPrefs('fintown', b);
+    expect(readVisibilityPrefs('flowtron').palette).toBe('linear');
+    expect(readVisibilityPrefs('fintown').palette).toBe('github');
   });
 });

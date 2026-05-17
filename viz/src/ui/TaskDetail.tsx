@@ -4,7 +4,7 @@ import { STARTER_SUBSECTION_KEYS, type StarterSubsectionKey, type Tasknote } fro
 import type { VisibilityPrefs } from '../visibilityPrefs';
 import { WikilinkMarkdown } from './WikilinkMarkdown';
 import { DetailSection } from './DetailSection';
-import { PRIORITY_BADGE } from './constants';
+import { usePalette } from './VisibilityContext';
 import { StatusChip } from './StatusChip';
 import { effectiveStatus } from './utils';
 
@@ -23,6 +23,7 @@ const TaskDetail: React.FC<{
   navigateToTask: (id: string) => void;
   compact?: boolean;
 }> = ({ task, tasknote, detailSections, starterSections, navigateToTask, compact = false }) => {
+  const palette = usePalette();
   const status = effectiveStatus(task, tasknote);
   const isStarter = status === 'starter';
   const priority = tasknote ? task.priority : undefined;
@@ -36,7 +37,7 @@ const TaskDetail: React.FC<{
         <div className="mb-2 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
           {priority && (
             <span
-              className={`rounded px-1.5 py-0.5 font-medium ${PRIORITY_BADGE[priority]}`}
+              className={`rounded px-1.5 py-0.5 font-medium ${palette.PRIORITY_BADGE[priority]}`}
             >
               {priority}
             </span>

@@ -2,7 +2,8 @@ import React, { Suspense, lazy } from 'react';
 import type { Task } from '../parser';
 import type { Tasknote } from '../tasknote';
 import type { VisibilityPrefs } from '../visibilityPrefs';
-import { DENSITY_TOKENS, ROW_HIGHLIGHT_SUBTASK, ROW_SELECTION_SUBTASK } from './constants';
+import { DENSITY_TOKENS } from './constants';
+import { usePalette } from './VisibilityContext';
 
 const TaskDetail = lazy(() => import('./TaskDetail'));
 
@@ -28,6 +29,7 @@ export const SubtaskRow: React.FC<SubtaskRowProps> = ({
   navigateToTask,
 }) => {
   const density = visibility.density;
+  const palette = usePalette();
   const isExpandedDetail = expandedId === task.id;
   return (
     <div>
@@ -35,9 +37,9 @@ export const SubtaskRow: React.FC<SubtaskRowProps> = ({
         id={`row-${task.id}`}
         className={`flex items-center gap-2 rounded ${DENSITY_TOKENS[density].subtaskRowPad} ${
           highlightId === task.id
-            ? ROW_HIGHLIGHT_SUBTASK
+            ? palette.ROW_HIGHLIGHT_SUBTASK
             : isSelected
-              ? ROW_SELECTION_SUBTASK
+              ? palette.ROW_SELECTION_SUBTASK
               : 'hover:bg-slate-100/70 dark:hover:bg-slate-700/30'
         } transition-colors`}
       >

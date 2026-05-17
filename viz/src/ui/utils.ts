@@ -1,6 +1,6 @@
 import type { Task } from '../parser';
 import type { Tasknote, TasknoteStatus } from '../tasknote';
-import { EPIC_ROW_NEUTRAL, ROW_HIGHLIGHT, ROW_NEUTRAL, ROW_SELECTION } from './constants';
+import type { PaletteTokens } from './constants';
 
 export function groupBy<T, K extends string | number>(
   items: T[],
@@ -25,14 +25,22 @@ export function effectiveStatus(task: Task, tn: Tasknote | undefined): TasknoteS
   return tn?.frontmatter?.status ?? null;
 }
 
-export function rowOutlineClass(isHighlighted: boolean, isSelected: boolean): string {
-  if (isHighlighted) return ROW_HIGHLIGHT;
-  if (isSelected) return ROW_SELECTION;
-  return ROW_NEUTRAL;
+export function rowOutlineClass(
+  palette: PaletteTokens,
+  isHighlighted: boolean,
+  isSelected: boolean,
+): string {
+  if (isHighlighted) return palette.ROW_HIGHLIGHT;
+  if (isSelected) return palette.ROW_SELECTION;
+  return palette.ROW_NEUTRAL;
 }
 
-export function epicRowOutlineClass(isHighlighted: boolean, isSelected: boolean): string {
-  if (isHighlighted) return ROW_HIGHLIGHT;
-  if (isSelected) return ROW_SELECTION;
-  return EPIC_ROW_NEUTRAL;
+export function epicRowOutlineClass(
+  palette: PaletteTokens,
+  isHighlighted: boolean,
+  isSelected: boolean,
+): string {
+  if (isHighlighted) return palette.ROW_HIGHLIGHT;
+  if (isSelected) return palette.ROW_SELECTION;
+  return palette.EPIC_ROW_NEUTRAL;
 }

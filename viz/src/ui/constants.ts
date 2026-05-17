@@ -1,9 +1,9 @@
 import type { Priority } from '../parser';
 import type { TasknoteStatus } from '../tasknote';
-import type { DensityMode } from '../visibilityPrefs';
+import type { DensityMode, PaletteName } from '../visibilityPrefs';
 
 /**
- * Viz UI token registry — semantic mapping for typography + color.
+ * Viz UI token registry — semantic mapping for typography, color, and density.
  *
  * **Typography scale (4-step, size-only).** Composition modifiers
  * (`font-mono`, `font-medium`, `font-semibold`, `tabular-nums`,
@@ -20,11 +20,20 @@ import type { DensityMode } from '../visibilityPrefs';
  * Off-grid sizes (`text-[11px]`, `text-[9px]`) are deprecated — fold to
  * `body` and `caption` respectively (CORE-098.2).
  *
- * **Color semantic mapping.** Amber is the *state/attention* family:
- * in-progress status (`STATUS_BADGE['in-progress']`), active-phase
- * (`PHASE_DOT.active`), Medium-priority section + badge. Row highlight
- * moved to indigo (CORE-098.2) to resolve the amber-collision when a
- * Medium-priority in-progress row was momentarily highlighted.
+ * **Color palettes (FE-033.2).** Colors live in `PALETTES`, a
+ * `Record<PaletteName, PaletteTokens>` keyed by user-selectable palette
+ * (default / linear / github). Each palette ships the full 12-token bag
+ * with light + dark variants baked into one Tailwind className per token
+ * (Tailwind's `dark:` variant prefix resolves light/dark at CSS time).
+ * The active palette is read via `usePalette()` (see `VisibilityContext`).
+ *
+ * **Default-palette semantic invariants (post-CORE-098.2)** — amber is the
+ * *state/attention* family: in-progress status, active phase dot, Medium
+ * priority section + badge. Row highlight uses indigo (CORE-098.2 collision
+ * fix). `.3` (Linear) and `.4` (GitHub) curate their own hue→role bindings,
+ * but every palette must keep the 5 status roles + 6 priority roles +
+ * highlight + selection visually distinct, and clear FE-019's ≥4.5:1
+ * small-text contrast in both light and dark.
  */
 
 export const TYPOGRAPHY = {
@@ -50,49 +59,65 @@ export const STATUS_CHIP_LABEL: Record<TasknoteStatus, string> = {
   completed: '✅',
 };
 
-export const STATUS_BADGE: Record<TasknoteStatus, string> = {
-  starter: 'bg-lime-100 text-lime-800 dark:bg-lime-950 dark:text-lime-200',
-  'not-started': 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300',
-  'in-progress': 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-200',
-  blocked: 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-200',
-  completed: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200',
+export interface PaletteTokens {
+  STATUS_BADGE: Record<TasknoteStatus, string>;
+  SECTION_TINT: Record<Priority, string>;
+  PRIORITY_BADGE: Record<Priority, string>;
+  PHASE_DOT: { filled: string; active: string; inactive: string };
+  ROW_HIGHLIGHT: string;
+  ROW_HIGHLIGHT_SUBTASK: string;
+  ROW_SELECTION: string;
+  ROW_SELECTION_SUBTASK: string;
+  ROW_NEUTRAL: string;
+  EPIC_ROW_NEUTRAL: string;
+}
+
+const DEFAULT_PALETTE: PaletteTokens = {
+  STATUS_BADGE: {
+    starter: 'bg-lime-100 text-lime-800 dark:bg-lime-950 dark:text-lime-200',
+    'not-started': 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300',
+    'in-progress': 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-200',
+    blocked: 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-200',
+    completed: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200',
+  },
+  SECTION_TINT: {
+    Critical: 'bg-red-50 border-red-200 dark:bg-red-950/30 dark:border-red-900',
+    High: 'bg-orange-50 border-orange-200 dark:bg-orange-950/30 dark:border-orange-900',
+    Medium: 'bg-amber-50 border-amber-200 dark:bg-amber-950/30 dark:border-amber-900',
+    Low: 'bg-sky-50 border-sky-200 dark:bg-sky-950/30 dark:border-sky-900',
+    'Future Opportunities':
+      'bg-violet-50 border-violet-200 dark:bg-violet-950/30 dark:border-violet-900',
+    Completed: 'bg-emerald-50 border-emerald-200 dark:bg-emerald-950/30 dark:border-emerald-900',
+  },
+  PRIORITY_BADGE: {
+    Critical: 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-200',
+    High: 'bg-orange-100 text-orange-800 dark:bg-orange-950 dark:text-orange-200',
+    Medium: 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-200',
+    Low: 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-200',
+    'Future Opportunities':
+      'bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-200',
+    Completed: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200',
+  },
+  PHASE_DOT: {
+    filled: 'bg-emerald-500',
+    active: 'bg-amber-400 ring-1 ring-amber-200 dark:ring-amber-700',
+    inactive: 'bg-slate-200 dark:bg-slate-700',
+  },
+  ROW_HIGHLIGHT:
+    'border-indigo-400 ring-2 ring-indigo-300 dark:border-indigo-500 dark:ring-indigo-600',
+  ROW_HIGHLIGHT_SUBTASK:
+    'bg-indigo-100 ring-1 ring-indigo-300 dark:bg-indigo-900/30 dark:ring-indigo-700',
+  ROW_SELECTION: 'border-slate-200 ring-2 ring-sky-400 dark:border-slate-800 dark:ring-sky-600',
+  ROW_SELECTION_SUBTASK: 'ring-1 ring-sky-400 dark:ring-sky-600',
+  ROW_NEUTRAL: 'border-slate-200 dark:border-slate-800',
+  EPIC_ROW_NEUTRAL: 'border-slate-300 dark:border-slate-700',
 };
 
-export const SECTION_TINT: Record<Priority, string> = {
-  Critical: 'bg-red-50 border-red-200 dark:bg-red-950/30 dark:border-red-900',
-  High: 'bg-orange-50 border-orange-200 dark:bg-orange-950/30 dark:border-orange-900',
-  Medium: 'bg-amber-50 border-amber-200 dark:bg-amber-950/30 dark:border-amber-900',
-  Low: 'bg-sky-50 border-sky-200 dark:bg-sky-950/30 dark:border-sky-900',
-  'Future Opportunities':
-    'bg-violet-50 border-violet-200 dark:bg-violet-950/30 dark:border-violet-900',
-  Completed: 'bg-emerald-50 border-emerald-200 dark:bg-emerald-950/30 dark:border-emerald-900',
+export const PALETTES: Record<PaletteName, PaletteTokens> = {
+  default: DEFAULT_PALETTE,
+  linear: DEFAULT_PALETTE,
+  github: DEFAULT_PALETTE,
 };
-
-export const PRIORITY_BADGE: Record<Priority, string> = {
-  Critical: 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-200',
-  High: 'bg-orange-100 text-orange-800 dark:bg-orange-950 dark:text-orange-200',
-  Medium: 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-200',
-  Low: 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-200',
-  'Future Opportunities':
-    'bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-200',
-  Completed: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200',
-};
-
-export const PHASE_DOT = {
-  filled: 'bg-emerald-500',
-  active: 'bg-amber-400 ring-1 ring-amber-200 dark:ring-amber-700',
-  inactive: 'bg-slate-200 dark:bg-slate-700',
-} as const;
-
-export const ROW_HIGHLIGHT =
-  'border-indigo-400 ring-2 ring-indigo-300 dark:border-indigo-500 dark:ring-indigo-600';
-export const ROW_HIGHLIGHT_SUBTASK =
-  'bg-indigo-100 ring-1 ring-indigo-300 dark:bg-indigo-900/30 dark:ring-indigo-700';
-export const ROW_SELECTION =
-  'border-slate-200 ring-2 ring-sky-400 dark:border-slate-800 dark:ring-sky-600';
-export const ROW_SELECTION_SUBTASK = 'ring-1 ring-sky-400 dark:ring-sky-600';
-export const ROW_NEUTRAL = 'border-slate-200 dark:border-slate-800';
-export const EPIC_ROW_NEUTRAL = 'border-slate-300 dark:border-slate-700';
 
 /**
  * Density tokens (CORE-098.4). Three opt-in modes selectable from the

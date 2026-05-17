@@ -4,6 +4,7 @@ import type { Tasknote } from '../tasknote';
 import type { VisibilityPrefs } from '../visibilityPrefs';
 import { Chevron } from './Chevron';
 import { DENSITY_TOKENS } from './constants';
+import { usePalette } from './VisibilityContext';
 import { TaskRowInner } from './TaskRowInner';
 import { SubtaskRow } from './SubtaskRow';
 import { epicRowOutlineClass } from './utils';
@@ -42,10 +43,12 @@ export const EpicRow: React.FC<EpicRowProps> = ({
   const total = children.length;
   const density = visibility.density;
   const tokens = DENSITY_TOKENS[density];
+  const palette = usePalette();
   return (
     <div
       id={`row-${task.id}`}
       className={`relative rounded border-2 bg-slate-50 dark:bg-slate-800/50 ${epicRowOutlineClass(
+        palette,
         highlightId === task.id,
         isSelected,
       )} transition-colors`}

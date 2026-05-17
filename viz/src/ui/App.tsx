@@ -11,6 +11,7 @@ import {
 } from '../parser';
 import { type Tasknote, type TasknoteStatus } from '../tasknote';
 import { DENSITY_TOKENS, TYPOGRAPHY } from './constants';
+import { VisibilityProvider } from './VisibilityContext';
 import { LoadingSkeleton } from './LoadingSkeleton';
 import { PrioritySection } from './PrioritySection';
 import { ProjectSelector } from './ProjectSelector';
@@ -307,6 +308,7 @@ export const App: React.FC = () => {
   });
 
   return (
+    <VisibilityProvider value={visibilityPrefs}>
     <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
       <header className="border-b border-slate-200 bg-white px-4 py-3 dark:border-slate-800 dark:bg-slate-900">
         <div className="mx-auto flex max-w-screen-xl flex-col gap-2">
@@ -477,5 +479,6 @@ export const App: React.FC = () => {
       />
       <ShortcutsModal open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
     </div>
+    </VisibilityProvider>
   );
 };

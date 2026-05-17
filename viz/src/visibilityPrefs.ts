@@ -1,4 +1,5 @@
 export type DensityMode = 'comfortable' | 'default' | 'compact';
+export type PaletteName = 'default' | 'linear' | 'github';
 
 export interface VisibilityPrefs {
   version: 1;
@@ -21,6 +22,7 @@ export interface VisibilityPrefs {
     outOfScope: boolean;
   };
   density: DensityMode;
+  palette: PaletteName;
 }
 
 export const DEFAULT_PREFS: VisibilityPrefs = {
@@ -34,6 +36,7 @@ export const DEFAULT_PREFS: VisibilityPrefs = {
     outOfScope: true,
   },
   density: 'default',
+  palette: 'default',
 };
 
 const KEY_PREFIX = 'flowtron-viz-prefs:';
@@ -44,6 +47,9 @@ const isBool = (v: unknown): v is boolean => typeof v === 'boolean';
 
 const isDensity = (v: unknown): v is DensityMode =>
   v === 'comfortable' || v === 'default' || v === 'compact';
+
+const isPalette = (v: unknown): v is PaletteName =>
+  v === 'default' || v === 'linear' || v === 'github';
 
 const parsePrefs = (raw: string | null): VisibilityPrefs => {
   if (!raw) return DEFAULT_PREFS;
@@ -85,6 +91,7 @@ const parsePrefs = (raw: string | null): VisibilityPrefs => {
       outOfScope: isBool(ss.outOfScope) ? ss.outOfScope : DEFAULT_PREFS.starterSections.outOfScope,
     },
     density: isDensity(d.density) ? d.density : DEFAULT_PREFS.density,
+    palette: isPalette(d.palette) ? d.palette : DEFAULT_PREFS.palette,
   };
 };
 

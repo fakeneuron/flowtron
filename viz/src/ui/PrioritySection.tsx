@@ -3,7 +3,8 @@ import { isEpic, type Priority, type TaskNode } from '../parser';
 import type { Tasknote } from '../tasknote';
 import type { VisibilityPrefs } from '../visibilityPrefs';
 import { Chevron } from './Chevron';
-import { DENSITY_TOKENS, SECTION_TINT } from './constants';
+import { DENSITY_TOKENS } from './constants';
+import { usePalette } from './VisibilityContext';
 import { EpicRow } from './EpicRow';
 import { TaskRow } from './TaskRow';
 
@@ -40,8 +41,9 @@ export const PrioritySection: React.FC<PrioritySectionProps> = ({
 }) => {
   const totalCount = nodes.reduce((s, n) => s + 1 + n.children.length, 0);
   const tokens = DENSITY_TOKENS[visibility.density];
+  const palette = usePalette();
   return (
-    <section className={`rounded-lg border ${SECTION_TINT[priority]}`}>
+    <section className={`rounded-lg border ${palette.SECTION_TINT[priority]}`}>
       <button
         type="button"
         onClick={onToggle}

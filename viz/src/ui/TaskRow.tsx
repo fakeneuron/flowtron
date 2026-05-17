@@ -3,6 +3,7 @@ import type { Task } from '../parser';
 import type { Tasknote } from '../tasknote';
 import type { VisibilityPrefs } from '../visibilityPrefs';
 import { DENSITY_TOKENS } from './constants';
+import { usePalette } from './VisibilityContext';
 import { TaskRowInner } from './TaskRowInner';
 import { rowOutlineClass } from './utils';
 
@@ -28,10 +29,13 @@ export const TaskRow: React.FC<TaskRowProps> = ({
   highlightId,
   isSelected,
   navigateToTask,
-}) => (
+}) => {
+  const palette = usePalette();
+  return (
   <div
     id={`row-${task.id}`}
     className={`rounded border bg-white hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800/60 ${rowOutlineClass(
+      palette,
       highlightId === task.id,
       isSelected,
     )} transition-colors`}
@@ -58,4 +62,5 @@ export const TaskRow: React.FC<TaskRowProps> = ({
       </Suspense>
     )}
   </div>
-);
+  );
+};
