@@ -29,22 +29,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **CORE-EPIC-097** [opus] | external-skill-survey — Survey skills bundled by comparable claude-code / AI-coding workflow repos (GitHub-style CLI workflows, caveman-claude's token-minimization pattern popularized on social media, etc.). Discovery deliverable: shortlist of skills worth adopting into flowtron + adoption rationale per candidate.
   - [ ] **CORE-097.1** [opus] | discovery — Scope which comparable repos to survey + adoption criteria + per-candidate findings per SPEC/epic.md.
-- [ ] **CORE-EPIC-098** [opus] | viz-embellishment — Embellish viz with graphic-design best practices, fill missing UI features, and add selective-visibility controls for tasknote components in the rendering. Discovery deliverable: prioritized improvement list with sketches/refs.
-  - [x] **CORE-098.1** [opus] | discovery — Completed 2026-05-15.
-  - [x] **CORE-098.2** [opus] | typography & color audit — Completed 2026-05-15.
-  - [x] **CORE-098.3** [opus] | settings-modal scaffold — Completed 2026-05-15.
-  - [x] **CORE-098.4** [opus] | density modes — Completed 2026-05-15.
-  - [x] **CORE-098.5** [opus] | board view-switcher — Completed 2026-05-16.
-  - [x] **CORE-098.6** [sonnet] | focus-ring system — Completed 2026-05-16.
-  - [x] **CORE-098.7** [sonnet] | epic-row visual lift — Completed 2026-05-16.
-  - [x] **CORE-098.8** [sonnet] | motion polish — Completed 2026-05-16.
-  - [x] **CORE-098.9** [sonnet] | keyboard-shortcuts overlay — Completed 2026-05-16.
-  - [x] **CORE-098.10** [sonnet] | empty + loading states — Completed 2026-05-16.
-  - [x] **CORE-098.11** [opus] | audit — Completed 2026-05-16.
-  - [x] **CORE-098.12** [sonnet] | typography scale bump — Completed 2026-05-16.
-  - [x] **CORE-098.13** [opus] | subtask-list wrapper density — Completed 2026-05-16.
-  - [x] **CORE-098.14** [opus] | subtask detail-panel expand — Completed 2026-05-16.
-  - [x] **CORE-098.15** [opus] | TaskDetail visual polish — Completed 2026-05-16.
 - [ ] **CORE-EPIC-099** [opus] | external-conventions-survey — Investigate missing/expected workflow conventions flowtron should adopt or be compatible with (commit conventions, semver discipline, markdown patterns, Obsidian/Foam interop, etc.). Discovery deliverable: gap analysis + adoption candidates.
   - [ ] **CORE-099.1** [opus] | discovery — Survey external workflow / convention surfaces + identify gaps + recommend adoptions per SPEC/epic.md.
 - [ ] **CORE-100** [opus] | flowtron-nat-011 investigation — Investigate what `flowtron-nat-011` is, what it depends on, and whether it has any true function. Confirm safe-to-delete from disk, then delete the project directory + remove from the viz workspace projects list.
@@ -54,6 +38,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-098** [opus] | viz-embellishment — Completed 2026-05-16. Children CORE-098.1–.15 archived; closure consumed the subtask list per epic-close convention.
 - [x] **CORE-095** [sonnet] | wikilink-form self-sweep — Completed 2026-05-15.
 - [x] **CORE-096** [sonnet] | audit-fork CHANGELOG residue — Completed 2026-05-15.
 - [x] **CORE-094** [opus] | release v2.1.0 — Completed 2026-05-14.
