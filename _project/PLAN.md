@@ -32,12 +32,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-EPIC-099** [opus] | external-conventions-survey — Investigate missing/expected workflow conventions flowtron should adopt or be compatible with (commit conventions, semver discipline, markdown patterns, Obsidian/Foam interop, etc.). Discovery deliverable: gap analysis + adoption candidates.
   - [ ] **CORE-099.1** [opus] | discovery — Survey external workflow / convention surfaces + identify gaps + recommend adoptions per SPEC/epic.md.
 - [ ] **CORE-100** [opus] | flowtron-nat-011 investigation — Investigate what `flowtron-nat-011` is, what it depends on, and whether it has any true function. Confirm safe-to-delete from disk, then delete the project directory + remove from the viz workspace projects list.
-- [ ] **FE-032** [opus] | projectselector-restyle — Restyle the ProjectSelector chips in the header rail per user feedback ("don't like the way the chips look"). Per-chip visual weight, hover/active states, focus rings. May be subsumed by FE-EPIC-033 if a theme system lands first.
 - [ ] **FE-EPIC-033** [opus] | theme-system — Review viz's overall color schema and add a selectable themes picker (light/dark already exist; goal is multiple curated palettes). Discovery deliverable: palette inventory + reference themes + storage + picker UI sketch.
   - [ ] **FE-033.1** [opus] | discovery — Audit current palette across both themes, survey 2-3 reference systems (Linear, GitHub, Notion), file palette + picker children per SPEC/epic.md.
 
 ## Completed
 
+- [x] **FE-032** [opus] | projectselector-restyle — Completed 2026-05-16.
 - [x] **CORE-EPIC-098** [opus] | viz-embellishment — Completed 2026-05-16. Children CORE-098.1–.15 archived; closure consumed the subtask list per epic-close convention.
 - [x] **CORE-095** [sonnet] | wikilink-form self-sweep — Completed 2026-05-15.
 - [x] **CORE-096** [sonnet] | audit-fork CHANGELOG residue — Completed 2026-05-15.

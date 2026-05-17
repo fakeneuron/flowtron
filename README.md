@@ -27,8 +27,8 @@ one-time global install.
 
 `viz/` is a read-only Kanban view of every flowtron-adopting project under
 your workspace, grouped by priority. Open tasks with an active tasknote in
-each project's `_project/tasknote/` are flagged **In progress**. A
-project-selector chip group in the header rail swaps the active project;
+each project's `_project/tasknote/` are flagged **In progress**. The
+header-rail project selector swaps the active project;
 filters and scroll position reset on switch.
 
 Run **once per machine** from flowtron's own checkout — there is no
