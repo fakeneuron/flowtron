@@ -41,6 +41,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-102** [opus] | release v2.2.0 — Completed 2026-05-17.
 - [x] **CORE-101** [opus] | audit-family bundle — Completed 2026-05-17.
 - [x] **FE-033.2** [opus] | palette architecture — Completed 2026-05-17.
 - [x] **FE-033.1** [opus] | discovery — Completed 2026-05-17.
