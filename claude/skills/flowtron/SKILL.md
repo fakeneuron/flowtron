@@ -48,8 +48,13 @@ A lightweight, project-agnostic tasknote system for solo AI-assisted coding. Kee
 | `/epic-discovery` | Scaffold and drive a new epic: files parent + `.1` Discovery + audit placeholder, then drives Discovery inline. |
 | `/close-epic` | Close an epic by scaffolding and driving its audit subtask, then flips the parent entry to Completed. |
 | `/audit` | Stack-neutral scaffold for a ruthless principal-engineer code audit — 5 passes (Security · Idioms · Hygiene · Orphans · Doc drift), capped findings, writes tickets to PLAN. Fork and customize per stack. |
+| `/audit-docs` | Documentation-drift audit — 5 passes (Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content). Forkable; invoked standalone or as a subroutine by `/release` §7.1. |
+| `/audit-security` | Security audit — 5 passes (Secrets · Input handling · Auth & authz · Network & boundaries · Dependencies). Forkable; pin sacred invariants and wire your scanner stack. |
+| `/audit-frontend` | Frontend audit — 5 passes (Bundle & payload · A11y · Render perf · Browser hygiene · Component health). Forkable; pin design-system / perf-budget / framework. |
+| `/audit-backend` | Backend audit — 5 passes (Input & contracts · Error & lifecycle · Persistence · Async correctness · Observability). Forkable; pin API contract / ORM / framework. |
+| `/audit-performance` | Performance audit — 5 passes (Hot paths · Payload & bundle · Data access · Memory & resource · Caching). Measurements required. Cross-cuts frontend / backend specialists. |
 | `/new-project` | Bootstrap a fresh repo with flowtron — submodule, PLAN.md, tasknote README, CLAUDE.md patch, staged commit. |
-| `/release` | Cut a flowtron release — version bump, doc shifts, drift sweep, single feat: commit, annotated tag, push. (Flowtron-self only.) |
+| `/release` | Cut a flowtron release — version bump, doc shifts, drift sweep (via `/audit-docs`), single feat: commit, annotated tag, push. (Flowtron-self only.) |
 
 ## Key docs
 

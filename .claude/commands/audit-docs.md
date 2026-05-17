@@ -1,0 +1,5 @@
+---
+description: Doc-drift audit of flowtron's AI-referenced doc set — 5 passes (Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content). Default scope is the 4-file AI-referenced set; `broad` widens to the full markdown contract surface. Invoked standalone or as a subroutine by `/release` §7.1.
+---
+
+Invoke the `audit-docs` skill (flowtron-self fork at `.claude/skills/audit-docs/SKILL.md`). The skill resolves scope from `$ARGUMENTS` (`all` → AI-referenced 4-file set / `broad` → full markdown surface / path / glob / `last-commit` / `staged`), runs wikilink-integrity + frontmatter-parity verification gates, walks 5 passes (Claims-vs-code · Cross-doc consistency · Cross-references · Currency · Stale content) capped at 5 findings each, presents Summary + Exploratory Insights + Proposed tasks + Questions, then (standalone mode only) writes the agreed tickets into `_project/PLAN.md` with `Surfaced by audit-docs YYYY-MM-DD (Finding #N, <severity>)` attribution. Doc files are not modified.

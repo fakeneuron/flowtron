@@ -69,23 +69,39 @@ Flowtron ships six slash commands and their skills inside the submodule:
 
 Adopting projects expose all six through their own `.claude/` folder using symlinks. Open `_project/flowtron/claude/CLAUDE-snippet.md` §"One-time symlink wiring" and run the commands listed there from the project root — that file is the single source of truth for the wiring block. The relative paths in the snippet are intentional (they survive `git clone` and pin to whichever flowtron commit the submodule is currently checked out at), so the symlinks never need touching on a version bump. The same file also holds the `CLAUDE.md` paste-block for the next step.
 
-### 1.2.1 Optional: fork `/audit` per stack
+### 1.2.1 Optional: fork the `/audit` family per stack
 
-Flowtron also ships a stack-neutral `/audit` skill at `_project/flowtron/claude/skills/audit/` — a 5-pass / capped-findings / writes-tickets-to-`_project/PLAN.md` scaffold (Security · Idioms · Hygiene · Orphans · Doc drift). **Unlike the six skills in §1.2, this one is forked, not symlinked.** Per-stack divergence in rubric files, verification commands, and per-pass examples is the reason — one symlinked scaffold cannot serve every stack without becoming bland enough to miss real issues.
+Flowtron ships an **audit family** at `_project/flowtron/claude/skills/audit*/` — six stack-neutral scaffolds, each a 5-pass / capped-findings / writes-tickets-to-`_project/PLAN.md` skill. **Unlike the six skills in §1.2, the audit family is forked, not symlinked.** Per-stack divergence in rubric files, verification commands, and per-pass examples is the reason — one symlinked scaffold cannot serve every stack without becoming bland enough to miss real issues.
 
-To install:
+The family:
+
+| Skill | Scope | 5 passes |
+|---|---|---|
+| `/audit` | Catch-all code audit; default when no specialist fits | Security · Idioms · Hygiene · Orphans · Doc drift |
+| `/audit-docs` | Documentation surface | Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content |
+| `/audit-security` | Security posture | Secrets · Input handling · Auth & authz · Network & boundaries · Dependencies |
+| `/audit-frontend` | Frontend (framework-agnostic scaffold) | Bundle & payload · Accessibility · Render perf · Browser hygiene · Component health |
+| `/audit-backend` | Backend (framework-agnostic scaffold) | Input & contracts · Error & lifecycle · Persistence · Async correctness · Observability |
+| `/audit-performance` | Cross-cutting perf (measurements required) | Hot paths · Payload & bundle · Data access · Memory & resource · Caching |
+
+Pick the ones you'll actually use. Skipping a skill is fine — `/audit` is a sensible default if you don't need specialists yet.
+
+To install one skill (repeat per skill you want):
 
 ```sh
-mkdir -p .claude/skills/audit
-cp _project/flowtron/claude/skills/audit/SKILL.md      .claude/skills/audit/SKILL.md
-cp _project/flowtron/claude/commands/audit.md          .claude/commands/audit.md
+SKILL=audit-docs   # or audit, audit-security, audit-frontend, audit-backend, audit-performance
+mkdir -p .claude/skills/$SKILL
+cp _project/flowtron/claude/skills/$SKILL/SKILL.md  .claude/skills/$SKILL/SKILL.md
+cp _project/flowtron/claude/commands/$SKILL.md      .claude/commands/$SKILL.md
 ```
 
-Then open `.claude/skills/audit/SKILL.md` and walk the **§0 Forker checklist** at the top — set the default glob, list your rubric files, pin your verification commands, fill in stack-specific pass examples, and call out your project's sacred invariants under Critical severity. Delete the §0 block from your fork once filled in. You can also split into per-stack forks (`audit-backend`, `audit-frontend`, …) by copying the SKILL.md into multiple sibling directories and customizing each independently — adjust the `cp` targets accordingly.
+Then open each `.claude/skills/<skill>/SKILL.md` and walk the **§0 Forker checklist** at the top — set the default glob, list your rubric files, pin your verification commands, fill in stack-specific pass examples, and call out your project's sacred invariants under Critical severity. Delete the §0 block from each fork once filled in.
 
-The fork is yours — flowtron version bumps do not touch it. Re-copy from `_project/flowtron/claude/skills/audit/SKILL.md` if you ever want to pick up scaffold improvements upstream.
+You can also split a single skill into per-area forks (e.g. `audit-backend` → `audit-backend-payments` and `audit-backend-ingest`) by copying the SKILL.md into multiple sibling directories and customizing each independently. Adjust the `cp` targets accordingly.
 
-This subsection is **optional**. Projects that don't want a structured audit skill can skip §1.2.1 entirely.
+The forks are yours — flowtron version bumps do not touch them. Re-copy from `_project/flowtron/claude/skills/<skill>/SKILL.md` if you ever want to pick up scaffold improvements upstream.
+
+This subsection is **optional**. Projects that don't want structured audit skills can skip §1.2.1 entirely.
 
 ### 1.3 Paste the workflow block into `CLAUDE.md`
 

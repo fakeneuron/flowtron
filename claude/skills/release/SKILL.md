@@ -154,9 +154,21 @@ If a viz/code feature ships in this release, surface that the feature's own task
 
 Walk the closure steps in order. Tag-message review and commit-go are explicit gates — wait for the user.
 
-### 7.1 — Doc-drift sweep
+### 7.1 — Doc-drift sweep (via `/audit-docs` subroutine)
 
-Walk every entry in `_project/tasknote/README.md` §"AI-referenced docs". State per-entry verdict ("no change" or the specific update). Today's set: `README.md`, `SPEC.md`, `docs/MIGRATION.md`, `claude/CLAUDE-snippet.md`. The 3 doc edits in Phase 2 are the expected updates for SPEC + MIGRATION; README and CLAUDE-snippet usually need no change. If any AI-referenced doc has drifted in a way the release should fix, fix it now.
+Invoke the flowtron-self `audit-docs` skill in **subroutine mode** with the default scope (the AI-referenced docs set declared in `_project/tasknote/README.md` §"AI-referenced docs" — currently `README.md`, `SPEC.md`, `docs/MIGRATION.md`, `claude/CLAUDE-snippet.md`):
+
+```
+Skill(audit-docs)
+```
+
+`audit-docs` walks its 5 passes (Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content) over the 4-file set and returns the report inline. In subroutine mode it does **not** write tickets to `_project/PLAN.md`; the release skill is the orchestrator and decides per finding whether to absorb the fix into the current cut.
+
+For each returned finding:
+- **Critical / High** — fix inline as part of the release cut (the 3 doc edits in Phase 2 normally clear the routine SPEC + MIGRATION version-pin drift; anything else surfaced here gets the same treatment).
+- **Medium / Low** — surface to the user with a one-line summary; ask whether to absorb into the release cut or file a followup via `/file-followup`. Default to file-followup if uncertain (release cuts should not balloon).
+
+If `audit-docs` reports zero findings, state that explicitly and move on to §7.2.
 
 ### 7.2 — Auto-draft annotated tag message
 
