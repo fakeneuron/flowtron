@@ -131,7 +131,7 @@ mkdir -p _project/tasknote/archive
 cp _project/flowtron/templates/tasknote-README.md _project/tasknote/README.md
 ```
 
-Declare any project-specific area prefixes. Replace the "Project quick commands" section with the actual test/lint/dev commands for your project. Extend the `## AI-referenced docs` section as the architecture matures — the template seeds it with `README.md` / `CLAUDE.md` / `_project/PLAN.md`; add architecture notes, API specs, DB schema docs, ADRs, inventories. This list is walked at every Phase 4 closure (per `_project/flowtron/SPEC.md` §"🚀 Phase 4: Closure") and at every epic-audit subtask.
+Replace `vX.Y.Z` in the `Pinned to: vX.Y.Z` line with the flowtron version you pinned in §1.1. Declare any project-specific area prefixes. Replace the "Project quick commands" section with the actual test/lint/dev commands for your project. Extend the `## AI-referenced docs` section as the architecture matures — the template seeds it with `README.md` / `CLAUDE.md` / `_project/PLAN.md`; add architecture notes, API specs, DB schema docs, ADRs, inventories. This list is walked at every Phase 4 closure (per `_project/flowtron/SPEC.md` §"🚀 Phase 4: Closure") and at every epic-audit subtask.
 
 The README also describes the canonical tasknote shape — see `_project/flowtron/SPEC.md` §"Tasknote frontmatter" + §"Tasknote body shape" and `_project/flowtron/templates/tasknote-template.md`. Two lightweight variants exist alongside it:
 
