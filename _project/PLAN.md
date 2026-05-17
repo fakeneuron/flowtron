@@ -37,6 +37,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [ ] **FE-033.4** [opus] | github palette — Curate GitHub-style palette across all 12 semantic tokens; pair-tune light + dark contrast against FE-019 a11y baseline. Mirrors FE-033.3's shape with GitHub's accent family.
   - [ ] **FE-033.5** [sonnet] | picker UI — Add a Palette fieldset (radio group, parallels Density) to `SettingsModal` between Density and Detail panel; extend `visibilityPrefs.palette: 'default' | 'linear' | 'github'` with `default` default; bump schema to `version: 2`; cover in `visibilityPrefs.test.ts` + `App.test.tsx`.
   - [ ] **FE-033.6** [opus] | audit — Verify the completed theme-system epic: FE-019 a11y baseline preserved across all 3 palettes × 2 themes; bundle-size budget intact (FE-026); palette × density × visibility interactions coherent; doc-drift sweep per `SPEC/epic.md`.
+- [ ] **FE-034** [sonnet] | empty priority panels — Hide PrioritySection cards with zero tasks (post-filter, respecting visibility prefs); render a subtle muted footer at page bottom ("No tasks in: Critical · Low") listing empty sections, comma-joined; collapse to "No tasks in this project" when all are empty. Priority view only.
 
 ## Completed
 
