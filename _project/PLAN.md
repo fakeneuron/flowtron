@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **CORE-104** [opus] | skill namespace prefix — flowtron's bundled skills use generic names (`task`, `audit`, `release`, `new-project`, `audit-docs`, `flowtron`) that risk silently shadowing adopter-owned skills with the same name in Claude Code's skill resolution. Prefix them (likely `ft-`, but the shape is part of the decision) to make ownership obvious and eliminate collisions. Breaking change for every adopter — needs a migration strategy (hard cutover vs. one-cycle alias period), then a sweep across `claude/skills/`, `claude/commands/`, `docs/MIGRATION.md` adopter steps, `claude/CLAUDE-snippet.md`, SPEC files, and `_project/` cross-references, plus a release cut that ships it. May promote to an epic during discovery. Raised 2026-05-17.
 
 ## Low
 
