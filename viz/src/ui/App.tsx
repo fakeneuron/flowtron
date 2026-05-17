@@ -10,7 +10,7 @@ import {
   type TaskNode,
 } from '../parser';
 import { type Tasknote, type TasknoteStatus } from '../tasknote';
-import { DENSITY_TOKENS, STATUS_LABEL, STATUS_BADGE, PILL_ACTIVE, PILL_FOCUS_RING, TYPOGRAPHY } from './constants';
+import { DENSITY_TOKENS, TYPOGRAPHY } from './constants';
 import { LoadingSkeleton } from './LoadingSkeleton';
 import { PrioritySection } from './PrioritySection';
 import { ProjectSelector } from './ProjectSelector';
@@ -26,6 +26,8 @@ import {
   writeVisibilityPrefs,
   type VisibilityPrefs,
 } from '../visibilityPrefs';
+import { readStoredViewMode, writeStoredViewMode, type ViewMode } from '../viewMode';
+import { BoardView } from './BoardView';
 
 const SECTIONS: Priority[] = [
   'Critical',
@@ -36,13 +38,8 @@ const SECTIONS: Priority[] = [
   'Completed',
 ];
 
-const STATUS_FILTER_VALUES: TasknoteStatus[] = [
-  'starter',
-  'not-started',
-  'in-progress',
-  'blocked',
-  'completed',
-];
+const BOARD_SECTIONS: Priority[] = ['High', 'Medium', 'Low'];
+const BELOW_BOARD_SECTIONS: Priority[] = ['Critical', 'Future Opportunities', 'Completed'];
 
 const HIGHLIGHT_MS = 1500;
 
@@ -54,7 +51,7 @@ export const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState<string>('');
-  const [statusFilter, toggleStatus, setStatusFilter] = useToggleSet<TasknoteStatus>();
+  const [statusFilter, , setStatusFilter] = useToggleSet<TasknoteStatus>();
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [collapsedSections, toggleSection, setCollapsedSections] = useToggleSet<Priority>(
     new Set(['Completed']),
@@ -65,6 +62,7 @@ export const App: React.FC = () => {
   const [visibilityPrefs, setVisibilityPrefs] = useState<VisibilityPrefs>(DEFAULT_PREFS);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
+  const [viewMode, setViewMode] = useState<ViewMode>(() => readStoredViewMode());
   const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const activeProjectRef = useRef<string | null>(null);
@@ -138,6 +136,11 @@ export const App: React.FC = () => {
     [activeProject],
   );
 
+  const updateViewMode = useCallback((next: ViewMode) => {
+    setViewMode(next);
+    writeStoredViewMode(next);
+  }, []);
+
   const refresh = useCallback(() => {
     const current = activeProjectRef.current;
     if (current) void load(current, false);
@@ -181,15 +184,6 @@ export const App: React.FC = () => {
   );
 
   const allNodes = useMemo(() => groupTasks(tasks), [tasks]);
-
-  const presentStatuses = useMemo(() => {
-    const set = new Set<TasknoteStatus>();
-    for (const task of tasks) {
-      const tn = tasknotesById.get(task.id);
-      set.add(effectiveStatus(task, tn) ?? 'not-started');
-    }
-    return set;
-  }, [tasks, tasknotesById]);
 
   const filteredNodes = useMemo(
     () => allNodes.filter((n) => matchesFilter(n.task)),
@@ -328,6 +322,30 @@ export const App: React.FC = () => {
               </p>
             </div>
             <div className="flex items-center gap-2">
+              <div
+                role="group"
+                aria-label="View mode"
+                className="inline-flex rounded border border-slate-300 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900"
+              >
+                {(['list', 'board'] as const).map((m, i) => {
+                  const active = viewMode === m;
+                  return (
+                    <button
+                      key={m}
+                      type="button"
+                      onClick={() => updateViewMode(m)}
+                      aria-pressed={active}
+                      className={`${i === 0 ? 'rounded-l' : 'rounded-r'} px-3 py-1.5 text-base focus:outline-none focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500 ${
+                        active
+                          ? 'bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900'
+                          : 'hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800'
+                      }`}
+                    >
+                      {m === 'list' ? 'List' : 'Board'}
+                    </button>
+                  );
+                })}
+              </div>
               <input
                 ref={searchInputRef}
                 type="search"
@@ -359,31 +377,12 @@ export const App: React.FC = () => {
               </button>
             </div>
           </div>
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+          <div className="text-sm">
             <ProjectSelector
               projects={projects}
               active={activeProject}
               onSelect={handleSelectProject}
             />
-            <div className="flex flex-wrap items-center gap-1.5">
-              <span className="text-slate-500 dark:text-slate-400">Status:</span>
-              {STATUS_FILTER_VALUES.filter((s) => presentStatuses.has(s)).map((s) => {
-                const on = statusFilter.has(s);
-                return (
-                  <button
-                    key={s}
-                    type="button"
-                    onClick={() => toggleStatus(s)}
-                    aria-pressed={on}
-                    className={`rounded-full px-2 py-0.5 ${
-                      on ? PILL_ACTIVE : `${STATUS_BADGE[s]} hover:opacity-80 ${PILL_FOCUS_RING}`
-                    }`}
-                  >
-                    {STATUS_LABEL[s]}
-                  </button>
-                );
-              })}
-            </div>
           </div>
         </div>
       </header>
@@ -402,6 +401,46 @@ export const App: React.FC = () => {
             <p className={`${TYPOGRAPHY.body} text-slate-500 dark:text-slate-400`}>
               No matches. Press Esc to clear filters.
             </p>
+          </div>
+        ) : viewMode === 'board' ? (
+          <div className={`flex flex-col ${DENSITY_TOKENS[visibilityPrefs.density].betweenSectionsGap}`}>
+            <BoardView
+              sections={BOARD_SECTIONS}
+              bySection={bySection}
+              collapsedSections={collapsedSections}
+              toggleSection={toggleSection}
+              tasknotesById={tasknotesById}
+              visibility={visibilityPrefs}
+              expandedId={expandedId}
+              setExpandedId={setExpandedId}
+              expandedEpicIds={expandedEpicIds}
+              toggleEpic={toggleEpic}
+              highlightId={highlightId}
+              selectedId={selectedId}
+              navigateToTask={navigateToTask}
+            />
+            {BELOW_BOARD_SECTIONS.map((p) => {
+              const nodes = bySection[p] ?? [];
+              const collapsed = collapsedSections.has(p);
+              return (
+                <PrioritySection
+                  key={p}
+                  priority={p}
+                  nodes={nodes}
+                  collapsed={collapsed}
+                  onToggle={() => toggleSection(p)}
+                  tasknotesById={tasknotesById}
+                  visibility={visibilityPrefs}
+                  expandedId={expandedId}
+                  setExpandedId={setExpandedId}
+                  expandedEpicIds={expandedEpicIds}
+                  toggleEpic={toggleEpic}
+                  highlightId={highlightId}
+                  selectedId={selectedId}
+                  navigateToTask={navigateToTask}
+                />
+              );
+            })}
           </div>
         ) : (
           <div className={`flex flex-col ${DENSITY_TOKENS[visibilityPrefs.density].betweenSectionsGap}`}>

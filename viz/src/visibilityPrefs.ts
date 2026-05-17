@@ -3,6 +3,7 @@ export type DensityMode = 'comfortable' | 'default' | 'compact';
 export interface VisibilityPrefs {
   version: 1;
   rowChips: {
+    id: boolean;
     tags: boolean;
     model: boolean;
     related: boolean;
@@ -24,7 +25,7 @@ export interface VisibilityPrefs {
 
 export const DEFAULT_PREFS: VisibilityPrefs = {
   version: 1,
-  rowChips: { tags: false, model: true, related: false, due: false },
+  rowChips: { id: true, tags: false, model: true, related: false, due: false },
   detailSections: { goal: true, acceptance: true, subtasks: true },
   starterSections: {
     whyExists: true,
@@ -62,6 +63,7 @@ const parsePrefs = (raw: string | null): VisibilityPrefs => {
   return {
     version: 1,
     rowChips: {
+      id: isBool(rc.id) ? rc.id : DEFAULT_PREFS.rowChips.id,
       tags: isBool(rc.tags) ? rc.tags : DEFAULT_PREFS.rowChips.tags,
       model: isBool(rc.model) ? rc.model : DEFAULT_PREFS.rowChips.model,
       related: isBool(rc.related) ? rc.related : DEFAULT_PREFS.rowChips.related,

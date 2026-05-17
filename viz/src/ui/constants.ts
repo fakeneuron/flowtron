@@ -35,7 +35,7 @@ export const TYPOGRAPHY = {
 } as const;
 
 export const STATUS_LABEL: Record<TasknoteStatus, string> = {
-  starter: '🌱 Starter',
+  starter: 'Starter',
   'not-started': 'Not started',
   'in-progress': 'In progress',
   blocked: 'Blocked',
@@ -43,11 +43,11 @@ export const STATUS_LABEL: Record<TasknoteStatus, string> = {
 };
 
 export const STATUS_CHIP_LABEL: Record<TasknoteStatus, string> = {
-  starter: '🌱 Starter',
-  'not-started': '⚪ Not started',
-  'in-progress': '🟢 In progress',
-  blocked: '⏸ Blocked',
-  completed: '✅ Completed',
+  starter: '🌱',
+  'not-started': '⚪',
+  'in-progress': '🟢',
+  blocked: '⏸',
+  completed: '✅',
 };
 
 export const STATUS_BADGE: Record<TasknoteStatus, string> = {

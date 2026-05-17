@@ -8,68 +8,6 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-describe('App — matchesFilter intersection', () => {
-  const plan = `## High
-
-- [ ] **CORE-100** | one — Task one
-- [ ] **CORE-200** | two — Task two
-- [ ] **CORE-300** | three — Task three
-`;
-
-  const active = [
-    makeTasknote({
-      id: 'CORE-100',
-      frontmatter: {
-        title: 'one',
-        status: 'in-progress',
-        tags: [],
-        created: '2026-05-07',
-        relatedTasks: [],
-      },
-    }),
-    makeTasknote({
-      id: 'CORE-200',
-      frontmatter: {
-        title: 'two',
-        status: 'blocked',
-        tags: [],
-        created: '2026-05-07',
-        relatedTasks: [],
-      },
-    }),
-    makeTasknote({
-      id: 'CORE-300',
-      frontmatter: {
-        title: 'three',
-        status: 'in-progress',
-        tags: [],
-        created: '2026-05-07',
-        relatedTasks: [],
-      },
-    }),
-  ];
-
-  it('intersects status and query (AND across dimensions)', async () => {
-    const user = userEvent.setup();
-    renderApp({ plan, active });
-
-    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
-    expect(screen.getByText('CORE-200')).toBeInTheDocument();
-    expect(screen.getByText('CORE-300')).toBeInTheDocument();
-
-    const statusGroup = screen.getByText('Status:').parentElement!;
-    await user.click(within(statusGroup).getByRole('button', { name: /^In progress$/ }));
-    await waitFor(() => expect(screen.queryByText('CORE-200')).not.toBeInTheDocument());
-    expect(screen.getByText('CORE-100')).toBeInTheDocument();
-    expect(screen.getByText('CORE-300')).toBeInTheDocument();
-
-    await user.type(screen.getByRole('searchbox'), '300');
-    await waitFor(() => expect(screen.queryByText('CORE-100')).not.toBeInTheDocument());
-    expect(screen.getByText('CORE-300')).toBeInTheDocument();
-    expect(screen.queryByText('CORE-200')).not.toBeInTheDocument();
-  });
-});
-
 describe('App — navigateToTask', () => {
   const plan = `## Critical
 
@@ -228,10 +166,10 @@ describe('App — row StatusChip', () => {
     }),
   ];
 
-  it('renders the emoji-prefixed StatusChip in the row', async () => {
+  it('renders the emoji-only StatusChip in the row', async () => {
     renderApp({ plan, active });
     await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
-    expect(screen.getByText('🟢 In progress')).toBeInTheDocument();
+    expect(within(screen.getByRole('main')).getByText('🟢')).toBeInTheDocument();
   });
 });
 
@@ -591,65 +529,6 @@ describe('App — density modes', () => {
   });
 });
 
-describe('App — status badge selection', () => {
-  const plan = `## High
-
-- [ ] **CORE-100** | active — Active
-- [ ] **CORE-200** | parked — Parked
-`;
-
-  const active = [
-    makeTasknote({
-      id: 'CORE-100',
-      frontmatter: {
-        title: 'active',
-        status: 'in-progress',
-        tags: [],
-        created: '2026-05-07',
-        relatedTasks: [],
-      },
-    }),
-    makeTasknote({
-      id: 'CORE-200',
-      frontmatter: {
-        title: 'parked',
-        status: 'blocked',
-        tags: [],
-        created: '2026-05-07',
-        relatedTasks: [],
-      },
-    }),
-  ];
-
-  it('toggles aria-pressed on the chip and filters rows by selected status', async () => {
-    const user = userEvent.setup();
-    renderApp({ plan, active });
-
-    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
-
-    const statusGroup = screen.getByText('Status:').parentElement!;
-    const blockedChip = within(statusGroup).getByRole('button', { name: 'Blocked' });
-    expect(blockedChip).toHaveAttribute('aria-pressed', 'false');
-
-    await user.click(blockedChip);
-
-    await waitFor(() =>
-      expect(within(statusGroup).getByRole('button', { name: 'Blocked' })).toHaveAttribute(
-        'aria-pressed',
-        'true',
-      ),
-    );
-    expect(screen.queryByText('CORE-100')).not.toBeInTheDocument();
-    expect(screen.getByText('CORE-200')).toBeInTheDocument();
-
-    await user.click(within(statusGroup).getByRole('button', { name: 'Blocked' }));
-    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
-    expect(within(statusGroup).getByRole('button', { name: 'Blocked' })).toHaveAttribute(
-      'aria-pressed',
-      'false',
-    );
-  });
-});
 
 describe('App — shortcuts modal', () => {
   const plan = `## High

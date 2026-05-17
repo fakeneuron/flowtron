@@ -1,4 +1,6 @@
 import React, { useEffect, useRef } from 'react';
+import type { TasknoteStatus } from '../tasknote';
+import { STATUS_LABEL, STATUS_CHIP_LABEL } from './constants';
 
 interface ShortcutsModalProps {
   open: boolean;
@@ -12,6 +14,14 @@ const SHORTCUTS: { keys: string; description: string }[] = [
   { keys: 'r', description: 'Refresh' },
   { keys: 'Esc', description: 'Close detail · clear filters' },
   { keys: '?', description: 'Show keyboard shortcuts' },
+];
+
+const STATUS_LEGEND: TasknoteStatus[] = [
+  'starter',
+  'not-started',
+  'in-progress',
+  'blocked',
+  'completed',
 ];
 
 export const ShortcutsModal: React.FC<ShortcutsModalProps> = ({ open, onClose }) => {
@@ -63,6 +73,17 @@ export const ShortcutsModal: React.FC<ShortcutsModalProps> = ({ open, onClose })
             ))}
           </tbody>
         </table>
+        <h3 className="mb-1.5 text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
+          Status
+        </h3>
+        <ul className="mb-4 flex flex-wrap gap-x-4 gap-y-1 text-sm">
+          {STATUS_LEGEND.map((s) => (
+            <li key={s} className="flex items-center gap-1.5 text-slate-700 dark:text-slate-300">
+              <span aria-hidden>{STATUS_CHIP_LABEL[s]}</span>
+              {STATUS_LABEL[s]}
+            </li>
+          ))}
+        </ul>
         <div className="flex justify-end">
           <button
             type="button"

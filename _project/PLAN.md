@@ -34,7 +34,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-098.2** [opus] | typography & color audit — Completed 2026-05-15.
   - [x] **CORE-098.3** [opus] | settings-modal scaffold — Completed 2026-05-15.
   - [x] **CORE-098.4** [opus] | density modes — Completed 2026-05-15.
-  - [ ] **CORE-098.5** [opus] | board view-switcher — Add a List / Board segmented control to the header; Board lays the 6 priority sections out as columns, re-using `TaskRow` / `EpicRow` / `SubtaskRow` verbatim; persist `viewMode` in `localStorage`.
+  - [x] **CORE-098.5** [opus] | board view-switcher — Completed 2026-05-16.
   - [x] **CORE-098.6** [sonnet] | focus-ring system — Completed 2026-05-16.
   - [x] **CORE-098.7** [sonnet] | epic-row visual lift — Completed 2026-05-16.
   - [x] **CORE-098.8** [sonnet] | motion polish — Completed 2026-05-16.
@@ -47,6 +47,10 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-098.15** [opus] | TaskDetail visual polish — Completed 2026-05-16.
 - [ ] **CORE-EPIC-099** [opus] | external-conventions-survey — Investigate missing/expected workflow conventions flowtron should adopt or be compatible with (commit conventions, semver discipline, markdown patterns, Obsidian/Foam interop, etc.). Discovery deliverable: gap analysis + adoption candidates.
   - [ ] **CORE-099.1** [opus] | discovery — Survey external workflow / convention surfaces + identify gaps + recommend adoptions per SPEC/epic.md.
+- [ ] **CORE-100** [opus] | flowtron-nat-011 investigation — Investigate what `flowtron-nat-011` is, what it depends on, and whether it has any true function. Confirm safe-to-delete from disk, then delete the project directory + remove from the viz workspace projects list.
+- [ ] **FE-032** [opus] | projectselector-restyle — Restyle the ProjectSelector chips in the header rail per user feedback ("don't like the way the chips look"). Per-chip visual weight, hover/active states, focus rings. May be subsumed by FE-EPIC-033 if a theme system lands first.
+- [ ] **FE-EPIC-033** [opus] | theme-system — Review viz's overall color schema and add a selectable themes picker (light/dark already exist; goal is multiple curated palettes). Discovery deliverable: palette inventory + reference themes + storage + picker UI sketch.
+  - [ ] **FE-033.1** [opus] | discovery — Audit current palette across both themes, survey 2-3 reference systems (Linear, GitHub, Notion), file palette + picker children per SPEC/epic.md.
 
 ## Completed
 

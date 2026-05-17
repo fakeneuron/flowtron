@@ -13,6 +13,7 @@ type DetailSectionKey = keyof VisibilityPrefs['detailSections'];
 type StarterSectionKey = keyof VisibilityPrefs['starterSections'];
 
 const ROW_CHIP_LABEL: Record<RowChipKey, string> = {
+  id: 'Task ID',
   tags: 'Tags',
   model: 'Model',
   related: 'Related',
@@ -38,7 +39,7 @@ const DENSITY_LABEL: Record<DensityMode, string> = {
   compact: 'Compact',
 };
 
-const ROW_CHIP_KEYS: RowChipKey[] = ['tags', 'model', 'related', 'due'];
+const ROW_CHIP_KEYS: RowChipKey[] = ['id', 'tags', 'model', 'related', 'due'];
 const DETAIL_SECTION_KEYS: DetailSectionKey[] = ['goal', 'acceptance', 'subtasks'];
 const STARTER_SECTION_KEYS: StarterSectionKey[] = [
   'whyExists',
