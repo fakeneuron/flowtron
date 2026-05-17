@@ -33,10 +33,15 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [ ] **CORE-099.1** [opus] | discovery — Survey external workflow / convention surfaces + identify gaps + recommend adoptions per SPEC/epic.md.
 - [ ] **CORE-100** [opus] | flowtron-nat-011 investigation — Investigate what `flowtron-nat-011` is, what it depends on, and whether it has any true function. Confirm safe-to-delete from disk, then delete the project directory + remove from the viz workspace projects list.
 - [ ] **FE-EPIC-033** [opus] | theme-system — Review viz's overall color schema and add a selectable themes picker (light/dark already exist; goal is multiple curated palettes). Discovery deliverable: palette inventory + reference themes + storage + picker UI sketch.
-  - [ ] **FE-033.1** [opus] | discovery — Audit current palette across both themes, survey 2-3 reference systems (Linear, GitHub, Notion), file palette + picker children per SPEC/epic.md.
+  - [ ] **FE-033.2** [opus] | palette architecture — Refactor `constants.ts` color tokens into a `PALETTES` record keyed by palette × {light,dark}; build `usePalette()` hook reading `visibilityPrefs.palette` + theme pref; migrate ~12 token use sites; preserve today's appearance under Default + Light.
+  - [ ] **FE-033.3** [opus] | linear palette — Curate Linear-style palette across all 12 semantic tokens (status badges / section tints / priority badges / phase dots / row highlights / selection / neutrals); pair-tune light + dark contrast against FE-019 a11y baseline.
+  - [ ] **FE-033.4** [opus] | github palette — Curate GitHub-style palette across all 12 semantic tokens; pair-tune light + dark contrast against FE-019 a11y baseline. Mirrors FE-033.3's shape with GitHub's accent family.
+  - [ ] **FE-033.5** [sonnet] | picker UI — Add a Palette fieldset (radio group, parallels Density) to `SettingsModal` between Density and Detail panel; extend `visibilityPrefs.palette: 'default' | 'linear' | 'github'` with `default` default; bump schema to `version: 2`; cover in `visibilityPrefs.test.ts` + `App.test.tsx`.
+  - [ ] **FE-033.6** [opus] | audit — Verify the completed theme-system epic: FE-019 a11y baseline preserved across all 3 palettes × 2 themes; bundle-size budget intact (FE-026); palette × density × visibility interactions coherent; doc-drift sweep per `SPEC/epic.md`.
 
 ## Completed
 
+- [x] **FE-033.1** [opus] | discovery — Completed 2026-05-17.
 - [x] **FE-032** [opus] | projectselector-restyle — Completed 2026-05-16.
 - [x] **CORE-EPIC-098** [opus] | viz-embellishment — Completed 2026-05-16. Children CORE-098.1–.15 archived; closure consumed the subtask list per epic-close convention.
 - [x] **CORE-095** [sonnet] | wikilink-form self-sweep — Completed 2026-05-15.
