@@ -19,11 +19,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-104** [opus] | skill namespace prefix — flowtron's bundled skills use generic names (`task`, `audit`, `release`, `new-project`, `audit-docs`, `flowtron`) that risk silently shadowing adopter-owned skills with the same name in Claude Code's skill resolution. Prefix them (likely `ft-`, but the shape is part of the decision) to make ownership obvious and eliminate collisions. Breaking change for every adopter — needs a migration strategy (hard cutover vs. one-cycle alias period), then a sweep across `claude/skills/`, `claude/commands/`, `docs/MIGRATION.md` adopter steps, `claude/CLAUDE-snippet.md`, SPEC files, and `_project/` cross-references, plus a release cut that ships it. May promote to an epic during discovery. Raised 2026-05-17.
+- [ ] **CORE-105** [opus] | release v3.0.0 — Cut flowtron v3.0.0 shipping CORE-104's `ft-` skill namespace rename. Hard cutover: annotated tag message must call out the breaking change + adopter re-symlink steps (per `docs/MIGRATION.md` §1.2 / §1.0). Run `/ft-release`; doc-drift sweep via `/ft-audit-docs`.
 
 ## Low
 
-- [ ] **CORE-103** [opus] | /flowtron adopter-wiring gap — `claude/skills/flowtron/SKILL.md` advertises `/flowtron` in its bundled-skill table but it's not wired for adopters (missing from `docs/MIGRATION.md` §1.0 global installs and `claude/CLAUDE-snippet.md` symlink block). Either trim the table to flowtron-self-only entries or add a wiring path (likely global install per §1.0, matching `/release`'s flowtron-self framing — `/flowtron` reads the adopter's `_project/flowtron/SPEC.md` per Step 0, so global is the right shape). Surfaced by audit-docs 2026-05-17 during CORE-102 release cut.
+(none)
 
 ## Future Opportunities
 
@@ -41,6 +41,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-104** [opus] | skill namespace prefix — Completed 2026-05-17.
+- [x] **CORE-103** [opus] | /ft-flowtron adopter-wiring gap — Completed 2026-05-17. (folded into CORE-104)
 - [x] **CORE-102** [opus] | release v2.2.0 — Completed 2026-05-17.
 - [x] **CORE-101** [opus] | audit-family bundle — Completed 2026-05-17.
 - [x] **FE-033.2** [opus] | palette architecture — Completed 2026-05-17.
@@ -103,10 +105,10 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [x] **CORE-060** [opus] | release v1.3.0 — Completed 2026-05-09.
 - [x] **CORE-EPIC-057** [opus] | expand-shipped-skills — Completed 2026-05-09.
   - [x] **CORE-057.1** [opus] | discovery — Completed 2026-05-09.
-  - [x] **CORE-057.2** [opus] | /release skill — Completed 2026-05-09.
-  - [x] **CORE-057.3** [opus] | /epic-discovery skill — Completed 2026-05-09.
-  - [x] **CORE-057.4** [opus] | /close-epic skill — Completed 2026-05-09.
-  - [x] **CORE-057.5** [opus] | /file-followup skill — Completed 2026-05-09.
+  - [x] **CORE-057.2** [opus] | /ft-release skill — Completed 2026-05-09.
+  - [x] **CORE-057.3** [opus] | /ft-epic-discovery skill — Completed 2026-05-09.
+  - [x] **CORE-057.4** [opus] | /ft-close-epic skill — Completed 2026-05-09.
+  - [x] **CORE-057.5** [opus] | /ft-file-followup skill — Completed 2026-05-09.
   - [x] **CORE-057.6** [opus] | audit — Completed 2026-05-09.
   - [x] **CORE-057.7** [opus] | epic-md inline-cmds — Completed 2026-05-09.
   - [x] **CORE-057.8** [opus] | command-stub cross-refs — Completed 2026-05-09.
@@ -169,7 +171,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [x] **CORE-023** [opus] | task-line grammar — Completed 2026-05-02.
 - [x] **FE-005** | viz vertical list redesign — Completed 2026-05-02.
 - [x] **FE-004** | viz consume frontmatter — Completed 2026-05-01.
-- [x] **CORE-020** | /new-project + MIGRATION.md update — Completed 2026-05-01.
+- [x] **CORE-020** | /ft-new-project + MIGRATION.md update — Completed 2026-05-01.
 - [x] **CORE-017** | tasknote frontmatter — Completed 2026-05-01.
 - [x] **CORE-018** | tasknote body shape — Completed 2026-05-01.
 - [x] **CORE-021** | natabula migration (de-scoped) — Completed 2026-05-01.
@@ -179,7 +181,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [x] **CORE-008** | InvisiPaw migration playbook — Completed 2026-04-30.
 - [x] **CORE-010** | ~/Code/CLAUDE.md flowtron pointer — Completed 2026-04-30.
 - [x] **CORE-011** | delete TasknoteSystem/ — Completed 2026-04-30.
-- [x] **CORE-012** | /new-project skill — Completed 2026-04-30.
+- [x] **CORE-012** | /ft-new-project skill — Completed 2026-04-30.
 - [x] **CORE-013** | ghost CHANGELOG.md refs — Completed 2026-04-30.
 - [x] **CORE-014** | release v0.1.1 — Completed 2026-04-30.
 - [x] **CORE-015** | doc cleanup sweep — Completed 2026-04-30.

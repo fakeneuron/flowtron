@@ -13,8 +13,8 @@ This project uses **flowtron** for task tracking. The canonical workflow contrac
 
 - Plans live in `_project/PLAN.md`.
 - Tasknotes live in `_project/tasknote/<TASK-ID>.md` while active and `_project/tasknote/archive/<area>/<TASK-ID>.md` once closed.
-- Start a task with `/task <TASK-ID>` (e.g., `/task BE-014`). The slash command scaffolds the tasknote from the flowtron template and drives Phase 1 Discovery before any code is written.
-- Other filing skills for non-task-shaped work: `/starter-task <ID>` (rich-context filing, not yet ready to start), `/micro-task <ID>` (small task too light for the 4-phase ceremony), `/file-followup <ID>` (≤50w note, no tasknote artifact), `/epic-discovery` and `/close-epic <ID>` (multi-child code-sweep or feature epics). See `_project/flowtron/SPEC.md` §"When to use a tasknote (and when not to)" and `_project/flowtron/SPEC/epic.md` for the per-skill shape and lifecycle details.
+- Start a task with `/ft-task <TASK-ID>` (e.g., `/ft-task BE-014`). The slash command scaffolds the tasknote from the flowtron template and drives Phase 1 Discovery before any code is written.
+- Other filing skills for non-task-shaped work: `/ft-starter-task <ID>` (rich-context filing, not yet ready to start), `/ft-micro-task <ID>` (small task too light for the 4-phase ceremony), `/ft-file-followup <ID>` (≤50w note, no tasknote artifact), `/ft-epic-discovery` and `/ft-close-epic <ID>` (multi-child code-sweep or feature epics). See `_project/flowtron/SPEC.md` §"When to use a tasknote (and when not to)" and `_project/flowtron/SPEC/epic.md` for the per-skill shape and lifecycle details.
 - Every tasknote runs the 4-phase workflow in serial order — Discovery → Execution → Testing & Linting → Closure — followed by the post-closure protocol (commit + next-task suggestion). Do not skip phases.
 - Each PLAN.md task line carries a `[model]` segment (`opus` / `sonnet`). The task runs end-to-end on the tagged model. If the loaded model doesn't match, surface the mismatch before continuing.
 - The `_project/flowtron/` submodule is read-only here. Edits go upstream to flowtron and arrive via deliberate version bumps — see `_project/flowtron/SPEC/versioning.md` and `_project/tasknote/README.md` for the pinned version.
@@ -28,23 +28,23 @@ Run these from the project root after adding the flowtron submodule at `_project
 
 ```sh
 mkdir -p .claude/commands .claude/skills
-ln -s ../../_project/flowtron/claude/commands/task.md            .claude/commands/task.md
-ln -s ../../_project/flowtron/claude/commands/starter-task.md    .claude/commands/starter-task.md
-ln -s ../../_project/flowtron/claude/commands/micro-task.md      .claude/commands/micro-task.md
-ln -s ../../_project/flowtron/claude/commands/file-followup.md   .claude/commands/file-followup.md
-ln -s ../../_project/flowtron/claude/commands/epic-discovery.md  .claude/commands/epic-discovery.md
-ln -s ../../_project/flowtron/claude/commands/close-epic.md      .claude/commands/close-epic.md
-ln -s ../../_project/flowtron/claude/skills/task            .claude/skills/task
-ln -s ../../_project/flowtron/claude/skills/starter-task    .claude/skills/starter-task
-ln -s ../../_project/flowtron/claude/skills/micro-task      .claude/skills/micro-task
-ln -s ../../_project/flowtron/claude/skills/file-followup   .claude/skills/file-followup
-ln -s ../../_project/flowtron/claude/skills/epic-discovery  .claude/skills/epic-discovery
-ln -s ../../_project/flowtron/claude/skills/close-epic      .claude/skills/close-epic
+ln -s ../../_project/flowtron/claude/commands/ft-task.md            .claude/commands/ft-task.md
+ln -s ../../_project/flowtron/claude/commands/ft-starter-task.md    .claude/commands/ft-starter-task.md
+ln -s ../../_project/flowtron/claude/commands/ft-micro-task.md      .claude/commands/ft-micro-task.md
+ln -s ../../_project/flowtron/claude/commands/ft-file-followup.md   .claude/commands/ft-file-followup.md
+ln -s ../../_project/flowtron/claude/commands/ft-epic-discovery.md  .claude/commands/ft-epic-discovery.md
+ln -s ../../_project/flowtron/claude/commands/ft-close-epic.md      .claude/commands/ft-close-epic.md
+ln -s ../../_project/flowtron/claude/skills/ft-task            .claude/skills/ft-task
+ln -s ../../_project/flowtron/claude/skills/ft-starter-task    .claude/skills/ft-starter-task
+ln -s ../../_project/flowtron/claude/skills/ft-micro-task      .claude/skills/ft-micro-task
+ln -s ../../_project/flowtron/claude/skills/ft-file-followup   .claude/skills/ft-file-followup
+ln -s ../../_project/flowtron/claude/skills/ft-epic-discovery  .claude/skills/ft-epic-discovery
+ln -s ../../_project/flowtron/claude/skills/ft-close-epic      .claude/skills/ft-close-epic
 ```
 
 The relative paths are intentional — they survive `git clone` and pin to whichever flowtron commit the submodule is checked out at. Commit the symlinks (`git add .claude/`).
 
-To verify: type `/task` in Claude Code. The command should appear in the slash-command list (alongside `/starter-task`, `/micro-task`, `/file-followup`, `/epic-discovery`, and `/close-epic`) with the description from `commands/task.md`.
+To verify: type `/ft-task` in Claude Code. The command should appear in the slash-command list (alongside `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, and `/ft-close-epic`) with the description from `commands/ft-task.md`.
 
 ## Bumping the pinned flowtron version
 

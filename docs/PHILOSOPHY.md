@@ -38,7 +38,7 @@ The pattern was robust. The infrastructure around it wasn't. Flowtron is what's 
 
 **Markdown over JSON.** JSON exists when something other than a human or a language model needs to parse the file. Nothing else parses my plans. Markdown reads naturally in diffs, edits cleanly, and survives partial-update interruptions without becoming syntactically invalid. JSON has none of those properties.
 
-**Zero scripts.** Every operation is `cp`, `mv`, or editing a markdown file. There is no `flowtron new`, no `flowtron archive`, no `flowtron validate`. The `/task` slash command is a Claude Code skill that calls the same `cp` and `mv` you would call by hand — it's an interface for the assistant, not a binary. If a script feels needed, the answer is almost always "no, that's the assistant's job."
+**Zero scripts.** Every operation is `cp`, `mv`, or editing a markdown file. There is no `flowtron new`, no `flowtron archive`, no `flowtron validate`. The `/ft-task` slash command is a Claude Code skill that calls the same `cp` and `mv` you would call by hand — it's an interface for the assistant, not a binary. If a script feels needed, the answer is almost always "no, that's the assistant's job."
 
 **One task per context window.** Tasknotes are sized so the assistant can hold the entire scope in working memory: the plan entry, the tasknote checklist, the files involved, the tradeoffs. Anything bigger becomes an epic with subtasks. The constraint is real — context windows are finite, and a task that doesn't fit is a task that will get half-done in two passes.
 
@@ -54,6 +54,6 @@ The temptation to add them is real and recurring. The discipline is to write a p
 
 ## What's next
 
-The shape works for me. v0.1.0 is the first cut — the four-phase tasknote, the relevance gate, the model field, the submodule + symlink adoption pattern, the `/task` skill. It's deliberately small. The interesting unknowns are at the edges: what happens at the second-major-version boundary, what an aggregating visualizer would look like (read-only across projects), whether epic subtasks will scale or fragment.
+The shape works for me. v0.1.0 is the first cut — the four-phase tasknote, the relevance gate, the model field, the submodule + symlink adoption pattern, the `/ft-task` skill. It's deliberately small. The interesting unknowns are at the edges: what happens at the second-major-version boundary, what an aggregating visualizer would look like (read-only across projects), whether epic subtasks will scale or fragment.
 
 For the contract, see [SPEC.md](../SPEC.md). For how to put flowtron into a project, see [MIGRATION.md](MIGRATION.md).

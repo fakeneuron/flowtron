@@ -11,7 +11,7 @@ created: YYYY-MM-DD
 
 ## 🌱 Starter context
 
-_Captured YYYY-MM-DD during <design discussion / mid-flow discovery / etc.> — promote to full tasknote at `/task` checkout._
+_Captured YYYY-MM-DD during <design discussion / mid-flow discovery / etc.> — promote to full tasknote at `/ft-task` checkout._
 
 ### Why this exists
 

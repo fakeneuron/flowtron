@@ -1,6 +1,6 @@
 # Epic lifecycle
 
-> Lazy-loaded SPEC module. Loaded by `/task` when the task ID matches `<AREA>-EPIC-<N>` or `<AREA>-<N>.<sub>`. See `SPEC.md` for the always-loaded core spec.
+> Lazy-loaded SPEC module. Loaded by `/ft-task` when the task ID matches `<AREA>-EPIC-<N>` or `<AREA>-<N>.<sub>`. See `SPEC.md` for the always-loaded core spec.
 
 Some epics — particularly **code sweeps** and **major multi-child features** —
 benefit from bracketing their implementation children with two coordination
@@ -24,11 +24,11 @@ subtasks — same grammar, same 4-phase tasknote, same model rules.
 1. **File the epic** with a Discovery subtask (`.1`) and a placeholder Audit
    subtask at the end. Implementation children may be empty at filing — the
    Discovery subtask populates them.
-2. **Run Discovery** via `/epic-discovery` (which also files the epic in
-   step 1) or `/task <ID>.1` if filed manually. Deliverable: filed child
+2. **Run Discovery** via `/ft-epic-discovery` (which also files the epic in
+   step 1) or `/ft-task <ID>.1` if filed manually. Deliverable: filed child
    entries in PLAN.md, not code.
 3. **Run children** in order, normal flow.
-4. **Run Audit** via `/close-epic <ID>.<final>` (or `/task <ID>.<final>`)
+4. **Run Audit** via `/ft-close-epic <ID>.<final>` (or `/ft-task <ID>.<final>`)
    once all implementation children are closed. Final summary records
    findings even when nothing is wrong.
 5. **Audit follow-ups.** Misses surfaced by the audit get filed as `.<N+1>`
@@ -48,7 +48,7 @@ migration. Apply judgment — simple multi-subtask implementations don't need
 the bracket.
 
 **Skills.** The filing-and-Discovery side of the lifecycle (steps 1-2
-above) is codified in `claude/skills/epic-discovery/`; the audit-and-close
-side (steps 4-5) is codified in `claude/skills/close-epic/`. Both are
-auto-wired into adopter projects via `claude/skills/new-project/SKILL.md`
+above) is codified in `claude/skills/ft-epic-discovery/`; the audit-and-close
+side (steps 4-5) is codified in `claude/skills/ft-close-epic/`. Both are
+auto-wired into adopter projects via `claude/skills/ft-new-project/SKILL.md`
 Step 3 + `docs/MIGRATION.md` §1.2.

@@ -38,7 +38,7 @@ Task-line grammar (see _project/flowtron/SPEC.md §"Task-line format"):
 
 Both `[model]` (opus | sonnet) and `| shortname` are optional. The minimal
 legacy form `- [ ] **TASK-ID** — description` keeps parsing for backwards
-compatibility, but new entries should declare a model so /task can gate on it
+compatibility, but new entries should declare a model so /ft-task can gate on it
 without re-asking at scaffold time.
 -->
 

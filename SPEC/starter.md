@@ -1,6 +1,6 @@
 # Starter tasknotes
 
-> Lazy-loaded SPEC module. Loaded by `/task` Step 3a when an existing tasknote has `status: starter`. See `SPEC.md` for the always-loaded core spec.
+> Lazy-loaded SPEC module. Loaded by `/ft-task` Step 3a when an existing tasknote has `status: starter`. See `SPEC.md` for the always-loaded core spec.
 
 A **starter tasknote** is a lightweight, intentionally minimal tasknote shape
 for capturing rich AI-discovered context at task-filing time — when context
@@ -33,12 +33,12 @@ in `templates/tasknote-starter-template.md`.
 **Lifecycle:**
 
 1. **Filing** (mid-flow): when AI surfaces rich context that warrants
-   preserving, the `/starter-task <ID>` skill writes the starter file at
+   preserving, the `/ft-starter-task <ID>` skill writes the starter file at
    `_project/tasknote/<ID>.md` and appends the PLAN.md entry under the
    appropriate priority section.
 2. **Sitting**: visualizers render a 🌱 chip on the row and exclude starters
    from "in progress" counts.
-3. **Promotion** at `/task <ID>`: the `/task` skill detects `status: starter`,
+3. **Promotion** at `/ft-task <ID>`: the `/ft-task` skill detects `status: starter`,
    drift-checks the captured context against current code (paths, line
    numbers, function names cited in the starter may have moved), scaffolds
    the rest of the template (🎯 Goal / ✅ Acceptance / 🧩 Subtasks / 🔗 Related

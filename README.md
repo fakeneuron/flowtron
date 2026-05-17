@@ -18,8 +18,8 @@ maintain.
 
 ## Bootstrapping a new project
 
-Run `/new-project` in a fresh `~/code/` repo (git repo + `CLAUDE.md` required)
-to add the flowtron submodule, wire `/task`, and drop in the `_project/`
+Run `/ft-new-project` in a fresh `~/code/` repo (git repo + `CLAUDE.md` required)
+to add the flowtron submodule, wire `/ft-task`, and drop in the `_project/`
 skeleton in one pass. See [docs/MIGRATION.md](docs/MIGRATION.md) §1.0 for the
 one-time global install.
 
@@ -85,7 +85,7 @@ Obsidian is opt-in companion tooling. None of the above is required.
 - `SPEC.md` — workflow contract (authoritative)
 - `SPEC/` — lazy SPEC modules (epic, starter, blocked, model, versioning); loaded on demand by skills
 - `templates/` — canonical tasknote and `PLAN.md` templates
-- `claude/` — Claude Code skills + slash commands (adopter-facing snippet + self-hosted skills like `/task`, `/release`)
+- `claude/` — Claude Code skills + slash commands (adopter-facing snippet + self-hosted skills like `/ft-task`, `/ft-release`)
 - `docs/` — philosophy and migration guides
 - `_project/` — flowtron's own roadmap and tasknotes (self-hosted)
 - `viz/` — Vite/React Kanban visualizer

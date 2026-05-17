@@ -1,0 +1,1 @@
+../../claude/commands/ft-task.md

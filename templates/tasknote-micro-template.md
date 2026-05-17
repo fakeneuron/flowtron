@@ -26,6 +26,6 @@ related-tasks: []
 
 ## ✅ Recap
 
-<Brief final summary: what changed, key decisions, anything an `/audit` pass should know. The PLAN.md flip + tasknote archive happen at recap time as part of closure (see SPEC §"When to use a tasknote" micro carve-out and `claude/skills/micro-task/SKILL.md`).>
+<Brief final summary: what changed, key decisions, anything an `/ft-audit` pass should know. The PLAN.md flip + tasknote archive happen at recap time as part of closure (see SPEC §"When to use a tasknote" micro carve-out and `claude/skills/ft-micro-task/SKILL.md`).>
 
 **Archived:** YYYY-MM-DD

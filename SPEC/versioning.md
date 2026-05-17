@@ -1,6 +1,6 @@
 # Versioning
 
-> Lazy-loaded SPEC module. Loaded by `/task` only for explicit version-bump tasks. See `SPEC.md` for the always-loaded core spec.
+> Lazy-loaded SPEC module. Loaded by `/ft-task` only for explicit version-bump tasks. See `SPEC.md` for the always-loaded core spec.
 
 Flowtron uses semver tags. Each tagged release is consumable by adopting
 projects via submodule checkout.

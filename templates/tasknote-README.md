@@ -22,9 +22,9 @@ Tasknotes are scaffolded automatically by the slash commands from
 `_project/flowtron/templates/`; inspect those files directly for the
 canonical shapes. Three variants:
 
-- **Standard 4-phase tasknote** — `/task <ID>` scaffolds from `tasknote-template.md`; full schema at `_project/flowtron/SPEC.md` §"Tasknote frontmatter" + §"Tasknote body shape" (model assignment lives on the PLAN.md task line — see §"Task-line format").
-- **Starter tasknote** — `/starter-task <ID>` scaffolds from `tasknote-starter-template.md` for mid-flow context capture; lifecycle at `_project/flowtron/SPEC/starter.md`.
-- **Micro-tasknote** — `/micro-task <ID>` scaffolds from `tasknote-micro-template.md` for tasks above the skip-tasknote threshold but below full 4-phase ceremony; threshold at `_project/flowtron/SPEC.md` §"When to use a tasknote (and when not to)".
+- **Standard 4-phase tasknote** — `/ft-task <ID>` scaffolds from `tasknote-template.md`; full schema at `_project/flowtron/SPEC.md` §"Tasknote frontmatter" + §"Tasknote body shape" (model assignment lives on the PLAN.md task line — see §"Task-line format").
+- **Starter tasknote** — `/ft-starter-task <ID>` scaffolds from `tasknote-starter-template.md` for mid-flow context capture; lifecycle at `_project/flowtron/SPEC/starter.md`.
+- **Micro-tasknote** — `/ft-micro-task <ID>` scaffolds from `tasknote-micro-template.md` for tasks above the skip-tasknote threshold but below full 4-phase ceremony; threshold at `_project/flowtron/SPEC.md` §"When to use a tasknote (and when not to)".
 - **Epic lifecycle** — for code-sweep or major multi-child feature epics, bracket the implementation children with a **Discovery** subtask (`<AREA>-<N>.1`, plans the children) and an **Audit** subtask (final `.N`, verifies the completed work). See `_project/flowtron/SPEC/epic.md`. Simple implementations don't need it.
 
 ## Area prefixes

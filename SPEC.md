@@ -50,9 +50,27 @@ Flowtron does not submodule itself. When working in `~/code/flowtron/`:
 - `SPEC/` — lazy SPEC modules loaded on demand by skills.
 - The flowtron `_project/PLAN.md` tracks flowtron's own development.
 - The `templates/` folder holds the canonical tasknote and PLAN.md templates.
-- `claude/` — Claude Code commands + skills (`/task`, `/release`, `/new-project`, …); the adopter snippet lives at `claude/CLAUDE-snippet.md`.
+- `claude/` — Claude Code commands + skills (`/ft-task`, `/ft-release`, `/ft-new-project`, …); the adopter snippet lives at `claude/CLAUDE-snippet.md`.
 
-For flowtron-self global installs (e.g. `/release`), see [`docs/MIGRATION.md`](docs/MIGRATION.md) §1.0 "One-time global installs" → flowtron-self developers block.
+For flowtron-self global installs (e.g. `/ft-release`), see [`docs/MIGRATION.md`](docs/MIGRATION.md) §1.0 "One-time global installs" → flowtron-self developers block.
+
+## Skill namespace
+
+Bundled flowtron skills carry the `ft-` prefix in their slug (`/ft-task`,
+`/ft-audit`, `/ft-release`, `/ft-new-project`, `/ft-starter-task`,
+`/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`,
+`/ft-close-epic`, `/ft-flowtron`, and the audit family
+`/ft-audit-{docs,backend,frontend,performance,security}`). The prefix
+reserves the `ft-` slug namespace for flowtron-owned skills so adopter
+projects can drop the bundle into `.claude/` without shadowing their own
+skill names.
+
+**Adopters MUST NOT use `ft-` for project-specific skills.** Reserve the
+prefix for upstream flowtron. When forking the audit family per
+[`docs/MIGRATION.md`](docs/MIGRATION.md) §1.2.1, name the fork **without**
+the prefix (e.g., `audit-payments`, not `ft-audit-payments`) — the fork is
+adopter-owned and the unprefixed name makes ownership clear in skill
+resolution.
 
 ## Task ID convention
 
@@ -94,7 +112,7 @@ Both `[model]` and `| shortname` are optional. The legacy minimal form
 |---|---|---|
 | `- [ ]` / `- [x]` | yes | Open or completed checkbox |
 | `**TASK-ID**` | yes | Bold ID, matching the §"Task ID convention" pattern |
-| ` [model]` | optional | `opus` or `sonnet` only. Owns the model assignment for the task — `/task` reads this BEFORE scaffolding (see §"Model field"). New entries should declare a model. |
+| ` [model]` | optional | `opus` or `sonnet` only. Owns the model assignment for the task — `/ft-task` reads this BEFORE scaffolding (see §"Model field"). New entries should declare a model. |
 | ` \| shortname` | optional | Short label up to ~30 chars; rendered as the row title in visualizers when present. Falls back to the tasknote frontmatter `title:` for tasks that have a tasknote, or the long description otherwise. |
 | ` — long description` | optional | Full description. Carries `Completed YYYY-MM-DD.` markers, re-scope notes, and any rationale that doesn't fit in the shortname. |
 
@@ -263,7 +281,7 @@ _<1-2 sentence plain-English preview of what executes on approval>_
 | Gate | Emoji | Label | Trigger |
 |---|---|---|---|
 | Phase 1→2 (post-Discovery) | 🛠️ | `AWAITING APPROVAL — Phase 2: Execution ready` | **Conditional** — fires when Discovery surfaced clarifying questions; skipped via the "No clarifications needed" branch (see §"📝 Phase 1: Discovery" exit gate) |
-| Ready-to-commit (closure review + work summary bundled) | 📦 | `AWAITING APPROVAL — Ready to commit` | **Conditional** — fires when the closure diff trips any signal in §"Post-closure protocol" §"Conditional skip rule" (frontend / privileged-ops path-match or perf-narrative present) OR a bundled in-📦 user prompt is queued (e.g., /close-epic parent-flip); skipped otherwise via the autonomous-commit motion |
+| Ready-to-commit (closure review + work summary bundled) | 📦 | `AWAITING APPROVAL — Ready to commit` | **Conditional** — fires when the closure diff trips any signal in §"Post-closure protocol" §"Conditional skip rule" (frontend / privileged-ops path-match or perf-narrative present) OR a bundled in-📦 user prompt is queued (e.g., /ft-close-epic parent-flip); skipped otherwise via the autonomous-commit motion |
 
 The preview line is **mandatory** on every banner that fires: a 1-2
 sentence plain-English summary of *what executes if the user approves*,
@@ -358,7 +376,7 @@ If a hard dependency surfaces during execution that wasn't visible at Phase
 1, **park the tasknote** per §"Blocked tasks" — flip `status: blocked`,
 update the nav header, and stop. The tasknote sits at
 `_project/tasknote/<TASK-ID>.md` until the blocker clears; resume by
-re-invoking `/task <ID>`.
+re-invoking `/ft-task <ID>`.
 
 Phase 2 flows continuously into Phase 3 (and Phase 4 closure ops) without
 an intermediate gate; the next operator-gate cue is the 📦 ready-to-commit
@@ -458,7 +476,7 @@ the autonomous-commit motion in one continuous response.
 
 **Bundled-prompt override (autonomous-commit constraint):** if a
 skill-level prompt is queued inside the 📦 bundle (e.g.,
-/close-epic's parent-flip Yes/No), the gate **fires regardless** of
+/ft-close-epic's parent-flip Yes/No), the gate **fires regardless** of
 signal state. Autonomous-commit cannot resolve a user-input question.
 
 **"No AI override" semantics.** The rule is bidirectionally locked: the
@@ -505,7 +523,7 @@ not a new gate.
    prefix (e.g., `🟢 Reply commit / go to land.`) so the call-to-action
    stands out under the closure-review tables.
 
-   Skill-level extensions (e.g., /close-epic's parent-flip Yes/No prompt)
+   Skill-level extensions (e.g., /ft-close-epic's parent-flip Yes/No prompt)
    ride inside this bundle rather than getting their own banner — and
    their presence is precisely what forces this fire branch via the
    bundled-prompt override above. The user's commit-go is the single
@@ -539,7 +557,7 @@ not a new gate.
 3. **Offer the copy-paste line:**
 
    ```text
-   /clear then /model <opus|sonnet> then /task <NEXT-ID>
+   /clear then /model <opus|sonnet> then /ft-task <NEXT-ID>
    ```
 
    Claude cannot run `/clear` itself; the line is for the user to paste to
@@ -565,49 +583,49 @@ not a new gate.
 - Documentation patches under ~10 lines
 - Trivial config edits with no logic impact
 
-**File a starter (`/starter-task <ID>`) when:**
+**File a starter (`/ft-starter-task <ID>`) when:**
 
 - The PLAN.md long description would exceed **~50 words (target) or 70 words (hard cap)** — richer context belongs in the starter body, not on the line
 - A task is discovered mid-flow with rich context (rationale, design decisions, file survey, open questions) but isn't ready to start now
 - The captured context would be lost or would bloat the PLAN.md long description if recorded as inline prose
-- The right shape isn't fully obvious; the AI wants to preserve the survey and open questions for resolution at `/task` checkout
+- The right shape isn't fully obvious; the AI wants to preserve the survey and open questions for resolution at `/ft-task` checkout
 
 **Skip the starter (just add a one-line PLAN.md entry) when:**
 
 - The long description fits inside ~50 words (a scannable one-liner)
 - The task is straightforward enough that the long description suffices
 - No design decisions or file survey work has been done yet
-- The next available `/task <ID>` slot is the user's natural next move (file it, then start it; no sitting time)
+- The next available `/ft-task <ID>` slot is the user's natural next move (file it, then start it; no sitting time)
 
-**File a follow-up (`/file-followup <ID>`) when:**
+**File a follow-up (`/ft-file-followup <ID>`) when:**
 
-- A new task surfaces mid-flow (typically inside an active `/task`) and the long description fits in ≤50 words, but the surrounding conversation context (why this came up, suspected files, recommended priority/model) is worth surfacing once at filing time without persisting it to disk
+- A new task surfaces mid-flow (typically inside an active `/ft-task`) and the long description fits in ≤50 words, but the surrounding conversation context (why this came up, suspected files, recommended priority/model) is worth surfacing once at filing time without persisting it to disk
 - The follow-up is clear enough that it doesn't need a starter body — but you still want a paragraph of rationale visible in chat alongside the new PLAN.md line
 - You want the lightest filing motion in the cohort: one PLAN.md line written, a short paragraph delivered conversationally, zero edits to the active tasknote
 
-A `/file-followup` filing produces **zero artifacts on disk beyond a single PLAN.md task line**. The "short context paragraph" — rationale + suspected scope + recommended priority/model — is delivered conversationally only; there is no tasknote file, and the active tasknote (if any) is not edited. If the description would breach the 70w cap, `/file-followup` declines the filing and points at `/starter-task` instead — rich context belongs in starter bodies, not chat.
+A `/ft-file-followup` filing produces **zero artifacts on disk beyond a single PLAN.md task line**. The "short context paragraph" — rationale + suspected scope + recommended priority/model — is delivered conversationally only; there is no tasknote file, and the active tasknote (if any) is not edited. If the description would breach the 70w cap, `/ft-file-followup` declines the filing and points at `/ft-starter-task` instead — rich context belongs in starter bodies, not chat.
 
-**Skip the follow-up (use `/starter-task` or just inline a PLAN.md line) when:**
+**Skip the follow-up (use `/ft-starter-task` or just inline a PLAN.md line) when:**
 
-- The description would breach 50 words — `/starter-task` is the right tool; rich context belongs in the starter body
-- Persistent context (file survey, open questions, design decisions) is worth preserving to disk — same call: use `/starter-task`
+- The description would breach 50 words — `/ft-starter-task` is the right tool; rich context belongs in the starter body
+- Persistent context (file survey, open questions, design decisions) is worth preserving to disk — same call: use `/ft-starter-task`
 - You're outside any active conversation that produced the rationale — write the PLAN.md line directly; the conversational paragraph would have nothing meaningful to surface
 
-**File a micro-tasknote (`/micro-task <ID>`) when:**
+**File a micro-tasknote (`/ft-micro-task <ID>`) when:**
 
 - The task is above the skip threshold (more than a one-liner; touches code or non-trivial doc state) but small enough that the full 4-phase ceremony is overkill — typically under ~30 minutes of effort
 - The change is single-file or near-single-file, with no design tradeoffs worth recording across multiple subtasks
 - The shape is obvious enough that Acceptance/Subtasks checklists would just restate the goal — but you still want the relevance / drift / archive-skim / pattern-survey contracts before writing code
 - Examples: small audits, focused doc patches, single-file behavior tweaks with clear scope
 
-A micro-tasknote uses a single `## ⚡ Notes` section with bold-prefix prompts (Relevance · Drift check · Archive skim · Pattern survey · Implementation) instead of the four phase checklists, plus a `## ✅ Recap` and an `Archived:` line. Closure flips two places (PLAN.md + tasknote location), the same as a normal tasknote. The `/micro-task` skill is **file + execute (one-shot)** — it scaffolds, drives execution inline, and closes in a single conversation.
+A micro-tasknote uses a single `## ⚡ Notes` section with bold-prefix prompts (Relevance · Drift check · Archive skim · Pattern survey · Implementation) instead of the four phase checklists, plus a `## ✅ Recap` and an `Archived:` line. Closure flips two places (PLAN.md + tasknote location), the same as a normal tasknote. The `/ft-micro-task` skill is **file + execute (one-shot)** — it scaffolds, drives execution inline, and closes in a single conversation.
 
-**Skip the micro-tasknote (use `/task` instead) when:**
+**Skip the micro-tasknote (use `/ft-task` instead) when:**
 
 - The task touches multiple files or has design tradeoffs to record
 - The task is likely to take more than ~30 minutes
 - The 4-phase log would carry useful state (Discovery findings, intermediate Phase 2 work) for downstream tasknotes or audits
-- You're unsure — default to `/task`. The Discovery phase pays for itself.
+- You're unsure — default to `/ft-task`. The Discovery phase pays for itself.
 
 When in doubt, write the full tasknote. The 4-phase ceremony pays for itself.
 
@@ -621,16 +639,16 @@ line stays scannable, and rich context routes into starter bodies:
 |---|---|---|
 | ≤50 words | Target — comfortably scannable | Keep the one-liner |
 | 51-70 words | Yellow flag | Trim if practical; otherwise consider promoting to a starter |
-| >70 words | Hard cap — exceeded | Move the rich context into a starter body via `/starter-task <ID>`; PLAN.md line keeps a ≤50w summary |
+| >70 words | Hard cap — exceeded | Move the rich context into a starter body via `/ft-starter-task <ID>`; PLAN.md line keeps a ≤50w summary |
 
 The thresholds apply to **active** task lines (`Critical` / `High` /
 `Medium` / `Low` / `Future Opportunities`). Lines under `## Completed`
 are governed by §"`## Completed` archive convention" below.
 
-`/starter-task` (filing time), `/file-followup` (filing time), and `/task`
+`/ft-starter-task` (filing time), `/ft-file-followup` (filing time), and `/ft-task`
 (scaffold/promote time) flag filings that breach the cap — see the respective
-skill files for the mechanism. `/file-followup` declines the filing entirely
-at >70w and routes the user to `/starter-task` instead.
+skill files for the mechanism. `/ft-file-followup` declines the filing entirely
+at >70w and routes the user to `/ft-starter-task` instead.
 
 ### `## Completed` archive convention
 

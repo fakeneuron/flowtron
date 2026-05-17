@@ -1,6 +1,6 @@
 # Blocked tasks
 
-> Lazy-loaded SPEC module. Loaded by `/task` Step 3c when an existing tasknote has `status: blocked`, and at Step 5 if a hard dependency surfaces mid-Phase-2. See `SPEC.md` for the always-loaded core spec.
+> Lazy-loaded SPEC module. Loaded by `/ft-task` Step 3c when an existing tasknote has `status: blocked`, and at Step 5 if a hard dependency surfaces mid-Phase-2. See `SPEC.md` for the always-loaded core spec.
 
 A task can be **blocked** at two distinct points in its lifecycle, and
 flowtron records each at a different layer. The two signals are independent
@@ -23,7 +23,7 @@ PLAN.md long description (canonical wikilink form, see §"Long-description
 conventions"), delete the just-scaffolded tasknote, and halt. `status:
 blocked` is reserved for mid-Phase-2 parking — a Phase 1 blocker has no
 Phase 2 work to preserve. The task re-enters when the blocker clears
-(remove the `Blocked by` clause; run `/task <ID>` afresh). Blockers reuse
+(remove the `Blocked by` clause; run `/ft-task <ID>` afresh). Blockers reuse
 Re-scope rather than introducing a fourth Phase 1 verdict.
 
 **Mid-Phase-2 parking.** If a hard dependency surfaces during Execution,
@@ -39,7 +39,7 @@ reserved for actual completion (or a Phase 1 De-scope). The tasknote is not
 archived, the PLAN.md task line stays unchecked, and Phase 1 + partial
 Phase 2 work are preserved verbatim.
 
-**Exit (resume).** Re-running `/task <ID>` against a blocked tasknote enters
+**Exit (resume).** Re-running `/ft-task <ID>` against a blocked tasknote enters
 the resume path: drift-check the parked work first (Phase 2 progress may
 rest on symbols that moved while the task was parked), flip `status:
 blocked` → `in-progress`, flip the nav chip back to `🟢 In progress`,
