@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-105** [opus] | release v3.0.0 — Cut flowtron v3.0.0 shipping CORE-104's `ft-` skill namespace rename. Hard cutover: annotated tag message must call out the breaking change + adopter re-symlink steps (per `docs/MIGRATION.md` §1.2 / §1.0). Run `/ft-release`; doc-drift sweep via `/ft-audit-docs`.
+(none)
 
 ## Low
 
@@ -41,6 +41,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-105** [opus] | release v3.0.0 — Completed 2026-05-17.
 - [x] **CORE-108** [sonnet] | version-pin Pinned-to slot — Completed 2026-05-17.
 - [x] **CORE-107** [sonnet] | ft-flowtron template-list trim — Completed 2026-05-17.
 - [x] **CORE-106** [opus] | ft- namespace residue sweep — Completed 2026-05-17.

@@ -332,7 +332,7 @@ After §3.2–§3.7 land and `/ft-task` shows in the slash menu, sweep for resid
   - In archived/legacy content: leave untouched (write-once policy applies — don't retroactively rewrite history).
 - **CI / pre-commit hook check.** `grep -rn "<retired-helper-script-name>" .git/hooks/ .github/ docker/ scripts/` (project root) — confirm nothing depends on retired scripts. Resolve before next CI run.
 - **`/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic` smoke.** Type each in a fresh Claude session — confirm all five appear in the slash menu alongside `/ft-task` (v1.0+ additions; symlinks added in §1.2).
-- **Final pin verification.** `git -C _project/flowtron describe --tags` shows the pinned version recorded at the start (e.g., `v2.2.0`). A mismatch means the submodule drifted off the pin during migration.
+- **Final pin verification.** `git -C _project/flowtron describe --tags` shows the pinned version recorded at the start (e.g., `v3.0.0`). A mismatch means the submodule drifted off the pin during migration.
 - **Cleanup commit.** Bundle the decisions above into a single follow-up commit (`chore: <ID> post-migration cleanup`) OR fold into the §3.9 closure commit if scope is small.
 
 ### 3.9 Commit the migration
