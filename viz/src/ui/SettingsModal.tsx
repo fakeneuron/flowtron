@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { DEFAULT_PREFS, type DensityMode, type VisibilityPrefs } from '../visibilityPrefs';
+import { DEFAULT_PREFS, type DensityMode, type PaletteName, type VisibilityPrefs } from '../visibilityPrefs';
 
 interface SettingsModalProps {
   open: boolean;
@@ -39,6 +39,12 @@ const DENSITY_LABEL: Record<DensityMode, string> = {
   compact: 'Compact',
 };
 
+const PALETTE_LABEL: Record<PaletteName, string> = {
+  default: 'Default',
+  linear: 'Linear',
+  github: 'GitHub',
+};
+
 const ROW_CHIP_KEYS: RowChipKey[] = ['id', 'tags', 'model', 'related', 'due'];
 const DETAIL_SECTION_KEYS: DetailSectionKey[] = ['goal', 'acceptance', 'subtasks'];
 const STARTER_SECTION_KEYS: StarterSectionKey[] = [
@@ -48,6 +54,7 @@ const STARTER_SECTION_KEYS: StarterSectionKey[] = [
   'outOfScope',
 ];
 const DENSITY_KEYS: DensityMode[] = ['comfortable', 'default', 'compact'];
+const PALETTE_KEYS: PaletteName[] = ['default', 'linear', 'github'];
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose, prefs, onChange }) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -85,6 +92,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose, pre
   };
   const setDensity = (value: DensityMode) => {
     onChange({ ...prefs, density: value });
+  };
+  const setPalette = (value: PaletteName) => {
+    onChange({ ...prefs, palette: value });
   };
 
   return (
@@ -129,6 +139,25 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose, pre
                   onChange={() => setDensity(key)}
                 />
                 {DENSITY_LABEL[key]}
+              </label>
+            ))}
+          </div>
+        </fieldset>
+        <fieldset className="mb-4">
+          <legend className="mb-1.5 text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
+            Palette
+          </legend>
+          <div className="flex items-center gap-4">
+            {PALETTE_KEYS.map((key) => (
+              <label key={key} className="flex items-center gap-2 text-sm">
+                <input
+                  type="radio"
+                  name="palette-mode"
+                  value={key}
+                  checked={prefs.palette === key}
+                  onChange={() => setPalette(key)}
+                />
+                {PALETTE_LABEL[key]}
               </label>
             ))}
           </div>

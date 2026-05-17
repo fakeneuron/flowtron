@@ -2,7 +2,7 @@ export type DensityMode = 'comfortable' | 'default' | 'compact';
 export type PaletteName = 'default' | 'linear' | 'github';
 
 export interface VisibilityPrefs {
-  version: 1;
+  version: 2;
   rowChips: {
     id: boolean;
     tags: boolean;
@@ -26,7 +26,7 @@ export interface VisibilityPrefs {
 }
 
 export const DEFAULT_PREFS: VisibilityPrefs = {
-  version: 1,
+  version: 2,
   rowChips: { id: true, tags: false, model: true, related: false, due: false },
   detailSections: { goal: true, acceptance: true, subtasks: true },
   starterSections: {
@@ -61,13 +61,13 @@ const parsePrefs = (raw: string | null): VisibilityPrefs => {
   }
   if (!data || typeof data !== 'object') return DEFAULT_PREFS;
   const d = data as Record<string, unknown>;
-  if (d.version !== 1) return DEFAULT_PREFS;
+  if (d.version !== 1 && d.version !== 2) return DEFAULT_PREFS;
   const rc = d.rowChips as Record<string, unknown> | undefined;
   const ds = d.detailSections as Record<string, unknown> | undefined;
   if (!rc || !ds) return DEFAULT_PREFS;
   const ss = (d.starterSections as Record<string, unknown> | undefined) ?? {};
   return {
-    version: 1,
+    version: 2,
     rowChips: {
       id: isBool(rc.id) ? rc.id : DEFAULT_PREFS.rowChips.id,
       tags: isBool(rc.tags) ? rc.tags : DEFAULT_PREFS.rowChips.tags,

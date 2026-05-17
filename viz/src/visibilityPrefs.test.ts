@@ -17,7 +17,7 @@ describe('visibilityPrefs', () => {
 
   it('round-trips a written value', () => {
     const next: VisibilityPrefs = {
-      version: 1,
+      version: 2,
       rowChips: { id: false, tags: true, model: false, related: true, due: false },
       detailSections: { goal: false, acceptance: true, subtasks: true },
       starterSections: {
@@ -61,6 +61,22 @@ describe('visibilityPrefs', () => {
       JSON.stringify({ version: 99, rowChips: {}, detailSections: {} }),
     );
     expect(readVisibilityPrefs('flowtron')).toEqual(DEFAULT_PREFS);
+  });
+
+  it('migrates stored v1 data to v2 on read', () => {
+    window.localStorage.setItem(
+      'flowtron-viz-prefs:flowtron',
+      JSON.stringify({
+        version: 1,
+        rowChips: { id: true, tags: false, model: true, related: false, due: false },
+        detailSections: { goal: true, acceptance: true, subtasks: true },
+        density: 'compact',
+      }),
+    );
+    const result = readVisibilityPrefs('flowtron');
+    expect(result.version).toBe(2);
+    expect(result.density).toBe('compact');
+    expect(result.palette).toBe('default');
   });
 
   it('coerces missing booleans to defaults but preserves provided ones', () => {

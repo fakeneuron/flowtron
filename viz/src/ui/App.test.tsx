@@ -450,9 +450,10 @@ describe('App — density modes', () => {
 
     await user.click(screen.getByRole('button', { name: 'Open settings' }));
 
-    const comfortable = screen.getByRole('radio', { name: 'Comfortable' });
-    const def = screen.getByRole('radio', { name: 'Default' });
-    const compact = screen.getByRole('radio', { name: 'Compact' });
+    const densityGroup = screen.getByRole('group', { name: 'Density' });
+    const comfortable = within(densityGroup).getByRole('radio', { name: 'Comfortable' });
+    const def = within(densityGroup).getByRole('radio', { name: 'Default' });
+    const compact = within(densityGroup).getByRole('radio', { name: 'Compact' });
     expect(comfortable).not.toBeChecked();
     expect(def).toBeChecked();
     expect(compact).not.toBeChecked();
@@ -529,6 +530,113 @@ describe('App — density modes', () => {
   });
 });
 
+
+describe('App — palette modes', () => {
+  const plan = `## High
+
+- [ ] **CORE-100** [opus] | one — Task one
+`;
+  const active = [
+    makeTasknote({
+      id: 'CORE-100',
+      frontmatter: {
+        title: 'one',
+        status: 'in-progress',
+        tags: [],
+        created: '2026-05-07',
+        relatedTasks: [],
+      },
+    }),
+  ];
+
+  beforeEach(() => {
+    window.localStorage.clear();
+  });
+
+  it('renders three Palette radios in the settings modal', async () => {
+    const user = userEvent.setup();
+    renderApp({ plan, active });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+
+    await user.click(screen.getByRole('button', { name: 'Open settings' }));
+
+    const paletteGroup = screen.getByRole('group', { name: 'Palette' });
+    const def = within(paletteGroup).getByRole('radio', { name: 'Default' });
+    const linear = within(paletteGroup).getByRole('radio', { name: 'Linear' });
+    const github = within(paletteGroup).getByRole('radio', { name: 'GitHub' });
+    expect(def).toBeChecked();
+    expect(linear).not.toBeChecked();
+    expect(github).not.toBeChecked();
+  });
+
+  it('selecting Linear checks the Linear radio', async () => {
+    const user = userEvent.setup();
+    renderApp({ plan, active });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+
+    await user.click(screen.getByRole('button', { name: 'Open settings' }));
+    await user.click(screen.getByRole('radio', { name: 'Linear' }));
+
+    await waitFor(() => expect(screen.getByRole('radio', { name: 'Linear' })).toBeChecked());
+  });
+
+  it('Reset to defaults restores Default palette', async () => {
+    const user = userEvent.setup();
+    window.localStorage.setItem(
+      'flowtron-viz-prefs:flowtron',
+      JSON.stringify({
+        version: 2,
+        rowChips: { id: true, tags: false, model: true, related: false, due: false },
+        detailSections: { goal: true, acceptance: true, subtasks: true },
+        starterSections: { whyExists: true, solutionShape: true, filesToTouch: true, outOfScope: true },
+        density: 'default',
+        palette: 'linear',
+      }),
+    );
+    renderApp({ plan, active });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+
+    await user.click(screen.getByRole('button', { name: 'Open settings' }));
+    expect(screen.getByRole('radio', { name: 'Linear' })).toBeChecked();
+
+    await user.click(screen.getByRole('button', { name: 'Reset to defaults' }));
+
+    await waitFor(() => expect(screen.getByRole('radio', { name: 'Linear' })).not.toBeChecked());
+  });
+
+  it('per-project: switching projects reloads palette from that project key', async () => {
+    const user = userEvent.setup();
+    window.localStorage.setItem(
+      'flowtron-viz-prefs:fintown',
+      JSON.stringify({
+        version: 2,
+        rowChips: { id: true, tags: false, model: true, related: false, due: false },
+        detailSections: { goal: true, acceptance: true, subtasks: true },
+        starterSections: { whyExists: true, solutionShape: true, filesToTouch: true, outOfScope: true },
+        density: 'default',
+        palette: 'github',
+      }),
+    );
+    renderApp({ plan, active, projects: ['flowtron', 'fintown'] });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+
+    await user.click(screen.getByRole('button', { name: 'Project: fintown' }));
+
+    await waitFor(() =>
+      expect(screen.getByRole('button', { name: 'Project: fintown' })).toHaveAttribute(
+        'aria-pressed',
+        'true',
+      ),
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Open settings' }));
+    await waitFor(() => expect(screen.getByRole('radio', { name: 'GitHub' })).toBeChecked());
+  });
+});
 
 describe('App — shortcuts modal', () => {
   const plan = `## High
