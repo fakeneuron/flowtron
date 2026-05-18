@@ -23,7 +23,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-(none)
+- [ ] **CORE-109** [opus] | spec-terse-pass — Apply Tier A+B trims from [[<CORE-097.4>]] audit to SPEC.md (mechanical + structural compression across heavy sections; ~785w / ~14% target). Single-file; preserve contract.
 
 ## Future Opportunities
 
@@ -31,7 +31,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-097.1** [opus] | discovery — Completed 2026-05-18.
   - [x] **CORE-097.2** [opus] | ft-stats — Completed 2026-05-18.
   - [x] **CORE-097.3** [opus] | spec-paths-autoload — Completed 2026-05-18.
-  - [ ] **CORE-097.4** [opus] | spec-token-refresh — Re-run a SPEC.md token audit targeting caveman's 46% memory-compression benchmark on the always-loaded core. Post-CORE-049 sweep; trim candidates filed individually or bundled per CORE-049 precedent.
+  - [x] **CORE-097.4** [opus] | spec-token-refresh — Completed 2026-05-18.
   - [ ] **CORE-097.5** [opus] | ft-quality — Add /ft-quality skill that sequences lint + typecheck + test on changed code outside the tasknote flow. Project-agnostic with stack-graceful detection. Source: claude-skills-starter's /quality.
   - [ ] **CORE-097.6** [opus] | epic-discovery-deep — Add optional `--deep` mode to /ft-epic-discovery for high-uncertainty epics, staging constitution → specify → clarify before child filing. Source: spec-kit (97k★).
   - [ ] **CORE-097.7** [opus] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Verifies adopted external patterns sit well together across SPEC, skills, and templates after children close.
