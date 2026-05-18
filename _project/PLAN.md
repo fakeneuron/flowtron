@@ -29,7 +29,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **CORE-EPIC-099** [opus] | external-conventions-survey — Investigate missing/expected workflow conventions flowtron should adopt or be compatible with (commit conventions, semver discipline, markdown patterns, Obsidian/Foam interop, etc.). Discovery deliverable: gap analysis + adoption candidates.
   - [x] **CORE-099.1** [opus] | discovery — Completed 2026-05-18.
-  - [ ] **CORE-099.2** [opus] | LICENSE — Add LICENSE file (recommend MIT for permissive simple parity with CORE-097 candidates). Resolves adoption-positioning gap for submodule-consumed flowtron.
+  - [x] **CORE-099.2** [opus] | LICENSE — Completed 2026-05-18.
   - [ ] **CORE-099.3** [opus] | docs/CONVENTIONS.md — New conventions doc bundling Conventional-Commits adherence, SemVer canonical cross-link, GFM stance, Diátaxis docs framework alignment, plus declines (CHANGELOG, ADRs, release-automation, pre-commit) with rationale.
   - [ ] **CORE-099.4** [opus] | .editorconfig — Add .editorconfig for md/ts/jsx/json/yaml (LF endings, UTF-8, no trailing whitespace, final newline). Defends against editor-introduced drift across solo + adopter use.
   - [ ] **CORE-099.5** [opus] | README markdown-vaults — Rename + expand README "Working in Obsidian" section to "Working in markdown vaults"; name Foam + Logseq parity with caveats (Logseq frontmatter via block-properties).
