@@ -56,7 +56,7 @@ export const STATUS_CHIP_LABEL: Record<TasknoteStatus, string> = {
   'not-started': '⚪',
   'in-progress': '🟢',
   blocked: '⏸',
-  completed: '✅',
+  completed: '✓',
 };
 
 export interface PaletteTokens {
