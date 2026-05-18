@@ -35,6 +35,8 @@ purpose each.
 - `SPEC.md` — canonical workflow contract; primary AI cold-start surface
 - `docs/MIGRATION.md` — adoption + bump procedures for adopting projects
 - `claude/CLAUDE-snippet.md` — block adopters paste into their CLAUDE.md (defines adopters' assistant-facing surface)
+- `docs/CONVENTIONS.md` — conventions flowtron adheres to and declines (commits, versioning, formatting, CHANGELOG, ADRs) with rationale
+- `CONTRIBUTING.md` — solo-maintenance model; how to file issues; when PRs make sense
 
 `SPEC/*.md` (lazy modules) and `claude/skills/*/SKILL.md` are loaded on
 demand by skill stubs — authoritative when fired, but not part of the

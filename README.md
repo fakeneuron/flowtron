@@ -103,6 +103,8 @@ These tools are opt-in companion surfaces. None of the above is required.
 - `docs/` — philosophy and migration guides
 - `_project/` — flowtron's own roadmap and tasknotes (self-hosted)
 - `viz/` — Vite/React Kanban visualizer
+- `CONTRIBUTING.md` — solo-maintenance model; issue and PR guidance
+- `LICENSE` — MIT
 - pre-v0.1.0 source preserved in git tag `legacy-pre-v0.1.0`
 
 ## Version
