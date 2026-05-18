@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **FE-038** [sonnet] | muted-footer contrast — Fix `viz/src/ui/App.tsx:479` empty-state footer (`text-slate-400 dark:text-slate-600` → `text-slate-500 dark:text-slate-400`) to clear FE-019's ≥4.5:1 bar in light theme (current 2.45:1). Surfaced by FE-033.6 audit; FE-034 regression.
+(none)
 
 ## Low
 
@@ -34,6 +34,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-100** [opus] | flowtron-nat-011 investigation — Investigate what `flowtron-nat-011` is, what it depends on, and whether it has any true function. Confirm safe-to-delete from disk, then delete the project directory + remove from the viz workspace projects list.
 ## Completed
 
+- [x] **FE-038** [sonnet] | muted-footer contrast — Completed 2026-05-18.
 - [x] **FE-EPIC-033** [opus] | theme-system — Completed 2026-05-18. Children FE-033.1–.6 archived; closure consumed the subtask list per epic-close convention.
 - [x] **FE-034** [sonnet] | empty priority panels — Completed 2026-05-17.
 - [x] **FE-037** [sonnet] | asymmetric model-chip rendering — Completed 2026-05-17.

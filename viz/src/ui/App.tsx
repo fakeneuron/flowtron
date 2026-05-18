@@ -476,7 +476,7 @@ export const App: React.FC = () => {
               })}
             </div>
             {listViewEmptySections.length > 0 && (
-              <p className="mt-6 text-center text-sm text-slate-400 dark:text-slate-600">
+              <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
                 {listViewEmptySections.length === SECTIONS.length
                   ? 'No tasks in this project'
                   : `No tasks in: ${listViewEmptySections.join(' · ')}`}
