@@ -19,11 +19,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **CORE-110** [sonnet] | epic-099 downstream refresh — Wire docs/CONVENTIONS.md + CONTRIBUTING.md into the three places EPIC-099 missed: (1) `_project/tasknote/README.md` §"AI-referenced docs" so they get drift-swept at Phase 4; (2) `README.md` §"Repo layout" (add CONTRIBUTING.md + LICENSE rows); (3) `claude/skills/ft-flowtron/SKILL.md` §"Key docs" (add CONVENTIONS + CONTRIBUTING bullets). Surfaced by audit 2026-05-18 (Findings #2 + #3 Medium, #4 Low).
 
 ## Low
 
-(none)
+- [ ] **CORE-111** [sonnet] | ft-flowtron self-listing — Add a `/ft-flowtron` row to the info screen's Bundled-skills table (`claude/skills/ft-flowtron/SKILL.md:42-59`); SPEC §"Skill namespace" lists it but the screen's own roster omits itself, so adopters running `/ft-flowtron` see a 16-skill roster missing the tool they invoked. Surfaced by audit 2026-05-18 (Finding #1, Low).
 
 ## Future Opportunities
 
