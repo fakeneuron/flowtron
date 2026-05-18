@@ -3,7 +3,7 @@ name: ft-epic-discovery
 description: Scaffold and drive a new flowtron epic from filing through its `.1` Discovery tasknote in one motion — files parent `<AREA>-EPIC-<N>` + `.1` Discovery + `.N` audit placeholder lines into PLAN.md, scaffolds the `.1` tasknote with tailored pre-fill, then drives the full 4-phase Discovery (deliverable = filed `.2..(N-1)` children). Auto-wired into adopters via `/ft-new-project` and `docs/MIGRATION.md` §1.2.
 ---
 
-# epic-discovery — flowtron epic filing + Discovery driver
+# ft-epic-discovery — flowtron epic filing + Discovery driver
 
 You are filing a new epic and driving its `.1` Discovery tasknote in one motion. The full lifecycle contract lives in `<SPEC_DIR>/epic.md` — this skill is the executable interpretation of the lifecycle's filing-and-Discovery side, not a replacement. Treat `SPEC/epic.md` as authoritative when this file is silent or in tension.
 

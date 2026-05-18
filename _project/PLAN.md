@@ -27,19 +27,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Future Opportunities
 
-- [ ] **CORE-EPIC-097** [opus] | external-skill-survey — Survey skills bundled by comparable claude-code / AI-coding workflow repos (GitHub-style CLI workflows, caveman-claude's token-minimization pattern popularized on social media, etc.). Discovery deliverable: shortlist of skills worth adopting into flowtron + adoption rationale per candidate.
-  - [x] **CORE-097.1** [opus] | discovery — Completed 2026-05-18.
-  - [x] **CORE-097.2** [opus] | ft-stats — Completed 2026-05-18.
-  - [x] **CORE-097.3** [opus] | spec-paths-autoload — Completed 2026-05-18.
-  - [x] **CORE-097.4** [opus] | spec-token-refresh — Completed 2026-05-18.
-  - [x] **CORE-097.5** [opus] | ft-quality — Completed 2026-05-18.
-  - [x] **CORE-097.6** [opus] | epic-discovery-deep — Completed 2026-05-18.
-  - [x] **CORE-097.7** [opus] | audit — Completed 2026-05-18.
-  - [ ] **CORE-097.8** [sonnet] | epic-discovery-residue — Replace 2 unprefixed `epic-discovery` strings (command stub L5 directive + SKILL.md L6 H1) with `ft-epic-discovery` per CORE-104 namespace prefix. Surfaced by [[<CORE-097.7>]] audit.
 - [ ] **CORE-EPIC-099** [opus] | external-conventions-survey — Investigate missing/expected workflow conventions flowtron should adopt or be compatible with (commit conventions, semver discipline, markdown patterns, Obsidian/Foam interop, etc.). Discovery deliverable: gap analysis + adoption candidates.
   - [ ] **CORE-099.1** [opus] | discovery — Survey external workflow / convention surfaces + identify gaps + recommend adoptions per SPEC/epic.md.
 ## Completed
 
+- [x] **CORE-EPIC-097** [opus] | external-skill-survey — Completed 2026-05-18. Children CORE-097.1–.8 archived; closure consumed the subtask list per epic-close convention.
 - [x] **CORE-100** [opus] | flowtron-nat-011 investigation — Completed 2026-05-18.
 - [x] **FE-038** [sonnet] | muted-footer contrast — Completed 2026-05-18.
 - [x] **FE-EPIC-033** [opus] | theme-system — Completed 2026-05-18. Children FE-033.1–.6 archived; closure consumed the subtask list per epic-close convention.
