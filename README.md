@@ -15,6 +15,9 @@ maintain.
   per-project workflows and the principles that stuck
 - [docs/MIGRATION.md](docs/MIGRATION.md) — adoption guide for fresh projects
   and migration from a prior workflow system
+- [docs/CONVENTIONS.md](docs/CONVENTIONS.md) — conventions flowtron adheres to
+  (Conventional Commits, SemVer, GFM, Diátaxis) and declines (CHANGELOG, ADR
+  registry, release automation, pre-commit hooks) with rationale
 
 ## Bootstrapping a new project
 
