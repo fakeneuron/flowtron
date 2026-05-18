@@ -38,10 +38,9 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **FE-033.5** [sonnet] | picker UI — Completed 2026-05-17.
   - [ ] **FE-033.6** [opus] | audit — Verify the completed theme-system epic: FE-019 a11y baseline preserved across all 3 palettes × 2 themes; bundle-size budget intact (FE-026); palette × density × visibility interactions coherent; doc-drift sweep per `SPEC/epic.md`.
 - [ ] **FE-034** [sonnet] | empty priority panels — Hide PrioritySection cards with zero tasks (post-filter, respecting visibility prefs); render a subtle muted footer at page bottom ("No tasks in: Critical · Low") listing empty sections, comma-joined; collapse to "No tasks in this project" when all are empty. Priority view only.
-- [ ] **FE-037** [sonnet] | asymmetric model-chip rendering — Model chip renders both `[opus]` and `[sonnet]` as text pills today. Switch to asymmetric: Opus tasks get a subtle brain icon (🧠 or equivalent) marking "deep-thinking"; Sonnet tasks render nothing. Reduces visual noise — most tasks are sonnet by default; only the Opus-tier ones need a marker.
-
 ## Completed
 
+- [x] **FE-037** [sonnet] | asymmetric model-chip rendering — Completed 2026-05-17.
 - [x] **FE-036** [opus] | tone down ✅ completed status-chip glyph — Completed 2026-05-17.
 - [x] **FE-035** [opus] | palette picker shows unimplemented options — Completed 2026-05-17.
 - [x] **CORE-105** [opus] | release v3.0.0 — Completed 2026-05-17.

@@ -34,10 +34,10 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
   const tags = tn?.frontmatter?.tags ?? [];
   const due = tn?.frontmatter?.due;
   const showTags = rowChips.tags && tags.length > 0;
-  const showModel = rowChips.model && !!task.model;
+  const showModel = rowChips.model && task.model === 'opus';
   const showRelated = rowChips.related && task.relatedTasks.length > 0;
   const showDue = rowChips.due && !!due;
-  const showOptionalChips = showTags || showModel || showRelated || showDue;
+  const showOptionalChips = showTags || showRelated || showDue;
   const chipPad = DENSITY_TOKENS[density].chipPad;
   return (
     <div className="flex min-w-0 flex-1 items-center gap-2">
@@ -75,7 +75,6 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
                   {t}
                 </span>
               ))}
-            {showModel && task.model && <ModelChip model={task.model} density={density} />}
             {showRelated && <RelatedChip ids={task.relatedTasks} density={density} />}
             {showDue && due && (
               <span className="text-xs text-slate-500 dark:text-slate-400">
@@ -88,6 +87,7 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
         )}
         <div className="flex items-center justify-end gap-1.5 text-xs">
           {status && <StatusChip status={status} density={density} />}
+          {showModel && task.model && <ModelChip model={task.model} />}
           {extraRightSlot}
         </div>
       </div>

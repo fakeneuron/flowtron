@@ -341,7 +341,7 @@ describe('App — settings modal', () => {
 
     await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
     expect(screen.queryByText('viz')).not.toBeInTheDocument();
-    expect(screen.getByText('Opus')).toBeInTheDocument();
+    expect(screen.getByText('🧠')).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Open settings' }));
     await user.click(screen.getByRole('checkbox', { name: 'Tags' }));
@@ -349,7 +349,7 @@ describe('App — settings modal', () => {
 
     await waitFor(() => expect(screen.getByText('viz')).toBeInTheDocument());
     expect(screen.getByText('ui')).toBeInTheDocument();
-    expect(screen.queryByText('Opus')).not.toBeInTheDocument();
+    expect(screen.queryByText('🧠')).not.toBeInTheDocument();
   });
 
   it('toggling detailSections.subtasks hides the Subtasks section when the row is expanded', async () => {
@@ -384,13 +384,13 @@ describe('App — settings modal', () => {
     renderApp({ plan, active });
 
     await waitFor(() => expect(screen.getByText('viz')).toBeInTheDocument());
-    expect(screen.queryByText('Opus')).not.toBeInTheDocument();
+    expect(screen.queryByText('🧠')).not.toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Open settings' }));
     await user.click(screen.getByRole('button', { name: 'Reset to defaults' }));
 
     await waitFor(() => expect(screen.queryByText('viz')).not.toBeInTheDocument());
-    expect(screen.getByText('Opus')).toBeInTheDocument();
+    expect(screen.getByText('🧠')).toBeInTheDocument();
   });
 
   it('per-project: switching projects reloads prefs from that project key', async () => {
