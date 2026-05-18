@@ -57,6 +57,7 @@ A lightweight, project-agnostic tasknote system for solo AI-assisted coding. Kee
 | `/ft-quality` | Run a lint + typecheck + test sweep against the project (fail-fast). Heuristic stack detection (Node / Python / Go / Rust). Runs outside the tasknote flow. |
 | `/ft-new-project` | Bootstrap a fresh repo with flowtron — submodule, PLAN.md, tasknote README, CLAUDE.md patch, staged commit. |
 | `/ft-release` | Cut a flowtron release — version bump, doc shifts, drift sweep (via `/ft-audit-docs`), single feat: commit, annotated tag, push. (Flowtron-self only.) |
+| `/ft-flowtron` | Display this info screen — version, core principles, and the full bundled-skill roster. No args; read-only. |
 
 ## Key docs
 

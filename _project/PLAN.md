@@ -21,7 +21,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-111** [sonnet] | ft-flowtron self-listing — Add a `/ft-flowtron` row to the info screen's Bundled-skills table (`claude/skills/ft-flowtron/SKILL.md:42-59`); SPEC §"Skill namespace" lists it but the screen's own roster omits itself, so adopters running `/ft-flowtron` see a 16-skill roster missing the tool they invoked. Surfaced by audit 2026-05-18 (Finding #1, Low).
 
 ## Future Opportunities
 
@@ -29,6 +28,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-111** [sonnet] | ft-flowtron self-listing — Completed 2026-05-18.
 - [x] **CORE-110** [sonnet] | epic-099 downstream refresh — Completed 2026-05-18.
 - [x] **CORE-EPIC-099** [opus] | external-conventions-survey — Completed 2026-05-18. Children CORE-099.1–.8 archived; closure consumed the subtask list per epic-close convention.
 - [x] **CORE-109** [opus] | spec-terse-pass — Completed 2026-05-18.
