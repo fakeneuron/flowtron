@@ -196,6 +196,11 @@ export const App: React.FC = () => {
     [filteredNodes],
   );
 
+  const listViewEmptySections = useMemo(
+    () => SECTIONS.filter((p) => (bySection[p] ?? []).length === 0),
+    [bySection],
+  );
+
   const epicIds = useMemo(() => {
     const set = new Set<string>();
     for (const node of allNodes) {
@@ -445,30 +450,39 @@ export const App: React.FC = () => {
             })}
           </div>
         ) : (
-          <div className={`flex flex-col ${DENSITY_TOKENS[visibilityPrefs.density].betweenSectionsGap}`}>
-            {SECTIONS.map((p) => {
-              const nodes = bySection[p] ?? [];
-              const collapsed = collapsedSections.has(p);
-              return (
-                <PrioritySection
-                  key={p}
-                  priority={p}
-                  nodes={nodes}
-                  collapsed={collapsed}
-                  onToggle={() => toggleSection(p)}
-                  tasknotesById={tasknotesById}
-                  visibility={visibilityPrefs}
-                  expandedId={expandedId}
-                  setExpandedId={setExpandedId}
-                  expandedEpicIds={expandedEpicIds}
-                  toggleEpic={toggleEpic}
-                  highlightId={highlightId}
-                  selectedId={selectedId}
-                  navigateToTask={navigateToTask}
-                />
-              );
-            })}
-          </div>
+          <>
+            <div className={`flex flex-col ${DENSITY_TOKENS[visibilityPrefs.density].betweenSectionsGap}`}>
+              {SECTIONS.filter((p) => (bySection[p] ?? []).length > 0).map((p) => {
+                const nodes = bySection[p] ?? [];
+                const collapsed = collapsedSections.has(p);
+                return (
+                  <PrioritySection
+                    key={p}
+                    priority={p}
+                    nodes={nodes}
+                    collapsed={collapsed}
+                    onToggle={() => toggleSection(p)}
+                    tasknotesById={tasknotesById}
+                    visibility={visibilityPrefs}
+                    expandedId={expandedId}
+                    setExpandedId={setExpandedId}
+                    expandedEpicIds={expandedEpicIds}
+                    toggleEpic={toggleEpic}
+                    highlightId={highlightId}
+                    selectedId={selectedId}
+                    navigateToTask={navigateToTask}
+                  />
+                );
+              })}
+            </div>
+            {listViewEmptySections.length > 0 && (
+              <p className="mt-6 text-center text-sm text-slate-400 dark:text-slate-600">
+                {listViewEmptySections.length === SECTIONS.length
+                  ? 'No tasks in this project'
+                  : `No tasks in: ${listViewEmptySections.join(' · ')}`}
+              </p>
+            )}
+          </>
         )}
       </main>
       <SettingsModal

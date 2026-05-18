@@ -37,9 +37,9 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [ ] **FE-033.4** [opus] | github palette — Curate GitHub-style palette across all 12 semantic tokens; pair-tune light + dark contrast against FE-019 a11y baseline. Mirrors FE-033.3's shape with GitHub's accent family.
   - [x] **FE-033.5** [sonnet] | picker UI — Completed 2026-05-17.
   - [ ] **FE-033.6** [opus] | audit — Verify the completed theme-system epic: FE-019 a11y baseline preserved across all 3 palettes × 2 themes; bundle-size budget intact (FE-026); palette × density × visibility interactions coherent; doc-drift sweep per `SPEC/epic.md`.
-- [ ] **FE-034** [sonnet] | empty priority panels — Hide PrioritySection cards with zero tasks (post-filter, respecting visibility prefs); render a subtle muted footer at page bottom ("No tasks in: Critical · Low") listing empty sections, comma-joined; collapse to "No tasks in this project" when all are empty. Priority view only.
 ## Completed
 
+- [x] **FE-034** [sonnet] | empty priority panels — Completed 2026-05-17.
 - [x] **FE-037** [sonnet] | asymmetric model-chip rendering — Completed 2026-05-17.
 - [x] **FE-036** [opus] | tone down ✅ completed status-chip glyph — Completed 2026-05-17.
 - [x] **FE-035** [opus] | palette picker shows unimplemented options — Completed 2026-05-17.
