@@ -56,3 +56,11 @@ above) is codified in `claude/skills/ft-epic-discovery/`; the audit-and-close
 side (steps 4-5) is codified in `claude/skills/ft-close-epic/`. Both are
 auto-wired into adopter projects via `claude/skills/ft-new-project/SKILL.md`
 Step 3 + `docs/MIGRATION.md` §1.2.
+
+**Optional deep pre-pass.** For high-uncertainty epics — those where the
+shared design surface, contract impact, or per-child scope is genuinely
+unclear at filing time — `/ft-epic-discovery --deep` stages a
+`constitution → specify → clarify` pre-pass before Phase 1 Discovery,
+with AskUserQuestion review-and-confirm gates between stages. The
+default flow is unchanged; reach for `--deep` only when upfront staging
+is worth the extra interruption. Contract details live in the skill.
