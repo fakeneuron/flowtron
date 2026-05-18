@@ -34,7 +34,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-099.4** [opus] | .editorconfig — Completed 2026-05-18.
   - [x] **CORE-099.5** [opus] | README markdown-vaults — Completed 2026-05-18.
   - [x] **CORE-099.6** [opus] | CONTRIBUTING.md — Completed 2026-05-18.
-  - [ ] **CORE-099.7** [opus] | audit — Epic audit subtask per SPEC/epic.md (fixed doc-drift sweep acceptance); verify CORE-099.2–.6 cohort sits well in the codebase; file follow-ups for misses.
+  - [x] **CORE-099.7** [opus] | audit — Completed 2026-05-18.
+  - [ ] **CORE-099.8** [sonnet] | README-license-ref — Add a top-level README license reference (footer one-liner or §"License" section pointing to LICENSE / MIT) so visitors discover the license in 1 hop, not 2. Surfaced by [[CORE-099.7]] audit.
 ## Completed
 
 - [x] **CORE-109** [opus] | spec-terse-pass — Completed 2026-05-18.
