@@ -113,9 +113,50 @@ const DEFAULT_PALETTE: PaletteTokens = {
   EPIC_ROW_NEUTRAL: 'border-slate-300 dark:border-slate-700',
 };
 
+const LINEAR_PALETTE: PaletteTokens = {
+  STATUS_BADGE: {
+    starter: 'bg-lime-100 text-lime-800 dark:bg-lime-950 dark:text-lime-200',
+    'not-started': 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300',
+    'in-progress': 'bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-200',
+    blocked: 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-200',
+    completed: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200',
+  },
+  SECTION_TINT: {
+    Critical: 'bg-slate-50 border-rose-300 dark:bg-slate-900/50 dark:border-rose-800',
+    High: 'bg-slate-50 border-amber-300 dark:bg-slate-900/50 dark:border-amber-800',
+    Medium: 'bg-slate-50 border-indigo-300 dark:bg-slate-900/50 dark:border-indigo-800',
+    Low: 'bg-slate-50 border-sky-300 dark:bg-slate-900/50 dark:border-sky-800',
+    'Future Opportunities':
+      'bg-slate-50 border-violet-300 dark:bg-slate-900/50 dark:border-violet-800',
+    Completed: 'bg-slate-50 border-emerald-300 dark:bg-slate-900/50 dark:border-emerald-800',
+  },
+  PRIORITY_BADGE: {
+    Critical: 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-200',
+    High: 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-200',
+    Medium: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-200',
+    Low: 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-200',
+    'Future Opportunities':
+      'bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-200',
+    Completed: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200',
+  },
+  PHASE_DOT: {
+    filled: 'bg-emerald-500',
+    active: 'bg-amber-400 ring-1 ring-amber-200 dark:ring-amber-700',
+    inactive: 'bg-slate-200 dark:bg-slate-700',
+  },
+  ROW_HIGHLIGHT:
+    'border-indigo-400 ring-2 ring-indigo-300 dark:border-indigo-500 dark:ring-indigo-600',
+  ROW_HIGHLIGHT_SUBTASK:
+    'bg-indigo-100 ring-1 ring-indigo-300 dark:bg-indigo-900/30 dark:ring-indigo-700',
+  ROW_SELECTION: 'border-slate-200 ring-2 ring-teal-400 dark:border-slate-800 dark:ring-teal-600',
+  ROW_SELECTION_SUBTASK: 'ring-1 ring-teal-400 dark:ring-teal-600',
+  ROW_NEUTRAL: 'border-slate-200 dark:border-slate-800',
+  EPIC_ROW_NEUTRAL: 'border-slate-300 dark:border-slate-700',
+};
+
 export const PALETTES: Record<PaletteName, PaletteTokens> = {
   default: DEFAULT_PALETTE,
-  linear: DEFAULT_PALETTE,
+  linear: LINEAR_PALETTE,
   github: DEFAULT_PALETTE,
 };
 
