@@ -31,9 +31,9 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [ ] **CORE-097.1** [opus] | discovery — Scope which comparable repos to survey + adoption criteria + per-candidate findings per SPEC/epic.md.
 - [ ] **CORE-EPIC-099** [opus] | external-conventions-survey — Investigate missing/expected workflow conventions flowtron should adopt or be compatible with (commit conventions, semver discipline, markdown patterns, Obsidian/Foam interop, etc.). Discovery deliverable: gap analysis + adoption candidates.
   - [ ] **CORE-099.1** [opus] | discovery — Survey external workflow / convention surfaces + identify gaps + recommend adoptions per SPEC/epic.md.
-- [ ] **CORE-100** [opus] | flowtron-nat-011 investigation — Investigate what `flowtron-nat-011` is, what it depends on, and whether it has any true function. Confirm safe-to-delete from disk, then delete the project directory + remove from the viz workspace projects list.
 ## Completed
 
+- [x] **CORE-100** [opus] | flowtron-nat-011 investigation — Completed 2026-05-18.
 - [x] **FE-038** [sonnet] | muted-footer contrast — Completed 2026-05-18.
 - [x] **FE-EPIC-033** [opus] | theme-system — Completed 2026-05-18. Children FE-033.1–.6 archived; closure consumed the subtask list per epic-close convention.
 - [x] **FE-034** [sonnet] | empty priority panels — Completed 2026-05-17.
