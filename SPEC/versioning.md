@@ -1,3 +1,7 @@
+---
+paths: []
+---
+
 # Versioning
 
 > Lazy-loaded SPEC module. Loaded by `/ft-task` only for explicit version-bump tasks. See `SPEC.md` for the always-loaded core spec.

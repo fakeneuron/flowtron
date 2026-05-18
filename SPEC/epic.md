@@ -1,3 +1,7 @@
+---
+paths: ['*-EPIC-*.md', '*.[0-9]*.md']
+---
+
 # Epic lifecycle
 
 > Lazy-loaded SPEC module. Loaded by `/ft-task` when the task ID matches `<AREA>-EPIC-<N>` or `<AREA>-<N>.<sub>`. See `SPEC.md` for the always-loaded core spec.

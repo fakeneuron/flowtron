@@ -1,3 +1,7 @@
+---
+paths: []
+---
+
 # Model field
 
 > Lazy-loaded SPEC module. Loaded by `/ft-task` Step 1.5 only on the model-gate edge cases (PLAN-tag mismatches the active model, or PLAN line lacks a `[model]` segment). See `SPEC.md` for the always-loaded core spec.
