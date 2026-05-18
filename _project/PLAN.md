@@ -23,7 +23,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-109** [opus] | spec-terse-pass — Apply Tier A+B trims from [[<CORE-097.4>]] audit to SPEC.md (mechanical + structural compression across heavy sections; ~785w / ~14% target). Single-file; preserve contract.
+(none)
 
 ## Future Opportunities
 
@@ -31,6 +31,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [ ] **CORE-099.1** [opus] | discovery — Survey external workflow / convention surfaces + identify gaps + recommend adoptions per SPEC/epic.md.
 ## Completed
 
+- [x] **CORE-109** [opus] | spec-terse-pass — Completed 2026-05-18.
 - [x] **CORE-EPIC-097** [opus] | external-skill-survey — Completed 2026-05-18. Children CORE-097.1–.8 archived; closure consumed the subtask list per epic-close convention.
 - [x] **CORE-100** [opus] | flowtron-nat-011 investigation — Completed 2026-05-18.
 - [x] **FE-038** [sonnet] | muted-footer contrast — Completed 2026-05-18.

@@ -130,7 +130,7 @@ Each entry under a priority heading in PLAN.md follows this grammar:
 ```
 
 Both `[model]` and `| shortname` are optional. The legacy minimal form
-`- [ ] **TASK-ID** — description` keeps parsing for backwards compatibility.
+`- [ ] **TASK-ID** — description` still parses for backwards compatibility.
 
 | Segment | Required | Notes |
 |---|---|---|
@@ -150,16 +150,15 @@ Examples:
 - [ ] **CORE-016** — Execute InvisiPaw migration per CORE-008 playbook.    (legacy)
 ```
 
-Adopting projects' visualizers parse the line with the regex documented in
-`viz/src/parser.ts` (the canonical reference). The grammar is additive —
-bumping flowtron does not require migrating existing legacy entries; new
-entries should follow the extended form.
+Adopting projects' visualizers parse the line per `viz/src/parser.ts`
+(canonical reference). The grammar is additive — flowtron bumps don't
+require migrating legacy entries; new entries should use the extended form.
 
 ### Long-description conventions
 
-The long description after `—` is otherwise free prose, but two
-machine-readable conventions are reserved so visualizers can surface
-cross-task signals on rows that don't yet have a tasknote:
+The long description is free prose, but two machine-readable
+conventions are reserved so visualizers can surface cross-task signals
+on rows without tasknotes:
 
 | Convention | Meaning | Parses into |
 |---|---|---|
@@ -169,13 +168,10 @@ cross-task signals on rows that don't yet have a tasknote:
 Both are **wikilink-only** — bare-ID forms do not parse. Multiple
 comma-separated wikilinks are supported in a single `Blocked by` clause.
 
-Wikilinks inside markdown inline code spans (between backticks) are treated
-as literal text, so descriptions can include illustrative `[[TASK-ID]]`
-examples without polluting the parsed signal set.
-
-In skill and doc files (outside PLAN.md), use `[[<placeholder>]]`
-(angle-bracket-inside) for illustrative wikilinks — the leading `<`
-prevents a collision with the `[A-Z]+-[0-9]+` wikilink-integrity grep.
+For illustrative wikilinks that shouldn't be parsed: use markdown inline
+code spans (treated as literal text) in PLAN.md, or angle-bracket
+placeholders (`[[<TASK-ID>]]`) in skill/doc files — both avoid the
+`[A-Z]+-[0-9]+` wikilink-integrity grep.
 
 A wikilink inside a `Blocked by` block lands in `blockedBy` only; the same
 ID elsewhere in the description is excluded from `relatedTasks` (blocker is
@@ -280,17 +276,14 @@ Every tasknote follows four phases in strict serial order. Do not skip ahead.
 
 ### Operator-gate cues
 
-The 4-phase workflow surfaces **up to two** operator-gate banners —
-moments where the assistant pauses for explicit user approval before
-continuing. Both banners are conditional: 🛠️ Phase 1→2 skips when
-Discovery surfaced zero clarifying questions (see §"📝 Phase 1:
-Discovery" exit gate for the full rule); 📦 ready-to-commit skips when
-the closure's diff content clears the deterministic signal rule (see
-§"Post-closure protocol" for the full rule). On a fully unambiguous
-mechanical task both banners skip and the assistant runs end-to-end with
-inline state markers in place of approval pauses. To make these gates
-visually scannable in the transcript, the assistant surfaces a banner
-cue at each one that fires:
+The 4-phase workflow surfaces **up to two** operator-gate banners — pauses
+for explicit user approval. Both are conditional: 🛠️ Phase 1→2 skips when
+Discovery surfaced zero clarifying questions (full rule: §"📝 Phase 1:
+Discovery" exit gate); 📦 ready-to-commit skips when the closure diff
+clears the deterministic signal rule (full rule: §"Post-closure
+protocol"). On a fully unambiguous mechanical task both skip and the
+assistant runs end-to-end with inline state markers in place of approval
+pauses. The assistant surfaces a banner cue at each gate that fires:
 
 ```markdown
 ---
@@ -308,30 +301,25 @@ _<1-2 sentence plain-English preview of what executes on approval>_
 | Ready-to-commit (closure review + work summary bundled) | 📦 | `AWAITING APPROVAL — Ready to commit` | **Conditional** — fires when the closure diff trips any signal in §"Post-closure protocol" §"Conditional skip rule" (frontend / privileged-ops path-match or perf-narrative present) OR a bundled in-📦 user prompt is queued (e.g., /ft-close-epic parent-flip); skipped otherwise via the autonomous-commit motion |
 
 The preview line is **mandatory** on every banner that fires: a 1-2
-sentence plain-English summary of *what executes if the user approves*,
-italicized, placed inside the banner block immediately above the closing
-`---`. The preview is for scanning intent ("what am I greenlighting?") —
-file paths, LOC counts, and key decisions belong in the recap (per §"🚀
+sentence plain-English summary of *what executes if the user approves*.
+The preview is for scanning intent ("what am I greenlighting?") — file
+paths, LOC counts, and key decisions belong in the recap (per §"🚀
 Phase 4: Closure"), not the preview.
 
-Once Phase 1 closes (either via the 🛠️ banner clearing or via the
-conditional-skip path — see §"📝 Phase 1: Discovery" exit gate), Phase 2 →
-Phase 3 → Phase 4 closure ops (doc-drift sweep, PLAN.md flip, archive move)
-**flow continuously without intermediate gates**. The recap (work summary)
-is drafted during closure ops but does not surface its own banner — it
-bundles with the closure review (per-entry doc-drift verdicts, PLAN.md
-line preview, archive path) and the proposed commit message into the
-📦 ready-to-commit motion. On the 📦-fires branch one bundled approval
-clears the commit; on the 📦-skips branch the bundle is delivered inline
-with an `✅ Closure complete; committing autonomously (<rationale>).`
-marker and the commit + 🏁 state-marker + next-move suggestion follow in
-the same response (see §"Post-closure protocol" §"Conditional skip rule").
+Once Phase 1 closes, Phase 2 → Phase 3 → Phase 4 closure ops (doc-drift
+sweep, PLAN.md flip, archive move) **flow continuously without
+intermediate gates**. The recap drafts during closure ops and bundles
+with the closure review (per-entry doc-drift verdicts, PLAN.md line
+preview, archive path) and the proposed commit message into the 📦
+ready-to-commit motion — on the fire branch one bundled approval clears
+the commit; on the skip branch the bundle delivers inline behind an
+`✅ Closure complete; committing autonomously (<rationale>).` marker,
+followed by the commit + 🏁 state-marker + next-move suggestion in the
+same response (see §"Post-closure protocol" §"Conditional skip rule").
 
 Skill-level extensions (epic parent-flip, release push-go, etc.) **bundle
 into the 📦 gate** rather than adding their own banners — the prompt is
 presented inside the ready-to-commit content, not behind a separate cue.
-The convention is a UX layer over the existing pause points — it does
-not introduce new gates.
 
 ### 📝 Phase 1: Discovery
 
@@ -350,15 +338,12 @@ line and the tasknote header before continuing; if the re-scope is a
 blocked prerequisite, see §"Blocked tasks". `De-scope` jumps directly to
 Phase 4 closure with the de-scope rationale as the final summary.
 
-The archive skim exists because prior tasknotes often record decisions and
-historical context (file rename trails, regression notes, design
-rationales, hardlink discoveries) that bear on the current task but live
-nowhere else. The cost is trivial when `archive/<area>/` is empty or
-small; the payoff scales as it matures.
-
-The drift check exists because PLAN.md is a snapshot, not a spec. Flag any
-drift and confirm the path forward — do not silently "correct" the plan by
-executing a different task than was approved.
+The archive skim and drift check both exist because prior tasknotes
+record decisions (file rename trails, regression notes, design
+rationales) that bear on the task, and PLAN.md is a snapshot, not a
+spec. Surface relevant findings before re-interpreting, and do not
+silently "correct" the plan by executing a different task than was
+approved.
 
 **Exit gate (conditional):** once every Phase 1 box is ticked, branch on
 the clarifying-questions outcome:
@@ -372,18 +357,13 @@ the clarifying-questions outcome:
   ✅ Phase 1 Discovery complete (no clarifications needed); entering Phase 2 Execution.
   ```
 
-  The marker is plain prose, not a banner block, and not a new operator
-  gate — it's a scannable phase-boundary cue so the user can spot the
-  transition in the transcript and intervene if Discovery looks off.
-
 - **Clarifications-surfaced branch** (AskUserQuestion fired, prose asks
   reshaped scope, or a Re-scope verdict landed) — surface the 🛠️ Phase 2
   operator-gate cue per §"Operator-gate cues" (with the mandatory preview
   line) and wait for the user's go before starting execution.
 
-The skip rule binds to the Phase 1 checklist branch, not a raw count of
-tool calls — Re-scope deliberations and prose asks that reshape work both
-keep the banner.
+The skip rule binds to the Phase 1 checklist branch — Re-scope and prose
+asks that reshape work both keep the banner.
 
 ### 🛠️ Phase 2: Execution
 
@@ -396,11 +376,8 @@ explicitly calls for it. The pattern survey exists to keep the codebase
 unified — prefer extending what already works over inventing a parallel
 solution.
 
-If a hard dependency surfaces during execution that wasn't visible at Phase
-1, **park the tasknote** per §"Blocked tasks" — flip `status: blocked`,
-update the nav header, and stop. The tasknote sits at
-`_project/tasknote/<TASK-ID>.md` until the blocker clears; resume by
-re-invoking `/ft-task <ID>`.
+If a hard dependency surfaces mid-execution, **park the tasknote** per
+§"Blocked tasks" and resume by re-invoking `/ft-task <ID>`.
 
 Phase 2 flows continuously into Phase 3 (and Phase 4 closure ops) without
 an intermediate gate; the next operator-gate cue is the 📦 ready-to-commit
@@ -415,12 +392,9 @@ banner in §"Post-closure protocol".
 Run the full test suite only when changes are broad or cross-cutting.
 
 The visual-confirmation ask carries a `👁️` inline prefix on the
-conversational prompt (e.g., `👁️ Could you take a look at viz at
-http://localhost:5120 and confirm the new outline behaves as expected
-before I move to closure?`). Inline emoji prefix only — **no banner
-block, no operator-gate**. Gate count stays at up-to-2; the prefix is a
-scannable visual cue parallel to 🛠️ / 📦 without elevating
-visual-confirmation to gate status.
+conversational prompt (e.g., `👁️ Could you confirm the new outline at
+http://localhost:5120?`). Inline emoji prefix only — **no banner block,
+no operator-gate**; gate count stays at up-to-2.
 
 ### 🚀 Phase 4: Closure
 
@@ -429,28 +403,20 @@ visual-confirmation to gate status.
 - [ ] Recap drafted (surfaces at the 📦 ready-to-commit gate, or inline on conditional skip)
 
 Phase 4 closure ops (doc-drift sweep, PLAN.md flip, archive move) auto-run
-without an intermediate gate. The recap — a two-pass summary leading with
-1-2 plain-English sentences of *what the task accomplished* (non-technical,
-suitable for fast scanning), then technical detail (file paths, LOC, key
-decisions, plus an optional verification request: something concrete for
-the user to check, like reviewing the diff, running the feature, or
-eyeballing a generated artifact) — is drafted alongside but **does not
-surface its own banner**. It bundles into the 📦 ready-to-commit motion
-(see §"Post-closure protocol") — on the fire branch behind the 📦 banner
-where the user gives one bundled approval; on the skip branch inline with
-an `✅ Closure complete; …` marker and an autonomous commit.
+without an intermediate gate. The recap drafts alongside — a two-pass
+summary leading with 1-2 plain-English sentences of *what the task
+accomplished*, then technical detail (file paths, LOC, key decisions,
+plus an optional verification ask). It bundles into the 📦
+ready-to-commit motion (see §"Post-closure protocol") — fire branch:
+behind the 📦 banner for one bundled approval; skip branch: inline behind
+an `✅ Closure complete; …` marker followed by an autonomous commit.
 
-> **Recap is recap-only.** The recap leads with a 1-2 sentence plain-English
-> summary, then technical detail (file paths / LOC / decisions / verification
-> ask), and stops there. The next-task suggestion belongs in the
+> **Recap is recap-only.** The next-task suggestion belongs in the
 > post-closure protocol, after the commit lands — not inside the recap.
 
-The tasknote is closed when archived. On the 📦-fire branch the user's
-commit-go at the gate is the bundled approval that confirms the recap
-and authorizes the commit; on the 📦-skip branch the inline `✅ Closure
-complete; …` marker stands in for the approval and the autonomous
-commit follows in the same response (see §"Post-closure protocol"
-§"Conditional skip rule"). Commit itself is not part of the tasknote.
+The tasknote is closed when archived. Approval-semantics on each branch
+live in §"Post-closure protocol" §"Conditional skip rule"; commit itself
+is not part of the tasknote.
 
 ## Blocked tasks
 
@@ -468,9 +434,8 @@ across both branches.
 ### Conditional skip rule
 
 The 📦 ready-to-commit gate is **conditional**: it fires when the
-closure's diff content trips any of the signals below or when a bundled
-in-📦 user prompt is queued; otherwise it skips and the assistant runs
-the autonomous-commit motion in one continuous response.
+closure diff trips a signal below or a bundled in-📦 prompt is queued;
+otherwise it skips and runs the autonomous-commit motion.
 
 **Skip signals (deterministic — all three must clear to skip):**
 
@@ -479,23 +444,20 @@ the autonomous-commit motion in one continuous response.
   `**/*.html`, `**/*.vue`, `**/*.svelte`, or `**/*.ts` *under an explicit
   UI dir* (e.g., `viz/`). Adopters declare project-specific UI dirs in
   `_project/tasknote/README.md`; those dirs join the glob set for that
-  project. The "explicit UI dir" qualifier on `.ts` matters because
-  TypeScript is also used backend-side in many adopters — the signal
-  targets UI surface specifically.
+  project.
 - **Zero privileged-ops paths changed.** A changed path is
   "privileged-ops" if it matches any of:
   - **Migrations** — `**/migrations/**`, `**/alembic/**`, `**/db/migrations/**`, `**/prisma/migrations/**`
   - **Auth** — `**/auth/**`, `**/authn/**`, `**/authz/**`, `**/oauth/**`, `**/session*/**`
   - **Security / secrets** — `**/security/**`, `**/secrets/**`, `**/credentials/**`, `.env*`, plus any file whose diff hunk includes credential-shaped keyword hits (`API_KEY`, `SECRET`, `TOKEN`, `PASSWORD` — uppercase to avoid prose collision)
   - **External integrations** — `**/integrations/**`, `**/clients/**` (when housing third-party SDK callers), `**/webhooks/**`
-- **No perf-sensitive narrative concern.** Narrative fallback (the only
-  judgment surface in the rule): the gate fires if the assistant
-  reasoned about performance during execution (hot-path optimization,
-  indexing/query-plan change, cache invalidation pattern, batch sizing,
-  throughput target, p99 SLO concern) OR if the changed files sit under
-  a project-declared perf-critical directory. Default-clear for pure
-  SPEC/SKILL/template/doc edits, refactors of non-perf-critical
-  internal code, type-only changes. **The narrative branch biases
+- **No perf-sensitive narrative concern.** The gate fires if the
+  assistant reasoned about performance during execution (hot-path
+  optimization, indexing/query-plan change, cache invalidation pattern,
+  batch sizing, throughput target, p99 SLO concern) OR if the changed
+  files sit under a project-declared perf-critical directory.
+  Default-clear for pure SPEC/SKILL/template/doc edits, refactors of
+  non-perf-critical internal code, type-only changes. **Biased
   conservative — fire on doubt.**
 
 **Bundled-prompt override (autonomous-commit constraint):** if a
@@ -503,11 +465,10 @@ skill-level prompt is queued inside the 📦 bundle (e.g.,
 /ft-close-epic's parent-flip Yes/No), the gate **fires regardless** of
 signal state. Autonomous-commit cannot resolve a user-input question.
 
-**"No AI override" semantics.** The rule is bidirectionally locked: the
+**"No AI override" semantics.** The rule is bidirectionally locked — the
 assistant cannot escalate (force the banner on a clean diff) nor
 de-escalate (skip when a signal hits). The perf-narrative branch is the
-only judgment surface, and its conservative bias (fire on doubt) is the
-only valve.
+only judgment valve.
 
 **On skip (autonomous-commit motion).** Emit the inline marker
 
@@ -517,12 +478,8 @@ only valve.
 
 where `<concrete-signal-summary>` names the cleared signals as
 diff-specific facts (e.g., `4 markdown files; no frontend/privileged
-surface` or `SPEC + 3 SKILLs; docs only`). Then run the full bundle in
-one continuous response: closure review → recap → commit → 🏁
-state-marker → suggest-next-move → copy-paste line. Same response
-shape as the post-commit response on the fire branch — the marker just
-replaces the banner + commit-go wait. Plain prose, not a banner block,
-not a new gate.
+surface`). Then run the bundle in one response: closure review → recap
+→ commit → 🏁 state-marker → suggest-next-move → copy-paste line.
 
 **On fire (bundled approval motion).** Proceed with step 1 below.
 
@@ -543,15 +500,13 @@ not a new gate.
      `fix:` / `docs:` / `chore:` as appropriate). Multiple
      recently-closed tasknotes may bundle into one commit when natural.
 
-   The commit-go prompt at the bottom of the bundle carries a `🟢` emoji
-   prefix (e.g., `🟢 Reply commit / go to land.`) so the call-to-action
-   stands out under the closure-review tables.
+   The commit-go prompt at the bottom carries a `🟢` emoji prefix (e.g.,
+   `🟢 Reply commit / go to land.`).
 
-   Skill-level extensions (e.g., /ft-close-epic's parent-flip Yes/No prompt)
-   ride inside this bundle rather than getting their own banner — and
-   their presence is precisely what forces this fire branch via the
-   bundled-prompt override above. The user's commit-go is the single
-   approval that authorizes recap + closure + bundled prompts + commit.
+   Skill-level extensions (e.g., /ft-close-epic's parent-flip Yes/No
+   prompt) ride inside this bundle per the bundled-prompt override
+   above. The user's commit-go is the single approval that authorizes
+   recap + closure + bundled prompts + commit.
 
 2. **Mark the commit landed and suggest the next move.** Once the commit
    lands, prefix the post-commit response's tail (immediately above the
@@ -584,12 +539,11 @@ not a new gate.
    /clear then /model <opus|sonnet> then /ft-task <NEXT-ID>
    ```
 
-   Claude cannot run `/clear` itself; the line is for the user to paste to
-   start the next task in a fresh context. The `/model` segment matches
-   the next task's PLAN-line `[model]` tag — a no-op when the active
-   model already matches, but pre-empts the Step 1.5 model gate on
-   assistant-driven hand-offs (the gate still fires on cold starts where
-   the assistant didn't pick the model).
+   Claude cannot run `/clear` itself; the line is for the user to paste
+   to start the next task in a fresh context. The `/model` segment
+   matches the next task's PLAN-line `[model]` tag, pre-empting the
+   Step 1.5 gate on assistant-driven hand-offs (the gate still fires on
+   cold starts).
 
 ## When to use a tasknote (and when not to)
 
@@ -619,7 +573,7 @@ not a new gate.
 - The long description fits inside ~50 words (a scannable one-liner)
 - The task is straightforward enough that the long description suffices
 - No design decisions or file survey work has been done yet
-- The next available `/ft-task <ID>` slot is the user's natural next move (file it, then start it; no sitting time)
+- The next available `/ft-task <ID>` slot is the natural next move (file, then start; no sitting time)
 
 **File a follow-up (`/ft-file-followup <ID>`) when:**
 
@@ -627,13 +581,13 @@ not a new gate.
 - The follow-up is clear enough that it doesn't need a starter body — but you still want a paragraph of rationale visible in chat alongside the new PLAN.md line
 - You want the lightest filing motion in the cohort: one PLAN.md line written, a short paragraph delivered conversationally, zero edits to the active tasknote
 
-A `/ft-file-followup` filing produces **zero artifacts on disk beyond a single PLAN.md task line**. The "short context paragraph" — rationale + suspected scope + recommended priority/model — is delivered conversationally only; there is no tasknote file, and the active tasknote (if any) is not edited. If the description would breach the 70w cap, `/ft-file-followup` declines the filing and points at `/ft-starter-task` instead — rich context belongs in starter bodies, not chat.
+A `/ft-file-followup` filing produces **no tasknote file** — the rationale paragraph lives in chat only, and the active tasknote (if any) is not edited.
 
 **Skip the follow-up (use `/ft-starter-task` or just inline a PLAN.md line) when:**
 
-- The description would breach 50 words — `/ft-starter-task` is the right tool; rich context belongs in the starter body
-- Persistent context (file survey, open questions, design decisions) is worth preserving to disk — same call: use `/ft-starter-task`
-- You're outside any active conversation that produced the rationale — write the PLAN.md line directly; the conversational paragraph would have nothing meaningful to surface
+- The description would breach 50 words — use `/ft-starter-task`; rich context belongs in the starter body
+- Persistent context (file survey, open questions, design decisions) is worth preserving to disk — same call
+- You're outside any active conversation that produced the rationale — write the PLAN.md line directly
 
 **File a micro-tasknote (`/ft-micro-task <ID>`) when:**
 
@@ -642,13 +596,13 @@ A `/ft-file-followup` filing produces **zero artifacts on disk beyond a single P
 - The shape is obvious enough that Acceptance/Subtasks checklists would just restate the goal — but you still want the relevance / drift / archive-skim / pattern-survey contracts before writing code
 - Examples: small audits, focused doc patches, single-file behavior tweaks with clear scope
 
-A micro-tasknote uses a single `## ⚡ Notes` section with bold-prefix prompts (Relevance · Drift check · Archive skim · Pattern survey · Implementation) instead of the four phase checklists, plus a `## ✅ Recap` and an `Archived:` line. Closure flips two places (PLAN.md + tasknote location), the same as a normal tasknote. The `/ft-micro-task` skill is **file + execute (one-shot)** — it scaffolds, drives execution inline, and closes in a single conversation.
+A micro-tasknote uses a single `## ⚡ Notes` section (bold-prefix prompts for relevance / drift / archive / pattern / implementation) instead of the four phase checklists; closure flips PLAN.md + the tasknote location like a normal tasknote. The `/ft-micro-task` skill is **file + execute (one-shot)** — scaffold, execute inline, close in one conversation.
 
 **Skip the micro-tasknote (use `/ft-task` instead) when:**
 
 - The task touches multiple files or has design tradeoffs to record
 - The task is likely to take more than ~30 minutes
-- The 4-phase log would carry useful state (Discovery findings, intermediate Phase 2 work) for downstream tasknotes or audits
+- The 4-phase log would carry useful state for downstream tasknotes or audits
 - You're unsure — default to `/ft-task`. The Discovery phase pays for itself.
 
 When in doubt, write the full tasknote. The 4-phase ceremony pays for itself.
@@ -669,10 +623,10 @@ The thresholds apply to **active** task lines (`Critical` / `High` /
 `Medium` / `Low` / `Future Opportunities`). Lines under `## Completed`
 are governed by §"`## Completed` archive convention" below.
 
-`/ft-starter-task` (filing time), `/ft-file-followup` (filing time), and `/ft-task`
-(scaffold/promote time) flag filings that breach the cap — see the respective
-skill files for the mechanism. `/ft-file-followup` declines the filing entirely
-at >70w and routes the user to `/ft-starter-task` instead.
+`/ft-starter-task`, `/ft-file-followup`, and `/ft-task` flag filings that
+breach the cap at filing/scaffold time — see the respective skill files
+for the mechanism. `/ft-file-followup` declines at >70w and routes to
+`/ft-starter-task`.
 
 ### `## Completed` archive convention
 
@@ -682,20 +636,13 @@ Closed task lines under `## Completed` collapse to a stub form:
 - [x] **TASK-ID** [model] | shortname — Completed YYYY-MM-DD.
 ```
 
-The long description is dropped — the archived tasknote at
+The long description drops — the archived tasknote at
 `_project/tasknote/archive/<area>/<TASK-ID>.md` is the canonical record.
-PLAN.md keeps the cross-reference accessible via the ID; rich detail is
-one click away in the archive.
-
-This is enforced at Phase 4 closure: the flip rewrites the line to the
-stub form, not just the checkbox + date. The `| shortname` segment is
-required in the stub form so visualizers have a row title — without it,
-the empty long description leaves the row label blank. `[model]` stays
-optional (legacy entries without a model continue to parse and render).
-
-Adopting projects pick up the convention on their next flowtron version
-bump and may migrate existing entries at their own cadence (additive
-change; legacy paragraph-form entries continue to parse).
+Phase 4 closure rewrites the line to the stub form (not just the
+checkbox + date); `| shortname` is required so visualizers have a row
+title, `[model]` stays optional. Adopting projects pick up the
+convention on their next bump (additive change; legacy paragraph-form
+entries continue to parse).
 
 ## Priority levels
 
