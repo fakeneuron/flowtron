@@ -40,6 +40,13 @@ ln -s ~/code/flowtron/claude/skills/ft-flowtron       ~/.claude/skills/ft-flowtr
 ln -s ~/code/flowtron/claude/commands/ft-flowtron.md   ~/.claude/commands/ft-flowtron.md
 ```
 
+_Adopter-facing — `/ft-stats` (stats screen: `[model]` distribution, completion velocity, per-area volume from `_project/PLAN.md` `## Completed`; `--write` also flushes to `_project/STATS.md`):_
+
+```sh
+ln -s ~/code/flowtron/claude/skills/ft-stats          ~/.claude/skills/ft-stats
+ln -s ~/code/flowtron/claude/commands/ft-stats.md      ~/.claude/commands/ft-stats.md
+```
+
 _Flowtron-self developers only — `/ft-release` (bails outside flowtron's checkout; never useful in adopter projects):_
 
 ```sh

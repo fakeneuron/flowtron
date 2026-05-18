@@ -59,7 +59,7 @@ For flowtron-self global installs (e.g. `/ft-release`), see [`docs/MIGRATION.md`
 Bundled flowtron skills carry the `ft-` prefix in their slug (`/ft-task`,
 `/ft-audit`, `/ft-release`, `/ft-new-project`, `/ft-starter-task`,
 `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`,
-`/ft-close-epic`, `/ft-flowtron`, and the audit family
+`/ft-close-epic`, `/ft-flowtron`, `/ft-stats`, and the audit family
 `/ft-audit-{docs,backend,frontend,performance,security}`). The prefix
 reserves the `ft-` slug namespace for flowtron-owned skills so adopter
 projects can drop the bundle into `.claude/` without shadowing their own
