@@ -34,7 +34,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-097.4** [opus] | spec-token-refresh — Completed 2026-05-18.
   - [x] **CORE-097.5** [opus] | ft-quality — Completed 2026-05-18.
   - [x] **CORE-097.6** [opus] | epic-discovery-deep — Completed 2026-05-18.
-  - [ ] **CORE-097.7** [opus] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Verifies adopted external patterns sit well together across SPEC, skills, and templates after children close.
+  - [x] **CORE-097.7** [opus] | audit — Completed 2026-05-18.
+  - [ ] **CORE-097.8** [sonnet] | epic-discovery-residue — Replace 2 unprefixed `epic-discovery` strings (command stub L5 directive + SKILL.md L6 H1) with `ft-epic-discovery` per CORE-104 namespace prefix. Surfaced by [[<CORE-097.7>]] audit.
 - [ ] **CORE-EPIC-099** [opus] | external-conventions-survey — Investigate missing/expected workflow conventions flowtron should adopt or be compatible with (commit conventions, semver discipline, markdown patterns, Obsidian/Foam interop, etc.). Discovery deliverable: gap analysis + adoption candidates.
   - [ ] **CORE-099.1** [opus] | discovery — Survey external workflow / convention surfaces + identify gaps + recommend adoptions per SPEC/epic.md.
 ## Completed
