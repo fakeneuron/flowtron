@@ -1,6 +1,6 @@
 ---
 name: ft-audit-docs
-description: Documentation-drift audit of flowtron's AI-referenced doc set — 5 passes (Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content) across README.md / SPEC.md / docs/MIGRATION.md / claude/CLAUDE-snippet.md (default) or any path/glob ($ARGUMENTS). Capped at 5 findings/pass. Invoked standalone or as a subroutine by `/ft-release` §7.1. Forked from `claude/skills/ft-audit-docs/SKILL.md` per `docs/MIGRATION.md` §1.2.1.
+description: Documentation-drift audit of flowtron's AI-referenced doc set — 5 passes (Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content) across the AI-referenced docs set (default) or any path/glob ($ARGUMENTS). Capped at 5 findings/pass. Invoked standalone or as a subroutine by `/ft-release` §7.1. Forked from `claude/skills/ft-audit-docs/SKILL.md` per `docs/MIGRATION.md` §1.2.1.
 ---
 
 # audit-docs — flowtron-self doc-drift audit
@@ -23,6 +23,8 @@ This SKILL.md is a fork of the stack-neutral scaffold at `claude/skills/ft-audit
      SPEC.md
      docs/MIGRATION.md
      claude/CLAUDE-snippet.md
+     docs/CONVENTIONS.md
+     CONTRIBUTING.md
      ```
    - `broad` → the full markdown contract surface (matches the broader `/ft-audit` skill's scope):
      ```text
@@ -34,13 +36,14 @@ This SKILL.md is a fork of the stack-neutral scaffold at `claude/skills/ft-audit
      docs/**/*.md
      templates/**/*.md
      README.md
+     CONTRIBUTING.md
      ```
    - a path or glob → just that
    - `last-commit` → markdown files touched in `HEAD`
    - `staged` → markdown files in `git diff --cached`
    - Excluded by design: `_project/tasknote/archive/` (write-once historical records), `legacy/`, `viz/` (own audit story).
 2. **Load the project rubric** — these are the doc contracts to audit against:
-   - `_project/tasknote/README.md` §"AI-referenced docs" — canonical doc-set contract; the four files flowtron promises to keep in sync.
+   - `_project/tasknote/README.md` §"AI-referenced docs" — canonical doc-set contract; the six files flowtron promises to keep in sync.
    - `SPEC.md` — workflow contract; primary AI cold-start surface.
    - `docs/MIGRATION.md` — adopter-facing contract; the example version pin near §1.1 is the doc-side mirror of the current `SPEC.md:3` version.
    - `README.md` — public-facing first impression.
