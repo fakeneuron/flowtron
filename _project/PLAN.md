@@ -27,17 +27,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Future Opportunities
 
-- [ ] **CORE-EPIC-099** [opus] | external-conventions-survey — Investigate missing/expected workflow conventions flowtron should adopt or be compatible with (commit conventions, semver discipline, markdown patterns, Obsidian/Foam interop, etc.). Discovery deliverable: gap analysis + adoption candidates.
-  - [x] **CORE-099.1** [opus] | discovery — Completed 2026-05-18.
-  - [x] **CORE-099.2** [opus] | LICENSE — Completed 2026-05-18.
-  - [x] **CORE-099.3** [opus] | docs/CONVENTIONS.md — Completed 2026-05-18.
-  - [x] **CORE-099.4** [opus] | .editorconfig — Completed 2026-05-18.
-  - [x] **CORE-099.5** [opus] | README markdown-vaults — Completed 2026-05-18.
-  - [x] **CORE-099.6** [opus] | CONTRIBUTING.md — Completed 2026-05-18.
-  - [x] **CORE-099.7** [opus] | audit — Completed 2026-05-18.
-  - [ ] **CORE-099.8** [sonnet] | README-license-ref — Add a top-level README license reference (footer one-liner or §"License" section pointing to LICENSE / MIT) so visitors discover the license in 1 hop, not 2. Surfaced by [[CORE-099.7]] audit.
+(none)
+
 ## Completed
 
+- [x] **CORE-EPIC-099** [opus] | external-conventions-survey — Completed 2026-05-18. Children CORE-099.1–.8 archived; closure consumed the subtask list per epic-close convention.
 - [x] **CORE-109** [opus] | spec-terse-pass — Completed 2026-05-18.
 - [x] **CORE-EPIC-097** [opus] | external-skill-survey — Completed 2026-05-18. Children CORE-097.1–.8 archived; closure consumed the subtask list per epic-close convention.
 - [x] **CORE-100** [opus] | flowtron-nat-011 investigation — Completed 2026-05-18.

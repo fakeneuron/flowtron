@@ -113,3 +113,7 @@ tags for releases.
 Adopting projects pin a specific flowtron commit via git submodule and bump
 deliberately. Each release tag's annotated message lists migration steps for
 major bumps (no separate `CHANGELOG.md`).
+
+## License
+
+Flowtron is [MIT-licensed](LICENSE).
