@@ -553,7 +553,7 @@ describe('App — palette modes', () => {
     window.localStorage.clear();
   });
 
-  it('renders three Palette radios in the settings modal', async () => {
+  it('renders two Palette radios in the settings modal', async () => {
     const user = userEvent.setup();
     renderApp({ plan, active });
 
@@ -564,10 +564,8 @@ describe('App — palette modes', () => {
     const paletteGroup = screen.getByRole('group', { name: 'Palette' });
     const def = within(paletteGroup).getByRole('radio', { name: 'Default' });
     const linear = within(paletteGroup).getByRole('radio', { name: 'Linear' });
-    const github = within(paletteGroup).getByRole('radio', { name: 'GitHub' });
     expect(def).toBeChecked();
     expect(linear).not.toBeChecked();
-    expect(github).not.toBeChecked();
   });
 
   it('selecting Linear checks the Linear radio', async () => {
@@ -617,7 +615,7 @@ describe('App — palette modes', () => {
         detailSections: { goal: true, acceptance: true, subtasks: true },
         starterSections: { whyExists: true, solutionShape: true, filesToTouch: true, outOfScope: true },
         density: 'default',
-        palette: 'github',
+        palette: 'linear',
       }),
     );
     renderApp({ plan, active, projects: ['flowtron', 'fintown'] });
@@ -634,7 +632,7 @@ describe('App — palette modes', () => {
     );
 
     await user.click(screen.getByRole('button', { name: 'Open settings' }));
-    await waitFor(() => expect(screen.getByRole('radio', { name: 'GitHub' })).toBeChecked());
+    await waitFor(() => expect(screen.getByRole('radio', { name: 'Linear' })).toBeChecked());
   });
 });
 

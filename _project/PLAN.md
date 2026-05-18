@@ -38,12 +38,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **FE-033.5** [sonnet] | picker UI — Completed 2026-05-17.
   - [ ] **FE-033.6** [opus] | audit — Verify the completed theme-system epic: FE-019 a11y baseline preserved across all 3 palettes × 2 themes; bundle-size budget intact (FE-026); palette × density × visibility interactions coherent; doc-drift sweep per `SPEC/epic.md`.
 - [ ] **FE-034** [sonnet] | empty priority panels — Hide PrioritySection cards with zero tasks (post-filter, respecting visibility prefs); render a subtle muted footer at page bottom ("No tasks in: Critical · Low") listing empty sections, comma-joined; collapse to "No tasks in this project" when all are empty. Priority view only.
-- [ ] **FE-035** [opus] | palette picker shows unimplemented options — Settings picker lists 3 palettes today but `github` aliases `default` until FE-033.4 ships, so the picker reads as confusing (3 options, 2 distinct visuals). Decide: hide unimplemented palettes from the picker until their curation lands, or accelerate FE-033.4 + file a 4th palette so the option set is meaningful. Discovery scopes the call.
 - [ ] **FE-036** [sonnet] | tone down ✅ completed status-chip glyph — `STATUS_CHIP_LABEL.completed = '✅'` reads as too prominent / decorative in row chips. Pick a subtler glyph or icon for completed. Bundle a quick coherence pass across the 5 chip glyphs (🌱 / ⚪ / 🟢 / ⏸ / ✅) to make sure visual hierarchy matches semantic weight.
 - [ ] **FE-037** [sonnet] | asymmetric model-chip rendering — Model chip renders both `[opus]` and `[sonnet]` as text pills today. Switch to asymmetric: Opus tasks get a subtle brain icon (🧠 or equivalent) marking "deep-thinking"; Sonnet tasks render nothing. Reduces visual noise — most tasks are sonnet by default; only the Opus-tier ones need a marker.
 
 ## Completed
 
+- [x] **FE-035** [opus] | palette picker shows unimplemented options — Completed 2026-05-17.
 - [x] **CORE-105** [opus] | release v3.0.0 — Completed 2026-05-17.
 - [x] **CORE-108** [sonnet] | version-pin Pinned-to slot — Completed 2026-05-17.
 - [x] **CORE-107** [sonnet] | ft-flowtron template-list trim — Completed 2026-05-17.
