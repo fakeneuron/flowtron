@@ -154,10 +154,51 @@ const LINEAR_PALETTE: PaletteTokens = {
   EPIC_ROW_NEUTRAL: 'border-slate-300 dark:border-slate-700',
 };
 
+const GITHUB_PALETTE: PaletteTokens = {
+  STATUS_BADGE: {
+    starter: 'bg-lime-100 text-lime-800 dark:bg-lime-950 dark:text-lime-200',
+    'not-started': 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300',
+    'in-progress': 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-200',
+    blocked: 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-200',
+    completed: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200',
+  },
+  SECTION_TINT: {
+    Critical: 'bg-fuchsia-50 border-fuchsia-200 dark:bg-fuchsia-950/30 dark:border-fuchsia-900',
+    High: 'bg-purple-50 border-purple-200 dark:bg-purple-950/30 dark:border-purple-900',
+    Medium: 'bg-violet-50 border-violet-200 dark:bg-violet-950/30 dark:border-violet-900',
+    Low: 'bg-blue-50 border-blue-200 dark:bg-blue-950/30 dark:border-blue-900',
+    'Future Opportunities':
+      'bg-cyan-50 border-cyan-200 dark:bg-cyan-950/30 dark:border-cyan-900',
+    Completed: 'bg-emerald-50 border-emerald-200 dark:bg-emerald-950/30 dark:border-emerald-900',
+  },
+  PRIORITY_BADGE: {
+    Critical: 'bg-fuchsia-100 text-fuchsia-800 dark:bg-fuchsia-950 dark:text-fuchsia-200',
+    High: 'bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-200',
+    Medium: 'bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-200',
+    Low: 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-200',
+    'Future Opportunities':
+      'bg-cyan-100 text-cyan-800 dark:bg-cyan-950 dark:text-cyan-200',
+    Completed: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200',
+  },
+  PHASE_DOT: {
+    filled: 'bg-emerald-500',
+    active: 'bg-blue-400 ring-1 ring-blue-200 dark:ring-blue-700',
+    inactive: 'bg-slate-200 dark:bg-slate-700',
+  },
+  ROW_HIGHLIGHT:
+    'border-yellow-400 ring-2 ring-yellow-300 dark:border-yellow-500 dark:ring-yellow-600',
+  ROW_HIGHLIGHT_SUBTASK:
+    'bg-yellow-100 ring-1 ring-yellow-300 dark:bg-yellow-900/30 dark:ring-yellow-700',
+  ROW_SELECTION: 'border-slate-200 ring-2 ring-pink-400 dark:border-slate-800 dark:ring-pink-600',
+  ROW_SELECTION_SUBTASK: 'ring-1 ring-pink-400 dark:ring-pink-600',
+  ROW_NEUTRAL: 'border-slate-200 dark:border-slate-800',
+  EPIC_ROW_NEUTRAL: 'border-slate-300 dark:border-slate-700',
+};
+
 export const PALETTES: Record<PaletteName, PaletteTokens> = {
   default: DEFAULT_PALETTE,
   linear: LINEAR_PALETTE,
-  github: DEFAULT_PALETTE,
+  github: GITHUB_PALETTE,
 };
 
 /**

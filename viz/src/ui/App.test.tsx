@@ -500,7 +500,7 @@ describe('App — density modes', () => {
     renderApp({ plan, active });
 
     await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
-    expect(rowPadClasses()).toContain('px-2 py-1');
+    await waitFor(() => expect(rowPadClasses()).toContain('px-2 py-1'));
 
     await user.click(screen.getByRole('button', { name: 'Open settings' }));
     await user.click(screen.getByRole('button', { name: 'Reset to defaults' }));
@@ -553,7 +553,7 @@ describe('App — palette modes', () => {
     window.localStorage.clear();
   });
 
-  it('renders two Palette radios in the settings modal', async () => {
+  it('renders three Palette radios in the settings modal', async () => {
     const user = userEvent.setup();
     renderApp({ plan, active });
 
@@ -564,8 +564,10 @@ describe('App — palette modes', () => {
     const paletteGroup = screen.getByRole('group', { name: 'Palette' });
     const def = within(paletteGroup).getByRole('radio', { name: 'Default' });
     const linear = within(paletteGroup).getByRole('radio', { name: 'Linear' });
+    const github = within(paletteGroup).getByRole('radio', { name: 'GitHub' });
     expect(def).toBeChecked();
     expect(linear).not.toBeChecked();
+    expect(github).not.toBeChecked();
   });
 
   it('selecting Linear checks the Linear radio', async () => {

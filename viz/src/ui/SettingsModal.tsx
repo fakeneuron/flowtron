@@ -54,8 +54,7 @@ const STARTER_SECTION_KEYS: StarterSectionKey[] = [
   'outOfScope',
 ];
 const DENSITY_KEYS: DensityMode[] = ['comfortable', 'default', 'compact'];
-// 'github' omitted until FE-033.4 ships curated GitHub palette tokens; add back when it lands.
-const PALETTE_KEYS: PaletteName[] = ['default', 'linear'];
+const PALETTE_KEYS: PaletteName[] = ['default', 'linear', 'github'];
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose, prefs, onChange }) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
