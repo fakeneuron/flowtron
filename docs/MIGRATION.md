@@ -47,6 +47,13 @@ ln -s ~/code/flowtron/claude/skills/ft-stats          ~/.claude/skills/ft-stats
 ln -s ~/code/flowtron/claude/commands/ft-stats.md      ~/.claude/commands/ft-stats.md
 ```
 
+_Adopter-facing — `/ft-quality` (lint + typecheck + test sweep with heuristic stack detection for Node / Python / Go / Rust; fail-fast on first failure; runs outside the tasknote flow):_
+
+```sh
+ln -s ~/code/flowtron/claude/skills/ft-quality        ~/.claude/skills/ft-quality
+ln -s ~/code/flowtron/claude/commands/ft-quality.md    ~/.claude/commands/ft-quality.md
+```
+
 _Flowtron-self developers only — `/ft-release` (bails outside flowtron's checkout; never useful in adopter projects):_
 
 ```sh
