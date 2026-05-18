@@ -18,6 +18,8 @@ maintain.
 - [docs/CONVENTIONS.md](docs/CONVENTIONS.md) — conventions flowtron adheres to
   (Conventional Commits, SemVer, GFM, Diátaxis) and declines (CHANGELOG, ADR
   registry, release automation, pre-commit hooks) with rationale
+- [CONTRIBUTING.md](CONTRIBUTING.md) — solo-maintenance model, how to file
+  issues, when PRs make sense
 
 ## Bootstrapping a new project
 
