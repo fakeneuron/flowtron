@@ -31,7 +31,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-099.1** [opus] | discovery — Completed 2026-05-18.
   - [x] **CORE-099.2** [opus] | LICENSE — Completed 2026-05-18.
   - [x] **CORE-099.3** [opus] | docs/CONVENTIONS.md — Completed 2026-05-18.
-  - [ ] **CORE-099.4** [opus] | .editorconfig — Add .editorconfig for md/ts/jsx/json/yaml (LF endings, UTF-8, no trailing whitespace, final newline). Defends against editor-introduced drift across solo + adopter use.
+  - [x] **CORE-099.4** [opus] | .editorconfig — Completed 2026-05-18.
   - [ ] **CORE-099.5** [opus] | README markdown-vaults — Rename + expand README "Working in Obsidian" section to "Working in markdown vaults"; name Foam + Logseq parity with caveats (Logseq frontmatter via block-properties).
   - [ ] **CORE-099.6** [opus] | CONTRIBUTING.md — Light contributor guide: solo-maintained framing, pointer to SPEC.md for conventions, issues OK, PRs rare. Table-stakes for an adoptable-via-submodule repo.
   - [ ] **CORE-099.7** [opus] | audit — Epic audit subtask per SPEC/epic.md (fixed doc-drift sweep acceptance); verify CORE-099.2–.6 cohort sits well in the codebase; file follow-ups for misses.
