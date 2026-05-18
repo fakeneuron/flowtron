@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **FE-038** [sonnet] | muted-footer contrast — Fix `viz/src/ui/App.tsx:479` empty-state footer (`text-slate-400 dark:text-slate-600` → `text-slate-500 dark:text-slate-400`) to clear FE-019's ≥4.5:1 bar in light theme (current 2.45:1). Surfaced by FE-033.6 audit; FE-034 regression.
 
 ## Low
 
@@ -32,13 +32,9 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-EPIC-099** [opus] | external-conventions-survey — Investigate missing/expected workflow conventions flowtron should adopt or be compatible with (commit conventions, semver discipline, markdown patterns, Obsidian/Foam interop, etc.). Discovery deliverable: gap analysis + adoption candidates.
   - [ ] **CORE-099.1** [opus] | discovery — Survey external workflow / convention surfaces + identify gaps + recommend adoptions per SPEC/epic.md.
 - [ ] **CORE-100** [opus] | flowtron-nat-011 investigation — Investigate what `flowtron-nat-011` is, what it depends on, and whether it has any true function. Confirm safe-to-delete from disk, then delete the project directory + remove from the viz workspace projects list.
-- [ ] **FE-EPIC-033** [opus] | theme-system — Review viz's overall color schema and add a selectable themes picker (light/dark already exist; goal is multiple curated palettes). Discovery deliverable: palette inventory + reference themes + storage + picker UI sketch.
-  - [x] **FE-033.3** [opus] | linear palette — Completed 2026-05-17.
-  - [x] **FE-033.4** [opus] | github palette — Completed 2026-05-18.
-  - [x] **FE-033.5** [sonnet] | picker UI — Completed 2026-05-17.
-  - [ ] **FE-033.6** [opus] | audit — Verify the completed theme-system epic: FE-019 a11y baseline preserved across all 3 palettes × 2 themes; bundle-size budget intact (FE-026); palette × density × visibility interactions coherent; doc-drift sweep per `SPEC/epic.md`.
 ## Completed
 
+- [x] **FE-EPIC-033** [opus] | theme-system — Completed 2026-05-18. Children FE-033.1–.6 archived; closure consumed the subtask list per epic-close convention.
 - [x] **FE-034** [sonnet] | empty priority panels — Completed 2026-05-17.
 - [x] **FE-037** [sonnet] | asymmetric model-chip rendering — Completed 2026-05-17.
 - [x] **FE-036** [opus] | tone down ✅ completed status-chip glyph — Completed 2026-05-17.
@@ -51,8 +47,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [x] **CORE-103** [opus] | /ft-flowtron adopter-wiring gap — Completed 2026-05-17. (folded into CORE-104)
 - [x] **CORE-102** [opus] | release v2.2.0 — Completed 2026-05-17.
 - [x] **CORE-101** [opus] | audit-family bundle — Completed 2026-05-17.
-- [x] **FE-033.2** [opus] | palette architecture — Completed 2026-05-17.
-- [x] **FE-033.1** [opus] | discovery — Completed 2026-05-17.
 - [x] **FE-032** [opus] | projectselector-restyle — Completed 2026-05-16.
 - [x] **CORE-EPIC-098** [opus] | viz-embellishment — Completed 2026-05-16. Children CORE-098.1–.15 archived; closure consumed the subtask list per epic-close convention.
 - [x] **CORE-095** [sonnet] | wikilink-form self-sweep — Completed 2026-05-15.

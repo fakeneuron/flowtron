@@ -42,6 +42,6 @@ default cold-start sweep.
 
 ## Project quick commands
 
-- Viz tests: `cd viz && npm test`
-- Viz lint: `cd viz && npm run lint`
-- Viz dev server: `cd viz && npm run dev`
+- Viz tests: `npm test --prefix viz`
+- Viz typecheck: `npm run typecheck --prefix viz`
+- Viz dev server: `npm run dev --prefix viz`
