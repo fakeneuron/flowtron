@@ -28,7 +28,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Future Opportunities
 
 - [ ] **CORE-EPIC-097** [opus] | external-skill-survey — Survey skills bundled by comparable claude-code / AI-coding workflow repos (GitHub-style CLI workflows, caveman-claude's token-minimization pattern popularized on social media, etc.). Discovery deliverable: shortlist of skills worth adopting into flowtron + adoption rationale per candidate.
-  - [ ] **CORE-097.1** [opus] | discovery — Scope which comparable repos to survey + adoption criteria + per-candidate findings per SPEC/epic.md.
+  - [x] **CORE-097.1** [opus] | discovery — Completed 2026-05-18.
+  - [ ] **CORE-097.2** [opus] | ft-stats — Add /ft-stats skill aggregating [model] distribution, completion velocity, and per-area volume from PLAN.md `## Completed` data. Inspired by claude-leverage's /leverage-stats but leverages flowtron's unique structured model-tag dataset.
+  - [ ] **CORE-097.3** [opus] | spec-paths-autoload — Add `paths:` frontmatter to SPEC/*.md lazy modules so they auto-load on matching tasknote edits (e.g., SPEC/epic.md on `*-EPIC-*.md` / `*.N.md`). Pattern from claude-workflow-template's WISC tier-2.
+  - [ ] **CORE-097.4** [opus] | spec-token-refresh — Re-run a SPEC.md token audit targeting caveman's 46% memory-compression benchmark on the always-loaded core. Post-CORE-049 sweep; trim candidates filed individually or bundled per CORE-049 precedent.
+  - [ ] **CORE-097.5** [opus] | ft-quality — Add /ft-quality skill that sequences lint + typecheck + test on changed code outside the tasknote flow. Project-agnostic with stack-graceful detection. Source: claude-skills-starter's /quality.
+  - [ ] **CORE-097.6** [opus] | epic-discovery-deep — Add optional `--deep` mode to /ft-epic-discovery for high-uncertainty epics, staging constitution → specify → clarify before child filing. Source: spec-kit (97k★).
+  - [ ] **CORE-097.7** [opus] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Verifies adopted external patterns sit well together across SPEC, skills, and templates after children close.
 - [ ] **CORE-EPIC-099** [opus] | external-conventions-survey — Investigate missing/expected workflow conventions flowtron should adopt or be compatible with (commit conventions, semver discipline, markdown patterns, Obsidian/Foam interop, etc.). Discovery deliverable: gap analysis + adoption candidates.
   - [ ] **CORE-099.1** [opus] | discovery — Survey external workflow / convention surfaces + identify gaps + recommend adoptions per SPEC/epic.md.
 ## Completed
