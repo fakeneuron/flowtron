@@ -55,22 +55,22 @@ Adopter projects' own `_project/flowtron/viz/` continues to work (read-only
 submodule, unchanged) but is no longer the recommended path — prefer the
 single global instance above.
 
-## Working in Obsidian
+## Working in markdown vaults
 
 Flowtron is editor-agnostic — markdown files in git remain the source of
-truth — but two of its choices happen to fit Obsidian natively:
+truth — but two of its choices happen to fit markdown-vault tools
+(Obsidian, Foam, Logseq) natively:
 
-- The `[[TASK-ID]]` cross-references in tasknote bodies are Obsidian's
-  native wikilink syntax (clickable links + surfaced in the graph view).
+- The `[[TASK-ID]]` cross-references in tasknote bodies are standard
+  wikilink syntax (clickable links + surfaced in graph views).
 - The YAML frontmatter on every tasknote (`status`, `tags`, `due`,
-  `related-tasks`) is exactly what the
-  [Dataview](https://blacksmithgu.github.io/obsidian-dataview/) plugin
-  queries.
+  `related-tasks`) is the shape vault-tool query plugins consume.
 
-If you already work in Obsidian, open the project root (or just
-`_project/`) as a vault and tasknotes become a queryable, graph-viewable
-knowledge base with no extra wiring. A minimal Dataview snippet to list
-open tasks:
+**Obsidian.** Open the project root (or just `_project/`) as a vault and
+tasknotes become a queryable, graph-viewable knowledge base with no extra
+wiring. A minimal
+[Dataview](https://blacksmithgu.github.io/obsidian-dataview/) snippet
+(Obsidian-only) to list open tasks:
 
 ````
 ```dataview
@@ -81,7 +81,16 @@ SORT due
 ```
 ````
 
-Obsidian is opt-in companion tooling. None of the above is required.
+**Foam.** Wikilinks (including `[[note#Section]]` and `[[note|alias]]`)
+and the graph view work out of the box in VS Code. No built-in query
+plugin equivalent to Dataview.
+
+**Logseq.** Wikilinks resolve natively. Frontmatter caveat: Logseq's
+preferred form is block-properties (`key:: value`), not YAML — flat
+markdown-with-YAML vaults still load, but querying tasknote metadata
+uses Logseq's `:query` syntax rather than Dataview.
+
+These tools are opt-in companion surfaces. None of the above is required.
 
 ## Repo layout
 
