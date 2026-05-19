@@ -13,8 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 (none)
 
-## High
-
 (none)
 
 ## Medium
@@ -29,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-114** [opus] | viz dev-server security pass — Completed 2026-05-18.
 - [x] **CORE-113** [opus] | release v3.1.0 — Completed 2026-05-18.
 - [x] **CORE-112** [sonnet] | ft-audit-docs scope refresh — Completed 2026-05-18.
 - [x] **CORE-111** [sonnet] | ft-flowtron self-listing — Completed 2026-05-18.

@@ -20,6 +20,9 @@ maintain.
   registry, release automation, pre-commit hooks) with rationale
 - [CONTRIBUTING.md](CONTRIBUTING.md) — solo-maintenance model, how to file
   issues, when PRs make sense
+- [SECURITY.md](SECURITY.md) — threat model (prompt injection via
+  user-authored markdown, submodule supply-chain trust, viz dev-server
+  scope) and how to report a vulnerability
 
 ## Bootstrapping a new project
 

@@ -21,6 +21,48 @@ async function safeReaddir(dir: string): Promise<Dirent[]> {
 const SSE_DEBOUNCE_MS = 200;
 const SSE_HEARTBEAT_MS = 30_000;
 
+const DEV_PORT = 5120;
+const ALLOWED_ORIGINS = new Set([
+  `http://localhost:${DEV_PORT}`,
+  `http://127.0.0.1:${DEV_PORT}`,
+]);
+const ALLOWED_HOSTNAMES = new Set(['localhost', '127.0.0.1']);
+
+// Reject cross-origin browser requests to the viz dev API. Tasknote and
+// PLAN.md content is readable here; without this guard any website visited
+// during `npm run dev` could fetch /api/* and exfiltrate it (compounded
+// historically by esbuild GHSA-67mh-4wv8-2f99 / Vite GHSA-4w7w-66w2-5vf9).
+// Returns true if the request should proceed; otherwise writes a 403 and
+// returns false. Origin-less requests (terminal `curl`, EventSource
+// fallbacks) are allowed — `server.allowedHosts` handles DNS-rebinding.
+function originGuard(req: IncomingMessage, res: ServerResponse): boolean {
+  const origin = req.headers.origin;
+  if (typeof origin === 'string' && origin.length > 0) {
+    if (!ALLOWED_ORIGINS.has(origin)) {
+      res.statusCode = 403;
+      res.end('Forbidden: cross-origin request');
+      return false;
+    }
+    return true;
+  }
+  const referer = req.headers.referer;
+  if (typeof referer === 'string' && referer.length > 0) {
+    try {
+      const refHost = new URL(referer).hostname;
+      if (!ALLOWED_HOSTNAMES.has(refHost)) {
+        res.statusCode = 403;
+        res.end('Forbidden: cross-origin referer');
+        return false;
+      }
+    } catch {
+      res.statusCode = 403;
+      res.end('Forbidden: malformed referer');
+      return false;
+    }
+  }
+  return true;
+}
+
 function projectFromQuery(
   req: IncomingMessage,
   projects: Map<string, ProjectDescriptor>,
@@ -90,6 +132,7 @@ function flowtronApi(): Plugin {
         });
 
         server.middlewares.use('/api/events', (req, res) => {
+          if (!originGuard(req, res)) return;
           res.setHeader('Content-Type', 'text/event-stream');
           res.setHeader('Cache-Control', 'no-cache, no-transform');
           res.setHeader('Connection', 'keep-alive');
@@ -102,13 +145,15 @@ function flowtronApi(): Plugin {
         });
       }
 
-      server.middlewares.use('/api/projects', (_req, res) => {
+      server.middlewares.use('/api/projects', (req, res) => {
+        if (!originGuard(req, res)) return;
         const list = Array.from(projects.values()).map((p) => ({ name: p.name }));
         res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify(list));
       });
 
       server.middlewares.use('/api/plan', async (req, res) => {
+        if (!originGuard(req, res)) return;
         const project = projectFromQuery(req, projects);
         if ('error' in project) {
           res.statusCode = 400;
@@ -126,6 +171,7 @@ function flowtronApi(): Plugin {
       });
 
       server.middlewares.use('/api/active', async (req, res) => {
+        if (!originGuard(req, res)) return;
         const project = projectFromQuery(req, projects);
         if ('error' in project) {
           res.statusCode = 400;
@@ -152,6 +198,7 @@ function flowtronApi(): Plugin {
       });
 
       server.middlewares.use('/api/archive', async (req, res) => {
+        if (!originGuard(req, res)) return;
         const project = projectFromQuery(req, projects);
         if ('error' in project) {
           res.statusCode = 400;
@@ -181,8 +228,13 @@ export default defineConfig({
   // if a second instance is launched, it errors out instead of silently
   // scanning the same workspace on a different port.
   server: {
-    port: 5120,
+    port: DEV_PORT,
     strictPort: true,
+    // Restrict Host header to loopback names. Combined with `originGuard()`
+    // on each /api/* middleware, this defeats DNS-rebinding against the dev
+    // server (a remote site resolving its domain to 127.0.0.1 to bypass
+    // SOP). Mirrors Vite's own post-CVE-2025 default posture.
+    allowedHosts: ['localhost', '127.0.0.1'],
   },
   test: {
     environment: 'jsdom',
