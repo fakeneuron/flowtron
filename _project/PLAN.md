@@ -13,13 +13,24 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 (none)
 
-(none)
+## High
+
+- [ ] **CORE-119** [sonnet] | node-engines-bump-20 — `viz/package.json` engines pins Node `>=18`; Node 18 reached EOL on 2025-04-30 and has been unsupported for over a year as of today (2026-05-18). Bump `engines.node` to `>=20` (current LTS), verify `npm install` + tests + build still pass on Node 20.x, update any Node-version mention in `README.md` / `docs/MIGRATION.md`.
 
 ## Medium
 
+- [ ] **FE-039** [opus] | board-critical-positioning — Board view in `viz/src/ui/App.tsx:42-43` hard-codes `BOARD_SECTIONS = ['High','Medium','Low']` and `BELOW_BOARD_SECTIONS = ['Critical', ...]`, so Critical-priority tasks render as a stacked section *below* the High/Medium/Low kanban columns. **Direction:** when Critical has tasks, render it as the **leftmost board column** (before High); when Critical is empty, keep it out of the board entirely (don't render an empty column). Empty-when-empty matches the existing `BoardView` `visibleSections` filter at `BoardView.tsx:38`.
+- [ ] **CORE-115** [opus] | ci-baseline-add — No `.github/workflows/`, no project ESLint config, no `lint` npm script under `viz/`. For an open-source repo taking adoption by submodule, a minimal GitHub Actions workflow that runs `npm test && npm run typecheck && npm run build` on push and PR catches regressions before adopters bump. Pairs well with adding ESLint (`@typescript-eslint/recommended`) to surface unused vars / missing await / no-floating-promises that typecheck misses.
+- [ ] **CORE-118** [opus] | dev-server-middleware-tests — The 5 `/api/*` middlewares + `originGuard()` helper added in [[CORE-114]] live in `viz/vite.config.ts` and have no unit tests; they are verified only by an ad-hoc live smoke test. Extract `originGuard()` (and ideally the route handlers) into a testable module under `viz/src/`, then add unit tests covering: allowed `Origin`, blocked cross-origin `Origin`, blocked cross-origin `Referer`, missing-both pass-through, malformed `Referer`. Closes the regression-risk gap on the new security boundary.
 
 ## Low
 
+- [ ] **FE-040** [sonnet] | task-row-expand-affordance — Clicking a list-view task row toggles inline expansion of its description, but no visual chrome on the header changes to confirm the action (no chevron rotation, no left-border accent, no background shift on the header line). A scrolled reader can lose track of which row is currently expanded. Add a chevron-down state next to the task ID when `expandedId === task.id`, or a 2px left rule on the expanded body.
+- [ ] **FE-041** [sonnet] | phase-dot-size-and-contrast — `viz/src/ui/PhaseDots.tsx` renders 4 phase dots at `h-2 w-2` (8px); reading active-phase state requires hover (the title attribute carries "Active phase: N of 4"). Bump to `h-2.5 w-2.5`, verify the inactive-dot palette token clears the FE-019 ≥3:1 non-text contrast bar in both light and dark, and consider a tiny "N/4" tail for non-hover surfaces.
+- [ ] **FE-042** [sonnet] | search-match-highlight — When the search input filters tasks, the matched substring isn't highlighted inside the rendered `task.id` / `task.description`. Wrapping matches in a `<mark>` (or a Tailwind-styled `<span>`) lets users scan large result sets faster — especially for ID-prefix searches where 4+ rows look identical apart from the matched chars.
+- [ ] **FE-043** [sonnet] | status-legend-icon-consistency — The shortcuts modal's status legend (`viz/src/ui/ShortcutsModal.tsx` via `STATUS_CHIP_LABEL` in `constants.ts`) mixes color emoji (🌱 starter, 🟢 in-progress) with mono unicode glyphs (⚪ not-started, ⏸ blocked, ✓ completed). The OS-dependent rendering produces visual asymmetry. Normalize to one style — either all colored dots from `PALETTE.STATUS_BADGE`, or all mono glyphs.
+- [ ] **CORE-116** [opus] | App-tsx-data-loading-hook — `viz/src/ui/App.tsx` is 498 LOC with 17 `useState` calls. Earlier passes [[FE-007]] and [[FE-024]] decomposed the render tree; the remaining concentration is data-loading. Extract the `load` callback (L72-97), the project-init effect (L99-123), and the SSE wiring (L150-154) into a `useProjectData(activeProject)` hook returning `{tasks, tasknotesById, loading, error, refresh}`. Matches the existing `useKeyboardNav` / `useToggleSet` pattern and makes data flow unit-testable in isolation.
+- [ ] **CORE-117** [sonnet] | legacy-dir-rm — `legacy/` (~204KB) sits in the working tree as orphaned local cruft (build artifacts + old `_project*` dirs). README already states pre-v0.1.0 source is preserved in git tag `legacy-pre-v0.1.0` (extracted by [[CORE-033]] on 2026-05-06). After confirming the tag exists locally and pushed, `rm -rf legacy/` clears the redundancy. Pure local-disk cleanup; nothing in git changes.
 
 ## Future Opportunities
 
