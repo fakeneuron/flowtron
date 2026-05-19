@@ -11,6 +11,8 @@ import { ModelChip } from './ModelChip';
 import { CriticalChip } from './CriticalChip';
 import { RelatedChip } from './RelatedChip';
 import { Chevron } from './Chevron';
+import { highlightMatch } from './highlight';
+import { useSearchQuery } from './SearchContext';
 
 export interface TaskRowInnerProps {
   task: Task;
@@ -31,6 +33,7 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
   onToggleDetail,
   extraRightSlot,
 }) => {
+  const query = useSearchQuery();
   const tn = tasknotesById.get(task.id);
   const status = effectiveStatus(task, tn);
   const tags = tn?.frontmatter?.tags ?? [];
@@ -53,11 +56,11 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
         <Chevron expanded={isExpandedDetail} />
         {rowChips.id && (
           <span className="shrink-0 font-mono text-sm font-medium tabular-nums">
-            {task.id}
+            {highlightMatch(task.id, query)}
           </span>
         )}
         <span className="min-w-0 flex-1 truncate text-sm text-slate-700 dark:text-slate-300">
-          {task.shortname ?? tn?.frontmatter?.title ?? task.description}
+          {highlightMatch(task.shortname ?? tn?.frontmatter?.title ?? task.description, query)}
         </span>
       </button>
       <div className="grid shrink-0 grid-cols-[auto_auto_auto] items-center gap-x-4">

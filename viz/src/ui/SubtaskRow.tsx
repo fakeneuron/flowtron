@@ -4,6 +4,8 @@ import type { Tasknote } from '../tasknote';
 import type { VisibilityPrefs } from '../visibilityPrefs';
 import { DENSITY_TOKENS } from './constants';
 import { usePalette } from './VisibilityContext';
+import { highlightMatch } from './highlight';
+import { useSearchQuery } from './SearchContext';
 
 const TaskDetail = lazy(() => import('./TaskDetail'));
 
@@ -28,6 +30,7 @@ export const SubtaskRow: React.FC<SubtaskRowProps> = ({
   isSelected,
   navigateToTask,
 }) => {
+  const query = useSearchQuery();
   const density = visibility.density;
   const palette = usePalette();
   const isExpandedDetail = expandedId === task.id;
@@ -60,10 +63,10 @@ export const SubtaskRow: React.FC<SubtaskRowProps> = ({
           className="flex min-w-0 flex-1 items-center gap-2 rounded text-left focus:outline-none focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
         >
           <span className="font-mono text-sm font-medium text-slate-700 dark:text-slate-300">
-            {task.id}
+            {highlightMatch(task.id, query)}
           </span>
           <span className="min-w-0 flex-1 truncate text-sm text-slate-600 dark:text-slate-400">
-            {task.description}
+            {highlightMatch(task.description, query)}
           </span>
         </button>
         {task.completed && task.completedDate && (

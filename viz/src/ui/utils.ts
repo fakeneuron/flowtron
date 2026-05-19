@@ -44,3 +44,29 @@ export function epicRowOutlineClass(
   if (isSelected) return palette.ROW_SELECTION;
   return palette.EPIC_ROW_NEUTRAL;
 }
+
+export function splitHighlight(
+  text: string,
+  query: string,
+): Array<{ text: string; matched: boolean }> {
+  const q = query.trim();
+  if (!q) return [{ text, matched: false }];
+
+  const lq = q.toLowerCase();
+  const lt = text.toLowerCase();
+  const segments: Array<{ text: string; matched: boolean }> = [];
+  let cursor = 0;
+
+  while (cursor < text.length) {
+    const i = lt.indexOf(lq, cursor);
+    if (i === -1) {
+      segments.push({ text: text.slice(cursor), matched: false });
+      break;
+    }
+    if (i > cursor) segments.push({ text: text.slice(cursor, i), matched: false });
+    segments.push({ text: text.slice(i, i + lq.length), matched: true });
+    cursor = i + lq.length;
+  }
+
+  return segments;
+}

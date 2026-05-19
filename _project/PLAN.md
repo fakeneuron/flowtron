@@ -22,7 +22,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **FE-042** [sonnet] | search-match-highlight — When the search input filters tasks, the matched substring isn't highlighted inside the rendered `task.id` / `task.description`. Wrapping matches in a `<mark>` (or a Tailwind-styled `<span>`) lets users scan large result sets faster — especially for ID-prefix searches where 4+ rows look identical apart from the matched chars.
 - [ ] **FE-043** [sonnet] | status-legend-icon-consistency — The shortcuts modal's status legend (`viz/src/ui/ShortcutsModal.tsx` via `STATUS_CHIP_LABEL` in `constants.ts`) mixes color emoji (🌱 starter, 🟢 in-progress) with mono unicode glyphs (⚪ not-started, ⏸ blocked, ✓ completed). The OS-dependent rendering produces visual asymmetry. Normalize to one style — either all colored dots from `PALETTE.STATUS_BADGE`, or all mono glyphs.
 ## Future Opportunities
 
@@ -30,6 +29,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-042** [sonnet] | search-match-highlight — Completed 2026-05-19.
 - [x] **FE-041** [sonnet] | phase-dot-size-and-contrast — Completed 2026-05-19.
 - [x] **FE-040** [sonnet] | task-row-expand-affordance — Completed 2026-05-19.
 - [x] **CORE-117** [sonnet] | legacy-dir-rm — Completed 2026-05-19.
