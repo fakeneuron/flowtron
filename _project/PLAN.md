@@ -15,7 +15,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-119** [sonnet] | node-engines-bump-20 — `viz/package.json` engines pins Node `>=18`; Node 18 reached EOL on 2025-04-30 and has been unsupported for over a year as of today (2026-05-18). Bump `engines.node` to `>=20` (current LTS), verify `npm install` + tests + build still pass on Node 20.x, update any Node-version mention in `README.md` / `docs/MIGRATION.md`.
 
 ## Medium
 
@@ -38,6 +37,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-119** [sonnet] | node-engines-bump-20 — Completed 2026-05-18.
 - [x] **CORE-114** [opus] | viz dev-server security pass — Completed 2026-05-18.
 - [x] **CORE-113** [opus] | release v3.1.0 — Completed 2026-05-18.
 - [x] **CORE-112** [sonnet] | ft-audit-docs scope refresh — Completed 2026-05-18.
