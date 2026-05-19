@@ -38,8 +38,8 @@ const SECTIONS: Priority[] = [
   'Completed',
 ];
 
-const BOARD_SECTIONS: Priority[] = ['High', 'Medium', 'Low'];
-const BELOW_BOARD_SECTIONS: Priority[] = ['Critical', 'Future Opportunities', 'Completed'];
+const BOARD_SECTIONS: Priority[] = ['Critical', 'High', 'Medium', 'Low'];
+const BELOW_BOARD_SECTIONS: Priority[] = ['Future Opportunities', 'Completed'];
 
 const HIGHLIGHT_MS = 1500;
 

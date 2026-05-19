@@ -638,6 +638,58 @@ describe('App — palette modes', () => {
   });
 });
 
+describe('App — board view Critical positioning (FE-039)', () => {
+  beforeEach(() => {
+    window.localStorage.clear();
+    window.localStorage.setItem('flowtron-viz-view', 'board');
+  });
+
+  it('renders Critical as the leftmost board column when it has tasks', async () => {
+    const plan = `## Critical
+
+- [ ] **CORE-1** | crit — Critical task
+
+## High
+
+- [ ] **CORE-2** | hi — High task
+
+## Medium
+
+- [ ] **CORE-3** | med — Medium task
+`;
+    renderApp({ plan });
+    await waitFor(() => expect(screen.getByText('CORE-1')).toBeInTheDocument());
+
+    const boardContainer = document.querySelector('.overflow-x-auto') as HTMLElement;
+    expect(boardContainer).not.toBeNull();
+    const columnLabels = Array.from(
+      boardContainer.querySelectorAll('section > button > span:nth-child(2)'),
+    ).map((el) => el.textContent);
+    expect(columnLabels).toEqual(['Critical', 'High', 'Medium']);
+  });
+
+  it('omits the Critical column entirely when no Critical tasks exist', async () => {
+    const plan = `## High
+
+- [ ] **CORE-2** | hi — High task
+
+## Medium
+
+- [ ] **CORE-3** | med — Medium task
+`;
+    renderApp({ plan });
+    await waitFor(() => expect(screen.getByText('CORE-2')).toBeInTheDocument());
+
+    const boardContainer = document.querySelector('.overflow-x-auto') as HTMLElement;
+    expect(boardContainer).not.toBeNull();
+    const columnLabels = Array.from(
+      boardContainer.querySelectorAll('section > button > span:nth-child(2)'),
+    ).map((el) => el.textContent);
+    expect(columnLabels).not.toContain('Critical');
+    expect(within(boardContainer).queryByText('Critical')).toBeNull();
+  });
+});
+
 describe('App — shortcuts modal', () => {
   const plan = `## High
 

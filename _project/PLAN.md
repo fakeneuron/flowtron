@@ -18,7 +18,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **FE-039** [opus] | board-critical-positioning — Board view in `viz/src/ui/App.tsx:42-43` hard-codes `BOARD_SECTIONS = ['High','Medium','Low']` and `BELOW_BOARD_SECTIONS = ['Critical', ...]`, so Critical-priority tasks render as a stacked section *below* the High/Medium/Low kanban columns. **Direction:** when Critical has tasks, render it as the **leftmost board column** (before High); when Critical is empty, keep it out of the board entirely (don't render an empty column). Empty-when-empty matches the existing `BoardView` `visibleSections` filter at `BoardView.tsx:38`.
+- [ ] **FE-044** [opus] | critical-as-flag-not-priority — Drop `'Critical'` from the `Priority` type and the `## Critical` PLAN.md heading; replace with a per-task critical flag (grammar TBD: `[!critical]` line prefix vs frontmatter `critical: true` vs 🔴 glyph). Flagged tasks render a marker and sort to the top of the High column. Touches `parser.ts` / `App.tsx` / `BoardView` / `PrioritySection` / palettes / `templates/PLAN.md` / SPEC.md. Phase 1 = grammar pick. Supersedes [[FE-039]].
 
 ## Low
 
@@ -35,6 +35,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-039** [opus] | board-critical-positioning — Completed 2026-05-18.
 - [x] **CORE-118** [opus] | dev-server-middleware-tests — Completed 2026-05-18.
 - [x] **CORE-115** [opus] | viz-eslint-add — Completed 2026-05-18.
 - [x] **CORE-119** [sonnet] | node-engines-bump-20 — Completed 2026-05-18.
