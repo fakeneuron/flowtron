@@ -26,14 +26,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **FE-041** [sonnet] | phase-dot-size-and-contrast — `viz/src/ui/PhaseDots.tsx` renders 4 phase dots at `h-2 w-2` (8px); reading active-phase state requires hover (the title attribute carries "Active phase: N of 4"). Bump to `h-2.5 w-2.5`, verify the inactive-dot palette token clears the FE-019 ≥3:1 non-text contrast bar in both light and dark, and consider a tiny "N/4" tail for non-hover surfaces.
 - [ ] **FE-042** [sonnet] | search-match-highlight — When the search input filters tasks, the matched substring isn't highlighted inside the rendered `task.id` / `task.description`. Wrapping matches in a `<mark>` (or a Tailwind-styled `<span>`) lets users scan large result sets faster — especially for ID-prefix searches where 4+ rows look identical apart from the matched chars.
 - [ ] **FE-043** [sonnet] | status-legend-icon-consistency — The shortcuts modal's status legend (`viz/src/ui/ShortcutsModal.tsx` via `STATUS_CHIP_LABEL` in `constants.ts`) mixes color emoji (🌱 starter, 🟢 in-progress) with mono unicode glyphs (⚪ not-started, ⏸ blocked, ✓ completed). The OS-dependent rendering produces visual asymmetry. Normalize to one style — either all colored dots from `PALETTE.STATUS_BADGE`, or all mono glyphs.
-- [ ] **CORE-117** [sonnet] | legacy-dir-rm — `legacy/` (~204KB) sits in the working tree as orphaned local cruft (build artifacts + old `_project*` dirs). README already states pre-v0.1.0 source is preserved in git tag `legacy-pre-v0.1.0` (extracted by [[CORE-033]] on 2026-05-06). After confirming the tag exists locally and pushed, `rm -rf legacy/` clears the redundancy. Pure local-disk cleanup; nothing in git changes.
-
 ## Future Opportunities
 
 (none)
 
 ## Completed
 
+- [x] **CORE-117** [sonnet] | legacy-dir-rm — Completed 2026-05-19.
 - [x] **CORE-116** [opus] | App-tsx-data-loading-hook — Completed 2026-05-19.
 - [x] **FE-044** [opus] | critical-as-flag-not-priority — Completed 2026-05-19.
 - [x] **FE-039** [opus] | board-critical-positioning — Completed 2026-05-18.
