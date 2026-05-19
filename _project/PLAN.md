@@ -18,7 +18,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **FE-044** [opus] | critical-as-flag-not-priority — Drop `'Critical'` from the `Priority` type and the `## Critical` PLAN.md heading; replace with a per-task critical flag (grammar TBD: `[!critical]` line prefix vs frontmatter `critical: true` vs 🔴 glyph). Flagged tasks render a marker and sort to the top of the High column. Touches `parser.ts` / `App.tsx` / `BoardView` / `PrioritySection` / palettes / `templates/PLAN.md` / SPEC.md. Phase 1 = grammar pick. Supersedes [[FE-039]].
+(none)
 
 ## Low
 
@@ -35,6 +35,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-044** [opus] | critical-as-flag-not-priority — Completed 2026-05-19.
 - [x] **FE-039** [opus] | board-critical-positioning — Completed 2026-05-18.
 - [x] **CORE-118** [opus] | dev-server-middleware-tests — Completed 2026-05-18.
 - [x] **CORE-115** [opus] | viz-eslint-add — Completed 2026-05-18.

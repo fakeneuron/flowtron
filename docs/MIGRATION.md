@@ -189,7 +189,7 @@ This section assumes you want to lift the **full** plan, including completed ent
 If the project's plan is a structured file (JSON, YAML, a database export), convert it by hand to `_project/PLAN.md`:
 
 - Preserve task IDs exactly. Archived tasknotes reference them; renumbering breaks the links.
-- Group entries under the priority headings (`Critical`, `High`, `Medium`, `Low`, `Future Opportunities`) defined in SPEC §"Priority levels".
+- Group entries under the priority headings (`High`, `Medium`, `Low`, `Future Opportunities`) defined in SPEC §"Priority levels". Urgent rows that the legacy plan filed under `Critical` move into `High` with a `[!critical]` flag — see SPEC §"Task-line format".
 - Move completed entries into the `Completed` section with their close dates if known. If a date is missing, omit it rather than inventing one.
 - Resist the urge to write a conversion script. The translation involves judgment calls (which priority does this map to, is this still relevant) and is a one-time operation per project.
 

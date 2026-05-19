@@ -29,7 +29,7 @@ If any check fails, stop. Tell the user `/ft-release` only runs from inside the 
 
 ## Step 1 — Find the pending release task in PLAN.md
 
-Read `_project/PLAN.md`. Scan un-checked task lines under `## Critical | High | Medium | Low` (skip `## Completed` and `## Future Opportunities`) whose `| <shortname>` segment matches `release v*` (case-insensitive — e.g., `release vX.Y.Z`).
+Read `_project/PLAN.md`. Scan un-checked task lines under `## High | Medium | Low` (and `## Critical` if a legacy heading is still present — see SPEC §"Task-line format"; skip `## Completed` and `## Future Opportunities`) whose `| <shortname>` segment matches `release v*` (case-insensitive — e.g., `release vX.Y.Z`).
 
 - **Zero matches.** Stop. Tell the user "No pending `release v*` task in PLAN.md. File a one-liner first (e.g., `**<TASK-ID>** [opus] | release vX.Y.Z — ...`), then run `/ft-release` again." Do not scaffold.
 - **Multiple matches.** Stop. List the matches and tell the user `/ft-release` requires exactly one pending release task. Ask them to close/de-scope the duplicates or restructure to a single line. Do not scaffold.

@@ -53,9 +53,10 @@ Otherwise, capture:
 - The optional `[model]` segment (`opus` | `sonnet`) — see Step 1.5
 - The optional `| shortname` segment
 - The one-line long description (everything after ` — `; may be empty)
-- The section heading the line lives under (`Critical` / `High` / `Medium` / `Low` / `Future Opportunities`) — this is the task's **Priority**
+- The section heading the line lives under (`High` / `Medium` / `Low` / `Future Opportunities`) — this is the task's **Priority**
+- The optional `[!critical]` segment — sets the urgency flag (orthogonal to priority; floats the row to the top of High). Legacy `## Critical` sections are soft-migrated to `priority: 'High'` with the flag implicit (see SPEC §"Task-line format").
 
-The full task-line grammar is `- [ ] **TASK-ID** [model] | shortname — long description`; both `[model]` and `| shortname` are optional. See SPEC §"Task-line format" for the canonical grammar.
+The full task-line grammar is `- [ ] **TASK-ID** [!critical] [model] | shortname — long description`; all of `[!critical]`, `[model]`, and `| shortname` are optional. See SPEC §"Task-line format" for the canonical grammar.
 
 **Filing-discipline check (advisory).** Word-count the captured long description (after `— `). If it exceeds the 70-word hard cap from SPEC §"PLAN.md filing-discipline thresholds", surface a one-line warning to the user:
 

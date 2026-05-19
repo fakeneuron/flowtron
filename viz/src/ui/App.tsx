@@ -30,7 +30,6 @@ import { readStoredViewMode, writeStoredViewMode, type ViewMode } from '../viewM
 import { BoardView } from './BoardView';
 
 const SECTIONS: Priority[] = [
-  'Critical',
   'High',
   'Medium',
   'Low',
@@ -38,7 +37,7 @@ const SECTIONS: Priority[] = [
   'Completed',
 ];
 
-const BOARD_SECTIONS: Priority[] = ['Critical', 'High', 'Medium', 'Low'];
+const BOARD_SECTIONS: Priority[] = ['High', 'Medium', 'Low'];
 const BELOW_BOARD_SECTIONS: Priority[] = ['Future Opportunities', 'Completed'];
 
 const HIGHLIGHT_MS = 1500;
@@ -190,10 +189,18 @@ export const App: React.FC = () => {
     [allNodes, matchesFilter],
   );
 
-  const bySection = useMemo(
-    () => groupBy(filteredNodes, (n) => n.task.priority),
-    [filteredNodes],
-  );
+  const bySection = useMemo(() => {
+    const grouped = groupBy(filteredNodes, (n) => n.task.priority);
+    const high = grouped.High;
+    if (high && high.length > 1) {
+      // Critical-flagged tasks rise to the top of High (FE-044). Stable sort
+      // preserves source order within the flagged and un-flagged groups.
+      grouped.High = [...high].sort(
+        (a, b) => Number(b.task.critical) - Number(a.task.critical),
+      );
+    }
+    return grouped;
+  }, [filteredNodes]);
 
   const listViewEmptySections = useMemo(
     () => SECTIONS.filter((p) => (bySection[p] ?? []).length === 0),

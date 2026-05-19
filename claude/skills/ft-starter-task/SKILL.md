@@ -46,7 +46,7 @@ After resolving paths, Read `<SPEC_DIR>/starter.md` for the canonical starter li
 Use AskUserQuestion to confirm the key fields. Pre-populate from conversation context where possible — the AI proposes; the user confirms or overrides.
 
 1. **Title (shortname)** — concise; up to ~30 chars. Used as the YAML `title:` and the H1.
-2. **Priority** — `Critical | High | Medium | Low | Future Opportunities`. AI proposes its best read.
+2. **Priority** — `High | Medium | Low | Future Opportunities`. AI proposes its best read. For urgent rows, propose `High` with a `[!critical]` flag (see SPEC §"Task-line format").
 3. **Model** — `opus | sonnet`, per SPEC §"Model field". AI proposes; goes on the PLAN.md task line, not in frontmatter.
 
 Optional inputs the AI may pre-fill silently (user corrects on Step 3 review): `tags:` (visualizer filter), `due:` (only if the conversation specified a deadline), `related-tasks:` (wikilinks to predecessors / parent epic / follow-ups surfaced in conversation).

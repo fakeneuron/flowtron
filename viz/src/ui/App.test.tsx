@@ -638,20 +638,48 @@ describe('App — palette modes', () => {
   });
 });
 
-describe('App — board view Critical positioning (FE-039)', () => {
+describe('App — [!critical] flag (FE-044)', () => {
   beforeEach(() => {
     window.localStorage.clear();
-    window.localStorage.setItem('flowtron-viz-view', 'board');
   });
 
-  it('renders Critical as the leftmost board column when it has tasks', async () => {
-    const plan = `## Critical
+  it('floats [!critical] rows to the top of the High column (list view)', async () => {
+    const plan = `## High
 
-- [ ] **CORE-1** | crit — Critical task
+- [ ] **CORE-1** | normal-a — Normal task A
+- [ ] **CORE-2** [!critical] | urgent — Urgent task
+- [ ] **CORE-3** | normal-b — Normal task B
+`;
+    renderApp({ plan });
+    await waitFor(() => expect(screen.getByText('CORE-2')).toBeInTheDocument());
 
-## High
+    const ids = Array.from(document.querySelectorAll('[id^="row-CORE-"]')).map(
+      (el) => el.id,
+    );
+    expect(ids).toEqual(['row-CORE-2', 'row-CORE-1', 'row-CORE-3']);
+  });
 
-- [ ] **CORE-2** | hi — High task
+  it('renders the critical chip on flagged rows and not on unflagged rows', async () => {
+    const plan = `## High
+
+- [ ] **CORE-1** | normal — Normal task
+- [ ] **CORE-2** [!critical] | urgent — Urgent task
+`;
+    renderApp({ plan });
+    await waitFor(() => expect(screen.getByText('CORE-2')).toBeInTheDocument());
+
+    const urgentRow = document.getElementById('row-CORE-2')!;
+    const normalRow = document.getElementById('row-CORE-1')!;
+    expect(within(urgentRow).getByLabelText('Critical')).toBeInTheDocument();
+    expect(within(normalRow).queryByLabelText('Critical')).toBeNull();
+  });
+
+  it('omits the Critical column from the board (no longer a Priority value)', async () => {
+    window.localStorage.setItem('flowtron-viz-view', 'board');
+    const plan = `## High
+
+- [ ] **CORE-1** [!critical] | urgent — Urgent
+- [ ] **CORE-2** | normal — Normal
 
 ## Medium
 
@@ -665,28 +693,29 @@ describe('App — board view Critical positioning (FE-039)', () => {
     const columnLabels = Array.from(
       boardContainer.querySelectorAll('section > button > span:nth-child(2)'),
     ).map((el) => el.textContent);
-    expect(columnLabels).toEqual(['Critical', 'High', 'Medium']);
+    expect(columnLabels).toEqual(['High', 'Medium']);
+    expect(columnLabels).not.toContain('Critical');
   });
 
-  it('omits the Critical column entirely when no Critical tasks exist', async () => {
-    const plan = `## High
+  it('soft-migrates a legacy `## Critical` heading: rows render in High with the chip', async () => {
+    const plan = `## Critical
 
-- [ ] **CORE-2** | hi — High task
+- [ ] **CORE-99** | legacy-urgent — Legacy critical row
 
-## Medium
+## High
 
-- [ ] **CORE-3** | med — Medium task
+- [ ] **CORE-100** | normal — Routine row
 `;
     renderApp({ plan });
-    await waitFor(() => expect(screen.getByText('CORE-2')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('CORE-99')).toBeInTheDocument());
 
-    const boardContainer = document.querySelector('.overflow-x-auto') as HTMLElement;
-    expect(boardContainer).not.toBeNull();
-    const columnLabels = Array.from(
-      boardContainer.querySelectorAll('section > button > span:nth-child(2)'),
-    ).map((el) => el.textContent);
-    expect(columnLabels).not.toContain('Critical');
-    expect(within(boardContainer).queryByText('Critical')).toBeNull();
+    const ids = Array.from(document.querySelectorAll('[id^="row-CORE-"]')).map(
+      (el) => el.id,
+    );
+    expect(ids).toEqual(['row-CORE-99', 'row-CORE-100']);
+
+    const legacyRow = document.getElementById('row-CORE-99')!;
+    expect(within(legacyRow).getByLabelText('Critical')).toBeInTheDocument();
   });
 });
 

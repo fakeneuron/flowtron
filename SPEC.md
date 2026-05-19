@@ -126,16 +126,19 @@ Canonical contract: see [`SPEC/epic.md`](SPEC/epic.md).
 Each entry under a priority heading in PLAN.md follows this grammar:
 
 ```markdown
-- [ ] **TASK-ID** [model] | shortname — long description
+- [ ] **TASK-ID** [!critical] [model] | shortname — long description
 ```
 
-Both `[model]` and `| shortname` are optional. The legacy minimal form
-`- [ ] **TASK-ID** — description` still parses for backwards compatibility.
+All of `[!critical]`, `[model]`, and `| shortname` are optional. Canonical
+ordering when both flags are present: `[!critical]` BEFORE `[model]`. The
+legacy minimal form `- [ ] **TASK-ID** — description` still parses for
+backwards compatibility.
 
 | Segment | Required | Notes |
 |---|---|---|
 | `- [ ]` / `- [x]` | yes | Open or completed checkbox |
 | `**TASK-ID**` | yes | Bold ID, matching the §"Task ID convention" pattern |
+| ` [!critical]` | optional | Urgency flag — orthogonal to priority bucket. Flagged tasks render a red marker chip and sort to the top of the High column. Filed under whatever priority heading the row already lives under (typically `## High`). |
 | ` [model]` | optional | `opus` or `sonnet` only. Owns the model assignment for the task — `/ft-task` reads this BEFORE scaffolding (see §"Model field"). New entries should declare a model. |
 | ` \| shortname` | optional | Short label up to ~30 chars; rendered as the row title in visualizers when present. Falls back to the tasknote frontmatter `title:` for tasks that have a tasknote, or the long description otherwise. |
 | ` — long description` | optional | Full description. Carries `Completed YYYY-MM-DD.` markers, re-scope notes, and any rationale that doesn't fit in the shortname. |
@@ -144,11 +147,19 @@ Examples:
 
 ```markdown
 - [ ] **CORE-023** [opus] | task-line grammar — Extend grammar to declare shortname + model.
+- [ ] **FE-200** [!critical] [opus] | hotfix — Production breakage; floats to top of High.
 - [ ] **CORE-016** [sonnet] — Execute InvisiPaw migration per CORE-008 playbook.
 - [ ] **FE-003** | wikilink resolution — Parse [[TASK-ID]] in tasknote body text and render as clickable links.
 - [ ] **CORE-024** [opus] | quick housekeeping
 - [ ] **CORE-016** — Execute InvisiPaw migration per CORE-008 playbook.    (legacy)
 ```
+
+**Legacy `## Critical` heading.** Pre-FE-044 PLAN.md files used a `## Critical`
+priority heading. The parser soft-migrates this: tasks under a `## Critical`
+heading parse with `priority: 'High'` and `critical: true` — equivalent to
+filing each row under `## High` with an explicit `[!critical]` flag. Adopters
+on older flowtron versions don't lose rows when they bump; migration of the
+PLAN.md heading itself is optional cleanup.
 
 Adopting projects' visualizers parse the line per `viz/src/parser.ts`
 (canonical reference). The grammar is additive — flowtron bumps don't
@@ -619,8 +630,8 @@ line stays scannable, and rich context routes into starter bodies:
 | 51-70 words | Yellow flag | Trim if practical; otherwise consider promoting to a starter |
 | >70 words | Hard cap — exceeded | Move the rich context into a starter body via `/ft-starter-task <ID>`; PLAN.md line keeps a ≤50w summary |
 
-The thresholds apply to **active** task lines (`Critical` / `High` /
-`Medium` / `Low` / `Future Opportunities`). Lines under `## Completed`
+The thresholds apply to **active** task lines (`High` / `Medium` /
+`Low` / `Future Opportunities`). Lines under `## Completed`
 are governed by §"`## Completed` archive convention" below.
 
 `/ft-starter-task`, `/ft-file-followup`, and `/ft-task` flag filings that
@@ -648,14 +659,14 @@ entries continue to parse).
 
 Used in PLAN.md:
 
-- **Critical** — blocking bugs, security issues, production incidents
-- **High** — important features and stabilization
+- **High** — important features, stabilization, and urgent work (blocking bugs, security issues, and production incidents add a `[!critical]` flag — see §"Task-line format")
 - **Medium** — standard development work
 - **Low** — nice-to-haves, cleanup
 - **Future Opportunities** — unprioritized future work
 
-Selection rule: pick by priority first (Critical → High → Medium → Low →
-Future Opportunities), then by lowest incomplete `<AREA>-<NUMBER>` within that priority.
+Selection rule: within High, `[!critical]` rows come first; then pick by
+priority (High → Medium → Low → Future Opportunities), then by lowest
+incomplete `<AREA>-<NUMBER>` within that priority.
 
 ## Model field
 

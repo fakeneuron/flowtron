@@ -8,6 +8,7 @@ import { PhaseDots } from './PhaseDots';
 import { SubtaskProgress } from './SubtaskProgress';
 import { StatusChip } from './StatusChip';
 import { ModelChip } from './ModelChip';
+import { CriticalChip } from './CriticalChip';
 import { RelatedChip } from './RelatedChip';
 
 export interface TaskRowInnerProps {
@@ -86,6 +87,7 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
           <div />
         )}
         <div className="flex items-center justify-end gap-1.5 text-xs">
+          {task.critical && <CriticalChip density={density} />}
           {status && <StatusChip status={status} density={density} />}
           {showModel && task.model && <ModelChip model={task.model} />}
           {extraRightSlot}

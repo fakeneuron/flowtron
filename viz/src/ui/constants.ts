@@ -31,9 +31,9 @@ import type { DensityMode, PaletteName } from '../visibilityPrefs';
  * *state/attention* family: in-progress status, active phase dot, Medium
  * priority section + badge. Row highlight uses indigo (CORE-098.2 collision
  * fix). `.3` (Linear) and `.4` (GitHub) curate their own hue→role bindings,
- * but every palette must keep the 5 status roles + 6 priority roles +
- * highlight + selection visually distinct, and clear FE-019's ≥4.5:1
- * small-text contrast in both light and dark.
+ * but every palette must keep the 5 status roles + 5 priority roles +
+ * critical flag + highlight + selection visually distinct, and clear
+ * FE-019's ≥4.5:1 small-text contrast in both light and dark.
  */
 
 export const TYPOGRAPHY = {
@@ -63,6 +63,7 @@ export interface PaletteTokens {
   STATUS_BADGE: Record<TasknoteStatus, string>;
   SECTION_TINT: Record<Priority, string>;
   PRIORITY_BADGE: Record<Priority, string>;
+  CRITICAL_FLAG: string;
   PHASE_DOT: { filled: string; active: string; inactive: string };
   ROW_HIGHLIGHT: string;
   ROW_HIGHLIGHT_SUBTASK: string;
@@ -81,7 +82,6 @@ const DEFAULT_PALETTE: PaletteTokens = {
     completed: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200',
   },
   SECTION_TINT: {
-    Critical: 'bg-red-50 border-red-200 dark:bg-red-950/30 dark:border-red-900',
     High: 'bg-orange-50 border-orange-200 dark:bg-orange-950/30 dark:border-orange-900',
     Medium: 'bg-amber-50 border-amber-200 dark:bg-amber-950/30 dark:border-amber-900',
     Low: 'bg-sky-50 border-sky-200 dark:bg-sky-950/30 dark:border-sky-900',
@@ -90,7 +90,6 @@ const DEFAULT_PALETTE: PaletteTokens = {
     Completed: 'bg-emerald-50 border-emerald-200 dark:bg-emerald-950/30 dark:border-emerald-900',
   },
   PRIORITY_BADGE: {
-    Critical: 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-200',
     High: 'bg-orange-100 text-orange-800 dark:bg-orange-950 dark:text-orange-200',
     Medium: 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-200',
     Low: 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-200',
@@ -98,6 +97,7 @@ const DEFAULT_PALETTE: PaletteTokens = {
       'bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-200',
     Completed: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200',
   },
+  CRITICAL_FLAG: 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-200',
   PHASE_DOT: {
     filled: 'bg-emerald-500',
     active: 'bg-amber-400 ring-1 ring-amber-200 dark:ring-amber-700',
@@ -122,7 +122,6 @@ const LINEAR_PALETTE: PaletteTokens = {
     completed: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200',
   },
   SECTION_TINT: {
-    Critical: 'bg-slate-50 border-rose-300 dark:bg-slate-900/50 dark:border-rose-800',
     High: 'bg-slate-50 border-amber-300 dark:bg-slate-900/50 dark:border-amber-800',
     Medium: 'bg-slate-50 border-indigo-300 dark:bg-slate-900/50 dark:border-indigo-800',
     Low: 'bg-slate-50 border-sky-300 dark:bg-slate-900/50 dark:border-sky-800',
@@ -131,7 +130,6 @@ const LINEAR_PALETTE: PaletteTokens = {
     Completed: 'bg-slate-50 border-emerald-300 dark:bg-slate-900/50 dark:border-emerald-800',
   },
   PRIORITY_BADGE: {
-    Critical: 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-200',
     High: 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-200',
     Medium: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-200',
     Low: 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-200',
@@ -139,6 +137,7 @@ const LINEAR_PALETTE: PaletteTokens = {
       'bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-200',
     Completed: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200',
   },
+  CRITICAL_FLAG: 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-200',
   PHASE_DOT: {
     filled: 'bg-emerald-500',
     active: 'bg-amber-400 ring-1 ring-amber-200 dark:ring-amber-700',
@@ -163,7 +162,6 @@ const GITHUB_PALETTE: PaletteTokens = {
     completed: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200',
   },
   SECTION_TINT: {
-    Critical: 'bg-fuchsia-50 border-fuchsia-200 dark:bg-fuchsia-950/30 dark:border-fuchsia-900',
     High: 'bg-purple-50 border-purple-200 dark:bg-purple-950/30 dark:border-purple-900',
     Medium: 'bg-violet-50 border-violet-200 dark:bg-violet-950/30 dark:border-violet-900',
     Low: 'bg-blue-50 border-blue-200 dark:bg-blue-950/30 dark:border-blue-900',
@@ -172,7 +170,6 @@ const GITHUB_PALETTE: PaletteTokens = {
     Completed: 'bg-emerald-50 border-emerald-200 dark:bg-emerald-950/30 dark:border-emerald-900',
   },
   PRIORITY_BADGE: {
-    Critical: 'bg-fuchsia-100 text-fuchsia-800 dark:bg-fuchsia-950 dark:text-fuchsia-200',
     High: 'bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-200',
     Medium: 'bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-200',
     Low: 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-200',
@@ -180,6 +177,7 @@ const GITHUB_PALETTE: PaletteTokens = {
       'bg-cyan-100 text-cyan-800 dark:bg-cyan-950 dark:text-cyan-200',
     Completed: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200',
   },
+  CRITICAL_FLAG: 'bg-fuchsia-100 text-fuchsia-800 dark:bg-fuchsia-950 dark:text-fuchsia-200',
   PHASE_DOT: {
     filled: 'bg-emerald-500',
     active: 'bg-blue-400 ring-1 ring-blue-200 dark:ring-blue-700',

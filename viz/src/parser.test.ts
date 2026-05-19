@@ -12,6 +12,7 @@ describe('parsePlan', () => {
         id: 'CORE-001',
         description: 'Hello world',
         priority: 'High',
+        critical: false,
         completed: false,
         completedDate: undefined,
         model: undefined,
@@ -223,6 +224,37 @@ describe('parsePlan', () => {
     expect(t.relatedTasks).toEqual(['FE-001']);
     expect(t.blockedBy).toEqual([]);
   });
+
+  // FE-044: per-task [!critical] flag replaces the dropped `Critical` Priority.
+  it('defaults critical to false on a plain task line', () => {
+    const md = `## High\n\n- [ ] **CORE-001** [opus] — Plain row.\n`;
+    expect(parsePlan(md)[0].critical).toBe(false);
+  });
+
+  it('parses [!critical] alone', () => {
+    const md = `## High\n\n- [ ] **FE-100** [!critical] — Urgent row.\n`;
+    const t = parsePlan(md)[0];
+    expect(t.critical).toBe(true);
+    expect(t.model).toBeUndefined();
+    expect(t.description).toBe('Urgent row');
+  });
+
+  it('parses [!critical] + [model] + | shortname + long description in canonical order', () => {
+    const md = `## High\n\n- [ ] **FE-100** [!critical] [opus] | hotfix — Production breakage.\n`;
+    const t = parsePlan(md)[0];
+    expect(t.critical).toBe(true);
+    expect(t.model).toBe('opus');
+    expect(t.shortname).toBe('hotfix');
+    expect(t.description).toBe('Production breakage');
+  });
+
+  it('soft-migrates a legacy `## Critical` heading to priority=High with critical=true on every row', () => {
+    const md = `## Critical\n\n- [ ] **CORE-99** [opus] | hotfix — Production breakage.\n\n## High\n\n- [ ] **CORE-100** [opus] | normal — Routine work.\n`;
+    const tasks = parsePlan(md);
+    expect(tasks).toHaveLength(2);
+    expect(tasks[0]).toMatchObject({ id: 'CORE-99', priority: 'High', critical: true });
+    expect(tasks[1]).toMatchObject({ id: 'CORE-100', priority: 'High', critical: false });
+  });
 });
 
 describe('groupTasks', () => {
@@ -230,6 +262,7 @@ describe('groupTasks', () => {
     id,
     description: id,
     priority: 'Low',
+    critical: false,
     completed,
     relatedTasks: [],
     blockedBy: [],

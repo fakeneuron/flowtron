@@ -47,9 +47,9 @@ Otherwise, capture from the line:
 - The optional `[model]` segment (`opus` | `sonnet`) — see Step 1.5
 - The optional `| shortname` segment
 - The one-line long description (everything after ` — `; may be empty)
-- The section heading the line lives under (`Critical` / `High` / `Medium` / `Low` / `Future Opportunities`) — this is the task's **Priority**
+- The section heading the line lives under (`High` / `Medium` / `Low` / `Future Opportunities`) — this is the task's **Priority**
 
-The full task-line grammar is `- [ ] **TASK-ID** [model] | shortname — long description`. See SPEC §"Task-line format" for the canonical grammar.
+The full task-line grammar is `- [ ] **TASK-ID** [!critical] [model] | shortname — long description`. See SPEC §"Task-line format" for the canonical grammar.
 
 **Filing-discipline check (advisory).** Word-count the captured long description. If it exceeds the 70-word hard cap from SPEC §"PLAN.md filing-discipline thresholds", surface a one-line warning to the user — informational only; proceed.
 

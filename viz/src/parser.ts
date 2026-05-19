@@ -1,5 +1,4 @@
 export type Priority =
-  | 'Critical'
   | 'High'
   | 'Medium'
   | 'Low'
@@ -12,6 +11,7 @@ export interface Task {
   id: string;
   description: string;
   priority: Priority;
+  critical: boolean;
   completed: boolean;
   completedDate?: string;
   model?: TaskModel;
@@ -21,7 +21,6 @@ export interface Task {
 }
 
 const SECTION_HEADINGS = new Set<Priority>([
-  'Critical',
   'High',
   'Medium',
   'Low',
@@ -29,12 +28,18 @@ const SECTION_HEADINGS = new Set<Priority>([
   'Completed',
 ]);
 
+// Legacy `## Critical` heading — soft-migrated to `High` with every task
+// under it auto-flagged `critical: true` (FE-044). Adopter PLAN.md files
+// that still carry a `## Critical` section keep parsing without data loss.
+const LEGACY_CRITICAL_HEADING = 'Critical';
+
 // Grammar (see SPEC §"Task-line format"):
-//   - [ ] **TASK-ID** [model] | shortname — long description
-// Both `[model]` and `| shortname` are optional. The legacy minimal form
+//   - [ ] **TASK-ID** [!critical] [model] | shortname — long description
+// All of `[!critical]`, `[model]`, and `| shortname` are optional. Canonical
+// ordering: `[!critical]` BEFORE `[model]`. The legacy minimal form
 // `- [ ] **TASK-ID** — desc` keeps parsing.
 const TASK_LINE =
-  /^\s*-\s+\[([ xX])\]\s+\*\*([A-Z]+(?:-EPIC)?-\d+(?:\.\d+)?)\*\*(?:\s+\[(opus|sonnet)\])?(?:\s+\|\s+(.+?))?(?:\s+[—-]\s+(.+?))?\s*$/;
+  /^\s*-\s+\[([ xX])\]\s+\*\*([A-Z]+(?:-EPIC)?-\d+(?:\.\d+)?)\*\*(?:\s+\[(!critical)\])?(?:\s+\[(opus|sonnet)\])?(?:\s+\|\s+(.+?))?(?:\s+[—-]\s+(.+?))?\s*$/;
 const COMPLETED_DATE = /\bCompleted\s+(\d{4}-\d{2}-\d{2})\.?/;
 const HEADING_LINE = /^##\s+(.+?)\s*$/;
 
@@ -138,12 +143,22 @@ export function parsePlan(markdown: string): Task[] {
   const lines = markdown.split(/\r?\n/);
   const tasks: Task[] = [];
   let currentPriority: Priority | null = null;
+  let legacyCriticalSection = false;
 
   for (const line of lines) {
     const headingMatch = HEADING_LINE.exec(line);
     if (headingMatch) {
-      const heading = headingMatch[1] as Priority;
-      currentPriority = SECTION_HEADINGS.has(heading) ? heading : null;
+      const heading = headingMatch[1];
+      if (heading === LEGACY_CRITICAL_HEADING) {
+        currentPriority = 'High';
+        legacyCriticalSection = true;
+      } else if (SECTION_HEADINGS.has(heading as Priority)) {
+        currentPriority = heading as Priority;
+        legacyCriticalSection = false;
+      } else {
+        currentPriority = null;
+        legacyCriticalSection = false;
+      }
       continue;
     }
     if (!currentPriority) continue;
@@ -151,7 +166,7 @@ export function parsePlan(markdown: string): Task[] {
     const m = TASK_LINE.exec(line);
     if (!m) continue;
 
-    const [, mark, id, modelRaw, shortnameRaw, longRaw] = m;
+    const [, mark, id, criticalRaw, modelRaw, shortnameRaw, longRaw] = m;
     const completed = mark === 'x' || mark === 'X';
     const longText = longRaw ?? '';
     const dateMatch = COMPLETED_DATE.exec(longText);
@@ -162,6 +177,7 @@ export function parsePlan(markdown: string): Task[] {
       id,
       description: longText ? cleanDescription(longText) : '',
       priority: currentPriority,
+      critical: criticalRaw === '!critical' || legacyCriticalSection,
       completed,
       completedDate: dateMatch ? dateMatch[1] : undefined,
       model: modelRaw as TaskModel | undefined,

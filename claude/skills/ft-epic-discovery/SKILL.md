@@ -51,7 +51,7 @@ Use AskUserQuestion to gather all inputs in one motion. Pre-populate from conver
 
 1. **Area** — per SPEC §"Task ID convention"; any project-specific prefixes declared in `_project/tasknote/README.md`. AI proposes from conversation context.
 2. **Shortname** — concise label up to ~30 chars (e.g., `expand-shipped-skills`, `viz-keyboard-overhaul`). Used as the parent epic's `| shortname` segment.
-3. **Priority** — `Critical | High | Medium | Low | Future Opportunities`. AI proposes its best read.
+3. **Priority** — `High | Medium | Low | Future Opportunities`. AI proposes its best read. For urgent epics, propose `High` with a `[!critical]` flag on the parent (see SPEC §"Task-line format").
 4. **Model** — `opus | sonnet`, per SPEC §"Model field". AI proposes; goes on every PLAN.md line this skill writes.
 5. **Total-subtask-count N** — total number of children including Discovery (`.1`) and audit (`.N`). E.g., 3 children + Discovery + audit = N=5. The Discovery's deliverable is filing `.2..(N-1)` (the implementation children).
 
