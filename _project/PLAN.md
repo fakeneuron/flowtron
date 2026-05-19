@@ -22,13 +22,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **FE-043** [sonnet] | status-legend-icon-consistency — The shortcuts modal's status legend (`viz/src/ui/ShortcutsModal.tsx` via `STATUS_CHIP_LABEL` in `constants.ts`) mixes color emoji (🌱 starter, 🟢 in-progress) with mono unicode glyphs (⚪ not-started, ⏸ blocked, ✓ completed). The OS-dependent rendering produces visual asymmetry. Normalize to one style — either all colored dots from `PALETTE.STATUS_BADGE`, or all mono glyphs.
 ## Future Opportunities
 
 (none)
 
 ## Completed
 
+- [x] **FE-043** [sonnet] | status-legend-icon-consistency — Completed 2026-05-19.
 - [x] **FE-042** [sonnet] | search-match-highlight — Completed 2026-05-19.
 - [x] **FE-041** [sonnet] | phase-dot-size-and-contrast — Completed 2026-05-19.
 - [x] **FE-040** [sonnet] | task-row-expand-affordance — Completed 2026-05-19.

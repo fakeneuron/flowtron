@@ -166,10 +166,10 @@ describe('App — row StatusChip', () => {
     }),
   ];
 
-  it('renders the emoji-only StatusChip in the row', async () => {
+  it('renders the glyph-only StatusChip in the row', async () => {
     renderApp({ plan, active });
     await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
-    expect(within(screen.getByRole('main')).getByText('🟢')).toBeInTheDocument();
+    expect(within(screen.getByRole('main')).getByText('●')).toBeInTheDocument();
   });
 });
 

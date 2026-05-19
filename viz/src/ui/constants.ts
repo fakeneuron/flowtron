@@ -52,9 +52,9 @@ export const STATUS_LABEL: Record<TasknoteStatus, string> = {
 };
 
 export const STATUS_CHIP_LABEL: Record<TasknoteStatus, string> = {
-  starter: '🌱',
+  starter: '◎',
   'not-started': '⚪',
-  'in-progress': '🟢',
+  'in-progress': '●',
   blocked: '⏸',
   completed: '✓',
 };
