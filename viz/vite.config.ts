@@ -1,79 +1,22 @@
 import { defineConfig } from 'vitest/config';
 import type { Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
-import { readFile, readdir } from 'node:fs/promises';
-import type { Dirent } from 'node:fs';
+import type { ServerResponse } from 'node:http';
 import { join } from 'node:path';
-import type { IncomingMessage, ServerResponse } from 'node:http';
 import chokidar from 'chokidar';
-import { parseTasknote } from './src/tasknote-parse';
 import { discoverProjects, workspaceRoot, type ProjectDescriptor } from './src/workspace';
 import { createArchiveCache } from './src/archiveCache';
-
-async function safeReaddir(dir: string): Promise<Dirent[]> {
-  try {
-    return (await readdir(dir, { withFileTypes: true })) as Dirent[];
-  } catch {
-    return [];
-  }
-}
+import { DEV_PORT } from './src/originGuard';
+import {
+  createActiveHandler,
+  createArchiveHandler,
+  createEventsHandler,
+  createPlanHandler,
+  createProjectsHandler,
+} from './src/devApi';
 
 const SSE_DEBOUNCE_MS = 200;
 const SSE_HEARTBEAT_MS = 30_000;
-
-const DEV_PORT = 5120;
-const ALLOWED_ORIGINS = new Set([
-  `http://localhost:${DEV_PORT}`,
-  `http://127.0.0.1:${DEV_PORT}`,
-]);
-const ALLOWED_HOSTNAMES = new Set(['localhost', '127.0.0.1']);
-
-// Reject cross-origin browser requests to the viz dev API. Tasknote and
-// PLAN.md content is readable here; without this guard any website visited
-// during `npm run dev` could fetch /api/* and exfiltrate it (compounded
-// historically by esbuild GHSA-67mh-4wv8-2f99 / Vite GHSA-4w7w-66w2-5vf9).
-// Returns true if the request should proceed; otherwise writes a 403 and
-// returns false. Origin-less requests (terminal `curl`, EventSource
-// fallbacks) are allowed — `server.allowedHosts` handles DNS-rebinding.
-function originGuard(req: IncomingMessage, res: ServerResponse): boolean {
-  const origin = req.headers.origin;
-  if (typeof origin === 'string' && origin.length > 0) {
-    if (!ALLOWED_ORIGINS.has(origin)) {
-      res.statusCode = 403;
-      res.end('Forbidden: cross-origin request');
-      return false;
-    }
-    return true;
-  }
-  const referer = req.headers.referer;
-  if (typeof referer === 'string' && referer.length > 0) {
-    try {
-      const refHost = new URL(referer).hostname;
-      if (!ALLOWED_HOSTNAMES.has(refHost)) {
-        res.statusCode = 403;
-        res.end('Forbidden: cross-origin referer');
-        return false;
-      }
-    } catch {
-      res.statusCode = 403;
-      res.end('Forbidden: malformed referer');
-      return false;
-    }
-  }
-  return true;
-}
-
-function projectFromQuery(
-  req: IncomingMessage,
-  projects: Map<string, ProjectDescriptor>,
-): ProjectDescriptor | { error: string } {
-  const url = new URL(req.url ?? '', 'http://localhost');
-  const name = url.searchParams.get('project');
-  if (!name) return { error: 'missing ?project=<name>' };
-  const project = projects.get(name);
-  if (!project) return { error: `unknown project: ${name}` };
-  return project;
-}
 
 function flowtronApi(): Plugin {
   const sseClients = new Set<ServerResponse>();
@@ -131,89 +74,13 @@ function flowtronApi(): Plugin {
           sseClients.clear();
         });
 
-        server.middlewares.use('/api/events', (req, res) => {
-          if (!originGuard(req, res)) return;
-          res.setHeader('Content-Type', 'text/event-stream');
-          res.setHeader('Cache-Control', 'no-cache, no-transform');
-          res.setHeader('Connection', 'keep-alive');
-          res.flushHeaders?.();
-          res.write('event: open\ndata: {}\n\n');
-          sseClients.add(res);
-          req.on('close', () => {
-            sseClients.delete(res);
-          });
-        });
+        server.middlewares.use('/api/events', createEventsHandler(sseClients));
       }
 
-      server.middlewares.use('/api/projects', (req, res) => {
-        if (!originGuard(req, res)) return;
-        const list = Array.from(projects.values()).map((p) => ({ name: p.name }));
-        res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify(list));
-      });
-
-      server.middlewares.use('/api/plan', async (req, res) => {
-        if (!originGuard(req, res)) return;
-        const project = projectFromQuery(req, projects);
-        if ('error' in project) {
-          res.statusCode = 400;
-          res.end(project.error);
-          return;
-        }
-        try {
-          const text = await readFile(project.planPath, 'utf8');
-          res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-          res.end(text);
-        } catch (e) {
-          res.statusCode = 500;
-          res.end(`Failed to read PLAN.md: ${(e as Error).message}`);
-        }
-      });
-
-      server.middlewares.use('/api/active', async (req, res) => {
-        if (!originGuard(req, res)) return;
-        const project = projectFromQuery(req, projects);
-        if ('error' in project) {
-          res.statusCode = 400;
-          res.end(project.error);
-          return;
-        }
-        try {
-          const entries = await safeReaddir(project.tasknoteDir);
-          const files = entries.filter((e) => e.isFile() && e.name.endsWith('.md'));
-          const tasknotes = await Promise.all(
-            files.map(async (e) => {
-              const id = e.name.replace(/\.md$/, '');
-              const path = join(project.tasknoteDir, e.name);
-              const text = await readFile(path, 'utf8');
-              return parseTasknote(id, path, text);
-            }),
-          );
-          res.setHeader('Content-Type', 'application/json');
-          res.end(JSON.stringify(tasknotes));
-        } catch (e) {
-          res.statusCode = 500;
-          res.end(`Failed to list tasknotes: ${(e as Error).message}`);
-        }
-      });
-
-      server.middlewares.use('/api/archive', async (req, res) => {
-        if (!originGuard(req, res)) return;
-        const project = projectFromQuery(req, projects);
-        if ('error' in project) {
-          res.statusCode = 400;
-          res.end(project.error);
-          return;
-        }
-        try {
-          const tasknotes = await archiveCache.get(project);
-          res.setHeader('Content-Type', 'application/json');
-          res.end(JSON.stringify(tasknotes));
-        } catch (e) {
-          res.statusCode = 500;
-          res.end(`Failed to list archived tasknotes: ${(e as Error).message}`);
-        }
-      });
+      server.middlewares.use('/api/projects', createProjectsHandler(projects));
+      server.middlewares.use('/api/plan', createPlanHandler(projects));
+      server.middlewares.use('/api/active', createActiveHandler(projects));
+      server.middlewares.use('/api/archive', createArchiveHandler(projects, archiveCache));
     },
   };
 }

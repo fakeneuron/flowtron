@@ -19,7 +19,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Medium
 
 - [ ] **FE-039** [opus] | board-critical-positioning — Board view in `viz/src/ui/App.tsx:42-43` hard-codes `BOARD_SECTIONS = ['High','Medium','Low']` and `BELOW_BOARD_SECTIONS = ['Critical', ...]`, so Critical-priority tasks render as a stacked section *below* the High/Medium/Low kanban columns. **Direction:** when Critical has tasks, render it as the **leftmost board column** (before High); when Critical is empty, keep it out of the board entirely (don't render an empty column). Empty-when-empty matches the existing `BoardView` `visibleSections` filter at `BoardView.tsx:38`.
-- [ ] **CORE-118** [opus] | dev-server-middleware-tests — The 5 `/api/*` middlewares + `originGuard()` helper added in [[CORE-114]] live in `viz/vite.config.ts` and have no unit tests; they are verified only by an ad-hoc live smoke test. Extract `originGuard()` (and ideally the route handlers) into a testable module under `viz/src/`, then add unit tests covering: allowed `Origin`, blocked cross-origin `Origin`, blocked cross-origin `Referer`, missing-both pass-through, malformed `Referer`. Closes the regression-risk gap on the new security boundary.
 
 ## Low
 
@@ -36,6 +35,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-118** [opus] | dev-server-middleware-tests — Completed 2026-05-18.
 - [x] **CORE-115** [opus] | viz-eslint-add — Completed 2026-05-18.
 - [x] **CORE-119** [sonnet] | node-engines-bump-20 — Completed 2026-05-18.
 - [x] **CORE-114** [opus] | viz dev-server security pass — Completed 2026-05-18.
