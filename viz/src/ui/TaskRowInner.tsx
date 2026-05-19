@@ -10,6 +10,7 @@ import { StatusChip } from './StatusChip';
 import { ModelChip } from './ModelChip';
 import { CriticalChip } from './CriticalChip';
 import { RelatedChip } from './RelatedChip';
+import { Chevron } from './Chevron';
 
 export interface TaskRowInnerProps {
   task: Task;
@@ -49,6 +50,7 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
         aria-label={rowChips.id ? undefined : `${task.id}: ${task.shortname ?? tn?.frontmatter?.title ?? task.description}`}
         className="flex min-w-0 flex-1 items-center gap-2 rounded text-left focus:outline-none focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
       >
+        <Chevron expanded={isExpandedDetail} />
         {rowChips.id && (
           <span className="shrink-0 font-mono text-sm font-medium tabular-nums">
             {task.id}
