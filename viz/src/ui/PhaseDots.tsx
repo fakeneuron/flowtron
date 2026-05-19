@@ -19,7 +19,7 @@ export const PhaseDots: React.FC<{ phases: ChecklistCounts[] }> = ({ phases }) =
           : active
             ? palette.PHASE_DOT.active
             : palette.PHASE_DOT.inactive;
-        return <span key={i} className={`h-2 w-2 rounded-full ${cls}`} />;
+        return <span key={i} className={`h-2.5 w-2.5 rounded-full ${cls}`} />;
       })}
     </div>
   );

@@ -101,7 +101,7 @@ const DEFAULT_PALETTE: PaletteTokens = {
   PHASE_DOT: {
     filled: 'bg-emerald-500',
     active: 'bg-amber-400 ring-1 ring-amber-200 dark:ring-amber-700',
-    inactive: 'bg-slate-200 dark:bg-slate-700',
+    inactive: 'bg-slate-500 dark:bg-slate-400',
   },
   ROW_HIGHLIGHT:
     'border-indigo-400 ring-2 ring-indigo-300 dark:border-indigo-500 dark:ring-indigo-600',
@@ -141,7 +141,7 @@ const LINEAR_PALETTE: PaletteTokens = {
   PHASE_DOT: {
     filled: 'bg-emerald-500',
     active: 'bg-amber-400 ring-1 ring-amber-200 dark:ring-amber-700',
-    inactive: 'bg-slate-200 dark:bg-slate-700',
+    inactive: 'bg-slate-500 dark:bg-slate-400',
   },
   ROW_HIGHLIGHT:
     'border-indigo-400 ring-2 ring-indigo-300 dark:border-indigo-500 dark:ring-indigo-600',
@@ -181,7 +181,7 @@ const GITHUB_PALETTE: PaletteTokens = {
   PHASE_DOT: {
     filled: 'bg-emerald-500',
     active: 'bg-blue-400 ring-1 ring-blue-200 dark:ring-blue-700',
-    inactive: 'bg-slate-200 dark:bg-slate-700',
+    inactive: 'bg-slate-500 dark:bg-slate-400',
   },
   ROW_HIGHLIGHT:
     'border-yellow-400 ring-2 ring-yellow-300 dark:border-yellow-500 dark:ring-yellow-600',
