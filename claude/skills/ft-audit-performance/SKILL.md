@@ -5,11 +5,11 @@ description: Performance-focused audit — 5 passes (Hot paths · Payload & bund
 
 # audit-performance — flowtron performance audit skill
 
-You are a principal engineer doing a **targeted, high-impact** performance audit of a project surface. Default behavior: find what matters, report concisely, **make no changes without explicit confirmation**.
+Principal-engineer performance audit: find what matters, report concisely, **make no changes without explicit confirmation**.
 
-This skill ships in flowtron as a **stack-neutral scaffold**. It is meant to be **forked** (copied) into the adopting project's `.claude/skills/ft-audit-performance/` and customized — not symlinked. Per-stack divergence in profiling tools, perf budgets, and benchmark harnesses is the reason; see `docs/MIGRATION.md` §1.2.1 for the install workflow.
+Stack-neutral scaffold — **fork**, don't symlink (profiling tools + perf budgets + benchmark harnesses diverge). Install per `docs/MIGRATION.md` §1.2.1.
 
-**Cross-cuts.** Performance overlaps with `audit-frontend` (bundle / render perf) and `audit-backend` (persistence / async). This skill takes the cross-cutting view: end-to-end latency, resource budgets, hot-path identification regardless of layer. If a finding belongs cleanly inside one layer's specialist audit, defer to that audit and note the cross-list.
+**Cross-cuts** with `audit-frontend` (bundle/render perf) and `audit-backend` (persistence/async). This skill takes the cross-cutting view: end-to-end latency, resource budgets, hot-path identification. Findings cleanly inside one layer → defer to that audit and cross-list.
 
 ## 0. Forker checklist (fill in before first run)
 
@@ -26,25 +26,19 @@ Once the checklist is satisfied, delete this §0 block from your fork.
 
 ## 1. Scope & ground rules (do this first, always)
 
-1. **Resolve scope** from `$ARGUMENTS`:
-   - `all` or empty → `<default glob for your stack>` _(forker: set this — performance audits usually want a narrow scope; `all` for a large repo will be too broad to be useful)_
-   - a path → just that path
-   - a route / endpoint name → that path end-to-end (request → handler → DB → response)
-   - `last-commit` → files touched in `HEAD`
-   - `staged` → files in `git diff --cached`
-   - If ambiguous, **stop and ask** via `AskUserQuestion`. Performance audits without a scope are an anti-pattern.
-2. **Load the project rubric** — these are the measurable budgets to audit against, not vibes:
-   - `<rubric file 1>` — _(forker: e.g. `docs/PERF-BUDGET.md` — declared bundle / latency / memory ceilings)_
-   - `<rubric file 2>` — _(forker: e.g. `docs/SLO.md` — error budgets, p95 / p99 targets)_
-   - `<rubric file 3>` — _(forker: e.g. `bench/baseline.json` — last-recorded benchmark output for regression detection)_
-3. **Run verification gates** so you have measurements to ground findings, not guesses:
+1. **Resolve scope** from `$ARGUMENTS`: `all`/empty → `<default glob>` _(forker: narrow scope preferred; `all` is rarely useful)_; a path → that path; a route/endpoint → that path end-to-end (request → handler → DB → response); `last-commit` → files in `HEAD`; `staged` → files in `git diff --cached`. If ambiguous, **stop and ask** — unscoped perf audits are an anti-pattern.
+2. **Load the project rubric** (measurable budgets, not vibes):
+   - `<rubric file 1>` — _(forker: e.g. `docs/PERF-BUDGET.md` — bundle/latency/memory ceilings)_
+   - `<rubric file 2>` — _(forker: e.g. `docs/SLO.md` — error budgets, p95/p99 targets)_
+   - `<rubric file 3>` — _(forker: e.g. `bench/baseline.json` — last-recorded benchmark for regression detection)_
+3. **Run verification gates** to ground findings in measurements, not guesses:
    ```sh
-   <profiler / benchmark command, e.g. python -m cProfile, k6 run, lighthouse>
+   <profiler / benchmark, e.g. python -m cProfile, k6 run, lighthouse>
    <bundle analyzer if frontend, e.g. npx vite-bundle-visualizer>
    <load test if available, e.g. wrk -t4 -c100 -d30s>
    ```
-   Capture deltas vs. the rubric baseline — they're the leads for passes 1, 2, 4.
-4. **If something is unclear, stop and ask now.** Do not guess intent. **If no measurements exist, surface that first** — a performance audit without measurements is a code-style audit in disguise.
+   Capture deltas vs. rubric baseline — they're the leads for passes 1, 2, 4.
+4. If anything's unclear, stop and ask. **No measurements exist → surface that first** — an unmeasured perf audit is a code-style audit in disguise.
 
 ## 2. The 5 passes (in order)
 
@@ -80,17 +74,17 @@ Severity guide:
 3. **Proposed tasks for `_project/PLAN.md`** — prioritized, actionable tickets using flowtron's task-line grammar. One ticket per thematic cluster, not per finding. Present them inline so the user can review before anything is written to disk.
 4. **Questions for the user** — anything ambiguous that blocks implementation. Use `AskUserQuestion`, not prose.
 
-## 5. Write the proposed tasks into `_project/PLAN.md` (required step, not optional)
+## 5. Write the proposed tasks into `_project/PLAN.md` (required, not optional)
 
-The audit is not done until the proposed tickets land in `_project/PLAN.md`. This is the deliverable.
+The deliverable is tickets in PLAN.md.
 
-1. **After** sections 1–3 are presented, and **after** the user responds to any `AskUserQuestion` blockers, write tickets into `_project/PLAN.md` using flowtron's task-line grammar: `- [ ] **<AREA>-<N>** [opus|sonnet] | shortname — long description.` See `_project/flowtron/SPEC.md` §"Task-line format" (or `SPEC.md` §"Task-line format" if forked into flowtron-self).
-2. Pick the next free `<N>` per area prefix. Valid prefixes are listed in `_project/tasknote/README.md` §"Area prefixes".
-3. Insert tickets in the correct priority section. Add a `Surfaced by audit-performance YYYY-MM-DD (Finding #N, <severity>)` parenthetical, including the measured-impact number so future-you can validate the fix actually moved the metric.
-4. Do **not** write code changes, do **not** run formatters, do **not** open files for fixes. The audit writes tickets only.
-5. If the user pushes back on a proposed ticket during review, drop it from the write.
+1. **After** §§1–3 are presented and any `AskUserQuestion` blockers are answered, write tickets using flowtron's task-line grammar: `- [ ] **<AREA>-<N>** [opus|sonnet] | shortname — long description.` See SPEC §"Task-line format".
+2. Pick the next free `<N>` per area prefix (valid prefixes in `_project/tasknote/README.md` §"Area prefixes").
+3. Insert in correct priority section. Append `Surfaced by audit-performance YYYY-MM-DD (Finding #N, <severity>)` **plus the measured-impact number** so future-you can validate the fix moved the metric.
+4. **No code changes**, no formatters, no opening files for fixes. Tickets only.
+5. User pushes back on a ticket → drop it.
 
-If every pass returned zero findings, say so explicitly and skip the write.
+Zero findings across all passes → say so explicitly and skip the write.
 
 ## 6. Hard rules
 

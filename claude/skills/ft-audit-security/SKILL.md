@@ -5,9 +5,9 @@ description: Security-focused audit — 5 passes (Secrets · Input handling · A
 
 # audit-security — flowtron security audit skill
 
-You are a principal engineer doing a **targeted, high-impact** security audit of a project surface. Default behavior: find what matters, report concisely, **make no changes without explicit confirmation**.
+Principal-engineer security audit: find what matters, report concisely, **make no changes without explicit confirmation**.
 
-This skill ships in flowtron as a **stack-neutral scaffold**. It is meant to be **forked** (copied) into the adopting project's `.claude/skills/ft-audit-security/` and customized — not symlinked. Per-stack divergence in sacred invariants, dep-scan tooling, and threat model is the reason; see `docs/MIGRATION.md` §1.2.1 for the install workflow.
+Stack-neutral scaffold — **fork**, don't symlink (sacred-invariant + threat-model + scanner divergence). Install per `docs/MIGRATION.md` §1.2.1.
 
 ## 0. Forker checklist (fill in before first run)
 
@@ -25,24 +25,19 @@ Once the checklist is satisfied, delete this §0 block from your fork.
 
 ## 1. Scope & ground rules (do this first, always)
 
-1. **Resolve scope** from `$ARGUMENTS`:
-   - `all` or empty → `<default glob for your stack>` _(forker: set this)_
-   - a path → just that path
-   - `last-commit` → files touched in `HEAD`
-   - `staged` → files in `git diff --cached`
-   - If ambiguous, **stop and ask** via `AskUserQuestion` before reading anything.
-2. **Load the project rubric** — these are the security contracts to audit against, not generic OWASP top-10:
-   - `<rubric file 1>` — _(forker: e.g. `docs/THREAT-MODEL.md` — what the project is and isn't defending against)_
+1. **Resolve scope** from `$ARGUMENTS`: `all`/empty → `<default glob>` _(forker: set this)_; a path → that path; `last-commit` → files in `HEAD`; `staged` → files in `git diff --cached`. If ambiguous, **stop and ask** via `AskUserQuestion`.
+2. **Load the project rubric** (security contracts, not generic OWASP top-10):
+   - `<rubric file 1>` — _(forker: e.g. `docs/THREAT-MODEL.md` — what's in/out of scope)_
    - `<rubric file 2>` — _(forker: e.g. `docs/AUTH.md` — auth/session contract)_
-   - `<rubric file 3>` — _(forker: e.g. `.env.example` — declared secret surface; anything else is a hardcoding smell)_
-3. **Run verification gates** so passes 1, 5 don't report noise the scanners catch:
+   - `<rubric file 3>` — _(forker: e.g. `.env.example` — declared secret surface)_
+3. **Run verification gates** so passes don't report scanner noise:
    ```sh
-   <secret-scanner command, e.g. gitleaks detect --no-banner>
-   <dep-scanner command, e.g. npm audit --production>
-   <SAST command if any>
+   <secret-scanner, e.g. gitleaks detect --no-banner>
+   <dep-scanner, e.g. npm audit --production>
+   <SAST if any>
    ```
-   Note failures — they become Critical findings in pass 1 or 5, not separate noise.
-4. **If something is unclear, stop and ask now.** Do not guess intent.
+   Failures become Critical findings in pass 1 or 5.
+4. If anything's unclear, stop and ask. Don't guess intent.
 
 ## 2. The 5 passes (in order)
 
@@ -77,17 +72,17 @@ Severity guide:
 3. **Proposed tasks for `_project/PLAN.md`** — prioritized, actionable tickets using flowtron's task-line grammar. One ticket per thematic cluster, not per finding. Present them inline so the user can review before anything is written to disk.
 4. **Questions for the user** — anything ambiguous that blocks implementation (e.g. "is the admin route intentionally public for the read paths?"). Use `AskUserQuestion`, not prose.
 
-## 5. Write the proposed tasks into `_project/PLAN.md` (required step, not optional)
+## 5. Write the proposed tasks into `_project/PLAN.md` (required, not optional)
 
-The audit is not done until the proposed tickets land in `_project/PLAN.md`. This is the deliverable.
+The deliverable is tickets in PLAN.md.
 
-1. **After** sections 1–3 are presented, and **after** the user responds to any `AskUserQuestion` blockers, write tickets into `_project/PLAN.md` using flowtron's task-line grammar: `- [ ] **<AREA>-<N>** [opus|sonnet] | shortname — long description.` See `_project/flowtron/SPEC.md` §"Task-line format" (or `SPEC.md` §"Task-line format" if this skill is forked into flowtron-self).
-2. Pick the next free `<N>` per area prefix. Valid prefixes for this project are listed in `_project/tasknote/README.md` §"Area prefixes".
-3. Insert tickets in the correct priority section. Add a `Surfaced by audit-security YYYY-MM-DD (Finding #N, <severity>)` parenthetical to each ticket's description.
-4. Do **not** write code changes. The audit writes tickets only — actual fixes happen in separate task cycles via `/ft-task`. **Exception:** if a secret is currently leaked in a tracked file, surface it immediately and ask the user whether to rotate / scrub now rather than wait for a task cycle.
-5. If the user pushes back on a proposed ticket during review, drop it from the write.
+1. **After** §§1–3 are presented and any `AskUserQuestion` blockers are answered, write tickets using flowtron's task-line grammar: `- [ ] **<AREA>-<N>** [opus|sonnet] | shortname — long description.` See SPEC §"Task-line format".
+2. Pick the next free `<N>` per area prefix (valid prefixes in `_project/tasknote/README.md` §"Area prefixes").
+3. Insert in correct priority section. Append `Surfaced by audit-security YYYY-MM-DD (Finding #N, <severity>)`.
+4. **No code changes.** Tickets only — fixes happen in `/ft-task` cycles. **Exception:** secret currently leaked in a tracked file → surface immediately and ask whether to rotate/scrub now.
+5. User pushes back on a ticket → drop it.
 
-If every pass returned zero findings, say so explicitly and skip the write.
+Zero findings across all passes → say so explicitly and skip the write.
 
 ## 6. Hard rules
 

@@ -11,8 +11,6 @@ Both paths assume the project lives under `~/code/`, has its own git repo, and a
 
 ## 1 — Fresh adoption
 
-> **Want a more opinionated starting point?** [natabula](https://github.com/fakeneuron/natabula) is a project template that pre-wires flowtron alongside FastAPI + React conventions, CI setup, and a richer `CLAUDE.md` starter. If you're starting a new project in that stack, consider cloning natabula instead of wiring flowtron by hand.
-
 ### 1.0 Quick path: `/ft-new-project`
 
 If you have flowtron's `/ft-new-project` skill installed globally (one-time setup below), the manual steps in §1.1–1.6 are wrapped in a single command:
@@ -24,44 +22,24 @@ cd ~/code/<your-new-project>
 
 The skill verifies preconditions (cwd is a git repo with `CLAUDE.md`, no existing flowtron wiring, and no legacy workflow tooling at the root — `PLAN.md`, `plan.json`, or `WORKFLOW.md` route to §3 / §2 instead), asks for the project name and pinned flowtron version, and walks through §1.1–1.6 conversationally. It stages all bootstrap files and surfaces the commit message for your approval — no unprompted commits.
 
-**One-time global installs** (run once per machine, after cloning flowtron to `~/code/flowtron/`):
+**One-time global installs** (run once per machine, after cloning flowtron to `~/code/flowtron/`).
 
-_Adopter-facing — `/ft-new-project` (also useful for flowtron-self developers bootstrapping new projects):_
+| Skill | Audience | Purpose |
+|---|---|---|
+| `/ft-new-project` | Adopters (+ flowtron-self) | Bootstrap a new project with flowtron wiring |
+| `/ft-flowtron` | Adopters | Info screen — version, principles, bundled-skill roster (reads `_project/flowtron/SPEC.md`) |
+| `/ft-stats` | Adopters | Stats from `_project/PLAN.md` `## Completed` — `[model]` distribution, velocity, per-area volume; `--write` flushes to `_project/STATS.md` |
+| `/ft-quality` | Adopters | Lint + typecheck + test sweep (heuristic Node/Python/Go/Rust detection, fail-fast); runs outside the tasknote flow |
+| `/ft-release` | Flowtron-self only | Cut a release; bails outside flowtron's checkout |
 
-```sh
-ln -s ~/code/flowtron/claude/skills/ft-new-project    ~/.claude/skills/ft-new-project
-ln -s ~/code/flowtron/claude/commands/ft-new-project.md ~/.claude/commands/ft-new-project.md
-```
-
-_Adopter-facing — `/ft-flowtron` (info screen: version, principles, bundled-skill roster; reads from the adopter's submodule at `_project/flowtron/SPEC.md`):_
-
-```sh
-ln -s ~/code/flowtron/claude/skills/ft-flowtron       ~/.claude/skills/ft-flowtron
-ln -s ~/code/flowtron/claude/commands/ft-flowtron.md   ~/.claude/commands/ft-flowtron.md
-```
-
-_Adopter-facing — `/ft-stats` (stats screen: `[model]` distribution, completion velocity, per-area volume from `_project/PLAN.md` `## Completed`; `--write` also flushes to `_project/STATS.md`):_
+Install each you want with the same shape (substitute `<skill>`):
 
 ```sh
-ln -s ~/code/flowtron/claude/skills/ft-stats          ~/.claude/skills/ft-stats
-ln -s ~/code/flowtron/claude/commands/ft-stats.md      ~/.claude/commands/ft-stats.md
+ln -s ~/code/flowtron/claude/skills/<skill>       ~/.claude/skills/<skill>
+ln -s ~/code/flowtron/claude/commands/<skill>.md  ~/.claude/commands/<skill>.md
 ```
 
-_Adopter-facing — `/ft-quality` (lint + typecheck + test sweep with heuristic stack detection for Node / Python / Go / Rust; fail-fast on first failure; runs outside the tasknote flow):_
-
-```sh
-ln -s ~/code/flowtron/claude/skills/ft-quality        ~/.claude/skills/ft-quality
-ln -s ~/code/flowtron/claude/commands/ft-quality.md    ~/.claude/commands/ft-quality.md
-```
-
-_Flowtron-self developers only — `/ft-release` (bails outside flowtron's checkout; never useful in adopter projects):_
-
-```sh
-ln -s ~/code/flowtron/claude/skills/ft-release       ~/.claude/skills/ft-release
-ln -s ~/code/flowtron/claude/commands/ft-release.md   ~/.claude/commands/ft-release.md
-```
-
-The symlinks point at flowtron's working tree, so they pick up flowtron edits immediately rather than tracking a versioned submodule. If you prefer to pin a specific flowtron version of a skill, copy the files instead of symlinking and re-copy on bump.
+The symlinks point at flowtron's working tree, so they pick up flowtron edits immediately rather than tracking a versioned submodule. To pin a specific version of a skill, copy the files instead of symlinking and re-copy on bump.
 
 If you don't have the skill installed, follow §1.1–1.7 manually below — the skill is a convenience wrapper, not a requirement.
 
@@ -77,37 +55,26 @@ git -C _project/flowtron checkout vX.Y.Z   # replace with the version you want t
 
 The `checkout` step is what pins the project to a specific flowtron version. Without it, the submodule tracks `main` and updates would be undeliberate.
 
-### 1.2 Wire `/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic` via symlinks
+### 1.2 Wire the six tasknote skills via symlinks
 
-Flowtron ships six slash commands and their skills inside the submodule:
+Flowtron ships six slash commands inside the submodule: `/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`. Each one's purpose lives in its own SKILL.md frontmatter — short version: 4-phase runner; starter filer; micro one-shot; in-chat follow-up; epic open; epic close.
 
-- **`/ft-task <ID>`** — standard 4-phase tasknote runner.
-- **`/ft-starter-task <ID>`** — file a starter (rich AI-discovered context for tasks not yet ready to start; promoted to a full tasknote at `/ft-task` checkout).
-- **`/ft-micro-task <ID>`** — file + execute a small, single-file change with the relevance/drift/archive-skim/pattern-survey contracts but without the full 4-phase ceremony.
-- **`/ft-file-followup <ID>`** — file a mid-flow follow-up: one PLAN.md line on disk + a short context paragraph delivered conversationally only (no tasknote artifact). Lighter than `/ft-starter-task`; declines filings >70w and routes to `/ft-starter-task` instead.
-- **`/ft-epic-discovery`** — file a new epic (parent `<AREA>-EPIC-<N>` + `.1` Discovery + `.N` audit placeholder) AND drive its `.1` Discovery tasknote through closure in one motion (Phase 2 deliverable = filed implementation children). See `_project/flowtron/SPEC/epic.md` for the lifecycle contract.
-- **`/ft-close-epic <AUDIT-SUBTASK-ID>`** — bracket twin of `/ft-epic-discovery`. Scaffolds and drives the audit `.N` tasknote of an epic (with the fixed doc-drift sweep acceptance line per `SPEC/epic.md`) through closure, then prompts to flip the parent `<AREA>-EPIC-<N>` to `Completed` and move the cohort to `## Completed`.
-
-Adopting projects expose all six through their own `.claude/` folder using symlinks. Open `_project/flowtron/claude/CLAUDE-snippet.md` §"One-time symlink wiring" and run the commands listed there from the project root — that file is the single source of truth for the wiring block. The relative paths in the snippet are intentional (they survive `git clone` and pin to whichever flowtron commit the submodule is currently checked out at), so the symlinks never need touching on a version bump. The same file also holds the `CLAUDE.md` paste-block for the next step.
+**Install:** open `_project/flowtron/claude/CLAUDE-snippet.md` §"One-time symlink wiring" and run the commands from the project root — that file is the single source of truth for the wiring (and also holds the §1.3 `CLAUDE.md` paste-block). The relative paths in the snippet survive `git clone` and pin to the submodule's current SHA, so symlinks never need touching on a version bump.
 
 ### 1.2.1 Optional: fork the `/ft-audit` family per stack
 
-Flowtron ships an **audit family** at `_project/flowtron/claude/skills/ft-audit*/` — six stack-neutral scaffolds, each a 5-pass / capped-findings / writes-tickets-to-`_project/PLAN.md` skill. **Unlike the six skills in §1.2, the audit family is forked, not symlinked.** Per-stack divergence in rubric files, verification commands, and per-pass examples is the reason — one symlinked scaffold cannot serve every stack without becoming bland enough to miss real issues.
-
-The family:
+Flowtron ships six stack-neutral audit scaffolds at `_project/flowtron/claude/skills/ft-audit*/` — each a 5-pass / capped-findings / writes-tickets skill. **Forked, not symlinked**: per-stack rubrics/commands/examples diverge.
 
 | Skill | Scope | 5 passes |
 |---|---|---|
 | `/ft-audit` | Catch-all code audit; default when no specialist fits | Security · Idioms · Hygiene · Orphans · Doc drift |
 | `/ft-audit-docs` | Documentation surface | Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content |
 | `/ft-audit-security` | Security posture | Secrets · Input handling · Auth & authz · Network & boundaries · Dependencies |
-| `/ft-audit-frontend` | Frontend (framework-agnostic scaffold) | Bundle & payload · Accessibility · Render perf · Browser hygiene · Component health |
-| `/ft-audit-backend` | Backend (framework-agnostic scaffold) | Input & contracts · Error & lifecycle · Persistence · Async correctness · Observability |
+| `/ft-audit-frontend` | Frontend (framework-agnostic) | Bundle & payload · Accessibility · Render perf · Browser hygiene · Component health |
+| `/ft-audit-backend` | Backend (framework-agnostic) | Input & contracts · Error & lifecycle · Persistence · Async correctness · Observability |
 | `/ft-audit-performance` | Cross-cutting perf (measurements required) | Hot paths · Payload & bundle · Data access · Memory & resource · Caching |
 
-Pick the ones you'll actually use. Skipping a skill is fine — `/ft-audit` is a sensible default if you don't need specialists yet.
-
-To install one skill (repeat per skill you want):
+Pick the ones you'll use — `/ft-audit` is a sensible default if you don't need specialists yet. To install one (repeat per skill):
 
 ```sh
 SKILL=audit-docs   # or audit, audit-security, audit-frontend, audit-backend, audit-performance
@@ -116,15 +83,11 @@ cp _project/flowtron/claude/skills/ft-$SKILL/SKILL.md  .claude/skills/$SKILL/SKI
 cp _project/flowtron/claude/commands/ft-$SKILL.md      .claude/commands/$SKILL.md
 ```
 
-Upstream paths carry the `ft-` prefix (the namespace bundled flowtron owns per SPEC §"Skill namespace"); the local fork is named **without** the prefix so ownership stays clear in skill resolution — the same SPEC clause mandates this for adopter forks.
+Upstream carries the `ft-` prefix (flowtron's owned namespace per SPEC §"Skill namespace"); the local fork drops it so ownership is clear in skill resolution. Open each fork's SKILL.md and walk the **§0 Forker checklist** — set glob, rubric files, verification commands, stack-specific pass examples, sacred-invariant callouts under Critical. Delete §0 when filled in.
 
-Then open each `.claude/skills/<skill>/SKILL.md` and walk the **§0 Forker checklist** at the top — set the default glob, list your rubric files, pin your verification commands, fill in stack-specific pass examples, and call out your project's sacred invariants under Critical severity. Delete the §0 block from each fork once filled in.
+Splitting one skill into per-area forks (e.g., `audit-backend` → `audit-backend-payments` + `audit-backend-ingest`): copy SKILL.md into multiple sibling dirs and customize each. Forks are yours — flowtron bumps don't touch them; re-copy upstream when you want scaffold improvements.
 
-You can also split a single skill into per-area forks (e.g. `audit-backend` → `audit-backend-payments` and `audit-backend-ingest`) by copying the SKILL.md into multiple sibling directories and customizing each independently. Adjust the `cp` targets accordingly.
-
-The forks are yours — flowtron version bumps do not touch them. Re-copy from `_project/flowtron/claude/skills/<skill>/SKILL.md` if you ever want to pick up scaffold improvements upstream.
-
-This subsection is **optional**. Projects that don't want structured audit skills can skip §1.2.1 entirely.
+Optional section — skip entirely if you don't want structured audit skills.
 
 ### 1.3 Paste the workflow block into `CLAUDE.md`
 
@@ -145,14 +108,13 @@ mkdir -p _project/tasknote/archive
 cp _project/flowtron/templates/tasknote-README.md _project/tasknote/README.md
 ```
 
-Replace `vX.Y.Z` in the `Pinned to: vX.Y.Z` line with the flowtron version you pinned in §1.1. Declare any project-specific area prefixes. Replace the "Project quick commands" section with the actual test/lint/dev commands for your project. Extend the `## AI-referenced docs` section as the architecture matures — the template seeds it with `README.md` / `CLAUDE.md` / `_project/PLAN.md`; add architecture notes, API specs, DB schema docs, ADRs, inventories. This list is walked at every Phase 4 closure (per `_project/flowtron/SPEC.md` §"🚀 Phase 4: Closure") and at every epic-audit subtask.
+Then fill it in:
+- Replace `vX.Y.Z` in `Pinned to: vX.Y.Z` with the version from §1.1.
+- Declare project-specific area prefixes.
+- Replace "Project quick commands" with the project's test/lint/dev commands.
+- Extend `## AI-referenced docs` (seeded with `README.md` / `CLAUDE.md` / `_project/PLAN.md`) — this list is walked at every Phase 4 closure and epic-audit subtask. Add architecture notes, API specs, DB schema docs, ADRs as the project matures.
 
-The README also describes the canonical tasknote shape — see `_project/flowtron/SPEC.md` §"Tasknote frontmatter" + §"Tasknote body shape" and `_project/flowtron/templates/tasknote-template.md`. Two lightweight variants exist alongside it:
-
-- **Starter tasknote** — `/ft-starter-task <ID>` scaffolds from `tasknote-starter-template.md` for mid-flow context capture; lifecycle at `_project/flowtron/SPEC/starter.md`.
-- **Micro tasknote** — `/ft-micro-task <ID>` scaffolds from `tasknote-micro-template.md` for tasks above the skip-tasknote threshold but below full 4-phase ceremony; threshold at `_project/flowtron/SPEC.md` §"When to use a tasknote (and when not to)".
-
-For multi-child code-sweep or feature epics, flowtron also defines an opening **Discovery** subtask (`<AREA>-<N>.1`) and a closing **Audit** subtask (highest `.N`) that bracket the implementation children. See `_project/flowtron/SPEC/epic.md`. Simple multi-subtask implementations don't need the bracket — apply judgment.
+Tasknote shape and lifecycles: see SPEC §"Tasknote frontmatter" + §"Tasknote body shape", plus the lightweight variants — **starter** (`tasknote-starter-template.md`, lifecycle in `SPEC/starter.md`) and **micro** (`tasknote-micro-template.md`, threshold in SPEC §"When to use a tasknote"). For multi-child code-sweep/feature epics, opening Discovery (`.1`) + closing Audit (highest `.N`) bracket the implementation children — `SPEC/epic.md`. Simple multi-subtask implementations skip the bracket.
 
 ### 1.6 Commit
 
@@ -178,48 +140,24 @@ If any command doesn't appear, the symlinks are likely wrong — check that each
 
 ## 2 — Migrating from a prior workflow system
 
-If the project already has its own workflow tooling, do **Section 1 first** — flowtron lives alongside the legacy system until you finish converting. Then work through the items below in order.
+If the project has its own workflow tooling, do **Section 1 first** — flowtron lives alongside the legacy system until conversion is done. Then work through this section.
 
-Before any `git mv` or new files, walk **§3.1 — Pre-flight collision check**. The collision risks (`.claude/` symlinks, `_project/tasknote/README.md`, working-tree-clean) apply identically to this heavy path, even though §3.1 lives under §3.
+§2 lifts the **full** plan (closed + active) into flowtron shape, preserving task IDs so archived tasknotes stay addressable. If you'd rather freeze the archive as read-only legacy and only lift the active queue, jump to **[Section 3](#3--lightweight-migration-current-tasks-only)** — much shorter playbook.
 
-This section assumes you want to lift the **full** plan, including completed entries, into flowtron's shape. If you only want the active queue and are happy to leave historical tasknotes frozen as a read-only legacy reference, jump to **[Section 3](#3--lightweight-migration-current-tasks-only)** instead — it's a much shorter playbook.
+Walk **§3.1 Pre-flight collision check** before any `git mv` — the collision risks apply identically to this heavy path.
 
 ### 2.1 Convert `plan.json` (or equivalent) to `PLAN.md`
 
-If the project's plan is a structured file (JSON, YAML, a database export), convert it by hand to `_project/PLAN.md`:
+The differentiator vs §3: full conversion, not just the active queue. Convert by hand to `_project/PLAN.md`:
 
-- Preserve task IDs exactly. Archived tasknotes reference them; renumbering breaks the links.
-- Group entries under the priority headings (`High`, `Medium`, `Low`, `Future Opportunities`) defined in SPEC §"Priority levels". Urgent rows that the legacy plan filed under `Critical` move into `High` with a `[!critical]` flag — see SPEC §"Task-line format".
-- Move completed entries into the `Completed` section with their close dates if known. If a date is missing, omit it rather than inventing one.
-- Resist the urge to write a conversion script. The translation involves judgment calls (which priority does this map to, is this still relevant) and is a one-time operation per project.
+- **Preserve task IDs exactly** — archived tasknotes reference them; renumbering breaks the links.
+- Group entries under SPEC §"Priority levels" headings (`High` / `Medium` / `Low` / `Future Opportunities`). Legacy `Critical` rows move into `High` with `[!critical]` per SPEC §"Task-line format".
+- Move completed entries to `## Completed` with close dates if known; omit missing dates rather than inventing them.
+- **No conversion script** — judgment calls (priority mapping, still-relevant filter) make this a one-time per-project translation.
 
-### 2.2 Reconcile in-flight tasknotes
+### 2.2–2.6 Follow §3.5–§3.9
 
-For each tasknote currently in flight, decide between **finish-as-is** and **rewrap-into-flowtron**:
-
-- **Finish-as-is** if the tasknote is mid-Phase 2 or later. The cost of rewrapping near completion is higher than the cost of one trailing legacy file. Archive it under the legacy convention when done; use the flowtron template for the next task.
-- **Rewrap** if the tasknote is in Phase 1 or has been stale for more than a week. Copy the flowtron template to `_project/tasknote/<TASK-ID>.md`, transcribe the relevant Discovery notes, and continue from Phase 1's Relevance Assessment (the gate may catch a now-obsolete task).
-
-### 2.3 Retire helper scripts
-
-Once `plan.json` is gone, scripts like `create_tasknote.py`, `archive_tasknote.py`, or `validate_plan.py` have nothing left to do — flowtron's "operations" are `cp`, `mv`, and editing markdown, executed by the assistant. Delete the scripts and remove any references to them from `CLAUDE.md`, the README, or pre-commit hooks.
-
-If a script is doing something genuinely useful that flowtron doesn't cover (project-specific lint, custom CI integration), keep it — but rename and document it as a project-side helper, not part of the workflow system.
-
-### 2.4 Replace project-side workflow docs
-
-Files like `WORKFLOW.md` or `TASKNOTE_QUICK_REFERENCE.md` were written when each project owned its own workflow. With flowtron, the canonical workflow contract is `_project/flowtron/SPEC.md`. For each such doc:
-
-- **Delete** if its content is fully covered by flowtron's SPEC, templates, and CLAUDE-snippet.
-- **Shrink** if it holds project-specific notes (commands, conventions, gotchas) that don't belong in flowtron. Trim it to the project-only parts and add a one-line pointer at the top: *"Workflow contract: see `_project/flowtron/SPEC.md`."*
-
-### 2.5 Update `CLAUDE.md`
-
-Remove the block describing the legacy workflow. The flowtron paste-block from §1.3 replaces it. Keep any project-specific instructions (architecture notes, non-negotiables, quick commands) — those are orthogonal to flowtron.
-
-### 2.6 Commit the migration
-
-A migration is itself a tasknote — typically a `CORE-` task in the project's own PLAN.md (or an epic with subtasks if the legacy system is large). Use that tasknote to track the steps above; commit at the end of Phase 4 the same way any other tasknote closes.
+The remaining steps (reconcile in-flight tasknotes · retire helpers · replace workflow docs · update `CLAUDE.md` · commit) are identical to §3's playbook. Apply §3.5 to **all** in-flight tasknotes (not just the active queue), then §3.6–§3.9 as written.
 
 ---
 
@@ -233,9 +171,7 @@ Do **Section 1 first** — flowtron lives alongside legacy until you finish the 
 
 ### 3.1 Pre-flight collision check
 
-Before any `git mv` or new files, walk this checklist. Each item below is a real-world collision or pre-condition that tripped early adopter migrations (fintown's `CORE-098`, InvisiPaw's `P43-1`); leaving any unresolved at the start makes §3.2's freeze partially fail or silently overwrite a legacy file.
-
-The list is the **generic core**. Project-specific tells (credentials files, live runtime gates, project-local skills, project-specific orphan dirs) belong in the adopter's migration tasknote alongside this list — not here.
+Before any `git mv` or new files, walk this checklist — each item below tripped early adopter migrations. Unresolved items make §3.2's freeze partially fail or silently overwrite legacy files. The list is the generic core; project-specific tells (credentials, runtime gates, project-local skills, orphan dirs) belong in the adopter's migration tasknote, not here.
 
 - **Working tree clean.** `git status` shows no uncommitted changes — bail and resolve before proceeding. Migration is a multi-commit shape; mixing in unrelated WIP makes the diff unreadable.
 - **Gitignore audit.** Confirm any project-specific transient paths (e.g. `__pycache__/`, `.coverage`, `node_modules/`, `.env*`, large local DB files) are already ignored. If any aren't, fix `.gitignore` and commit BEFORE staging migration files — `git add _project/...` could otherwise leak compiled artifacts or secrets.
@@ -321,18 +257,18 @@ The stub-form (CORE-036, v0.10.0) means new flowtron-era completions are one-lin
 
 ### 3.5 Decide per active tasknote: finish-as-is or rewrap
 
-Same call as §2.2, but the universe is small — only the currently-open tasknotes. For each:
+For each currently-open tasknote (a small universe under §3):
 
 - **Finish-as-is** in the legacy directory if the task is mid-Phase 2 or later. When it closes, archive it alongside the other legacy tasknotes; the line in flowtron's `_project/PLAN.md` flips to `[x] | <shortname> — Completed YYYY-MM-DD. (closed under legacy workflow)`. The new tasknote at `_project/tasknote/archive/<area>/` does **not** get created — the legacy artifact is sufficient.
 - **Rewrap** under the new ID if the task is in Phase 1 or stale: scaffold via `/ft-task <NEW-ID>` against the renamed PLAN.md entry. The starter context can be transcribed from the legacy tasknote's discovery notes; apply Phase 1's drift check fully (legacy notes can be weeks old).
 
 ### 3.6 Retire helpers and project-side workflow docs
 
-Same as §2.3 and §2.4. Helper scripts (`create_tasknote.py`, `archive_tasknote.py`, `validate_plan.py`) and project-side workflow docs (`WORKFLOW.md`, `TASKNOTE_QUICK_REFERENCE.md`) go away — the flowtron submodule + paste-block in CLAUDE.md cover their job. Project-specific notes shrink and get a pointer at the top.
+Helper scripts (`create_tasknote.py`, `archive_tasknote.py`, `validate_plan.py`) and project-side workflow docs (`WORKFLOW.md`, `TASKNOTE_QUICK_REFERENCE.md`) go away — the flowtron submodule + paste-block in `CLAUDE.md` cover their job. If a doc holds project-specific notes worth keeping, shrink it to those parts and add a top-of-file pointer: *"Workflow contract: see `_project/flowtron/SPEC.md`."* If a script does something flowtron doesn't cover (project-specific lint, custom CI), keep it as a project-side helper — not part of the workflow system.
 
 ### 3.7 Update `CLAUDE.md`
 
-Same as §2.5. Replace any block referencing the legacy workflow with the flowtron paste-block from §1.3. Project-specific instructions (architecture notes, non-negotiables, quick commands) stay.
+Replace any block referencing the legacy workflow with the flowtron paste-block from §1.3. Project-specific instructions (architecture notes, non-negotiables, quick commands) stay — they're orthogonal to flowtron.
 
 ### 3.8 Post-migration cleanup
 

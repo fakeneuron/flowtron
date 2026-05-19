@@ -11,31 +11,21 @@ If `args` is missing or doesn't match `<AREA>-<NUMBER>` (or `<AREA>-<NUMBER>.<SU
 
 ## Step 0 — Resolve paths
 
-Determine which repo you're in:
+Two layouts. Pick by which file exists:
 
-- **Adopting project (typical):** `_project/flowtron/SPEC.md` exists. Use:
-  - SPEC: `_project/flowtron/SPEC.md`
-  - SPEC_DIR (lazy SPEC modules): `_project/flowtron/SPEC/`
-  - SKILL_DIR (lazy SKILL fragments): `_project/flowtron/claude/skills/ft-task/`
-  - Template: `_project/flowtron/templates/tasknote-template.md`
-  - PLAN: `_project/PLAN.md`
-  - Tasknote dir: `_project/tasknote/`
-- **Flowtron itself (self-hosted):** repo-root `SPEC.md` exists with the heading `# Flowtron — Workflow Specification`. Use:
-  - SPEC: `SPEC.md`
-  - SPEC_DIR (lazy SPEC modules): `SPEC/`
-  - SKILL_DIR (lazy SKILL fragments): `claude/skills/ft-task/`
-  - Template: `templates/tasknote-template.md`
-  - PLAN: `_project/PLAN.md`
-  - Tasknote dir: `_project/tasknote/`
+- **Adopter project:** `_project/flowtron/SPEC.md` exists → `<root>` = `_project/flowtron/`.
+- **Flowtron self-host:** repo-root `SPEC.md` with heading `# Flowtron — Workflow Specification` → `<root>` = repo-root.
 
-If neither layout matches, stop and tell the user this directory doesn't look like a flowtron-using project.
+If neither matches, bail.
 
-`SPEC.md` and this `SKILL.md` are the always-loaded core. Two lazy-load surfaces sit alongside:
+Paths this skill uses:
+- SPEC: `<root>SPEC.md` (always loaded core)
+- SPEC_DIR (lazy modules `epic.md` · `starter.md` · `blocked.md` · `model.md` · `versioning.md`): `<root>SPEC/`
+- SKILL_DIR (lazy fragments `step-1.5-model-edge.md` · `step-3a-promote-starter.md` · `step-3c-resume-blocked.md`): `<root>claude/skills/ft-task/`
+- Template: `<root>templates/tasknote-template.md`
+- PLAN: `_project/PLAN.md`, tasknote dir: `_project/tasknote/` (always)
 
-- `SPEC_DIR/` holds lazy SPEC modules (`epic.md`, `starter.md`, `blocked.md`, `model.md`, `versioning.md`) — canonical workflow contract, loaded when the relevant branch fires (Step 1.5 model-gate, Step 2 epic-ID prefix, Step 3a / 3c, Step 5 parking).
-- `SKILL_DIR/` holds lazy SKILL fragments (`step-1.5-model-edge.md`, `step-3a-promote-starter.md`, `step-3c-resume-blocked.md`) — executable interpretation of the contract, loaded on the same branch fires.
-
-Each subsequent step names the modules and fragments to read explicitly. SKILL stubs typically Read both the SPEC contract and the SKILL fragment in parallel before proceeding.
+Subsequent steps name what to Read; the SPEC contract + matching SKILL fragment typically load in parallel.
 
 ## Step 1 — Locate the task in PLAN.md
 
@@ -69,15 +59,11 @@ Informational only — do not block scaffolding; the task is already filed and r
 
 ## Step 1.5 — Model gate (BEFORE scaffolding)
 
-The model decision is made at filing time on the PLAN.md task line, not at scaffold time. Gate on it now, before reading source files or synthesizing the tasknote body — heavy thinking should never run on the wrong model.
+Gate on the `[model]` segment captured in Step 1 before any source reads — heavy thinking shouldn't run on the wrong model. The active model is whatever the assistant is currently running as (ask the user if uncertain).
 
-Three cases (decide via the `[model]` segment captured in Step 1):
-
-- **PLAN.md `[model]` matches the active model** → proceed silently to Step 2.
-- **PLAN.md `[model]` differs from the active model** → STOP. Read `<SPEC_DIR>/model.md` (contract) and `<SKILL_DIR>/step-1.5-model-edge.md` (operational steps), then follow the "Mismatch" branch.
-- **PLAN.md `[model]` is absent (legacy entry, no `[model]` on the line)** → Read `<SPEC_DIR>/model.md` (contract) and `<SKILL_DIR>/step-1.5-model-edge.md` (operational steps), then follow the "Legacy entry" branch.
-
-The active model is whatever the assistant is currently running as (visible in the runtime; if uncertain, ask the user).
+- **Matches active model** → proceed silently to Step 2.
+- **Differs from active model** → STOP. Read `<SPEC_DIR>/model.md` + `<SKILL_DIR>/step-1.5-model-edge.md` in parallel, then follow the "Mismatch" branch.
+- **Absent (legacy line)** → Read `<SPEC_DIR>/model.md` + `<SKILL_DIR>/step-1.5-model-edge.md` in parallel, then follow the "Legacy entry" branch.
 
 ## Step 2 — Pre-flight checks & file-state branch
 
@@ -138,17 +124,14 @@ cue is the 📦 ready-to-commit banner in Step 6.
 
 ## Step 6 — Post-closure protocol
 
-The three-step protocol (commit / suggest next move / offer copy-paste line) is canonical in SPEC §"Post-closure protocol", with the conditional skip rule for the 📦 gate in SPEC §"Post-closure protocol" §"Conditional skip rule".
+Run the three-step protocol (commit / suggest next move / copy-paste line) per SPEC §"Post-closure protocol", branching on SPEC §"Conditional skip rule" against the closure diff:
 
-Skill-specific orchestration on top of the SPEC contract:
+- **Skip branch** (signals clear, no bundled in-📦 prompt) — emit `✅ Closure complete; committing autonomously (<concrete-signal-summary>).` where `<…>` names the cleared signals as diff facts (e.g., `4 markdown files; no frontend/privileged surface`); the marker stands in for commit-go. Then run closure review + recap + commit + 🏁 state-marker + suggest-next-move + copy-paste line in one continuous response.
+- **Fire branch** (any signal hits OR bundled in-📦 prompt queued) — surface the bundled 📦 ready-to-commit gate and wait for commit-go ("commit"/"go"/"yes"). After commit lands, the 🏁 marker + next-move + copy-paste follow in the same response.
 
-- Evaluate the **📦 conditional skip rule** (SPEC §"Post-closure protocol" §"Conditional skip rule") against the closure diff before deciding how to surface the bundle. Branch:
-  - **Skip branch** (zero frontend files AND zero privileged-ops paths AND no perf-narrative concern; no bundled in-📦 prompt queued) — emit the inline marker `✅ Closure complete; committing autonomously (<concrete-signal-summary>).` (parenthetical names the cleared signals as diff-specific facts, e.g., `4 markdown files; no frontend/privileged surface`), then run closure review + recap + commit + 🏁 state-marker + suggest-next-move + copy-paste line in a single continuous response. Do not surface a 📦 banner. Do not wait for commit-go — the marker stands in for the approval.
-  - **Fire branch** (any signal hits, OR a bundled in-📦 prompt is queued) — surface the **bundled 📦 ready-to-commit gate** (per SPEC §"Post-closure protocol" step 1) and wait for commit-go. Do not commit unprompted.
-- The motion is **one continuous flow** in both branches. On the fire branch the user's commit-go (e.g. "commit", "go", "yes") is the gate; on the skip branch the inline marker is. Once the commit lands, the suggest-next-move and copy-paste-line steps follow **in the same response as the commit confirmation** (skip branch: same response as the marker; fire branch: same response as the commit-go reply), even if the reply was terse or only named the commit step.
-- The post-commit response carries a 🏁 state-marker line immediately above the next-move suggestion (per SPEC §"Post-closure protocol" step 2): `` 🏁 **<TASK-ID> — committed `<sha>`** · archived to `<archive-path>` ``. Visually closes the 🛠️ → 📦 → 🏁 lifecycle in the transcript (skip branch collapses 🛠️ and/or 📦 to inline markers but 🏁 still fires).
-- When suggesting the next move, surface candidates with `[model]` tags visible **inline per option** in the PLAN.md task-line shape: `**<TASK-ID>** [model] | shortname — one-sentence "why now"`. Mirrors PLAN.md so the user can scan model assignments without cross-referencing.
-- The copy-paste line is `/clear then /model <opus|sonnet> then /ft-task <NEXT-ID>` — you cannot run `/clear` yourself. Substitute the next task's PLAN-line `[model]` tag for `<opus|sonnet>` so the user pastes a fully resolved line.
+Skill-specific:
+- Suggest-next-move candidates carry `[model]` **inline per option** in the PLAN.md task-line shape: `**<TASK-ID>** [model] | shortname — one-sentence "why now"`. Mirrors PLAN.md so the user scans model assignments without cross-referencing.
+- Copy-paste line: `/clear then /model <opus|sonnet> then /ft-task <NEXT-ID>` — substitute the next task's PLAN-line `[model]` tag. (You cannot run `/clear` yourself.)
 
 ## Notes
 

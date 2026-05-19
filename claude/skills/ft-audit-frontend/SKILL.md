@@ -5,9 +5,9 @@ description: Frontend-focused audit — 5 passes (Bundle & payload · Accessibil
 
 # audit-frontend — flowtron frontend audit skill
 
-You are a principal engineer doing a **targeted, high-impact** audit of a frontend codebase. Default behavior: find what matters, report concisely, **make no changes without explicit confirmation**.
+Principal-engineer audit of a frontend codebase: find what matters, report concisely, **make no changes without explicit confirmation**.
 
-This skill ships in flowtron as a **stack-neutral scaffold**. It is meant to be **forked** (copied) into the adopting project's `.claude/skills/ft-audit-frontend/` and customized — not symlinked. Per-framework divergence (React vs. Vue vs. Svelte vs. vanilla; Vite vs. webpack vs. Next.js; component-library choices) is the reason; see `docs/MIGRATION.md` §1.2.1 for the install workflow.
+Stack-neutral scaffold — **fork**, don't symlink (framework + bundler + component-library divergence). Install per `docs/MIGRATION.md` §1.2.1.
 
 ## 0. Forker checklist (fill in before first run)
 
@@ -24,26 +24,20 @@ Once the checklist is satisfied, delete this §0 block from your fork.
 
 ## 1. Scope & ground rules (do this first, always)
 
-1. **Resolve scope** from `$ARGUMENTS`:
-   - `all` or empty → `<default frontend glob for your stack>` _(forker: set this)_
-   - a path → just that path
-   - `last-commit` → files touched in `HEAD`
-   - `staged` → files in `git diff --cached`
-   - a route name → component tree under that route
-   - If ambiguous, **stop and ask** via `AskUserQuestion` before reading anything.
-2. **Load the project rubric** — these are the user-facing contracts to audit against, not generic "best practices":
+1. **Resolve scope** from `$ARGUMENTS`: `all`/empty → `<default frontend glob>` _(forker: set this)_; a path → that path; `last-commit` → files in `HEAD`; `staged` → files in `git diff --cached`; a route → component tree under that route. If ambiguous, **stop and ask** via `AskUserQuestion`.
+2. **Load the project rubric** (user-facing contracts, not generic best practices):
    - `<rubric file 1>` — _(forker: e.g. `docs/DESIGN-SYSTEM.md` — tokens, spacing, typography)_
    - `<rubric file 2>` — _(forker: e.g. `docs/A11Y-BASELINE.md` — declared a11y commitments)_
-   - `<rubric file 3>` — _(forker: e.g. `docs/PERF-BUDGET.md` — bundle ceilings, TTI / LCP targets)_
-3. **Run verification gates** so passes 1–4 don't report noise the toolchain catches:
+   - `<rubric file 3>` — _(forker: e.g. `docs/PERF-BUDGET.md` — bundle ceilings, TTI/LCP targets)_
+3. **Run verification gates** so passes don't report toolchain noise:
    ```sh
-   <build / type-check command, e.g. npm run build>
-   <bundle-analyzer if available, e.g. npx vite-bundle-visualizer --json>
-   <a11y check, e.g. npx pa11y http://localhost:5173 or jest-axe in test suite>
+   <build / type-check, e.g. npm run build>
+   <bundle-analyzer, e.g. npx vite-bundle-visualizer --json>
+   <a11y check, e.g. npx pa11y http://localhost:5173 or jest-axe in tests>
    <lint, e.g. npm run lint>
    ```
-   Note failures — they become Critical / High findings in passes 1–2.
-4. **If something is unclear, stop and ask now.** Do not guess intent.
+   Failures become Critical/High findings in passes 1–2.
+4. If anything's unclear, stop and ask. Don't guess intent.
 
 ## 2. The 5 passes (in order)
 
@@ -78,17 +72,17 @@ Severity guide:
 3. **Proposed tasks for `_project/PLAN.md`** — prioritized, actionable tickets using flowtron's task-line grammar. One ticket per thematic cluster, not per finding. Present them inline so the user can review before anything is written to disk.
 4. **Questions for the user** — anything ambiguous that blocks implementation. Use `AskUserQuestion`, not prose.
 
-## 5. Write the proposed tasks into `_project/PLAN.md` (required step, not optional)
+## 5. Write the proposed tasks into `_project/PLAN.md` (required, not optional)
 
-The audit is not done until the proposed tickets land in `_project/PLAN.md`. This is the deliverable.
+The deliverable is tickets in PLAN.md.
 
-1. **After** sections 1–3 are presented, and **after** the user responds to any `AskUserQuestion` blockers, write tickets into `_project/PLAN.md` using flowtron's task-line grammar: `- [ ] **<AREA>-<N>** [opus|sonnet] | shortname — long description.` See `_project/flowtron/SPEC.md` §"Task-line format" (or `SPEC.md` §"Task-line format" if forked into flowtron-self).
-2. Pick the next free `<N>` per area prefix. Valid prefixes for this project are listed in `_project/tasknote/README.md` §"Area prefixes" (typically `FE-` for frontend).
-3. Insert tickets in the correct priority section. Add a `Surfaced by audit-frontend YYYY-MM-DD (Finding #N, <severity>)` parenthetical to each ticket's description.
-4. Do **not** write code changes, do **not** run formatters, do **not** open files for fixes. The audit writes tickets only.
-5. If the user pushes back on a proposed ticket during review, drop it from the write.
+1. **After** §§1–3 are presented and any `AskUserQuestion` blockers are answered, write tickets using flowtron's task-line grammar: `- [ ] **<AREA>-<N>** [opus|sonnet] | shortname — long description.` See SPEC §"Task-line format".
+2. Pick the next free `<N>` per area prefix (valid prefixes in `_project/tasknote/README.md` §"Area prefixes" — typically `FE-`).
+3. Insert in correct priority section. Append `Surfaced by audit-frontend YYYY-MM-DD (Finding #N, <severity>)`.
+4. **No code changes**, no formatters, no opening files for fixes. Tickets only.
+5. User pushes back on a ticket → drop it.
 
-If every pass returned zero findings, say so explicitly and skip the write.
+Zero findings across all passes → say so explicitly and skip the write.
 
 ## 6. Hard rules
 

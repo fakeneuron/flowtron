@@ -15,18 +15,12 @@ If `args` is missing or doesn't match `<AREA>-<NUMBER>` (or `<AREA>-<NUMBER>.<SU
 
 ## Step 0 — Resolve paths
 
-Determine which repo you're in:
+Two layouts. Pick by which file exists:
 
-- **Adopting project (typical):** `_project/flowtron/SPEC.md` exists. Use:
-  - SPEC: `_project/flowtron/SPEC.md`
-  - PLAN: `_project/PLAN.md`
-  - Tasknote dir: `_project/tasknote/`
-- **Flowtron itself (self-hosted):** repo-root `SPEC.md` exists with the heading `# Flowtron — Workflow Specification`. Use:
-  - SPEC: `SPEC.md`
-  - PLAN: `_project/PLAN.md`
-  - Tasknote dir: `_project/tasknote/`
+- **Adopter project:** `_project/flowtron/SPEC.md` exists → SPEC=`_project/flowtron/SPEC.md`.
+- **Flowtron self-host:** repo-root `SPEC.md` with heading `# Flowtron — Workflow Specification` → SPEC=`SPEC.md`.
 
-If neither layout matches, stop and tell the user this directory doesn't look like a flowtron-using project.
+If neither matches, bail. PLAN=`_project/PLAN.md`, tasknote dir=`_project/tasknote/` either way.
 
 ## Step 1 — Pre-flight checks
 
@@ -100,7 +94,5 @@ Do **not** commit unprompted. The new PLAN.md line is typically bundled into wha
 ## Notes
 
 - **Filing-only — no design decisions in the skill flow itself.** All context (rationale, suspected files, recommended priority/model) comes from the prior conversation; the skill just records the line and surfaces the paragraph.
-- **Compare with `/ft-starter-task`** — files a tasknote with rich AI-captured context (`## 🌱 Starter context` body, file survey, open questions). Use that when the description would breach 50w or persistent context warrants preserving.
-- **Compare with `/ft-micro-task`** — files + executes a small change in one shot. `/ft-file-followup` is filing-only; it never runs the work.
-- **Compare with `/ft-task`** — starts an existing PLAN.md entry and drives it through the 4-phase workflow. `/ft-file-followup`'s output line is the input `/ft-task` consumes later.
+- **Routing across the filing cohort:** see SPEC §"When to use a tasknote (and when not to)" for the full decision tree. `/ft-file-followup`'s niche: ≤50w + ephemeral context only. Above 50w → `/ft-starter-task`. Filing+executing in one shot → `/ft-micro-task`. Starting an existing PLAN.md entry → `/ft-task`.
 - **No active-tasknote breadcrumb.** When invoked from inside `/ft-task`, `/ft-file-followup` does not write into the active tasknote — keeps the active tasknote a record of what it was for, not a coordination ledger. This is the strict reading of "only one PLAN.md line on disk."

@@ -5,9 +5,9 @@ description: Backend-focused audit — 5 passes (Input & contracts · Error hand
 
 # audit-backend — flowtron backend audit skill
 
-You are a principal engineer doing a **targeted, high-impact** audit of a backend codebase. Default behavior: find what matters, report concisely, **make no changes without explicit confirmation**.
+Principal-engineer audit of a backend codebase: find what matters, report concisely, **make no changes without explicit confirmation**.
 
-This skill ships in flowtron as a **stack-neutral scaffold**. It is meant to be **forked** (copied) into the adopting project's `.claude/skills/ft-audit-backend/` and customized — not symlinked. Per-framework divergence (FastAPI vs. Django vs. Express vs. Rails vs. Go-stdlib), ORM choice, and async model is the reason; see `docs/MIGRATION.md` §1.2.1 for the install workflow.
+Stack-neutral scaffold — **fork**, don't symlink (per-framework divergence in ORM, async model, error envelope). Install per `docs/MIGRATION.md` §1.2.1.
 
 ## 0. Forker checklist (fill in before first run)
 
@@ -24,25 +24,19 @@ Once the checklist is satisfied, delete this §0 block from your fork.
 
 ## 1. Scope & ground rules (do this first, always)
 
-1. **Resolve scope** from `$ARGUMENTS`:
-   - `all` or empty → `<default backend glob for your stack>` _(forker: set this)_
-   - a path → just that path
-   - `last-commit` → files touched in `HEAD`
-   - `staged` → files in `git diff --cached`
-   - an endpoint / route name → that route's handler + its direct collaborators
-   - If ambiguous, **stop and ask** via `AskUserQuestion` before reading anything.
-2. **Load the project rubric** — these are the contracts to audit against, not generic "good API design":
-   - `<rubric file 1>` — _(forker: e.g. `docs/API-CONTRACT.md` or `openapi.yaml` — endpoint contracts)_
-   - `<rubric file 2>` — _(forker: e.g. `docs/DB-SCHEMA.md` or `alembic/versions/` — persistence shape)_
-   - `<rubric file 3>` — _(forker: e.g. `docs/ERROR-MODEL.md` — error envelope + status-code conventions)_
-3. **Run verification gates** so passes 1–2 don't report noise the toolchain catches:
+1. **Resolve scope** from `$ARGUMENTS`: `all`/empty → `<default backend glob>` _(forker: set this)_; a path → that path; `last-commit` → files in `HEAD`; `staged` → files in `git diff --cached`; an endpoint/route → its handler + direct collaborators. If ambiguous, **stop and ask** via `AskUserQuestion`.
+2. **Load the project rubric** (audit-against contracts, not "good API design"):
+   - `<rubric file 1>` — _(forker: e.g. `docs/API-CONTRACT.md` / `openapi.yaml` — endpoint contracts)_
+   - `<rubric file 2>` — _(forker: e.g. `docs/DB-SCHEMA.md` / `alembic/versions/` — persistence shape)_
+   - `<rubric file 3>` — _(forker: e.g. `docs/ERROR-MODEL.md` — error envelope + status codes)_
+3. **Run verification gates** so passes don't report toolchain noise:
    ```sh
    <lint command, e.g. ruff check / golangci-lint run>
    <type-check command, e.g. mypy . / tsc --noEmit>
    <test command, e.g. pytest -x / go test ./...>
    ```
-   Note failures — they become Critical findings in pass 2.
-4. **If something is unclear, stop and ask now.** Do not guess intent.
+   Failures become Critical findings in pass 2.
+4. If anything's unclear, stop and ask. Don't guess intent.
 
 ## 2. The 5 passes (in order)
 
@@ -77,17 +71,17 @@ Severity guide:
 3. **Proposed tasks for `_project/PLAN.md`** — prioritized, actionable tickets using flowtron's task-line grammar. One ticket per thematic cluster, not per finding. Present them inline so the user can review before anything is written to disk.
 4. **Questions for the user** — anything ambiguous that blocks implementation. Use `AskUserQuestion`, not prose.
 
-## 5. Write the proposed tasks into `_project/PLAN.md` (required step, not optional)
+## 5. Write the proposed tasks into `_project/PLAN.md` (required, not optional)
 
-The audit is not done until the proposed tickets land in `_project/PLAN.md`. This is the deliverable.
+The deliverable is tickets in PLAN.md.
 
-1. **After** sections 1–3 are presented, and **after** the user responds to any `AskUserQuestion` blockers, write tickets into `_project/PLAN.md` using flowtron's task-line grammar: `- [ ] **<AREA>-<N>** [opus|sonnet] | shortname — long description.` See `_project/flowtron/SPEC.md` §"Task-line format" (or `SPEC.md` §"Task-line format" if forked into flowtron-self).
-2. Pick the next free `<N>` per area prefix. Valid prefixes are listed in `_project/tasknote/README.md` §"Area prefixes" (typically `BE-` for backend; `DB-` for migration / persistence; `TEST-` for testing).
-3. Insert tickets in the correct priority section. Add a `Surfaced by audit-backend YYYY-MM-DD (Finding #N, <severity>)` parenthetical.
-4. Do **not** write code changes, do **not** run formatters, do **not** open files for fixes. The audit writes tickets only.
-5. If the user pushes back on a proposed ticket during review, drop it from the write.
+1. **After** §§1–3 are presented and any `AskUserQuestion` blockers are answered, write tickets using flowtron's task-line grammar: `- [ ] **<AREA>-<N>** [opus|sonnet] | shortname — long description.` See SPEC §"Task-line format".
+2. Pick the next free `<N>` per area prefix (valid prefixes in `_project/tasknote/README.md` §"Area prefixes" — typically `BE-`, `DB-`, `TEST-`).
+3. Insert in correct priority section. Append `Surfaced by audit-backend YYYY-MM-DD (Finding #N, <severity>)`.
+4. **No code changes**, no formatters, no opening files for fixes. Tickets only.
+5. User pushes back on a ticket → drop it.
 
-If every pass returned zero findings, say so explicitly and skip the write.
+Zero findings across all passes → say so explicitly and skip the write.
 
 ## 6. Hard rules
 

@@ -11,24 +11,16 @@ The skill takes the **audit subtask ID** as `args` (e.g., `args="CORE-057.6"`). 
 
 ## Step 0 — Resolve paths
 
-Determine which repo you're in:
+Two layouts. Pick by which file exists:
 
-- **Adopting project (typical):** `_project/flowtron/SPEC.md` exists. Use:
-  - SPEC: `_project/flowtron/SPEC.md`
-  - SPEC_DIR (lazy modules): `_project/flowtron/SPEC/`
-  - Template: `_project/flowtron/templates/tasknote-template.md`
-  - PLAN: `_project/PLAN.md`
-  - Tasknote dir: `_project/tasknote/`
-- **Flowtron itself (self-hosted):** repo-root `SPEC.md` exists with the heading `# Flowtron — Workflow Specification`. Use:
-  - SPEC: `SPEC.md`
-  - SPEC_DIR (lazy modules): `SPEC/`
-  - Template: `templates/tasknote-template.md`
-  - PLAN: `_project/PLAN.md`
-  - Tasknote dir: `_project/tasknote/`
+- **Adopter project:** `_project/flowtron/SPEC.md` exists → `<root>` = `_project/flowtron/`.
+- **Flowtron self-host:** repo-root `SPEC.md` with heading `# Flowtron — Workflow Specification` → `<root>` = repo-root.
 
-If neither layout matches, stop and tell the user this directory doesn't look like a flowtron-using project.
+If neither matches, bail.
 
-After resolving paths, Read `<SPEC_DIR>/epic.md` for the canonical lifecycle before drafting anything.
+Paths: SPEC=`<root>SPEC.md`, SPEC_DIR=`<root>SPEC/`, template=`<root>templates/tasknote-template.md`, PLAN=`_project/PLAN.md`, tasknote dir=`_project/tasknote/`.
+
+After resolving, Read `<SPEC_DIR>/epic.md` for the canonical lifecycle before drafting anything.
 
 ## Step 1 — Pre-flight
 
@@ -179,36 +171,35 @@ Capture the flip decision in the audit tasknote's Final Summary block (still edi
 
 ## Step 9 — Post-closure protocol
 
-The three-step post-closure protocol (commit / suggest next move / offer copy-paste line) is canonical in SPEC §"Post-closure protocol", with the conditional skip rule for the 📦 gate in SPEC §"Post-closure protocol" §"Conditional skip rule". Skill-specific orchestration:
+Run the protocol per SPEC §"Post-closure protocol", branching on SPEC §"Conditional skip rule" against the audit closure diff. **Parent-flip override:** when Step 8 marked parent-flip eligible, the parent-flip Yes/No is a bundled in-📦 prompt and forces the 📦 gate to fire regardless of signal state (per SPEC's bundled-prompt override). When ineligible, the signal rule evaluates normally.
 
-- Evaluate the **📦 conditional skip rule** against the audit closure diff. **Parent-flip override:** when Step 8 marked parent-flip *eligible* (all children closed), the parent-flip Yes/No prompt is a bundled in-📦 user prompt and triggers the bundled-prompt override in SPEC §"Post-closure protocol" §"Conditional skip rule" — the 📦 gate **fires regardless** of signal state. When Step 8 marked parent-flip *ineligible* (open children remain), no in-📦 prompt is queued and the signal rule evaluates normally. Branch:
-  - **Skip branch** (parent-flip ineligible AND signals clear) — emit the inline marker `✅ Closure complete; committing autonomously (<concrete-signal-summary>).` (e.g., `audit closure: PLAN.md flip + tasknote archive; no frontend/privileged surface`), then run closure review + recap + commit + 🏁 state-marker + suggest-next-move + copy-paste line in a single response. Heads-up listing of the open children (per Step 8 ineligible branch) is delivered inline alongside the closure review. Do not surface a 📦 banner.
-  - **Fire branch** (parent-flip eligible — forces fire via bundled-prompt override; OR any signal hits) — surface the **bundled 📦 ready-to-commit gate** (per SPEC §"Post-closure protocol" step 1) and wait for commit-go. Do not commit unprompted. Alongside the SPEC-defined bundle structure, the skill carries two additional parts:
-    - **Parent-flip prompt** (when eligible per Step 8) — AskUserQuestion with default Yes:
-       ```
-       All <AREA>-EPIC-<NUMBER> children closed. Flip parent + move cohort to `## Completed`?
+- **Skip branch** (parent-flip ineligible AND signals clear) — emit `✅ Closure complete; committing autonomously (<concrete-signal-summary>).` (e.g., `audit closure: PLAN.md flip + tasknote archive; no frontend/privileged surface`), then run closure review + recap + commit + 🏁 + suggest-next-move + copy-paste in one response. Heads-up listing of open children (Step 8 ineligible branch) delivers inline alongside the closure review.
+- **Fire branch** (parent-flip eligible OR any signal hits) — surface the bundled 📦 ready-to-commit gate (per SPEC §"Post-closure protocol" step 1). Alongside the SPEC-defined bundle, this skill carries:
+  - **Parent-flip prompt** (when eligible per Step 8) — AskUserQuestion with default Yes:
+    ```
+    All <AREA>-EPIC-<NUMBER> children closed. Flip parent + move cohort to `## Completed`?
 
-         Parent: <AREA>-EPIC-<NUMBER> | <shortname>
-         Children to move (N total): <AREA>-<N>.1 .. <AREA>-<N>.<HIGHEST>
+      Parent: <AREA>-EPIC-<NUMBER> | <shortname>
+      Children to move (N total): <AREA>-<N>.1 .. <AREA>-<N>.<HIGHEST>
 
-       (default Yes; declines leave cohort nested under current `## <Priority>` section)
-       ```
-    - **Proposed commit message** — `feat: <AUDIT-SUBTASK-ID> — audit <AREA>-EPIC-<NUMBER>` (or `chore: ...` if no code edits landed).
-- On commit (commit-go on the fire branch; autonomous on the skip branch): if parent-flip Yes, apply the flip + atomic move (per Step 8) before staging, so the commit captures the parent-flip in one atomic write. Then the suggest-next-move and copy-paste-line follow in the same response (motion is one continuous flow per the SPEC contract).
-- The post-commit response carries a 🏁 state-marker line immediately above the next-move suggestion (per SPEC §"Post-closure protocol" step 2): `` 🏁 **<AUDIT-SUBTASK-ID> — committed `<sha>`** · archived to `<archive-path>` ``. Visually closes the 🛠️ → 📦 → 🏁 lifecycle in the transcript (skip branch collapses 🛠️ and/or 📦 to inline markers but 🏁 still fires).
-- When suggesting the next move, surface candidates with `[model]` tags **inline per option** in the PLAN.md task-line shape: `**<TASK-ID>** [model] | shortname — one-sentence "why now"`. The next move depends on audit outcome:
-  - Misses logged → `/ft-file-followup <NEW-ID>` per miss (suggest one at a time; the user paces).
-  - No misses + parent flipped → suggest the next epic / standalone task in PLAN.md.
-  - No misses + parent declined flip → the audit is already closed and archived; re-running `/ft-close-epic <AUDIT-SUBTASK-ID>` would hit Step 1's already-archived bail. Suggest manual parent flip when ready (edit PLAN.md directly: flip the parent line to stub form, move parent + nested children to top of `## Completed`).
-- The copy-paste line follows the standard `/clear then /model <opus|sonnet> then /<next-skill> <args>` shape.
+    (default Yes; declines leave cohort nested under current `## <Priority>` section)
+    ```
+  - **Commit message** — `feat: <AUDIT-SUBTASK-ID> — audit <AREA>-EPIC-<NUMBER>` (or `chore: ...` if no code edits landed).
+
+On commit (either branch): if parent-flip Yes, apply the flip + atomic move per Step 8 before staging, so the commit captures the flip atomically.
+
+Skill-specific next-move shape:
+- Candidates carry `[model]` inline per option (`**<TASK-ID>** [model] | shortname — one-sentence "why now"`). Branches:
+  - Misses logged → `/ft-file-followup <NEW-ID>` per miss (one at a time; user paces).
+  - No misses + parent flipped → next epic / standalone task in PLAN.md.
+  - No misses + parent declined → manual flip when ready (edit PLAN.md: flip parent line to stub form, move parent + nested children to top of `## Completed`). Re-running `/ft-close-epic` would hit Step 1's already-archived bail.
+- Copy-paste line: standard `/clear then /model <opus|sonnet> then /<next-skill> <args>` shape.
 
 ## Notes
 
-- **Bracket twin of `/ft-epic-discovery`.** `/ft-epic-discovery` opens an epic (files parent + `.1` + `.N`, drives `.1` Discovery); `/ft-close-epic` closes an epic (drives audit `.N`, prompts parent flip). Together they bracket `SPEC/epic.md` lifecycle steps 1-2 and 4-5; user-driven `/ft-task` runs the implementation children (step 3).
-- **Audit-only — never standalone.** The skill validates that the arg is an epic subtask (`<AREA>-<NUMBER>.<SUB>`) at the highest `.<SUB>` for its parent. Standalone tasks should use `/ft-task <ID>`.
-- **Open-children warn-and-proceed.** When sibling implementation children are still open, the skill warns and asks the user to confirm proceeding (default No bails). Useful for early audits when a child is stuck or deliberately deferred.
-- **Audit follow-ups → `/ft-file-followup`.** Misses surfaced by the audit are logged in Implementation Notes and cited as `/ft-file-followup <NEW-ID>` candidates; the user invokes `/ft-file-followup` per miss after audit closure. Preserves `/ft-file-followup`'s filing-discipline gate (50w/70w cap) at its natural boundary.
-- **Parent-flip is a prompt, not automatic.** The skill never silently flips the parent. User confirms (default Yes); declines leave cohort nested for a later flip.
-- **Auto-wired into adopters.** Symlinked into adopter projects via `claude/skills/ft-new-project/SKILL.md` Step 3 + `docs/MIGRATION.md` §1.2 + `claude/CLAUDE-snippet.md`'s "One-time symlink wiring" section. New adopter projects bootstrapping via `/ft-new-project` get this skill automatically; existing adopters pick it up on next flowtron version bump.
-- **Compare with `/ft-task`** — `/ft-task <ID>` runs an existing PLAN.md entry through the 4-phase workflow. `/ft-close-epic <AUDIT-SUBTASK-ID>` scaffolds + drives the audit `.N` AND prompts the parent-epic flip. The two skills don't overlap; `/ft-task` would handle neither the audit-specific fixed-doc-drift pre-fill nor the parent-flip prompt.
-- **Compare with `/ft-file-followup`** — the natural follow-up filer for audit-surfaced misses. `/ft-close-epic` cites `/ft-file-followup` in its findings; the user invokes `/ft-file-followup` per miss.
+- **Bracket twin of `/ft-epic-discovery`.** `/ft-epic-discovery` opens an epic (files parent + `.1` + `.N`, drives `.1` Discovery); `/ft-close-epic` closes it (drives audit `.N`, prompts parent flip). Together they bracket `SPEC/epic.md` lifecycle steps 1-2 and 4-5; `/ft-task` runs the implementation children (step 3).
+- **Audit-only — never standalone.** Validates arg is `<AREA>-<NUMBER>.<SUB>` at the highest `.<SUB>` for its parent. Standalone tasks → `/ft-task <ID>`.
+- **Open-children warn-and-proceed.** Sibling implementation children still open → skill warns and asks (default No bails). Useful for early audits when a child is stuck or deferred.
+- **Audit follow-ups → `/ft-file-followup`.** Misses logged in Implementation Notes as `/ft-file-followup <NEW-ID>` candidates; user invokes per miss after closure (preserves the 50w/70w cap at its natural boundary).
+- **Parent-flip is a prompt, not automatic.** Skill never silently flips. User confirms (default Yes); declines leave cohort nested for a later flip.
+- **Auto-wired into adopters.** Symlinked via `claude/skills/ft-new-project/` + `docs/MIGRATION.md` §1.2 + `claude/CLAUDE-snippet.md`'s symlink section. Existing adopters pick up on next flowtron version bump.

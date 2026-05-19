@@ -15,24 +15,16 @@ This skill is **filing-only** and assumes the AI already has rich context from t
 
 ## Step 0 — Resolve paths
 
-Determine which repo you're in:
+Two layouts. Pick by which file exists:
 
-- **Adopting project (typical):** `_project/flowtron/SPEC.md` exists. Use:
-  - SPEC: `_project/flowtron/SPEC.md`
-  - SPEC_DIR (lazy modules): `_project/flowtron/SPEC/`
-  - Starter template: `_project/flowtron/templates/tasknote-starter-template.md`
-  - PLAN: `_project/PLAN.md`
-  - Tasknote dir: `_project/tasknote/`
-- **Flowtron itself (self-hosted):** repo-root `SPEC.md` exists with the heading `# Flowtron — Workflow Specification`. Use:
-  - SPEC: `SPEC.md`
-  - SPEC_DIR (lazy modules): `SPEC/`
-  - Starter template: `templates/tasknote-starter-template.md`
-  - PLAN: `_project/PLAN.md`
-  - Tasknote dir: `_project/tasknote/`
+- **Adopter project:** `_project/flowtron/SPEC.md` exists → `<root>` = `_project/flowtron/`.
+- **Flowtron self-host:** repo-root `SPEC.md` with heading `# Flowtron — Workflow Specification` → `<root>` = repo-root.
 
-If neither layout matches, stop and tell the user this directory doesn't look like a flowtron-using project.
+If neither matches, bail.
 
-After resolving paths, Read `<SPEC_DIR>/starter.md` for the canonical starter lifecycle before drafting the body.
+Paths: SPEC=`<root>SPEC.md`, SPEC_DIR=`<root>SPEC/`, starter template=`<root>templates/tasknote-starter-template.md`, PLAN=`_project/PLAN.md`, tasknote dir=`_project/tasknote/`.
+
+After resolving, Read `<SPEC_DIR>/starter.md` for the canonical starter lifecycle before drafting the body.
 
 ## Step 1 — Pre-flight checks
 
@@ -102,5 +94,4 @@ Do **not** commit unprompted. The new starter file + PLAN.md flip are typically 
 ## Notes
 
 - This skill is filing-only — no design decisions are made in the skill flow itself. All rich context comes from the prior conversation; the skill just records it.
-- **Compare with `/ft-task`** — that skill starts an existing task (starter or fresh) and drives it to completion. **Compare with `/ft-new-project`** — that skill bootstraps a fresh repo with flowtron. Each owns one workflow entry point.
-- **When NOT to use this skill** — when a one-line PLAN.md entry is enough. See SPEC §"When to use a tasknote (and when not to)" for the threshold.
+- **Routing:** see SPEC §"When to use a tasknote (and when not to)". `/ft-starter-task`'s niche: rich AI-captured context (file survey, open questions, design decisions) for a task not yet ready to start. One-liner suffices → write the PLAN.md line directly. Starting an existing entry → `/ft-task`. Bootstrapping a fresh repo → `/ft-new-project`.
