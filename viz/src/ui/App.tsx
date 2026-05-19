@@ -4,11 +4,10 @@ import {
   getSubtaskParentEpicId,
   groupTasks,
   isEpic,
-  parsePlan,
   type Priority,
   type Task,
 } from '../parser';
-import { type Tasknote, type TasknoteStatus } from '../tasknote';
+import { type TasknoteStatus } from '../tasknote';
 import { DENSITY_TOKENS, TYPOGRAPHY } from './constants';
 import { VisibilityProvider } from './VisibilityContext';
 import { LoadingSkeleton } from './LoadingSkeleton';
@@ -18,8 +17,9 @@ import { SettingsModal } from './SettingsModal';
 import { ShortcutsModal } from './ShortcutsModal';
 import { ThemeToggle } from './ThemeToggle';
 import { useKeyboardNav } from './useKeyboardNav';
+import { useProjectData } from './useProjectData';
+import { useProjects } from './useProjects';
 import { useToggleSet } from './useToggleSet';
-import { readStoredProject, writeStoredProject } from '../projectStorage';
 import {
   DEFAULT_PREFS,
   readVisibilityPrefs,
@@ -43,12 +43,24 @@ const BELOW_BOARD_SECTIONS: Priority[] = ['Future Opportunities', 'Completed'];
 const HIGHLIGHT_MS = 1500;
 
 export const App: React.FC = () => {
-  const [projects, setProjects] = useState<string[]>([]);
-  const [activeProject, setActiveProject] = useState<string | null>(null);
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [tasknotesById, setTasknotesById] = useState<Map<string, Tasknote>>(new Map());
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    projects,
+    activeProject,
+    setActiveProject,
+    initialLoading,
+    error: projectsError,
+  } = useProjects();
+  const {
+    tasks,
+    tasknotesById,
+    loading: dataLoading,
+    error: dataError,
+    refresh,
+    reset,
+  } = useProjectData(activeProject);
+  const loading = initialLoading || (activeProject !== null && dataLoading);
+  const errorMessage = projectsError ?? dataError;
+
   const [query, setQuery] = useState<string>('');
   const [statusFilter, , setStatusFilter] = useToggleSet<TasknoteStatus>();
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -64,68 +76,11 @@ export const App: React.FC = () => {
   const [viewMode, setViewMode] = useState<ViewMode>(() => readStoredViewMode());
   const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
-  const activeProjectRef = useRef<string | null>(null);
-  activeProjectRef.current = activeProject;
-
-  const load = useCallback(async (project: string, showSkeleton = true) => {
-    setError(null);
-    if (showSkeleton) setLoading(true);
-    try {
-      const q = `?project=${encodeURIComponent(project)}`;
-      const [planRes, activeRes, archiveRes] = await Promise.all([
-        fetch(`/api/plan${q}`),
-        fetch(`/api/active${q}`),
-        fetch(`/api/archive${q}`),
-      ]);
-      if (!planRes.ok) throw new Error(`PLAN.md fetch failed: HTTP ${planRes.status}`);
-      if (!activeRes.ok) throw new Error(`Tasknote list failed: HTTP ${activeRes.status}`);
-      if (!archiveRes.ok) throw new Error(`Archive list failed: HTTP ${archiveRes.status}`);
-      const md = await planRes.text();
-      const active = (await activeRes.json()) as Tasknote[];
-      const archived = (await archiveRes.json()) as Tasknote[];
-      setTasks(parsePlan(md));
-      const merged = new Map<string, Tasknote>(archived.map((t) => [t.id, t]));
-      for (const t of active) merged.set(t.id, t);
-      setTasknotesById(merged);
-    } catch (e) {
-      setError((e as Error).message);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const res = await fetch('/api/projects');
-        if (!res.ok) throw new Error(`Project list failed: HTTP ${res.status}`);
-        const list = (await res.json()) as Array<{ name: string }>;
-        if (cancelled) return;
-        const names = list.map((p) => p.name);
-        setProjects(names);
-        const stored = readStoredProject();
-        const initial = stored && names.includes(stored) ? stored : (names[0] ?? null);
-        setActiveProject(initial);
-        if (!initial) setLoading(false);
-      } catch (e) {
-        if (!cancelled) {
-          setError((e as Error).message);
-          setLoading(false);
-        }
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   useEffect(() => {
     if (!activeProject) return;
-    writeStoredProject(activeProject);
     setVisibilityPrefs(readVisibilityPrefs(activeProject));
-    void load(activeProject);
-  }, [activeProject, load]);
+  }, [activeProject]);
 
   const updateVisibilityPrefs = useCallback(
     (next: VisibilityPrefs) => {
@@ -139,17 +94,6 @@ export const App: React.FC = () => {
     setViewMode(next);
     writeStoredViewMode(next);
   }, []);
-
-  const refresh = useCallback(() => {
-    const current = activeProjectRef.current;
-    if (current) void load(current, false);
-  }, [load]);
-
-  useEffect(() => {
-    const es = new EventSource('/api/events');
-    es.addEventListener('change', refresh);
-    return () => es.close();
-  }, [refresh]);
 
   useEffect(
     () => () => {
@@ -253,18 +197,16 @@ export const App: React.FC = () => {
 
   const handleSelectProject = (name: string) => {
     if (name === activeProject) return;
-    setLoading(true);
     setQuery('');
     setStatusFilter(new Set());
     setExpandedId(null);
     setExpandedEpicIds(new Set());
     setSelectedId(null);
     setCollapsedSections(new Set(['Completed']));
-    setTasks([]);
-    setTasknotesById(new Map());
     if (highlightTimer.current) clearTimeout(highlightTimer.current);
     setHighlightId(null);
     window.scrollTo({ top: 0, behavior: 'auto' });
+    reset();
     setActiveProject(name);
   };
 
@@ -400,9 +342,9 @@ export const App: React.FC = () => {
         </div>
       </header>
 
-      {error && (
+      {errorMessage && (
         <div className="mx-4 mt-3 rounded border border-red-300 bg-red-50 p-3 text-base text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200">
-          {error}
+          {errorMessage}
         </div>
       )}
 
