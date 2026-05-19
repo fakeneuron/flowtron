@@ -44,7 +44,7 @@ function cleanDescription(raw: string): string {
     .replace(/\*\*/g, '')
     .replace(/\s{2,}/g, ' ')
     .trim()
-    .replace(/^[\.\s]+|[\.\s]+$/g, '');
+    .replace(/^[.\s]+|[.\s]+$/g, '');
 }
 
 // Long-description conventions (see SPEC §"Long-description conventions"):

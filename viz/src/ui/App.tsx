@@ -7,7 +7,6 @@ import {
   parsePlan,
   type Priority,
   type Task,
-  type TaskNode,
 } from '../parser';
 import { type Tasknote, type TasknoteStatus } from '../tasknote';
 import { DENSITY_TOKENS, TYPOGRAPHY } from './constants';

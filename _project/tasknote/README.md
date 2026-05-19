@@ -46,4 +46,5 @@ default cold-start sweep.
 
 - Viz tests: `npm test --prefix viz`
 - Viz typecheck: `npm run typecheck --prefix viz`
+- Viz lint: `npm run lint --prefix viz`
 - Viz dev server: `npm run dev --prefix viz`
