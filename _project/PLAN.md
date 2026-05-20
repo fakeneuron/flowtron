@@ -15,11 +15,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **CORE-124** [sonnet] | spec viz stale parenthetical — Rewrite SPEC.md:610–611 §"What flowtron does NOT provide": remove "future visualizer would aggregate read-only"; clarify actual boundary (read-only viz aggregation is shipped; cross-project query API remains out of scope). Surfaced by audit-docs 2026-05-20 (Finding #4, Medium).
 
 ## Low
 
-(none)
+- [ ] **CORE-125** [sonnet] | nit: snippet cd form + README layout gap — (a) Normalize `claude/CLAUDE-snippet.md:51` to `git -C _project/flowtron show vX.Y.Z`; (b) add SECURITY.md to README.md §"Repo layout". Surfaced by audit-docs 2026-05-20 (Findings #3, #5, Low).
 
 ## Future Opportunities
 
@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-123** [sonnet] | audit-docs SKILL fork CORE-121 sync — Completed 2026-05-20.
 - [x] **CORE-122** [sonnet] | philosophy-model-field-historical-frame — Completed 2026-05-20.
 - [x] **CORE-121** [sonnet] | security-md-ai-ref-decision — Completed 2026-05-20.
 - [x] **CORE-120** [sonnet] | plan-md-critical-heading-cleanup — Completed 2026-05-20.
