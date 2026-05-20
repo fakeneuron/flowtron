@@ -30,7 +30,7 @@ When I cleared away the project-specific debris, the same shape kept showing up:
 - **Tasknotes** for non-trivial work — one markdown file per task, with checklist phases.
 - A **4-phase rhythm**: Discovery → Execution → Testing → Closure. The phases were named differently in each project, but the rhythm was the same.
 - A **relevance gate** at the start of every tasknote — "is this still the right work?" — because plans go stale faster than I update them.
-- A `Model` field on each tasknote because I was constantly burning Opus tokens on mechanical work, or worse, trying to do design work on Sonnet and not noticing the quality drop.
+- A **model-routing signal** per task — I was constantly burning Opus tokens on mechanical work, or worse, trying to do design work on Sonnet and not noticing the quality drop. (In the current system, this is the `[model]` tag on the PLAN.md task line, not a field inside the tasknote.)
 
 The pattern was robust. The infrastructure around it wasn't. Flowtron is what's left when you keep the pattern and throw away the infrastructure.
 

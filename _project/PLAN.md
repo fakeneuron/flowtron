@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-122** [sonnet] | philosophy-model-field-historical-frame — Reword `docs/PHILOSOPHY.md:33` so the `Model` field bullet doesn't read as current implementation (since v0.2 moved to PLAN.md task line per SPEC §"Task-line format"). Surfaced by audit 2026-05-20 (Finding #3, Low).
+(none)
 
 ## Low
 
@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-122** [sonnet] | philosophy-model-field-historical-frame — Completed 2026-05-20.
 - [x] **CORE-121** [sonnet] | security-md-ai-ref-decision — Completed 2026-05-20.
 - [x] **CORE-120** [sonnet] | plan-md-critical-heading-cleanup — Completed 2026-05-20.
 - [x] **FE-043** [sonnet] | status-legend-icon-consistency — Completed 2026-05-19.
