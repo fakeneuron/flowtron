@@ -9,18 +9,18 @@ in fintown, InvisiPaw, and photard.
 
 See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
-## Critical
-
-(none)
-
 ## High
 
+(none)
 
 ## Medium
 
-(none)
+- [ ] **CORE-121** [sonnet] | security-md-ai-ref-decision — Decide whether `SECURITY.md` belongs in `_project/tasknote/README.md` §"AI-referenced docs". Either add it with a one-line purpose, or add a note explaining the deliberate exclusion. Surfaced by audit 2026-05-20 (Finding #2, Low).
+- [ ] **CORE-122** [sonnet] | philosophy-model-field-historical-frame — Reword `docs/PHILOSOPHY.md:33` so the `Model` field bullet doesn't read as current implementation (since v0.2 moved to PLAN.md task line per SPEC §"Task-line format"). Surfaced by audit 2026-05-20 (Finding #3, Low).
 
 ## Low
+
+(none)
 
 ## Future Opportunities
 
@@ -28,6 +28,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-120** [sonnet] | plan-md-critical-heading-cleanup — Completed 2026-05-20.
 - [x] **FE-043** [sonnet] | status-legend-icon-consistency — Completed 2026-05-19.
 - [x] **FE-042** [sonnet] | search-match-highlight — Completed 2026-05-19.
 - [x] **FE-041** [sonnet] | phase-dot-size-and-contrast — Completed 2026-05-19.
