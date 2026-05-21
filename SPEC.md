@@ -607,8 +607,8 @@ To prevent scope creep, flowtron deliberately omits:
 - A CLI tool (use `cp`, `mv`, and your editor)
 - Schema validation (markdown is the schema; the assistant catches drift)
 - A database backend (markdown files in git are the database)
-- Cross-project queries (each project owns its history; the future visualizer
-  would aggregate read-only)
+- Cross-project query API (each project owns its history; the read-only
+  visualizer is shipped per project — a multi-project query API is not)
 - Per-project CI hooks (those belong in the adopting project)
 
 If you find yourself wanting these, write a project-side helper. Do not add

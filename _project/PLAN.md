@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-124** [sonnet] | spec viz stale parenthetical — Rewrite SPEC.md:610–611 §"What flowtron does NOT provide": remove "future visualizer would aggregate read-only"; clarify actual boundary (read-only viz aggregation is shipped; cross-project query API remains out of scope). Surfaced by audit-docs 2026-05-20 (Finding #4, Medium).
+(none)
 
 ## Low
 
@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-124** [sonnet] | spec viz stale parenthetical — Completed 2026-05-20.
 - [x] **CORE-123** [sonnet] | audit-docs SKILL fork CORE-121 sync — Completed 2026-05-20.
 - [x] **CORE-122** [sonnet] | philosophy-model-field-historical-frame — Completed 2026-05-20.
 - [x] **CORE-121** [sonnet] | security-md-ai-ref-decision — Completed 2026-05-20.
