@@ -66,6 +66,7 @@ A lightweight, project-agnostic tasknote system for solo AI-assisted coding. Kee
 - `docs/MIGRATION.md` — adoption guide, global skill install recipe, migration from legacy systems
 - `docs/CONVENTIONS.md` — conventions flowtron adheres to and declines (commits, versioning, formatting) with rationale
 - `CONTRIBUTING.md` — solo-maintenance model; issue and PR guidance
+- `SECURITY.md` — threat model (prompt injection, submodule supply-chain trust, viz dev-server scope) and vulnerability reporting
 - `templates/` — tasknote templates (full, micro, starter)
 
 ---
