@@ -55,6 +55,7 @@ Submodule bumps are themselves a project-side task (e.g., `CORE-XXX: Bump flowtr
 The flowtron visualizer is a single global instance — run it **once per machine** from flowtron's own checkout, not from this project's `_project/flowtron/viz/`:
 
 ```sh
+cd ~/code/flowtron/viz && npm install  # first run only
 cd ~/code/flowtron/viz && npm run dev
 ```
 
