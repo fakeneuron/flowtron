@@ -11,6 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
+
 ## Medium
 
 (none)
@@ -25,6 +26,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-128** [opus] | release v3.2.0 — Completed 2026-05-20.
 - [x] **CORE-127** [sonnet] | ft-flowtron key-docs security — Completed 2026-05-20.
 - [x] **CORE-126** [sonnet] | snippet viz npm-install gap — Completed 2026-05-20.
 - [x] **CORE-125** [sonnet] | nit: snippet cd form + README layout gap — Completed 2026-05-20.
