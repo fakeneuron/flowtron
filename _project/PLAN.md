@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-125** [sonnet] | nit: snippet cd form + README layout gap — (a) Normalize `claude/CLAUDE-snippet.md:51` to `git -C _project/flowtron show vX.Y.Z`; (b) add SECURITY.md to README.md §"Repo layout". Surfaced by audit-docs 2026-05-20 (Findings #3, #5, Low).
+(none)
 
 ## Future Opportunities
 
@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-125** [sonnet] | nit: snippet cd form + README layout gap — Completed 2026-05-20.
 - [x] **CORE-124** [sonnet] | spec viz stale parenthetical — Completed 2026-05-20.
 - [x] **CORE-123** [sonnet] | audit-docs SKILL fork CORE-121 sync — Completed 2026-05-20.
 - [x] **CORE-122** [sonnet] | philosophy-model-field-historical-frame — Completed 2026-05-20.
