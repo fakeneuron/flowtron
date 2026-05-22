@@ -14,11 +14,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **CORE-129** [opus] | AGENTS.md migration — Move canonical paste-block from project-side `CLAUDE.md` to `AGENTS.md` (open standard read by Claude Code, Codex, Cursor, Amp) so non-Claude adopters work with zero Claude-side regression. First slice of a future agent-agnostic decoupling epic. Filed with starter at `_project/tasknote/CORE-129.md`.
 
 ## Low
 
-(none)
+- [ ] **CORE-130** [sonnet] | flowtron self-host skill wiring — Add missing `.claude/` symlinks in flowtron's own checkout: `ft-starter-task`, `ft-micro-task`, `ft-file-followup`, `ft-epic-discovery`, `ft-close-epic` (commands + skills). Unreachable from the slash menu in flowtron's self-host; CORE-129 filing exposed the gap.
 
 ## Future Opportunities
 
