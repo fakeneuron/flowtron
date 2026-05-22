@@ -14,6 +14,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
+- [ ] **CORE-132** [opus] | user-idiosyncrasy comb — Audit flowtron for user-flavored content that doesn't generalize to adopters; 5-pass /ft-audit shape, cap 5 findings/pass, output PLAN tickets. Filed with starter at `_project/tasknote/CORE-132.md`.
 
 ## Low
 
@@ -24,6 +25,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-131** [opus] | gate-skip --fast flag — Completed 2026-05-22.
 - [x] **CORE-130** [sonnet] | flowtron self-host skill wiring — Completed 2026-05-22.
 - [x] **CORE-129** [opus] | AGENTS.md migration — Completed 2026-05-22.
 - [x] **CORE-128** [opus] | release v3.2.0 — Completed 2026-05-20.

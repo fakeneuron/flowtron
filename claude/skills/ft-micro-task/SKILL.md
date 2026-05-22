@@ -11,7 +11,7 @@ A **micro-tasknote** is a single-section lightweight tasknote for tasks above th
 
 This skill is **file + execute (one-shot)**: it scaffolds the lightweight tasknote, drives execution inline, and closes — all in a single conversation. Compare with `/ft-task` (full 4-phase flow for normal-size tasks) and `/ft-starter-task` (filing-only for tasks discovered with rich context but not ready to start).
 
-If `args` is missing or doesn't match `<AREA>-<NUMBER>` (or `<AREA>-<NUMBER>.<SUB>` for epic subtasks), stop and ask the user for a valid task ID. Do not guess.
+If `args` is missing or its first token doesn't match `<AREA>-<NUMBER>` (or `<AREA>-<NUMBER>.<SUB>` for epic subtasks), stop and ask the user for a valid task ID. Do not guess. A trailing `--fast` / `-f` flag is the only other accepted token — see Step 0.
 
 ## Step 0 — Resolve paths
 
@@ -30,6 +30,14 @@ Paths this skill uses:
 - PLAN: `_project/PLAN.md`, tasknote dir: `_project/tasknote/` (always)
 
 Step 1.5 Reads `<SPEC_DIR>/model.md` and `<SKILL_DIR>/step-1.5-model-edge.md` in parallel.
+
+**Parse `args`.** Split on whitespace into `(TASK-ID, rest...)`. Branch on `rest`:
+
+- **Empty** → set internal flag `fast-mode = false` and continue to Step 1.
+- **`--fast` or `-f`** → set `fast-mode = true`. Emit exactly one inline marker after path resolution: `⚡ --fast active — 📦 signal trips suppressed at Step 5; Re-scope still promotes to /ft-task, De-scope still recaps.` Continue to Step 1.
+- **Any other trailing arg** → surface a one-line usage notice (``Unknown arg `<arg>`. Usage: `/ft-micro-task <TASK-ID>` or `/ft-micro-task <TASK-ID> --fast`.``) and ask via AskUserQuestion whether the user meant `--fast`, the default flow, or to abort. Do not proceed silently.
+
+`fast-mode` in `/ft-micro-task` targets Step 5's Conditional skip rule — `/ft-micro-task` has no banner-block Phase 1→2 gate and no separate 👁️ ask, so the 📦 fire branch is the only suppressible gate. Default flow (`fast-mode = false`) is byte-identical to the pre-flag skill — see SPEC §"Operator-gate cues" for the contract.
 
 ## Step 1 — Locate the task in PLAN.md and pre-flight
 
@@ -105,6 +113,8 @@ Run the protocol per SPEC §"Post-closure protocol", branching on SPEC §"Condit
 
 - **Skip branch** (signals clear) — emit `✅ Closure complete; committing autonomously (<concrete-signal-summary>).` (e.g., `single-file doc patch; no frontend/privileged surface`), then run recap + commit + 🏁 state-marker + suggest-next-move + copy-paste line in one response. Micro-tasknotes hit this branch often by design — their threshold aligns with the rule's clean-diff target.
 - **Fire branch** (any signal hits) — surface the prose commit-go ask ("Ready to commit? Reply `commit`/`go`/`yes`."). Never commit unprompted. After commit, same continuous flow.
+
+**`--fast` override.** When `fast-mode = true` (from Step 0), force the Skip branch regardless of signal trips. Name the suppressed signals in the marker for transparency (e.g., `✅ Closure complete; committing autonomously (frontend files touched; suppressed via --fast).`).
 
 Skill-specific:
 - **Commit message:** `feat: <TASK-ID> — <title>` (or `fix:` / `docs:` / `chore:`). Scaffold + closure typically bundle into one commit alongside the code/doc change.

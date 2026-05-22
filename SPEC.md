@@ -304,6 +304,8 @@ _<1-2 sentence plain-English preview of what executes on approval>_
 | Phase 1→2 (post-Discovery) | 🛠️ | `AWAITING APPROVAL — Phase 2: Execution ready` | **Conditional** — fires when Discovery surfaced clarifying questions; skipped via "No clarifications needed" (see §"📝 Phase 1: Discovery" exit gate) |
 | Ready-to-commit (closure review + work summary bundled) | 📦 | `AWAITING APPROVAL — Ready to commit` | **Conditional** — fires when the diff trips any §"Conditional skip rule" signal (frontend / privileged-ops / perf-narrative) OR a bundled in-📦 prompt is queued (e.g., /ft-close-epic parent-flip); skipped otherwise via autonomous-commit |
 
+_Operator force-skip: passing `--fast` (or `-f`) to `/ft-task` / `/ft-micro-task` suppresses both conditional trips above (the 🛠️ banner skips on `Proceed` verdicts; the 📦 banner takes the Skip branch regardless of signals). The Re-scope/De-scope drift carve-out still fires 🛠️ — see §"📝 Phase 1: Discovery" exit gate. The flag silences routine signal trips; it does not silence drift._
+
 The preview line is **mandatory** on every banner: 1-2 sentence plain-English summary of *what executes on approval*, for scanning intent ("what am I greenlighting?"). File paths, LOC counts, and key decisions belong in the recap (§"🚀 Phase 4: Closure"), not the preview.
 
 Once Phase 1 closes, Phase 2 → Phase 3 → Phase 4 closure ops **flow continuously without intermediate gates**. The recap drafts during closure ops and bundles into the 📦 ready-to-commit motion alongside the closure review (per-entry doc-drift verdicts, PLAN.md line preview, archive path) and the proposed commit message — see §"Post-closure protocol" §"Conditional skip rule" for fire/skip branching.
@@ -346,6 +348,14 @@ the clarifying-questions outcome:
 The skip rule binds to the Phase 1 checklist branch — Re-scope and prose
 asks that reshape work both keep the banner.
 
+**`--fast` drift carve-out.** When the operator passes `--fast` to
+`/ft-task`, the clarifying-questions step writes `No clarifications
+needed (--fast)` and the inline-marker branch fires — **but only on a
+`Proceed` Verdict.** If Relevance Assessment returns `Re-scope` or
+`De-scope`, the 🛠️ banner still fires regardless of `--fast`. The flag
+silences routine signal trips; it does not silence drift. See
+§"Operator-gate cues" for the flag's full surface.
+
 ### 🛠️ Phase 2: Execution
 
 - [ ] **Pattern survey** — looked at how neighboring code (sibling modules, parallel components, adjacent services) solves the same shape of problem; chose to extend an existing pattern, or justified the new shape if none fits
@@ -376,6 +386,11 @@ The visual-confirmation ask carries a `👁️` inline prefix on the
 conversational prompt (e.g., `👁️ Could you confirm the new outline at
 http://localhost:5120?`). Inline emoji prefix only — **no banner block,
 no operator-gate**; gate count stays at up-to-2.
+
+When `/ft-task` is invoked with `--fast`, the 👁️ ask is suppressed
+(lint/type-check on changed code still runs). The operator owns the
+visual-confirmation responsibility on fast-mode runs. See
+§"Operator-gate cues" for the flag's full surface.
 
 ### 🚀 Phase 4: Closure
 
@@ -437,6 +452,8 @@ The 📦 gate fires when the closure diff trips a signal below OR a bundled in-�
 **Bundled-prompt override (autonomous-commit constraint):** a skill-level prompt queued inside the 📦 bundle (e.g., /ft-close-epic's parent-flip Yes/No) **forces fire** regardless of signal state — autonomous-commit cannot resolve user-input questions.
 
 **"No AI override" semantics.** The rule is bidirectionally locked: the assistant cannot escalate (force the banner on a clean diff) nor de-escalate (skip when a signal hits). The perf-narrative branch is the only judgment valve.
+
+**`--fast` operator override.** Passing `--fast` to `/ft-task` or `/ft-micro-task` forces the Skip branch regardless of signal trips — operator-side de-escalation by explicit input (distinct from the AI-side bidirectional lock above). The bundled-prompt override still wins: a queued in-📦 prompt forces fire even with `--fast`, since autonomous-commit cannot resolve user-input questions. Suppressed signals are named in the autonomous-commit marker for transparency (e.g., `committing autonomously (frontend files touched; suppressed via --fast).`).
 
 **On skip (autonomous-commit motion).** Emit:
 

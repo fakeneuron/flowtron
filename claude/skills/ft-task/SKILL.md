@@ -7,7 +7,7 @@ description: Start a flowtron tasknote and drive it through the SPEC's 4-phase w
 
 You are starting a tasknote for the task ID provided in `args` (e.g., `CORE-004`). The full workflow contract lives in flowtron's `SPEC.md` — this skill is the executable interpretation, not a replacement. Treat SPEC.md as authoritative when this file is silent or in tension.
 
-If `args` is missing or doesn't match `<AREA>-<NUMBER>` (or `<AREA>-<NUMBER>.<SUB>` for epic subtasks), stop and ask the user for a valid task ID. Do not guess.
+If `args` is missing or its first token doesn't match `<AREA>-<NUMBER>` (or `<AREA>-<NUMBER>.<SUB>` for epic subtasks), stop and ask the user for a valid task ID. Do not guess. A trailing `--fast` / `-f` flag is the only other accepted token — see Step 0.
 
 ## Step 0 — Resolve paths
 
@@ -26,6 +26,14 @@ Paths this skill uses:
 - PLAN: `_project/PLAN.md`, tasknote dir: `_project/tasknote/` (always)
 
 Subsequent steps name what to Read; the SPEC contract + matching SKILL fragment typically load in parallel.
+
+**Parse `args`.** Split on whitespace into `(TASK-ID, rest...)`. Branch on `rest`:
+
+- **Empty** → set internal flag `fast-mode = false` and continue to Step 1.
+- **`--fast` or `-f`** → set `fast-mode = true`. Emit exactly one inline marker after path resolution: `⚡ --fast active — Phase 1→2 banner, 👁️ frontend ask, and 📦 signal trips suppressed; Re-scope/De-scope still fires the gate.` Continue to Step 1.
+- **Any other trailing arg** → surface a one-line usage notice (``Unknown arg `<arg>`. Usage: `/ft-task <TASK-ID>` or `/ft-task <TASK-ID> --fast`.``) and ask via AskUserQuestion whether the user meant `--fast`, the default flow, or to abort. Do not proceed silently.
+
+`fast-mode` is operator-side opt-in for routine runs where the conditional gates would fire but the operator wants autonomous execution; behavioral branches reference it at Step 4 (Phase 1 exit gate), Step 5 (Phase 3 👁️ ask), and Step 6 (Conditional skip rule). Default flow (`fast-mode = false`) is byte-identical to the pre-flag skill — see SPEC §"Operator-gate cues" for the contract.
 
 ## Step 1 — Locate the task in PLAN.md
 
@@ -106,11 +114,13 @@ Skill-specific imperatives on top of the SPEC contract:
 - Tick boxes in the tasknote as you complete them.
 - The first checklist item (Reviewed PLAN.md) is already done in Step 1 of this skill.
 - For the Archive skim step: `ls _project/tasknote/archive/<area>/` to enumerate, then for each source path in scope run `grep -l <path> _project/tasknote/archive/<area>/*.md`. Read the hits and log anything load-bearing in Discovery Notes (file moves, regressions, design decisions, hardlink notes, etc.). If `archive/<area>/` is empty or absent, log "no prior tasknotes" and tick the box.
-- For the Clarifying questions step: use AskUserQuestion for anything genuinely ambiguous. If nothing is ambiguous, write `No clarifications needed` in the tasknote with the explicit assumptions.
+- For the Clarifying questions step: use AskUserQuestion for anything genuinely ambiguous. If nothing is ambiguous, write `No clarifications needed` in the tasknote with the explicit assumptions. **When `fast-mode = true`** (from Step 0), skip the AskUserQuestion call and write `No clarifications needed (--fast)` with the explicit assumptions the operator is asserting.
 - For the "populate Subtasks" step: fill the tasknote's `## 🧩 Subtasks` checklist with concrete, ordered steps.
 - Do not enter Phase 2 until every Phase 1 box is ticked. Once ticked, branch on the clarifying-questions outcome per SPEC §"📝 Phase 1: Discovery" exit gate:
   - **"No clarifications needed" branch** — emit the inline marker `✅ Phase 1 Discovery complete (no clarifications needed); entering Phase 2 Execution.` and start Step 5 Phase 2 immediately. Plain prose, not a banner; not a new gate.
   - **Clarifications-surfaced branch** — surface the **🛠️ Phase 1→2 operator-gate cue** with the mandatory 1-2 sentence plain-English preview line (per SPEC §"Operator-gate cues") and wait for the user's go before starting Step 5 Phase 2.
+
+**`--fast` drift carve-out.** When `fast-mode = true`, the inline-marker branch fires only if Relevance Assessment Verdict ∈ {`Proceed`}. If Verdict ∈ {`Re-scope`, `De-scope`}, the 🛠️ banner STILL fires (the flag silences routine signal trips; it does not silence drift). On Re-scope, preview the rescope. On De-scope, the banner previews the de-scope jump to Phase 4 closure.
 
 ## Step 5 — Phases 2-4 (drive conversationally)
 
@@ -119,7 +129,7 @@ flow continuously without an intermediate gate. The next operator-gate
 cue is the 📦 ready-to-commit banner in Step 6.
 
 - **Phase 2: Execution** — pattern survey first (look at sibling modules / parallel components for an existing shape to extend; justify a new shape if none fits), then minimal implementation, then targeted tests on changed files. Tick boxes as you go. **If a hard dependency surfaces mid-execution**, Read `<SPEC_DIR>/blocked.md` and park the tasknote per its contract — flip `status: blocked`, update the nav header to `⏸ Blocked`, and stop. The next `/ft-task <ID>` invocation enters the resume path (Step 3c) automatically.
-- **Phase 3: Testing & Linting** — targeted tests, lint/type-check on changed code, visual confirmation for frontend changes (`👁️` prefix on the prose ask, per SPEC §"🧪 Phase 3: Testing & Linting" — inline emoji only, not a banner block). Run the full suite only for broad/cross-cutting changes. Flows directly into Phase 4 closure ops; no gate between them.
+- **Phase 3: Testing & Linting** — targeted tests, lint/type-check on changed code, visual confirmation for frontend changes (`👁️` prefix on the prose ask, per SPEC §"🧪 Phase 3: Testing & Linting" — inline emoji only, not a banner block). Run the full suite only for broad/cross-cutting changes. Flows directly into Phase 4 closure ops; no gate between them. **When `fast-mode = true`** (from Step 0), suppress the 👁️ prose ask — lint/type-check on changed code still runs, but the operator owns the visual-confirmation responsibility.
 - **Phase 4: Closure (auto-run)** — run the doc-drift sweep across `_project/tasknote/README.md` §"AI-referenced docs" (per-entry verdict: "no change" or the specific update), flip the PLAN.md line to the stub form `[x] **<TASK-ID>** [model] | shortname — Completed YYYY-MM-DD.` per SPEC §"`## Completed` archive convention" (drop the long description — the archived tasknote is the canonical record), move the line to the `## Completed` section, and move the tasknote file to `_project/tasknote/archive/<area>/<TASK-ID>.md` as a single closure write. Draft the recap (1-2 sentence plain-English summary first, then technical detail: file paths / LOC / key decisions + optional verification request) but **do not surface a banner here** — the recap bundles into Step 6's 📦 gate. **Recap is recap-only — do not include the next-task suggestion in the recap; that lands after the commit (Step 6); see SPEC §"🚀 Phase 4: Closure" callout.**
 
 ## Step 6 — Post-closure protocol
@@ -128,6 +138,8 @@ Run the three-step protocol (commit / suggest next move / copy-paste line) per S
 
 - **Skip branch** (signals clear, no bundled in-📦 prompt) — emit `✅ Closure complete; committing autonomously (<concrete-signal-summary>).` where `<…>` names the cleared signals as diff facts (e.g., `4 markdown files; no frontend/privileged surface`); the marker stands in for commit-go. Then run closure review + recap + commit + 🏁 state-marker (with 1-2 sentence accomplishment summary) + suggest-next-move + copy-paste line in one continuous response.
 - **Fire branch** (any signal hits OR bundled in-📦 prompt queued) — surface the bundled 📦 ready-to-commit gate and wait for commit-go ("commit"/"go"/"yes"). After commit lands, the 🏁 marker (with 1-2 sentence accomplishment summary) + next-move + copy-paste follow in the same response.
+
+**`--fast` override.** When `fast-mode = true` (from Step 0), force the Skip branch regardless of signal trips. Name the suppressed signals in the marker for transparency (e.g., `✅ Closure complete; committing autonomously (frontend files touched; suppressed via --fast).`). The drift carve-out at Step 4 means a `Re-scope`/`De-scope` task that flipped to fast-mode-via-flag still got the 🛠️ banner upstream — at Step 6, `fast-mode = true` always routes to Skip.
 
 Skill-specific:
 - Suggest-next-move candidates carry `[model]` **inline per option** in the PLAN.md task-line shape: `**<TASK-ID>** [model] | shortname — one-sentence "why now"`. Mirrors PLAN.md so the user scans model assignments without cross-referencing.
