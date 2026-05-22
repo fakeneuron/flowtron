@@ -17,7 +17,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-130** [sonnet] | flowtron self-host skill wiring — Add missing `.claude/` symlinks in flowtron's own checkout: `ft-starter-task`, `ft-micro-task`, `ft-file-followup`, `ft-epic-discovery`, `ft-close-epic` (commands + skills). Unreachable from the slash menu in flowtron's self-host; CORE-129 filing exposed the gap.
 
 ## Future Opportunities
 
@@ -25,6 +24,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-130** [sonnet] | flowtron self-host skill wiring — Completed 2026-05-22.
 - [x] **CORE-129** [opus] | AGENTS.md migration — Completed 2026-05-22.
 - [x] **CORE-128** [opus] | release v3.2.0 — Completed 2026-05-20.
 - [x] **CORE-127** [sonnet] | ft-flowtron key-docs security — Completed 2026-05-20.
