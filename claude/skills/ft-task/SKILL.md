@@ -126,8 +126,8 @@ cue is the 📦 ready-to-commit banner in Step 6.
 
 Run the three-step protocol (commit / suggest next move / copy-paste line) per SPEC §"Post-closure protocol", branching on SPEC §"Conditional skip rule" against the closure diff:
 
-- **Skip branch** (signals clear, no bundled in-📦 prompt) — emit `✅ Closure complete; committing autonomously (<concrete-signal-summary>).` where `<…>` names the cleared signals as diff facts (e.g., `4 markdown files; no frontend/privileged surface`); the marker stands in for commit-go. Then run closure review + recap + commit + 🏁 state-marker + suggest-next-move + copy-paste line in one continuous response.
-- **Fire branch** (any signal hits OR bundled in-📦 prompt queued) — surface the bundled 📦 ready-to-commit gate and wait for commit-go ("commit"/"go"/"yes"). After commit lands, the 🏁 marker + next-move + copy-paste follow in the same response.
+- **Skip branch** (signals clear, no bundled in-📦 prompt) — emit `✅ Closure complete; committing autonomously (<concrete-signal-summary>).` where `<…>` names the cleared signals as diff facts (e.g., `4 markdown files; no frontend/privileged surface`); the marker stands in for commit-go. Then run closure review + recap + commit + 🏁 state-marker (with 1-2 sentence accomplishment summary) + suggest-next-move + copy-paste line in one continuous response.
+- **Fire branch** (any signal hits OR bundled in-📦 prompt queued) — surface the bundled 📦 ready-to-commit gate and wait for commit-go ("commit"/"go"/"yes"). After commit lands, the 🏁 marker (with 1-2 sentence accomplishment summary) + next-move + copy-paste follow in the same response.
 
 Skill-specific:
 - Suggest-next-move candidates carry `[model]` **inline per option** in the PLAN.md task-line shape: `**<TASK-ID>** [model] | shortname — one-sentence "why now"`. Mirrors PLAN.md so the user scans model assignments without cross-referencing.

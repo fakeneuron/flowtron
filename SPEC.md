@@ -460,6 +460,7 @@ where `<…>` names the cleared signals as diff facts (e.g., `4 markdown files; 
 
    ```markdown
    🏁 **<TASK-ID> — committed `<sha>`** · archived to `<archive-path>`
+   <1-2 sentence plain-English description of what was accomplished in this commit>
    ```
 
    Then surface candidates with `[model]` tags inline per option, mirroring the PLAN.md task-line shape:
