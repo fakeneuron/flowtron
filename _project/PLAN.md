@@ -14,10 +14,17 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-132** [opus] | user-idiosyncrasy comb — Audit flowtron for user-flavored content that doesn't generalize to adopters; 5-pass /ft-audit shape, cap 5 findings/pass, output PLAN tickets. Filed with starter at `_project/tasknote/CORE-132.md`.
+- [ ] **CORE-138** [opus] | spec-model-grammar-anthropic-lock — Generalize SPEC §"Model field" + SPEC/model.md grammar to allow custom model tokens beyond `opus | sonnet`, OR explicitly document the values as flowtron-self / current-Anthropic-tiering convention. Surfaced by CORE-132 audit 2026-05-22 (Finding #4.1, Medium).
 
 ## Low
 
+- [ ] **CORE-133** [sonnet] | spec-area-prefix-photard-leak — Replace SPEC.md:113 area-prefix example "OCR- for photard's OCR" with a stack-neutral project name. Surfaced by CORE-132 audit 2026-05-22 (Finding #1.1, Low).
+- [ ] **CORE-134** [sonnet] | spec-tasklinegrammar-invisipaw-leak — Replace SPEC.md:151,154 task-line-grammar examples ("InvisiPaw migration") with a stack-neutral migration example. Surfaced by CORE-132 audit 2026-05-22 (Finding #1.2, Low).
+- [ ] **CORE-135** [sonnet] | readme-viz-example-projectname — Replace README.md:54 viz-scanner example "fintown" with a generic placeholder (e.g. `myproject`). Surfaced by CORE-132 audit 2026-05-22 (Finding #1.3, Low).
+- [ ] **CORE-136** [sonnet] | migration-plan-example-fintown-leak — Replace docs/MIGRATION.md:244-245 §3.4 PLAN.md example block (fintown trading-strategy task descriptions) with stack-neutral examples showing task-line shape. Surfaced by CORE-132 audit 2026-05-22 (Finding #2.1, Low).
+- [ ] **CORE-137** [sonnet] | spec-wikilink-obsidian-attribution — Drop "Obsidian-style" from SPEC.md:276 wikilink prose; positioning lives in the following sentence's tool list. Surfaced by CORE-132 audit 2026-05-22 (Finding #3.1, Low).
+- [ ] **CORE-139** [sonnet] | spec-clear-claude-specific — Generalize SPEC.md:499 "Claude cannot run /clear itself" to "the assistant cannot run /clear itself", or add a one-line note that the copy-paste line shape is Claude Code-specific. Surfaced by CORE-132 audit 2026-05-22 (Finding #4.2, Low).
+- [ ] **CORE-140** [sonnet] | adopter-docs-tilde-code-assumption — Soften `~/code/` workspace assumption in README.md:29 + docs/MIGRATION.md:10,25 ("anywhere on your local machine"). Surfaced by CORE-132 audit 2026-05-22 (Finding #5.1, Low).
 
 ## Future Opportunities
 
@@ -25,6 +32,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-132** [opus] | user-idiosyncrasy comb — Completed 2026-05-22.
 - [x] **CORE-131** [opus] | gate-skip --fast flag — Completed 2026-05-22.
 - [x] **CORE-130** [sonnet] | flowtron self-host skill wiring — Completed 2026-05-22.
 - [x] **CORE-129** [opus] | AGENTS.md migration — Completed 2026-05-22.
