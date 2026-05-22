@@ -156,7 +156,7 @@ Walk the closure steps in order. Tag-message review and commit-go are explicit g
 
 ### 7.1 — Doc-drift sweep (via `/ft-audit-docs` subroutine)
 
-Invoke the flowtron-self `ft-audit-docs` skill in **subroutine mode** with the default scope (the AI-referenced docs set declared in `_project/tasknote/README.md` §"AI-referenced docs" — currently `README.md`, `SPEC.md`, `docs/MIGRATION.md`, `claude/CLAUDE-snippet.md`):
+Invoke the flowtron-self `ft-audit-docs` skill in **subroutine mode** with the default scope (the AI-referenced docs set declared in `_project/tasknote/README.md` §"AI-referenced docs" — currently `README.md`, `SPEC.md`, `docs/MIGRATION.md`, `claude/AGENTS-snippet.md`):
 
 ```
 Skill(ft-audit-docs)

@@ -22,7 +22,7 @@ This SKILL.md is a fork of the stack-neutral scaffold at `claude/skills/ft-audit
      README.md
      SPEC.md
      docs/MIGRATION.md
-     claude/CLAUDE-snippet.md
+     claude/AGENTS-snippet.md
      docs/CONVENTIONS.md
      CONTRIBUTING.md
      SECURITY.md
@@ -33,7 +33,7 @@ This SKILL.md is a fork of the stack-neutral scaffold at `claude/skills/ft-audit
      SPEC/**/*.md
      claude/skills/**/*.md
      claude/commands/**/*.md
-     claude/CLAUDE-snippet.md
+     claude/AGENTS-snippet.md
      docs/**/*.md
      templates/**/*.md
      README.md
@@ -48,7 +48,7 @@ This SKILL.md is a fork of the stack-neutral scaffold at `claude/skills/ft-audit
    - `SPEC.md` — workflow contract; primary AI cold-start surface.
    - `docs/MIGRATION.md` — adopter-facing contract; the example version pin near §1.1 is the doc-side mirror of the current `SPEC.md:3` version.
    - `README.md` — public-facing first impression.
-   - `claude/CLAUDE-snippet.md` — adopter paste-block; symlink-wiring and `CLAUDE.md` snippet single-source-of-truth.
+   - `claude/AGENTS-snippet.md` — adopter paste-block; symlink-wiring and `AGENTS.md` snippet single-source-of-truth.
 3. **Run verification gates**:
    ```sh
    # Wikilink integrity — any [[ID]] must resolve to a real PLAN.md entry (active or completed)
@@ -64,8 +64,8 @@ This SKILL.md is a fork of the stack-neutral scaffold at `claude/skills/ft-audit
 
 Run in this exact order. **Cap each pass at 5 findings max.** If a pass has more, keep the top 5 by severity and note the tail count (`+3 more Low omitted`).
 
-1. **Claims vs. code** — prose asserts behavior, file paths, exports, commands, or skills that the codebase no longer provides. Flowtron-specific examples: README / SPEC claims about the bundled-skill roster that don't match `claude/skills/` on disk; `claude/CLAUDE-snippet.md` symlink commands listing skills that aren't shipped; `docs/MIGRATION.md` `cp` / `ln -s` commands referencing non-existent paths; in-tree SKILL.md file-tree references out of sync with disk; `_project/tasknote/README.md` "AI-referenced docs" listing files that don't exist.
-2. **Cross-doc consistency** — the same fact stated differently across the doc set. Flowtron-specific examples: `SPEC.md:3` version pin vs. `docs/MIGRATION.md` example version pin (the `(e.g., vX.Y.Z)` line near §1.1); bundled-skill roster in `claude/skills/ft-flowtron/SKILL.md` vs. counts cited in `docs/MIGRATION.md` §1.2 (e.g. "six slash commands"); symlink-wiring block in `claude/CLAUDE-snippet.md` vs. install instructions in `docs/MIGRATION.md`; area-prefix set in `SPEC.md` §"Task ID convention" vs. `_project/tasknote/README.md` §"Area prefixes".
+1. **Claims vs. code** — prose asserts behavior, file paths, exports, commands, or skills that the codebase no longer provides. Flowtron-specific examples: README / SPEC claims about the bundled-skill roster that don't match `claude/skills/` on disk; `claude/AGENTS-snippet.md` symlink commands listing skills that aren't shipped; `docs/MIGRATION.md` `cp` / `ln -s` commands referencing non-existent paths; in-tree SKILL.md file-tree references out of sync with disk; `_project/tasknote/README.md` "AI-referenced docs" listing files that don't exist.
+2. **Cross-doc consistency** — the same fact stated differently across the doc set. Flowtron-specific examples: `SPEC.md:3` version pin vs. `docs/MIGRATION.md` example version pin (the `(e.g., vX.Y.Z)` line near §1.1); bundled-skill roster in `claude/skills/ft-flowtron/SKILL.md` vs. counts cited in `docs/MIGRATION.md` §1.2 (e.g. "six slash commands"); symlink-wiring block in `claude/AGENTS-snippet.md` vs. install instructions in `docs/MIGRATION.md`; area-prefix set in `SPEC.md` §"Task ID convention" vs. `_project/tasknote/README.md` §"Area prefixes".
 3. **Cross-references & navigation** — broken links and lost navigability. Examples: relative `[link](path)` whose target doesn't exist; `[[wikilink]]` whose target isn't a real task in `_project/PLAN.md` (active or completed); dangling section anchors after a heading rename in SPEC.md or MIGRATION.md; doc with no inbound link (orphan, likely indexed but unreachable). Wikilink integrity gate output from §1 step 3 lands here.
 4. **Currency & version pins** — stale time-locked content. Examples: `SPEC.md:3` `**Version:**` doesn't match `git describe --tags --abbrev=0`; `docs/MIGRATION.md` example pin `(e.g., vX.Y.Z)` lags behind SPEC version; "Today's date is YYYY-MM-DD" lines that have drifted; `_project/PLAN.md` `## Completed` ordering broken; release tasknote `Completed YYYY-MM-DD` ordering vs. file mtime.
 5. **Stale / archived content** — content describing a state flowtron has moved past. Examples: section describing pre-CORE-042 SPEC modularization in a doc that should reference current SPEC/*.md modules; TODO stubs in docs predating the current phase; "legacy" sections that belong in `legacy/` or should be deleted; commented-out doc blocks; deprecated patterns in templates that don't match the latest tasknote-template.md.

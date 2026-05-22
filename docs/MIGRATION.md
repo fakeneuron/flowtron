@@ -59,7 +59,7 @@ The `checkout` step is what pins the project to a specific flowtron version. Wit
 
 Flowtron ships six slash commands inside the submodule: `/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`. Each one's purpose lives in its own SKILL.md frontmatter — short version: 4-phase runner; starter filer; micro one-shot; in-chat follow-up; epic open; epic close.
 
-**Install:** open `_project/flowtron/claude/CLAUDE-snippet.md` §"One-time symlink wiring" and run the commands from the project root — that file is the single source of truth for the wiring (and also holds the §1.3 `CLAUDE.md` paste-block). The relative paths in the snippet survive `git clone` and pin to the submodule's current SHA, so symlinks never need touching on a version bump.
+**Install:** open `_project/flowtron/claude/AGENTS-snippet.md` §"One-time symlink wiring" and run the commands from the project root — that file is the single source of truth for the wiring (and also holds the §1.3 `AGENTS.md` paste-block). The relative paths in the snippet survive `git clone` and pin to the submodule's current SHA, so symlinks never need touching on a version bump.
 
 ### 1.2.1 Optional: fork the `/ft-audit` family per stack
 
@@ -89,9 +89,9 @@ Splitting one skill into per-area forks (e.g., `audit-backend` → `audit-backen
 
 Optional section — skip entirely if you don't want structured audit skills.
 
-### 1.3 Paste the workflow block into `CLAUDE.md`
+### 1.3 Paste the workflow block into `AGENTS.md`
 
-Open `_project/flowtron/claude/CLAUDE-snippet.md` and copy the markdown block from the "Block to paste into CLAUDE.md" section into your project's `CLAUDE.md`. It tells the assistant where to find the SPEC, where plans and tasknotes live, and how to start a task.
+Open `_project/flowtron/claude/AGENTS-snippet.md` and copy the markdown block from the "Block to paste into AGENTS.md" section into your project's `AGENTS.md` (create the file if it doesn't exist). `AGENTS.md` is the open-standard memory file read by Claude Code, Codex CLI, Cursor, Sourcegraph Amp, and Aider — pasting here makes the flowtron contract visible to whatever assistant the adopter uses. Project-specific instructions for a single assistant (e.g., `CLAUDE.md` for Claude-only directives) stay where they are; flowtron's block is agent-neutral.
 
 ### 1.4 Create `_project/PLAN.md`
 
@@ -124,7 +124,7 @@ git add .gitmodules _project/flowtron _project/PLAN.md _project/tasknote/ \
         .claude/commands/ft-file-followup.md .claude/commands/ft-epic-discovery.md .claude/commands/ft-close-epic.md \
         .claude/skills/ft-task .claude/skills/ft-starter-task .claude/skills/ft-micro-task \
         .claude/skills/ft-file-followup .claude/skills/ft-epic-discovery .claude/skills/ft-close-epic \
-        CLAUDE.md
+        AGENTS.md
 git commit -m "chore: adopt flowtron at vX.Y.Z"
 ```
 
@@ -157,7 +157,7 @@ The differentiator vs §3: full conversion, not just the active queue. Convert b
 
 ### 2.2–2.6 Follow §3.5–§3.9
 
-The remaining steps (reconcile in-flight tasknotes · retire helpers · replace workflow docs · update `CLAUDE.md` · commit) are identical to §3's playbook. Apply §3.5 to **all** in-flight tasknotes (not just the active queue), then §3.6–§3.9 as written.
+The remaining steps (reconcile in-flight tasknotes · retire helpers · replace workflow docs · create `AGENTS.md` from the paste-block · commit) are identical to §3's playbook. Apply §3.5 to **all** in-flight tasknotes (not just the active queue), then §3.6–§3.9 as written.
 
 ---
 
@@ -264,11 +264,11 @@ For each currently-open tasknote (a small universe under §3):
 
 ### 3.6 Retire helpers and project-side workflow docs
 
-Helper scripts (`create_tasknote.py`, `archive_tasknote.py`, `validate_plan.py`) and project-side workflow docs (`WORKFLOW.md`, `TASKNOTE_QUICK_REFERENCE.md`) go away — the flowtron submodule + paste-block in `CLAUDE.md` cover their job. If a doc holds project-specific notes worth keeping, shrink it to those parts and add a top-of-file pointer: *"Workflow contract: see `_project/flowtron/SPEC.md`."* If a script does something flowtron doesn't cover (project-specific lint, custom CI), keep it as a project-side helper — not part of the workflow system.
+Helper scripts (`create_tasknote.py`, `archive_tasknote.py`, `validate_plan.py`) and project-side workflow docs (`WORKFLOW.md`, `TASKNOTE_QUICK_REFERENCE.md`) go away — the flowtron submodule + paste-block in `AGENTS.md` cover their job. If a doc holds project-specific notes worth keeping, shrink it to those parts and add a top-of-file pointer: *"Workflow contract: see `_project/flowtron/SPEC.md`."* If a script does something flowtron doesn't cover (project-specific lint, custom CI), keep it as a project-side helper — not part of the workflow system.
 
-### 3.7 Update `CLAUDE.md`
+### 3.7 Create `AGENTS.md` from the paste-block
 
-Replace any block referencing the legacy workflow with the flowtron paste-block from §1.3. Project-specific instructions (architecture notes, non-negotiables, quick commands) stay — they're orthogonal to flowtron.
+Create `AGENTS.md` and paste the flowtron block from §1.3. If a legacy workflow block lived inside `CLAUDE.md` (or another assistant-specific memory file) under the prior system, remove it — flowtron's contract now lives in `AGENTS.md` and is read by Claude Code, Codex, Cursor, Amp, and Aider. Project-specific instructions (architecture notes, non-negotiables, quick commands) stay in whatever file they already live in — they're orthogonal to flowtron.
 
 ### 3.8 Post-migration cleanup
 

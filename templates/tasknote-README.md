@@ -72,7 +72,8 @@ one-line purpose each. Extend as the architecture matures (architecture
 notes, API specs, DB schema docs, ADRs, inventories).
 
 - `README.md` — project overview, current shipped feature surface
-- `CLAUDE.md` — assistant-facing project guide; quick commands, conventions
+- `AGENTS.md` — assistant-facing project guide; includes the flowtron paste-block (read by Claude Code, Codex, Cursor, Amp, Aider)
+- `CLAUDE.md` — optional Claude-specific directives that don't belong in `AGENTS.md` (delete entry if not used)
 - `_project/PLAN.md` — roadmap and active task queue
 
 ## Project quick commands

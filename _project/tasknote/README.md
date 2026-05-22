@@ -34,7 +34,7 @@ purpose each.
 - `README.md` — public-facing flowtron repo overview
 - `SPEC.md` — canonical workflow contract; primary AI cold-start surface
 - `docs/MIGRATION.md` — adoption + bump procedures for adopting projects
-- `claude/CLAUDE-snippet.md` — block adopters paste into their CLAUDE.md (defines adopters' assistant-facing surface)
+- `claude/AGENTS-snippet.md` — block adopters paste into their AGENTS.md (defines adopters' assistant-facing surface; agent-neutral)
 - `docs/CONVENTIONS.md` — conventions flowtron adheres to and declines (commits, versioning, formatting, CHANGELOG, ADRs) with rationale
 - `CONTRIBUTING.md` — solo-maintenance model; how to file issues; when PRs make sense
 - `SECURITY.md` — prompt-injection and supply-chain threat model; informs how skills handle contributor-authored content and submodule bumps

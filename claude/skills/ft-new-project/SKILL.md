@@ -1,6 +1,6 @@
 ---
 name: ft-new-project
-description: Bootstrap a fresh ~/code/ project with flowtron — adds the submodule, wires /ft-task, drops in PLAN.md + tasknote README, patches CLAUDE.md, and stages the commit. Mirrors docs/MIGRATION.md §1 conversationally; for fresh adoption only.
+description: Bootstrap a fresh ~/code/ project with flowtron — adds the submodule, wires /ft-task, drops in PLAN.md + tasknote README, creates/patches AGENTS.md, and stages the commit. Mirrors docs/MIGRATION.md §1 conversationally; for fresh adoption only.
 ---
 
 # new-project — flowtron adoption skill
@@ -14,7 +14,7 @@ This skill is **fresh-adoption only** — Step 0 detects prior workflow tooling 
 The skill operates on the current working directory. Before doing anything:
 
 - `.git/` exists (cwd is a git repo). If not, stop and tell the user to `git init` first.
-- `CLAUDE.md` exists in cwd. If not, stop and ask the user to create one before proceeding (the workflow block from `claude/CLAUDE-snippet.md` will be appended to it).
+- `CLAUDE.md` exists in cwd. If not, stop and ask the user to create one before proceeding — this is a project-validity check (signals an AI-coding project); the flowtron paste-block itself lands in `AGENTS.md` (created in Step 4 if missing).
 - None of the following exist (their presence means flowtron is already adopted):
   - `_project/flowtron/`
   - `_project/PLAN.md`
@@ -57,15 +57,13 @@ Reference: `docs/MIGRATION.md` §1.1.
 
 ## Step 3 — Wire /ft-task, /ft-starter-task, /ft-micro-task, /ft-file-followup, /ft-epic-discovery, /ft-close-epic via symlinks
 
-Read `_project/flowtron/claude/CLAUDE-snippet.md` and run the bash block under the §"One-time symlink wiring" heading from the project root. Run it verbatim — relative paths are intentional (they survive `git clone` and pin to whichever flowtron commit the submodule is checked out at). Do not substitute absolute paths.
+Read `_project/flowtron/claude/AGENTS-snippet.md` and run the bash block under the §"One-time symlink wiring" heading from the project root. Run it verbatim — relative paths are intentional (they survive `git clone` and pin to whichever flowtron commit the submodule is checked out at). Do not substitute absolute paths.
 
-Reference: `claude/CLAUDE-snippet.md` §"One-time symlink wiring" (canonical) · `docs/MIGRATION.md` §1.2 (adopter doc, points to the snippet).
+Reference: `claude/AGENTS-snippet.md` §"One-time symlink wiring" (canonical) · `docs/MIGRATION.md` §1.2 (adopter doc, points to the snippet).
 
-## Step 4 — Patch CLAUDE.md
+## Step 4 — Create or patch AGENTS.md
 
-Read `_project/flowtron/claude/CLAUDE-snippet.md` and extract the markdown block under the "Block to paste into CLAUDE.md" heading (the fenced ```markdown ... ``` block). Append the block's *contents* (without the outer fences) to the project's `CLAUDE.md`.
-
-Append at the end of the file. Do not overwrite the existing file or insert mid-file — project-specific instructions in `CLAUDE.md` must be preserved.
+Read `_project/flowtron/claude/AGENTS-snippet.md` and extract the markdown block under the "Block to paste into AGENTS.md" heading (the fenced ```markdown ... ``` block). If `AGENTS.md` doesn't exist in the project root, create it with the block's *contents* (without the outer fences) as initial content. If it exists, append the contents at the end of the file — do not overwrite or insert mid-file (project-specific instructions in `AGENTS.md` must be preserved).
 
 Reference: `docs/MIGRATION.md` §1.3.
 
@@ -100,7 +98,7 @@ Stage the bootstrap files explicitly. Do **not** use `git add .` or `git add -A`
 git add .gitmodules _project/flowtron _project/PLAN.md _project/tasknote/ \
         .claude/commands/ft-task.md .claude/commands/ft-starter-task.md .claude/commands/ft-micro-task.md .claude/commands/ft-file-followup.md .claude/commands/ft-epic-discovery.md .claude/commands/ft-close-epic.md \
         .claude/skills/ft-task .claude/skills/ft-starter-task .claude/skills/ft-micro-task .claude/skills/ft-file-followup .claude/skills/ft-epic-discovery .claude/skills/ft-close-epic \
-        CLAUDE.md
+        AGENTS.md
 ```
 
 Surface the proposed commit message and wait for commit-go (e.g. "yes", "go", "commit"). Do not commit unprompted — same protocol as the `/ft-task` post-closure flow.
@@ -144,6 +142,6 @@ Reference: `docs/MIGRATION.md` §1.7.
 
 ## Notes
 
-- This skill does not touch existing files except `CLAUDE.md` (appended-to in Step 4). Everything else is new.
+- This skill does not touch existing files except `AGENTS.md` (created or appended-to in Step 4). Everything else is new.
 - For migrating from a prior workflow system (existing `plan.json`, `WORKFLOW.md`, etc.), use `docs/MIGRATION.md` §3 (lightweight, active-queue-only) or §2 (full, ID-preserving) manually — the migration path involves judgment calls that don't fit a recipe.
 - For bumping flowtron's pinned version in an already-adopted project, see `docs/MIGRATION.md` §"Pinning and bumping" — that's a different task (`CORE-XXX: Bump flowtron to vX.Y.Z`).

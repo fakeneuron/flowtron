@@ -1,5 +1,5 @@
 ---
-description: Bootstrap a fresh ~/code/ project with flowtron — adds the submodule, wires /ft-task, drops in PLAN.md + tasknote README, patches CLAUDE.md, and stages the commit.
+description: Bootstrap a fresh ~/code/ project with flowtron — adds the submodule, wires /ft-task, drops in PLAN.md + tasknote README, creates/patches AGENTS.md, and stages the commit.
 ---
 
 Invoke the `new-project` skill. The skill verifies preconditions (cwd is a git repo with `CLAUDE.md`, no existing flowtron wiring), collects the project name and pinned flowtron version, and walks through the bootstrap steps from flowtron's `docs/MIGRATION.md` §1 conversationally. Stages all bootstrap files and surfaces the commit message for user approval — does not commit unprompted.

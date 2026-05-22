@@ -55,7 +55,7 @@ A lightweight, project-agnostic tasknote system for solo AI-assisted coding. Kee
 | `/ft-audit-performance` | Performance audit — 5 passes (Hot paths · Payload & bundle · Data access · Memory & resource · Caching). Measurements required. Cross-cuts frontend / backend specialists. |
 | `/ft-stats` | Show flowtron stats — `[model]` distribution, completion velocity, per-area volume — aggregated from PLAN.md `## Completed`. Read-only screen; `--write` also flushes to `_project/STATS.md`. |
 | `/ft-quality` | Run a lint + typecheck + test sweep against the project (fail-fast). Heuristic stack detection (Node / Python / Go / Rust). Runs outside the tasknote flow. |
-| `/ft-new-project` | Bootstrap a fresh repo with flowtron — submodule, PLAN.md, tasknote README, CLAUDE.md patch, staged commit. |
+| `/ft-new-project` | Bootstrap a fresh repo with flowtron — submodule, PLAN.md, tasknote README, AGENTS.md patch, staged commit. |
 | `/ft-release` | Cut a flowtron release — version bump, doc shifts, drift sweep (via `/ft-audit-docs`), single feat: commit, annotated tag, push. (Flowtron-self only.) |
 | `/ft-flowtron` | Display this info screen — version, core principles, and the full bundled-skill roster. No args; read-only. |
 

@@ -14,7 +14,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-129** [opus] | AGENTS.md migration — Move canonical paste-block from project-side `CLAUDE.md` to `AGENTS.md` (open standard read by Claude Code, Codex, Cursor, Amp) so non-Claude adopters work with zero Claude-side regression. First slice of a future agent-agnostic decoupling epic. Filed with starter at `_project/tasknote/CORE-129.md`.
 
 ## Low
 
@@ -26,6 +25,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-129** [opus] | AGENTS.md migration — Completed 2026-05-22.
 - [x] **CORE-128** [opus] | release v3.2.0 — Completed 2026-05-20.
 - [x] **CORE-127** [sonnet] | ft-flowtron key-docs security — Completed 2026-05-20.
 - [x] **CORE-126** [sonnet] | snippet viz npm-install gap — Completed 2026-05-20.

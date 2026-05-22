@@ -1,10 +1,10 @@
 # Flowtron adoption snippet
 
-Paste the block below into your project's `CLAUDE.md`, then run the symlink commands once to wire flowtron's slash commands into your project's `.claude/`.
+Paste the block below into your project's `AGENTS.md`, then run the symlink commands once to wire flowtron's slash commands into your project's `.claude/`.
 
 ---
 
-## Block to paste into CLAUDE.md
+## Block to paste into AGENTS.md
 
 ```markdown
 ## Workflow
