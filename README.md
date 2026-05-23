@@ -84,7 +84,7 @@ wiring. A minimal
 [Dataview](https://blacksmithgu.github.io/obsidian-dataview/) snippet
 (Obsidian-only) to list open tasks:
 
-````
+````markdown
 ```dataview
 TABLE status, due
 FROM "_project/tasknote"
