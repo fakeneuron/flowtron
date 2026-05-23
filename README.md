@@ -26,7 +26,7 @@ maintain.
 
 ## Bootstrapping a new project
 
-Run `/ft-new-project` in a fresh `~/code/` repo (git repo + `CLAUDE.md` required)
+Run `/ft-new-project` in your project's root directory (git repo + `CLAUDE.md` required)
 to add the flowtron submodule, wire `/ft-task`, and drop in the `_project/`
 skeleton in one pass. See [docs/MIGRATION.md](docs/MIGRATION.md) §1.0 for the
 one-time global install.
