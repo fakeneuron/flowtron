@@ -19,7 +19,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-168** [sonnet] | versioning-example-placeholders — Replace literal `v3.2.0`/`v3.2.x`/`v3.3.0` in `SPEC/versioning.md` tier examples with generic `vX.Y.Z` placeholders so they don't stale on next bump. Surfaced by audit 2026-05-23 (Finding #2, Low).
 
 ## Future Opportunities
 
@@ -27,6 +26,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-168** [sonnet] | versioning-example-placeholders — Completed 2026-05-23.
 - [x] **CORE-167** [sonnet] | ft-task-copy-paste-skill-segment — Completed 2026-05-23.
 - [x] **CORE-166** [sonnet] | audit-scaffold-fork-path — Completed 2026-05-23.
 - [x] **CORE-164** [sonnet] | platforms-audit-family-notation — Completed 2026-05-23.
