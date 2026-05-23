@@ -496,7 +496,7 @@ where `<…>` names the cleared signals as diff facts (e.g., `4 markdown files; 
    /clear then /model <opus|sonnet> then /ft-task <NEXT-ID>
    ```
 
-   Claude cannot run `/clear` itself; this is for the user to paste in a fresh context. The `/model` segment matches the next task's PLAN-line `[model]`, pre-empting the Step 1.5 gate on assistant hand-offs (still fires on cold starts).
+   The assistant cannot run `/clear` itself; this is for the user to paste in a fresh context. The `/model` segment matches the next task's PLAN-line `[model]`, pre-empting the Step 1.5 gate on assistant hand-offs (still fires on cold starts).
 
 ## When to use a tasknote (and when not to)
 

@@ -143,7 +143,7 @@ Run the three-step protocol (commit / suggest next move / copy-paste line) per S
 
 Skill-specific:
 - Suggest-next-move candidates carry `[model]` **inline per option** in the PLAN.md task-line shape: `**<TASK-ID>** [model] | shortname — one-sentence "why now"`. Mirrors PLAN.md so the user scans model assignments without cross-referencing.
-- Copy-paste line: `/clear then /model <opus|sonnet> then /ft-task <NEXT-ID>` — substitute the next task's PLAN-line `[model]` tag. (You cannot run `/clear` yourself.)
+- Copy-paste line: `/clear then /model <opus|sonnet> then /ft-task <NEXT-ID>` — substitute the next task's PLAN-line `[model]` tag. (The assistant cannot run `/clear` itself.)
 
 ## Notes
 
