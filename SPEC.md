@@ -331,7 +331,7 @@ Archive skim + drift check both exist because prior tasknotes record decisions (
 **Exit gate (conditional):** once every Phase 1 box is ticked, branch on
 the clarifying-questions outcome:
 
-- **"No clarifications needed" branch** (zero AskUserQuestion calls and
+- **"No clarifications needed" branch** (zero structured asks and
   zero prose asks during Discovery; explicit assumptions logged) — skip
   the 🛠️ banner. Emit a single inline marker and proceed directly into
   Phase 2:
@@ -340,7 +340,7 @@ the clarifying-questions outcome:
   ✅ Phase 1 Discovery complete (no clarifications needed); entering Phase 2 Execution.
   ```
 
-- **Clarifications-surfaced branch** (AskUserQuestion fired, prose asks
+- **Clarifications-surfaced branch** (structured asks fired, prose asks
   reshaped scope, or a Re-scope verdict landed) — surface the 🛠️ Phase 2
   operator-gate cue per §"Operator-gate cues" (with the mandatory preview
   line) and wait for the user's go before starting execution.

@@ -16,28 +16,35 @@ omit exploit details until we agree on a path.
 
 ### Prompt injection via user-authored markdown
 
-Flowtron's Claude Code skills (`/ft-task`, `/ft-audit`, `/ft-release`,
-`/ft-audit-docs`, and others) read content the user authored: tasknotes,
-`PLAN.md`, `SPEC.md`. In an adopter project, "the user" may include
-contributors who open pull requests.
+Flowtron's bundled skills — currently Claude Code-only (`/ft-task`,
+`/ft-audit`, `/ft-release`, `/ft-audit-docs`, and others) — read
+content the user authored: tasknotes, `PLAN.md`, `SPEC.md`. In an
+adopter project, "the user" may include contributors who open pull
+requests. The threat model below applies to any AI assistant reading
+the same files; the Claude-Code-specific mitigations name `.claude/`
+surfaces because that's the runtime flowtron ships skills for today.
 
-A contributor PR that adds a tasknote (or edits `PLAN.md`) can attempt to
-steer Claude into running unintended shell commands the next time a skill is
-invoked against that file. The realistic attack: an attacker-supplied
-tasknote contains text crafted to look like skill instructions and tells
-Claude to run a `curl` exfiltrating local files, modify config, etc. The
-risk scales with how permissive the user's Claude Code tool allowlist is.
+A contributor PR that adds a tasknote (or edits `PLAN.md`) can attempt
+to steer the assistant into running unintended shell commands the next
+time a skill is invoked against that file. The realistic attack: an
+attacker-supplied tasknote contains text crafted to look like skill
+instructions and tells the assistant to run a `curl` exfiltrating
+local files, modify config, etc. The risk scales with how permissive
+the runtime's tool allowlist is.
 
-**Adopter mitigations.**
+**Adopter mitigations (any AI assistant).**
 
 - Review contributor PRs that touch `_project/` content with the same care
   you would give to a code change. The body of a tasknote is executable
   context, even though it is plain markdown.
+- Treat the first run of a skill against contributor-authored content as a
+  judgment call, not a routine action.
+
+**Adopter mitigations (Claude Code).**
+
 - Keep your `.claude/settings.local.json` tool allowlist narrow. Broad
   globs like `Bash(curl *)` or `Bash(npm *)` make prompt-injection attacks
   trivially exploitable.
-- Treat the first run of a skill against contributor-authored content as a
-  judgment call, not a routine action.
 
 The flowtron skills themselves do not implement a sandbox; the Claude Code
 harness is the only enforcement layer.

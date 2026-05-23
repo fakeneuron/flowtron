@@ -21,8 +21,8 @@ Step 1.5):
 - Active model differs → block and offer two paths: switch the active model
   via `/model <X>` then re-invoke `/ft-task`, or retag the PLAN.md line to the
   active model and proceed. No silent overrides.
-- PLAN.md line has no `[model]` (legacy entry) → ask the user via
-  AskUserQuestion at `/ft-task` entry, before any scaffolding work.
+- PLAN.md line has no `[model]` (legacy entry) → ask the user via a
+  structured ask at `/ft-task` entry, before any scaffolding work.
 
 A task runs end-to-end on a single model — no swapping mid-task between
 Discovery, Execution, Testing, or Closure. If scope grows and the tagged

@@ -61,6 +61,6 @@ Step 3 + `docs/MIGRATION.md` §1.2.
 shared design surface, contract impact, or per-child scope is genuinely
 unclear at filing time — `/ft-epic-discovery --deep` stages a
 `constitution → specify → clarify` pre-pass before Phase 1 Discovery,
-with AskUserQuestion review-and-confirm gates between stages. The
+with structured-ask review-and-confirm gates between stages. The
 default flow is unchanged; reach for `--deep` only when upfront staging
 is worth the extra interruption. Contract details live in the skill.

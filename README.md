@@ -18,6 +18,9 @@ maintain.
 - [docs/CONVENTIONS.md](docs/CONVENTIONS.md) — conventions flowtron adheres to
   (Conventional Commits, SemVer, GFM, Diátaxis) and declines (CHANGELOG, ADR
   registry, release automation, pre-commit hooks) with rationale
+- [docs/AGENT-NEUTRALITY.md](docs/AGENT-NEUTRALITY.md) — agent-neutrality
+  contract: which contract-layer Claude-specific surfaces are intentional
+  (load-bearing locators for the Claude Code wiring layer) and why
 - [CONTRIBUTING.md](CONTRIBUTING.md) — solo-maintenance model, how to file
   issues, when PRs make sense
 - [SECURITY.md](SECURITY.md) — threat model (prompt injection via

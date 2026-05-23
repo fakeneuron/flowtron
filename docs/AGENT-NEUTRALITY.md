@@ -1,0 +1,85 @@
+# Agent-neutrality contract
+
+**Last reviewed:** 2026-05-23 ([[CORE-154.2]])
+
+## Principle
+
+Flowtron's **contract layer** (`SPEC.md`, `SPEC/`, `templates/`, `docs/`,
+`README.md`, `SECURITY.md`) is agent-neutral — any AI assistant reading
+`AGENTS.md` should be able to follow the workflow contract
+conversationally. Flowtron's **wiring layer** (`claude/`) is
+Claude-Code-specific by design: slash commands, structured-ask
+primitives, the `--fast` skill argument, and adopter symlinks under
+`.claude/` are execution-surface details of the Claude Code runtime.
+
+Adding agent-specific execution surfaces is fine; leaking agent-specific
+assumptions into the contract layer is not.
+
+Future platform wiring (Codex CLI, grok, Cursor, …) plugs in
+symmetrically — see [`docs/PLATFORMS.md`](PLATFORMS.md) ([[CORE-154.4]],
+forthcoming) for the plug-in pattern.
+
+## Intentional Claude-specific surfaces
+
+The references below are **load-bearing** in the contract layer —
+factual locators for the wiring that ships today, not assumptions that
+Claude is the only runtime. Future audits should consult this table and
+*not* re-flag the entries here. Lens-specific audit notes belong in the
+parent epic's audit task ([[CORE-154.6]]), not as edits to the entries
+below.
+
+| File | Section / context | Reference | Why it stays |
+|---|---|---|---|
+| `SPEC.md` | §"Working in the flowtron repo itself" | `` `claude/` — Claude Code commands + skills `` | Wiring-layer directory name; factual. |
+| `SPEC.md` | §"Lazy SPEC module frontmatter" | `` `claude/skills/ft-task/SKILL.md` `` dispatch reference | Cross-ref to dispatch-logic location. |
+| `SPEC.md` | §"Skill namespace" | `` `.claude/` `` adopter directory | Adopter Claude Code wiring location. |
+| `SPEC.md` | §"When to use a tasknote (and when not to)" | `/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic` | Canonical flowtron skill names. |
+| `SPEC.md` | §"Operator-gate cues", §"📝 Phase 1: Discovery", §"🧪 Phase 3: Testing & Linting", §"Conditional skip rule" (5 sites) | `` `--fast` / `-f` `` operator force-skip flag | Operator force-skip mechanism implemented in the Claude Code skill bundle. Concept (operator force-skip) is platform-neutral; flag syntax is wiring-layer detail. SPEC documents the operator UX inline rather than punting to SKILL.md for density. |
+| `SPEC/epic.md` | §"Skills" + §"Optional deep pre-pass" | `claude/skills/ft-epic-discovery/`, `claude/skills/ft-close-epic/`, `claude/skills/ft-new-project/SKILL.md` | Path facts. |
+| `SPEC/model.md` | (intro + Step 1.5 dispatch reference) | `claude/skills/ft-task/SKILL.md` | Path fact. |
+| `SPEC/model.md` | (recommended-set paragraph) | `` `opus \| sonnet` `` + Anthropic-tier note | Per [[CORE-138]] — recommended set, not lock. |
+| `templates/tasknote-README.md` | "AGENTS.md" entry | `AGENTS.md` read by Claude Code, Codex CLI, Cursor, Amp, Aider | Multi-agent paste-destination — explicitly agent-neutral framing. |
+| `templates/tasknote-README.md` | "CLAUDE.md" entry | `CLAUDE.md` — optional Claude-specific directives | Explicit Claude-only carve-out; adopter agents skip the entry. |
+| `templates/tasknote-micro-template.md` | (closing recap line) | `claude/skills/ft-micro-task/SKILL.md` | Path fact. |
+| `templates/PLAN.md` | (examples + rule comment) | `[opus]`, `[sonnet]` example tokens + recommended-set parenthetical | Per [[CORE-138]]. |
+| `docs/MIGRATION.md` | §1.2, §1.3, §3, troubleshooting | `.claude/commands/...`, `.claude/skills/...`, `claude/AGENTS-snippet.md`, slash-command verification, "fresh Claude Code session" references | MIGRATION IS the Claude Code adoption guide today. Future platforms get their own adoption section if/when wiring lands ([[CORE-154.4]] forthcoming `docs/PLATFORMS.md`). |
+| `docs/PHILOSOPHY.md` | (historical-narrative paragraphs) | `Claude Code` + "Claude can read markdown" framing | Per [[CORE-132]] defense — file's role is personal narrative; voice IS the deliverable. |
+| `README.md` | §"Repo layout" | `` `claude/` `` — Claude Code skills + slash commands | Factual repo-layout description. |
+| `SECURITY.md` | §"Prompt injection ..." (Claude Code subsection) | `.claude/settings.local.json` tool allowlist + Claude Code harness mention | Claude Code-specific mitigation; clearly scoped after the [[CORE-154.2]] reframe. |
+
+## Tool-call-specific terminology
+
+SPEC's workflow contract uses agent-neutral terms for assistant-user
+question primitives. The terms describe the *operation*, not any
+specific tool:
+
+| Concept | Canonical name in SPEC | Notes |
+|---|---|---|
+| Multi-option structured user question | **structured ask** | Was previously named `AskUserQuestion` (the Claude Code tool name); generalized via [[CORE-154.2]]. Adopter agents implement via their own primitives (Codex CLI question shapes, Cursor multi-choice prompts, etc.). |
+| Free-prose user question | **prose ask** | Unchanged — always was agent-neutral. |
+
+The pair `structured ask` / `prose ask` describes the operator-facing
+mode, not the tool that delivers it.
+
+## Out of scope for this ledger
+
+This contract documents *why intentional Claude-specific surfaces are
+intentional*. It does NOT:
+
+- Spell out the platform-plug-in mechanism for adding `codex/` / `grok/` /
+  Cursor wiring directories — see [[CORE-154.4]] / `docs/PLATFORMS.md`
+  (forthcoming).
+- Document the wiring-layer structure or evaluate whether `claude/`
+  should be renamed or relocated — see [[CORE-154.3]] (forthcoming).
+- Re-survey the contract layer for new leaks — audits are point-in-time;
+  the next epic touching the contract layer should consult this ledger
+  and run its own check.
+
+Near-neighbor surfaces explicitly out of [[CORE-154.2]]'s scope but
+worth mentioning here:
+
+- `CONTRIBUTING.md:8` — "Most edits land via Claude Code sessions" —
+  historical narrative; defended by [[CORE-132]] (first-person
+  CONTRIBUTING convention).
+- `claude/AGENTS-snippet.md` — wiring-layer content (under `claude/`);
+  examined by [[CORE-154.3]] and [[CORE-154.4]].
