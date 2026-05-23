@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-164** [sonnet] | platforms-audit-family-notation — Replace `/ft-audit-*` (hyphenated, excludes /ft-audit itself) in PLATFORMS.md:31 with unambiguous prose naming all six audit skills; align with the Worked Example's `ft-audit*` (unhyphenated) form. (Surfaced by audit-docs 2026-05-23, Finding #2, Low)
+(none)
 
 ## Future Opportunities
 
@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-164** [sonnet] | platforms-audit-family-notation — Completed 2026-05-23.
 - [x] **CORE-163** [sonnet] | agents-snippet-micro-4phase-claim — Completed 2026-05-23.
 - [x] **CORE-165** [sonnet] | audit-docs-skill-stale-doc-list — Completed 2026-05-23.
 - [x] **CORE-162** [sonnet] | viz-launch-style-drift — Completed 2026-05-23.
