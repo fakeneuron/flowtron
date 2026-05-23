@@ -91,7 +91,7 @@ Placement:
 
 - If the priority section already has entries, append to the bottom of that section.
 - If the section carries a `(none)` placeholder, replace the placeholder with the new entries.
-- Preserve the 2-space child indent on the `.1` and `.N` lines (per `_project/PLAN.md` lines 29-34 precedent: `  - [ ] **CORE-057.1** ...`).
+- Preserve the 2-space child indent on the `.1` and `.N` lines (per CORE-EPIC-057 cohort in `_project/PLAN.md`: `  - [ ] **CORE-057.1** ...`).
 
 Do NOT pre-write `.2..(N-1)` lines here — that is the Discovery's Phase 2 deliverable.
 
@@ -223,7 +223,7 @@ Tick all three Phase 3 boxes (test suite N/A, lint N/A, frontend N/A).
 Walk the closure steps in order. **No banner here** — closure ops auto-run; the recap drafted at the end bundles into Step 10's 📦 gate.
 
 - **Doc-drift sweep** — for each entry in `<tasknote dir>/README.md` §"AI-referenced docs", state per-entry verdict ("no change" or the specific update). Pure Discovery filing typically lands "no change" across the board — contract edits live inside the implementation children.
-- **Flip the `.1` PLAN.md line to stub form** — `- [x] **<AREA>-<next-N>.1** [<model>] | <shortname> discovery — Completed YYYY-MM-DD.` per SPEC §"`## Completed` archive convention". Keep nested under `<AREA>-EPIC-<next-N>` in its current `## <Priority>` section (per epic-cohort grouping; parent + cohort move to `## Completed` only when all children close — see CORE-057.1 / .2 / .5 closure precedents).
+- **Flip the `.1` PLAN.md line to stub form** — `- [x] **<AREA>-<next-N>.1** [<model>] | <shortname> discovery — Completed YYYY-MM-DD.` per SPEC §"`## Completed` archive convention". Keep nested under `<AREA>-EPIC-<next-N>` in its current `## <Priority>` section (per epic-cohort grouping; parent + cohort move to `## Completed` only when all children close — see CORE-057.1 / .2 closure precedents).
 - **Move the `.1` tasknote** — `git mv <tasknote dir>/<AREA>-<next-N>.1.md <tasknote dir>/archive/<area>/<AREA>-<next-N>.1.md`. Set `**Archived:** YYYY-MM-DD` in the tasknote's Phase 4 block.
 - **Draft the recap** — leads with a 1-2 sentence plain-English summary (epic filed, Discovery closed, children scoped), then technical detail (cohort surface inventoried, child line word-counts, any audit-number bump). Hold it for Step 10's 📦 bundle; do not surface a banner now.
 
