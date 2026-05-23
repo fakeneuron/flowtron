@@ -52,7 +52,7 @@ Flowtron does not submodule itself. When working in `~/code/flowtron/`:
 - The `templates/` folder holds the canonical tasknote and PLAN.md templates.
 - `claude/` — Claude Code commands + skills (`/ft-task`, `/ft-release`, `/ft-new-project`, …); the adopter snippet lives at `claude/AGENTS-snippet.md`.
 
-For flowtron-self global installs (e.g. `/ft-release`), see [`docs/MIGRATION.md`](docs/MIGRATION.md) §1.0 "One-time global installs" → flowtron-self developers block.
+For flowtron-self global installs (e.g. `/ft-release`), see [`docs/MIGRATION.md`](docs/MIGRATION.md) §1.0 → "One-time global installs" table, `Flowtron-self only` row.
 
 ### Lazy SPEC module frontmatter
 
