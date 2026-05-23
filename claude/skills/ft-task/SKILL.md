@@ -58,7 +58,7 @@ The full task-line grammar is `- [ ] **TASK-ID** [!critical] [model] | shortname
 
 **Filing-discipline check (advisory).** Word-count the captured long description (after `— `). If it exceeds the 70-word hard cap from SPEC §"PLAN.md filing-discipline thresholds", surface a one-line warning to the user:
 
-```
+```text
 ⚠️ PLAN.md description is <N> words (>70w cap). Should this have been filed
    as a starter? Proceeding with the existing line.
 ```

@@ -11,7 +11,7 @@ This skill is **flowtron-self only**. It is symlinked under `~/.claude/skills/ft
 
 The release task ID must already be filed in `_project/PLAN.md` as a one-line entry — for example:
 
-```
+```text
 - [ ] **<TASK-ID>** [model] | release vX.Y.Z — Cut vX.Y.Z minor release tagging <FEAT-A> + <FEAT-B> since v<prev>.
 ```
 
@@ -65,7 +65,7 @@ Compute the **proposed bump kind** = the highest-rank classification across all 
 
 Surface to the user:
 
-```
+```text
 Current version: vX.Y.Z (matches SPEC.md:3 and `git describe`)
 PLAN target:     vA.B.C
 Commits since vX.Y.Z:
@@ -94,7 +94,7 @@ Pre-populate `## ✅ Acceptance` and `## 🧩 Subtasks` with the canonical 7-ste
 
 Acceptance (parameterized):
 
-```
+```markdown
 - [ ] SPEC.md `**Version:** vX.Y.Z` → `vA.B.C`
 - [ ] SPEC/versioning.md patch/minor examples shifted off the just-cut release (per CORE-043 / CORE-046 / CORE-048 precedent)
 - [ ] docs/MIGRATION.md example pin bumped `vX.Y.Z` → `vA.B.C`
@@ -158,7 +158,7 @@ Walk the closure steps in order. Tag-message review and commit-go are explicit g
 
 Invoke the flowtron-self `ft-audit-docs` skill in **subroutine mode** with the default scope (the AI-referenced docs set declared in `_project/tasknote/README.md` §"AI-referenced docs"):
 
-```
+```text
 Skill(ft-audit-docs)
 ```
 
@@ -174,7 +174,7 @@ If `ft-audit-docs` reports zero findings, state that explicitly and move on to �
 
 Use CORE-048's structure as the template:
 
-```
+```text
 flowtron vA.B.C — <one-clause headline>
 
 <one-paragraph summary derived from commit log + adopter-impact findings>
@@ -219,7 +219,7 @@ git add _project/tasknote/archive/core/<TASK-ID>.md
 
 Surface the commit message and wait for **commit-go** (e.g. "yes", "go", "commit"):
 
-```
+```text
 feat: <TASK-ID> — flowtron vA.B.C (<one-clause summary>)
 ```
 

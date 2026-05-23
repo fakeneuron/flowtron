@@ -68,7 +68,7 @@ In `_project/tasknote/<TASK-ID>.md`:
 
 Append a new entry under the appropriate `## <Priority>` heading. Use the canonical task-line grammar (SPEC §"Task-line format"):
 
-```
+```text
 - [ ] **<TASK-ID>** [<model>] | <shortname> — <one-line long description>. Filed with starter at `_project/tasknote/<TASK-ID>.md`.
 ```
 
