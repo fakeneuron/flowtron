@@ -14,8 +14,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
+- [ ] **CORE-143** [sonnet] | ft-stats-symlink-cleanup — Delete stray circular symlink dir `claude/skills/ft-stats/ft-stats` (`rm -rf`). Untracked git artifact; symlinks back to its own parent, infinite-loop hazard for recursive scanners. Surfaced by audit 2026-05-23 (Finding #1, Medium).
+- [ ] **CORE-144** [sonnet] | ft-release-doc-list-update — Update `claude/skills/ft-release/SKILL.md` §7.1 parenthetical "currently README.md, SPEC.md, docs/MIGRATION.md, claude/AGENTS-snippet.md" to match the current 7-doc AI-referenced set (or remove the hardcoded list). Surfaced by audit 2026-05-23 (Finding #5, Medium).
 
 ## Low
+
+- [ ] **CORE-145** [sonnet] | agents-snippet-viz-cmd-parity — Align `claude/AGENTS-snippet.md` visualizer setup commands (lines 58-59) from `cd dir && npm` form to the two-line form used in `README.md:47-50`. Surfaced by audit 2026-05-23 (Finding #4, Low).
 
 
 ## Future Opportunities
@@ -24,6 +28,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-142** [opus] | ft-audit-restore-generic-scaffold — Completed 2026-05-23. (de-scoped: file already matched target state at HEAD; audit findings cited a pre-`f32fc67` state)
 - [x] **CORE-141** [sonnet] | skill-prompts-model-tokens-generalize — Completed 2026-05-23.
 - [x] **CORE-140** [sonnet] | adopter-docs-tilde-code-assumption — Completed 2026-05-23.
 - [x] **CORE-137** [sonnet] | spec-wikilink-obsidian-attribution — Completed 2026-05-23.
