@@ -51,7 +51,7 @@ npm run dev
 ```
 
 The scanner globs `${FLOWTRON_VIZ_WORKSPACE:-~/code}/*/_project/PLAN.md` to
-discover projects; the directory name (e.g., `fintown`) becomes the project
+discover projects; the directory name (e.g., `myproject`) becomes the project
 label. Dirs without a `_project/PLAN.md` are silently skipped. Set
 `FLOWTRON_VIZ_WORKSPACE` if your projects live somewhere other than
 `~/code/`.

@@ -17,7 +17,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-135** [sonnet] | readme-viz-example-projectname — Replace README.md:54 viz-scanner example "fintown" with a generic placeholder (e.g. `myproject`). Surfaced by CORE-132 audit 2026-05-22 (Finding #1.3, Low).
 - [ ] **CORE-136** [sonnet] | migration-plan-example-fintown-leak — Replace docs/MIGRATION.md:244-245 §3.4 PLAN.md example block (fintown trading-strategy task descriptions) with stack-neutral examples showing task-line shape. Surfaced by CORE-132 audit 2026-05-22 (Finding #2.1, Low).
 - [ ] **CORE-137** [sonnet] | spec-wikilink-obsidian-attribution — Drop "Obsidian-style" from SPEC.md:276 wikilink prose; positioning lives in the following sentence's tool list. Surfaced by CORE-132 audit 2026-05-22 (Finding #3.1, Low).
 - [ ] **CORE-140** [sonnet] | adopter-docs-tilde-code-assumption — Soften `~/code/` workspace assumption in README.md:29 + docs/MIGRATION.md:10,25 ("anywhere on your local machine"). Surfaced by CORE-132 audit 2026-05-22 (Finding #5.1, Low).
@@ -29,6 +28,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-135** [sonnet] | readme-viz-example-projectname — Completed 2026-05-22.
 - [x] **CORE-134** [sonnet] | spec-tasklinegrammar-invisipaw-leak — Completed 2026-05-22.
 - [x] **CORE-133** [sonnet] | spec-area-prefix-photard-leak — Completed 2026-05-22.
 - [x] **CORE-139** [sonnet] | spec-clear-claude-specific — Completed 2026-05-22.
