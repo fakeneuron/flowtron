@@ -50,7 +50,7 @@ Flowtron does not submodule itself. When working in `~/code/flowtron/`:
 - `SPEC/` — lazy SPEC modules loaded on demand by skills.
 - The flowtron `_project/PLAN.md` tracks flowtron's own development.
 - The `templates/` folder holds the canonical tasknote and PLAN.md templates.
-- `claude/` — Claude Code commands + skills (`/ft-task`, `/ft-release`, `/ft-new-project`, …); the adopter snippet lives at `claude/AGENTS-snippet.md`.
+- `claude/` — Claude Code commands + skills (`/ft-task`, `/ft-release`, `/ft-new-project`, …); the adopter snippet lives at `claude/AGENTS-snippet.md`. Future non-Claude-Code platform wirings (e.g., `codex/`, `grok/`, `cursor/`) plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md) for the plug-in pattern.
 
 For flowtron-self global installs (e.g. `/ft-release`), see [`docs/MIGRATION.md`](docs/MIGRATION.md) §1.0 → "One-time global installs" table, `Flowtron-self only` row.
 

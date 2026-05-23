@@ -1,6 +1,6 @@
 # Agent-neutrality contract
 
-**Last reviewed:** 2026-05-23 ([[CORE-154.2]])
+**Last reviewed:** 2026-05-23 ([[CORE-154.2]], [[CORE-154.3]])
 
 ## Principle
 
@@ -69,8 +69,14 @@ intentional*. It does NOT:
 - Spell out the platform-plug-in mechanism for adding `codex/` / `grok/` /
   Cursor wiring directories — see [[CORE-154.4]] / `docs/PLATFORMS.md`
   (forthcoming).
-- Document the wiring-layer structure or evaluate whether `claude/`
-  should be renamed or relocated — see [[CORE-154.3]] (forthcoming).
+- Document the wiring-layer structure: locked at [[CORE-154.3]]
+  (2026-05-23) — `claude/` keeps its name and location; future
+  non-Claude-Code platform wirings plug in symmetrically as sibling
+  top-level dirs (e.g., `codex/`, `grok/`, `cursor/`); see
+  [`PLATFORMS.md`](PLATFORMS.md) ([[CORE-154.4]], forthcoming) for the
+  full plug-in pattern. Rationale: adopter-symlink stability
+  ([[CORE-154.1]] Constitution non-negotiable) rules out renaming
+  `claude/`; sibling-top-level convention preserves symmetry.
 - Re-survey the contract layer for new leaks — audits are point-in-time;
   the next epic touching the contract layer should consult this ledger
   and run its own check.
