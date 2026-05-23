@@ -65,7 +65,7 @@ Compute `next-N = max-used + 1`. The new parent epic ID = `<AREA>-EPIC-<next-N>`
 
 Surface to the user:
 
-```
+```text
 Filing new epic:
   Parent:    <AREA>-EPIC-<next-N> | <shortname>
   Discovery: <AREA>-<next-N>.1
@@ -81,7 +81,7 @@ The user may override the numeric suffix (e.g., to align with an externally-trac
 
 Append to `_project/PLAN.md` under the chosen `## <Priority>` heading. Use the canonical task-line grammar (SPEC §"Task-line format"). Three lines (or two if N excludes audit), nested with 2-space indent under the parent for the subtask lines:
 
-```
+```markdown
 - [ ] **<AREA>-EPIC-<next-N>** [<model>] | <shortname> — One-paragraph epic description (filed via /ft-epic-discovery; refined at .1 closure).
   - [ ] **<AREA>-<next-N>.1** [<model>] | discovery — Scope shared design and file children .2..(N-1) per SPEC/epic.md.
   - [ ] **<AREA>-<next-N>.<N>** [<model>] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.
@@ -116,7 +116,7 @@ Pre-populate `## 🎯 Goal`, `## ✅ Acceptance`, and `## 🧩 Subtasks` with th
 
 **Acceptance (parameterized):**
 
-```
+```markdown
 - [ ] Shared design surface inventoried for the epic (sources, adopter wiring, SPEC contract impact, templates) — captured in Discovery Notes
 - [ ] Open scoping questions resolved with the user via AskUserQuestion — captured in a "Resolved scoping" table in Discovery Notes
 - [ ] Concrete child scopes for <AREA>-<next-N>.2 .. <AREA>-<next-N>.<N-1> filed in _project/PLAN.md (each line under the 50w target / 70w hard cap per SPEC §"PLAN.md filing-discipline thresholds")
@@ -126,7 +126,7 @@ Pre-populate `## 🎯 Goal`, `## ✅ Acceptance`, and `## 🧩 Subtasks` with th
 
 **Subtasks (parameterized):**
 
-```
+```markdown
 - [ ] Inventory shared design surface (source files, adopter-wiring surfaces, SPEC contract impact, templates) — log in Discovery Notes
 - [ ] Skim _project/tasknote/archive/<area>/ for relevant precedents — log load-bearing findings in Discovery Notes
 - [ ] Drift check on cited paths and concepts — flag any drift before re-interpreting the epic
