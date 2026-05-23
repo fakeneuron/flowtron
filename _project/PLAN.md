@@ -17,7 +17,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-136** [sonnet] | migration-plan-example-fintown-leak — Replace docs/MIGRATION.md:244-245 §3.4 PLAN.md example block (fintown trading-strategy task descriptions) with stack-neutral examples showing task-line shape. Surfaced by CORE-132 audit 2026-05-22 (Finding #2.1, Low).
 - [ ] **CORE-137** [sonnet] | spec-wikilink-obsidian-attribution — Drop "Obsidian-style" from SPEC.md:276 wikilink prose; positioning lives in the following sentence's tool list. Surfaced by CORE-132 audit 2026-05-22 (Finding #3.1, Low).
 - [ ] **CORE-140** [sonnet] | adopter-docs-tilde-code-assumption — Soften `~/code/` workspace assumption in README.md:29 + docs/MIGRATION.md:10,25 ("anywhere on your local machine"). Surfaced by CORE-132 audit 2026-05-22 (Finding #5.1, Low).
 - [ ] **CORE-141** [sonnet] | skill-prompts-model-tokens-generalize — Decide whether bundled SKILL prompts that hardcode `opus | sonnet` (ft-task/ft-micro-task step-1.5 default, ft-starter-task/ft-file-followup/ft-epic-discovery model fields, ft-audit-family ticket-line examples, AGENTS-snippet, command stubs — ~14 files) should generalize to recommended-set framing or stay as flowtron-self defaults. Deferred from CORE-138 to keep that change tight to SPEC + viz + ft-stats.
@@ -28,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-136** [sonnet] | migration-plan-example-fintown-leak — Completed 2026-05-22.
 - [x] **CORE-135** [sonnet] | readme-viz-example-projectname — Completed 2026-05-22.
 - [x] **CORE-134** [sonnet] | spec-tasklinegrammar-invisipaw-leak — Completed 2026-05-22.
 - [x] **CORE-133** [sonnet] | spec-area-prefix-photard-leak — Completed 2026-05-22.

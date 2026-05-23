@@ -241,8 +241,8 @@ For each open legacy task, write a new line in the right priority section of the
 ```markdown
 ## High
 
-- [ ] **BE-001** [opus] | strategy entry redesign — Spread/fee-aware EV-positive entry predicate. Supersedes legacy P41-2.
-- [ ] **BE-002** [sonnet] | boot banner — Per-strategy `VERSION` + `strategies.py` mtime in startup banner. Supersedes legacy P42-1.
+- [ ] **BE-001** [opus] | auth middleware — Token validation and refresh flow for protected API routes. Supersedes legacy T-45.
+- [ ] **BE-002** [sonnet] | boot banner — Log app `VERSION` and config file path at process startup. Supersedes legacy T-62.
 ```
 
 Leave `## Completed` empty or seed it with a single pointer line:
