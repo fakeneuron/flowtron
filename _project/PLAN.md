@@ -11,13 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-EPIC-154** [opus] | multi-agent-portability — Code-sweep epic: audit codebase coherence + separation between agent-neutral contract surface (SPEC, templates, AGENTS.md block) and Claude-Code-specific wiring (`claude/` commands+skills); design scalable pattern for future coding-platform adopters (Codex CLI, grok, cursor, aider); verify post-Codex-compat work hasn't regressed the original Claude Code experience. Filed via /ft-epic-discovery; refined at .1 closure.
-  - [x] **CORE-154.1** [opus] | discovery — Completed 2026-05-23.
-  - [x] **CORE-154.2** [opus] | agent-neutral-surface-audit — Completed 2026-05-23.
-  - [x] **CORE-154.3** [opus] | wiring-layer-structure — Completed 2026-05-23.
-  - [x] **CORE-154.4** [opus] | platforms-doc — Completed 2026-05-23.
-  - [x] **CORE-154.5** [opus] | portability-recomb — Completed 2026-05-23.
-  - [ ] **CORE-154.6** [opus] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.6` child.
+(none)
 
 ## Medium
 
@@ -33,6 +27,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-154** [opus] | multi-agent-portability — Completed 2026-05-23.
+  - [x] **CORE-154.1** [opus] | discovery — Completed 2026-05-23.
+  - [x] **CORE-154.2** [opus] | agent-neutral-surface-audit — Completed 2026-05-23.
+  - [x] **CORE-154.3** [opus] | wiring-layer-structure — Completed 2026-05-23.
+  - [x] **CORE-154.4** [opus] | platforms-doc — Completed 2026-05-23.
+  - [x] **CORE-154.5** [opus] | portability-recomb — Completed 2026-05-23.
+  - [x] **CORE-154.6** [opus] | audit — Completed 2026-05-23.
 - [x] **CORE-153** [sonnet] | spec-migration-label-drift — Completed 2026-05-23.
 - [x] **CORE-152** [sonnet] | plan-empty-sections-none — Completed 2026-05-23.
 - [x] **CORE-151** [sonnet] | skill-bare-codefences — Completed 2026-05-23.
