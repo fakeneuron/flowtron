@@ -19,7 +19,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-162** [sonnet] | viz-launch-style-drift — Align MIGRATION.md §"Visualizer" launch commands with AGENTS-snippet.md §"Visualizer" style (separate lines, no `&&` chaining). Surfaced by audit 2026-05-23 (Finding #5, Low).
 
 ## Future Opportunities
 
@@ -27,6 +26,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-162** [sonnet] | viz-launch-style-drift — Completed 2026-05-23.
 - [x] **CORE-160** [sonnet] | last-reviewed-field — Completed 2026-05-23.
 - [x] **CORE-161** [sonnet] | readme-fence-tag — Completed 2026-05-23.
 - [x] **CORE-158** [sonnet] | spec-copy-paste-routing — Completed 2026-05-23.

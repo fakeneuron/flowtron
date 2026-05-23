@@ -314,8 +314,9 @@ A bump is itself a project-side task (e.g., `CORE-XXX: Bump flowtron to vX.Y.Z`)
 The flowtron visualizer is a single global instance, not a per-project install. Run it once per machine from flowtron's own checkout:
 
 ```sh
-cd ~/code/flowtron/viz && npm install   # one-time
-cd ~/code/flowtron/viz && npm run dev
+cd ~/code/flowtron/viz
+npm install   # one-time
+npm run dev
 ```
 
 It scans `${FLOWTRON_VIZ_WORKSPACE:-~/code}/*/_project/PLAN.md` and renders every adopting project; the header-rail project selector swaps the active project. Port `5120` is pinned with `strictPort` — a second instance fails fast rather than scanning the same workspace on a different port. Set `FLOWTRON_VIZ_WORKSPACE` if your projects live somewhere other than `~/code/`. Adopter-side `_project/flowtron/viz/` still works (read-only submodule, unchanged) but is no longer the recommended path.
