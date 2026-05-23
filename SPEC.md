@@ -139,7 +139,7 @@ backwards compatibility.
 | `- [ ]` / `- [x]` | yes | Open or completed checkbox |
 | `**TASK-ID**` | yes | Bold ID, matching the §"Task ID convention" pattern |
 | ` [!critical]` | optional | Urgency flag — orthogonal to priority bucket. Flagged tasks render a red marker chip and sort to the top of the High column. Filed under whatever priority heading the row already lives under (typically `## High`). |
-| ` [model]` | optional | `opus` or `sonnet` only. Owns the model assignment for the task — `/ft-task` reads this BEFORE scaffolding (see §"Model field"). New entries should declare a model. |
+| ` [model]` | optional | Short identifier for the model assigned to this task. Recommended set: `opus` \| `sonnet` (flowtron's default convention, mirroring current Anthropic tiering). Adopters MAY substitute project-specific tokens (e.g., `haiku`, `gpt-5`, `gemini-pro`); downstream tooling buckets unknown tokens as `other`. Owns the model assignment — `/ft-task` reads this BEFORE scaffolding (see §"Model field"). New entries should declare a model. |
 | ` \| shortname` | optional | Short label up to ~30 chars; rendered as the row title in visualizers when present. Falls back to the tasknote frontmatter `title:` for tasks that have a tasknote, or the long description otherwise. |
 | ` — long description` | optional | Full description. Carries `Completed YYYY-MM-DD.` markers, re-scope notes, and any rationale that doesn't fit in the shortname. |
 

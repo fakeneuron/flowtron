@@ -41,7 +41,7 @@ until the next H2 heading (`## …`) or end-of-file. For each line:
    - [x] **<TASK-ID>** [<model>] | <shortname> — Completed <YYYY-MM-DD>.
    ```
 
-   - `[<model>]` is `opus` or `sonnet` — absent → bucket as `legacy`.
+   - `[<model>]` is the model token per SPEC §"Task-line format". Bucket: `opus` and `sonnet` (recommended set) keep their own buckets; any other token (e.g., `haiku`, `gpt-5`, `gemini-pro`) → `other`; absent `[<model>]` → `legacy`.
    - `| <shortname>` is optional (legacy entries may omit it).
    - The trailing date marker `Completed <YYYY-MM-DD>.` is the canonical date
      source. Both stub-form and legacy paragraph-form lines that carry this
@@ -57,7 +57,7 @@ For each parsed entry, capture:
 |---|---|
 | `task_id` | bold ID (e.g., `CORE-097.2`, `FE-EPIC-033`) |
 | `area` | prefix before the first `-` (`CORE`, `FE`, `BE`, `DB`, `DEPLOY`, `TEST`, or an adopter domain prefix) |
-| `model` | `opus` \| `sonnet` \| `legacy` |
+| `model` | `opus` \| `sonnet` \| `other` \| `legacy` |
 | `date` | `YYYY-MM-DD` from the `Completed` marker |
 | `is_subtask` | true if `task_id` matches `<AREA>-<N>.<SUB>` |
 | `is_epic_parent` | true if `task_id` matches `<AREA>-EPIC-<N>` |
@@ -78,11 +78,13 @@ Compute against the parsed entries from Step 1. Two windows per section:
 |---|---:|---:|---:|---:|
 | `opus` | N | X% | M | X% |
 | `sonnet` | N | X% | M | X% |
+| `other` | N | X% | M | X% |
 | `legacy` | N | X% | M | X% |
 
 Percentage denominator is total parsed entries in that window. Round to the
-nearest integer percent. Omit the `legacy` row entirely if its count is 0 in
-**both** windows; otherwise show it (zero counts render as `0` / `0%`).
+nearest integer percent. Omit the `other` and `legacy` rows entirely if their
+count is 0 in **both** windows; otherwise show them (zero counts render as
+`0` / `0%`).
 
 ### Section B — Completion velocity
 

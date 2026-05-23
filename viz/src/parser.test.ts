@@ -148,9 +148,32 @@ describe('parsePlan', () => {
     expect(t.description).not.toContain('2026-04-30');
   });
 
-  it('rejects unknown model values (regex requires opus|sonnet)', () => {
-    const md = `## High\n\n- [ ] **CORE-001** [haiku] — Hello\n`;
-    // [haiku] is not a recognized model token, so the regex doesn't match — line is ignored.
+  it('accepts adopter model tokens beyond opus|sonnet', () => {
+    // Per SPEC §"Task-line format": adopters MAY substitute project-specific
+    // tokens. Regex accepts any short lowercase token `[a-z][\w.-]*`.
+    const md = [
+      '## High',
+      '',
+      '- [ ] **CORE-001** [haiku] — On haiku',
+      '- [ ] **CORE-002** [gpt-5] — On gpt-5',
+      '- [ ] **CORE-003** [gemini-pro] — On gemini-pro',
+    ].join('\n');
+    const ts = parsePlan(md);
+    expect(ts.map((t) => t.model)).toEqual(['haiku', 'gpt-5', 'gemini-pro']);
+  });
+
+  it('silently skips lines with malformed model-token shapes', () => {
+    // Tokens must start lowercase and contain only [\w.-]. Malformed shapes
+    // (empty, leading uppercase, leading digit) cause the whole TASK_LINE
+    // regex to fail; the line is silently dropped. Matches the prior
+    // typo-guard behavior of the old `(opus|sonnet)` enum.
+    const md = [
+      '## High',
+      '',
+      '- [ ] **CORE-001** [] — Empty token',
+      '- [ ] **CORE-002** [Opus] — Leading uppercase',
+      '- [ ] **CORE-003** [3x] — Leading digit',
+    ].join('\n');
     expect(parsePlan(md)).toEqual([]);
   });
 

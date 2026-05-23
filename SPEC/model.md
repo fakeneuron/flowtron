@@ -6,8 +6,13 @@ paths: []
 
 > Lazy-loaded SPEC module. Loaded by `/ft-task` Step 1.5 only on the model-gate edge cases (PLAN-tag mismatches the active model, or PLAN line lacks a `[model]` segment). See `SPEC.md` for the always-loaded core spec.
 
-The model assignment (`opus` | `sonnet`) lives on the PLAN.md task line — the
-`[model]` segment of §"Task-line format". PLAN.md is the source of truth.
+The model assignment lives on the PLAN.md task line — the `[model]` segment
+of §"Task-line format". PLAN.md is the source of truth. The token is a short
+identifier; flowtron's recommended set is `opus | sonnet` (default convention,
+mirroring current Anthropic tiering). Adopters MAY substitute project-specific
+tokens (e.g., `haiku`, `gpt-5`, `gemini-pro`); the visualizer parser accepts
+any short lowercase token (`[a-z][\w.-]*`), and `/ft-stats` buckets unknown
+tokens as `other`.
 
 `/ft-task` reads the model BEFORE scaffolding (see `claude/skills/ft-task/SKILL.md`
 Step 1.5):

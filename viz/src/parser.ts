@@ -5,7 +5,11 @@ export type Priority =
   | 'Future Opportunities'
   | 'Completed';
 
-export type TaskModel = 'opus' | 'sonnet';
+// Recommended set: 'opus' | 'sonnet' (flowtron convention; current Anthropic
+// tiering). Adopters MAY substitute project-specific tokens (e.g., 'haiku',
+// 'gpt-5', 'gemini-pro'); the TASK_LINE regex accepts any short lowercase
+// token matching [a-z][\w.-]*. See SPEC §"Task-line format" + SPEC/model.md.
+export type TaskModel = string;
 
 export interface Task {
   id: string;
@@ -39,7 +43,7 @@ const LEGACY_CRITICAL_HEADING = 'Critical';
 // ordering: `[!critical]` BEFORE `[model]`. The legacy minimal form
 // `- [ ] **TASK-ID** — desc` keeps parsing.
 const TASK_LINE =
-  /^\s*-\s+\[([ xX])\]\s+\*\*([A-Z]+(?:-EPIC)?-\d+(?:\.\d+)?)\*\*(?:\s+\[(!critical)\])?(?:\s+\[(opus|sonnet)\])?(?:\s+\|\s+(.+?))?(?:\s+[—-]\s+(.+?))?\s*$/;
+  /^\s*-\s+\[([ xX])\]\s+\*\*([A-Z]+(?:-EPIC)?-\d+(?:\.\d+)?)\*\*(?:\s+\[(!critical)\])?(?:\s+\[([a-z][\w.-]*)\])?(?:\s+\|\s+(.+?))?(?:\s+[—-]\s+(.+?))?\s*$/;
 const COMPLETED_DATE = /\bCompleted\s+(\d{4}-\d{2}-\d{2})\.?/;
 const HEADING_LINE = /^##\s+(.+?)\s*$/;
 
