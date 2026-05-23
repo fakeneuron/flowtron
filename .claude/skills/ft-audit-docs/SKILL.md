@@ -26,6 +26,8 @@ This SKILL.md is a fork of the stack-neutral scaffold at `claude/skills/ft-audit
      docs/CONVENTIONS.md
      CONTRIBUTING.md
      SECURITY.md
+     docs/AGENT-NEUTRALITY.md
+     docs/PLATFORMS.md
      ```
    - `broad` → the full markdown contract surface (matches the broader `/ft-audit` skill's scope):
      ```text
@@ -44,7 +46,7 @@ This SKILL.md is a fork of the stack-neutral scaffold at `claude/skills/ft-audit
    - `staged` → markdown files in `git diff --cached`
    - Excluded by design: `_project/tasknote/archive/` (write-once historical records), `legacy/`, `viz/` (own audit story).
 2. **Load the project rubric** — these are the doc contracts to audit against:
-   - `_project/tasknote/README.md` §"AI-referenced docs" — canonical doc-set contract; the seven files flowtron promises to keep in sync.
+   - `_project/tasknote/README.md` §"AI-referenced docs" — canonical doc-set contract; the nine files flowtron promises to keep in sync.
    - `SPEC.md` — workflow contract; primary AI cold-start surface.
    - `docs/MIGRATION.md` — adopter-facing contract; the example version pin near §1.1 is the doc-side mirror of the current `SPEC.md:3` version.
    - `README.md` — public-facing first impression.
