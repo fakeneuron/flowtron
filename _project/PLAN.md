@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-154.1** [opus] | discovery — Completed 2026-05-23.
   - [x] **CORE-154.2** [opus] | agent-neutral-surface-audit — Completed 2026-05-23.
   - [x] **CORE-154.3** [opus] | wiring-layer-structure — Completed 2026-05-23.
-  - [ ] **CORE-154.4** [opus] | platforms-doc — Author new `docs/PLATFORMS.md` documenting the two-layer model (agent-neutral contract via AGENTS.md / Claude-Code-specific wiring at `claude/`) plus the symmetric plug-in pattern for future platforms (Codex CLI / grok / cursor). Includes minimal scaffold sketch for a sibling `<platform>/` wiring dir. Link from README's `## Documents` index.
+  - [x] **CORE-154.4** [opus] | platforms-doc — Completed 2026-05-23.
   - [ ] **CORE-154.5** [opus] | portability-recomb — Two-pass: (a) re-comb the contract surface with a multi-agent-portability lens (extends [[CORE-132]]), file findings as findings table; (b) read-through Claude-Code-effectiveness regression check on `claude/skills/ft-*` + `claude/commands/ft-*.md` against pre-restructure baseline. Document `no change` per skill or surface drift. Last child before audit.
   - [ ] **CORE-154.6** [opus] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.6` child.
 

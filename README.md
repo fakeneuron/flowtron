@@ -21,6 +21,10 @@ maintain.
 - [docs/AGENT-NEUTRALITY.md](docs/AGENT-NEUTRALITY.md) — agent-neutrality
   contract: which contract-layer Claude-specific surfaces are intentional
   (load-bearing locators for the Claude Code wiring layer) and why
+- [docs/PLATFORMS.md](docs/PLATFORMS.md) — multi-platform wiring pattern:
+  the two-layer model (agent-neutral contract / per-platform wiring) and
+  the symmetric plug-in shape for future platforms (Codex CLI / grok /
+  Cursor)
 - [CONTRIBUTING.md](CONTRIBUTING.md) — solo-maintenance model, how to file
   issues, when PRs make sense
 - [SECURITY.md](SECURITY.md) — threat model (prompt injection via

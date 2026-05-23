@@ -1,6 +1,6 @@
 # Agent-neutrality contract
 
-**Last reviewed:** 2026-05-23 ([[CORE-154.2]], [[CORE-154.3]])
+**Last reviewed:** 2026-05-23 ([[CORE-154.2]], [[CORE-154.3]], [[CORE-154.4]])
 
 ## Principle
 
@@ -16,8 +16,8 @@ Adding agent-specific execution surfaces is fine; leaking agent-specific
 assumptions into the contract layer is not.
 
 Future platform wiring (Codex CLI, grok, Cursor, …) plugs in
-symmetrically — see [`docs/PLATFORMS.md`](PLATFORMS.md) ([[CORE-154.4]],
-forthcoming) for the plug-in pattern.
+symmetrically — see [`docs/PLATFORMS.md`](PLATFORMS.md) ([[CORE-154.4]])
+for the plug-in pattern.
 
 ## Intentional Claude-specific surfaces
 
@@ -42,7 +42,7 @@ below.
 | `templates/tasknote-README.md` | "CLAUDE.md" entry | `CLAUDE.md` — optional Claude-specific directives | Explicit Claude-only carve-out; adopter agents skip the entry. |
 | `templates/tasknote-micro-template.md` | (closing recap line) | `claude/skills/ft-micro-task/SKILL.md` | Path fact. |
 | `templates/PLAN.md` | (examples + rule comment) | `[opus]`, `[sonnet]` example tokens + recommended-set parenthetical | Per [[CORE-138]]. |
-| `docs/MIGRATION.md` | §1.2, §1.3, §3, troubleshooting | `.claude/commands/...`, `.claude/skills/...`, `claude/AGENTS-snippet.md`, slash-command verification, "fresh Claude Code session" references | MIGRATION IS the Claude Code adoption guide today. Future platforms get their own adoption section if/when wiring lands ([[CORE-154.4]] forthcoming `docs/PLATFORMS.md`). |
+| `docs/MIGRATION.md` | §1.2, §1.3, §3, troubleshooting | `.claude/commands/...`, `.claude/skills/...`, `claude/AGENTS-snippet.md`, slash-command verification, "fresh Claude Code session" references | MIGRATION IS the Claude Code adoption guide today. Future platforms get their own adoption section if/when wiring lands — see [[CORE-154.4]] / `docs/PLATFORMS.md` for the plug-in pattern. |
 | `docs/PHILOSOPHY.md` | (historical-narrative paragraphs) | `Claude Code` + "Claude can read markdown" framing | Per [[CORE-132]] defense — file's role is personal narrative; voice IS the deliverable. |
 | `README.md` | §"Repo layout" | `` `claude/` `` — Claude Code skills + slash commands | Factual repo-layout description. |
 | `SECURITY.md` | §"Prompt injection ..." (Claude Code subsection) | `.claude/settings.local.json` tool allowlist + Claude Code harness mention | Claude Code-specific mitigation; clearly scoped after the [[CORE-154.2]] reframe. |
@@ -67,13 +67,13 @@ This contract documents *why intentional Claude-specific surfaces are
 intentional*. It does NOT:
 
 - Spell out the platform-plug-in mechanism for adding `codex/` / `grok/` /
-  Cursor wiring directories — see [[CORE-154.4]] / `docs/PLATFORMS.md`
-  (forthcoming).
+  Cursor wiring directories — see [[CORE-154.4]] /
+  [`PLATFORMS.md`](PLATFORMS.md).
 - Document the wiring-layer structure: locked at [[CORE-154.3]]
   (2026-05-23) — `claude/` keeps its name and location; future
   non-Claude-Code platform wirings plug in symmetrically as sibling
   top-level dirs (e.g., `codex/`, `grok/`, `cursor/`); see
-  [`PLATFORMS.md`](PLATFORMS.md) ([[CORE-154.4]], forthcoming) for the
+  [`PLATFORMS.md`](PLATFORMS.md) ([[CORE-154.4]]) for the
   full plug-in pattern. Rationale: adopter-symlink stability
   ([[CORE-154.1]] Constitution non-negotiable) rules out renaming
   `claude/`; sibling-top-level convention preserves symmetry.
