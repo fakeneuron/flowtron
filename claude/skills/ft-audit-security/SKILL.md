@@ -1,6 +1,6 @@
 ---
 name: ft-audit-security
-description: Security-focused audit — 5 passes (Secrets · Input handling · Auth & authz · Network & boundaries · Dependencies), capped findings, writes tickets to `_project/PLAN.md`. Stack-neutral scaffold; adopters fork into `.claude/skills/ft-audit-security/` and customize sacred invariants + dep-scan + secret-scan tooling. See `docs/MIGRATION.md` §1.2.1.
+description: Security-focused audit — 5 passes (Secrets · Input handling · Auth & authz · Network & boundaries · Dependencies), capped findings, writes tickets to `_project/PLAN.md`. Stack-neutral scaffold; adopters fork into `.claude/skills/audit-security/` and customize sacred invariants + dep-scan + secret-scan tooling. See `docs/MIGRATION.md` §1.2.1.
 ---
 
 # audit-security — flowtron security audit skill

@@ -1,6 +1,6 @@
 ---
 name: ft-audit-docs
-description: Documentation-focused audit — 5 passes (Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content), capped findings, writes tickets to `_project/PLAN.md`. Stack-neutral scaffold; adopters fork into `.claude/skills/ft-audit-docs/` and customize doc set + verification commands. See `docs/MIGRATION.md` §1.2.1.
+description: Documentation-focused audit — 5 passes (Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content), capped findings, writes tickets to `_project/PLAN.md`. Stack-neutral scaffold; adopters fork into `.claude/skills/audit-docs/` and customize doc set + verification commands. See `docs/MIGRATION.md` §1.2.1.
 ---
 
 # audit-docs — flowtron documentation audit skill

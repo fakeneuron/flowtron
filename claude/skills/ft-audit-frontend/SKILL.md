@@ -1,6 +1,6 @@
 ---
 name: ft-audit-frontend
-description: Frontend-focused audit — 5 passes (Bundle & payload · Accessibility · Render performance · Browser hygiene · Component health), capped findings, writes tickets to `_project/PLAN.md`. Stack-neutral scaffold; adopters fork into `.claude/skills/ft-audit-frontend/` and customize framework + bundler + a11y tooling. See `docs/MIGRATION.md` §1.2.1.
+description: Frontend-focused audit — 5 passes (Bundle & payload · Accessibility · Render performance · Browser hygiene · Component health), capped findings, writes tickets to `_project/PLAN.md`. Stack-neutral scaffold; adopters fork into `.claude/skills/audit-frontend/` and customize framework + bundler + a11y tooling. See `docs/MIGRATION.md` §1.2.1.
 ---
 
 # audit-frontend — flowtron frontend audit skill

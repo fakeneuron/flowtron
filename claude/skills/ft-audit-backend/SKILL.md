@@ -1,6 +1,6 @@
 ---
 name: ft-audit-backend
-description: Backend-focused audit — 5 passes (Input & contracts · Error handling & lifecycle · Persistence · Async correctness · Observability), capped findings, writes tickets to `_project/PLAN.md`. Stack-neutral scaffold; adopters fork into `.claude/skills/ft-audit-backend/` and customize framework + ORM + test commands. See `docs/MIGRATION.md` §1.2.1.
+description: Backend-focused audit — 5 passes (Input & contracts · Error handling & lifecycle · Persistence · Async correctness · Observability), capped findings, writes tickets to `_project/PLAN.md`. Stack-neutral scaffold; adopters fork into `.claude/skills/audit-backend/` and customize framework + ORM + test commands. See `docs/MIGRATION.md` §1.2.1.
 ---
 
 # audit-backend — flowtron backend audit skill
