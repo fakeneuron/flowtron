@@ -148,10 +148,10 @@ Examples:
 ```markdown
 - [ ] **CORE-023** [opus] | task-line grammar — Extend grammar to declare shortname + model.
 - [ ] **FE-200** [!critical] [opus] | hotfix — Production breakage; floats to top of High.
-- [ ] **CORE-016** [sonnet] — Execute InvisiPaw migration per CORE-008 playbook.
+- [ ] **CORE-016** [sonnet] — Execute project adoption per CORE-008 playbook.
 - [ ] **FE-003** | wikilink resolution — Parse [[TASK-ID]] in tasknote body text and render as clickable links.
 - [ ] **CORE-024** [opus] | quick housekeeping
-- [ ] **CORE-016** — Execute InvisiPaw migration per CORE-008 playbook.    (legacy)
+- [ ] **CORE-016** — Execute project adoption per CORE-008 playbook.    (legacy)
 ```
 
 **Legacy `## Critical` heading.** Pre-FE-044 PLAN.md files used a `## Critical`
