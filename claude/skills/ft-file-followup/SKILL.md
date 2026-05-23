@@ -35,7 +35,7 @@ Use AskUserQuestion to confirm the key fields. Pre-populate from conversation co
 
 1. **Title (shortname)** — concise; up to ~30 chars. Used as the `| shortname` segment on the PLAN.md line.
 2. **Priority** — `High | Medium | Low | Future Opportunities`. AI proposes its best read. For urgent rows, propose `High` with a `[!critical]` flag (see SPEC §"Task-line format").
-3. **Model** — `opus | sonnet`, per SPEC §"Model field". AI proposes; goes on the PLAN.md task line.
+3. **Model** — recommended: `opus | sonnet`; adopters may substitute project-specific tokens per SPEC §"Model field". AI proposes; goes on the PLAN.md task line.
 4. **Long description** — the one-line PLAN.md long description (everything after `— ` on the task line). AI drafts from conversation context.
 
 **Filing-discipline gate** (per SPEC §"PLAN.md filing-discipline thresholds"). Word-count the drafted long description:
@@ -85,7 +85,7 @@ In one continuous motion:
 
 Surface to the user, in one short message:
 
-- `<TASK-ID>` filed at `_project/PLAN.md` under `## <Priority>` with model `<opus|sonnet>`.
+- `<TASK-ID>` filed at `_project/PLAN.md` under `## <Priority>` with model `<model>`.
 - The follow-up sits as a one-line PLAN.md entry until `/ft-task <TASK-ID>` (or `/ft-micro-task` / `/ft-starter-task` for promotion) fires.
 - (Conversational paragraph from Step 4.2 is included in this response.)
 

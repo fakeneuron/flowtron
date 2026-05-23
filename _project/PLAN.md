@@ -17,7 +17,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-141** [sonnet] | skill-prompts-model-tokens-generalize — Decide whether bundled SKILL prompts that hardcode `opus | sonnet` (ft-task/ft-micro-task step-1.5 default, ft-starter-task/ft-file-followup/ft-epic-discovery model fields, ft-audit-family ticket-line examples, AGENTS-snippet, command stubs — ~14 files) should generalize to recommended-set framing or stay as flowtron-self defaults. Deferred from CORE-138 to keep that change tight to SPEC + viz + ft-stats.
 
 ## Future Opportunities
 
@@ -25,6 +24,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-141** [sonnet] | skill-prompts-model-tokens-generalize — Completed 2026-05-23.
 - [x] **CORE-140** [sonnet] | adopter-docs-tilde-code-assumption — Completed 2026-05-23.
 - [x] **CORE-137** [sonnet] | spec-wikilink-obsidian-attribution — Completed 2026-05-23.
 - [x] **CORE-136** [sonnet] | migration-plan-example-fintown-leak — Completed 2026-05-22.

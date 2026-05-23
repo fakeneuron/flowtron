@@ -39,7 +39,7 @@ Use AskUserQuestion to confirm the key fields. Pre-populate from conversation co
 
 1. **Title (shortname)** — concise; up to ~30 chars. Used as the YAML `title:` and the H1.
 2. **Priority** — `High | Medium | Low | Future Opportunities`. AI proposes its best read. For urgent rows, propose `High` with a `[!critical]` flag (see SPEC §"Task-line format").
-3. **Model** — `opus | sonnet`, per SPEC §"Model field". AI proposes; goes on the PLAN.md task line, not in frontmatter.
+3. **Model** — recommended: `opus | sonnet`; adopters may substitute project-specific tokens per SPEC §"Model field". AI proposes; goes on the PLAN.md task line, not in frontmatter.
 
 Optional inputs the AI may pre-fill silently (user corrects on Step 3 review): `tags:` (visualizer filter), `due:` (only if the conversation specified a deadline), `related-tasks:` (wikilinks to predecessors / parent epic / follow-ups surfaced in conversation).
 
@@ -86,7 +86,7 @@ The starter body is the canonical home for rationale, file surveys, and decision
 Surface to the user, in one short message:
 
 - Starter filed at `_project/tasknote/<TASK-ID>.md`.
-- PLAN.md entry appended under `## <Priority>` with model `<opus|sonnet>`.
+- PLAN.md entry appended under `## <Priority>` with model `<model>`.
 - The starter sits until `/ft-task <TASK-ID>` is invoked — that promotion will drift-check the captured context against current code and scaffold the rest of the tasknote (see `<SPEC_DIR>/starter.md` lifecycle).
 
 Do **not** commit unprompted. The new starter file + PLAN.md flip are typically bundled into whatever commit the conversation produces (if any) or left for the user to handle. If the user asks for a commit, the message format is `chore: file <TASK-ID> starter — <shortname>`.

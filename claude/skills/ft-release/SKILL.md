@@ -12,7 +12,7 @@ This skill is **flowtron-self only**. It is symlinked under `~/.claude/skills/ft
 The release task ID must already be filed in `_project/PLAN.md` as a one-line entry — for example:
 
 ```
-- [ ] **<TASK-ID>** [opus] | release vX.Y.Z — Cut vX.Y.Z minor release tagging <FEAT-A> + <FEAT-B> since v<prev>.
+- [ ] **<TASK-ID>** [model] | release vX.Y.Z — Cut vX.Y.Z minor release tagging <FEAT-A> + <FEAT-B> since v<prev>.
 ```
 
 `/ft-release` then scans PLAN for the entry and drives it. The skill takes **no arguments**.
@@ -31,7 +31,7 @@ If any check fails, stop. Tell the user `/ft-release` only runs from inside the 
 
 Read `_project/PLAN.md`. Scan un-checked task lines under `## High | Medium | Low` (and `## Critical` if a legacy heading is still present — see SPEC §"Task-line format"; skip `## Completed` and `## Future Opportunities`) whose `| <shortname>` segment matches `release v*` (case-insensitive — e.g., `release vX.Y.Z`).
 
-- **Zero matches.** Stop. Tell the user "No pending `release v*` task in PLAN.md. File a one-liner first (e.g., `**<TASK-ID>** [opus] | release vX.Y.Z — ...`), then run `/ft-release` again." Do not scaffold.
+- **Zero matches.** Stop. Tell the user "No pending `release v*` task in PLAN.md. File a one-liner first (e.g., `**<TASK-ID>** [model] | release vX.Y.Z — ...`), then run `/ft-release` again." Do not scaffold.
 - **Multiple matches.** Stop. List the matches and tell the user `/ft-release` requires exactly one pending release task. Ask them to close/de-scope the duplicates or restructure to a single line. Do not scaffold.
 - **Exactly one match.** Capture the `<TASK-ID>`, the `[model]` segment, the `| <shortname>` segment, the long description, and the section heading (priority). Continue.
 
