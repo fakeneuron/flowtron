@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-157** [sonnet] | ai-referenced-docs-cohort-154 — Decide whether to include docs/AGENT-NEUTRALITY.md + docs/PLATFORMS.md in `_project/tasknote/README.md` §"AI-referenced docs". Tradeoff: 2-line sweep cost per Phase 4 vs. drift coverage on contract-anchoring ledger docs. Surfaced by audit 2026-05-23 (Finding #3, Low).
+(none)
 
 ## Future Opportunities
 
@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-157** [sonnet] | ai-referenced-docs-cohort-154 — Completed 2026-05-23.
 - [x] **CORE-156** [sonnet] | ft-audit-fork-priority-section-currency — Completed 2026-05-23.
 - [x] **CORE-155** [sonnet] | skill-bare-codefences-round2 — Completed 2026-05-23.
 - [x] **CORE-EPIC-154** [opus] | multi-agent-portability — Completed 2026-05-23.

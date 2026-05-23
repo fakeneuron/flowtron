@@ -38,6 +38,7 @@ purpose each.
 - `docs/CONVENTIONS.md` — conventions flowtron adheres to and declines (commits, versioning, formatting, CHANGELOG, ADRs) with rationale
 - `CONTRIBUTING.md` — solo-maintenance model; how to file issues; when PRs make sense
 - `SECURITY.md` — prompt-injection and supply-chain threat model; informs how skills handle contributor-authored content and submodule bumps
+- `docs/AGENT-NEUTRALITY.md` — ledger of intentional Claude-specific surfaces; audits and Phase 4 sweeps consult this before flagging Claude-Code references in the contract layer
 
 `SPEC/*.md` (lazy modules) and `claude/skills/*/SKILL.md` are loaded on
 demand by skill stubs — authoritative when fired, but not part of the
