@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-167** [sonnet] | ft-task-copy-paste-skill-segment — Expand `ft-task/SKILL.md` Step 6 copy-paste line to `/<ft-task|ft-micro-task|ft-starter-task>` alternation form with "substitute the right slash command" note, matching SPEC §"Post-closure protocol" §3 and `ft-micro-task` Step 5. Surfaced by audit 2026-05-23 (Finding #3, Medium).
+(none)
 
 ## Low
 
@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-167** [sonnet] | ft-task-copy-paste-skill-segment — Completed 2026-05-23.
 - [x] **CORE-166** [sonnet] | audit-scaffold-fork-path — Completed 2026-05-23.
 - [x] **CORE-164** [sonnet] | platforms-audit-family-notation — Completed 2026-05-23.
 - [x] **CORE-163** [sonnet] | agents-snippet-micro-4phase-claim — Completed 2026-05-23.
