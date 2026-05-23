@@ -1,7 +1,5 @@
 # Agent-neutrality contract
 
-**Last reviewed:** 2026-05-23 ([[CORE-154.2]], [[CORE-154.3]], [[CORE-154.4]], [[CORE-154.5]])
-
 ## Principle
 
 Flowtron's **contract layer** (`SPEC.md`, `SPEC/`, `templates/`, `docs/`,

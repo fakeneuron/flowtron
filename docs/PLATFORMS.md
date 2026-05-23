@@ -1,7 +1,5 @@
 # Multi-platform wiring pattern
 
-**Last reviewed:** 2026-05-23 ([[CORE-154.4]])
-
 Flowtron's contract is agent-neutral; its execution-surface wiring is
 per-platform. This doc explains the two-layer model that separates them
 and the symmetric plug-in pattern future platforms (Codex CLI, grok,

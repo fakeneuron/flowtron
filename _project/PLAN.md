@@ -19,7 +19,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-160** [sonnet] | last-reviewed-field — Decide fate of "Last reviewed:" headers in docs/PLATFORMS.md:3 and docs/AGENT-NEUTRALITY.md:3: retire the field (let wikilink provenance carry the date) per CORE-035 precedent, OR add a sweep rule. Surfaced by audit 2026-05-23 (Finding #3, Low).
 - [ ] **CORE-162** [sonnet] | viz-launch-style-drift — Align MIGRATION.md §"Visualizer" launch commands with AGENTS-snippet.md §"Visualizer" style (separate lines, no `&&` chaining). Surfaced by audit 2026-05-23 (Finding #5, Low).
 
 ## Future Opportunities
@@ -28,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-160** [sonnet] | last-reviewed-field — Completed 2026-05-23.
 - [x] **CORE-161** [sonnet] | readme-fence-tag — Completed 2026-05-23.
 - [x] **CORE-158** [sonnet] | spec-copy-paste-routing — Completed 2026-05-23.
 - [x] **CORE-159** [sonnet] | platforms-doc-sweep-gap — Completed 2026-05-23.
