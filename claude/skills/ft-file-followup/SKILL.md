@@ -75,7 +75,7 @@ In one continuous motion:
 
    Placement:
    - If the priority section already has entries, append to the bottom of that section.
-   - If the section carries a `(none — ...)` placeholder, replace the placeholder with the new entry.
+   - If the section carries a `(none)` placeholder, replace the placeholder with the new entry.
 
    No `Filed with starter at ...` pointer (that suffix is `/ft-starter-task`'s contract). The new line carries only the long description — no breadcrumb to a tasknote that doesn't exist.
 

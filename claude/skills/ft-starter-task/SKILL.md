@@ -75,7 +75,7 @@ Append a new entry under the appropriate `## <Priority>` heading. Use the canoni
 Placement:
 
 - If the priority section already has entries, append to the bottom of that section.
-- If the section carries a `(none — ...)` placeholder, replace the placeholder with the new entry.
+- If the section carries a `(none)` placeholder, replace the placeholder with the new entry.
 
 **Threshold check.** Word-count the long description (excluding the trailing `Filed with starter at ...` pointer) and apply SPEC §"PLAN.md filing-discipline thresholds". **Skill-specific override:** at >70w, if the user insists, document the rationale in the starter body's `## 🌱 Starter context` (under a `Why the line couldn't be trimmed` sub-heading) before writing. Do not silently breach the cap.
 
