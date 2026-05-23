@@ -273,7 +273,7 @@ section until promotion.
 **Phase sections (the "log")** — the four-phase checklists below the divider
 remain the execution record.
 
-**Cross-linking** — references to other tasknotes use Obsidian-style
+**Cross-linking** — references to other tasknotes use
 `[[<TASK-ID>]]` wikilinks throughout. They render as plain text on GitHub but
 are first-class in markdown-vault tooling (Obsidian, Foam, Logseq) and stay
 cheap to write.
