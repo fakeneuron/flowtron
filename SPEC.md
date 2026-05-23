@@ -110,8 +110,8 @@ Canonical area prefixes:
 - `DEPLOY-` — deployment, CI/CD, infra
 - `TEST-` — testing infrastructure (not individual test fixes)
 
-Adopting projects may add domain prefixes (e.g., `OCR-` for photard's OCR
-pipeline). Domain prefixes must be declared in the project's
+Adopting projects may add domain prefixes (e.g., `OCR-` for a vision-heavy
+project's OCR pipeline). Domain prefixes must be declared in the project's
 `_project/tasknote/README.md`.
 
 Numbering: sequential within prefix. Decimals only for epic subtasks (e.g.,
