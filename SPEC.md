@@ -495,10 +495,10 @@ where `<…>` names the cleared signals as diff facts (e.g., `4 markdown files; 
 3. **Offer the copy-paste line:**
 
    ```text
-   /clear then /model <opus|sonnet> then /ft-task <NEXT-ID>
+   /clear then /model <opus|sonnet> then /<ft-task|ft-micro-task|ft-starter-task> <NEXT-ID>
    ```
 
-   The assistant cannot run `/clear` itself; this is for the user to paste in a fresh context. The `/model` segment matches the next task's PLAN-line `[model]`, pre-empting the Step 1.5 gate on assistant hand-offs (still fires on cold starts).
+   The assistant cannot run `/clear` itself; this is for the user to paste in a fresh context. The `/model` segment matches the next task's PLAN-line `[model]`, pre-empting the Step 1.5 gate on assistant hand-offs (still fires on cold starts). The skill segment matches the appropriate `/ft-*` skill for the next task (use `/ft-task` for normal tasks, `/ft-micro-task` for micro tasks, `/ft-starter-task` for filing-only).
 
 ## When to use a tasknote (and when not to)
 

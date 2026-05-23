@@ -15,7 +15,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-158** [sonnet] | spec-copy-paste-routing — Update SPEC §"Post-closure protocol" Step 3 to generalize the hardcoded `/ft-task` in the copy-paste line to "the appropriate `/ft-*` skill (e.g., `/ft-task`, `/ft-micro-task`, `/ft-starter-task`)", matching ft-micro-task SKILL's existing routing behavior. Surfaced by audit 2026-05-23 (Finding #1, Medium).
+(none)
+
 ## Low
 
 - [ ] **CORE-160** [sonnet] | last-reviewed-field — Decide fate of "Last reviewed:" headers in docs/PLATFORMS.md:3 and docs/AGENT-NEUTRALITY.md:3: retire the field (let wikilink provenance carry the date) per CORE-035 precedent, OR add a sweep rule. Surfaced by audit 2026-05-23 (Finding #3, Low).
@@ -28,6 +29,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-158** [sonnet] | spec-copy-paste-routing — Completed 2026-05-23.
 - [x] **CORE-159** [sonnet] | platforms-doc-sweep-gap — Completed 2026-05-23.
 - [x] **CORE-157** [sonnet] | ai-referenced-docs-cohort-154 — Completed 2026-05-23.
 - [x] **CORE-156** [sonnet] | ft-audit-fork-priority-section-currency — Completed 2026-05-23.
