@@ -11,8 +11,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-
 ## Medium
+
+- [ ] **CORE-147** [sonnet] | placeholder-none-sync — Fix `(none — ...)` → `(none)` in ft-starter-task/SKILL.md:78 and ft-file-followup/SKILL.md:78 to match templates/PLAN.md canonical placeholder form; replace-branch currently never fires for adopters using the standard template. Surfaced by audit 2026-05-23 (Finding #1, Medium).
+- [ ] **CORE-148** [sonnet] | epic-subtask-stub-checkbox — Fix `- [ ]` → `- [x]` in ft-epic-discovery/SKILL.md:226 and ft-close-epic/SKILL.md:150 closed-subtask stub form examples, aligning with SPEC §"`## Completed` archive convention" and ft-task/SKILL.md:133. Surfaced by audit 2026-05-23 (Finding #3, Medium).
+- [ ] **CORE-149** [sonnet] | ft-new-project-agents-seed — Add `AGENTS.md` to the seeded-docs enumeration in ft-new-project/SKILL.md Step 8 hand-off ("seeded with `README.md` / `AGENTS.md` / `CLAUDE.md` / `_project/PLAN.md`"), matching templates/tasknote-README.md entry #2. Surfaced by audit 2026-05-23 (Finding #2, Medium).
 
 ## Low
 
@@ -22,6 +25,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-146** [sonnet] | micro-task-spec-carve-out — Completed 2026-05-23.
 - [x] **CORE-145** [sonnet] | agents-snippet-viz-cmd-parity — Completed 2026-05-23.
 - [x] **CORE-144** [sonnet] | ft-release-doc-list-update — Completed 2026-05-23.
 - [x] **CORE-143** [sonnet] | ft-stats-symlink-cleanup — Completed 2026-05-23.

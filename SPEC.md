@@ -473,6 +473,8 @@ where `<…>` names the cleared signals as diff facts (e.g., `4 markdown files; 
 
    The commit-go prompt carries a `🟢` prefix (e.g., `🟢 Reply commit / go to land.`). Skill-level extensions (e.g., parent-flip Yes/No) ride inside this bundle per the override above; the commit-go is the single approval authorizing recap + closure + bundled prompts + commit.
 
+   **ft-micro-task carve-out.** `/ft-micro-task` carries no 📦 banner block on the fire branch — its commit-go is a plain prose ask in place of the banner; the 📦 cue and 🟢 prefix do not apply. The same conditional skip rule governs both forms. See `/ft-micro-task` SKILL.md Step 5.
+
 2. **Mark the commit landed and suggest the next move.** Once the commit lands, prefix the next-move tail with a 🏁 state-marker (parallels 🛠️ → 📦 → 🏁):
 
    ```markdown
