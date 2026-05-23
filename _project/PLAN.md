@@ -13,8 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-149** [sonnet] | ft-new-project-agents-seed — Add `AGENTS.md` to the seeded-docs enumeration in ft-new-project/SKILL.md Step 8 hand-off ("seeded with `README.md` / `AGENTS.md` / `CLAUDE.md` / `_project/PLAN.md`"), matching templates/tasknote-README.md entry #2. Surfaced by audit 2026-05-23 (Finding #2, Medium).
-
 ## Low
 
 ## Future Opportunities
@@ -23,6 +21,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-149** [sonnet] | ft-new-project-agents-seed — Completed 2026-05-23.
 - [x] **CORE-148** [sonnet] | epic-subtask-stub-checkbox — Completed 2026-05-23.
 - [x] **CORE-147** [sonnet] | placeholder-none-sync — Completed 2026-05-23.
 - [x] **CORE-146** [sonnet] | micro-task-spec-carve-out — Completed 2026-05-23.
