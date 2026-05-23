@@ -55,8 +55,9 @@ Submodule bumps are themselves a project-side task (e.g., `CORE-XXX: Bump flowtr
 The flowtron visualizer is a single global instance — run it **once per machine** from flowtron's own checkout, not from this project's `_project/flowtron/viz/`:
 
 ```sh
-cd ~/code/flowtron/viz && npm install  # first run only
-cd ~/code/flowtron/viz && npm run dev
+cd ~/code/flowtron/viz
+npm install
+npm run dev
 ```
 
 It scans `${FLOWTRON_VIZ_WORKSPACE:-~/code}/*/_project/PLAN.md` and renders every adopting project; the header-rail project selector swaps the active project. Port `5120` is pinned with `strictPort`, so a second instance fails fast. The adopter-side `_project/flowtron/viz/` still works for offline / submodule-pinned use, but the global instance above is the recommended path.
