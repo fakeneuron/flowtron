@@ -15,10 +15,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-152** [sonnet] | plan-empty-sections-none — Add (none) placeholder to empty ## High, ## Medium, ## Low sections in _project/PLAN.md. Surfaced by audit 2026-05-23 (Finding #1, Low).
 - [ ] **CORE-153** [sonnet] | spec-migration-label-drift — Align SPEC.md §"Working in the flowtron repo itself" pointer text ("flowtron-self developers block") with MIGRATION.md §1.0's actual structure (no such subsection; Flowtron-self-only table row instead). Surfaced by audit 2026-05-23 (Finding #5, Low).
 
 ## Low
+
+(none)
 
 ## Future Opportunities
 
@@ -26,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-152** [sonnet] | plan-empty-sections-none — Completed 2026-05-23.
 - [x] **CORE-151** [sonnet] | skill-bare-codefences — Completed 2026-05-23.
 - [x] **CORE-150** [sonnet] | epic-discovery-stale-cites — Completed 2026-05-23.
 - [x] **CORE-149** [sonnet] | ft-new-project-agents-seed — Completed 2026-05-23.
