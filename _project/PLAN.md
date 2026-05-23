@@ -11,7 +11,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-(none)
+- [ ] **CORE-EPIC-154** [opus] | multi-agent-portability — Code-sweep epic: audit codebase coherence + separation between agent-neutral contract surface (SPEC, templates, AGENTS.md block) and Claude-Code-specific wiring (`claude/` commands+skills); design scalable pattern for future coding-platform adopters (Codex CLI, grok, cursor, aider); verify post-Codex-compat work hasn't regressed the original Claude Code experience. Filed via /ft-epic-discovery; refined at .1 closure.
+  - [x] **CORE-154.1** [opus] | discovery — Completed 2026-05-23.
+  - [ ] **CORE-154.2** [opus] | agent-neutral-surface-audit — Inventory Claude-Code-specific assumptions leaking into contract layer (SPEC.md, SPEC/, templates/, docs/, README.md, SECURITY.md); fix non-load-bearing leaks; record intentional Claude-specific surfaces as a durable ledger (location TBD in child's Phase 1). Extends [[CORE-132]] / [[CORE-138]] / [[CORE-139]] sweeps with a multi-agent-portability lens.
+  - [ ] **CORE-154.3** [opus] | wiring-layer-structure — Phase 1 read of `claude/` directory layout against multi-platform-plug-in needs; start from status-quo (preserve adopter symlinks per Constitution) and decide between (a) status-quo + doc only, (b) sibling restructure (`wiring/<platform>/`), or (c) hybrid. Ship locked structural decision + any SPEC/README/AGENTS-snippet/MIGRATION updates needed.
+  - [ ] **CORE-154.4** [opus] | platforms-doc — Author new `docs/PLATFORMS.md` documenting the two-layer model (agent-neutral contract via AGENTS.md / Claude-Code-specific wiring at `claude/`) plus the symmetric plug-in pattern for future platforms (Codex CLI / grok / cursor). Includes minimal scaffold sketch for a sibling `<platform>/` wiring dir. Link from README's `## Documents` index.
+  - [ ] **CORE-154.5** [opus] | portability-recomb — Two-pass: (a) re-comb the contract surface with a multi-agent-portability lens (extends [[CORE-132]]), file findings as findings table; (b) read-through Claude-Code-effectiveness regression check on `claude/skills/ft-*` + `claude/commands/ft-*.md` against pre-restructure baseline. Document `no change` per skill or surface drift. Last child before audit.
+  - [ ] **CORE-154.6** [opus] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.6` child.
 
 ## Medium
 
