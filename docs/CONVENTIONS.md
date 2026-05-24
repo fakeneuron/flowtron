@@ -57,7 +57,7 @@ Flowtron does not maintain a separate `CHANGELOG.md`. The pattern declined is [K
 
 Each release tag's annotated message carries the per-release summary and migration steps. From the `README.md` §"Version": _"Each release tag's annotated message lists migration steps for major bumps (no separate `CHANGELOG.md`)."_ A duplicate CHANGELOG.md would have to be hand-maintained alongside the tag messages without adding information.
 
-The annotated-tag-as-CHANGELOG pattern is visible in the release tasknotes — e.g. `CORE-043` (v1.0.0) and `CORE-046` (v1.1.0) both record the tag-message structure: subject + summary + changes + adopter migration block.
+The annotated-tag-as-CHANGELOG pattern is visible in the release tasknotes archived at `_project/tasknote/archive/core/` — each records the tag-message structure: subject + summary + changes + adopter migration block.
 
 ### ADRs as a separate registry
 
