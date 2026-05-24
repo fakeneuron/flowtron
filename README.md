@@ -112,7 +112,7 @@ These tools are opt-in companion surfaces. None of the above is required.
 - `SPEC/` — lazy SPEC modules (epic, starter, blocked, model, versioning); loaded on demand by skills
 - `templates/` — canonical tasknote and `PLAN.md` templates
 - `claude/` — Claude Code skills + slash commands (adopter-facing snippet + self-hosted skills like `/ft-task`, `/ft-release`); future non-Claude-Code platform wirings (e.g., `codex/`, `grok/`, `cursor/`) plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md)
-- `docs/` — philosophy, migration, and conventions guides
+- `docs/` — philosophy, migration, conventions, agent-neutrality, and platforms guides
 - `_project/` — flowtron's own roadmap and tasknotes (self-hosted)
 - `viz/` — Vite/React Kanban visualizer
 - `CONTRIBUTING.md` — solo-maintenance model; issue and PR guidance
