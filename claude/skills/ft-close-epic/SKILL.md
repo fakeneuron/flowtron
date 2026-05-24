@@ -193,7 +193,7 @@ Skill-specific next-move shape:
   - Misses logged → `/ft-file-followup <NEW-ID>` per miss (one at a time; user paces).
   - No misses + parent flipped → next epic / standalone task in PLAN.md.
   - No misses + parent declined → manual flip when ready (edit PLAN.md: flip parent line to stub form, move parent + nested children to top of `## Completed`). Re-running `/ft-close-epic` would hit Step 1's already-archived bail.
-- Copy-paste line: standard `/clear then /model <opus|sonnet> then /<next-skill> <args>` shape.
+- Copy-paste line: `/clear then /model <opus|sonnet> then /<next-skill> <args>` — **exception for `/ft-file-followup` candidates**: surface these as "file in this session before /clear" instead (e.g., `Run /ft-file-followup <NEW-ID> now — it needs this session's context; then /clear.`). `/ft-file-followup` cannot self-bootstrap from PLAN.md reads the way other skills can.
 
 ## Notes
 
