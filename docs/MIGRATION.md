@@ -35,8 +35,8 @@ The skill verifies preconditions (cwd is a git repo with `CLAUDE.md`, no existin
 Install each you want with the same shape (substitute `<skill>`):
 
 ```sh
-ln -s ~/code/flowtron/claude/skills/<skill>       ~/.claude/skills/<skill>
-ln -s ~/code/flowtron/claude/commands/<skill>.md  ~/.claude/commands/<skill>.md
+ln -s <path-to-flowtron-checkout>/claude/skills/<skill>       ~/.claude/skills/<skill>
+ln -s <path-to-flowtron-checkout>/claude/commands/<skill>.md  ~/.claude/commands/<skill>.md
 ```
 
 The symlinks point at flowtron's working tree, so they pick up flowtron edits immediately rather than tracking a versioned submodule. To pin a specific version of a skill, copy the files instead of symlinking and re-copy on bump.
