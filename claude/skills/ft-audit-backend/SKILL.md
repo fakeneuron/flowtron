@@ -20,7 +20,7 @@ Walk this list once per fork. The placeholders in §1 and §2 below are the thin
 - [ ] §2 each pass — replace generic-placeholder bullets with your framework's concrete examples (Pydantic / Marshmallow / Zod patterns, your ORM's N+1 idioms, your project's async story).
 - [ ] §3 "Severity guide" — name your project's sacred backend invariants under **Critical** (e.g. "no writes without a transaction", "no external call without a timeout", "paper-mode enforcement for trading").
 
-Once the checklist is satisfied, delete this §0 block from your fork.
+Once the checklist is satisfied, delete this §0 block from your fork — leaving it in confuses the auditor's first read on every run.
 
 ## 1. Scope & ground rules (do this first, always)
 

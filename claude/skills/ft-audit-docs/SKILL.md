@@ -19,7 +19,7 @@ Walk this list once per fork. The placeholders in §1 and §2 below are the thin
 - [ ] §1 step 3 "Run verification gates" — replace placeholders with your project's markdown lint / link-check / spelling commands if you have them. Skip if you don't — `audit-docs` works without tooling.
 - [ ] §2 each pass — replace generic-placeholder bullets with your project's concrete examples (specific docs that drift, link conventions you use, naming and versioning patterns).
 
-Once the checklist is satisfied, delete this §0 block from your fork.
+Once the checklist is satisfied, delete this §0 block from your fork — leaving it in confuses the auditor's first read on every run.
 
 ## 1. Scope & ground rules (do this first, always)
 

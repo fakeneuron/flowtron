@@ -20,7 +20,7 @@ Walk this list once per fork. The placeholders in §1 and §2 below are the thin
 - [ ] §2 each pass — replace generic-placeholder bullets with your framework's concrete examples (specific anti-patterns in React/Vue/Svelte/etc., your component library's misuse modes, your perf-budget numbers).
 - [ ] §3 "Severity guide" — name your project's user-facing invariants under **Critical** (e.g. "WCAG 2.1 AA contrast baseline", "TTI under 3s on the landing route", "bundle under 200KB gz").
 
-Once the checklist is satisfied, delete this §0 block from your fork.
+Once the checklist is satisfied, delete this §0 block from your fork — leaving it in confuses the auditor's first read on every run.
 
 ## 1. Scope & ground rules (do this first, always)
 

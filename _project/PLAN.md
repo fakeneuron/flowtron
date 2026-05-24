@@ -19,14 +19,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-170** [sonnet] | audit scaffold §0 parity — Align the §0 closing-line wording across the five audit-family scaffolds (`ft-audit-docs`, `ft-audit-security`, `ft-audit-frontend`, `ft-audit-backend`, `ft-audit-performance`) to match `ft-audit/SKILL.md:25` — append the "leaving it in confuses the auditor's first read on every run" rationale. Five single-line edits, no semantic change. Surfaced by audit 2026-05-23 (Finding #3, Low).
-
 ## Future Opportunities
 
 (none)
 
 ## Completed
 
+- [x] **CORE-170** [sonnet] | audit scaffold §0 parity — Completed 2026-05-24.
 - [x] **CORE-169** [opus] | spec/readme doc drift — Completed 2026-05-24.
 - [x] **CORE-168** [sonnet] | versioning-example-placeholders — Completed 2026-05-23.
 - [x] **CORE-167** [sonnet] | ft-task-copy-paste-skill-segment — Completed 2026-05-23.

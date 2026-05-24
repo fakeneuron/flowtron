@@ -21,7 +21,7 @@ Walk this list once per fork. The placeholders in §1, §2, and §3 below are th
 - [ ] §3 "Severity guide" — name your project's sacred invariants under **Critical** (e.g. "paper-mode bypass for trading", "PII leak for healthcare", "kill-switch bypass for ops automation").
 - [ ] §6 "Hard rules" — append any project-specific hard rules (e.g. "secrets never logged, even at DEBUG", "auth checks never conditional on environment").
 
-Once the checklist is satisfied, delete this §0 block from your fork.
+Once the checklist is satisfied, delete this §0 block from your fork — leaving it in confuses the auditor's first read on every run.
 
 ## 1. Scope & ground rules (do this first, always)
 

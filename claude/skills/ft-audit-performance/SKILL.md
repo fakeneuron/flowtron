@@ -22,7 +22,7 @@ Walk this list once per fork. The placeholders in §1, §2, and §3 below are th
 - [ ] §2 each pass — replace generic-placeholder bullets with your stack's concrete examples and your declared budgets.
 - [ ] §3 "Severity guide" — name your project's measurable perf invariants under **Critical** (e.g. "p95 < 300ms on the read API", "TTI < 2.5s on landing", "memory steady-state < 512MB per worker").
 
-Once the checklist is satisfied, delete this §0 block from your fork.
+Once the checklist is satisfied, delete this §0 block from your fork — leaving it in confuses the auditor's first read on every run.
 
 ## 1. Scope & ground rules (do this first, always)
 
