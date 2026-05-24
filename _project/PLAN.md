@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-175** [sonnet] | migration-md ai-referenced-docs seed parity — Update docs/MIGRATION.md:115 §1.5 seed parenthetical from `(seeded with README.md / CLAUDE.md / _project/PLAN.md)` to `(seeded with README.md / AGENTS.md / CLAUDE.md / _project/PLAN.md)`. Aligns with templates/tasknote-README.md:74-77 + claude/skills/ft-new-project/SKILL.md:138 (4-entry seed). Surfaced by audit 2026-05-24 (Finding #2, Medium).
+(none)
 
 ## Low
 
@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-175** [sonnet] | migration-md ai-referenced-docs seed parity — Completed 2026-05-24.
 - [x] **CORE-174** [opus] | ft-release operator-gate alignment — Completed 2026-05-24.
 - [x] **CORE-173** [opus] | proactive-starter-on-handoff — Completed 2026-05-24.
 - [x] **CORE-172** [sonnet] | close-epic-followup-no-clear — Completed 2026-05-24.
