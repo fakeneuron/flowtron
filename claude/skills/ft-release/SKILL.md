@@ -152,7 +152,7 @@ If a viz/code feature ships in this release, surface that the feature's own task
 
 ## Step 7 — Drive Phase 4: Closure
 
-Walk the closure steps in order. Tag-message review and commit-go are explicit gates — wait for the user.
+Walk the closure steps in order. Tag-message review (§7.2) and the bundled 📦 commit-go (§7.4) are explicit gates — wait for the user.
 
 ### 7.1 — Doc-drift sweep (via `/ft-audit-docs` subroutine)
 
@@ -206,7 +206,7 @@ Edit `_project/PLAN.md`:
 
 Move the tasknote file: `git mv _project/tasknote/<TASK-ID>.md _project/tasknote/archive/core/<TASK-ID>.md`.
 
-### 7.4 — Stage and surface commit message
+### 7.4 — Stage and surface the 📦 ready-to-commit gate
 
 Stage explicitly (do NOT use `git add .` or `-A` — there may be unrelated unstaged work):
 
@@ -217,32 +217,47 @@ git add _project/tasknote/archive/core/<TASK-ID>.md
 
 (`git mv` from 7.3 already staged the rename; the explicit `add` is defensive.)
 
-Surface the commit message and wait for **commit-go** (e.g. "yes", "go", "commit"):
+Surface the bundled 📦 ready-to-commit gate per SPEC §"Operator-gate cues" (banner block + mandatory 1-2 sentence preview line summarising what executes on commit-go — typically "cut flowtron vA.B.C: commit the 3 doc edits + PLAN.md flip + tasknote archive, create annotated `vA.B.C` tag, push branch + tag to origin (or hold local if push-go declined)"). Alongside the SPEC-defined bundle (closure review · recap · proposed commit message), this skill carries:
 
-```text
-feat: <TASK-ID> — flowtron vA.B.C (<one-clause summary>)
-```
+- **Push-go prompt** — AskUserQuestion with default Yes, a bundled in-📦 prompt parallel to /ft-close-epic's parent-flip (per SPEC §"Conditional skip rule" bundled-prompt override):
 
-Do not commit unprompted.
+  ```
+  Push branch + tag vA.B.C to origin on commit-go?
+  (default Yes; No leaves the commit + tag local for manual push)
+  ```
 
-### 7.5 — Commit, tag, push
+- **Commit message** — `feat: <TASK-ID> — flowtron vA.B.C (<one-clause summary>)`.
 
-On commit-go, in this order:
+- **Tag message** — locked at §7.2; included by reference (the user has already approved it). Surfaced here so the user sees the full atomic motion — commit + tag + optional push — when granting commit-go.
+
+The commit-go prompt carries the canonical `🟢` prefix (e.g., `🟢 Reply commit / go to land.`). Do not commit unprompted. The single 🟢 commit-go authorizes the atomic sequence: commit → tag → push (if push-go Yes).
+
+### 7.5 — Commit, tag, push (atomic on 🟢 commit-go)
+
+On 🟢 commit-go (push-go answer already captured in the §7.4 bundle), run in this order:
 
 1. `git commit` with the surfaced message.
-2. `git tag -a vA.B.C -F -` with the approved message from 7.2 (HEREDOC).
-3. Surface the tag and ask explicitly before pushing — the tag is harder to revise after push.
-4. On push-go: `git push origin <current-branch>` then `git push origin vA.B.C`.
+2. `git tag -a vA.B.C -F -` with the approved message from §7.2 (HEREDOC).
+3. **If push-go was Yes** — `git push origin <current-branch>` then `git push origin vA.B.C`.
+   **If push-go was No** — stop after the tag; §8's 🏁 marker names the manual push commands as a follow-up step.
 
-Verify each step before moving to the next (`git log -1 --stat`, `git tag --list vA.B.C`, `git ls-remote --tags origin vA.B.C`).
+Verify each operation before the next (`git log -1 --stat`, `git tag --list vA.B.C`, and on push-go Yes also `git ls-remote --tags origin vA.B.C`). The separate prose "ask explicitly before pushing" pause from earlier revisions is collapsed — push approval is captured upstream as the bundled push-go prompt at §7.4, per SPEC.md:313 ("release push-go bundles into 📦").
 
-## Step 8 — Recap and post-closure protocol
+## Step 8 — Post-closure protocol (🏁 marker + suggest-next-move + copy-paste)
 
-The post-closure protocol is canonical in SPEC §"Post-closure protocol" (commit / suggest next move / offer copy-paste line). For releases:
+The post-closure protocol is canonical in SPEC §"Post-closure protocol" (steps 1-3: commit / mark landed with 🏁 / offer copy-paste line). For releases:
 
-- **Recap** — one paragraph of what shipped (version, headline features, adopter migration if any). Drop the "verification request" — the verification IS the push.
-- The commit-go is satisfied by step 7.5; the suggest-next-move and copy-paste-line follow in the same response as the push confirmation.
-- The next move is typically the next pending child in the cohort that filed this release, or `/ft-file-followup` for any drift surfaced during the cut.
+- **Recap** — already bundled into the §7.4 📦 gate per SPEC §"🚀 Phase 4: Closure" (not re-surfaced here). One paragraph of what shipped (version, headline features, adopter migration if any); drop the "verification request" — the verification IS the push.
+- **🏁 post-commit state-marker** — once §7.5's operations land (commit + tag + push on push-go Yes; commit + tag only on push-go No), emit the marker per SPEC §"Post-closure protocol" step 2:
+
+  ```markdown
+  🏁 **<TASK-ID> — committed `<sha>`, tagged `vA.B.C`** · archived to `_project/tasknote/archive/core/<TASK-ID>.md`
+  <1-2 sentence plain-English summary of what shipped + adopter-impact>
+  ```
+
+  On push-go No, append a one-line manual-push reminder under the marker (e.g., `Manual push pending: \`git push origin <branch>\` then \`git push origin vA.B.C\`.`).
+
+- **Suggest-next-move + copy-paste line** — follow in the same response as the 🏁 marker. Candidates carry `[model]` inline per option (`**<TASK-ID>** [model] | shortname — one-sentence "why now"`). The next move is typically the next pending child in the cohort that filed this release, or `/ft-file-followup` for any drift surfaced during the cut.
 
 ## Notes
 
