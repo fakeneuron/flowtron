@@ -28,7 +28,7 @@ wiring but don't *depend* on it for contract semantics).
 
 | Platform | How it consumes flowtron | What ships in this repo |
 |---|---|---|
-| **Claude Code** | Wiring layer + contract layer. Slash commands (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, the six `/ft-audit*` skills (`/ft-audit`, `/ft-audit-docs`, `/ft-audit-backend`, `/ft-audit-frontend`, `/ft-audit-performance`, `/ft-audit-security`), and `/ft-new-project` / `/ft-release` / `/ft-flowtron` / `/ft-stats` / `/ft-quality`) drive the SPEC's phases inline. | `claude/` — `AGENTS-snippet.md` + `commands/*.md` + `skills/*/SKILL.md` (+ lazy fragments). Adopters symlink the bundle under `.claude/` per `claude/AGENTS-snippet.md` §"One-time symlink wiring". |
+| **Claude Code** | Wiring layer + contract layer. Slash commands (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, the six `/ft-audit*` skills (`/ft-audit`, `/ft-audit-docs`, `/ft-audit-backend`, `/ft-audit-frontend`, `/ft-audit-performance`, `/ft-audit-security`), and `/ft-new-project` / `/ft-release` / `/ft-flowtron` / `/ft-stats` / `/ft-quality` / `/ft-audit-context`) drive the SPEC's phases inline. | `claude/` — `AGENTS-snippet.md` + `commands/*.md` + `skills/*/SKILL.md` (+ lazy fragments). Adopters symlink the bundle under `.claude/` per `claude/AGENTS-snippet.md` §"One-time symlink wiring". |
 | **Codex CLI, Cursor, Sourcegraph Amp, Aider** | Contract layer only. The platform reads `AGENTS.md`, sees flowtron's paste-block, and drives the contract conversationally — relevance gate, phase boundaries, post-closure protocol all live in `SPEC.md`. No platform-specific machinery required. | Nothing platform-specific. Adopters paste the `AGENTS.md` block from `claude/AGENTS-snippet.md` §"Block to paste into AGENTS.md"; that block is agent-neutral by design. |
 
 A platform doesn't need its own wiring to be useful. Most adopters paste
@@ -166,12 +166,12 @@ The only platform with wiring shipped today. Concrete instantiation:
 
 - **Sibling dir**: `claude/` at the repo root
 - **Adopter-facing snippet**: `claude/AGENTS-snippet.md`
-- **`commands/`**: 17 `.md` slash-command stubs (`ft-task.md`,
+- **`commands/`**: 18 `.md` slash-command stubs (`ft-task.md`,
   `ft-starter-task.md`, `ft-micro-task.md`, `ft-file-followup.md`,
   `ft-epic-discovery.md`, `ft-close-epic.md`, the six `ft-audit*` skills,
   plus `ft-new-project.md`, `ft-release.md`, `ft-flowtron.md`,
-  `ft-stats.md`, `ft-quality.md`)
-- **`skills/`**: 17 `SKILL.md` skill bodies (one per command), some with
+  `ft-stats.md`, `ft-quality.md`, `ft-audit-context.md`)
+- **`skills/`**: 18 `SKILL.md` skill bodies (one per command), some with
   lazy-load fragments (`ft-task/step-*.md`)
 - **Adopter install**: relative symlinks from `.claude/commands/*` and
   `.claude/skills/*` into the submodule, per

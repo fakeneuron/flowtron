@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **CORE-185** [sonnet] | audit-family pass-name layering — Align pass names across canonical SKILL.md body §2, frontmatter description, MIGRATION.md §1.2.1 table, and ft-flowtron SKILL.md roster for all six ft-audit-* skills. Pick short canonical form per pass; propagate. Surfaced by audit-docs 2026-05-24 (Finding #1, Medium).
 
 ## Low
 
@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-186** [opus] | ft-audit-context skill — Completed 2026-05-24.
 - [x] **CORE-184** [opus] | audit-next-move-flag — Completed 2026-05-24.
 - [x] **CORE-183** [opus] | phase1-2-gate-default-skip — Completed 2026-05-24.
 - [x] **CORE-182** [sonnet] | migration-md §3.3 cross-walk fintown leak — Completed 2026-05-24.

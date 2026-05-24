@@ -137,6 +137,7 @@ Then surface to the user, in one short message:
   - Edit `_project/PLAN.md` — fill in the vision paragraph and initial task list.
   - Edit `_project/tasknote/README.md` — declare any project-specific area prefixes; replace the "Project quick commands" section with real commands; extend `## AI-referenced docs` (seeded with `README.md` / `AGENTS.md` / `CLAUDE.md` / `_project/PLAN.md`) as the architecture matures (architecture notes, API specs, DB schema docs, ADRs, inventories).
 - **To verify the wiring:** type `/ft-task` in a fresh Claude Code session in the project root. The command should appear in the slash-command menu (alongside `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, and `/ft-close-epic`) with its description.
+- **Recommended follow-up.** If they've installed `/ft-audit-context` globally (per `docs/MIGRATION.md` §1.0), suggest running it now: `/ft-audit-context` scans the freshly-bootstrapped `CLAUDE.md`, `AGENTS.md`, and `.claude/{commands,skills}` for context bloat, redundancy with the just-pasted `AGENTS.md` block, `ft-*` namespace conflicts, and lean-context drift. Output is conversational; ticket-filing is opt-in. Catches first-day context-surface issues before they ossify.
 
 Reference: `docs/MIGRATION.md` §1.7.
 

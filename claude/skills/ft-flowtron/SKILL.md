@@ -53,6 +53,7 @@ A lightweight, project-agnostic tasknote system for solo AI-assisted coding. Kee
 | `/ft-audit-frontend` | Frontend audit — 5 passes (Bundle & payload · A11y · Render perf · Browser hygiene · Component health). Forkable; pin design-system / perf-budget / framework. |
 | `/ft-audit-backend` | Backend audit — 5 passes (Input & contracts · Error & lifecycle · Persistence · Async correctness · Observability). Forkable; pin API contract / ORM / framework. |
 | `/ft-audit-performance` | Performance audit — 5 passes (Hot paths · Payload & bundle · Data access · Memory & resource · Caching). Measurements required. Cross-cuts frontend / backend specialists. |
+| `/ft-audit-context` | Adopter-context audit — 4 conversational passes (Bloat · Redundancy · Namespace · Drift) over `CLAUDE.md`, `AGENTS.md`, `.claude/{commands,skills}`. Soft prose with an offer to file PLAN tickets (no auto-write). Global install per `docs/MIGRATION.md` §1.0. |
 | `/ft-stats` | Show flowtron stats — `[model]` distribution, completion velocity, per-area volume — aggregated from PLAN.md `## Completed`. Read-only screen; `--write` also flushes to `_project/STATS.md`. |
 | `/ft-quality` | Run a lint + typecheck + test sweep against the project (fail-fast). Heuristic stack detection (Node / Python / Go / Rust). Runs outside the tasknote flow. |
 | `/ft-new-project` | Bootstrap a fresh repo with flowtron — submodule, PLAN.md, tasknote README, AGENTS.md patch, staged commit. |

@@ -30,6 +30,7 @@ The skill verifies preconditions (cwd is a git repo with `CLAUDE.md`, no existin
 | `/ft-flowtron` | Adopters | Info screen — version, principles, bundled-skill roster (reads `_project/flowtron/SPEC.md`) |
 | `/ft-stats` | Adopters | Stats from `_project/PLAN.md` `## Completed` — `[model]` distribution, velocity, per-area volume; `--write` flushes to `_project/STATS.md` |
 | `/ft-quality` | Adopters | Lint + typecheck + test sweep (heuristic Node/Python/Go/Rust detection, fail-fast); runs outside the tasknote flow |
+| `/ft-audit-context` | Adopters (+ flowtron-self) | Adopter-context audit — 4 conversational passes over `CLAUDE.md`, `AGENTS.md`, `.claude/{commands,skills}` for bloat / paste-block redundancy / `ft-*` namespace conflicts / lean-context drift; soft prose recommendations with an offer to file PLAN tickets (no auto-write) |
 | `/ft-release` | Flowtron-self only | Cut a release; bails outside flowtron's checkout |
 
 Install each you want with the same shape (substitute `<skill>`):
@@ -135,6 +136,8 @@ If your project already has other files under `.claude/` (settings, other skills
 In a fresh Claude Code session in the project, type `/ft-task`. The command should appear in the slash-command menu (alongside `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, and `/ft-close-epic`) with its description. Running `/ft-task <SOME-ID>` against a real entry in your `_project/PLAN.md` should scaffold a tasknote and begin Phase 1 Discovery.
 
 If any command doesn't appear, the symlinks are likely wrong — check that each `readlink .claude/commands/<name>.md` and `readlink .claude/skills/<name>` resolves under the submodule.
+
+**Recommended follow-up.** If you've installed `/ft-audit-context` globally (see §1.0), run it now: `/ft-audit-context` scans the project's `CLAUDE.md`, `AGENTS.md`, and `.claude/{commands,skills}` for context bloat, redundancy with the freshly-pasted `AGENTS.md` block, `ft-*` namespace conflicts, and lean-context drift. Output is conversational; ticket-filing is opt-in. Catches first-day context-surface issues before they ossify.
 
 ---
 
@@ -282,6 +285,7 @@ After §3.2–§3.7 land and `/ft-task` shows in the slash menu, sweep for resid
   - In archived/legacy content: leave untouched (write-once policy applies — don't retroactively rewrite history).
 - **CI / pre-commit hook check.** `grep -rn "<retired-helper-script-name>" .git/hooks/ .github/ docker/ scripts/` (project root) — confirm nothing depends on retired scripts. Resolve before next CI run.
 - **`/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic` smoke.** Type each in a fresh Claude session — confirm all five appear in the slash menu alongside `/ft-task` (v1.0+ additions; symlinks added in §1.2).
+- **Context-surface audit.** If you've installed `/ft-audit-context` globally (see §1.0), run it now — migrations frequently carry over context bloat from the legacy era (stale `CLAUDE.md` workflow tutorials, project-local skills that now shadow `ft-*` namespace, AGENTS.md content redundant with the freshly-pasted block). Soft prose; ticket-filing is opt-in.
 - **Final pin verification.** `git -C _project/flowtron describe --tags` shows the pinned version recorded at the start (e.g., `v3.2.0`). A mismatch means the submodule drifted off the pin during migration.
 - **Cleanup commit.** Bundle the decisions above into a single follow-up commit (`chore: <ID> post-migration cleanup`) OR fold into the §3.9 closure commit if scope is small.
 
