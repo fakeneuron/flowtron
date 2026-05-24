@@ -25,6 +25,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-173** [opus] | proactive-starter-on-handoff — Completed 2026-05-24.
 - [x] **CORE-172** [sonnet] | close-epic-followup-no-clear — Completed 2026-05-24.
 - [x] **CORE-171** [sonnet] | doc-drift sweep 2026-05-24 — Completed 2026-05-24.
 - [x] **CORE-170** [sonnet] | audit scaffold §0 parity — Completed 2026-05-24.

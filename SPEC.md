@@ -522,6 +522,7 @@ where `<…>` names the cleared signals as diff facts (e.g., `4 markdown files; 
 - A task is discovered mid-flow with rich context (rationale, design decisions, file survey, open questions) but isn't ready to start now
 - The captured context would be lost or would bloat the PLAN.md long description if recorded as inline prose
 - The right shape isn't fully obvious; the AI wants to preserve the survey and open questions for resolution at `/ft-task` checkout
+- Rich mid-conversation context (epic brief, design conclusion, multi-step plan) won't be consumed in this session — park it in a starter now to protect against `/clear` loss, rather than surfacing it as a parenthetical "run `/ft-X` next and paste this" suggestion
 
 **Skip the starter (just add a one-line PLAN.md entry) when:**
 
