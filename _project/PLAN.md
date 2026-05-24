@@ -19,14 +19,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-176** [sonnet] | skill step-0 form drift — Rewrite claude/skills/ft-epic-discovery/SKILL.md Step 0 to the condensed "Two layouts. Pick by which file exists" form used by ft-task / ft-micro-task / ft-starter-task / ft-file-followup / ft-close-epic. House-style parity across the skill family. Surfaced by audit 2026-05-24 (Finding #3, Low).
-
 ## Future Opportunities
 
 (none)
 
 ## Completed
 
+- [x] **CORE-176** [sonnet] | skill step-0 form drift — Completed 2026-05-24.
 - [x] **CORE-175** [sonnet] | migration-md ai-referenced-docs seed parity — Completed 2026-05-24.
 - [x] **CORE-174** [opus] | ft-release operator-gate alignment — Completed 2026-05-24.
 - [x] **CORE-173** [opus] | proactive-starter-on-handoff — Completed 2026-05-24.

@@ -11,22 +11,18 @@ The skill takes one optional argument: `--deep`. When passed, it stages a `const
 
 ## Step 0 — Resolve paths
 
-Determine which repo you're in:
+Two layouts. Pick by which file exists:
 
-- **Adopting project (typical):** `_project/flowtron/SPEC.md` exists. Use:
-  - SPEC: `_project/flowtron/SPEC.md`
-  - SPEC_DIR (lazy modules): `_project/flowtron/SPEC/`
-  - Template: `_project/flowtron/templates/tasknote-template.md`
-  - PLAN: `_project/PLAN.md`
-  - Tasknote dir: `_project/tasknote/`
-- **Flowtron itself (self-hosted):** repo-root `SPEC.md` exists with the heading `# Flowtron — Workflow Specification`. Use:
-  - SPEC: `SPEC.md`
-  - SPEC_DIR (lazy modules): `SPEC/`
-  - Template: `templates/tasknote-template.md`
-  - PLAN: `_project/PLAN.md`
-  - Tasknote dir: `_project/tasknote/`
+- **Adopter project:** `_project/flowtron/SPEC.md` exists → `<root>` = `_project/flowtron/`.
+- **Flowtron self-host:** repo-root `SPEC.md` with heading `# Flowtron — Workflow Specification` → `<root>` = repo-root.
 
-If neither layout matches, stop and tell the user this directory doesn't look like a flowtron-using project.
+If neither matches, bail.
+
+Paths this skill uses:
+- SPEC: `<root>SPEC.md` (always loaded core)
+- SPEC_DIR (lazy modules `epic.md`): `<root>SPEC/`
+- Template: `<root>templates/tasknote-template.md`
+- PLAN: `_project/PLAN.md`, tasknote dir: `_project/tasknote/` (always)
 
 After resolving paths, Read `<SPEC_DIR>/epic.md` for the canonical lifecycle before drafting anything.
 
