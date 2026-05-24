@@ -19,7 +19,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-(none)
 
 ## Future Opportunities
 
@@ -27,6 +26,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-187** [sonnet] | ft-audit-glob-fix — Completed 2026-05-24.
 - [x] **CORE-185** [opus] | audit-family pass-name layering — Completed 2026-05-24.
 - [x] **CORE-186** [opus] | ft-audit-context skill — Completed 2026-05-24.
 - [x] **CORE-184** [opus] | audit-next-move-flag — Completed 2026-05-24.

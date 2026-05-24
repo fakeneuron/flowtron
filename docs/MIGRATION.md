@@ -64,7 +64,7 @@ Flowtron ships six tasknote slash commands inside the submodule: `/ft-task`, `/f
 
 ### 1.2.1 Optional: fork the `/ft-audit` family per stack
 
-Flowtron ships six stack-neutral audit scaffolds at `_project/flowtron/claude/skills/ft-audit*/` — each a 5-pass / capped-findings / writes-tickets skill. **Forked, not symlinked**: per-stack rubrics/commands/examples diverge.
+Flowtron ships six stack-neutral audit scaffolds at `_project/flowtron/claude/skills/ft-audit{,-docs,-security,-frontend,-backend,-performance}/` — each a 5-pass / capped-findings / writes-tickets skill. **Forked, not symlinked**: per-stack rubrics/commands/examples diverge.
 
 | Skill | Scope | 5 passes |
 |---|---|---|
