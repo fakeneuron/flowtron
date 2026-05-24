@@ -223,12 +223,12 @@ If the legacy IDs follow a non-canonical scheme (phase-prefixed `P11.7-1`, seque
 
 | Legacy ID | Flowtron ID | Notes |
 |---|---|---|
-| P41-2 | BE-001 | Spread/fee-aware entry redesign |
-| P42-1 | BE-002 | Boot-banner observability |
+| P41-2 | BE-001 | auth middleware |
+| P42-1 | BE-002 | boot banner |
 | P28-6 | TEST-001 | Playwright UX smoke |
-| P28-7 | FE-001 | Full-screen blotter modal |
-| P33-1 | FE-002 | Halt UX banner |
-| P33-3 | BE-003 | Opt-in daily-loss USD cap |
+| P28-7 | FE-001 | settings drawer |
+| P33-1 | FE-002 | offline banner |
+| P33-3 | BE-003 | health-check endpoint |
 
 Closed legacy IDs stay as-is in the frozen `legacy/` tree — they are no longer addressable from new tasknotes via flowtron's `[[TASK-ID]]` wikilinks, and that is the whole point of "current tasks only." External references (commit messages, code comments, doc cross-refs) still resolve into `legacy/` if needed; new work uses the new ID space.
 
