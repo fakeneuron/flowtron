@@ -50,7 +50,7 @@ A lightweight, project-agnostic tasknote system for solo AI-assisted coding. Kee
 | `/ft-audit` | Stack-neutral scaffold for a ruthless principal-engineer code audit — 5 passes (Security · Idioms · Hygiene · Orphans · Doc drift), capped findings, writes tickets to PLAN. Fork and customize per stack. |
 | `/ft-audit-docs` | Documentation-drift audit — 5 passes (Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content). Forkable; invoked standalone or as a subroutine by `/ft-release` §7.1. |
 | `/ft-audit-security` | Security audit — 5 passes (Secrets · Input handling · Auth & authz · Network & boundaries · Dependencies). Forkable; pin sacred invariants and wire your scanner stack. |
-| `/ft-audit-frontend` | Frontend audit — 5 passes (Bundle & payload · A11y · Render perf · Browser hygiene · Component health). Forkable; pin design-system / perf-budget / framework. |
+| `/ft-audit-frontend` | Frontend audit — 5 passes (Bundle & payload · Accessibility · Render perf · Browser hygiene · Component health). Forkable; pin design-system / perf-budget / framework. |
 | `/ft-audit-backend` | Backend audit — 5 passes (Input & contracts · Error & lifecycle · Persistence · Async correctness · Observability). Forkable; pin API contract / ORM / framework. |
 | `/ft-audit-performance` | Performance audit — 5 passes (Hot paths · Payload & bundle · Data access · Memory & resource · Caching). Measurements required. Cross-cuts frontend / backend specialists. |
 | `/ft-audit-context` | Adopter-context audit — 4 conversational passes (Bloat · Redundancy · Namespace · Drift) over `CLAUDE.md`, `AGENTS.md`, `.claude/{commands,skills}`. Soft prose with an offer to file PLAN tickets (no auto-write). Global install per `docs/MIGRATION.md` §1.0. |
