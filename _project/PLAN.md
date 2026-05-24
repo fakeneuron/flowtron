@@ -18,7 +18,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-181** [sonnet] | conventions-pre-v3-breaking-claim — Reword docs/CONVENTIONS.md:25 to state the parenthetical `(BREAKING)` form was used in the v3.0.0 release commit itself (CORE-105), not in pre-v3.0.0 commits. Surfaced by audit-docs 2026-05-24 (Finding #2, Low).
+(none)
 
 ## Future Opportunities
 
@@ -26,6 +26,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-181** [sonnet] | conventions-pre-v3-breaking-claim — Completed 2026-05-24.
 - [x] **CORE-179** [sonnet] | conventions-changelog-examples — Completed 2026-05-24.
 - [x] **CORE-180** [sonnet] | readme-repo-layout-docs-summary — Completed 2026-05-24.
 - [x] **CORE-177** [sonnet] | global-install-path-placeholder — Completed 2026-05-24.

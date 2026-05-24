@@ -22,7 +22,7 @@ Types in active use: `feat:`, `fix:`, `chore:`, `docs:`. Scope segments (`feat(a
 feat!: CORE-XXX — short description
 ```
 
-The annotated tag message for the corresponding release lists migration steps regardless of indicator style. Pre-v3.0.0 commits used a parenthetical `(...BREAKING)` form in the subject; the canonical `!` is the going-forward convention.
+The annotated tag message for the corresponding release lists migration steps regardless of indicator style. The v3.0.0 release commit itself (CORE-105) used a parenthetical `(BREAKING)` form in the subject; the canonical `!` is the going-forward convention.
 
 ### Semantic Versioning 2.0
 
