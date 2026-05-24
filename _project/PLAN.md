@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **CORE-172** [sonnet] | close-epic-followup-no-clear — `/ft-close-epic` Step 9 next-move shape advises `/clear → /model → /<next-skill> <args>` for ALL candidates including `/ft-file-followup`. But `/ft-file-followup` requires the surfacing session's context to produce its paragraph (others self-bootstrap from PLAN/tasknote reads). Special-case: surface file-followup candidates as 'file in this session before /clear' instead.
 
 ## Low
 
@@ -25,6 +25,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-171** [sonnet] | doc-drift sweep 2026-05-24 — Completed 2026-05-24.
 - [x] **CORE-170** [sonnet] | audit scaffold §0 parity — Completed 2026-05-24.
 - [x] **CORE-169** [opus] | spec/readme doc drift — Completed 2026-05-24.
 - [x] **CORE-168** [sonnet] | versioning-example-placeholders — Completed 2026-05-23.
