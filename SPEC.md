@@ -287,7 +287,7 @@ Every tasknote follows four phases in strict serial order. Do not skip ahead.
 
 ### Operator-gate cues
 
-The 4-phase workflow surfaces **up to two** operator-gate banners — explicit-approval pauses. Both are conditional: 🛠️ Phase 1→2 skips when Discovery has no clarifying questions; 📦 ready-to-commit skips when the closure diff clears the signal rule. A fully mechanical task skips both and runs end-to-end with inline state markers. Banner format when one fires:
+The 4-phase workflow surfaces **up to two** operator-gate banners — explicit-approval pauses. Both are conditional: 🛠️ Phase 1→2 fires per the skill's exit-gate flavor (see §"📝 Phase 1: Discovery" exit gate — `/ft-task` skips by default and fires only on significant scope deviation; `/ft-epic-discovery` + `/ft-close-epic` fire on any clarifications surfaced); 📦 ready-to-commit skips when the closure diff clears the signal rule. A fully mechanical task skips both and runs end-to-end with inline state markers. Banner format when one fires:
 
 ```markdown
 ---
@@ -301,10 +301,10 @@ _<1-2 sentence plain-English preview of what executes on approval>_
 
 | Gate | Emoji | Label | Trigger |
 |---|---|---|---|
-| Phase 1→2 (post-Discovery) | 🛠️ | `AWAITING APPROVAL — Phase 2: Execution ready` | **Conditional** — fires when Discovery surfaced clarifying questions; skipped via "No clarifications needed" (see §"📝 Phase 1: Discovery" exit gate) |
+| Phase 1→2 (post-Discovery) | 🛠️ | `AWAITING APPROVAL — Phase 2: Execution ready` | **Conditional (per-skill flavor)** — `/ft-task`: fires on significant scope deviation (Re-scope/De-scope always; clarifications that materially reshape execution). `/ft-epic-discovery` + `/ft-close-epic`: fires on any clarifications surfaced. Full rule: §"📝 Phase 1: Discovery" exit gate |
 | Ready-to-commit (closure review + work summary bundled) | 📦 | `AWAITING APPROVAL — Ready to commit` | **Conditional** — fires when the diff trips any §"Conditional skip rule" signal (frontend / privileged-ops / perf-narrative) OR a bundled in-📦 prompt is queued (e.g., /ft-close-epic parent-flip); skipped otherwise via autonomous-commit |
 
-_Operator force-skip: passing `--fast` (or `-f`) to `/ft-task` / `/ft-micro-task` suppresses both conditional trips above (the 🛠️ banner skips on `Proceed` verdicts; the 📦 banner takes the Skip branch regardless of signals). The Re-scope/De-scope drift carve-out still fires 🛠️ — see §"📝 Phase 1: Discovery" exit gate. The flag silences routine signal trips; it does not silence drift._
+_Operator force-skip: passing `--fast` (or `-f`) to `/ft-task` / `/ft-micro-task` forces the 📦 banner to its Skip branch regardless of signals, and suppresses the 👁️ frontend visual-confirmation prose ask. For `/ft-task`'s 🛠️ banner, `--fast` is a **no-op for routine trips** — the `default-skip` flavor (see §"📝 Phase 1: Discovery" exit gate) already skips them; the drift carve-out (Re-scope/De-scope still fires 🛠️) is preserved as the existing default-flow behavior. The flag silences routine signal trips; it does not silence drift._
 
 The preview line is **mandatory** on every banner: 1-2 sentence plain-English summary of *what executes on approval*, for scanning intent ("what am I greenlighting?"). File paths, LOC counts, and key decisions belong in the recap (§"🚀 Phase 4: Closure"), not the preview.
 
@@ -328,33 +328,55 @@ The Relevance Assessment is non-negotiable. `Re-scope` updates the PLAN.md line 
 
 Archive skim + drift check both exist because prior tasknotes record decisions (renames, regressions, rationales) and PLAN.md is a snapshot, not a spec. Surface findings before re-interpreting; don't silently "correct" the plan by executing a different task.
 
-**Exit gate (conditional):** once every Phase 1 box is ticked, branch on
-the clarifying-questions outcome:
+**Exit gate (two flavors).** Once every Phase 1 box is ticked, the 🛠️
+banner fires according to one of two flavors. Skills pick a flavor
+based on the volume / risk profile of their flow:
 
-- **"No clarifications needed" branch** (zero structured asks and
-  zero prose asks during Discovery; explicit assumptions logged) — skip
-  the 🛠️ banner. Emit a single inline marker and proceed directly into
-  Phase 2:
+| Flavor | Skills | Default | Fires 🛠️ when |
+|---|---|---|---|
+| `default-skip` | `/ft-task` | Skip 🛠️; emit inline marker; enter Phase 2 immediately | Discovery surfaced a **significant scope deviation** from the original plan — Re-scope/De-scope verdicts (always); or clarifications that materially reshaped execution (assistant judgment) |
+| `default-fire-on-clarifications` | `/ft-epic-discovery`, `/ft-close-epic` | Skip 🛠️ when zero asks fired; otherwise fire | Any structured ask fired, any prose ask reshaped scope, or a Re-scope verdict landed |
 
-  ```text
-  ✅ Phase 1 Discovery complete (no clarifications needed); entering Phase 2 Execution.
-  ```
+Both flavors share the same inline marker text on the skip path —
+emitted as plain prose, not a banner block, not a new gate:
 
-- **Clarifications-surfaced branch** (structured asks fired, prose asks
-  reshaped scope, or a Re-scope verdict landed) — surface the 🛠️ Phase 2
-  operator-gate cue per §"Operator-gate cues" (with the mandatory preview
-  line) and wait for the user's go before starting execution.
+```text
+✅ Phase 1 Discovery complete; entering Phase 2 Execution.
+```
 
-The skip rule binds to the Phase 1 checklist branch — Re-scope and prose
-asks that reshape work both keep the banner.
+**`default-skip` judgment rule** (used by `/ft-task`). Routine
+clarifications skip; deviations fire. Concrete guidance:
 
-**`--fast` drift carve-out.** When the operator passes `--fast` to
-`/ft-task`, the clarifying-questions step writes `No clarifications
-needed (--fast)` and the inline-marker branch fires — **but only on a
-`Proceed` Verdict.** If Relevance Assessment returns `Re-scope` or
-`De-scope`, the 🛠️ banner still fires regardless of `--fast`. The flag
-silences routine signal trips; it does not silence drift. See
-§"Operator-gate cues" for the flag's full surface.
+- **Skip (small deviations):** typo confirmation, format/style pick,
+  file naming, comment style, marker wording.
+- **Fire 🛠️ (moderate-or-larger deviations):** changed which file
+  to edit, restructured the subtask list, added a cross-cutting
+  concern, discovered a different root cause, changed the approach
+  (refactor vs. inline fix).
+- **Always fire 🛠️:** Re-scope and De-scope verdicts (moderate-or-larger
+  by definition — Re-scope rewrites the plan; De-scope changes
+  trajectory entirely).
+
+The assistant judges from Discovery Notes content. The judgment is
+recorded inline at the exit ("Discovery surfaced no significant
+deviation → skip 🛠️" or "Discovery surfaced <one-line reason> → fire
+🛠️"), so the operator can spot misjudgments in the transcript.
+
+**`default-fire-on-clarifications` rule** (used by `/ft-epic-discovery`,
+`/ft-close-epic`). The pre-CORE-183 rule. Lower-volume,
+higher-stakes flows where the operator wants more checkpoints — skip
+only when Discovery surfaced zero asks ("No clarifications needed");
+fire on any structured ask, any prose ask reshaping scope, or any
+Re-scope verdict.
+
+**`--fast` drift carve-out** (applies to `/ft-task` only; the flag
+isn't accepted by the epic skills). Under `default-skip`, `--fast`'s
+🛠️ suppression is a **no-op for routine trips** — the default already
+skips them. The drift carve-out preserves what `--fast` ever did for
+🛠️: Re-scope/De-scope verdicts always fire 🛠️ regardless of `--fast`.
+The flag remains operative for the 👁️ frontend ask and the 📦
+ready-to-commit signal trips. See §"Operator-gate cues" for the
+flag's full surface.
 
 ### 🛠️ Phase 2: Execution
 

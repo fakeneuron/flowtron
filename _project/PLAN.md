@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **CORE-184** [opus] | audit-scaffold-misfire-in-adopter — In an adopter repo, `/ft-audit-docs` (and the rest of the audit family) silently resolves to the submodule's `.claude/skills/ft-audit-docs/` (flowtron-self fork) when the adopter hasn't forked per `MIGRATION.md` §1.2.1 — audits flowtron's docs, not the adopter's. Pick fix: bail-in-adopter-context, gitignore the flowtron-self `.claude/`, or doc callout. Surfaced 2026-05-24 in stockshock.
 
 ## Low
 
@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-183** [opus] | phase1-2-gate-default-skip — Completed 2026-05-24.
 - [x] **CORE-182** [sonnet] | migration-md §3.3 cross-walk fintown leak — Completed 2026-05-24.
 - [x] **CORE-181** [sonnet] | conventions-pre-v3-breaking-claim — Completed 2026-05-24.
 - [x] **CORE-179** [sonnet] | conventions-changelog-examples — Completed 2026-05-24.

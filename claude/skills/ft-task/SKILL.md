@@ -30,7 +30,7 @@ Subsequent steps name what to Read; the SPEC contract + matching SKILL fragment 
 **Parse `args`.** Split on whitespace into `(TASK-ID, rest...)`. Branch on `rest`:
 
 - **Empty** → set internal flag `fast-mode = false` and continue to Step 1.
-- **`--fast` or `-f`** → set `fast-mode = true`. Emit exactly one inline marker after path resolution: `⚡ --fast active — Phase 1→2 banner, 👁️ frontend ask, and 📦 signal trips suppressed; Re-scope/De-scope still fires the gate.` Continue to Step 1.
+- **`--fast` or `-f`** → set `fast-mode = true`. Emit exactly one inline marker after path resolution: `⚡ --fast active — 👁️ frontend ask and 📦 signal trips suppressed; Re-scope/De-scope still fires 🛠️ (🛠️ banner is no-op for routine trips under default-skip flavor).` Continue to Step 1.
 - **Any other trailing arg** → surface a one-line usage notice (``Unknown arg `<arg>`. Usage: `/ft-task <TASK-ID>` or `/ft-task <TASK-ID> --fast`.``) and ask via AskUserQuestion whether the user meant `--fast`, the default flow, or to abort. Do not proceed silently.
 
 `fast-mode` is operator-side opt-in for routine runs where the conditional gates would fire but the operator wants autonomous execution; behavioral branches reference it at Step 4 (Phase 1 exit gate), Step 5 (Phase 3 👁️ ask), and Step 6 (Conditional skip rule). Default flow (`fast-mode = false`) is byte-identical to the pre-flag skill — see SPEC §"Operator-gate cues" for the contract.
@@ -116,11 +116,13 @@ Skill-specific imperatives on top of the SPEC contract:
 - For the Archive skim step: `ls _project/tasknote/archive/<area>/` to enumerate, then for each source path in scope run `grep -l <path> _project/tasknote/archive/<area>/*.md`. Read the hits and log anything load-bearing in Discovery Notes (file moves, regressions, design decisions, hardlink notes, etc.). If `archive/<area>/` is empty or absent, log "no prior tasknotes" and tick the box.
 - For the Clarifying questions step: use AskUserQuestion for anything genuinely ambiguous. If nothing is ambiguous, write `No clarifications needed` in the tasknote with the explicit assumptions. **When `fast-mode = true`** (from Step 0), skip the AskUserQuestion call and write `No clarifications needed (--fast)` with the explicit assumptions the operator is asserting.
 - For the "populate Subtasks" step: fill the tasknote's `## 🧩 Subtasks` checklist with concrete, ordered steps.
-- Do not enter Phase 2 until every Phase 1 box is ticked. Once ticked, branch on the clarifying-questions outcome per SPEC §"📝 Phase 1: Discovery" exit gate:
-  - **"No clarifications needed" branch** — emit the inline marker `✅ Phase 1 Discovery complete (no clarifications needed); entering Phase 2 Execution.` and start Step 5 Phase 2 immediately. Plain prose, not a banner; not a new gate.
-  - **Clarifications-surfaced branch** — surface the **🛠️ Phase 1→2 operator-gate cue** with the mandatory 1-2 sentence plain-English preview line (per SPEC §"Operator-gate cues") and wait for the user's go before starting Step 5 Phase 2.
+- Do not enter Phase 2 until every Phase 1 box is ticked. Once ticked, apply the SPEC §"📝 Phase 1: Discovery" exit gate's **`default-skip` flavor** (the flavor `/ft-task` uses): judge whether Discovery surfaced a significant scope deviation from the original plan.
+  - **Skip branch (default)** — no significant scope deviation surfaced (small-clarifications-only or zero asks). Emit the inline marker `✅ Phase 1 Discovery complete; entering Phase 2 Execution.` and start Step 5 Phase 2 immediately. Plain prose, not a banner; not a new gate. Concrete skip cases: typo/format/style/naming/comment-style clarifications; explicit assumptions logged with no asks.
+  - **Fire branch** — significant scope deviation surfaced. Surface the **🛠️ Phase 1→2 operator-gate cue** with the mandatory 1-2 sentence plain-English preview line (per SPEC §"Operator-gate cues") and wait for the user's go before starting Step 5 Phase 2. Concrete fire cases: Re-scope or De-scope verdict (always fire); clarifications that changed which file to edit, restructured the subtask list, added a cross-cutting concern, discovered a different root cause, or changed the approach.
 
-**`--fast` drift carve-out.** When `fast-mode = true`, the inline-marker branch fires only if Relevance Assessment Verdict ∈ {`Proceed`}. If Verdict ∈ {`Re-scope`, `De-scope`}, the 🛠️ banner STILL fires (the flag silences routine signal trips; it does not silence drift). On Re-scope, preview the rescope. On De-scope, the banner previews the de-scope jump to Phase 4 closure.
+  Record the judgment inline at the exit ("Discovery surfaced no significant deviation → skip 🛠️." or "Discovery surfaced <one-line reason> → fire 🛠️.") so the operator can spot misjudgments in the transcript.
+
+**`--fast` interaction.** Under the `default-skip` flavor, `--fast`'s 🛠️ suppression is a **no-op for routine trips** — the default already skips them. `--fast` does not weaken the drift carve-out: Re-scope/De-scope verdicts always fire 🛠️ regardless of `--fast`. On a `Proceed` Verdict with `fast-mode = true`, the clarifying-questions step writes `No clarifications needed (--fast)` and the Skip branch fires. The flag stays meaningful for the 👁️ frontend ask (Step 5 Phase 3) and the 📦 ready-to-commit signal trips (Step 6).
 
 ## Step 5 — Phases 2-4 (drive conversationally)
 
