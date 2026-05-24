@@ -15,9 +15,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **CORE-177** [sonnet] | global-install-path-placeholder — Replace hardcoded `~/code/flowtron/` in MIGRATION.md §1.0 global install commands with a `<path-to-flowtron-checkout>` placeholder or substitution note. Surfaced by audit-docs 2026-05-24 (Finding #1, Medium).
 
 ## Low
+
+- [ ] **CORE-179** [sonnet] | conventions-changelog-examples — Update CONVENTIONS.md CHANGELOG section to drop or replace the CORE-043 / CORE-046 release-tasknote examples (three major versions stale) with a pointer to `_project/tasknote/archive/core/`. Surfaced by audit-docs 2026-05-24 (Finding #3, Low).
 
 ## Future Opportunities
 
@@ -25,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-178** [sonnet] | template-git-c-align — Completed 2026-05-24.
 - [x] **CORE-176** [sonnet] | skill step-0 form drift — Completed 2026-05-24.
 - [x] **CORE-175** [sonnet] | migration-md ai-referenced-docs seed parity — Completed 2026-05-24.
 - [x] **CORE-174** [opus] | ft-release operator-gate alignment — Completed 2026-05-24.
