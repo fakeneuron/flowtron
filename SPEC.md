@@ -515,6 +515,8 @@ where `<…>` names the cleared signals as diff facts (e.g., `4 markdown files; 
    - **Epic continuation:** closed task is in an active epic with cleared dependencies → name the single most natural next task ID.
    - **Open menu:** 2-3 candidates from PLAN.md mixing priority and readiness; user picks.
 
+   **Audit-family flag.** When a next-move candidate is an `/ft-audit*` slash command, prefix the candidate line (this step) and the copy-paste line (step 3) with 🔍. Audit-family skills are forked per project per `docs/MIGRATION.md` §1.2.1 — in adopter context the local fork is unprefixed (e.g., `/audit-docs`), not `/ft-audit-docs`. The 🔍 marker doubles as a self-check for any AI about to emit `/ft-audit*` as next move.
+
 3. **Offer the copy-paste line:**
 
    ```text

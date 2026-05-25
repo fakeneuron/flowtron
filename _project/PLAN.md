@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-190** [opus] | audit-family 🔍 flag SPEC promotion — Promote CORE-184's audit-family 🔍 next-move flag from ft-task SKILL §6 into SPEC §"Post-closure protocol" step 2 so /ft-micro-task and /ft-close-epic inherit the convention without per-skill duplication (cite-don't-restate-aligned). After promotion, trim the duplicated bullet from ft-task SKILL §6 to a citation. Surfaced by audit 2026-05-24 (Finding #3, Medium).
+(none)
 
 ## Low
 
@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-190** [opus] | audit-family 🔍 flag SPEC promotion — Completed 2026-05-24.
 - [x] **CORE-189** [opus] | post-closure copy-paste grammar widening — Completed 2026-05-24.
 - [x] **CORE-188** [opus] | ft-release versioning-shift retire — Completed 2026-05-24.
 - [x] **CORE-187** [sonnet] | ft-audit-glob-fix — Completed 2026-05-24.
