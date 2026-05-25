@@ -33,9 +33,10 @@ maintain.
 
 ## Bootstrapping a new project
 
-Run `/ft-new-project` in your project's root directory (git repo + `CLAUDE.md` required)
-to add the flowtron submodule, wire the six tasknote skills (`/ft-task`,
-`/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`,
+Run `/ft-new-project` in your project's root directory (git repo required;
+`/ft-new-project` additionally checks for `CLAUDE.md` as a project-validity
+heuristic) to add the flowtron submodule, wire the six tasknote skills
+(`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`,
 `/ft-epic-discovery`, `/ft-close-epic`), and drop in the `_project/`
 skeleton in one pass. See [docs/MIGRATION.md](docs/MIGRATION.md) §1.0 for the
 one-time global install.

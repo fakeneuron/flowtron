@@ -7,7 +7,7 @@ There are two starting points:
 - **Section 1 — Fresh adoption.** The project has no prior workflow tooling, or its workflow is informal enough to discard.
 - **Section 2 — Migrating from a prior workflow system.** The project already has a `plan.json`, helper scripts, a `WORKFLOW.md`, or another structured workflow. Do Section 1 first, then continue into Section 2.
 
-Both paths assume the project has its own git repo and already has a `CLAUDE.md` — the project can live anywhere on your local machine.
+Both paths assume the project has its own git repo — the project can live anywhere on your local machine. (The `/ft-new-project` Quick path in §1.0 additionally checks for `CLAUDE.md` as a project-validity heuristic; the manual §1.1–1.6 path does not require it.)
 
 ## 1 — Fresh adoption
 
@@ -286,7 +286,7 @@ After §3.2–§3.7 land and `/ft-task` shows in the slash menu, sweep for resid
 - **CI / pre-commit hook check.** `grep -rn "<retired-helper-script-name>" .git/hooks/ .github/ docker/ scripts/` (project root) — confirm nothing depends on retired scripts. Resolve before next CI run.
 - **`/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic` smoke.** Type each in a fresh Claude session — confirm all five appear in the slash menu alongside `/ft-task` (v1.0+ additions; symlinks added in §1.2).
 - **Context-surface audit.** If you've installed `/ft-audit-context` globally (see §1.0), run it now — migrations frequently carry over context bloat from the legacy era (stale `CLAUDE.md` workflow tutorials, project-local skills that now shadow `ft-*` namespace, AGENTS.md content redundant with the freshly-pasted block). Soft prose; ticket-filing is opt-in.
-- **Final pin verification.** `git -C _project/flowtron describe --tags` shows the pinned version recorded at the start (e.g., `v3.2.0`). A mismatch means the submodule drifted off the pin during migration.
+- **Final pin verification.** `git -C _project/flowtron describe --tags` shows the pinned version recorded at the start (e.g., `v4.0.0`). A mismatch means the submodule drifted off the pin during migration.
 - **Cleanup commit.** Bundle the decisions above into a single follow-up commit (`chore: <ID> post-migration cleanup`) OR fold into the §3.9 closure commit if scope is small.
 
 ### 3.9 Commit the migration
