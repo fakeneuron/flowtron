@@ -92,7 +92,7 @@ Optional section — skip entirely if you don't want structured audit skills.
 
 ### 1.3 Paste the workflow block into `AGENTS.md`
 
-Open `_project/flowtron/claude/AGENTS-snippet.md` and copy the markdown block from the "Block to paste into AGENTS.md" section into your project's `AGENTS.md` (create the file if it doesn't exist). `AGENTS.md` is the open-standard memory file read by Claude Code, Codex CLI, Cursor, Sourcegraph Amp, and Aider — pasting here makes the flowtron contract visible to whatever assistant the adopter uses. Project-specific instructions for a single assistant (e.g., `CLAUDE.md` for Claude-only directives) stay where they are; flowtron's block is agent-neutral.
+Open `_project/flowtron/claude/AGENTS-snippet.md` and copy the markdown block from the "Block to paste into AGENTS.md" section into your project's `AGENTS.md` (create the file if it doesn't exist). `AGENTS.md` is the open-standard memory file read by Claude Code, Codex CLI, Cursor, Sourcegraph Amp, Aider, and Grok Build — pasting here makes the flowtron contract visible to whatever assistant the adopter uses. Project-specific instructions for a single assistant (e.g., `CLAUDE.md` for Claude-only directives) stay where they are; flowtron's block is agent-neutral.
 
 ### 1.4 Create `_project/PLAN.md`
 
@@ -271,7 +271,7 @@ Helper scripts (`create_tasknote.py`, `archive_tasknote.py`, `validate_plan.py`)
 
 ### 3.7 Create `AGENTS.md` from the paste-block
 
-Create `AGENTS.md` and paste the flowtron block from §1.3. If a legacy workflow block lived inside `CLAUDE.md` (or another assistant-specific memory file) under the prior system, remove it — flowtron's contract now lives in `AGENTS.md` and is read by Claude Code, Codex, Cursor, Amp, and Aider. Project-specific instructions (architecture notes, non-negotiables, quick commands) stay in whatever file they already live in — they're orthogonal to flowtron.
+Create `AGENTS.md` and paste the flowtron block from §1.3. If a legacy workflow block lived inside `CLAUDE.md` (or another assistant-specific memory file) under the prior system, remove it — flowtron's contract now lives in `AGENTS.md` and is read by Claude Code, Codex, Cursor, Amp, Aider, and Grok. Project-specific instructions (architecture notes, non-negotiables, quick commands) stay in whatever file they already live in — they're orthogonal to flowtron.
 
 ### 3.8 Post-migration cleanup
 

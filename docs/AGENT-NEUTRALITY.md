@@ -37,7 +37,7 @@ below.
 | `SPEC/epic.md` | §"Skills" + §"Optional deep pre-pass" | `claude/skills/ft-epic-discovery/`, `claude/skills/ft-close-epic/`, `claude/skills/ft-new-project/SKILL.md` | Path facts. |
 | `SPEC/model.md` | (intro + Step 1.5 dispatch reference) | `claude/skills/ft-task/SKILL.md` | Path fact. |
 | `SPEC/model.md` | (recommended-set paragraph) | `` `opus \| sonnet` `` + Anthropic-tier note | Per [[CORE-138]] — recommended set, not lock. |
-| `templates/tasknote-README.md` | "AGENTS.md" entry | `AGENTS.md` read by Claude Code, Codex CLI, Cursor, Amp, Aider | Multi-agent paste-destination — explicitly agent-neutral framing. |
+| `templates/tasknote-README.md` | "AGENTS.md" entry | `AGENTS.md` read by Claude Code, Codex CLI, Cursor, Amp, Aider, Grok Build | Multi-agent paste-destination — explicitly agent-neutral framing. |
 | `templates/tasknote-README.md` | "CLAUDE.md" entry | `CLAUDE.md` — optional Claude-specific directives | Explicit Claude-only carve-out; adopter agents skip the entry. |
 | `templates/tasknote-micro-template.md` | (closing recap line) | `claude/skills/ft-micro-task/SKILL.md` | Path fact. |
 | `templates/PLAN.md` | (examples + rule comment) | `[opus]`, `[sonnet]` example tokens + recommended-set parenthetical | Per [[CORE-138]]. |

@@ -29,7 +29,7 @@ wiring but don't *depend* on it for contract semantics).
 | Platform | How it consumes flowtron | What ships in this repo |
 |---|---|---|
 | **Claude Code** | Wiring layer + contract layer. Six tasknote skills (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`) drive the SPEC's 4-phase workflow inline; the six `/ft-audit`-family skills (`/ft-audit`, `/ft-audit-docs`, `/ft-audit-backend`, `/ft-audit-frontend`, `/ft-audit-performance`, `/ft-audit-security`) run the 5-pass capped-findings recipe; standalone skills `/ft-new-project`, `/ft-release`, `/ft-flowtron`, `/ft-stats`, `/ft-quality`, `/ft-audit-context` follow their own recipes. | `claude/` — `AGENTS-snippet.md` + `commands/*.md` + `skills/*/SKILL.md` (+ lazy fragments). Adopters symlink the bundle under `.claude/` per `claude/AGENTS-snippet.md` §"One-time symlink wiring". |
-| **Codex CLI, Cursor, Sourcegraph Amp, Aider** | Contract layer only. The platform reads `AGENTS.md`, sees flowtron's paste-block, and drives the contract conversationally — relevance gate, phase boundaries, post-closure protocol all live in `SPEC.md`. No platform-specific machinery required. | Nothing platform-specific. Adopters paste the `AGENTS.md` block from `claude/AGENTS-snippet.md` §"Block to paste into AGENTS.md"; that block is agent-neutral by design. |
+| **Codex CLI, Cursor, Sourcegraph Amp, Aider, Grok Build** | Contract layer only. The platform reads `AGENTS.md`, sees flowtron's paste-block, and drives the contract conversationally — relevance gate, phase boundaries, post-closure protocol all live in `SPEC.md`. No platform-specific machinery required. | Nothing platform-specific. Adopters paste the `AGENTS.md` block from `claude/AGENTS-snippet.md` §"Block to paste into AGENTS.md"; that block is agent-neutral by design. For Grok Build adoption specifics (context-load semantics, AGENTS.md visibility, skill/command primitives), see §"Grok Build adoption notes" below. |
 
 A platform doesn't need its own wiring to be useful. Most adopters paste
 the `AGENTS.md` block and drive conversationally. Wiring is an *optional
@@ -155,7 +155,7 @@ divergence (and divergence is documented here).
 |---|---|---|
 | `AGENTS.md` paste-block visible to the platform | **Mandatory** | The contract entry-point. Without this, the AI has no flowtron context. |
 | `<platform>/AGENTS-snippet.md` (or equivalent adopter-facing doc) | Strongly recommended | Adopters need a single canonical doc for the wiring commands. |
-| `<platform>/commands/` + `<platform>/skills/` | Optional | A platform without command/skill primitives runs flowtron conversationally — same path as Codex CLI / Cursor / Amp / Aider today. |
+| `<platform>/commands/` + `<platform>/skills/` | Optional | A platform without command/skill primitives runs flowtron conversationally — same path as Codex CLI / Cursor / Amp / Aider / Grok Build today. |
 | Operator force-skip flag (e.g., `--fast`) | Optional | Mirror SPEC §"Operator-gate cues" in the platform's flag syntax if convenient. Concept is platform-neutral; syntax is wiring detail. |
 | Install/symlink mechanism | Optional | Depends on the platform's skill-consumption model. Claude Code uses relative symlinks; others may use copies or registry calls. |
 | `/ft-release` skill equivalent | Flowtron-self only | Release-cutting is only relevant if the platform is being used to maintain flowtron upstream. Skip in adopter contexts. |
@@ -188,6 +188,25 @@ sibling-platform adoption guide would mirror this shape inside its own
 section (or its own doc) and reference `MIGRATION.md` for the parts
 that stay agent-neutral (submodule pinning, AGENTS.md paste, PLAN.md
 shape).
+
+## Grok Build adoption notes
+
+xAI's [Grok Build](https://x.ai/cli) CLI (launched May 2026) adopts
+flowtron via the **contract-layer-only path** — same as Codex CLI /
+Cursor / Amp / Aider. No `grok/` wiring directory exists today;
+adopters paste the `AGENTS.md` block per [`MIGRATION.md`](MIGRATION.md)
+§1.3 and drive the contract conversationally.
+
+| Quirk | Behavior | Flowtron implication |
+|---|---|---|
+| **Context-load semantics** | Grok Build reads three context files: `AGENTS.md` (open standard), `CLAUDE.md` (Anthropic-popularized; Grok-compat fallback), and `GROK.md` (Grok-canonical, at `.grok/GROK.md` with cwd walk-up + `~/.grok/GROK.md` global fallback) | Use `AGENTS.md` — already the paste-block target and the cross-vendor canonical entry point. `GROK.md` is orthogonal to flowtron. |
+| **AGENTS.md visibility** | Grok Build "picks up AGENTS.md before it does anything" per xAI launch coverage — same load-before-act semantic as Claude Code | Paste-block is visible without configuration; no truncation noted in launch narratives |
+| **Skill / command primitives** | Skills live at `.grok/skills/<name>/` (cwd-walk to repo root) + `~/.grok/skills/` + plugin paths + custom paths via `[skills] paths` in `~/.grok/config.toml`. Skill bodies are markdown; user-invocable skills auto-wire as `/<skill-name>` slash commands | A future `grok/` sibling-dir contributor could mirror `claude/`'s shape 1:1: markdown skill bodies, relative symlinks from adopter `.grok/skills/<name>` into the submodule. The `ft-` namespace per SPEC §"Skill namespace" reserves skill names cross-platform. |
+
+_Pre-adoption verification only._ Content above reflects xAI documentation
+and Grok Build launch coverage as of May 2026; flowtron has not shipped
+`grok/` wiring and has not run a Grok Build session against an adopting
+project. Update on first-use observation if anything diverges.
 
 ## When this doc is useful
 

@@ -35,7 +35,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-198.1** [opus] | discovery — Completed 2026-05-25.
   - [x] **CORE-198.2** [opus] | redundancy-audit — Completed 2026-05-25.
   - [x] **CORE-198.3** [opus] | claude-md-consolidation — Completed 2026-05-25.
-  - [ ] **CORE-198.4** [opus] | grok-adoption-verification — Read-through verification that flowtron's AGENTS.md paste-block + `docs/PLATFORMS.md` plug-in pattern serve grok-cli adoption cleanly. Add a short Grok-specific subsection to PLATFORMS.md if quirks surface (context-load semantics, AGENTS.md visibility). No new wiring; no parallel `grok/` directory.
+  - [x] **CORE-198.4** [opus] | grok-adoption-verification — Completed 2026-05-25.
   - [ ] **CORE-198.5** [opus] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.
 
 ## Low
