@@ -5,7 +5,7 @@ description: Cut a flowtron release — version bump, doc-currency shifts, doc-d
 
 # release — flowtron self-host release skill
 
-You are cutting a flowtron release. The recipe is canonical (CORE-048 / CORE-046 / CORE-043 precedents): SPEC.md version bump · SPEC/versioning.md example shifts · docs/MIGRATION.md pin bump · doc-drift sweep · single `feat:` commit · annotated tag · push. This skill scaffolds and drives a release tasknote through the full 4-phase flow.
+You are cutting a flowtron release. The recipe is canonical (CORE-048 / CORE-046 / CORE-043 precedents): SPEC.md version bump · docs/MIGRATION.md pin bump · doc-drift sweep · single `feat:` commit · annotated tag · push. This skill scaffolds and drives a release tasknote through the full 4-phase flow.
 
 This skill is **flowtron-self only**. It is symlinked under `~/.claude/skills/ft-release` and `~/.claude/commands/ft-release.md` for global invocation, but it never runs in adopter projects. Step 0 enforces this.
 
@@ -96,7 +96,6 @@ Acceptance (parameterized):
 
 ```markdown
 - [ ] SPEC.md `**Version:** vX.Y.Z` → `vA.B.C`
-- [ ] SPEC/versioning.md patch/minor examples shifted off the just-cut release (per CORE-043 / CORE-046 / CORE-048 precedent)
 - [ ] docs/MIGRATION.md example pin bumped `vX.Y.Z` → `vA.B.C`
 - [ ] Phase 4 doc-drift sweep run across all `_project/tasknote/README.md` §"AI-referenced docs" entries
 - [ ] Single `feat: <TASK-ID> — flowtron vA.B.C (...)` commit lands
@@ -114,9 +113,9 @@ Walk the Phase 1 checklist per SPEC §"📝 Phase 1: Discovery". Most boxes tick
 
 - **Reviewed PLAN.md** — already done in Step 1 of this skill.
 - **Relevance Assessment** — Verdict: Proceed. Rationale: bump pattern is well-established; commit log + version drift verified in Step 2.
-- **Read relevant source files** — `SPEC.md:3`, `SPEC/versioning.md` patch + minor lines (locate by content), `docs/MIGRATION.md` example pin (grep for `(e.g., v`).
+- **Read relevant source files** — `SPEC.md:3`, `docs/MIGRATION.md` example pin (grep for `(e.g., v`).
 - **Archive skim** — `_project/tasknote/archive/core/` for prior release tasknotes (CORE-048, CORE-046, CORE-043). Note any structural drift in their precedents that this release should account for.
-- **Drift check** — verify the cited locations: `SPEC.md:3` reads `**Version:** vX.Y.Z`; SPEC/versioning.md patch line reads `vX.Y.Z → vX.Y.(Z+1)`; minor line reads `vX.Y.x → vX.(Y+1).0`; docs/MIGRATION.md grep returns one example pin at `(e.g., vX.Y.Z)`. Surface any drift before continuing.
+- **Drift check** — verify the cited locations: `SPEC.md:3` reads `**Version:** vX.Y.Z`; docs/MIGRATION.md grep returns one example pin at `(e.g., vX.Y.Z)`. Surface any drift before continuing.
 - **Adopter migration impact** — for each commit since the last tag, classify whether it requires adopter action (new template section, new doc-set entry, BREAKING change with migration steps). Capture findings in Discovery Notes — feeds the Migration block of the tag message in Phase 4. CORE-047 (in CORE-048's release) is the canonical example of a context-sensitive migration block.
 - **Clarifying questions** — typically none. If the bump is major, or if any commit's adopter impact is ambiguous, AskUserQuestion to confirm the migration block contents.
 - **Subtasks populated** — already populated in Step 3 from the recipe.
@@ -125,11 +124,10 @@ Tick boxes as each step completes. Do not enter Phase 2 until every Phase 1 box 
 
 ## Step 5 — Drive Phase 2: Execution
 
-Apply the 3 doc edits in order:
+Apply the 2 doc edits in order:
 
 1. **`SPEC.md:3`** — `**Version:** vX.Y.Z` → `**Version:** vA.B.C`.
-2. **`SPEC/versioning.md`** — patch example shift `vX.Y.Z → vX.Y.(Z+1)` → `vA.B.C → vA.B.(C+1)`; minor example shift `vX.Y.x → vX.(Y+1).0` → `vA.B.x → vA.(B+1).0`. Major (`vN.x.y → v(N+1).0.0` style) stays as-is — already future-looking. Locate by content, not by line number — the lines drift between releases.
-3. **`docs/MIGRATION.md`** — locate the example pin (grep for `(e.g., v`) and bump `(e.g., vX.Y.Z)` → `(e.g., vA.B.C)`. Historical references like `v1.0 additions` stay (write-once historical context, per CORE-046 precedent).
+2. **`docs/MIGRATION.md`** — locate the example pin (grep for `(e.g., v`) and bump `(e.g., vX.Y.Z)` → `(e.g., vA.B.C)`. Historical references like `v1.0 additions` stay (write-once historical context, per CORE-046 precedent).
 
 Verify post-edit with a single grep across the live doc set:
 
@@ -139,11 +137,11 @@ grep -rn 'vX\.Y\.Z' SPEC.md SPEC/ docs/ README.md templates/ claude/ 2>/dev/null
 
 Returns empty if the doc set is clean. Archived tasknotes under `_project/tasknote/archive/` are write-once and keep their historical version refs.
 
-Tick boxes; populate Implementation Notes with the diff shape (typical: 3 files, +4/−4).
+Tick boxes; populate Implementation Notes with the diff shape (typical: 2 files, +2/−2).
 
 ## Step 6 — Drive Phase 3: Testing & Linting
 
-Markdown-prose edits only — no test surface. Run a markdown lint mental-pass on the 3 edited files:
+Markdown-prose edits only — no test surface. Run a markdown lint mental-pass on the 2 edited files:
 
 - Edits are single-token version-string substitutions; surrounding prose unchanged.
 - No frontmatter touched; no fenced blocks broken.
@@ -211,7 +209,7 @@ Move the tasknote file: `git mv _project/tasknote/<TASK-ID>.md _project/tasknote
 Stage explicitly (do NOT use `git add .` or `-A` — there may be unrelated unstaged work):
 
 ```sh
-git add SPEC.md SPEC/versioning.md docs/MIGRATION.md _project/PLAN.md
+git add SPEC.md docs/MIGRATION.md _project/PLAN.md
 git add _project/tasknote/archive/core/<TASK-ID>.md
 ```
 

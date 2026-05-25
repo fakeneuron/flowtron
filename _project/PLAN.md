@@ -15,10 +15,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **CORE-189** [opus] | post-closure copy-paste grammar widening — Widen SPEC §"Post-closure protocol" step 3 copy-paste grammar to the generic `/<ft-skill> <args>` shape (matches /ft-close-epic's existing form) so /ft-audit* next-move candidates introduced by CORE-184's 🔍 flag have a documented copy-paste shape. Sweep ft-task SKILL §6 + ft-micro-task SKILL Step 5 + ft-close-epic SKILL Step 9 for parity. Surfaced by audit 2026-05-24 (Finding #1, Medium).
+- [ ] **CORE-190** [opus] | audit-family 🔍 flag SPEC promotion — Promote CORE-184's audit-family 🔍 next-move flag from ft-task SKILL §6 into SPEC §"Post-closure protocol" step 2 so /ft-micro-task and /ft-close-epic inherit the convention without per-skill duplication (cite-don't-restate-aligned). After promotion, trim the duplicated bullet from ft-task SKILL §6 to a citation. Surfaced by audit 2026-05-24 (Finding #3, Medium).
 
 ## Low
 
+- [ ] **CORE-191** [sonnet] | sibling-skill cosmetic drift — Two-line sweep: (a) align claude/skills/ft-micro-task/step-1.5-model-edge.md:9 "(recommended)" → "(recommended — preserves the filed assignment)" to match the ft-task sibling fragment per CORE-064's equalize-step-1.5-fragments contract; (b) align claude/commands/ft-quality.md, ft-stats.md, ft-epic-discovery.md prose to drop the `ft-` prefix on the inner backticked skill name, matching the 15 other command files' "Invoke the `<unprefixed>` skill" pattern. Surfaced by audit 2026-05-24 (Findings #4 + #5, Low).
 
 ## Future Opportunities
 
@@ -26,6 +28,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-188** [opus] | ft-release versioning-shift retire — Completed 2026-05-24.
 - [x] **CORE-187** [sonnet] | ft-audit-glob-fix — Completed 2026-05-24.
 - [x] **CORE-185** [opus] | audit-family pass-name layering — Completed 2026-05-24.
 - [x] **CORE-186** [opus] | ft-audit-context skill — Completed 2026-05-24.
