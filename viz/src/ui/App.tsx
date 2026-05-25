@@ -8,7 +8,7 @@ import {
   type Task,
 } from '../parser';
 import { type TasknoteStatus } from '../tasknote';
-import { DENSITY_TOKENS, TYPOGRAPHY } from './constants';
+import { DENSITY_TOKENS, FLOWTRON_VERSION, TYPOGRAPHY } from './constants';
 import { VisibilityProvider } from './VisibilityContext';
 import { SearchProvider } from './SearchContext';
 import { LoadingSkeleton } from './LoadingSkeleton';
@@ -270,13 +270,15 @@ export const App: React.FC = () => {
         <div className="mx-auto flex max-w-screen-xl flex-col gap-2">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h1 className="text-lg font-semibold">
+              <h1 className="flex items-center gap-2 text-lg font-semibold">
+                <img src="/LOGO.png" alt="" aria-hidden="true" className="h-6 w-auto" />
                 Flowtron — {activeProject ?? '…'}
               </h1>
               <p className="text-sm text-slate-600 dark:text-slate-400">
                 {filteredCount === total
                   ? `${total} tasks · ${inProgress} in progress${starterCount > 0 ? ` · ${starterCount} ${starterCount === 1 ? 'starter' : 'starters'}` : ''}`
                   : `${filteredCount} of ${total} matching · ${inProgress} in progress${starterCount > 0 ? ` · ${starterCount} ${starterCount === 1 ? 'starter' : 'starters'}` : ''}`}
+                {` · flowtron ${FLOWTRON_VERSION}`}
               </p>
             </div>
             <div className="flex items-center gap-2">

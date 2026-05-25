@@ -36,6 +36,8 @@ import type { DensityMode, PaletteName } from '../visibilityPrefs';
  * FE-019's ≥4.5:1 small-text contrast in both light and dark.
  */
 
+export const FLOWTRON_VERSION = 'v4.0.0';
+
 export const TYPOGRAPHY = {
   heading: 'text-lg',
   subhead: 'text-base',
