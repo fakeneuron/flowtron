@@ -29,6 +29,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [ ] **CORE-195.4** [opus] | spec-integration — Add bullet to `SPEC.md` §"When to use a tasknote (and when not to)" positioning `/ft-debug` for bugs and unexpected behavior; bump §"Skill namespace" bundled-skill enumeration to include `ft-debug`; verify §"The 4-phase workflow" needs no debug-specific guidance fold-in.
   - [ ] **CORE-195.5** [opus] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.
 
+- [ ] **CORE-196** [opus] | worktree-convention — Add doc convention + thin `/ft-worktree-start` + `/ft-worktree-end` skills for parallel epic-child work in isolated git worktrees. Adopted-from-superpowers `using-git-worktrees` pattern. Awaiting `/ft-epic-discovery` to promote to CORE-EPIC-N. Filed with starter at `_project/tasknote/CORE-196.md`.
+
 ## Low
 
 (none)
