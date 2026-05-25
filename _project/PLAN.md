@@ -31,6 +31,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **CORE-196** [opus] | worktree-convention — Add doc convention + thin `/ft-worktree-start` + `/ft-worktree-end` skills for parallel epic-child work in isolated git worktrees. Adopted-from-superpowers `using-git-worktrees` pattern. Awaiting `/ft-epic-discovery` to promote to CORE-EPIC-N. Filed with starter at `_project/tasknote/CORE-196.md`.
 
+- [ ] **CORE-EPIC-198** [opus] | context-chain-portability — Audit and consolidate the user's multi-agent context chain (~/CLAUDE.md, ~/code/CLAUDE.md, project CLAUDE.md, AGENTS.md, flowtron contract surface) for Grok adoption + redundancy + environment-agnostic guideline lift. Filed via /ft-epic-discovery; refined at .1 closure.
+  - [x] **CORE-198.1** [opus] | discovery — Completed 2026-05-25.
+  - [ ] **CORE-198.2** [opus] | redundancy-audit — Audit redundancy across `~/.claude/CLAUDE.md`, `~/code/CLAUDE.md` (pre-retire), flowtron SPEC/, and the AGENTS.md paste-block. Produce a findings table classifying overlaps (lift-to-flowtron / keep-personal / delete-as-duplicate). Recommendations only; actual lifts file as follow-up tickets per [[CORE-132]] precedent.
+  - [ ] **CORE-198.3** [opus] | claude-md-consolidation — Consolidate workspace-standards content from `~/code/CLAUDE.md` into `~/.claude/CLAUDE.md` (port registry, FastAPI conventions, flowtron pointer per [[CORE-010]]); retire `~/code/CLAUDE.md` so multi-agent setups don't depend on sub-folder CLAUDE.md discovery. Executes `.2`'s lift/keep/drop classification. User-machine edits only.
+  - [ ] **CORE-198.4** [opus] | grok-adoption-verification — Read-through verification that flowtron's AGENTS.md paste-block + `docs/PLATFORMS.md` plug-in pattern serve grok-cli adoption cleanly. Add a short Grok-specific subsection to PLATFORMS.md if quirks surface (context-load semantics, AGENTS.md visibility). No new wiring; no parallel `grok/` directory.
+  - [ ] **CORE-198.5** [opus] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.
+
 ## Low
 
 (none)
