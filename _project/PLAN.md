@@ -15,7 +15,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-189** [opus] | post-closure copy-paste grammar widening — Widen SPEC §"Post-closure protocol" step 3 copy-paste grammar to the generic `/<ft-skill> <args>` shape (matches /ft-close-epic's existing form) so /ft-audit* next-move candidates introduced by CORE-184's 🔍 flag have a documented copy-paste shape. Sweep ft-task SKILL §6 + ft-micro-task SKILL Step 5 + ft-close-epic SKILL Step 9 for parity. Surfaced by audit 2026-05-24 (Finding #1, Medium).
 - [ ] **CORE-190** [opus] | audit-family 🔍 flag SPEC promotion — Promote CORE-184's audit-family 🔍 next-move flag from ft-task SKILL §6 into SPEC §"Post-closure protocol" step 2 so /ft-micro-task and /ft-close-epic inherit the convention without per-skill duplication (cite-don't-restate-aligned). After promotion, trim the duplicated bullet from ft-task SKILL §6 to a citation. Surfaced by audit 2026-05-24 (Finding #3, Medium).
 
 ## Low
@@ -28,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-189** [opus] | post-closure copy-paste grammar widening — Completed 2026-05-24.
 - [x] **CORE-188** [opus] | ft-release versioning-shift retire — Completed 2026-05-24.
 - [x] **CORE-187** [sonnet] | ft-audit-glob-fix — Completed 2026-05-24.
 - [x] **CORE-185** [opus] | audit-family pass-name layering — Completed 2026-05-24.

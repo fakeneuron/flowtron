@@ -518,10 +518,10 @@ where `<…>` names the cleared signals as diff facts (e.g., `4 markdown files; 
 3. **Offer the copy-paste line:**
 
    ```text
-   /clear then /model <opus|sonnet> then /<ft-task|ft-micro-task|ft-starter-task> <NEXT-ID>
+   /clear then /model <opus|sonnet> then /<next-skill> <args>
    ```
 
-   The assistant cannot run `/clear` itself; this is for the user to paste in a fresh context. The `/model` segment matches the next task's PLAN-line `[model]`, pre-empting the Step 1.5 gate on assistant hand-offs (still fires on cold starts). The skill segment matches the appropriate `/ft-*` skill for the next task (use `/ft-task` for normal tasks, `/ft-micro-task` for micro tasks, `/ft-starter-task` for filing-only).
+   The assistant cannot run `/clear` itself; this is for the user to paste in a fresh context. The `/model` segment matches the next task's PLAN-line `[model]`, pre-empting the Step 1.5 gate on assistant hand-offs (still fires on cold starts). The skill segment matches the appropriate flowtron skill for the next task — most commonly `/ft-task` (normal tasks), `/ft-micro-task` (micros), `/ft-starter-task` (filing-only), or `/ft-audit*` (audit follow-ups — adopters use the unprefixed local fork per §"Skill namespace"). `<args>` is the next task ID for tasknote-runner skills, or the skill's own argument shape otherwise.
 
 ## When to use a tasknote (and when not to)
 

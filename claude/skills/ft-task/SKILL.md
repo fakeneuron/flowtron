@@ -145,7 +145,7 @@ Run the three-step protocol (commit / suggest next move / copy-paste line) per S
 
 Skill-specific:
 - Suggest-next-move candidates carry `[model]` **inline per option** in the PLAN.md task-line shape: `**<TASK-ID>** [model] | shortname — one-sentence "why now"`. Mirrors PLAN.md so the user scans model assignments without cross-referencing.
-- Copy-paste line: `/clear then /model <opus|sonnet> then /<ft-task|ft-micro-task|ft-starter-task> <NEXT-ID>` — substitute the next task's PLAN-line `[model]` and the right slash command. (The assistant cannot run `/clear` itself.)
+- Copy-paste line: `/clear then /model <opus|sonnet> then /<next-skill> <args>` — substitute the next task's PLAN-line `[model]` and the right slash command. (The assistant cannot run `/clear` itself.)
 - **Audit-family flag.** When a next-move candidate is an `/ft-audit*` slash command, prefix both the candidate line and the copy-paste line with 🔍. Audit-family skills are forked per project per `docs/MIGRATION.md` §1.2.1 — in adopter context the local fork is unprefixed (e.g., `/audit-docs`), not `/ft-audit-docs`. The 🔍 marker doubles as a self-check for any AI about to emit `/ft-audit*` as next move.
 
 ## Notes

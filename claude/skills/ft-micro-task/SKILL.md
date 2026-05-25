@@ -119,7 +119,7 @@ Run the protocol per SPEC §"Post-closure protocol", branching on SPEC §"Condit
 Skill-specific:
 - **Commit message:** `feat: <TASK-ID> — <title>` (or `fix:` / `docs:` / `chore:`). Scaffold + closure typically bundle into one commit alongside the code/doc change.
 - Name the recommended model alongside the next task ID.
-- **Copy-paste line:** `/clear then /model <opus|sonnet> then /<ft-task|ft-micro-task|ft-starter-task> <NEXT-ID>` — substitute the next task's PLAN-line `[model]` and the right slash command.
+- **Copy-paste line:** `/clear then /model <opus|sonnet> then /<next-skill> <args>` — substitute the next task's PLAN-line `[model]` and the right slash command.
 
 ## Notes
 
