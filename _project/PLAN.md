@@ -34,7 +34,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-EPIC-198** [opus] | context-chain-portability — Audit and consolidate the user's multi-agent context chain (~/CLAUDE.md, ~/code/CLAUDE.md, project CLAUDE.md, AGENTS.md, flowtron contract surface) for Grok adoption + redundancy + environment-agnostic guideline lift. Filed via /ft-epic-discovery; refined at .1 closure.
   - [x] **CORE-198.1** [opus] | discovery — Completed 2026-05-25.
   - [x] **CORE-198.2** [opus] | redundancy-audit — Completed 2026-05-25.
-  - [ ] **CORE-198.3** [opus] | claude-md-consolidation — Consolidate workspace-standards content from `~/code/CLAUDE.md` into `~/.claude/CLAUDE.md` (port registry, FastAPI conventions, flowtron pointer per [[CORE-010]]); retire `~/code/CLAUDE.md` so multi-agent setups don't depend on sub-folder CLAUDE.md discovery. Executes `.2`'s lift/keep/drop classification. User-machine edits only.
+  - [x] **CORE-198.3** [opus] | claude-md-consolidation — Completed 2026-05-25.
   - [ ] **CORE-198.4** [opus] | grok-adoption-verification — Read-through verification that flowtron's AGENTS.md paste-block + `docs/PLATFORMS.md` plug-in pattern serve grok-cli adoption cleanly. Add a short Grok-specific subsection to PLATFORMS.md if quirks surface (context-load semantics, AGENTS.md visibility). No new wiring; no parallel `grok/` directory.
   - [ ] **CORE-198.5** [opus] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.
 
