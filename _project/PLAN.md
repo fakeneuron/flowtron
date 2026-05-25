@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-191** [sonnet] | sibling-skill cosmetic drift — Two-line sweep: (a) align claude/skills/ft-micro-task/step-1.5-model-edge.md:9 "(recommended)" → "(recommended — preserves the filed assignment)" to match the ft-task sibling fragment per CORE-064's equalize-step-1.5-fragments contract; (b) align claude/commands/ft-quality.md, ft-stats.md, ft-epic-discovery.md prose to drop the `ft-` prefix on the inner backticked skill name, matching the 15 other command files' "Invoke the `<unprefixed>` skill" pattern. Surfaced by audit 2026-05-24 (Findings #4 + #5, Low).
+(none)
 
 ## Future Opportunities
 
@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-191** [opus] | sibling-skill cosmetic drift — Completed 2026-05-24.
 - [x] **CORE-190** [opus] | audit-family 🔍 flag SPEC promotion — Completed 2026-05-24.
 - [x] **CORE-189** [opus] | post-closure copy-paste grammar widening — Completed 2026-05-24.
 - [x] **CORE-188** [opus] | ft-release versioning-shift retire — Completed 2026-05-24.

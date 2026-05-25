@@ -6,7 +6,7 @@
 
 STOP. Surface the mismatch and offer two paths via AskUserQuestion:
 
-1. "Switch active model: I'll stop. Run `/model <PLAN-model>` then re-invoke `/ft-micro-task <TASK-ID>`." (recommended)
+1. "Switch active model: I'll stop. Run `/model <PLAN-model>` then re-invoke `/ft-micro-task <TASK-ID>`." (recommended — preserves the filed assignment)
 2. "Retag the PLAN.md line to `<active-model>` and proceed." If chosen, edit the PLAN.md line's `[model]` segment in place, then proceed to Step 2.
 
 Do not silently override.

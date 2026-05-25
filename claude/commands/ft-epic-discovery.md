@@ -2,7 +2,7 @@
 description: File a new flowtron epic and drive its `.1` Discovery tasknote in one motion — files parent + `.1` + `.N` audit PLAN lines, scaffolds `.1` with tailored pre-fill, then drives the full 4-phase Discovery (deliverable = filed implementation children). Optional `--deep` arg adds a `constitution → specify → clarify` pre-pass for high-uncertainty epics.
 ---
 
-Invoke the `ft-epic-discovery` skill. The skill verifies cwd is a flowtron-using project, parses `$ARGUMENTS` (empty | `--deep`), collects inputs (area + shortname + priority + model + total-subtask-count N) via AskUserQuestion, scans `_project/PLAN.md` + archive for the next available `<AREA>-EPIC-<N>` numeric suffix, files three PLAN.md lines (parent epic + `.1` Discovery + `.N` audit placeholder) under the chosen priority, scaffolds the `.1` tasknote with tailored Goal / Acceptance / Subtasks, then drives the full 4-phase tasknote inline through closure (Phase 2 deliverable = filed implementation children `.2..(N-1)`).
+Invoke the `epic-discovery` skill. The skill verifies cwd is a flowtron-using project, parses `$ARGUMENTS` (empty | `--deep`), collects inputs (area + shortname + priority + model + total-subtask-count N) via AskUserQuestion, scans `_project/PLAN.md` + archive for the next available `<AREA>-EPIC-<N>` numeric suffix, files three PLAN.md lines (parent epic + `.1` Discovery + `.N` audit placeholder) under the chosen priority, scaffolds the `.1` tasknote with tailored Goal / Acceptance / Subtasks, then drives the full 4-phase tasknote inline through closure (Phase 2 deliverable = filed implementation children `.2..(N-1)`).
 
 Usage:
 
