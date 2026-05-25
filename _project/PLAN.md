@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-192** [opus] | audit-family phrasing residuals — Completed 2026-05-24.
 - [x] **CORE-191** [opus] | sibling-skill cosmetic drift — Completed 2026-05-24.
 - [x] **CORE-190** [opus] | audit-family 🔍 flag SPEC promotion — Completed 2026-05-24.
 - [x] **CORE-189** [opus] | post-closure copy-paste grammar widening — Completed 2026-05-24.
