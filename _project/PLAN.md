@@ -17,7 +17,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **CORE-EPIC-194** [opus] | gsd-pi-learnings — Survey GSD-Pi (active successor to archived GSD-2) for adoptable patterns; deliverable is filed child scopes per lesson. Refined at .1 closure.
   - [x] **CORE-194.1** [opus] | discovery — Completed 2026-05-24.
-  - [ ] **CORE-194.2** [opus] | vision-md — Add `docs/VISION.md` (outward identity: who-it's-for + principles + "what-we-won't-accept" prose + brief why-exists) + extend `SPEC.md` §"What flowtron does NOT provide" with PR-shape subsection (AI-visible mirror). Cross-link both. Adopted-from-gsd-pi VISION + PR-rejection pattern per [[CORE-EPIC-194]].
+  - [x] **CORE-194.2** [opus] | vision-md — Completed 2026-05-25.
   - [ ] **CORE-194.3** [opus] | glossary — Add `docs/GLOSSARY.md`: alphabetized one-line defs for ~40+ load-bearing terms (workflow primitives, phases, epic lifecycle, 🛠️/📦/🏁/👁️/🔍 markers, audit-family skill names, grammar elements) with cross-refs to SPEC anchors. Lazy-loaded. Adopted-from-gsd-pi `CONTEXT.md` glossary pattern per [[CORE-EPIC-194]].
   - [ ] **CORE-194.4** [opus] | security-scanner-allowlist — Extend `SECURITY.md` with adopter-side prompt-injection / secret-scanner false-positive allowlist guidance (cites SPEC §"Conditional skip rule" privileged-ops keyword triggers). Documents `filepath:regex` convention with flowtron-aware example. Adopted-from-gsd-pi pattern (docs only) per [[CORE-EPIC-194]].
   - [ ] **CORE-194.5** [opus] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.

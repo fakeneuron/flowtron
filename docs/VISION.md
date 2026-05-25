@@ -1,0 +1,42 @@
+# Flowtron — Vision
+
+Flowtron is a workflow contract for one person managing a handful of solo AI-assisted coding projects. It keeps tasknotes self-contained, the assistant's context window small, and scope drift suppressed — without scripts, daemons, databases, or schemas to maintain.
+
+See [SPEC.md](../SPEC.md) for the contract and [PHILOSOPHY.md](PHILOSOPHY.md) for the history of how the shape got here.
+
+## Who it's for
+
+Solo developers running 2-5 side projects in parallel with an AI coding assistant. The fit is sharpest when:
+
+- You work alone (or in pairs at most) — no team handoff, no PR review queue.
+- You context-switch across multiple projects week-to-week and want one source-of-truth workflow shape, not a snowflake per repo.
+- You use an AI assistant (Claude Code, Codex, or similar) for actual implementation, not just code review.
+
+Flowtron is **not** for teams, monorepos at scale, large open-source projects with contributor onboarding, or non-code knowledge management.
+
+## Principles
+
+Recap of [SPEC.md](../SPEC.md) §"Core principles" — outward-facing. The contract version is canonical; this page is the identity statement.
+
+- **Markdown over JSON.** Plans and tasknotes are markdown files: human-editable, AI-scannable in diffs, partial-update-safe. JSON is for tools that parse; nothing here does. *(SPEC #1)*
+- **Zero scripts.** Every operation is `cp`, `mv`, or editing markdown. There is no `flowtron new`, no validator, no daemon. Skills wrap the same operations the user would run by hand. *(SPEC #2)*
+- **One task per context window.** Tasknotes are sized so the assistant holds the whole scope in working memory: plan entry · checklist · files touched · tradeoffs. Anything larger becomes an epic with subtasks. *(SPEC #3)*
+- **Relevance before action.** Every tasknote opens with a Relevance Assessment (`Proceed` / `Re-scope` / `De-scope`) — plans go stale faster than they're updated; killing zombie work is cheaper than executing it. *(SPEC #4)*
+- **Versioned and pinned.** Adopting projects pin a specific flowtron commit. Updates ride a deliberate bump — no force-upgrades. *(SPEC #5)*
+- **Extension-first.** Prefer extending an existing pattern (sibling skill, parallel doc convention, similar tasknote section) over inventing a parallel shape. Promoted to outward-facing principle from SPEC §"🛠️ Phase 2: Execution" → "Pattern survey" (the per-task contract step). *(VISION-only — not enumerated in SPEC §"Core principles", but operative throughout SPEC.)*
+
+## What we won't accept
+
+Future flowtron contributions — AI-suggested or human-PR'd — get filtered against this list. The AI-facing terse mirror lives in [SPEC.md](../SPEC.md) §"What flowtron does NOT provide" → "PR / suggestion archetypes flowtron does not accept" for mid-task discipline.
+
+- **Schema validators.** Markdown is the schema; the assistant catches drift. Adding a JSON-schema validator (or equivalent runtime checker) reintroduces the friction flowtron was built to remove — see the v0.1.0 history in [PHILOSOPHY.md](PHILOSOPHY.md). PRs that ship validation tooling are rejected; if drift is recurring, the answer is a sharper SPEC clause, not a validator.
+
+- **Abstractions without two-project precedent.** A helper is only canonical when ≥2 projects need the same shape. One project's convenience function is a project-side helper, not a flowtron primitive. Three similar lines repeated across projects is cheaper than an abstraction layer that fits none of them well. PRs that promote a single-project pattern into flowtron are deferred until a second project's organic need surfaces.
+
+- **Cross-project query layers beyond the read-only visualizer.** Each project owns its own history. The read-only `viz/` Kanban is the *one* aggregated surface, intentionally scoped to "show me everything open, grouped by priority" — anything richer (queryable cross-project search, dependency graphs spanning repos, status APIs) is out of scope. The exception is documented and bounded; PRs that expand it without that boundary check are rejected.
+
+- **Multi-user / team features.** Flowtron is a solo system. Assignment fields, reviewer queues, approval workflows, shared-state coordination, role-based access — none of these belong here. Teams have different needs and different existing tools; flowtron deliberately doesn't compete with them.
+
+## Why this exists
+
+The full history — what failed before, why each principle hardened, why the infrastructure is deliberately thin — lives in [PHILOSOPHY.md](PHILOSOPHY.md). The one-paragraph version: flowtron is what's left after keeping the workflow pattern that survived three concurrent side projects and throwing away every piece of infrastructure that didn't earn its weight. The contract in [SPEC.md](../SPEC.md) is the result; everything else is a project-side helper.

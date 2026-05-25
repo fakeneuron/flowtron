@@ -660,3 +660,12 @@ To prevent scope creep, flowtron deliberately omits:
 
 If you find yourself wanting these, write a project-side helper. Do not add
 them to flowtron.
+
+### PR / suggestion archetypes flowtron does not accept
+
+For future-AI mid-task discipline. Outward-facing prose version with full justification lives in [`docs/VISION.md`](docs/VISION.md) §"What we won't accept".
+
+- **Schema validators.** PR-rejection mirror of "Schema validation" above — markdown is the schema; runtime checkers reintroduce the friction the v0.1.0 cut removed.
+- **Abstractions without two-project precedent.** Promote a helper into flowtron only when ≥2 projects need the same shape. Three similar lines is cheaper than premature abstraction.
+- **Cross-project query layers beyond the read-only visualizer.** PR-rejection mirror of "Cross-project query API" above — viz is the singular exception; anything richer is out of scope.
+- **Multi-user / team features.** Solo system; teams use a different tool.
