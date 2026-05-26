@@ -1,6 +1,6 @@
 ---
 name: ft-audit
-description: Ruthless principal-engineer audit of flowtron's markdown contract surface — 5 passes (Safety & integrity · House style · Markdown hygiene · Orphans · Doc drift) across SPEC.md, SPEC/, claude/skills/, claude/commands/, docs/, templates/, README.md. Capped at 5 findings/pass; writes prioritized tickets to `_project/PLAN.md`. Forked from `claude/skills/ft-audit/SKILL.md` per `docs/MIGRATION.md` §1.2.1.
+description: Ruthless principal-engineer audit of flowtron's markdown contract surface — 5 passes (Safety & integrity · House style · Markdown hygiene · Orphans · Doc drift) across SPEC.md, SPEC/, claude/skills/, claude/commands/, docs/, templates/, README.md, CONTRIBUTING.md, SECURITY.md. Capped at 5 findings/pass; writes prioritized tickets to `_project/PLAN.md`. Forked from `claude/skills/ft-audit/SKILL.md` per `docs/MIGRATION.md` §1.2.1.
 ---
 
 # audit — flowtron-self markdown-surface audit
@@ -22,7 +22,10 @@ This SKILL.md is a fork of the stack-neutral scaffold at `claude/skills/ft-audit
      docs/**/*.md
      templates/**/*.md
      README.md
+     CONTRIBUTING.md
+     SECURITY.md
      ```
+     The list mirrors `_project/tasknote/README.md` §"AI-referenced docs" plus the structural surfaces (SPEC modules, SKILLs, commands, templates) that AI-referenced sweeps don't cover.
      Excluded by design: `_project/tasknote/archive/` (write-once historical records per SPEC §"Tasknote frontmatter"), `legacy/`, `viz/` (out-of-scope for markdown-surface audit; viz has its own audit story).
    - a path → just that path
    - `last-commit` → files touched in `HEAD`

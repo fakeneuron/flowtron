@@ -41,6 +41,9 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-203** [sonnet] | ft-audit-context self-symlink cleanup — Completed 2026-05-25.
+- [x] **CORE-202** [sonnet] | philosophy-md whats-next refresh — Completed 2026-05-25.
+- [x] **CORE-201** [opus] | ft-audit scope vs AI-referenced-docs reconciliation — Completed 2026-05-25.
 - [x] **CORE-200** [opus] | shell-discipline-lift-candidate — Completed 2026-05-25.
 - [x] **CORE-199** [opus] | model-selection-user-reduction — Completed 2026-05-25.
 - [x] **CORE-EPIC-198** [opus] | context-chain-portability — Completed 2026-05-25.

@@ -52,8 +52,8 @@ It is not a CLI tool. It is not a database. It is not a schema. It is not a vali
 
 The temptation to add them is real and recurring. The discipline is to write a project-side helper instead, and only promote something into flowtron when at least two projects need the same thing in the same shape.
 
-## What's next
+## Open questions at v0.1.0
 
-The shape works for me. v0.1.0 is the first cut — the four-phase tasknote, the relevance gate, the model field, the submodule + symlink adoption pattern, the `/ft-task` skill. It's deliberately small. The interesting unknowns are at the edges: what happens at the second-major-version boundary, what an aggregating visualizer would look like (read-only across projects), whether epic subtasks will scale or fragment.
+The shape worked for me. v0.1.0 was the first cut — the four-phase tasknote, the relevance gate, the model field, the submodule + symlink adoption pattern, the `/ft-task` skill. It was deliberately small. The interesting unknowns at the time were at the edges: what would happen at the second-major-version boundary, what an aggregating visualizer would look like (read-only across projects), whether epic subtasks would scale or fragment.
 
 For the contract, see [SPEC.md](../SPEC.md). For how to put flowtron into a project, see [MIGRATION.md](MIGRATION.md).
