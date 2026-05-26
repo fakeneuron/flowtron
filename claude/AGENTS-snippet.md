@@ -44,7 +44,7 @@ ln -s ../../_project/flowtron/claude/skills/ft-close-epic      .claude/skills/ft
 
 The relative paths are intentional — they survive `git clone` and pin to whichever flowtron commit the submodule is checked out at. Commit the symlinks (`git add .claude/`).
 
-To verify: type `/ft-task` in Claude Code. The command should appear in the slash-command list (alongside `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, and `/ft-close-epic`) with the description from `commands/ft-task.md`.
+To verify: invoke `/ft-task` in a fresh session with your coding agent (Claude Code, Cursor, Grok Build, Codex CLI, etc.; or the platform's equivalent slash/prompt command). The command should appear in the menu (alongside the other flowtron skills) with the description from `commands/ft-task.md`.
 
 ## Bumping the pinned flowtron version
 
