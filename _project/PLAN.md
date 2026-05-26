@@ -11,13 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-EPIC-205** [sonnet] | agent-neutrality-sweep — Verify the repo remains truly project-agnostic with no heavy LLM lean (claude vs. codex/grok) and that claude/ wiring + overall structure supports easy adoption and movement across coding agents. Builds on [[CORE-EPIC-154]] and [[CORE-EPIC-198]]. Refined at .1 closure.
-  - [x] **CORE-205.1** [sonnet] | discovery — Completed 2026-05-25.
-  - [x] **CORE-205.2** [grok] | contract-layer-hygiene — Completed 2026-05-25.
-  - [x] **CORE-205.3** [grok] | wiring-layer-symmetry — Completed 2026-05-25.
-  - [x] **CORE-205.4** [grok] | adopter-neutrality-docs — Completed 2026-05-25.
-  - [ ] **CORE-205.5** [sonnet] | neutrality-ledger-update — If .2/.3 surface new intentional Claude refs (or confirm none), update docs/AGENT-NEUTRALITY.md table + out-of-scope list with fresh 2026-05-25 sweep date.
-  - [ ] **CORE-205.6** [sonnet] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.
+(none)
 
 ## Medium
 
@@ -49,6 +43,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-205** [sonnet] | agent-neutrality-sweep — Completed 2026-05-26.
+  - [x] **CORE-205.1** [sonnet] | discovery — Completed 2026-05-25.
+  - [x] **CORE-205.2** [grok] | contract-layer-hygiene — Completed 2026-05-25.
+  - [x] **CORE-205.3** [grok] | wiring-layer-symmetry — Completed 2026-05-25.
+  - [x] **CORE-205.4** [grok] | adopter-neutrality-docs — Completed 2026-05-25.
+  - [x] **CORE-205.5** [grok] | neutrality-ledger-update — Completed 2026-05-25.
+  - [x] **CORE-205.6** [sonnet] | audit — Completed 2026-05-26.
 - [x] **CORE-207** [grok] | model-guidance-agent-aware — Completed 2026-05-25.
 - [x] **CORE-204** [sonnet] | release v4.1.0 — Completed 2026-05-25.
 - [x] **CORE-203** [sonnet] | ft-audit-context self-symlink cleanup — Completed 2026-05-25.
