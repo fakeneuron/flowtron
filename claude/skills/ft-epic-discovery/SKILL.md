@@ -48,7 +48,7 @@ Use AskUserQuestion to gather all inputs in one motion. Pre-populate from conver
 1. **Area** — per SPEC §"Task ID convention"; any project-specific prefixes declared in `_project/tasknote/README.md`. AI proposes from conversation context.
 2. **Shortname** — concise label up to ~30 chars (e.g., `expand-shipped-skills`, `viz-keyboard-overhaul`). Used as the parent epic's `| shortname` segment.
 3. **Priority** — `High | Medium | Low | Future Opportunities`. AI proposes its best read. For urgent epics, propose `High` with a `[!critical]` flag on the parent (see SPEC §"Task-line format").
-4. **Model** — recommended primary labels: `[heavy]` (design/ambiguity) or `[light]` (mechanical); adopters may use any short token (e.g. `opus`, `sonnet`, project-specific) per SPEC §"Model field". AI proposes; goes on every PLAN.md line this skill writes.
+4. **Model** — see `SPEC/model.md` §"Model field" (and its "Practical guidance and agent-aware defaults" subsection) for examples and realistic defaults (Grok often `[light]` on routine work); AI proposes a token (primary labels or specific name); goes on every PLAN.md line this skill writes.
 5. **Total-subtask-count N** — total number of children including Discovery (`.1`) and audit (`.N`). E.g., 3 children + Discovery + audit = N=5. The Discovery's deliverable is filing `.2..(N-1)` (the implementation children).
 
 The user may decline the audit subtask if the epic is a simple multi-child implementation that doesn't warrant the audit bracket (per `SPEC/epic.md` line 11: "Simpler implementations don't need it — apply judgment"). In that case, set N = Discovery + implementation-children-count and skip the audit-line filing in Step 4.

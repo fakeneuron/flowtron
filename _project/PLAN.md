@@ -49,6 +49,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-207** [grok] | model-guidance-agent-aware — Completed 2026-05-25.
 - [x] **CORE-204** [sonnet] | release v4.1.0 — Completed 2026-05-25.
 - [x] **CORE-203** [sonnet] | ft-audit-context self-symlink cleanup — Completed 2026-05-25.
 - [x] **CORE-202** [sonnet] | philosophy-md whats-next refresh — Completed 2026-05-25.
