@@ -16,7 +16,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-208.2** [light] 🔧 | ft-task-epic-copy-paste — Completed 2026-05-26.
   - [x] **CORE-208.3** [light] 🔧 | micro-audit-fragments — Completed 2026-05-26.
   - [x] **CORE-208.4** [grok] 🔧 | global-claude-md — Completed 2026-05-26.
-  - [ ] **CORE-208.5** [light] 🔧 | verify-sweep — Final verification across AI-referenced docs + claude/ surfaces to confirm no hard specific-model suggestions remain in generated UX text.
+  - [x] **CORE-208.5** [light] 🔧 | verify-sweep — Completed 2026-05-26.
   - [ ] **CORE-208.6** [light] 🔧 | audit (stale placeholder) — Superseded by CORE-208.8. Original filed as highest at discovery time; .7 was inserted afterward.
   - [x] **CORE-208.7** [light] 🔧 | suggestion-ux-cleanup — Completed 2026-05-26.
   - [ ] **CORE-208.8** [light] 🔧 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Re-filed as new highest child after .7 post-insertion (replaces stale .6).
