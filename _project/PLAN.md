@@ -11,7 +11,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-(none)
+- [ ] **CORE-EPIC-205** [sonnet] | agent-neutrality-sweep — Verify the repo remains truly project-agnostic with no heavy LLM lean (claude vs. codex/grok) and that claude/ wiring + overall structure supports easy adoption and movement across coding agents. Builds on [[CORE-EPIC-154]] and [[CORE-EPIC-198]]. Refined at .1 closure.
+  - [x] **CORE-205.1** [sonnet] | discovery — Completed 2026-05-25.
+  - [ ] **CORE-205.2** [sonnet] | contract-layer-hygiene — Audit SPEC.md, templates/, docs/ for "AskUserQuestion" residuals and other Claude-tool names; replace with neutral "structured ask" per AGENT-NEUTRALITY ledger. (hygiene only; no behavior change)
+  - [ ] **CORE-205.3** [sonnet] | wiring-layer-symmetry — Confirm claude/ structure + commands/skills have no contract leakage; re-verify PLATFORMS.md plug-in example + sibling-dir constraints still hold; note any surfaces added since CORE-154.3.
+  - [ ] **CORE-205.4** [sonnet] | adopter-neutrality-docs — Review MIGRATION.md, AGENTS-snippet.md, ft-new-project, ft-flowtron roster for Claude-only framing that could confuse Codex/Grok/Cursor users; add neutral notes or carve-outs.
+  - [ ] **CORE-205.5** [sonnet] | neutrality-ledger-update — If .2/.3 surface new intentional Claude refs (or confirm none), update docs/AGENT-NEUTRALITY.md table + out-of-scope list with fresh 2026-05-25 sweep date.
+  - [ ] **CORE-205.6** [sonnet] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.
 
 ## Medium
 
