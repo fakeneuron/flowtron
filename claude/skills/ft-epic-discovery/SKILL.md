@@ -233,7 +233,7 @@ The three-step post-closure protocol (commit / suggest next move / offer copy-pa
 - Proposed commit message (skill-specific): `feat: <AREA>-<next-N>.1 — file <AREA>-EPIC-<next-N> + scope children` (or a user-edited variant). Do not commit unprompted on the fire branch.
 - The post-commit response carries a 🏁 state-marker line immediately above the next-move suggestion (per SPEC §"Post-closure protocol" step 2): `` 🏁 **<AREA>-<next-N>.1 — committed `<sha>`** · archived to `<archive-path>` ``. Visually closes the 🛠️ → 📦 → 🏁 lifecycle in the transcript (skip branch collapses 🛠️ and/or 📦 to inline markers but 🏁 still fires).
 - When suggesting the next move, surface candidates with `[model]` tags **inline per option** in the PLAN.md task-line shape: `**<AREA>-<next-N>.2** [model] | <shortname> — one-sentence "why now"`. The next move is typically `/ft-task <AREA>-<next-N>.2` (first implementation child).
-- The copy-paste line is `/clear then /model <opus|sonnet> then /ft-task <AREA>-<next-N>.2`. Substitute the next child's PLAN-line `[model]` tag.
+- The copy-paste line is `/clear then /model <[model] from the child's PLAN line, e.g. [light]🔧 or [heavy]🧠 or [grok]> then /ft-task <AREA>-<next-N>.2`. Substitute the next child's actual PLAN-line `[model]` token (primary `[heavy]🧠`/`[light]🔧` labels with "design vs mechanical" prose + emoji visuals preferred).
 
 ## Notes
 

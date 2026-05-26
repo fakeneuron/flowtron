@@ -48,7 +48,7 @@ the task is already closed. **Stop. Do not scaffold.** Surface the conflict to t
 
 Otherwise, capture:
 
-- The optional `[model]` segment (`opus` | `sonnet`) — see Step 1.5
+- The optional `[model]` segment (`[heavy]` / `[light]` primary recommended; specific names e.g. `opus` / `sonnet` / `grok` remain valid per SPEC §"Model field") — see Step 1.5
 - The optional `| shortname` segment
 - The one-line long description (everything after ` — `; may be empty)
 - The section heading the line lives under (`High` / `Medium` / `Low` / `Future Opportunities`) — this is the task's **Priority**
@@ -145,7 +145,7 @@ Run the three-step protocol (commit / suggest next move / copy-paste line) per S
 
 Skill-specific:
 - Suggest-next-move candidates carry `[model]` **inline per option** in the PLAN.md task-line shape: `**<TASK-ID>** [model] | shortname — one-sentence "why now"`. Mirrors PLAN.md so the user scans model assignments without cross-referencing.
-- Copy-paste line: `/clear then /model <opus|sonnet> then /<next-skill> <args>` — substitute the next task's PLAN-line `[model]` and the right slash command. (The assistant cannot run `/clear` itself.)
+- Copy-paste line: `/clear then /model <[model] from PLAN line, e.g. [light]🔧 or [heavy]🧠 or [grok]> then /<next-skill> <args>` — substitute the next task's actual PLAN-line `[model]` token (primary `[heavy]🧠`/`[light]🔧` labels with "design vs mechanical" prose + emoji visuals preferred). (The assistant cannot run `/clear` itself.)
 - **Audit-family flag** — see SPEC §"Post-closure protocol" step 2 for the 🔍 prefix convention on `/ft-audit*` next-move candidates.
 
 ## Notes
