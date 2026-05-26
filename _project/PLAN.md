@@ -31,13 +31,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **CORE-196** [opus] | worktree-convention — Add doc convention + thin `/ft-worktree-start` + `/ft-worktree-end` skills for parallel epic-child work in isolated git worktrees. Adopted-from-superpowers `using-git-worktrees` pattern. Awaiting `/ft-epic-discovery` to promote to CORE-EPIC-N. Filed with starter at `_project/tasknote/CORE-196.md`.
 
-- [ ] **CORE-EPIC-198** [opus] | context-chain-portability — Audit and consolidate the user's multi-agent context chain (~/CLAUDE.md, ~/code/CLAUDE.md, project CLAUDE.md, AGENTS.md, flowtron contract surface) for Grok adoption + redundancy + environment-agnostic guideline lift. Filed via /ft-epic-discovery; refined at .1 closure.
-  - [x] **CORE-198.1** [opus] | discovery — Completed 2026-05-25.
-  - [x] **CORE-198.2** [opus] | redundancy-audit — Completed 2026-05-25.
-  - [x] **CORE-198.3** [opus] | claude-md-consolidation — Completed 2026-05-25.
-  - [x] **CORE-198.4** [opus] | grok-adoption-verification — Completed 2026-05-25.
-  - [ ] **CORE-198.5** [opus] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.
-
 ## Low
 
 - [ ] **CORE-199** [opus] | model-selection-user-reduction — Reduce `~/.claude/CLAUDE.md` §Model Selection from 3 bullets to one general-scope sentence (e.g., "Default to Opus for design/multi-file/ambiguity; prefer Sonnet for mechanical work with a clear diff in mind"); drop the copy-paste line guidance (flowtron `SPEC/model.md` + §Post-closure protocol already own that). Surfaced by CORE-198.2 audit 2026-05-25 (Finding #4, delete-as-duplicate cross-contract).
@@ -49,6 +42,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-198** [opus] | context-chain-portability — Completed 2026-05-25.
+  - [x] **CORE-198.1** [opus] | discovery — Completed 2026-05-25.
+  - [x] **CORE-198.2** [opus] | redundancy-audit — Completed 2026-05-25.
+  - [x] **CORE-198.3** [opus] | claude-md-consolidation — Completed 2026-05-25.
+  - [x] **CORE-198.4** [opus] | grok-adoption-verification — Completed 2026-05-25.
+  - [x] **CORE-198.5** [opus] | audit — Completed 2026-05-25.
 - [x] **CORE-197** [sonnet] | viz header logo + version — Completed 2026-05-25.
 - [x] **CORE-193** [opus] | release v4.0.0 — Completed 2026-05-24.
 - [x] **CORE-192** [opus] | audit-family phrasing residuals — Completed 2026-05-24.
