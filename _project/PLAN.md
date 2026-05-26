@@ -18,6 +18,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [ ] **CORE-208.4** [light] 🔧 | global-claude-md — Update ~/.claude/Claude.md "Model Selection" line to [heavy]🧠/[light]🔧 + design-vs-mechanical prose; spot-check SPEC/templates for residual specific-model examples.
   - [ ] **CORE-208.5** [light] 🔧 | verify-sweep — Final verification across AI-referenced docs + claude/ surfaces to confirm no hard specific-model suggestions remain in generated UX text.
   - [ ] **CORE-208.6** [light] 🔧 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.
+  - [x] **CORE-208.7** [light] 🔧 | suggestion-ux-cleanup — Completed 2026-05-26.
 
 ## Medium
 

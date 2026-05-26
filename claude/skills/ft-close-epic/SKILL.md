@@ -189,11 +189,11 @@ Run the protocol per SPEC §"Post-closure protocol", branching on SPEC §"Condit
 On commit (either branch): if parent-flip Yes, apply the flip + atomic move per Step 8 before staging, so the commit captures the flip atomically.
 
 Skill-specific next-move shape:
-- Candidates carry `[model]` inline per option (`**<TASK-ID>** [model] | shortname — one-sentence "why now"`). Branches:
+- Candidates: read the full PLAN.md task-line shape (including `[model]`) to know the recommended model. When *printing the list to the user*, emit only the emoji primary label (`[heavy]🧠` / `[light]🔧`) + "design vs mechanical" prose + shortname — drop the bare bracketed token from the visible suggestion output. Branches:
   - Misses logged → `/ft-file-followup <NEW-ID>` per miss (one at a time; user paces).
   - No misses + parent flipped → next epic / standalone task in PLAN.md.
   - No misses + parent declined → manual flip when ready (edit PLAN.md: flip parent line to stub form, move parent + nested children to top of `## Completed`). Re-running `/ft-close-epic` would hit Step 1's already-archived bail.
-- Copy-paste line: `/clear then /model <opus|sonnet> then /<next-skill> <args>` — **exception for `/ft-file-followup` candidates**: surface these as "file in this session before /clear" instead (e.g., `Run /ft-file-followup <NEW-ID> now — it needs this session's context; then /clear.`). `/ft-file-followup` cannot self-bootstrap from PLAN.md reads the way other skills can.
+- Copy-paste helper: emit a short visual cue of the form "Clear your session, then use 🔧 /<next-skill> <ID>" (or equivalent tight phrasing). Never emit a literal `/clear then /model ...` instruction in the user-facing suggestion. **Exception for `/ft-file-followup` candidates**: surface these as "file in this session before /clear" instead (e.g., `Run /ft-file-followup <NEW-ID> now — it needs this session's context; then /clear.`). `/ft-file-followup` cannot self-bootstrap from PLAN.md reads the way other skills can.
 
 ## Notes
 

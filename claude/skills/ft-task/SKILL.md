@@ -144,8 +144,8 @@ Run the three-step protocol (commit / suggest next move / copy-paste line) per S
 **`--fast` override.** When `fast-mode = true` (from Step 0), force the Skip branch regardless of signal trips. Name the suppressed signals in the marker for transparency (e.g., `✅ Closure complete; committing autonomously (frontend files touched; suppressed via --fast).`). The drift carve-out at Step 4 means a `Re-scope`/`De-scope` task that flipped to fast-mode-via-flag still got the 🛠️ banner upstream — at Step 6, `fast-mode = true` always routes to Skip.
 
 Skill-specific:
-- Suggest-next-move candidates carry `[model]` **inline per option** in the PLAN.md task-line shape: `**<TASK-ID>** [model] | shortname — one-sentence "why now"`. Mirrors PLAN.md so the user scans model assignments without cross-referencing.
-- Copy-paste line: `/clear then /model <[model] from PLAN line, e.g. [light]🔧 or [heavy]🧠 or [grok]> then /<next-skill> <args>` — substitute the next task's actual PLAN-line `[model]` token (primary `[heavy]🧠`/`[light]🔧` labels with "design vs mechanical" prose + emoji visuals preferred). (The assistant cannot run `/clear` itself.)
+- Suggest-next-move candidates: read the full PLAN.md task-line shape (including `[model]`) to know the recommended model for each option. When *printing the list to the user*, emit only the emoji primary label (`[heavy]🧠` / `[light]🔧`) + "design vs mechanical" prose + shortname — drop the bare bracketed token from the visible suggestion output.
+- Copy-paste helper: emit a short visual cue of the form "Clear your session, then use 🔧 /ft-task <next-ID>" (or equivalent tight phrasing). Never emit a literal `/clear then /model ...` instruction in the user-facing suggestion. The emoji on the candidate line + the wrench cue are the stable, agent-agnostic pattern.
 - **Audit-family flag** — see SPEC §"Post-closure protocol" step 2 for the 🔍 prefix convention on `/ft-audit*` next-move candidates.
 
 ## Notes

@@ -118,8 +118,8 @@ Run the protocol per SPEC §"Post-closure protocol", branching on SPEC §"Condit
 
 Skill-specific:
 - **Commit message:** `feat: <TASK-ID> — <title>` (or `fix:` / `docs:` / `chore:`). Scaffold + closure typically bundle into one commit alongside the code/doc change.
-- Name the recommended model alongside the next task ID.
-- **Copy-paste line:** `/clear then /model <opus|sonnet> then /<next-skill> <args>` — substitute the next task's PLAN-line `[model]` and the right slash command.
+- Name the recommended model alongside the next task ID (read from its PLAN line).
+- Copy-paste helper: emit a short visual cue of the form "Clear your session, then use 🔧 /<next-skill> <ID>" (or equivalent tight phrasing). Never emit a literal `/clear then /model ...` instruction in the user-facing suggestion. When printing the suggest-next list, use only emoji primary labels + "design vs mechanical" prose (drop bare `[light]🔧` tokens from the visible output).
 
 ## Notes
 
