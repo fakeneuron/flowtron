@@ -13,4 +13,4 @@ Do not silently override.
 
 ## Legacy entry — PLAN.md `[model]` is absent (no `[model]` on the line)
 
-Ask the user via AskUserQuestion to choose a model token. Recommended primary labels: `[heavy]` for design / multi-file / ambiguous work; `[light]` for mechanical work with a clear diff in mind. You may use any short token (e.g. `opus`, `sonnet`, `haiku`, `gpt-5`, project-specific names) per SPEC §"Model field". Then write `[<chosen>]` into the PLAN.md line in place (insert immediately after `**TASK-ID**`), then proceed to Step 2. The next time `/ft-task` runs against this line, no question is asked.
+Ask the user via AskUserQuestion to choose a model token. Recommended primary labels: `[heavy]` for design / multi-file / ambiguous work; `[light]` for mechanical work with a clear diff in mind. You may use any short token (e.g. `opus` / `sonnet` / `grok` / `haiku`, project-specific names) per SPEC §"Model field". Then write `[<chosen>]` into the PLAN.md line in place (insert immediately after `**TASK-ID**`), then proceed to Step 2. The next time `/ft-task` runs against this line, no question is asked.

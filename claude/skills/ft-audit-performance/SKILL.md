@@ -78,7 +78,7 @@ Severity guide:
 
 The deliverable is tickets in PLAN.md.
 
-1. **After** §§1–3 are presented and any `AskUserQuestion` blockers are answered, write tickets using flowtron's task-line grammar: `- [ ] **<AREA>-<N>** [opus|sonnet] | shortname — long description.` See SPEC §"Task-line format".
+1. **After** §§1–3 are presented and any `AskUserQuestion` blockers are answered, write tickets using flowtron's task-line grammar: `- [ ] **<AREA>-<N>** [model] | shortname — long description.` (primary labels `[heavy]🧠` / `[light]🔧` recommended; specifics e.g. `opus` / `sonnet` / `grok` remain valid per SPEC §"Model field"). See §"Task-line format".
 2. Pick the next free `<N>` per area prefix (valid prefixes in `_project/tasknote/README.md` §"Area prefixes").
 3. Insert in correct priority section. Append `Surfaced by audit-performance YYYY-MM-DD (Finding #N, <severity>)` **plus the measured-impact number** so future-you can validate the fix moved the metric.
 4. **No code changes**, no formatters, no opening files for fixes. Tickets only.

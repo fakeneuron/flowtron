@@ -47,7 +47,7 @@ Read PLAN.md. Find the line containing `**<TASK-ID>**`. If the ID isn't in PLAN.
 
 Otherwise, capture from the line:
 
-- The optional `[model]` segment (`opus` | `sonnet`) — see Step 1.5
+- The optional `[model]` segment (`[heavy]` / `[light]` primary recommended; specific names e.g. `opus` / `sonnet` / `grok` remain valid per SPEC §"Model field") — see Step 1.5
 - The optional `| shortname` segment
 - The one-line long description (everything after ` — `; may be empty)
 - The section heading the line lives under (`High` / `Medium` / `Low` / `Future Opportunities`) — this is the task's **Priority**

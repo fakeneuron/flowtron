@@ -14,11 +14,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-EPIC-208** [light] 🔧 | heavy-light-suggestions — Eliminate hard-coded specific-model prompts (e.g. 'copy-paste /clear then /model opus') from skill post-closure text and examples. Adopt agent-agnostic suggestions using [heavy]🧠/[light]🔧 primary labels + 'design vs mechanical' prose with emoji visuals. Update global CLAUDE.md. All children [light]-scoped.
   - [x] **CORE-208.1** [light] 🔧 | discovery — Completed 2026-05-26.
   - [x] **CORE-208.2** [light] 🔧 | ft-task-epic-copy-paste — Completed 2026-05-26.
-  - [ ] **CORE-208.3** [light] 🔧 | micro-audit-fragments — Clean ft-micro-task/SKILL.md + both step-1.5-model-edge.md + 4 audit-skill example grammars for consistent neutral primary labels + emoji visuals.
+  - [x] **CORE-208.3** [light] 🔧 | micro-audit-fragments — Completed 2026-05-26.
   - [ ] **CORE-208.4** [light] 🔧 | global-claude-md — Update ~/.claude/Claude.md "Model Selection" line to [heavy]🧠/[light]🔧 + design-vs-mechanical prose; spot-check SPEC/templates for residual specific-model examples.
   - [ ] **CORE-208.5** [light] 🔧 | verify-sweep — Final verification across AI-referenced docs + claude/ surfaces to confirm no hard specific-model suggestions remain in generated UX text.
-  - [ ] **CORE-208.6** [light] 🔧 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.
+  - [ ] **CORE-208.6** [light] 🔧 | audit (stale placeholder) — Superseded by CORE-208.8. Original filed as highest at discovery time; .7 was inserted afterward.
   - [x] **CORE-208.7** [light] 🔧 | suggestion-ux-cleanup — Completed 2026-05-26.
+  - [ ] **CORE-208.8** [light] 🔧 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Re-filed as new highest child after .7 post-insertion (replaces stale .6).
 
 ## Medium
 
