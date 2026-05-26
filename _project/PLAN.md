@@ -33,7 +33,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-199** [opus] | model-selection-user-reduction — Reduce `~/.claude/CLAUDE.md` §Model Selection from 3 bullets to one general-scope sentence (e.g., "Default to Opus for design/multi-file/ambiguity; prefer Sonnet for mechanical work with a clear diff in mind"); drop the copy-paste line guidance (flowtron `SPEC/model.md` + §Post-closure protocol already own that). Surfaced by CORE-198.2 audit 2026-05-25 (Finding #4, delete-as-duplicate cross-contract).
 - [ ] **CORE-200** [opus] | shell-discipline-lift-candidate — Consider lifting the agent-neutral half of `~/.claude/CLAUDE.md` §Shell discipline ("avoid `cd dir && command` whenever the tool finds its own config") into `docs/CONVENTIONS.md` or `claude/AGENTS-snippet.md` as a project-agnostic adopter convention. Borderline — adds bloat for marginal benefit; user decides. Surfaced by CORE-198.2 audit 2026-05-25 (Finding #19, lift-to-flowtron soft).
 
 ## Future Opportunities
@@ -42,6 +41,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-199** [opus] | model-selection-user-reduction — Completed 2026-05-25.
 - [x] **CORE-EPIC-198** [opus] | context-chain-portability — Completed 2026-05-25.
   - [x] **CORE-198.1** [opus] | discovery — Completed 2026-05-25.
   - [x] **CORE-198.2** [opus] | redundancy-audit — Completed 2026-05-25.
