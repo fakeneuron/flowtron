@@ -1,6 +1,6 @@
 # Flowtron — Workflow Specification
 
-**Version:** v4.0.0
+**Version:** v4.1.0
 **Status:** Stable
 
 ## What is Flowtron
@@ -85,7 +85,7 @@ Bundled flowtron skills carry the `ft-` prefix in their slug (`/ft-task`,
 `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`,
 `/ft-close-epic`, `/ft-flowtron`, `/ft-stats`, `/ft-quality`,
 `/ft-audit-context`, and the audit family
-`/ft-audit{,-docs,-backend,-frontend,-performance,-security}`). The prefix
+`/ft-audit{,-docs,-security,-frontend,-backend,-performance}`). The prefix
 reserves the `ft-` slug namespace for flowtron-owned skills so adopter
 projects can drop the bundle into `.claude/` without shadowing their own
 skill names.
