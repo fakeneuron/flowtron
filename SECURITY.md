@@ -95,3 +95,33 @@ dev server:
 Do not expose port 5120 over a network or through a tunnel. If you need a
 shared read-only view of project state, build a separate artifact (e.g.,
 a static export); the dev server is not the right shape for that.
+
+## Adopter scanner false-positive allowlists
+
+Adopters running prompt-injection scanners (e.g., Semgrep rules) or secret-detection scanners (Gitleaks, TruffleHog, Snyk, etc.) will encounter false positives when scanning a repo that vendors flowtron as a submodule. The source is prose in `SPEC.md`, skill files, and this document that quotes the privileged-ops keyword triggers from SPEC §"Conditional skip rule".
+
+**The `filepath:regex` allowlist convention**
+
+GSD-Pi (source of the pattern adopted here) uses simple one-line entries in scanner ignore files (`.prompt-injection-scanignore`, `.secretscanignore`). Format:
+
+```
+filepath:regex
+```
+
+Examples (one per line):
+
+```
+_project/flowtron/SPEC.md:(API_KEY|SECRET|TOKEN|PASSWORD)
+_project/flowtron/claude/skills/**/*.md:(API_KEY|SECRET|TOKEN|PASSWORD)
+_project/flowtron/SECURITY.md:(API_KEY|SECRET|TOKEN|PASSWORD)
+```
+
+These suppress only the documented prose examples. Real credential material in your code or env files remains flagged.
+
+**Flowtron-specific guidance**
+
+Add the lines above (adjusted for your submodule path) to your scanner configuration. The examples cover the four uppercase keywords (`API_KEY`, `SECRET`, `TOKEN`, `PASSWORD`) that appear in the Conditional skip rule definition and in explanatory text throughout the tree.
+
+See SPEC §"Conditional skip rule" for the authoritative privileged-ops path categories and keyword-trigger clause.
+
+Flowtron does not ship `.prompt-injection-scanignore` or `.secretscanignore` files — zero runtime scanner configuration by design.
