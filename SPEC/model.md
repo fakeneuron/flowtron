@@ -8,11 +8,14 @@ paths: []
 
 The model assignment lives on the PLAN.md task line — the `[model]` segment
 of §"Task-line format". PLAN.md is the source of truth. The token is a short
-identifier; flowtron's recommended set is `opus | sonnet` (default convention,
-mirroring current Anthropic tiering). Adopters MAY substitute project-specific
-tokens (e.g., `haiku`, `gpt-5`, `gemini-pro`); the visualizer parser accepts
-any short lowercase token (`[a-z][\w.-]*`), and `/ft-stats` buckets unknown
-tokens as `other`.
+identifier representing the cognitive load of the task.
+
+Flowtron's recommended primary labels are `[heavy]` (design, multi-file,
+high ambiguity, or exploratory work) and `[light]` (mechanical, well-scoped,
+clear-diff implementation). Adopters MAY use any short token they prefer
+(e.g. `opus`, `sonnet`, `haiku`, `gpt-5`, `gemini-pro`, project-specific names).
+The visualizer parser accepts any short lowercase token (`[a-z][\w.-]*`), and
+`/ft-stats` buckets unknown tokens as `other`.
 
 `/ft-task` reads the model BEFORE scaffolding (see `claude/skills/ft-task/SKILL.md`
 Step 1.5):
@@ -31,5 +34,6 @@ swap.
 
 When suggesting a next task, name the recommended model alongside the task
 ID — the model is part of the PLAN.md grammar, so it's already known without
-asking. Default to `opus` for design, multi-file changes, or ambiguity;
-reserve `sonnet` for mechanical work with a clear diff in mind.
+asking. Default to `[heavy]` for design, multi-file changes, or high ambiguity;
+reserve `[light]` for mechanical work with a clear diff in mind. Specific
+model names (`opus`, `sonnet`, `haiku`, etc.) remain fully valid tokens.

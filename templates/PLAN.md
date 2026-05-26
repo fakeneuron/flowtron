@@ -33,8 +33,9 @@ Task-line grammar (see _project/flowtron/SPEC.md §"Task-line format"):
 
   - [ ] **TASK-ID** [!critical] [model] | shortname — long description
 
-All of `[!critical]`, `[model]` (recommended: `opus` | `sonnet`; adopters MAY
-substitute other tokens — see SPEC §"Task-line format"), and `| shortname`
+All of `[!critical]`, `[model]` (recommended primary labels: `[heavy]` for
+design/ambiguous/multi-file work or `[light]` for mechanical/well-scoped work;
+adopters MAY use any short token — see SPEC §"Model field"), and `| shortname`
 are optional. Canonical ordering: `[!critical]` BEFORE `[model]`. Flagged tasks
 float to the top of the High column with a red marker chip. The minimal
 legacy form `- [ ] **TASK-ID** — description` keeps parsing for backwards

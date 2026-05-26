@@ -36,11 +36,11 @@ below.
 | `SPEC.md` + `SPEC/model.md` | §"Post-closure protocol" §3 + §"Model field" Step 1.5 mismatch path (3 sites) | `` `/clear` `` + `` `/model <X>` `` Claude-Code-UI commands | Claude-Code-runtime UI commands implemented by Claude Code (not flowtron). Concept (fresh context + model switch on next-task hand-off) is platform-neutral; slash-command syntax is wiring-layer detail. SPEC documents the operator UX inline (the copy-paste line + the model-mismatch resolution path) rather than punting to SKILL.md, so the workflow is discoverable end-to-end. |
 | `SPEC/epic.md` | §"Skills" + §"Optional deep pre-pass" | `claude/skills/ft-epic-discovery/`, `claude/skills/ft-close-epic/`, `claude/skills/ft-new-project/SKILL.md` | Path facts. |
 | `SPEC/model.md` | (intro + Step 1.5 dispatch reference) | `claude/skills/ft-task/SKILL.md` | Path fact. |
-| `SPEC/model.md` | (recommended-set paragraph) | `` `opus \| sonnet` `` + Anthropic-tier note | Per [[CORE-138]] — recommended set, not lock. |
+| `SPEC/model.md` | (recommended-set paragraph) | Primary labels `[heavy]` / `[light]` + `opus`/`sonnet` as examples | Per [[CORE-206]] — neutral primary vocabulary for cognitive load; specific model names remain valid examples only. |
 | `templates/tasknote-README.md` | "AGENTS.md" entry | `AGENTS.md` read by Claude Code, Codex CLI, Cursor, Amp, Aider, Grok Build | Multi-agent paste-destination — explicitly agent-neutral framing. |
 | `templates/tasknote-README.md` | "CLAUDE.md" entry | `CLAUDE.md` — optional Claude-specific directives | Explicit Claude-only carve-out; adopter agents skip the entry. |
 | `templates/tasknote-micro-template.md` | (closing recap line) | `claude/skills/ft-micro-task/SKILL.md` | Path fact. |
-| `templates/PLAN.md` | (examples + rule comment) | `[opus]`, `[sonnet]` example tokens + recommended-set parenthetical | Per [[CORE-138]]. |
+| `templates/PLAN.md` | (examples + rule comment) | `[heavy]` / `[light]` primary labels (opus/sonnet as examples) | Per [[CORE-206]] — neutral primary vocabulary. |
 | `docs/MIGRATION.md` | §1.2, §1.3, §3, troubleshooting | `.claude/commands/...`, `.claude/skills/...`, `claude/AGENTS-snippet.md`, slash-command verification, "fresh Claude Code session" references | MIGRATION IS the Claude Code adoption guide today. Future platforms get their own adoption section if/when wiring lands — see [[CORE-154.4]] / `docs/PLATFORMS.md` for the plug-in pattern. |
 | `docs/PHILOSOPHY.md` | (historical-narrative paragraphs) | `Claude Code` + "Claude can read markdown" framing | Per [[CORE-132]] defense — file's role is personal narrative; voice IS the deliverable. |
 | `README.md` | §"Repo layout" | `` `claude/` `` — Claude Code skills + slash commands | Factual repo-layout description. |

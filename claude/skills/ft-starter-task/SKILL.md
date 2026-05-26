@@ -39,7 +39,7 @@ Use AskUserQuestion to confirm the key fields. Pre-populate from conversation co
 
 1. **Title (shortname)** — concise; up to ~30 chars. Used as the YAML `title:` and the H1.
 2. **Priority** — `High | Medium | Low | Future Opportunities`. AI proposes its best read. For urgent rows, propose `High` with a `[!critical]` flag (see SPEC §"Task-line format").
-3. **Model** — recommended: `opus | sonnet`; adopters may substitute project-specific tokens per SPEC §"Model field". AI proposes; goes on the PLAN.md task line, not in frontmatter.
+3. **Model** — recommended primary labels: `[heavy]` (design/ambiguity) or `[light]` (mechanical); adopters may use any short token (e.g. `opus`, `sonnet`, project-specific) per SPEC §"Model field". AI proposes; goes on the PLAN.md task line, not in frontmatter.
 
 Optional inputs the AI may pre-fill silently (user corrects on Step 3 review): `tags:` (visualizer filter), `due:` (only if the conversation specified a deadline), `related-tasks:` (wikilinks to predecessors / parent epic / follow-ups surfaced in conversation).
 
