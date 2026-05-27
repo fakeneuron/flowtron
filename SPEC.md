@@ -307,7 +307,7 @@ _<1-2 sentence plain-English preview of what executes on approval>_
 
 _Operator force-skip: passing `--fast` (or `-f`) to `/ft-task` / `/ft-micro-task` forces the 📦 banner to its Skip branch regardless of signals, and suppresses the 👁️ frontend visual-confirmation prose ask. For `/ft-task`'s 🛠️ banner, `--fast` is a **no-op for routine trips** — the `default-skip` flavor (see §"📝 Phase 1: Discovery" exit gate) already skips them; the drift carve-out (Re-scope/De-scope still fires 🛠️) is preserved as the existing default-flow behavior. The flag silences routine signal trips; it does not silence drift._
 
-The preview line is **mandatory** on every banner: 1-2 sentence plain-English summary of *what executes on approval*, for scanning intent ("what am I greenlighting?"). File paths, LOC counts, and key decisions belong in the recap (§"🚀 Phase 4: Closure"), not the preview.
+The **preview line** is **mandatory** on every banner: 1-2 sentence plain-English summary of *what executes on approval*, for scanning intent ("what am I greenlighting?"). File paths, LOC counts, and key decisions belong in the recap (§"🚀 Phase 4: Closure"), not the preview.
 
 Once Phase 1 closes, Phase 2 → Phase 3 → Phase 4 closure ops **flow continuously without intermediate gates**. The recap drafts during closure ops and bundles into the 📦 ready-to-commit motion alongside the closure review (per-entry doc-drift verdicts, PLAN.md line preview, archive path) and the proposed commit message — see §"Post-closure protocol" §"Conditional skip rule" for fire/skip branching.
 
@@ -350,10 +350,12 @@ clarifications skip; deviations fire. Concrete guidance:
 
 - **Skip (small deviations):** typo confirmation, format/style pick,
   file naming, comment style, marker wording.
+
 - **Fire 🛠️ (moderate-or-larger deviations):** changed which file
   to edit, restructured the subtask list, added a cross-cutting
   concern, discovered a different root cause, changed the approach
   (refactor vs. inline fix).
+
 - **Always fire 🛠️:** Re-scope and De-scope verdicts (moderate-or-larger
   by definition — Re-scope rewrites the plan; De-scope changes
   trajectory entirely).
