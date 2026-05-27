@@ -5,16 +5,6 @@ work. Tasknote templates are resolved from the flowtron submodule at
 `_project/flowtron/templates/`. The canonical workflow lives in
 `_project/flowtron/SPEC.md`.
 
-## Flowtron version
-
-Pinned to: vX.Y.Z
-
-The flowtron repo is checked out as a git submodule at `_project/flowtron/`.
-Bumping the pinned version is itself a project task — see the annotated tag
-message (`git -C _project/flowtron show vX.Y.Z`) and the per-release
-tasknote in `_project/flowtron/_project/tasknote/archive/core/` for migration
-steps when crossing a major version.
-
 ## Layout
 
 - `<TASK-ID>.md` — active tasknote (one per task in flight)

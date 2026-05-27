@@ -110,7 +110,6 @@ cp _project/flowtron/templates/tasknote-README.md _project/tasknote/README.md
 ```
 
 Then fill it in:
-- Replace `vX.Y.Z` in `Pinned to: vX.Y.Z` with the version from §1.1.
 - Declare project-specific area prefixes.
 - Replace "Project quick commands" with the project's test/lint/dev commands.
 - Extend `## AI-referenced docs` (seeded with `README.md` / `AGENTS.md` / `CLAUDE.md` / `_project/PLAN.md`) — this list is walked at every Phase 4 closure and epic-audit subtask. Add architecture notes, API specs, DB schema docs, ADRs as the project matures.

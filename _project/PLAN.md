@@ -41,6 +41,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [x] **CORE-206** [sonnet] | model-token-vocabulary — Completed 2026-05-25. (neutral primary labels `[heavy]` / `[light]` introduced; opus/sonnet kept as valid examples)
 
+- [ ] **CORE-213** [sonnet] | Fix stale cross-refs + audit-scaffold hygiene — retarget CONVENTIONS.md §"Zero scripts" cites to actual PHILOSOPHY heading; delete §0 Forker checklists from the five ft-audit-* siblings per ft-audit §6. Surfaced by audit 2026-06 (Findings #2/#5, Medium).
+
 ## Low
 
 (none)
@@ -51,6 +53,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-212** [grok] | Retire "Pinned to:" from adopter seed surface — Completed 2026-05-26.
 - [x] **CORE-EPIC-211** [light] | gate-clarity-agent-neutral — Completed 2026-05-26.
   - [x] **CORE-211.1** [light] | discovery — Completed 2026-05-26.
   - [x] **CORE-211.2** [light] | contract-gates-spec — Completed 2026-05-26.
