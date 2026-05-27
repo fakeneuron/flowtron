@@ -9,18 +9,7 @@ Principal-engineer audit of a frontend codebase: find what matters, report conci
 
 Stack-neutral scaffold — **fork**, don't symlink (framework + bundler + component-library divergence). Install per `docs/MIGRATION.md` §1.2.1.
 
-## 0. Forker checklist (fill in before first run)
 
-Walk this list once per fork. The placeholders in §1 and §2 below are the things to replace.
-
-- [ ] `name:` and `description:` frontmatter — set to your fork's slash-command name and a framework-specific blurb (e.g. "React + Vite frontend audit").
-- [ ] §1 step 1 "Resolve scope" — set the default-`all` glob for your frontend (e.g. `frontend/src/**`, `src/**/*.{ts,tsx,vue}`, `app/**/*.tsx`).
-- [ ] §1 step 2 "Load the project rubric" — replace placeholder rubric paths with your design-system doc, component-library docs, a11y baseline ADR, perf budget.
-- [ ] §1 step 3 "Run verification gates" — wire your project's actual build / bundle-analyzer / a11y / lint commands.
-- [ ] §2 each pass — replace generic-placeholder bullets with your framework's concrete examples (specific anti-patterns in React/Vue/Svelte/etc., your component library's misuse modes, your perf-budget numbers).
-- [ ] §3 "Severity guide" — name your project's user-facing invariants under **Critical** (e.g. "WCAG 2.1 AA contrast baseline", "TTI under 3s on the landing route", "bundle under 200KB gz").
-
-Once the checklist is satisfied, delete this §0 block from your fork — leaving it in confuses the auditor's first read on every run.
 
 ## 1. Scope & ground rules (do this first, always)
 

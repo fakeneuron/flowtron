@@ -11,18 +11,7 @@ Stack-neutral scaffold — **fork**, don't symlink (profiling tools + perf budge
 
 **Cross-cuts** with `audit-frontend` (bundle/render perf) and `audit-backend` (persistence/async). This skill takes the cross-cutting view: end-to-end latency, resource budgets, hot-path identification. Findings cleanly inside one layer → defer to that audit and cross-list.
 
-## 0. Forker checklist (fill in before first run)
 
-Walk this list once per fork. The placeholders in §1, §2, and §3 below are the things to replace.
-
-- [ ] `name:` and `description:` frontmatter — set to your fork's slash-command name and a stack-specific blurb.
-- [ ] §1 step 1 "Resolve scope" — set the default-`all` glob for your stack or pin a route / endpoint scope.
-- [ ] §1 step 2 "Load the project rubric" — replace placeholder rubric paths with your perf budget doc, SLO doc, benchmark baselines.
-- [ ] §1 step 3 "Run verification gates" — wire your project's actual profilers / benchmarks / bundle analyzers (e.g. `py-spy`, `pprof`, `vite-bundle-visualizer`, `lighthouse`, `k6`, `wrk`).
-- [ ] §2 each pass — replace generic-placeholder bullets with your stack's concrete examples and your declared budgets.
-- [ ] §3 "Severity guide" — name your project's measurable perf invariants under **Critical** (e.g. "p95 < 300ms on the read API", "TTI < 2.5s on landing", "memory steady-state < 512MB per worker").
-
-Once the checklist is satisfied, delete this §0 block from your fork — leaving it in confuses the auditor's first read on every run.
 
 ## 1. Scope & ground rules (do this first, always)
 

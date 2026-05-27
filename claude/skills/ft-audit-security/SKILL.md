@@ -9,19 +9,7 @@ Principal-engineer security audit: find what matters, report concisely, **make n
 
 Stack-neutral scaffold — **fork**, don't symlink (sacred-invariant + threat-model + scanner divergence). Install per `docs/MIGRATION.md` §1.2.1.
 
-## 0. Forker checklist (fill in before first run)
 
-Walk this list once per fork. The placeholders in §1, §2, and §3 below are the things to replace.
-
-- [ ] `name:` and `description:` frontmatter — set to your fork's slash-command name and a stack-specific blurb.
-- [ ] §1 step 1 "Resolve scope" — set the default-`all` glob for your stack (e.g. `backend/**/*.py`, `src/**/*.ts`, `**/*` excluding generated dirs).
-- [ ] §1 step 2 "Load the project rubric" — replace placeholder rubric paths with your project's auth notes, threat model, security ADRs, secret-management docs.
-- [ ] §1 step 3 "Run verification gates" — wire your project's actual secret-scanner (e.g. `gitleaks detect`, `trufflehog`), dep-scanner (e.g. `npm audit`, `pip-audit`, `cargo audit`, `safety check`), and SAST if any.
-- [ ] §2 each pass — replace generic-placeholder bullets with your stack's concrete examples (specific frameworks, known-bad patterns in your tech, regulated-data invariants).
-- [ ] §3 "Severity guide" — name your project's sacred invariants under **Critical** (e.g. "paper-mode bypass for trading", "PII leak for healthcare", "kill-switch bypass for ops automation").
-- [ ] §6 "Hard rules" — append any project-specific hard rules (e.g. "secrets never logged, even at DEBUG", "auth checks never conditional on environment").
-
-Once the checklist is satisfied, delete this §0 block from your fork — leaving it in confuses the auditor's first read on every run.
 
 ## 1. Scope & ground rules (do this first, always)
 

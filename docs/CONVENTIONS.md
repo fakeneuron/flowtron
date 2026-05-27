@@ -73,7 +73,7 @@ Flowtron does not use tools like [release-please](https://github.com/googleapis/
 
 Two reasons. First, release-automation tooling typically reads Conventional Commits to generate a CHANGELOG — which flowtron declines (see above). Second, automation couples release timing to commit history, where flowtron prefers release timing to be a deliberate human judgment ("is this a coherent release-worthy unit?"). The skill encodes the recipe; the decision to cut a release stays with the maintainer.
 
-Backing principle: [PHILOSOPHY.md](PHILOSOPHY.md) §"Zero scripts" — flowtron's "operations" are markdown edits and `cp` / `mv`, executed by the assistant via skills, not by background tooling.
+Backing principle: [PHILOSOPHY.md](PHILOSOPHY.md) §"The decisions that fall out" (Zero scripts) — flowtron's "operations" are markdown edits and `cp` / `mv`, executed by the assistant via skills, not by background tooling.
 
 ### Pre-commit hooks
 
@@ -81,4 +81,4 @@ Flowtron does not ship pre-commit hooks. The pattern declined is [pre-commit](ht
 
 Validation runs inline as Phase 3 of every tasknote — targeted tests, lint and type-check on changed code, optional visual confirmation for frontend changes. Phase 3 is part of the workflow contract (see [SPEC.md](../SPEC.md)) and runs in the same context where the change was authored; hooks would duplicate the check at commit time.
 
-Same backing principle as release automation: [PHILOSOPHY.md](PHILOSOPHY.md) §"Zero scripts" — the assistant is the validator, and the workflow phase is the gate.
+Same backing principle as release automation: [PHILOSOPHY.md](PHILOSOPHY.md) §"The decisions that fall out" (Zero scripts) — the assistant is the validator, and the workflow phase is the gate.

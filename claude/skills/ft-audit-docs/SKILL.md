@@ -9,17 +9,7 @@ Principal-engineer audit of the docs surface: find what matters, report concisel
 
 Stack-neutral scaffold — **fork**, don't symlink (doc-set + link conventions + lint tooling diverge). Install per `docs/MIGRATION.md` §1.2.1.
 
-## 0. Forker checklist (fill in before first run)
 
-Walk this list once per fork. The placeholders in §1 and §2 below are the things to replace.
-
-- [ ] `name:` and `description:` frontmatter — set to your fork's slash-command name and a project-specific blurb.
-- [ ] §1 step 1 "Resolve scope" — set the default doc set for your project (typically: `README.md`, `_project/PLAN.md`, `docs/**/*.md`, root-level `*.md`, plus any in-tree SKILL / AGENT / ADR docs).
-- [ ] §1 step 2 "Load the project rubric" — replace placeholder rubric paths with your project's actual doc-set contract (typically `_project/tasknote/README.md` §"AI-referenced docs" if the project uses flowtron, otherwise a single source-of-truth doc).
-- [ ] §1 step 3 "Run verification gates" — replace placeholders with your project's markdown lint / link-check / spelling commands if you have them. Skip if you don't — `audit-docs` works without tooling.
-- [ ] §2 each pass — replace generic-placeholder bullets with your project's concrete examples (specific docs that drift, link conventions you use, naming and versioning patterns).
-
-Once the checklist is satisfied, delete this §0 block from your fork — leaving it in confuses the auditor's first read on every run.
 
 ## 1. Scope & ground rules (do this first, always)
 

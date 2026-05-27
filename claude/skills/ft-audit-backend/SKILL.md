@@ -9,18 +9,7 @@ Principal-engineer audit of a backend codebase: find what matters, report concis
 
 Stack-neutral scaffold — **fork**, don't symlink (per-framework divergence in ORM, async model, error envelope). Install per `docs/MIGRATION.md` §1.2.1.
 
-## 0. Forker checklist (fill in before first run)
 
-Walk this list once per fork. The placeholders in §1 and §2 below are the things to replace.
-
-- [ ] `name:` and `description:` frontmatter — set to your fork's slash-command name and a framework-specific blurb (e.g. "FastAPI + SQLAlchemy backend audit").
-- [ ] §1 step 1 "Resolve scope" — set the default-`all` glob for your backend (e.g. `backend/**/*.py`, `src/**/*.go`, `app/**/*.rb`).
-- [ ] §1 step 2 "Load the project rubric" — replace placeholder rubric paths with your API contract docs (OpenAPI / GraphQL schema), DB schema, error-handling ADR.
-- [ ] §1 step 3 "Run verification gates" — wire your project's actual type-check (e.g. `mypy`, `pyright`, `tsc`), test command, lint.
-- [ ] §2 each pass — replace generic-placeholder bullets with your framework's concrete examples (Pydantic / Marshmallow / Zod patterns, your ORM's N+1 idioms, your project's async story).
-- [ ] §3 "Severity guide" — name your project's sacred backend invariants under **Critical** (e.g. "no writes without a transaction", "no external call without a timeout", "paper-mode enforcement for trading").
-
-Once the checklist is satisfied, delete this §0 block from your fork — leaving it in confuses the auditor's first read on every run.
 
 ## 1. Scope & ground rules (do this first, always)
 
