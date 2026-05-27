@@ -42,13 +42,13 @@ the runtime's tool allowlist is.
 
 **Adopter mitigations (Claude Code).**
 
-- Prefer global `~/.claude/settings.json` + a personal base layer (e.g. a
-  dedicated scaffolding repo) for reusable rules. Keep any per-project
-  `.claude/settings.local.json` tiny and high-signal only. Use
-  `defaultMode: "acceptEdits"` (or `plan`) plus the built-in
-  `/less-permission-prompts` helper rather than accumulating long lists of
-  one-off rules. Broad globs like `Bash(curl *)`, `Bash(npm *)`, or whole-home
-  `Read(**)` still make prompt injection trivially exploitable.
+- **Recommended three-layer hygiene:** global `~/.claude/settings.json` (base
+  allowlists) + personal base layer (e.g. dedicated repo like natabula for
+  reusable personal standards) + per-project `.claude/settings.local.json`
+  kept tiny and high-signal only (or empty). Use `defaultMode: "acceptEdits"`
+  (or `plan`) plus periodic `/less-permission-prompts` rather than growing
+  long one-off allowlists. Broad globs (`Bash(curl *)`, whole-home `Read(**)`,
+  etc.) remain high-risk for prompt injection.
 
 The flowtron skills themselves do not implement a sandbox; the Claude Code
 harness is the only enforcement layer.

@@ -43,14 +43,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-214** [sonnet] | settings-local-hygiene — Follow-up from /ft-audit-context: document modern Claude Code permission layering (global + personal base like natabula + tiny per-project .local only) + recommend `acceptEdits` defaultMode + periodic `/less-permission-prompts` use. Small update to SECURITY.md + optional natabula docs. Surfaced during flowtron dev env cleanup 2026-05-26.
-
 ## Future Opportunities
 
 (none)
 
 ## Completed
 
+- [x] **CORE-214** [grok] | settings-local-hygiene — Completed 2026-05-27.
 - [x] **CORE-213** [grok] | Fix stale cross-refs + audit-scaffold hygiene — Completed 2026-05-26.
 - [x] **CORE-212** [grok] | Retire "Pinned to:" from adopter seed surface — Completed 2026-05-26.
 - [x] **CORE-EPIC-211** [light] | gate-clarity-agent-neutral — Completed 2026-05-26.
