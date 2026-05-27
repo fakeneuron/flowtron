@@ -39,6 +39,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **CORE-196** [opus] | worktree-convention — Add doc convention + thin `/ft-worktree-start` + `/ft-worktree-end` skills for parallel epic-child work in isolated git worktrees. Adopted-from-superpowers `using-git-worktrees` pattern. Awaiting `/ft-epic-discovery` to promote to CORE-EPIC-N. Filed with starter at `_project/tasknote/CORE-196.md`.
 
+- [ ] **CORE-209** [light] | fix-migration-glossary-link — Correct the double-`docs/` relative href in the vocabulary callout at docs/MIGRATION.md:3 (first paragraph). Surfaced by audit-docs 2026-05-27 (Finding #1, Medium).
+
 - [x] **CORE-206** [sonnet] | model-token-vocabulary — Completed 2026-05-25. (neutral primary labels `[heavy]` / `[light]` introduced; opus/sonnet kept as valid examples)
 
 ## Low
@@ -51,6 +53,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-210** [grok] | release v4.2.0 — Completed 2026-05-26.
 - [x] **CORE-EPIC-205** [sonnet] | agent-neutrality-sweep — Completed 2026-05-26.
   - [x] **CORE-205.1** [sonnet] | discovery — Completed 2026-05-25.
   - [x] **CORE-205.2** [grok] | contract-layer-hygiene — Completed 2026-05-25.
