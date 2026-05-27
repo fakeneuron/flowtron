@@ -1,6 +1,6 @@
 # Adopting Flowtron in a Project
 
-This is the procedural guide for putting flowtron into a project. For the "why," see [PHILOSOPHY.md](PHILOSOPHY.md). For the workflow contract, see [SPEC.md](../SPEC.md). For the load-bearing vocabulary (terms, phases, markers, grammar), see the lazy-loaded [docs/GLOSSARY.md](docs/GLOSSARY.md) (pointers only; SPEC is authoritative).
+This is the procedural guide for putting flowtron into a project. For the "why," see [PHILOSOPHY.md](PHILOSOPHY.md). For the workflow contract, see [SPEC.md](../SPEC.md). For the load-bearing vocabulary (terms, phases, markers, grammar), see the lazy-loaded [GLOSSARY.md](GLOSSARY.md) (pointers only; SPEC is authoritative).
 
 There are two starting points:
 
