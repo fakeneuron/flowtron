@@ -21,14 +21,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-208.7** [light] 🔧 | suggestion-ux-cleanup — Completed 2026-05-26.
   - [x] **CORE-208.8** [grok] 🔧 | audit — Completed 2026-05-26.
 
-- [ ] **CORE-EPIC-211** [light] | gate-clarity-agent-neutral — Review flowtron for complete environment and agent neutrality. Deep focus on clarity of user communication at every gate and phase transition (emojis, line breaks, explicit instructions, skippable non-drift paths e.g. Phase 1→2). Ensure clarifying questions stay appropriate and deep-model references use version-agnostic names only.
-  - [x] **CORE-211.1** [light] | discovery — Completed 2026-05-26.
-  - [x] **CORE-211.2** [light] | contract-gates-spec — Completed 2026-05-26.
-  - [x] **CORE-211.3** [light] | skill-gate-prose — Completed 2026-05-26.
-  - [x] **CORE-211.4** [light] | template-phase-text — Completed 2026-05-26.
-  - [ ] **CORE-211.5** [light] | docs-verification-sweep — Confirm "families only" deep-model naming across AGENT-NEUTRALITY.md, GLOSSARY.md, model.md, and related docs; no version pins remain.
-  - [ ] **CORE-211.6** [light] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.
-
 ## Medium
 
 - [ ] **CORE-EPIC-194** [opus] | gsd-pi-learnings — Survey GSD-Pi (active successor to archived GSD-2) for adoptable patterns; deliverable is filed child scopes per lesson. Refined at .1 closure.
@@ -58,6 +50,14 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 (none)
 
 ## Completed
+
+- [x] **CORE-EPIC-211** [light] | gate-clarity-agent-neutral — Completed 2026-05-26.
+  - [x] **CORE-211.1** [light] | discovery — Completed 2026-05-26.
+  - [x] **CORE-211.2** [light] | contract-gates-spec — Completed 2026-05-26.
+  - [x] **CORE-211.3** [light] | skill-gate-prose — Completed 2026-05-26.
+  - [x] **CORE-211.4** [light] | template-phase-text — Completed 2026-05-26.
+  - [x] **CORE-211.5** [light] | docs-verification-sweep — Completed 2026-05-26.
+  - [x] **CORE-211.6** [light] | audit — Completed 2026-05-26.
 
 - [x] **CORE-210** [grok] | release v4.2.0 — Completed 2026-05-26.
 - [x] **CORE-209** [light] | fix-migration-glossary-link — Completed 2026-05-26.
