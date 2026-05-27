@@ -24,7 +24,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-EPIC-211** [light] | gate-clarity-agent-neutral — Review flowtron for complete environment and agent neutrality. Deep focus on clarity of user communication at every gate and phase transition (emojis, line breaks, explicit instructions, skippable non-drift paths e.g. Phase 1→2). Ensure clarifying questions stay appropriate and deep-model references use version-agnostic names only.
   - [x] **CORE-211.1** [light] | discovery — Completed 2026-05-26.
   - [x] **CORE-211.2** [light] | contract-gates-spec — Completed 2026-05-26.
-  - [ ] **CORE-211.3** [light] | skill-gate-prose — Minimal cleanup of dense paragraphs or unclear instructions in ft-task, ft-epic-discovery, ft-close-epic, and ft-micro-task at banners, previews, and clarifying steps.
+  - [x] **CORE-211.3** [light] | skill-gate-prose — Completed 2026-05-26.
   - [ ] **CORE-211.4** [light] | template-phase-text — Light pass on tasknote-template.md (and variants) phase checklists; add line breaks only where scanning is harmed.
   - [ ] **CORE-211.5** [light] | docs-verification-sweep — Confirm "families only" deep-model naming across AGENT-NEUTRALITY.md, GLOSSARY.md, model.md, and related docs; no version pins remain.
   - [ ] **CORE-211.6** [light] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.

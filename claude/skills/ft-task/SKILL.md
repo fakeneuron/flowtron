@@ -114,7 +114,8 @@ Skill-specific imperatives on top of the SPEC contract:
 - Tick boxes in the tasknote as you complete them.
 - The first checklist item (Reviewed PLAN.md) is already done in Step 1 of this skill.
 - For the Archive skim step: `ls _project/tasknote/archive/<area>/` to enumerate, then for each source path in scope run `grep -l <path> _project/tasknote/archive/<area>/*.md`. Read the hits and log anything load-bearing in Discovery Notes (file moves, regressions, design decisions, hardlink notes, etc.). If `archive/<area>/` is empty or absent, log "no prior tasknotes" and tick the box.
-- For the Clarifying questions step: use AskUserQuestion for anything genuinely ambiguous. If nothing is ambiguous, write `No clarifications needed` in the tasknote with the explicit assumptions. **When `fast-mode = true`** (from Step 0), skip the AskUserQuestion call and write `No clarifications needed (--fast)` with the explicit assumptions the operator is asserting.
+- For the Clarifying questions step: use AskUserQuestion for anything genuinely ambiguous. If nothing is ambiguous, write `No clarifications needed` in the tasknote with the explicit assumptions.
+  **When `fast-mode = true`** (from Step 0): skip the AskUserQuestion call and write `No clarifications needed (--fast)` with the explicit assumptions the operator is asserting.
 - For the "populate Subtasks" step: fill the tasknote's `## 🧩 Subtasks` checklist with concrete, ordered steps.
 - Do not enter Phase 2 until every Phase 1 box is ticked. Once ticked, apply the SPEC §"📝 Phase 1: Discovery" exit gate's **`default-skip` flavor** (the flavor `/ft-task` uses): judge whether Discovery surfaced a significant scope deviation from the original plan.
   - **Skip branch (default)** — no significant scope deviation surfaced (small-clarifications-only or zero asks). Emit the inline marker `✅ Phase 1 Discovery complete; entering Phase 2 Execution.` and start Step 5 Phase 2 immediately. Plain prose, not a banner; not a new gate. Concrete skip cases: typo/format/style/naming/comment-style clarifications; explicit assumptions logged with no asks.
@@ -122,7 +123,9 @@ Skill-specific imperatives on top of the SPEC contract:
 
   Record the judgment inline at the exit ("Discovery surfaced no significant deviation → skip 🛠️." or "Discovery surfaced <one-line reason> → fire 🛠️.") so the operator can spot misjudgments in the transcript.
 
-**`--fast` interaction.** Under the `default-skip` flavor, `--fast`'s 🛠️ suppression is a **no-op for routine trips** — the default already skips them. `--fast` does not weaken the drift carve-out: Re-scope/De-scope verdicts always fire 🛠️ regardless of `--fast`. On a `Proceed` Verdict with `fast-mode = true`, the clarifying-questions step writes `No clarifications needed (--fast)` and the Skip branch fires. The flag stays meaningful for the 👁️ frontend ask (Step 5 Phase 3) and the 📦 ready-to-commit signal trips (Step 6).
+**`--fast` interaction.** Under the `default-skip` flavor, `--fast`'s 🛠️ suppression is a **no-op for routine trips** — the default already skips them. `--fast` does not weaken the **drift carve-out**: Re-scope/De-scope verdicts always fire 🛠️ regardless of `--fast`.
+
+On a `Proceed` Verdict with `fast-mode = true`, the clarifying-questions step writes `No clarifications needed (--fast)` and the Skip branch fires. The flag stays meaningful for the 👁️ frontend ask (Step 5 Phase 3) and the 📦 ready-to-commit signal trips (Step 6).
 
 ## Step 5 — Phases 2-4 (drive conversationally)
 
