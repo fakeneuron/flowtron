@@ -28,7 +28,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-194.2** [opus] | vision-md — Completed 2026-05-25.
   - [x] **CORE-194.3** [grok] | glossary — Completed 2026-05-26.
   - [x] **CORE-194.4** [grok] | security-scanner-allowlist — Completed 2026-05-26.
-  - [ ] **CORE-194.5** [opus] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.
+  - [x] **CORE-194.5** [grok] | audit — Completed 2026-05-26.
 
 - [ ] **CORE-EPIC-195** [opus] | ft-debug-skill — Add `/ft-debug` skill for hypothesis-first debugging (expected/observed → hypothesis → minimal repro → bisect → verify) — distinct from `/ft-task` Phase 1 Discovery; modeled after superpowers' `systematic-debugging`. Filed via /ft-epic-discovery; refined at .1 closure.
   - [x] **CORE-195.1** [opus] | discovery — Completed 2026-05-25. ([archive](tasknote/archive/core/CORE-195.1.md))
