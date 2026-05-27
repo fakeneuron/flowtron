@@ -43,7 +43,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-(none)
+- [ ] **CORE-214** [sonnet] | settings-local-hygiene — Follow-up from /ft-audit-context: document modern Claude Code permission layering (global + personal base like natabula + tiny per-project .local only) + recommend `acceptEdits` defaultMode + periodic `/less-permission-prompts` use. Small update to SECURITY.md + optional natabula docs. Surfaced during flowtron dev env cleanup 2026-05-26.
 
 ## Future Opportunities
 
