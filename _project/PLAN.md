@@ -11,16 +11,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-EPIC-208** [light] 🔧 | heavy-light-suggestions — Eliminate hard-coded specific-model prompts (e.g. 'copy-paste /clear then /model opus') from skill post-closure text and examples. Adopt agent-agnostic suggestions using [heavy]🧠/[light]🔧 primary labels + 'design vs mechanical' prose with emoji visuals. Update global CLAUDE.md. All children [light]-scoped.
-  - [x] **CORE-208.1** [light] 🔧 | discovery — Completed 2026-05-26.
-  - [x] **CORE-208.2** [light] 🔧 | ft-task-epic-copy-paste — Completed 2026-05-26.
-  - [x] **CORE-208.3** [light] 🔧 | micro-audit-fragments — Completed 2026-05-26.
-  - [x] **CORE-208.4** [grok] 🔧 | global-claude-md — Completed 2026-05-26.
-  - [x] **CORE-208.5** [light] 🔧 | verify-sweep — Completed 2026-05-26.
-  - [ ] **CORE-208.6** [grok] 🔧 | audit (stale placeholder) — Superseded by CORE-208.8. Original filed as highest at discovery time; .7 was inserted afterward.
-  - [x] **CORE-208.7** [light] 🔧 | suggestion-ux-cleanup — Completed 2026-05-26.
-  - [x] **CORE-208.8** [grok] 🔧 | audit — Completed 2026-05-26.
-
 ## Medium
 
 - [ ] **CORE-EPIC-194** [opus] | gsd-pi-learnings — Survey GSD-Pi (active successor to archived GSD-2) for adoptable patterns; deliverable is filed child scopes per lesson. Refined at .1 closure.
@@ -37,7 +27,10 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [ ] **CORE-195.4** [opus] | spec-integration — Add bullet to `SPEC.md` §"When to use a tasknote (and when not to)" positioning `/ft-debug` for bugs and unexpected behavior; bump §"Skill namespace" bundled-skill enumeration to include `ft-debug`; verify §"The 4-phase workflow" needs no debug-specific guidance fold-in.
   - [ ] **CORE-195.5** [opus] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.
 
-- [ ] **CORE-196** [opus] | worktree-convention — Add doc convention + thin `/ft-worktree-start` + `/ft-worktree-end` skills for parallel epic-child work in isolated git worktrees. Adopted-from-superpowers `using-git-worktrees` pattern. Awaiting `/ft-epic-discovery` to promote to CORE-EPIC-N. Filed with starter at `_project/tasknote/CORE-196.md`.
+- [ ] **CORE-EPIC-215** [grok] | worktree-convention — Doc convention + thin `/ft-worktree-start` + `/ft-worktree-end` skills for parallel independent epic-child work in isolated git worktrees (adopted from superpowers `using-git-worktrees`). Re-scoped from CORE-196 starter in Phase 1 of that task; .1 Discovery refines and files .2..5 children.
+
+  - [ ] **CORE-215.1** [grok] | discovery — Scope shared design surface and file concrete children .2..5 per SPEC/epic.md (doc + two thin skills + wiring surfaces).
+  - [ ] **CORE-215.6** [grok] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.6` child.
 
 - [x] **CORE-206** [sonnet] | model-token-vocabulary — Completed 2026-05-25. (neutral primary labels `[heavy]` / `[light]` introduced; opus/sonnet kept as valid examples)
 
@@ -49,6 +42,15 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-208** [light] 🔧 | heavy-light-suggestions — Completed 2026-05-29.
+  - [x] **CORE-208.1** [light] 🔧 | discovery — Completed 2026-05-26.
+  - [x] **CORE-208.2** [light] 🔧 | ft-task-epic-copy-paste — Completed 2026-05-26.
+  - [x] **CORE-208.3** [light] 🔧 | micro-audit-fragments — Completed 2026-05-26.
+  - [x] **CORE-208.4** [grok] 🔧 | global-claude-md — Completed 2026-05-26.
+  - [x] **CORE-208.5** [light] 🔧 | verify-sweep — Completed 2026-05-26.
+  - [x] **CORE-208.6** [grok] 🔧 | audit (stale placeholder) — Completed 2026-05-26.
+  - [x] **CORE-208.7** [light] 🔧 | suggestion-ux-cleanup — Completed 2026-05-26.
+  - [x] **CORE-208.8** [grok] 🔧 | audit — Completed 2026-05-26.
 - [x] **CORE-214** [grok] | settings-local-hygiene — Completed 2026-05-27.
 - [x] **CORE-213** [grok] | Fix stale cross-refs + audit-scaffold hygiene — Completed 2026-05-26.
 - [x] **CORE-212** [grok] | Retire "Pinned to:" from adopter seed surface — Completed 2026-05-26.
