@@ -13,13 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-194** [opus] | gsd-pi-learnings — Survey GSD-Pi (active successor to archived GSD-2) for adoptable patterns; deliverable is filed child scopes per lesson. Refined at .1 closure.
-  - [x] **CORE-194.1** [opus] | discovery — Completed 2026-05-24.
-  - [x] **CORE-194.2** [opus] | vision-md — Completed 2026-05-25.
-  - [x] **CORE-194.3** [grok] | glossary — Completed 2026-05-26.
-  - [x] **CORE-194.4** [grok] | security-scanner-allowlist — Completed 2026-05-26.
-  - [x] **CORE-194.5** [grok] | audit — Completed 2026-05-26.
-
 - [ ] **CORE-EPIC-195** [opus] | ft-debug-skill — Add `/ft-debug` skill for hypothesis-first debugging (expected/observed → hypothesis → minimal repro → bisect → verify) — distinct from `/ft-task` Phase 1 Discovery; modeled after superpowers' `systematic-debugging`. Filed via /ft-epic-discovery; refined at .1 closure.
   - [x] **CORE-195.1** [opus] | discovery — Completed 2026-05-25. ([archive](tasknote/archive/core/CORE-195.1.md))
   - [ ] **CORE-195.2** [opus] | skill-and-command — Author `claude/skills/ft-debug/SKILL.md` and `claude/commands/ft-debug.md`. SKILL drives hypothesis-first cadence (expected/observed → hypothesis → minimal repro) within standard 4-phase Discovery using `templates/tasknote-template.md`. Soft tone; no Iron Law framing.
@@ -42,6 +35,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-194** [opus] | gsd-pi-learnings — Completed 2026-05-29.
+  - [x] **CORE-194.1** [opus] | discovery — Completed 2026-05-24.
+  - [x] **CORE-194.2** [opus] | vision-md — Completed 2026-05-25.
+  - [x] **CORE-194.3** [grok] | glossary — Completed 2026-05-26.
+  - [x] **CORE-194.4** [grok] | security-scanner-allowlist — Completed 2026-05-26.
+  - [x] **CORE-194.5** [grok] | audit — Completed 2026-05-26.
 - [x] **CORE-EPIC-208** [light] 🔧 | heavy-light-suggestions — Completed 2026-05-29.
   - [x] **CORE-208.1** [light] 🔧 | discovery — Completed 2026-05-26.
   - [x] **CORE-208.2** [light] 🔧 | ft-task-epic-copy-paste — Completed 2026-05-26.
