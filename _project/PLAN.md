@@ -16,7 +16,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-EPIC-195** [opus] | ft-debug-skill — Add `/ft-debug` skill for hypothesis-first debugging (expected/observed → hypothesis → minimal repro → bisect → verify) — distinct from `/ft-task` Phase 1 Discovery; modeled after superpowers' `systematic-debugging`. Filed via /ft-epic-discovery; refined at .1 closure.
   - [x] **CORE-195.1** [opus] | discovery — Completed 2026-05-25. ([archive](tasknote/archive/core/CORE-195.1.md))
   - [x] **CORE-195.2** [grok] | skill-and-command — Completed 2026-05-29.
-  - [ ] **CORE-195.3** [opus] | adopter-wiring — Wire `/ft-debug` into `claude/AGENTS-snippet.md` (paste-block skill enumeration + §"One-time symlink wiring" list), `claude/skills/ft-new-project/SKILL.md` Step 3 symlink list, `docs/MIGRATION.md` §1.2 prose (six → seven), `claude/skills/ft-flowtron/SKILL.md` roster, `docs/PLATFORMS.md` skill counts (18→19 across two surfaces).
+  - [x] **CORE-195.3** [opus] | adopter-wiring — Completed 2026-05-29.
   - [ ] **CORE-195.4** [opus] | spec-integration — Add bullet to `SPEC.md` §"When to use a tasknote (and when not to)" positioning `/ft-debug` for bugs and unexpected behavior; bump §"Skill namespace" bundled-skill enumeration to include `ft-debug`; verify §"The 4-phase workflow" needs no debug-specific guidance fold-in.
   - [ ] **CORE-195.5** [opus] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.
 

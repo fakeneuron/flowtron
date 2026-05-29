@@ -55,7 +55,7 @@ The `checkout` step is what pins the project to a specific flowtron commit. Skip
 
 Reference: `docs/MIGRATION.md` §1.1.
 
-## Step 3 — Wire /ft-task, /ft-starter-task, /ft-micro-task, /ft-file-followup, /ft-epic-discovery, /ft-close-epic via symlinks
+## Step 3 — Wire /ft-task, /ft-starter-task, /ft-micro-task, /ft-file-followup, /ft-epic-discovery, /ft-close-epic, /ft-debug via symlinks
 
 Read `_project/flowtron/claude/AGENTS-snippet.md` and run the bash block under the §"One-time symlink wiring" heading from the project root. Run it verbatim — relative paths are intentional (they survive `git clone` and pin to whichever flowtron commit the submodule is checked out at). Do not substitute absolute paths.
 
@@ -94,8 +94,8 @@ Stage the bootstrap files explicitly. Do **not** use `git add .` or `git add -A`
 
 ```sh
 git add .gitmodules _project/flowtron _project/PLAN.md _project/tasknote/ \
-        .claude/commands/ft-task.md .claude/commands/ft-starter-task.md .claude/commands/ft-micro-task.md .claude/commands/ft-file-followup.md .claude/commands/ft-epic-discovery.md .claude/commands/ft-close-epic.md \
-        .claude/skills/ft-task .claude/skills/ft-starter-task .claude/skills/ft-micro-task .claude/skills/ft-file-followup .claude/skills/ft-epic-discovery .claude/skills/ft-close-epic \
+        .claude/commands/ft-task.md .claude/commands/ft-starter-task.md .claude/commands/ft-micro-task.md .claude/commands/ft-file-followup.md .claude/commands/ft-epic-discovery.md .claude/commands/ft-close-epic.md .claude/commands/ft-debug.md \
+        .claude/skills/ft-task .claude/skills/ft-starter-task .claude/skills/ft-micro-task .claude/skills/ft-file-followup .claude/skills/ft-epic-discovery .claude/skills/ft-close-epic .claude/skills/ft-debug \
         AGENTS.md
 ```
 
@@ -109,7 +109,7 @@ Reference: `docs/MIGRATION.md` §1.6.
 
 ## Step 8 — Verify and hand off
 
-Confirm all twelve symlinks resolve correctly:
+Confirm all fourteen symlinks resolve correctly:
 
 ```sh
 readlink .claude/commands/ft-task.md            # → ../../_project/flowtron/claude/commands/ft-task.md
@@ -118,12 +118,14 @@ readlink .claude/commands/ft-micro-task.md      # → ../../_project/flowtron/cl
 readlink .claude/commands/ft-file-followup.md   # → ../../_project/flowtron/claude/commands/ft-file-followup.md
 readlink .claude/commands/ft-epic-discovery.md  # → ../../_project/flowtron/claude/commands/ft-epic-discovery.md
 readlink .claude/commands/ft-close-epic.md      # → ../../_project/flowtron/claude/commands/ft-close-epic.md
+readlink .claude/commands/ft-debug.md           # → ../../_project/flowtron/claude/commands/ft-debug.md
 readlink .claude/skills/ft-task                 # → ../../_project/flowtron/claude/skills/ft-task
 readlink .claude/skills/ft-starter-task         # → ../../_project/flowtron/claude/skills/ft-starter-task
 readlink .claude/skills/ft-micro-task           # → ../../_project/flowtron/claude/skills/ft-micro-task
 readlink .claude/skills/ft-file-followup        # → ../../_project/flowtron/claude/skills/ft-file-followup
 readlink .claude/skills/ft-epic-discovery       # → ../../_project/flowtron/claude/skills/ft-epic-discovery
 readlink .claude/skills/ft-close-epic           # → ../../_project/flowtron/claude/skills/ft-close-epic
+readlink .claude/skills/ft-debug                # → ../../_project/flowtron/claude/skills/ft-debug
 ```
 
 If any resolves wrong, fix before reporting success.
