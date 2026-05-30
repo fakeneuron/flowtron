@@ -26,7 +26,7 @@ Alphabetized. ~48 entries at initial cut. Maintained via epic children and audit
 
 **Closure (Phase 4)** — The final auto-run phase: mandatory doc-drift sweep, PLAN.md line flip to stub form + archive move, recap draft. Flows directly into the post-closure protocol. See SPEC §"🚀 Phase 4: Closure".
 
-**Conditional skip rule** — The deterministic three-signal test (zero frontend files changed, zero privileged-ops paths changed, no perf-narrative concern) plus bundled-prompt override that decides whether the 📦 ready-to-commit gate fires or the closure auto-commits. See SPEC §"Conditional skip rule".
+**Conditional skip rule** — The deterministic three-signal test (zero frontend files changed, zero privileged-ops paths changed, no perf-narrative concern) plus bundled-prompt override that decides whether the 📦 ready-to-commit gate fires or the closure auto-commits. See SPEC/gates.md §"Conditional skip rule".
 
 **copy-paste line** — The post-closure "suggest next" helper: emoji primary label (`[heavy]🧠` / `[light]🔧`) + "design vs mechanical" prose + shortname, followed by a tight "Clear your session, then use 🔧 /ft-task <next-ID>" cue. Never emits literal `/model` or `/clear` commands.
 
@@ -80,7 +80,7 @@ Alphabetized. ~48 entries at initial cut. Maintained via epic children and audit
 
 **priority level** — The PLAN.md heading under which a task row lives (`## High`, `## Medium`, etc.). The `[!critical]` flag can float a row inside High. See SPEC §"Priority levels".
 
-**privileged-ops** — One of the three Conditional skip signals: any changed path under migrations/, auth/, security/secrets/, credentials/, or external integrations/, plus any diff containing uppercase credential keywords (`API_KEY`, `SECRET`, `TOKEN`, `PASSWORD`). See SPEC §"Conditional skip rule".
+**privileged-ops** — One of the three Conditional skip signals: any changed path under migrations/, auth/, security/secrets/, credentials/, or external integrations/, plus any diff containing uppercase credential keywords (`API_KEY`, `SECRET`, `TOKEN`, `PASSWORD`). See SPEC/gates.md §"Conditional skip rule".
 
 **ready-to-commit (📦)** — The second (and final) operator-gate cue; bundles closure review, recap, and proposed commit message. Fires when any Conditional skip signal is hit or a bundled prompt is queued. See SPEC §"Operator-gate cues".
 

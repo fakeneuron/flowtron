@@ -68,8 +68,9 @@ paths: ['*-EPIC-*.md', '*.[0-9]*.md']
 
 The field is **populated only where a filename-based trigger applies**.
 `SPEC/epic.md` declares the parent-epic and epic-subtask filename shapes;
-the remaining modules (`starter` · `blocked` · `model` · `versioning`)
-have status- or content-based triggers and declare `paths: []`. The
+the remaining modules (`starter` · `blocked` · `model` · `versioning` ·
+`gates` · `tasknote-selection`) have status- or content-based triggers
+and declare `paths: []`. The
 leading `> Lazy-loaded SPEC module. Loaded by ...` prose line stays
 authoritative for status/content triggers.
 

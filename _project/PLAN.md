@@ -17,7 +17,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-223.1** [opus] | discovery — Completed 2026-05-30.
   - [x] **CORE-223.2** [opus] | gates-module — Completed 2026-05-30.
   - [x] **CORE-223.3** [opus] | selection-module — Completed 2026-05-30.
-  - [ ] **CORE-223.4** [opus] | integration-wiring — Add `paths:` frontmatter to both new modules; refresh SPEC §"Lazy SPEC module frontmatter" + §"Working in the flowtron repo" module lists; verify SPEC.md hits comfortable margin under 40k; doc-currency sweep (GLOSSARY/PLATFORMS/AGENT-NEUTRALITY/MIGRATION + README).
+  - [x] **CORE-223.4** [opus] | integration-wiring — Completed 2026-05-30.
   - [ ] **CORE-223.5** [sonnet] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Verify module loads, cross-refs intact, byte targets met.
 
 - [ ] **CORE-EPIC-224** [opus] | agent-compatibility-surface — Living agent-compatibility surface: a supported-agents matrix (big-N+ CLI/IDE, Grok a priority) plus per-agent explicit capability-trigger wiring (e.g. Claude effort levels) in the platform dirs, kept current via per-agent 'last-verified vX/date' notes. Deferred until after the next release ships; direction locked via audit-context Q&A 2026-05-30, refined at .1 closure.

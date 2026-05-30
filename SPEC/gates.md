@@ -1,3 +1,7 @@
+---
+paths: []
+---
+
 # Gate machinery
 
 > Lazy-loaded SPEC module. Loaded by `/ft-task`, `/ft-micro-task`, `/ft-epic-discovery`, `/ft-close-epic`, and `/ft-release` whenever an operator-gate decision is in play (Phase 1→2 exit, ready-to-commit). See `SPEC.md` for the always-loaded core spec; this module carries the full gate contract the core §"The 4-phase workflow" and §"Post-closure protocol" anchors point at.
