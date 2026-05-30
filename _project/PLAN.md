@@ -13,15 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-215** [grok] | worktree-convention — Doc convention + thin `/ft-worktree-start` + `/ft-worktree-end` skills for parallel independent epic-child work in isolated git worktrees (adopted from superpowers `using-git-worktrees`). Re-scoped from CORE-196 starter in Phase 1 of that task; .1 Discovery refines and files .2..5 children.
-
-  - [x] **CORE-215.1** [grok] | discovery — Completed 2026-05-30.
-  - [x] **CORE-215.2** [grok] | worktree-doc — Completed 2026-05-30.
-  - [x] **CORE-215.3** [grok] | worktree-start — Completed 2026-05-30.
-  - [x] **CORE-215.4** [grok] | worktree-end — Completed 2026-05-30.
-  - [x] **CORE-215.5** [grok] | worktree-wiring — Completed 2026-05-30.
-  - [x] **CORE-215.6** [grok] | audit — Completed 2026-05-30.
-
 - [x] **CORE-206** [sonnet] | model-token-vocabulary — Completed 2026-05-25. (neutral primary labels `[heavy]` / `[light]` introduced; opus/sonnet kept as valid examples)
 
 ## Low
@@ -32,6 +23,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-215** [grok] | worktree-convention — Completed 2026-05-30.
+  - [x] **CORE-215.1** [grok] | discovery — Completed 2026-05-30.
+  - [x] **CORE-215.2** [grok] | worktree-doc — Completed 2026-05-30.
+  - [x] **CORE-215.3** [grok] | worktree-start — Completed 2026-05-30.
+  - [x] **CORE-215.4** [grok] | worktree-end — Completed 2026-05-30.
+  - [x] **CORE-215.5** [grok] | worktree-wiring — Completed 2026-05-30.
+  - [x] **CORE-215.6** [grok] | audit — Completed 2026-05-30.
 - [x] **CORE-EPIC-195** [opus] | ft-debug-skill — Completed 2026-05-29.
   - [x] **CORE-195.1** [opus] | discovery — Completed 2026-05-25. ([archive](tasknote/archive/core/CORE-195.1.md))
   - [x] **CORE-195.2** [grok] | skill-and-command — Completed 2026-05-29.
