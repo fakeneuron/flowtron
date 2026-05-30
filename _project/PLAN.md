@@ -13,14 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-224** [opus] | agent-compatibility-surface — Living agent-compatibility surface: a supported-agents matrix (big-N+ CLI/IDE, Grok a priority) plus per-agent explicit capability-trigger wiring (e.g. Claude effort levels) in the platform dirs, kept current via per-agent 'last-verified vX/date' notes. Deferred until after the next release ships; direction locked via audit-context Q&A 2026-05-30, refined at .1 closure.
-  - [x] **CORE-224.1** [opus] | discovery — Completed 2026-05-30.
-  - [x] **CORE-224.2** [opus] | compat-matrix — Completed 2026-05-30.
-  - [x] **CORE-224.3** [opus] | claude-triggers — Completed 2026-05-30.
-  - [x] **CORE-224.4** [sonnet] | nonclaude-triggers — Completed 2026-05-30.
-  - [x] **CORE-224.5** [sonnet] | last-verified-currency — Completed 2026-05-30.
-  - [ ] **CORE-224.6** [sonnet] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Verify doc currency, per-agent trigger wiring, last-verified notes.
-
 - [x] **CORE-206** [sonnet] | model-token-vocabulary — Completed 2026-05-25. (neutral primary labels `[heavy]` / `[light]` introduced; opus/sonnet kept as valid examples)
 
 ## Low
@@ -34,6 +26,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-224** [opus] | agent-compatibility-surface — Completed 2026-05-30.
+  - [x] **CORE-224.1** [opus] | discovery — Completed 2026-05-30.
+  - [x] **CORE-224.2** [opus] | compat-matrix — Completed 2026-05-30.
+  - [x] **CORE-224.3** [opus] | claude-triggers — Completed 2026-05-30.
+  - [x] **CORE-224.4** [sonnet] | nonclaude-triggers — Completed 2026-05-30.
+  - [x] **CORE-224.5** [sonnet] | last-verified-currency — Completed 2026-05-30.
+  - [x] **CORE-224.6** [sonnet] | audit — Completed 2026-05-30.
 - [x] **CORE-225** [opus] | release v4.3.0 — Completed 2026-05-30.
 - [x] **CORE-EPIC-223** [opus] | spec-lazy-module-split — Completed 2026-05-30.
   - [x] **CORE-223.1** [opus] | discovery — Completed 2026-05-30.
