@@ -48,6 +48,8 @@ A lightweight, project-agnostic tasknote system for solo AI-assisted coding. Kee
 | `/ft-epic-discovery` | Scaffold and drive a new epic: files parent + `.1` Discovery + audit placeholder, then drives Discovery inline. |
 | `/ft-close-epic` | Close an epic by scaffolding and driving its audit subtask, then flips the parent entry to Completed. |
 | `/ft-debug` | Drive a full 4-phase tasknote with a hypothesis-first cadence (expected/observed → ranked hypotheses → minimal repro → re-verify) embedded inside Phase 1 Discovery. Peer to `/ft-task`; soft scaffolding for bugs and unexpected behavior. |
+| `/ft-worktree-start` | Create an isolated git worktree for an independent epic child tasknote (branch `wt-<ID>`, copy active tasknote, handoff to fresh session). Thin procedural utility; pair with `/ft-worktree-end`. See `docs/WORKTREES.md`. |
+| `/ft-worktree-end` | From main: verify branch merged (or explicit discard), `git worktree remove`, archive the *copied* tasknote into main, optional prune. Thin procedural utility. See `docs/WORKTREES.md`. |
 | `/ft-audit` | Stack-neutral scaffold for a ruthless principal-engineer code audit — 5 passes (Security · Idioms · Hygiene · Orphans · Doc drift), capped findings, writes tickets to PLAN. Fork and customize per stack. |
 | `/ft-audit-docs` | Documentation-drift audit — 5 passes (Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content). Forkable; invoked standalone or as a subroutine by `/ft-release` §7.1. |
 | `/ft-audit-security` | Security audit — 5 passes (Secrets · Input handling · Auth & authz · Network & boundaries · Dependencies). Forkable; pin sacred invariants and wire your scanner stack. |

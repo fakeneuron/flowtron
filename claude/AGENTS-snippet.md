@@ -44,6 +44,10 @@ ln -s ../../_project/flowtron/claude/skills/ft-file-followup   .claude/skills/ft
 ln -s ../../_project/flowtron/claude/skills/ft-epic-discovery  .claude/skills/ft-epic-discovery
 ln -s ../../_project/flowtron/claude/skills/ft-close-epic      .claude/skills/ft-close-epic
 ln -s ../../_project/flowtron/claude/skills/ft-debug           .claude/skills/ft-debug
+ln -s ../../_project/flowtron/claude/commands/ft-worktree-start.md   .claude/commands/ft-worktree-start.md
+ln -s ../../_project/flowtron/claude/commands/ft-worktree-end.md     .claude/commands/ft-worktree-end.md
+ln -s ../../_project/flowtron/claude/skills/ft-worktree-start    .claude/skills/ft-worktree-start
+ln -s ../../_project/flowtron/claude/skills/ft-worktree-end      .claude/skills/ft-worktree-end
 ```
 
 The relative paths are intentional — they survive `git clone` and pin to whichever flowtron commit the submodule is checked out at. Commit the symlinks (`git add .claude/`).
