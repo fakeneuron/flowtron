@@ -17,7 +17,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-230** [light] | doc-nit-sweep — SECURITY.md:49 names `/less-permission-prompts` (actual command `/fewer-permission-prompts`); AGENT-NEUTRALITY.md:34 ledger row locates skill names at SPEC §"When to use a tasknote" (no longer enumerated there — moved to SPEC/tasknote-selection.md) and lists 6 vs the module's 9. Surfaced by audit-docs 2026-05-30 (Finding #2+#4, Low).
 - [x] **CORE-220** [grok] | settings-local-allowlist-growth — Completed 2026-05-30.
 
 ## Future Opportunities
@@ -26,6 +25,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-230** [light] | doc-nit-sweep — Completed 2026-05-30.
 - [x] **CORE-229** [light] | migration-worktree-stale-forwardref — Completed 2026-05-30.
 - [x] **CORE-228** [opus] | readme-skill-roster-drift — Completed 2026-05-30.
 - [x] **CORE-227** [light] 🔧 | plan-duplicate-cleanup — Completed 2026-05-30.

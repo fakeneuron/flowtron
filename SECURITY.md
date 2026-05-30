@@ -46,7 +46,7 @@ the runtime's tool allowlist is.
   allowlists) + personal base layer (e.g. dedicated repo like natabula for
   reusable personal standards) + per-project `.claude/settings.local.json`
   kept tiny and high-signal only (or empty). Use `defaultMode: "acceptEdits"`
-  (or `plan`) plus periodic `/less-permission-prompts` rather than growing
+  (or `plan`) plus periodic `/fewer-permission-prompts` rather than growing
   long one-off allowlists. Broad globs (`Bash(curl *)`, whole-home `Read(**)`,
   etc.) remain high-risk for prompt injection.
 
