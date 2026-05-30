@@ -17,7 +17,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
   - [x] **CORE-215.1** [grok] | discovery — Completed 2026-05-30.
   - [x] **CORE-215.2** [grok] | worktree-doc — Completed 2026-05-30.
-  - [ ] **CORE-215.3** [grok] | worktree-start — Author thin `claude/skills/ft-worktree-start/SKILL.md` + `claude/commands/ft-worktree-start.md` (branch, create worktree under ~/code/<p>-worktrees/, copy active tasknote, handoff).
+  - [x] **CORE-215.3** [grok] | worktree-start — Completed 2026-05-30.
   - [ ] **CORE-215.4** [grok] | worktree-end — Author thin `claude/skills/ft-worktree-end/SKILL.md` + `claude/commands/ft-worktree-end.md` (verify branch merged or explicit discard, remove worktree, archive copied tasknote).
   - [ ] **CORE-215.5** [grok] | worktree-wiring — Update 5 adopter surfaces (AGENTS-snippet.md symlink list + prose, ft-new-project verification, MIGRATION §1.2, ft-flowtron roster, PLATFORMS counts) for the new pair. No SPEC contract change.
   - [ ] **CORE-215.6** [grok] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.6` child.
