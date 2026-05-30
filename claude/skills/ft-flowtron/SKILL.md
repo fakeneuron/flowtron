@@ -47,7 +47,7 @@ A lightweight, project-agnostic tasknote system for solo AI-assisted coding. Kee
 | `/ft-file-followup` | File a follow-up task from inside an active tasknote — one PLAN line + context paragraph only, no tasknote artifact. |
 | `/ft-epic-discovery` | Scaffold and drive a new epic: files parent + `.1` Discovery + audit placeholder, then drives Discovery inline. |
 | `/ft-close-epic` | Close an epic by scaffolding and driving its audit subtask, then flips the parent entry to Completed. |
-| `/ft-debug` | Drive a full 4-phase tasknote with a hypothesis-first cadence (expected/observed → ranked hypotheses → minimal repro → bisect → fix → re-verify) embedded inside Phase 1 Discovery. Peer to `/ft-task`; soft scaffolding for bugs and unexpected behavior. |
+| `/ft-debug` | Drive a full 4-phase tasknote with a hypothesis-first cadence (expected/observed → ranked hypotheses → minimal repro → re-verify) embedded inside Phase 1 Discovery. Peer to `/ft-task`; soft scaffolding for bugs and unexpected behavior. |
 | `/ft-audit` | Stack-neutral scaffold for a ruthless principal-engineer code audit — 5 passes (Security · Idioms · Hygiene · Orphans · Doc drift), capped findings, writes tickets to PLAN. Fork and customize per stack. |
 | `/ft-audit-docs` | Documentation-drift audit — 5 passes (Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content). Forkable; invoked standalone or as a subroutine by `/ft-release` §7.1. |
 | `/ft-audit-security` | Security audit — 5 passes (Secrets · Input handling · Auth & authz · Network & boundaries · Dependencies). Forkable; pin sacred invariants and wire your scanner stack. |

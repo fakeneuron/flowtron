@@ -13,13 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-195** [opus] | ft-debug-skill — Add `/ft-debug` skill for hypothesis-first debugging (expected/observed → hypothesis → minimal repro → bisect → verify) — distinct from `/ft-task` Phase 1 Discovery; modeled after superpowers' `systematic-debugging`. Filed via /ft-epic-discovery; refined at .1 closure.
-  - [x] **CORE-195.1** [opus] | discovery — Completed 2026-05-25. ([archive](tasknote/archive/core/CORE-195.1.md))
-  - [x] **CORE-195.2** [grok] | skill-and-command — Completed 2026-05-29.
-  - [x] **CORE-195.3** [opus] | adopter-wiring — Completed 2026-05-29.
-  - [x] **CORE-195.4** [opus] | spec-integration — Completed 2026-05-29.
-  - [ ] **CORE-195.5** [opus] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.
-
 - [ ] **CORE-EPIC-215** [grok] | worktree-convention — Doc convention + thin `/ft-worktree-start` + `/ft-worktree-end` skills for parallel independent epic-child work in isolated git worktrees (adopted from superpowers `using-git-worktrees`). Re-scoped from CORE-196 starter in Phase 1 of that task; .1 Discovery refines and files .2..5 children.
 
   - [ ] **CORE-215.1** [grok] | discovery — Scope shared design surface and file concrete children .2..5 per SPEC/epic.md (doc + two thin skills + wiring surfaces).
@@ -35,6 +28,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-195** [opus] | ft-debug-skill — Completed 2026-05-29.
+  - [x] **CORE-195.1** [opus] | discovery — Completed 2026-05-25. ([archive](tasknote/archive/core/CORE-195.1.md))
+  - [x] **CORE-195.2** [grok] | skill-and-command — Completed 2026-05-29.
+  - [x] **CORE-195.3** [opus] | adopter-wiring — Completed 2026-05-29.
+  - [x] **CORE-195.4** [opus] | spec-integration — Completed 2026-05-29.
+  - [x] **CORE-195.5** [opus] | audit — Completed 2026-05-29.
 - [x] **CORE-EPIC-194** [opus] | gsd-pi-learnings — Completed 2026-05-29.
   - [x] **CORE-194.1** [opus] | discovery — Completed 2026-05-24.
   - [x] **CORE-194.2** [opus] | vision-md — Completed 2026-05-25.
