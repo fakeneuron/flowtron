@@ -289,7 +289,7 @@ Leave `## Completed` empty or seed it with a single pointer line:
 ```markdown
 ## Completed
 
-(legacy completions live in `legacy/PLAN.md` — flowtron-era completions land here in stub form per SPEC §"`## Completed` archive convention")
+(legacy completions live in `legacy/PLAN.md` — flowtron-era completions land here in stub form per `SPEC/tasknote-selection.md` §"`## Completed` archive convention")
 ```
 
 The stub-form (CORE-036, v0.10.0) means new flowtron-era completions are one-liners pointing into `_project/tasknote/archive/<area>/`. Don't try to reproduce legacy narrative blocks here — they belong in the frozen legacy plan, not in the new one.

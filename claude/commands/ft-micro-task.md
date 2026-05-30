@@ -9,7 +9,7 @@ If `$ARGUMENTS` is empty, ask the user for a task ID before invoking the skill.
 
 Usage:
 
-- `/ft-micro-task <TASK-ID>` — default flow with the conditional commit-go ask per SPEC §"Conditional skip rule" (fires when the closure diff trips signal rules).
+- `/ft-micro-task <TASK-ID>` — default flow with the conditional commit-go ask per `SPEC/gates.md` §"Conditional skip rule" (fires when the closure diff trips signal rules).
 - `/ft-micro-task <TASK-ID> --fast` (or `-f`) — operator opt-in: forces the Skip branch at Step 5 regardless of signal trips (autonomous commit). Sibling of `/ft-task --fast`; same flag, narrower surface (`/ft-micro-task` has no banner gates).
 
 For full 4-phase tasks, use `/ft-task <TASK-ID>`. For filing a starter (rich-context mid-flow capture, not ready to start), use `/ft-starter-task <TASK-ID>`. For lightweight follow-up filings (no tasknote artifact), use `/ft-file-followup <TASK-ID>`. For opening a new epic, use `/ft-epic-discovery`. For closing one, use `/ft-close-epic`. For bootstrapping a fresh repo with flowtron, use `/ft-new-project`.

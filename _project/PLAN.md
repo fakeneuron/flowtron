@@ -13,13 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-223** [opus] | spec-lazy-module-split — Split deep gate machinery (operator-gate cues, exit-gate flavors, conditional-skip rule) and the tasknote-selection matrix out of SPEC.md into lazy `SPEC/*.md` modules; dedup the 4× `--fast` restatement. Restores comfortable margin under the ~40k always-read budget. Surfaced by audit-context 2026-05-30; refined at .1 closure.
-  - [x] **CORE-223.1** [opus] | discovery — Completed 2026-05-30.
-  - [x] **CORE-223.2** [opus] | gates-module — Completed 2026-05-30.
-  - [x] **CORE-223.3** [opus] | selection-module — Completed 2026-05-30.
-  - [x] **CORE-223.4** [opus] | integration-wiring — Completed 2026-05-30.
-  - [ ] **CORE-223.5** [sonnet] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Verify module loads, cross-refs intact, byte targets met.
-
 - [ ] **CORE-EPIC-224** [opus] | agent-compatibility-surface — Living agent-compatibility surface: a supported-agents matrix (big-N+ CLI/IDE, Grok a priority) plus per-agent explicit capability-trigger wiring (e.g. Claude effort levels) in the platform dirs, kept current via per-agent 'last-verified vX/date' notes. Deferred until after the next release ships; direction locked via audit-context Q&A 2026-05-30, refined at .1 closure.
   - [ ] **CORE-224.1** [opus] | discovery — Scope the compat-doc structure + per-agent trigger-wiring approach (Claude, Grok, Codex, Cursor, Gemini CLI, Aider) and file children .2..5 per SPEC/epic.md. Carries the locked direction above.
   - [ ] **CORE-224.6** [sonnet] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Verify doc currency, per-agent trigger wiring, last-verified notes.
@@ -37,6 +30,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-223** [opus] | spec-lazy-module-split — Completed 2026-05-30.
+  - [x] **CORE-223.1** [opus] | discovery — Completed 2026-05-30.
+  - [x] **CORE-223.2** [opus] | gates-module — Completed 2026-05-30.
+  - [x] **CORE-223.3** [opus] | selection-module — Completed 2026-05-30.
+  - [x] **CORE-223.4** [opus] | integration-wiring — Completed 2026-05-30.
+  - [x] **CORE-223.5** [sonnet] | audit — Completed 2026-05-30.
 - [x] **CORE-222** [light] 🔧 | viz-watch-export-hygiene — Completed 2026-05-30.
 - [x] **CORE-221** [light] 🔧 | viz-version-drift — Completed 2026-05-30.
 - [x] **CORE-219** [grok] | incomplete-dot-claude-skill-wiring — Completed 2026-05-30.
