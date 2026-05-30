@@ -30,6 +30,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-225** [opus] | release v4.3.0 — Completed 2026-05-30.
 - [x] **CORE-EPIC-223** [opus] | spec-lazy-module-split — Completed 2026-05-30.
   - [x] **CORE-223.1** [opus] | discovery — Completed 2026-05-30.
   - [x] **CORE-223.2** [opus] | gates-module — Completed 2026-05-30.
