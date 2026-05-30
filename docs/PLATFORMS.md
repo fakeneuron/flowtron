@@ -37,6 +37,12 @@ uplift* that adds slash-command ergonomics — relevant only when the
 platform offers a skill/command primitive and a contributor wants to
 expose flowtron through it.
 
+For the at-a-glance per-agent view — consume-mode, context entry-point,
+skill/command primitive, and how current each row is — see the living
+matrix in [`AGENT-COMPAT.md`](AGENT-COMPAT.md). This doc owns the
+*structural* model; AGENT-COMPAT.md is its *capability/currency*
+companion and references the table above rather than re-deriving it.
+
 ## The symmetric plug-in pattern
 
 When a contributor ships wiring for a new platform (`codex`, `grok`,
@@ -243,6 +249,9 @@ This doc does **not**:
   layout including the `claude/` locator + this doc's forward-pointer
 - [`AGENT-NEUTRALITY.md`](AGENT-NEUTRALITY.md) — the content-layer
   ledger this doc operationalizes structurally
+- [`AGENT-COMPAT.md`](AGENT-COMPAT.md) — the capability/currency
+  companion: the living per-agent matrix (consume-mode, entry-point,
+  primitive, last-verified)
 - [`MIGRATION.md`](MIGRATION.md) — Claude Code adoption guide today;
   template shape for future per-platform adoption guides
 - `claude/AGENTS-snippet.md` — concrete worked example of the

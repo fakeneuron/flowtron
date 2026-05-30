@@ -1,0 +1,88 @@
+# Agent compatibility matrix
+
+A living, at-a-glance matrix of the AI coding agents flowtron is built to
+work with: how each consumes the contract, what context entry-point it
+reads, what skill/command primitive it offers, and when each row was last
+verified. This is the *capability/currency* companion to
+[`PLATFORMS.md`](PLATFORMS.md) (the *structural* doc — where wiring lives)
+and [`AGENT-NEUTRALITY.md`](AGENT-NEUTRALITY.md) (the *content* ledger —
+which Claude-specific references are intentionally load-bearing).
+
+Audience: occasional. Read this to see at a glance which agents are
+supported and how current each row is, before adopting flowtron under a
+new agent or refreshing a row.
+
+## Scope of this matrix
+
+This matrix is **structural** — it records *how* each agent reaches and
+runs the contract, not the agent's individual capability triggers. Per-agent
+capability triggers (Claude effort/thinking levels and `--fast`; Grok
+context-load quirks; each agent's force-skip and model-switch ergonomics)
+live in the per-agent trigger references, documented separately from this
+scaffold (Claude's in `claude/`; the priority non-Claude agents elsewhere
+in the platform docs). Keeping triggers out of the matrix keeps it a stable
+index rather than a second copy of the trigger detail.
+
+The matrix carries agent-specific *facts* (entry-points, primitives) in
+`docs/`, with neutral framing — the same posture PLATFORMS.md already uses
+for its Grok Build notes. The agent-neutral workflow contract itself
+(`SPEC.md`, `SPEC/`, `templates/`) carries none of this.
+
+## The matrix
+
+| Agent | Consume mode | Context entry-point | Skill / command primitive | Last verified |
+|---|---|---|---|---|
+| **Claude Code** | Wiring + contract | `AGENTS.md` (+ optional `CLAUDE.md`) | `.claude/skills/` + `.claude/commands/` slash commands — full `ft-*` bundle shipped | `v4.3.0` · 2026-05-30 (dogfooded) |
+| **Grok Build** | Contract only | `AGENTS.md` | `.grok/skills/` markdown skills, auto-wired as `/<name>` — no flowtron bundle shipped | docs-only · 2026-05 (pre-adoption) |
+| **Codex CLI** | Contract only | `AGENTS.md` | Native primitive exists; no flowtron bundle | unverified |
+| **Cursor** | Contract only | `AGENTS.md` | Native primitive exists; no flowtron bundle | unverified |
+| **Gemini CLI** | Contract only | `AGENTS.md` | Native primitive exists; no flowtron bundle | unverified |
+| **Aider** | Contract only | `AGENTS.md` | Native primitive exists; no flowtron bundle | unverified |
+| **Sourcegraph Amp** | Contract only | `AGENTS.md` | Native primitive exists; no flowtron bundle | unverified |
+
+### Reading the cells
+
+- **Consume mode** — `Wiring + contract` means the agent has a shipped
+  skill/command bundle that drives the 4-phase workflow inline;
+  `Contract only` means the agent reads `AGENTS.md` and drives the
+  contract conversationally with no flowtron-specific machinery. Mirrors
+  PLATFORMS.md §"Today's surface".
+- **Context entry-point** — flowtron's content reaches every agent through
+  the open-standard `AGENTS.md` paste-block. Several agents also read a
+  native context file (`CLAUDE.md`, `GROK.md`, `GEMINI.md`, `.cursorrules`,
+  Aider's `CONVENTIONS.md`); those are orthogonal to flowtron, which
+  targets `AGENTS.md` so one paste-block serves all agents.
+- **Skill / command primitive** — whether the agent exposes a slash-command
+  or skill mechanism, and whether flowtron ships a bundle for it. Only
+  Claude Code has a bundle today; Grok Build's primitive is researched (see
+  PLATFORMS.md §"Grok Build adoption notes") but no `grok/` bundle exists.
+  The remaining five rows note only that a native primitive exists — their
+  per-agent detail is filed with the non-Claude trigger reference.
+- **Last verified** — when this row was last checked against reality. The
+  `last-verified vX/date` cell **convention is provisional in this scaffold**
+  and is formalized by `CORE-224.5`; until then, `v<version> · <date>`
+  marks a dogfooded row and `unverified` / `docs-only` marks a row resting
+  on documentation rather than a run session.
+
+## Pre-adoption verification
+
+_Only Claude Code is verified by continuous dogfooding._ The six
+`Contract only` rows rest on vendor documentation and launch coverage as of
+May 2026, **not** on a flowtron session run under that agent. Flowtron has
+not shipped wiring for any of them and has not driven an adopting project
+under Codex CLI, Cursor, Gemini CLI, Aider, Sourcegraph Amp, or Grok Build.
+Treat their cells as pre-adoption expectations; update a row on first-use
+observation if anything diverges. This mirrors the Grok Build footer in
+[`PLATFORMS.md`](PLATFORMS.md) §"Grok Build adoption notes".
+
+## Related
+
+- [`PLATFORMS.md`](PLATFORMS.md) — the structural companion: the two-layer
+  contract/wiring model, the symmetric plug-in pattern, and the Grok Build
+  adoption notes this matrix's Grok row references
+- [`AGENT-NEUTRALITY.md`](AGENT-NEUTRALITY.md) — the content ledger of
+  intentional Claude-specific surfaces in the contract layer
+- [`MIGRATION.md`](MIGRATION.md) — the Claude Code adoption guide; the shape
+  a future per-agent adoption guide would mirror
+- [[CORE-EPIC-224]] — the epic that establishes this surface
+- [[CORE-154.4]] — the platform plug-in pattern (`PLATFORMS.md`) this builds on
