@@ -223,9 +223,9 @@ git add _project/tasknote/archive/core/<TASK-ID>.md
 
 (`git mv` from 7.3 already staged the rename; the explicit `add` is defensive.)
 
-Surface the bundled 📦 ready-to-commit gate per SPEC §"Operator-gate cues" (banner block + mandatory 1-2 sentence preview line summarising what executes on commit-go — typically "cut flowtron vA.B.C: commit the 3 doc edits + PLAN.md flip + tasknote archive, create annotated `vA.B.C` tag, push branch + tag to origin (or hold local if push-go declined)"). Alongside the SPEC-defined bundle (closure review · recap · proposed commit message), this skill carries:
+Surface the bundled 📦 ready-to-commit gate per SPEC/gates.md §"Operator-gate cues" (banner block + mandatory 1-2 sentence preview line summarising what executes on commit-go — typically "cut flowtron vA.B.C: commit the 3 doc edits + PLAN.md flip + tasknote archive, create annotated `vA.B.C` tag, push branch + tag to origin (or hold local if push-go declined)"). Alongside the SPEC-defined bundle (closure review · recap · proposed commit message), this skill carries:
 
-- **Push-go prompt** — AskUserQuestion with default Yes, a bundled in-📦 prompt parallel to /ft-close-epic's parent-flip (per SPEC §"Conditional skip rule" bundled-prompt override):
+- **Push-go prompt** — AskUserQuestion with default Yes, a bundled in-📦 prompt parallel to /ft-close-epic's parent-flip (per SPEC/gates.md §"Conditional skip rule" bundled-prompt override):
 
   ```
   Push branch + tag vA.B.C to origin on commit-go?

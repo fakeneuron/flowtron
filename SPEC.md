@@ -288,30 +288,17 @@ Every tasknote follows four phases in strict serial order. Do not skip ahead.
 
 ### Operator-gate cues
 
-The 4-phase workflow surfaces **up to two** operator-gate banners — explicit-approval pauses. Both are conditional: 🛠️ Phase 1→2 fires per the skill's exit-gate flavor (see §"📝 Phase 1: Discovery" exit gate — `/ft-task` skips by default and fires only on significant scope deviation; `/ft-epic-discovery` + `/ft-close-epic` fire on any clarifications surfaced); 📦 ready-to-commit skips when the closure diff clears the signal rule. A fully mechanical task skips both and runs end-to-end with inline state markers. Banner format when one fires:
+The 4-phase workflow surfaces **up to two** operator-gate banners —
+explicit-approval pauses, both conditional: 🛠️ Phase 1→2 (post-Discovery)
+and 📦 ready-to-commit. A fully mechanical task skips both and runs
+end-to-end with inline state markers. Once Phase 1 closes, Phase 2 →
+Phase 3 → Phase 4 closure ops flow continuously without intermediate
+gates; skill-level extensions (epic parent-flip, release push-go) bundle
+into 📦 rather than adding their own banners.
 
-```markdown
----
-
-<emoji>  **AWAITING APPROVAL — <label>**
-
-_<1-2 sentence plain-English preview of what executes on approval>_
-
----
-```
-
-| Gate | Emoji | Label | Trigger |
-|---|---|---|---|
-| Phase 1→2 (post-Discovery) | 🛠️ | `AWAITING APPROVAL — Phase 2: Execution ready` | **Conditional (per-skill flavor)** — `/ft-task`: fires on significant scope deviation (Re-scope/De-scope always; clarifications that materially reshape execution). `/ft-epic-discovery` + `/ft-close-epic`: fires on any clarifications surfaced. Full rule: §"📝 Phase 1: Discovery" exit gate |
-| Ready-to-commit (closure review + work summary bundled) | 📦 | `AWAITING APPROVAL — Ready to commit` | **Conditional** — fires when the diff trips any §"Conditional skip rule" signal (frontend / privileged-ops / perf-narrative) OR a bundled in-📦 prompt is queued (e.g., /ft-close-epic parent-flip); skipped otherwise via autonomous-commit |
-
-_Operator force-skip: passing `--fast` (or `-f`) to `/ft-task` / `/ft-micro-task` forces the 📦 banner to its Skip branch regardless of signals, and suppresses the 👁️ frontend visual-confirmation prose ask. For `/ft-task`'s 🛠️ banner, `--fast` is a **no-op for routine trips** — the `default-skip` flavor (see §"📝 Phase 1: Discovery" exit gate) already skips them; the drift carve-out (Re-scope/De-scope still fires 🛠️) is preserved as the existing default-flow behavior. The flag silences routine signal trips; it does not silence drift._
-
-The **preview line** is **mandatory** on every banner: 1-2 sentence plain-English summary of *what executes on approval*, for scanning intent ("what am I greenlighting?"). File paths, LOC counts, and key decisions belong in the recap (§"🚀 Phase 4: Closure"), not the preview.
-
-Once Phase 1 closes, Phase 2 → Phase 3 → Phase 4 closure ops **flow continuously without intermediate gates**. The recap drafts during closure ops and bundles into the 📦 ready-to-commit motion alongside the closure review (per-entry doc-drift verdicts, PLAN.md line preview, archive path) and the proposed commit message — see §"Post-closure protocol" §"Conditional skip rule" for fire/skip branching.
-
-Skill-level extensions (epic parent-flip, release push-go) **bundle into 📦** rather than adding their own banners.
+Canonical gate contract — banner format, the trigger table, the Phase
+1→2 exit-gate flavors, the conditional skip rule, and the `--fast`
+operator override: see [`SPEC/gates.md`](SPEC/gates.md).
 
 ### 📝 Phase 1: Discovery
 
@@ -329,57 +316,13 @@ The Relevance Assessment is non-negotiable. `Re-scope` updates the PLAN.md line 
 
 Archive skim + drift check both exist because prior tasknotes record decisions (renames, regressions, rationales) and PLAN.md is a snapshot, not a spec. Surface findings before re-interpreting; don't silently "correct" the plan by executing a different task.
 
-**Exit gate (two flavors).** Once every Phase 1 box is ticked, the 🛠️
-banner fires according to one of two flavors. Skills pick a flavor
-based on the volume / risk profile of their flow:
-
-| Flavor | Skills | Default | Fires 🛠️ when |
-|---|---|---|---|
-| `default-skip` | `/ft-task` | Skip 🛠️; emit inline marker; enter Phase 2 immediately | Discovery surfaced a **significant scope deviation** from the original plan — Re-scope/De-scope verdicts (always); or clarifications that materially reshaped execution (assistant judgment) |
-| `default-fire-on-clarifications` | `/ft-epic-discovery`, `/ft-close-epic` | Skip 🛠️ when zero asks fired; otherwise fire | Any structured ask fired, any prose ask reshaped scope, or a Re-scope verdict landed |
-
-Both flavors share the same inline marker text on the skip path —
-emitted as plain prose, not a banner block, not a new gate:
-
-```text
-✅ Phase 1 Discovery complete; entering Phase 2 Execution.
-```
-
-**`default-skip` judgment rule** (used by `/ft-task`). Routine
-clarifications skip; deviations fire. Concrete guidance:
-
-- **Skip (small deviations):** typo confirmation, format/style pick,
-  file naming, comment style, marker wording.
-
-- **Fire 🛠️ (moderate-or-larger deviations):** changed which file
-  to edit, restructured the subtask list, added a cross-cutting
-  concern, discovered a different root cause, changed the approach
-  (refactor vs. inline fix).
-
-- **Always fire 🛠️:** Re-scope and De-scope verdicts (moderate-or-larger
-  by definition — Re-scope rewrites the plan; De-scope changes
-  trajectory entirely).
-
-The assistant judges from Discovery Notes content. The judgment is
-recorded inline at the exit ("Discovery surfaced no significant
-deviation → skip 🛠️" or "Discovery surfaced <one-line reason> → fire
-🛠️"), so the operator can spot misjudgments in the transcript.
-
-**`default-fire-on-clarifications` rule** (used by `/ft-epic-discovery`,
-`/ft-close-epic`). The pre-CORE-183 rule. Lower-volume,
-higher-stakes flows where the operator wants more checkpoints — skip
-only when Discovery surfaced zero asks ("No clarifications needed");
-fire on any structured ask, any prose ask reshaping scope, or any
-Re-scope verdict.
-
-**`--fast` drift carve-out** (applies to `/ft-task` only; the flag
-isn't accepted by the epic skills). Under `default-skip`, `--fast`'s
-🛠️ suppression is a **no-op for routine trips** — the default already
-skips them. The drift carve-out preserves what `--fast` ever did for
-🛠️: Re-scope/De-scope verdicts always fire 🛠️ regardless of `--fast`.
-The flag remains operative for the 👁️ frontend ask and the 📦
-ready-to-commit signal trips. See §"Operator-gate cues" for the
-flag's full surface.
+**Exit gate.** Once every Phase 1 box is ticked, the 🛠️ Phase 1→2 banner
+fires according to the skill's exit-gate flavor — `/ft-task` uses
+`default-skip` (skip on routine clarifications; fire only on significant
+scope deviation), `/ft-epic-discovery` + `/ft-close-epic` use
+`default-fire-on-clarifications` (fire on any surfaced ask). The two
+flavors' judgment rules, the shared skip-path inline marker, and the
+`--fast` drift carve-out: see [`SPEC/gates.md` §"Phase 1→2 exit gate"](SPEC/gates.md).
 
 ### 🛠️ Phase 2: Execution
 
@@ -413,9 +356,9 @@ http://localhost:5120?`). Inline emoji prefix only — **no banner block,
 no operator-gate**; gate count stays at up-to-2.
 
 When `/ft-task` is invoked with `--fast`, the 👁️ ask is suppressed
-(lint/type-check on changed code still runs). The operator owns the
-visual-confirmation responsibility on fast-mode runs. See
-§"Operator-gate cues" for the flag's full surface.
+(lint/type-check on changed code still runs). See
+[`SPEC/gates.md` §"`--fast` operator override"](SPEC/gates.md) for the
+flag's full surface.
 
 ### 🚀 Phase 4: Closure
 
@@ -436,8 +379,8 @@ an `✅ Closure complete; …` marker followed by an autonomous commit.
 > post-closure protocol, after the commit lands — not inside the recap.
 
 The tasknote is closed when archived. Approval-semantics on each branch
-live in §"Post-closure protocol" §"Conditional skip rule"; commit itself
-is not part of the tasknote.
+live in [`SPEC/gates.md` §"Conditional skip rule"](SPEC/gates.md); commit
+itself is not part of the tasknote.
 
 ## Blocked tasks
 
@@ -445,52 +388,9 @@ Canonical contract: see [`SPEC/blocked.md`](SPEC/blocked.md).
 
 ## Post-closure protocol
 
-After a tasknote is archived, run the three-step protocol (commit / mark landed / offer copy-paste line). Step 1 branches on the **Conditional skip rule** below. Steps 2-3 are identical across branches.
+After a tasknote is archived, run the three-step protocol (commit / mark landed / offer copy-paste line). Step 1 branches on the **conditional skip rule** — the deterministic three-signal test (frontend / privileged-ops / perf-narrative), the bundled-prompt override, the `--fast` operator override, and the on-skip/on-fire routing all live in [`SPEC/gates.md` §"Conditional skip rule"](SPEC/gates.md). On skip, the closure auto-commits behind a `✅ Closure complete; committing autonomously (…)` marker; on fire, proceed with step 1 below. Steps 2-3 are identical across branches.
 
-### Conditional skip rule
-
-The 📦 gate fires when the closure diff trips a signal below OR a bundled in-📦 prompt is queued; otherwise it skips via autonomous-commit motion.
-
-**Skip signals (deterministic — all three must clear to skip):**
-
-- **Zero frontend files changed.** A changed path is "frontend" if it
-  matches the glob set `**/*.tsx`, `**/*.jsx`, `**/*.css`, `**/*.scss`,
-  `**/*.html`, `**/*.vue`, `**/*.svelte`, or `**/*.ts` *under an explicit
-  UI dir* (e.g., `viz/`). Adopters declare project-specific UI dirs in
-  `_project/tasknote/README.md`; those dirs join the glob set for that
-  project.
-- **Zero privileged-ops paths changed.** A changed path is
-  "privileged-ops" if it matches any of:
-  - **Migrations** — `**/migrations/**`, `**/alembic/**`, `**/db/migrations/**`, `**/prisma/migrations/**`
-  - **Auth** — `**/auth/**`, `**/authn/**`, `**/authz/**`, `**/oauth/**`, `**/session*/**`
-  - **Security / secrets** — `**/security/**`, `**/secrets/**`, `**/credentials/**`, `.env*`, plus any file whose diff hunk includes credential-shaped keyword hits (`API_KEY`, `SECRET`, `TOKEN`, `PASSWORD` — uppercase to avoid prose collision)
-  - **External integrations** — `**/integrations/**`, `**/clients/**` (when housing third-party SDK callers), `**/webhooks/**`
-- **No perf-sensitive narrative concern.** The gate fires if the
-  assistant reasoned about performance during execution (hot-path
-  optimization, indexing/query-plan change, cache invalidation pattern,
-  batch sizing, throughput target, p99 SLO concern) OR if the changed
-  files sit under a project-declared perf-critical directory.
-  Default-clear for pure SPEC/SKILL/template/doc edits, refactors of
-  non-perf-critical internal code, type-only changes. **Biased
-  conservative — fire on doubt.**
-
-**Bundled-prompt override (autonomous-commit constraint):** a skill-level prompt queued inside the 📦 bundle (e.g., /ft-close-epic's parent-flip Yes/No) **forces fire** regardless of signal state — autonomous-commit cannot resolve user-input questions.
-
-**"No AI override" semantics.** The rule is bidirectionally locked: the assistant cannot escalate (force the banner on a clean diff) nor de-escalate (skip when a signal hits). The perf-narrative branch is the only judgment valve.
-
-**`--fast` operator override.** Passing `--fast` to `/ft-task` or `/ft-micro-task` forces the Skip branch regardless of signal trips — operator-side de-escalation by explicit input (distinct from the AI-side bidirectional lock above). The bundled-prompt override still wins: a queued in-📦 prompt forces fire even with `--fast`, since autonomous-commit cannot resolve user-input questions. Suppressed signals are named in the autonomous-commit marker for transparency (e.g., `committing autonomously (frontend files touched; suppressed via --fast).`).
-
-**On skip (autonomous-commit motion).** Emit:
-
-```text
-✅ Closure complete; committing autonomously (<concrete-signal-summary>).
-```
-
-where `<…>` names the cleared signals as diff facts (e.g., `4 markdown files; no frontend/privileged surface`). Then run the bundle in one response: closure review → recap → commit → 🏁 → suggest-next-move → copy-paste line.
-
-**On fire (bundled approval motion).** Proceed with step 1 below.
-
-1. **Commit (bundled gate, fire branch).** Surface the bundled ready-to-commit gate behind the 📦 cue (per §"Operator-gate cues" — preview line mandatory) and wait for commit-go. The bundle has three parts:
+1. **Commit (bundled gate, fire branch).** Surface the bundled ready-to-commit gate behind the 📦 cue (per [`SPEC/gates.md` §"Operator-gate cues"](SPEC/gates.md) — preview line mandatory) and wait for commit-go. The bundle has three parts:
 
    - **Closure review** — per-entry doc-drift verdicts, new PLAN.md stub-form line, archive path.
    - **Recap (work summary)** — 1-2 sentence plain-English lede, then technical detail (file paths / LOC / key decisions + optional verification ask) per §"🚀 Phase 4: Closure".

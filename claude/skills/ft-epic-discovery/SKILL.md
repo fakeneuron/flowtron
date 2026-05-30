@@ -141,7 +141,7 @@ Leave the standard 4-phase checklist sections from the template intact below the
 
 Skip this entire step if `deep-mode = false` (set in Step 1.5). On `--deep`, drive three discrete stages, writing each stage's output into the `## 🧭 Deep Pre-pass` section already injected into the `.1` tasknote in Step 5. Each stage ends with an AskUserQuestion review-and-confirm gate **before** the next stage begins.
 
-These per-stage gates are **AskUserQuestion-driven review prompts** — not the banner-block 🛠️ / 📦 operator-gate cues from SPEC §"Operator-gate cues". The 4-phase workflow's two-banner cap is preserved: the 🛠️ Phase 1→2 banner and the 📦 ready-to-commit banner remain the only banner-blocks in the run. Per SPEC: "Skill-level extensions … bundle into the 📦 gate rather than adding their own banners. … it does not introduce new gates."
+These per-stage gates are **AskUserQuestion-driven review prompts** — not the banner-block 🛠️ / 📦 operator-gate cues from SPEC/gates.md §"Operator-gate cues". The 4-phase workflow's two-banner cap is preserved: the 🛠️ Phase 1→2 banner and the 📦 ready-to-commit banner remain the only banner-blocks in the run. Per SPEC: "Skill-level extensions … bundle into the 📦 gate rather than adding their own banners. … it does not introduce new gates."
 
 ### Stage 1 — Constitution
 
@@ -184,10 +184,10 @@ Walk the Phase 1 checklist per SPEC §"📝 Phase 1: Discovery". Tick boxes as e
   Typical questions: per-child shortname + scope; cross-cutting adopter-wiring policy; SPEC contract impact per child. Record answers in a "Resolved scoping" table in Discovery Notes.
 - **Subtasks populated** — the Step 5 scaffold pre-filled the canonical epic-Discovery subtask list; refine them now if Discovery surfaced a scope shift.
 
-Do not enter Phase 2 until every Phase 1 box is ticked. Once ticked, apply the SPEC §"📝 Phase 1: Discovery" exit gate's **`default-fire-on-clarifications` flavor** (this skill follows the higher-checkpoint flavor, not `/ft-task`'s `default-skip` — epic-opening is lower-volume and higher-stakes, so any surfaced clarification gates):
+Do not enter Phase 2 until every Phase 1 box is ticked. Once ticked, apply the SPEC/gates.md §"Phase 1→2 exit gate"'s **`default-fire-on-clarifications` flavor** (this skill follows the higher-checkpoint flavor, not `/ft-task`'s `default-skip` — epic-opening is lower-volume and higher-stakes, so any surfaced clarification gates):
 
 - **"No clarifications needed" branch** — emit the inline marker `✅ Phase 1 Discovery complete; entering Phase 2 Execution.` and start Step 7 Phase 2 immediately. Plain prose, not a banner; not a new gate.
-- **Clarifications-surfaced branch** — surface the **🛠️ Phase 1→2 operator-gate cue** with the mandatory 1-2 sentence plain-English preview line (per SPEC §"Operator-gate cues") and wait for the user's go before starting Step 7 Phase 2.
+- **Clarifications-surfaced branch** — surface the **🛠️ Phase 1→2 operator-gate cue** with the mandatory 1-2 sentence plain-English preview line (per SPEC/gates.md §"Operator-gate cues") and wait for the user's go before starting Step 7 Phase 2.
 
 ## Step 7 — Drive Phase 2: Execution
 
@@ -226,7 +226,7 @@ Walk the closure steps in order. **No banner here** — closure ops auto-run; th
 
 ## Step 10 — Post-closure protocol
 
-The three-step post-closure protocol (commit / suggest next move / offer copy-paste line) is canonical in SPEC §"Post-closure protocol", with the conditional skip rule for the 📦 gate in SPEC §"Post-closure protocol" §"Conditional skip rule". Skill-specific orchestration:
+The three-step post-closure protocol (commit / suggest next move / offer copy-paste line) is canonical in SPEC §"Post-closure protocol", with the conditional skip rule for the 📦 gate in SPEC/gates.md §"Conditional skip rule". Skill-specific orchestration:
 
 - Evaluate the **📦 conditional skip rule** against the closure diff. For pure `/ft-epic-discovery` filings the diff is typically PLAN.md edits + a tasknote scaffold/archive — no frontend, no privileged-ops, no perf concern — so the skip branch is the common case. Branch:
   - **Skip branch** (signals clear; no bundled in-📦 prompt — `/ft-epic-discovery` carries none) — emit the inline marker `✅ Closure complete; committing autonomously (<concrete-signal-summary>).` (e.g., `PLAN.md edit + tasknote scaffold/archive; no frontend/privileged surface`), then run closure review + recap + commit + 🏁 state-marker + suggest-next-move + copy-paste line in a single response. Do not surface a 📦 banner.

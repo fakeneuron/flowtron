@@ -37,7 +37,7 @@ Step 1.5 Reads `<SPEC_DIR>/model.md` and `<SKILL_DIR>/step-1.5-model-edge.md` in
 - **`--fast` or `-f`** → set `fast-mode = true`. Emit exactly one inline marker after path resolution: `⚡ --fast active — 📦 signal trips suppressed at Step 5; Re-scope still promotes to /ft-task, De-scope still recaps.` Continue to Step 1.
 - **Any other trailing arg** → surface a one-line usage notice (``Unknown arg `<arg>`. Usage: `/ft-micro-task <TASK-ID>` or `/ft-micro-task <TASK-ID> --fast`.``) and ask via AskUserQuestion whether the user meant `--fast`, the default flow, or to abort. Do not proceed silently.
 
-`fast-mode` in `/ft-micro-task` targets Step 5's Conditional skip rule — `/ft-micro-task` has no banner-block Phase 1→2 gate and no separate 👁️ ask, so the 📦 fire branch is the only suppressible gate. Default flow (`fast-mode = false`) is byte-identical to the pre-flag skill — see SPEC §"Operator-gate cues" for the contract.
+`fast-mode` in `/ft-micro-task` targets Step 5's Conditional skip rule — `/ft-micro-task` has no banner-block Phase 1→2 gate and no separate 👁️ ask, so the 📦 fire branch is the only suppressible gate. Default flow (`fast-mode = false`) is byte-identical to the pre-flag skill — see SPEC/gates.md §"Operator-gate cues" for the contract.
 
 ## Step 1 — Locate the task in PLAN.md and pre-flight
 
@@ -109,7 +109,7 @@ Closure flips PLAN.md line + tasknote location; YAML `status:` stays `in-progres
 
 ## Step 5 — Post-closure protocol
 
-Run the protocol per SPEC §"Post-closure protocol", branching on SPEC §"Conditional skip rule". `/ft-micro-task` carries no 📦 banner — its commit-go is a prose ask, not a banner block — but the same rule applies:
+Run the protocol per SPEC §"Post-closure protocol", branching on SPEC/gates.md §"Conditional skip rule". `/ft-micro-task` carries no 📦 banner — its commit-go is a prose ask, not a banner block — but the same rule applies:
 
 - **Skip branch** (signals clear) — emit `✅ Closure complete; committing autonomously (<concrete-signal-summary>).` (e.g., `single-file doc patch; no frontend/privileged surface`), then run recap + commit + 🏁 state-marker + suggest-next-move + copy-paste line in one response. Micro-tasknotes hit this branch often by design — their threshold aligns with the rule's clean-diff target.
 - **Fire branch** (any signal hits) — surface the prose commit-go ask ("Ready to commit? Reply `commit`/`go`/`yes`."). Never commit unprompted. After commit, same continuous flow.

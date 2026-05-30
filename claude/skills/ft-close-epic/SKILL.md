@@ -116,10 +116,10 @@ Walk the Phase 1 checklist per SPEC §"📝 Phase 1: Discovery". Tick boxes as e
 - **Clarifying questions** — for an audit, typically none. If cohort scope is ambiguous (some children deferred, partial-cohort early-audit per Step 2), use AskUserQuestion to confirm audit scope.
 - **Subtasks populated** — Step 3 scaffold pre-filled the canonical epic-audit subtask list; refine if Discovery surfaces a scope shift.
 
-Do not enter Phase 2 until every Phase 1 box is ticked. Once ticked, apply the SPEC §"📝 Phase 1: Discovery" exit gate's **`default-fire-on-clarifications` flavor** (this skill follows the higher-checkpoint flavor, not `/ft-task`'s `default-skip` — epic-closure is lower-volume and higher-stakes, so any surfaced clarification gates):
+Do not enter Phase 2 until every Phase 1 box is ticked. Once ticked, apply the SPEC/gates.md §"Phase 1→2 exit gate"'s **`default-fire-on-clarifications` flavor** (this skill follows the higher-checkpoint flavor, not `/ft-task`'s `default-skip` — epic-closure is lower-volume and higher-stakes, so any surfaced clarification gates):
 
 - **"No clarifications needed" branch** — emit the inline marker `✅ Phase 1 Discovery complete; entering Phase 2 Execution.` and start Step 5 Phase 2 immediately. Plain prose, not a banner; not a new gate.
-- **Clarifications-surfaced branch** — surface the **🛠️ Phase 1→2 operator-gate cue** with the mandatory 1-2 sentence plain-English preview line (per SPEC §"Operator-gate cues") and wait for the user's go before starting Step 5 Phase 2.
+- **Clarifications-surfaced branch** — surface the **🛠️ Phase 1→2 operator-gate cue** with the mandatory 1-2 sentence plain-English preview line (per SPEC/gates.md §"Operator-gate cues") and wait for the user's go before starting Step 5 Phase 2.
 
 ## Step 5 — Drive Phase 2: Execution
 
@@ -171,7 +171,7 @@ Capture the flip decision in the audit tasknote's Final Summary block (still edi
 
 ## Step 9 — Post-closure protocol
 
-Run the protocol per SPEC §"Post-closure protocol", branching on SPEC §"Conditional skip rule" against the audit closure diff. **Parent-flip override:** when Step 8 marked parent-flip eligible, the parent-flip Yes/No is a bundled in-📦 prompt and forces the 📦 gate to fire regardless of signal state (per SPEC's bundled-prompt override). When ineligible, the signal rule evaluates normally.
+Run the protocol per SPEC §"Post-closure protocol", branching on SPEC/gates.md §"Conditional skip rule" against the audit closure diff. **Parent-flip override:** when Step 8 marked parent-flip eligible, the parent-flip Yes/No is a bundled in-📦 prompt and forces the 📦 gate to fire regardless of signal state (per SPEC's bundled-prompt override). When ineligible, the signal rule evaluates normally.
 
 - **Skip branch** (parent-flip ineligible AND signals clear) — emit `✅ Closure complete; committing autonomously (<concrete-signal-summary>).` (e.g., `audit closure: PLAN.md flip + tasknote archive; no frontend/privileged surface`), then run closure review + recap + commit + 🏁 + suggest-next-move + copy-paste in one response. Heads-up listing of open children (Step 8 ineligible branch) delivers inline alongside the closure review.
 - **Fire branch** (parent-flip eligible OR any signal hits) — surface the bundled 📦 ready-to-commit gate (per SPEC §"Post-closure protocol" step 1). Alongside the SPEC-defined bundle, this skill carries:

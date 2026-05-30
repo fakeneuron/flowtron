@@ -33,7 +33,7 @@ Subsequent steps name what to Read; the SPEC contract + matching SKILL fragment 
 - **`--fast` or `-f`** → set `fast-mode = true`. Emit exactly one inline marker after path resolution: `⚡ --fast active — 👁️ frontend ask and 📦 signal trips suppressed; Re-scope/De-scope still fires 🛠️ (🛠️ banner is no-op for routine trips under default-skip flavor).` Continue to Step 1.
 - **Any other trailing arg** → surface a one-line usage notice (``Unknown arg `<arg>`. Usage: `/ft-task <TASK-ID>` or `/ft-task <TASK-ID> --fast`.``) and ask via AskUserQuestion whether the user meant `--fast`, the default flow, or to abort. Do not proceed silently.
 
-`fast-mode` is operator-side opt-in for routine runs where the conditional gates would fire but the operator wants autonomous execution; behavioral branches reference it at Step 4 (Phase 1 exit gate), Step 5 (Phase 3 👁️ ask), and Step 6 (Conditional skip rule). Default flow (`fast-mode = false`) is byte-identical to the pre-flag skill — see SPEC §"Operator-gate cues" for the contract.
+`fast-mode` is operator-side opt-in for routine runs where the conditional gates would fire but the operator wants autonomous execution; behavioral branches reference it at Step 4 (Phase 1 exit gate), Step 5 (Phase 3 👁️ ask), and Step 6 (Conditional skip rule). Default flow (`fast-mode = false`) is byte-identical to the pre-flag skill — see SPEC/gates.md §"Operator-gate cues" for the contract.
 
 ## Step 1 — Locate the task in PLAN.md
 
@@ -117,9 +117,9 @@ Skill-specific imperatives on top of the SPEC contract:
 - For the Clarifying questions step: use AskUserQuestion for anything genuinely ambiguous. If nothing is ambiguous, write `No clarifications needed` in the tasknote with the explicit assumptions.
   **When `fast-mode = true`** (from Step 0): skip the AskUserQuestion call and write `No clarifications needed (--fast)` with the explicit assumptions the operator is asserting.
 - For the "populate Subtasks" step: fill the tasknote's `## 🧩 Subtasks` checklist with concrete, ordered steps.
-- Do not enter Phase 2 until every Phase 1 box is ticked. Once ticked, apply the SPEC §"📝 Phase 1: Discovery" exit gate's **`default-skip` flavor** (the flavor `/ft-task` uses): judge whether Discovery surfaced a significant scope deviation from the original plan.
+- Do not enter Phase 2 until every Phase 1 box is ticked. Once ticked, apply the SPEC/gates.md §"Phase 1→2 exit gate"'s **`default-skip` flavor** (the flavor `/ft-task` uses): judge whether Discovery surfaced a significant scope deviation from the original plan.
   - **Skip branch (default)** — no significant scope deviation surfaced (small-clarifications-only or zero asks). Emit the inline marker `✅ Phase 1 Discovery complete; entering Phase 2 Execution.` and start Step 5 Phase 2 immediately. Plain prose, not a banner; not a new gate. Concrete skip cases: typo/format/style/naming/comment-style clarifications; explicit assumptions logged with no asks.
-  - **Fire branch** — significant scope deviation surfaced. Surface the **🛠️ Phase 1→2 operator-gate cue** with the mandatory 1-2 sentence plain-English preview line (per SPEC §"Operator-gate cues") and wait for the user's go before starting Step 5 Phase 2. Concrete fire cases: Re-scope or De-scope verdict (always fire); clarifications that changed which file to edit, restructured the subtask list, added a cross-cutting concern, discovered a different root cause, or changed the approach.
+  - **Fire branch** — significant scope deviation surfaced. Surface the **🛠️ Phase 1→2 operator-gate cue** with the mandatory 1-2 sentence plain-English preview line (per SPEC/gates.md §"Operator-gate cues") and wait for the user's go before starting Step 5 Phase 2. Concrete fire cases: Re-scope or De-scope verdict (always fire); clarifications that changed which file to edit, restructured the subtask list, added a cross-cutting concern, discovered a different root cause, or changed the approach.
 
   Record the judgment inline at the exit ("Discovery surfaced no significant deviation → skip 🛠️." or "Discovery surfaced <one-line reason> → fire 🛠️.") so the operator can spot misjudgments in the transcript.
 
@@ -139,7 +139,7 @@ cue is the 📦 ready-to-commit banner in Step 6.
 
 ## Step 6 — Post-closure protocol
 
-Run the three-step protocol (commit / suggest next move / copy-paste line) per SPEC §"Post-closure protocol", branching on SPEC §"Conditional skip rule" against the closure diff:
+Run the three-step protocol (commit / suggest next move / copy-paste line) per SPEC §"Post-closure protocol", branching on SPEC/gates.md §"Conditional skip rule" against the closure diff:
 
 - **Skip branch** (signals clear, no bundled in-📦 prompt) — emit `✅ Closure complete; committing autonomously (<concrete-signal-summary>).` where `<…>` names the cleared signals as diff facts (e.g., `4 markdown files; no frontend/privileged surface`); the marker stands in for commit-go. Then run closure review + recap + commit + 🏁 state-marker (with 1-2 sentence accomplishment summary) + suggest-next-move + copy-paste line in one continuous response.
 - **Fire branch** (any signal hits OR bundled in-📦 prompt queued) — surface the bundled 📦 ready-to-commit gate and wait for commit-go ("commit"/"go"/"yes"). After commit lands, the 🏁 marker (with 1-2 sentence accomplishment summary) + next-move + copy-paste follow in the same response.
