@@ -1,4 +1,4 @@
-export const ACTIVE_PROJECT_KEY = 'flowtron-viz-active-project';
+const ACTIVE_PROJECT_KEY = 'flowtron-viz-active-project';
 
 export const readStoredProject = (): string | null => {
   try {

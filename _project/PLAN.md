@@ -17,7 +17,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-222** [light] 🔧 | viz-watch-export-hygiene — Document the chokidar `usePolling: true` rationale in `viz/vite.config.ts` (likely deliberate for symlinked workspace dirs that FSEvents watches unreliably) or tune the 200 ms interval; drop gratuitous `export` on internal-only symbols (`ALLOWED_HOSTNAMES`, `ACTIVE_PROJECT_KEY`). Surfaced by audit 2026-05-30 (Findings #1–#2, Low).
+- [x] **CORE-222** [light] 🔧 | viz-watch-export-hygiene — Completed 2026-05-30.
 - [x] **CORE-220** [grok] | settings-local-allowlist-growth — Completed 2026-05-30.
 
 ## Future Opportunities
@@ -26,6 +26,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-222** [light] 🔧 | viz-watch-export-hygiene — Completed 2026-05-30.
 - [x] **CORE-221** [light] 🔧 | viz-version-drift — Completed 2026-05-30.
 - [x] **CORE-219** [grok] | incomplete-dot-claude-skill-wiring — Completed 2026-05-30.
 - [x] **CORE-217** [sonnet] | ft-audit-fork-shadow-in-dot-claude — Completed 2026-05-29.

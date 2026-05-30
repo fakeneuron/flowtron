@@ -53,6 +53,8 @@ function flowtronApi(): Plugin {
         watcher = chokidar.watch(watchPaths, {
           ignoreInitial: true,
           depth: 2,
+          // FSEvents does not reliably fire inside symlinked dirs, which occur
+          // in git-submodule adopter workspaces. usePolling covers all platforms.
           usePolling: true,
           interval: 200,
         });

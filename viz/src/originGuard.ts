@@ -7,7 +7,7 @@ export const ALLOWED_ORIGINS: ReadonlySet<string> = new Set([
   `http://127.0.0.1:${DEV_PORT}`,
 ]);
 
-export const ALLOWED_HOSTNAMES: ReadonlySet<string> = new Set(['localhost', '127.0.0.1']);
+const ALLOWED_HOSTNAMES: ReadonlySet<string> = new Set(['localhost', '127.0.0.1']);
 
 // Reject cross-origin browser requests to the viz dev API. Tasknote and
 // PLAN.md content is readable here; without this guard any website visited
