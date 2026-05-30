@@ -41,9 +41,10 @@ maintain.
 
 Run `/ft-new-project` in your project's root directory (git repo required;
 `/ft-new-project` additionally checks for `CLAUDE.md` as a project-validity
-heuristic) to add the flowtron submodule, wire the six tasknote skills
+heuristic) to add the flowtron submodule, wire the seven tasknote skills
 (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`,
-`/ft-epic-discovery`, `/ft-close-epic`), and drop in the `_project/`
+`/ft-epic-discovery`, `/ft-close-epic`, `/ft-worktree-start`/`/ft-worktree-end`),
+and drop in the `_project/`
 skeleton in one pass. See [docs/MIGRATION.md](docs/MIGRATION.md) §1.0 for the
 one-time global install.
 
@@ -116,7 +117,7 @@ These tools are opt-in companion surfaces. None of the above is required.
 ## Repo layout
 
 - `SPEC.md` — workflow contract (authoritative)
-- `SPEC/` — lazy SPEC modules (epic, starter, blocked, model, versioning); loaded on demand by skills
+- `SPEC/` — lazy SPEC modules (epic, starter, blocked, model, versioning, gates, tasknote-selection); loaded on demand by skills
 - `templates/` — canonical tasknote and `PLAN.md` templates
 - `claude/` — Claude Code skills + slash commands (adopter-facing snippet + self-hosted skills like `/ft-task`, `/ft-release`); future non-Claude-Code platform wirings (e.g., `codex/`, `grok/`, `cursor/`) plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md)
 - `docs/` — philosophy, migration, conventions, agent-neutrality, and platforms guides

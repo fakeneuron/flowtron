@@ -19,6 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [x] **CORE-222** [light] 🔧 | viz-watch-export-hygiene — Completed 2026-05-30.
 - [x] **CORE-220** [grok] | settings-local-allowlist-growth — Completed 2026-05-30.
+- [ ] **CORE-227** [light] 🔧 | plan-duplicate-cleanup — Remove duplicate CORE-222 stub-form entry from ## Low (line 20); already archived in ## Completed (line 43). Surfaced by audit 2026-05-30 (Finding #1, Low).
 
 ## Future Opportunities
 
@@ -26,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-226** [light] 🔧 | doc-drift-skill-roster — Completed 2026-05-30.
 - [x] **CORE-EPIC-224** [opus] | agent-compatibility-surface — Completed 2026-05-30.
   - [x] **CORE-224.1** [opus] | discovery — Completed 2026-05-30.
   - [x] **CORE-224.2** [opus] | compat-matrix — Completed 2026-05-30.
