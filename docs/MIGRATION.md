@@ -92,6 +92,37 @@ Splitting one skill into per-area forks (e.g., `audit-backend` → `audit-backen
 
 Optional section — skip entirely if you don't want structured audit skills.
 
+### 1.2.2 Developing flowtron skills & commands (maintainer & contributors)
+
+The canonical skill and command definitions live in `claude/skills/` and `claude/commands/` at the root of this checkout. The in-repo `.claude/` directory is gitignored (see root `.gitignore`) and must never contain committed per-machine wiring.
+
+For live editing with immediate effect in your AI coding agent:
+
+```sh
+# One-time (or after adding a new skill/command)
+ln -s ~/code/flowtron/claude/skills/*       ~/.claude/skills/
+ln -s ~/code/flowtron/claude/commands/*.md  ~/.claude/commands/
+```
+
+Use the same global pattern shown in §1.0 for the thin utility skills. This is the supported way to get hot-reload behavior when you are the one modifying the `ft-*` family itself. The `ft-` prefix remains flowtron's reserved namespace.
+
+When you need the flowtron-self specializations of the audit family (the versions with flowtron-specific scope, rubric, and verification commands), they are the primary implementations inside the canonical scaffolds — no separate fork is required inside this tree.
+
+**Optional: local `.claude/` wiring when cwd is the flowtron checkout**
+
+If your AI coding sessions often have `cwd` inside this checkout (as opposed to adopter projects), you can populate a *local* (still fully ignored) copy of the wiring instead of or alongside the global `~/.claude/`:
+
+```sh
+# From the flowtron repo root (one-time, or after adding a skill)
+mkdir -p .claude/commands .claude/skills
+ln -s ../../claude/commands/*.md .claude/commands/
+ln -s ../../claude/skills/* .claude/skills/
+```
+
+The relative `../../` paths are clone-location independent. The symlinks land under the ignored `.claude/` directory, so they never enter git history. This gives the complete `/ft-*` surface (all audit variants, `ft-debug`, worktree pair, quality, release, stats, new-project, etc.) for any agent started while inside the tree.
+
+The global form above is still the right choice when you want a single `~/.claude/` that serves flowtron + every adopter project on the machine.
+
 ### 1.3 Paste the workflow block into `AGENTS.md`
 
 Open `_project/flowtron/claude/AGENTS-snippet.md` and copy the markdown block from the "Block to paste into AGENTS.md" section into your project's `AGENTS.md` (create the file if it doesn't exist). `AGENTS.md` is the open-standard memory file read by Claude Code, Codex CLI, Cursor, Sourcegraph Amp, Aider, and Grok Build — pasting here makes the flowtron contract visible to whatever assistant the adopter uses. Project-specific instructions for a single assistant (e.g., `CLAUDE.md` for Claude-only directives) stay where they are; flowtron's block is agent-neutral.

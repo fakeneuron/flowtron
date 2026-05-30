@@ -17,12 +17,17 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
+- [ ] **CORE-220** [sonnet] | settings-local-allowlist-growth — settings.local.json has 46 explicit allow rules, many absolute-path Bash and viz/port 5120 specific. Growing personal machine surface that travels with the project tree. Surfaced by audit-context 2026-05-29 (Pass d, Low).
+
 ## Future Opportunities
 
 (none)
 
 ## Completed
 
+- [x] **CORE-219** [grok] | incomplete-dot-claude-skill-wiring — Completed 2026-05-30.
+- [x] **CORE-217** [sonnet] | ft-audit-fork-shadow-in-dot-claude — Completed 2026-05-29.
+- [x] **CORE-218** [sonnet] | dot-claude-wiring-inconsistency — Completed 2026-05-29. (addressed together with CORE-217 via .claude/ hygiene + MIGRATION §1.2.2 contributor setup doc)
 - [x] **CORE-216** [grok] | repair-dangling-wikilink — Completed 2026-05-29.
 - [x] **CORE-EPIC-215** [grok] | worktree-convention — Completed 2026-05-30.
   - [x] **CORE-215.1** [grok] | discovery — Completed 2026-05-30.

@@ -7,3 +7,10 @@ dist/
 *.tsbuildinfo
 .playwright-mcp/
 SCRATCH*.md
+
+# Personal Claude Code (and similar AI coding agent) wiring.
+# Contributors and the maintainer use global symlinks from ~/.claude/
+# pointing at this checkout's claude/ sources (see docs/MIGRATION.md §1.2.2).
+# Optional local equivalent (when cwd is this tree): two `ln -s ../../claude/...`
+# globs into ./.claude/ (results stay ignored). Never commit per-machine state.
+.claude/
