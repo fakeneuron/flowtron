@@ -20,7 +20,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-215.3** [grok] | worktree-start — Completed 2026-05-30.
   - [x] **CORE-215.4** [grok] | worktree-end — Completed 2026-05-30.
   - [x] **CORE-215.5** [grok] | worktree-wiring — Completed 2026-05-30.
-  - [ ] **CORE-215.6** [grok] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.6` child.
+  - [x] **CORE-215.6** [grok] | audit — Completed 2026-05-30.
 
 - [x] **CORE-206** [sonnet] | model-token-vocabulary — Completed 2026-05-25. (neutral primary labels `[heavy]` / `[light]` introduced; opus/sonnet kept as valid examples)
 
