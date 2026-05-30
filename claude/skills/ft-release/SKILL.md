@@ -97,6 +97,7 @@ Acceptance (parameterized):
 ```markdown
 - [ ] SPEC.md `**Version:** vX.Y.Z` → `vA.B.C`
 - [ ] docs/MIGRATION.md example pin bumped `vX.Y.Z` → `vA.B.C`
+- [ ] `viz/src/ui/constants.ts` `FLOWTRON_VERSION` bumped `vX.Y.Z` → `vA.B.C`
 - [ ] Phase 4 doc-drift sweep run across all `_project/tasknote/README.md` §"AI-referenced docs" entries
 - [ ] Single `feat: <TASK-ID> — flowtron vA.B.C (...)` commit lands
 - [ ] Annotated `vA.B.C` tag created with adopter-facing release notes
@@ -124,29 +125,36 @@ Tick boxes as each step completes. Do not enter Phase 2 until every Phase 1 box 
 
 ## Step 5 — Drive Phase 2: Execution
 
-Apply the 2 doc edits in order:
+Apply the 3 doc edits in order:
 
 1. **`SPEC.md:3`** — `**Version:** vX.Y.Z` → `**Version:** vA.B.C`.
 2. **`docs/MIGRATION.md`** — locate the example pin (grep for `(e.g., v`) and bump `(e.g., vX.Y.Z)` → `(e.g., vA.B.C)`. Historical references like `v1.0 additions` stay (write-once historical context, per CORE-046 precedent).
+3. **`viz/src/ui/constants.ts`** — `FLOWTRON_VERSION = 'vX.Y.Z'` → `FLOWTRON_VERSION = 'vA.B.C'`.
 
 Verify post-edit with a single grep across the live doc set:
 
 ```sh
-grep -rn 'vX\.Y\.Z' SPEC.md SPEC/ docs/ README.md templates/ claude/ 2>/dev/null
+grep -rn 'vX\.Y\.Z' SPEC.md SPEC/ docs/ README.md templates/ claude/ viz/src/ui/constants.ts 2>/dev/null
 ```
 
 Returns empty if the doc set is clean. Archived tasknotes under `_project/tasknote/archive/` are write-once and keep their historical version refs.
 
-Tick boxes; populate Implementation Notes with the diff shape (typical: 2 files, +2/−2).
+Tick boxes; populate Implementation Notes with the diff shape (typical: 3 files, +3/−3).
 
 ## Step 6 — Drive Phase 3: Testing & Linting
 
-Markdown-prose edits only — no test surface. Run a markdown lint mental-pass on the 2 edited files:
+Two of the 3 edits are markdown prose — run a markdown lint mental-pass on SPEC.md and docs/MIGRATION.md:
 
 - Edits are single-token version-string substitutions; surrounding prose unchanged.
 - No frontmatter touched; no fenced blocks broken.
 
-If a viz/code feature ships in this release, surface that the feature's own tasknote already ran its test pass — `/ft-release` does not re-run feature tests. The viz suite stays untouched unless the release itself touches viz code (it shouldn't).
+The third edit (`viz/src/ui/constants.ts`) is a one-line string constant substitution — run lint/type-check on the viz package:
+
+```sh
+npm --prefix viz run lint 2>/dev/null; npm --prefix viz exec tsc -- --noEmit
+```
+
+If a viz/code feature ships in this release, surface that the feature's own tasknote already ran its test pass — `/ft-release` does not re-run feature tests beyond this version-string lint gate.
 
 ## Step 7 — Drive Phase 4: Closure
 
@@ -209,7 +217,7 @@ Move the tasknote file: `git mv _project/tasknote/<TASK-ID>.md _project/tasknote
 Stage explicitly (do NOT use `git add .` or `-A` — there may be unrelated unstaged work):
 
 ```sh
-git add SPEC.md docs/MIGRATION.md _project/PLAN.md
+git add SPEC.md docs/MIGRATION.md viz/src/ui/constants.ts _project/PLAN.md
 git add _project/tasknote/archive/core/<TASK-ID>.md
 ```
 
