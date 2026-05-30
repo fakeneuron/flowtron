@@ -88,3 +88,8 @@ worth mentioning here:
   CONTRIBUTING convention).
 - `claude/AGENTS-snippet.md` — wiring-layer content (under `claude/`);
   examined by [[CORE-154.3]] and [[CORE-154.4]].
+- `claude/CAPABILITIES.md` — wiring-layer content (under `claude/`): the
+  Claude Code capability-trigger reference (effort/thinking, `--fast`,
+  `/model`, `/clear`, structured ask). Consolidates wiring-side *syntax*;
+  introduces no new contract-layer surface, so it takes no table row above.
+  Added by [[CORE-224.3]].

@@ -19,9 +19,10 @@ runs the contract, not the agent's individual capability triggers. Per-agent
 capability triggers (Claude effort/thinking levels and `--fast`; Grok
 context-load quirks; each agent's force-skip and model-switch ergonomics)
 live in the per-agent trigger references, documented separately from this
-scaffold (Claude's in `claude/`; the priority non-Claude agents elsewhere
-in the platform docs). Keeping triggers out of the matrix keeps it a stable
-index rather than a second copy of the trigger detail.
+scaffold (Claude's in [`../claude/CAPABILITIES.md`](../claude/CAPABILITIES.md);
+the priority non-Claude agents elsewhere in the platform docs). Keeping
+triggers out of the matrix keeps it a stable index rather than a second copy
+of the trigger detail.
 
 The matrix carries agent-specific *facts* (entry-points, primitives) in
 `docs/`, with neutral framing — the same posture PLATFORMS.md already uses
