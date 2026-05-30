@@ -16,7 +16,7 @@ See [[CORE-EPIC-215]] (and its .1 Discovery [[CORE-215.1]]) for the origin, lock
 | Tasknote handling     | Copy the active tasknote into the worktree | The agent working in the isolated checkout needs the full Phase 1 context (Goal, Acceptance, Discovery Notes, resolved questions). Copy is simple, reviewable, and avoids symlink/hardlink edge cases across machines. |
 | Merge / cleanup       | Verify merge (or explicit discard), `git worktree remove`, archive the *copied* tasknote from the *main* checkout | The worktree is a throwaway execution environment. Cleanup discipline lives in the end skill so the main checkout's archive and git history remain the source of truth. |
 
-All five choices were explicitly resolved during the re-scope of [[CORE-196]] and re-confirmed in [[CORE-215.1]]. Future changes require a new tasknote + rationale.
+All five choices were explicitly resolved during the re-scope documented in CORE-EPIC-215 (and its Discovery child CORE-215.1). Future changes require a new tasknote + rationale.
 
 ## When to Reach for a Worktree
 

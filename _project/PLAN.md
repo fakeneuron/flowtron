@@ -23,6 +23,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-216** [grok] | repair-dangling-wikilink — Completed 2026-05-29.
 - [x] **CORE-EPIC-215** [grok] | worktree-convention — Completed 2026-05-30.
   - [x] **CORE-215.1** [grok] | discovery — Completed 2026-05-30.
   - [x] **CORE-215.2** [grok] | worktree-doc — Completed 2026-05-30.
