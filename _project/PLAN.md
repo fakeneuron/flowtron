@@ -15,7 +15,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **CORE-EPIC-215** [grok] | worktree-convention — Doc convention + thin `/ft-worktree-start` + `/ft-worktree-end` skills for parallel independent epic-child work in isolated git worktrees (adopted from superpowers `using-git-worktrees`). Re-scoped from CORE-196 starter in Phase 1 of that task; .1 Discovery refines and files .2..5 children.
 
-  - [ ] **CORE-215.1** [grok] | discovery — Scope shared design surface and file concrete children .2..5 per SPEC/epic.md (doc + two thin skills + wiring surfaces).
+  - [x] **CORE-215.1** [grok] | discovery — Completed 2026-05-30.
+  - [ ] **CORE-215.2** [grok] | worktree-doc — Author docs/WORKTREES.md covering location/branch-naming/skill-naming/tasknote-handling/merge-cleanup conventions for isolated epic-child worktrees; cross-ref from MIGRATION and AGENTS-snippet.
+  - [ ] **CORE-215.3** [grok] | worktree-start — Author thin `claude/skills/ft-worktree-start/SKILL.md` + `claude/commands/ft-worktree-start.md` (branch, create worktree under ~/code/<p>-worktrees/, copy active tasknote, handoff).
+  - [ ] **CORE-215.4** [grok] | worktree-end — Author thin `claude/skills/ft-worktree-end/SKILL.md` + `claude/commands/ft-worktree-end.md` (verify branch merged or explicit discard, remove worktree, archive copied tasknote).
+  - [ ] **CORE-215.5** [grok] | worktree-wiring — Update 5 adopter surfaces (AGENTS-snippet.md symlink list + prose, ft-new-project verification, MIGRATION §1.2, ft-flowtron roster, PLATFORMS counts) for the new pair. No SPEC contract change.
   - [ ] **CORE-215.6** [grok] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.6` child.
 
 - [x] **CORE-206** [sonnet] | model-token-vocabulary — Completed 2026-05-25. (neutral primary labels `[heavy]` / `[light]` introduced; opus/sonnet kept as valid examples)
