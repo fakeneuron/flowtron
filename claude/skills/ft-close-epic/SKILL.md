@@ -147,7 +147,7 @@ Markdown-prose verification only for most audits — no test surface. If the aud
 Walk the Phase 4 checklist for the audit subtask itself. **No banner here** — closure ops auto-run; the recap drafted at the end bundles into Step 9's 📦 gate (parent-flip prompt also bundles there per Step 8).
 
 - **Doc-drift sweep (fixed line)** — for each entry in `<tasknote dir>/README.md` §"AI-referenced docs", state per-entry verdict ("no change" or the specific update). This is the contractually-required sweep per `SPEC/epic.md` §"Audit acceptance — fixed doc-drift line"; never skip.
-- **Flip the audit's PLAN.md line to stub form** — `- [x] **<AUDIT-SUBTASK-ID>** [<model>] | <shortname> audit — Completed YYYY-MM-DD.` per SPEC §"`## Completed` archive convention". Keep nested under `<AREA>-EPIC-<NUMBER>` in its current `## <Priority>` section (parent + cohort move only on Step 9 confirmation).
+- **Flip the audit's PLAN.md line to stub form** — `- [x] **<AUDIT-SUBTASK-ID>** [<model>] | <shortname> audit — Completed YYYY-MM-DD.` per SPEC/tasknote-selection.md §"`## Completed` archive convention". Keep nested under `<AREA>-EPIC-<NUMBER>` in its current `## <Priority>` section (parent + cohort move only on Step 9 confirmation).
 - **Move the audit tasknote** — `git mv <tasknote dir>/<AUDIT-SUBTASK-ID>.md <tasknote dir>/archive/<area>/<AUDIT-SUBTASK-ID>.md`. Set `**Archived:** YYYY-MM-DD` in the tasknote.
 - **Draft the recap** — leads with a 1-2 sentence plain-English summary (audit ran; key finding or "no inconsistencies surfaced"), then technical detail (cohort children inventoried, follow-ups to file, any inline fixes applied). Hold it for Step 9's 📦 bundle; do not surface a banner now.
 
@@ -162,7 +162,7 @@ This step computes state only — **no banner here**. The user-facing prompt (wh
 
 When the prompt fires in Step 9 and the user answers **Yes**:
 
-1. **Flip the parent line to stub form** — `- [x] **<AREA>-EPIC-<NUMBER>** [<model>] | <shortname> — Completed YYYY-MM-DD.` (drop the long description per stub-form, SPEC §"`## Completed` archive convention").
+1. **Flip the parent line to stub form** — `- [x] **<AREA>-EPIC-<NUMBER>** [<model>] | <shortname> — Completed YYYY-MM-DD.` (drop the long description per stub-form, SPEC/tasknote-selection.md §"`## Completed` archive convention").
 2. **Atomic move** — cut the parent line + all nested children from their current `## <Priority>` section; paste at the top of `## Completed`. Preserve the 2-space child indent. If the cohort was the last entry in its source section, restore the `(none)` placeholder under that section heading.
 
 On **No** (still in Step 9's bundle): leave cohort nested under current section. Note "Cohort stays under `## <Priority>`. Re-run `/ft-close-epic` later or flip manually when ready." in the post-commit response.

@@ -1,11 +1,11 @@
 ---
 name: ft-file-followup
-description: File a mid-flow follow-up task from inside an active tasknote. Invoke with the task ID as args (e.g., args="CORE-058"). Writes one PLAN.md line and delivers a short context paragraph conversationally only — no tasknote artifact. Lighter than `/ft-starter-task`. See SPEC §"When to use a tasknote" for the threshold.
+description: File a mid-flow follow-up task from inside an active tasknote. Invoke with the task ID as args (e.g., args="CORE-058"). Writes one PLAN.md line and delivers a short context paragraph conversationally only — no tasknote artifact. Lighter than `/ft-starter-task`. See SPEC/tasknote-selection.md §"When to use a tasknote" for the threshold.
 ---
 
 # file-followup — flowtron lightweight follow-up filer
 
-You are filing a **follow-up task** for the task ID provided in `args`. The full filing thresholds live in `SPEC.md` §"When to use a tasknote (and when not to)" — this skill is the executable interpretation, not a replacement. Treat SPEC.md as authoritative when this file is silent or in tension.
+You are filing a **follow-up task** for the task ID provided in `args`. The full filing thresholds live in `SPEC/tasknote-selection.md` §"When to use a tasknote (and when not to)" — this skill is the executable interpretation, not a replacement. Treat SPEC.md as authoritative when this file is silent or in tension.
 
 A `/ft-file-followup` filing produces **zero artifacts on disk beyond a single PLAN.md task line**. The "short context paragraph" — rationale + suspected scope + recommended priority/model — is delivered conversationally only, in the same response as the filing confirmation. There is no tasknote file. Active tasknotes (if `/ft-file-followup` runs mid-flow inside `/ft-task`) are **not** edited — no breadcrumb, no log entry. The active tasknote stays a record of what it was for, not a coordination ledger.
 
@@ -38,7 +38,7 @@ Use AskUserQuestion to confirm the key fields. Pre-populate from conversation co
 3. **Model** — see `SPEC/model.md` §"Model field" (and its "Practical guidance and agent-aware defaults" subsection) for examples and realistic defaults (Grok often `[light]` on routine work); AI proposes a token (primary labels or specific name); goes on the PLAN.md task line.
 4. **Long description** — the one-line PLAN.md long description (everything after `— ` on the task line). AI drafts from conversation context.
 
-**Filing-discipline gate** (per SPEC §"PLAN.md filing-discipline thresholds"). Word-count the drafted long description:
+**Filing-discipline gate** (per SPEC/tasknote-selection.md §"PLAN.md filing-discipline thresholds"). Word-count the drafted long description:
 
 - **≤50 words:** proceed.
 - **51-70 words:** trim if practical; otherwise proceed with a yellow-flag note in the review surface (Step 3).
@@ -94,5 +94,5 @@ Do **not** commit unprompted. The new PLAN.md line is typically bundled into wha
 ## Notes
 
 - **Filing-only — no design decisions in the skill flow itself.** All context (rationale, suspected files, recommended priority/model) comes from the prior conversation; the skill just records the line and surfaces the paragraph.
-- **Routing across the filing cohort:** see SPEC §"When to use a tasknote (and when not to)" for the full decision tree. `/ft-file-followup`'s niche: ≤50w + ephemeral context only. Above 50w → `/ft-starter-task`. Filing+executing in one shot → `/ft-micro-task`. Starting an existing PLAN.md entry → `/ft-task`.
+- **Routing across the filing cohort:** see SPEC/tasknote-selection.md §"When to use a tasknote (and when not to)" for the full decision tree. `/ft-file-followup`'s niche: ≤50w + ephemeral context only. Above 50w → `/ft-starter-task`. Filing+executing in one shot → `/ft-micro-task`. Starting an existing PLAN.md entry → `/ft-task`.
 - **No active-tasknote breadcrumb.** When invoked from inside `/ft-task`, `/ft-file-followup` does not write into the active tasknote — keeps the active tasknote a record of what it was for, not a coordination ledger. This is the strict reading of "only one PLAN.md line on disk."

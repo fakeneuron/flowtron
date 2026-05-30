@@ -16,7 +16,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-EPIC-223** [opus] | spec-lazy-module-split — Split deep gate machinery (operator-gate cues, exit-gate flavors, conditional-skip rule) and the tasknote-selection matrix out of SPEC.md into lazy `SPEC/*.md` modules; dedup the 4× `--fast` restatement. Restores comfortable margin under the ~40k always-read budget. Surfaced by audit-context 2026-05-30; refined at .1 closure.
   - [x] **CORE-223.1** [opus] | discovery — Completed 2026-05-30.
   - [x] **CORE-223.2** [opus] | gates-module — Completed 2026-05-30.
-  - [ ] **CORE-223.3** [opus] | selection-module — Extract the tasknote-selection matrix + filing-discipline thresholds + `## Completed` convention into new `SPEC/tasknote-selection.md`; pointer stubs in core; rewire selection §-refs across the ~9 consuming skills + 2 templates.
+  - [x] **CORE-223.3** [opus] | selection-module — Completed 2026-05-30.
   - [ ] **CORE-223.4** [opus] | integration-wiring — Add `paths:` frontmatter to both new modules; refresh SPEC §"Lazy SPEC module frontmatter" + §"Working in the flowtron repo" module lists; verify SPEC.md hits comfortable margin under 40k; doc-currency sweep (GLOSSARY/PLATFORMS/AGENT-NEUTRALITY/MIGRATION + README).
   - [ ] **CORE-223.5** [sonnet] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Verify module loads, cross-refs intact, byte targets met.
 

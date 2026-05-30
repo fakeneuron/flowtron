@@ -5,7 +5,7 @@ description: Create an isolated git worktree for an independent epic child taskn
 
 # worktree-start — isolated worktree for epic-child tasknotes
 
-You are starting an **isolated git worktree** for the task ID provided in `args` (e.g., `args="CORE-215.3"`). The full convention lives in `docs/WORKTREES.md` — this skill is the executable interpretation of the "Start" half, not a replacement. Treat `docs/WORKTREES.md` and `SPEC.md` §"When to use a tasknote (and when not to)" (epic children) as authoritative when this file is silent or in tension.
+You are starting an **isolated git worktree** for the task ID provided in `args` (e.g., `args="CORE-215.3"`). The full convention lives in `docs/WORKTREES.md` — this skill is the executable interpretation of the "Start" half, not a replacement. Treat `docs/WORKTREES.md` and `SPEC/tasknote-selection.md` §"When to use a tasknote (and when not to)" (epic children) as authoritative when this file is silent or in tension.
 
 **This is a utility setup skill, not a tasknote runner.** It does *not* scaffold or drive a 4-phase tasknote. The operator must already have a live tasknote for `<TASK-ID>` in the current (main) checkout — typically created by a prior `/ft-task <ID>` or `/ft-epic-discovery`. This skill prepares an isolated execution environment for that child so parallel independent work can proceed without stash/branch churn.
 

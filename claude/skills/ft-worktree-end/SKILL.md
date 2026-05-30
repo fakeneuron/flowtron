@@ -5,7 +5,7 @@ description: Clean up an isolated git worktree for an independent epic child tas
 
 # worktree-end — clean up isolated worktree for epic-child tasknotes
 
-You are cleaning up / ending an **isolated git worktree** for the task ID provided in `args` (e.g., `args="CORE-215.3"`). The full convention lives in `docs/WORKTREES.md` — this skill is the executable interpretation of the "End" half, not a replacement. Treat `docs/WORKTREES.md` and `SPEC.md` §"When to use a tasknote (and when not to)" (epic children) as authoritative when this file is silent or in tension.
+You are cleaning up / ending an **isolated git worktree** for the task ID provided in `args` (e.g., `args="CORE-215.3"`). The full convention lives in `docs/WORKTREES.md` — this skill is the executable interpretation of the "End" half, not a replacement. Treat `docs/WORKTREES.md` and `SPEC/tasknote-selection.md` §"When to use a tasknote (and when not to)" (epic children) as authoritative when this file is silent or in tension.
 
 **This is a utility cleanup skill, not a tasknote runner.** It does *not* scaffold or drive a 4-phase tasknote. The operator must already have completed (or decided to discard) the work inside the `wt-<TASK-ID>` worktree. This skill removes the isolated execution environment and ensures the *copied* tasknote's final state is captured in the main checkout's canonical `_project/tasknote/archive/` (the main archive is always the source of truth).
 

@@ -1,6 +1,6 @@
 ---
 name: ft-micro-task
-description: Start and complete a flowtron micro-tasknote in one shot. Invoke with the task ID as args (e.g., args="CORE-050"). For tasks above the skip-tasknote threshold but small enough to skip the full 4-phase ceremony — single-section tasknote (do-the-work + recap), no Phase 3 boilerplate when no code changed, one closure step. See SPEC §"When to use a tasknote" for the threshold.
+description: Start and complete a flowtron micro-tasknote in one shot. Invoke with the task ID as args (e.g., args="CORE-050"). For tasks above the skip-tasknote threshold but small enough to skip the full 4-phase ceremony — single-section tasknote (do-the-work + recap), no Phase 3 boilerplate when no code changed, one closure step. See SPEC/tasknote-selection.md §"When to use a tasknote" for the threshold.
 ---
 
 # micro-task — flowtron micro-tasknote runner
@@ -54,7 +54,7 @@ Otherwise, capture from the line:
 
 The full task-line grammar is `- [ ] **TASK-ID** [!critical] [model] | shortname — long description`. See SPEC §"Task-line format" for the canonical grammar.
 
-**Filing-discipline check (advisory).** Word-count the captured long description. If it exceeds the 70-word hard cap from SPEC §"PLAN.md filing-discipline thresholds", surface a one-line warning to the user — informational only; proceed.
+**Filing-discipline check (advisory).** Word-count the captured long description. If it exceeds the 70-word hard cap from SPEC/tasknote-selection.md §"PLAN.md filing-discipline thresholds", surface a one-line warning to the user — informational only; proceed.
 
 **Pre-flight checks:**
 
@@ -101,7 +101,7 @@ The single closure step. In one motion:
 
 1. **Fill ✅ Recap** — brief final summary (what changed, key decisions).
 2. **Set `Archived:`** — today's date (`YYYY-MM-DD`).
-3. **Update PLAN.md** — flip the line to the stub form per SPEC §"`## Completed` archive convention" and move it to the `## Completed` section.
+3. **Update PLAN.md** — flip the line to the stub form per SPEC/tasknote-selection.md §"`## Completed` archive convention" and move it to the `## Completed` section.
 4. **Move the tasknote** — `mv _project/tasknote/<TASK-ID>.md _project/tasknote/archive/<area>/<TASK-ID>.md`.
 5. **Recap to the user** per SPEC §"🚀 Phase 4: Closure" — brief summary + optional verification request. **Recap is recap-only**; the next-task suggestion belongs in Step 5, not the recap. Wait for confirmation.
 
@@ -123,5 +123,5 @@ Skill-specific:
 
 ## Notes
 
-- **Routing:** see SPEC §"When to use a tasknote (and when not to)" micro carve-out. `/ft-micro-task`'s niche: above the skip threshold but under ~30 minutes, single-file, no design tradeoffs. Multi-file / design tradeoffs / >30min → `/ft-task` (the 4-phase ceremony pays for itself). Filing-only mid-flow → `/ft-starter-task` or `/ft-file-followup`. If unsure, default to `/ft-task`.
+- **Routing:** see SPEC/tasknote-selection.md §"When to use a tasknote (and when not to)" micro carve-out. `/ft-micro-task`'s niche: above the skip threshold but under ~30 minutes, single-file, no design tradeoffs. Multi-file / design tradeoffs / >30min → `/ft-task` (the 4-phase ceremony pays for itself). Filing-only mid-flow → `/ft-starter-task` or `/ft-file-followup`. If unsure, default to `/ft-task`.
 - **Sub-tasks of an epic** (`<AREA>-<NUMBER>.<SUB>`) follow the same flow. The parent epic line is not flipped to complete until all children are. Full lifecycle in `<SPEC_DIR>/epic.md`.

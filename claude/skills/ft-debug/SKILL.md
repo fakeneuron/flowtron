@@ -141,6 +141,6 @@ The recap should mention the top hypothesis that was ultimately addressed and wh
 
 - **Future evolution:** If the debug flow accumulates reusable fragments (e.g. a standard "Debug Log" subsection template, or a hypothesis-ranking helper), later children can add `step-*.md` files under this directory and load them from SKILL_DIR. v1 keeps the surface minimal — all guidance lives inline in this SKILL.md.
 
-- **Cross-references (after sibling children land):** See `SPEC.md` §"When to use a tasknote (and when not to)" for the official positioning bullet, `claude/skills/ft-flowtron/SKILL.md` for the roster entry, and `docs/MIGRATION.md` §1.2 for the per-project symlink count.
+- **Cross-references (after sibling children land):** See `SPEC/tasknote-selection.md` §"When to use a tasknote (and when not to)" for the official positioning bullet, `claude/skills/ft-flowtron/SKILL.md` for the roster entry, and `docs/MIGRATION.md` §1.2 for the per-project symlink count.
 
 - **Standalone safety:** This SKILL is designed to be invoked directly. It does not require any other ft- skill to be present beyond the shared SPEC + template surface.

@@ -91,7 +91,7 @@ Placement:
 
 Do NOT pre-write `.2..(N-1)` lines here — that is the Discovery's Phase 2 deliverable.
 
-The parent epic's long description is a placeholder that the Discovery `.1` will refine at closure time (the epic's actual scope crystallizes from Discovery, not from filing-time guesswork). Keep it under the 70w hard cap (SPEC §"PLAN.md filing-discipline thresholds").
+The parent epic's long description is a placeholder that the Discovery `.1` will refine at closure time (the epic's actual scope crystallizes from Discovery, not from filing-time guesswork). Keep it under the 70w hard cap (SPEC/tasknote-selection.md §"PLAN.md filing-discipline thresholds").
 
 ## Step 5 — Scaffold the `.1` Discovery tasknote
 
@@ -115,7 +115,7 @@ Pre-populate `## 🎯 Goal`, `## ✅ Acceptance`, and `## 🧩 Subtasks` with th
 ```markdown
 - [ ] Shared design surface inventoried for the epic (sources, adopter wiring, SPEC contract impact, templates) — captured in Discovery Notes
 - [ ] Open scoping questions resolved with the user via AskUserQuestion — captured in a "Resolved scoping" table in Discovery Notes
-- [ ] Concrete child scopes for <AREA>-<next-N>.2 .. <AREA>-<next-N>.<N-1> filed in _project/PLAN.md (each line under the 50w target / 70w hard cap per SPEC §"PLAN.md filing-discipline thresholds")
+- [ ] Concrete child scopes for <AREA>-<next-N>.2 .. <AREA>-<next-N>.<N-1> filed in _project/PLAN.md (each line under the 50w target / 70w hard cap per SPEC/tasknote-selection.md §"PLAN.md filing-discipline thresholds")
 - [ ] Audit line <AREA>-<next-N>.<N> reviewed and confirmed as-filed (or rewritten if the Discovery surfaces a scope shift)
 - [ ] Phase 4 doc-drift sweep at closure: typically no AI-referenced doc updates land in pure Discovery filing (contract edits land inside the implementation children)
 ```
@@ -220,7 +220,7 @@ Tick all three Phase 3 boxes (test suite N/A, lint N/A, frontend N/A).
 Walk the closure steps in order. **No banner here** — closure ops auto-run; the recap drafted at the end bundles into Step 10's 📦 gate.
 
 - **Doc-drift sweep** — for each entry in `<tasknote dir>/README.md` §"AI-referenced docs", state per-entry verdict ("no change" or the specific update). Pure Discovery filing typically lands "no change" across the board — contract edits live inside the implementation children.
-- **Flip the `.1` PLAN.md line to stub form** — `- [x] **<AREA>-<next-N>.1** [<model>] | <shortname> discovery — Completed YYYY-MM-DD.` per SPEC §"`## Completed` archive convention". Keep nested under `<AREA>-EPIC-<next-N>` in its current `## <Priority>` section (per epic-cohort grouping; parent + cohort move to `## Completed` only when all children close — see CORE-057.1 / .2 closure precedents).
+- **Flip the `.1` PLAN.md line to stub form** — `- [x] **<AREA>-<next-N>.1** [<model>] | <shortname> discovery — Completed YYYY-MM-DD.` per SPEC/tasknote-selection.md §"`## Completed` archive convention". Keep nested under `<AREA>-EPIC-<next-N>` in its current `## <Priority>` section (per epic-cohort grouping; parent + cohort move to `## Completed` only when all children close — see CORE-057.1 / .2 closure precedents).
 - **Move the `.1` tasknote** — `git mv <tasknote dir>/<AREA>-<next-N>.1.md <tasknote dir>/archive/<area>/<AREA>-<next-N>.1.md`. Set `**Archived:** YYYY-MM-DD` in the tasknote's Phase 4 block.
 - **Draft the recap** — leads with a 1-2 sentence plain-English summary (epic filed, Discovery closed, children scoped), then technical detail (cohort surface inventoried, child line word-counts, any audit-number bump). Hold it for Step 10's 📦 bundle; do not surface a banner now.
 

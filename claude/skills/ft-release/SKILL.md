@@ -207,7 +207,7 @@ Write the tasknote's `**Final Summary:**` block (one paragraph: what shipped + a
 
 Edit `_project/PLAN.md`:
 
-- Replace the un-checked release task line with stub form: `- [x] **<TASK-ID>** [<model>] | <shortname> — Completed YYYY-MM-DD.` (drop the long description per SPEC §"`## Completed` archive convention").
+- Replace the un-checked release task line with stub form: `- [x] **<TASK-ID>** [<model>] | <shortname> — Completed YYYY-MM-DD.` (drop the long description per SPEC/tasknote-selection.md §"`## Completed` archive convention").
 - Move the line from its current section to the top of `## Completed`.
 
 Move the tasknote file: `git mv _project/tasknote/<TASK-ID>.md _project/tasknote/archive/core/<TASK-ID>.md`.

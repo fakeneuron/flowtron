@@ -11,7 +11,7 @@ A starter tasknote captures rich AI-discovered context (rationale, suspected fil
 
 If `args` is missing or doesn't match `<AREA>-<NUMBER>` (or `<AREA>-<NUMBER>.<SUB>` for epic subtasks), stop and ask the user for a valid task ID. Do not guess.
 
-This skill is **filing-only** and assumes the AI already has rich context from the current conversation — rationale, design decisions, a file survey, open questions. If the conversation hasn't surfaced that yet, do not invoke this skill: file a one-line PLAN.md entry directly instead (see SPEC §"When to use a tasknote (and when not to)" for the threshold).
+This skill is **filing-only** and assumes the AI already has rich context from the current conversation — rationale, design decisions, a file survey, open questions. If the conversation hasn't surfaced that yet, do not invoke this skill: file a one-line PLAN.md entry directly instead (see SPEC/tasknote-selection.md §"When to use a tasknote (and when not to)" for the threshold).
 
 ## Step 0 — Resolve paths
 
@@ -77,7 +77,7 @@ Placement:
 - If the priority section already has entries, append to the bottom of that section.
 - If the section carries a `(none)` placeholder, replace the placeholder with the new entry.
 
-**Threshold check.** Word-count the long description (excluding the trailing `Filed with starter at ...` pointer) and apply SPEC §"PLAN.md filing-discipline thresholds". **Skill-specific override:** at >70w, if the user insists, document the rationale in the starter body's `## 🌱 Starter context` (under a `Why the line couldn't be trimmed` sub-heading) before writing. Do not silently breach the cap.
+**Threshold check.** Word-count the long description (excluding the trailing `Filed with starter at ...` pointer) and apply SPEC/tasknote-selection.md §"PLAN.md filing-discipline thresholds". **Skill-specific override:** at >70w, if the user insists, document the rationale in the starter body's `## 🌱 Starter context` (under a `Why the line couldn't be trimmed` sub-heading) before writing. Do not silently breach the cap.
 
 The starter body is the canonical home for rationale, file surveys, and decisions — moving content there is the point of `/ft-starter-task`.
 
@@ -94,5 +94,5 @@ Do **not** commit unprompted. The new starter file + PLAN.md flip are typically 
 ## Notes
 
 - This skill is filing-only — no design decisions are made in the skill flow itself. All rich context comes from the prior conversation; the skill just records it.
-- **Routing:** see SPEC §"When to use a tasknote (and when not to)". `/ft-starter-task`'s niche: rich AI-captured context (file survey, open questions, design decisions) for a task not yet ready to start. One-liner suffices → write the PLAN.md line directly. Starting an existing entry → `/ft-task`. Bootstrapping a fresh repo → `/ft-new-project`.
+- **Routing:** see SPEC/tasknote-selection.md §"When to use a tasknote (and when not to)". `/ft-starter-task`'s niche: rich AI-captured context (file survey, open questions, design decisions) for a task not yet ready to start. One-liner suffices → write the PLAN.md line directly. Starting an existing entry → `/ft-task`. Bootstrapping a fresh repo → `/ft-new-project`.
 - **Proactive invocation on cross-session handoff:** when rich mid-conversation context (epic brief, design conclusion, multi-step plan) won't be consumed in this session — e.g., the user is about to `/clear` and start a fresh session to run `/ft-epic-discovery` or `/ft-task` against an ID not yet filed — **invoke `/ft-starter-task` now** rather than burying the brief in a parenthetical "(run `/ft-X` next and paste this above)" suggestion. The filing is cheap; the cost of regenerating a lost brief is much higher. See SPEC §"File a starter (`/ft-starter-task <ID>`) when:" for the trigger.
