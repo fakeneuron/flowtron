@@ -17,7 +17,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-195.1** [opus] | discovery — Completed 2026-05-25. ([archive](tasknote/archive/core/CORE-195.1.md))
   - [x] **CORE-195.2** [grok] | skill-and-command — Completed 2026-05-29.
   - [x] **CORE-195.3** [opus] | adopter-wiring — Completed 2026-05-29.
-  - [ ] **CORE-195.4** [opus] | spec-integration — Add bullet to `SPEC.md` §"When to use a tasknote (and when not to)" positioning `/ft-debug` for bugs and unexpected behavior; bump §"Skill namespace" bundled-skill enumeration to include `ft-debug`; verify §"The 4-phase workflow" needs no debug-specific guidance fold-in.
+  - [x] **CORE-195.4** [opus] | spec-integration — Completed 2026-05-29.
   - [ ] **CORE-195.5** [opus] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.
 
 - [ ] **CORE-EPIC-215** [grok] | worktree-convention — Doc convention + thin `/ft-worktree-start` + `/ft-worktree-end` skills for parallel independent epic-child work in isolated git worktrees (adopted from superpowers `using-git-worktrees`). Re-scoped from CORE-196 starter in Phase 1 of that task; .1 Discovery refines and files .2..5 children.
