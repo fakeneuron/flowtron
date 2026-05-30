@@ -53,10 +53,7 @@ ledger's §"Out of scope for this ledger", alongside `claude/AGENTS-snippet.md`.
 
 ## Last verified
 
-`v4.3.0` · 2026-05-30 (dogfooded). The `last-verified vX/date` cell
-**convention is provisional** and is formalized by `CORE-224.5`; until then
-this stamp mirrors the provisional form used in
-[`../docs/AGENT-COMPAT.md`](../docs/AGENT-COMPAT.md).
+`v4.3.0` · 2026-05-30 (dogfooded). See [`../docs/AGENT-COMPAT.md`](../docs/AGENT-COMPAT.md) §"Reading the cells" for the full `last-verified` format and update obligation.
 
 ## Related
 

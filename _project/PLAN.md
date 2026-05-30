@@ -18,7 +18,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-224.2** [opus] | compat-matrix — Completed 2026-05-30.
   - [x] **CORE-224.3** [opus] | claude-triggers — Completed 2026-05-30.
   - [x] **CORE-224.4** [sonnet] | nonclaude-triggers — Completed 2026-05-30.
-  - [ ] **CORE-224.5** [sonnet] | last-verified-currency — Define the per-agent last-verified vX/date note convention; ensure AGENT-COMPAT.md + trigger docs carry initial stamps. Wire a maintenance touchpoint into the audit .6 acceptance + the doc-drift sweep so the surface stays current. Zero automation — manual notes only (Constitution P3).
+  - [x] **CORE-224.5** [sonnet] | last-verified-currency — Completed 2026-05-30.
   - [ ] **CORE-224.6** [sonnet] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Verify doc currency, per-agent trigger wiring, last-verified notes.
 
 - [x] **CORE-206** [sonnet] | model-token-vocabulary — Completed 2026-05-25. (neutral primary labels `[heavy]` / `[light]` introduced; opus/sonnet kept as valid examples)

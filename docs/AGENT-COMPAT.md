@@ -59,11 +59,18 @@ for its Grok Build notes. The agent-neutral workflow contract itself
   PLATFORMS.md §"Grok Build adoption notes") but no `grok/` bundle exists.
   The remaining five rows note only that a native primitive exists — their
   per-agent detail is filed with the non-Claude trigger reference.
-- **Last verified** — when this row was last checked against reality. The
-  `last-verified vX/date` cell **convention is provisional in this scaffold**
-  and is formalized by `CORE-224.5`; until then, `v<version> · <date>`
-  marks a dogfooded row and `unverified` / `docs-only` marks a row resting
-  on documentation rather than a run session.
+- **Last verified** — when this row was last checked against reality. Format:
+  `vX.Y.Z · YYYY-MM[-DD] (context-tag)` where the context tag is one of:
+  - `dogfooded` — verified by running a flowtron session under this agent at
+    the stated version
+  - `docs-only · YYYY-MM (pre-adoption)` — verified against vendor
+    documentation only; no flowtron session run under this agent
+  - `unverified` — no verification conducted; row rests on launch coverage only
+
+  Update obligation: refresh the cell when you run a first flowtron session
+  under the agent, or after a major version bump diverges from the prior entry.
+  The same format applies to per-agent trigger-reference "Last verified"
+  sections (e.g. `claude/CAPABILITIES.md`, `docs/PLATFORMS.md` agent stubs).
 
 ## Pre-adoption verification
 
