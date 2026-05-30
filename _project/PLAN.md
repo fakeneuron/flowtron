@@ -17,7 +17,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-220** [sonnet] | settings-local-allowlist-growth — settings.local.json has 46 explicit allow rules, many absolute-path Bash and viz/port 5120 specific. Growing personal machine surface that travels with the project tree. Surfaced by audit-context 2026-05-29 (Pass d, Low).
+- [x] **CORE-220** [grok] | settings-local-allowlist-growth — Completed 2026-05-30.
 
 ## Future Opportunities
 
