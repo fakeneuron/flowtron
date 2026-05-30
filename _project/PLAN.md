@@ -17,7 +17,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-224.1** [opus] | discovery — Completed 2026-05-30.
   - [x] **CORE-224.2** [opus] | compat-matrix — Completed 2026-05-30.
   - [x] **CORE-224.3** [opus] | claude-triggers — Completed 2026-05-30.
-  - [ ] **CORE-224.4** [sonnet] | nonclaude-triggers — Document non-Claude capability triggers reusing .3's pattern: Grok Build in full (priority); Codex, Cursor, Gemini CLI, Aider, Amp as shallow stubs. Pre-adoption-verification framing throughout (mirror PLATFORMS.md Grok footer). No grok//codex/ wiring bundle shipped. Stamp per-agent last-verified notes.
+  - [x] **CORE-224.4** [sonnet] | nonclaude-triggers — Completed 2026-05-30.
   - [ ] **CORE-224.5** [sonnet] | last-verified-currency — Define the per-agent last-verified vX/date note convention; ensure AGENT-COMPAT.md + trigger docs carry initial stamps. Wire a maintenance touchpoint into the audit .6 acceptance + the doc-drift sweep so the surface stays current. Zero automation — manual notes only (Constitution P3).
   - [ ] **CORE-224.6** [sonnet] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Verify doc currency, per-agent trigger wiring, last-verified notes.
 

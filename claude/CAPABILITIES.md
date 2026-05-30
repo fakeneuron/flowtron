@@ -15,13 +15,12 @@ flowtron run and how to reach for them. The agent-neutral workflow contract
 force-skip, fresh-context hand-off, structured ask); this doc records the
 Claude Code *syntax* that realizes them.
 
-> **Pattern note (for `CORE-224.4`).** Each trigger below is documented in
-> one fixed shape — **what it is · syntax · what it controls in flowtron ·
-> when to reach for it**. Non-Claude agents reuse this exact shape for their
-> own trigger references (Grok Build first), filed in
-> [`../docs/PLATFORMS.md`](../docs/PLATFORMS.md) rather than here. The shape
-> is portable by design — nothing about it is Claude-coupled except the cell
-> contents.
+> **Pattern note.** Each trigger below is documented in one fixed shape —
+> **what it is · syntax · what it controls in flowtron · when to reach for it**.
+> Non-Claude agents reuse this exact shape for their own trigger references,
+> filed in [`../docs/PLATFORMS.md` §"Non-Claude capability triggers"](../docs/PLATFORMS.md#non-claude-capability-triggers)
+> rather than here. The shape is portable by design — nothing about it is
+> Claude-coupled except the cell contents.
 
 ## The triggers
 

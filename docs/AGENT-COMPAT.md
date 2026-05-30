@@ -20,7 +20,7 @@ capability triggers (Claude effort/thinking levels and `--fast`; Grok
 context-load quirks; each agent's force-skip and model-switch ergonomics)
 live in the per-agent trigger references, documented separately from this
 scaffold (Claude's in [`../claude/CAPABILITIES.md`](../claude/CAPABILITIES.md);
-the priority non-Claude agents elsewhere in the platform docs). Keeping
+non-Claude agents in [`PLATFORMS.md` §"Non-Claude capability triggers"](PLATFORMS.md#non-claude-capability-triggers)). Keeping
 triggers out of the matrix keeps it a stable index rather than a second copy
 of the trigger detail.
 
