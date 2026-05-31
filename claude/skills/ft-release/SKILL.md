@@ -97,6 +97,7 @@ Acceptance (parameterized):
 ```markdown
 - [ ] SPEC.md `**Version:** vX.Y.Z` → `vA.B.C`
 - [ ] docs/MIGRATION.md example pin bumped `vX.Y.Z` → `vA.B.C`
+- [ ] SECURITY.md release-tag example pin bumped `vX.Y.Z` → `vA.B.C`
 - [ ] `viz/src/ui/constants.ts` `FLOWTRON_VERSION` bumped `vX.Y.Z` → `vA.B.C`
 - [ ] Phase 4 doc-drift sweep run across all `_project/tasknote/README.md` §"AI-referenced docs" entries
 - [ ] Single `feat: <TASK-ID> — flowtron vA.B.C (...)` commit lands
@@ -125,33 +126,34 @@ Tick boxes as each step completes. Do not enter Phase 2 until every Phase 1 box 
 
 ## Step 5 — Drive Phase 2: Execution
 
-Apply the 3 doc edits in order:
+Apply the 4 doc edits in order:
 
 1. **`SPEC.md:3`** — `**Version:** vX.Y.Z` → `**Version:** vA.B.C`.
 2. **`docs/MIGRATION.md`** — locate the example pin (grep for `(e.g., v`) and bump `(e.g., vX.Y.Z)` → `(e.g., vA.B.C)`. Historical references like `v1.0 additions` stay (write-once historical context, per CORE-046 precedent).
-3. **`viz/src/ui/constants.ts`** — `FLOWTRON_VERSION = 'vX.Y.Z'` → `FLOWTRON_VERSION = 'vA.B.C'`.
+3. **`SECURITY.md`** — locate the release-tag example pin (grep for `release tags (e.g.`) and bump `(e.g. \`vX.Y.Z\`)` → `(e.g. \`vA.B.C\`)`.
+4. **`viz/src/ui/constants.ts`** — `FLOWTRON_VERSION = 'vX.Y.Z'` → `FLOWTRON_VERSION = 'vA.B.C'`.
 
 Verify post-edit with a single grep across the live doc set:
 
 ```sh
-grep -rn 'vX\.Y\.Z' SPEC.md SPEC/ docs/ README.md templates/ claude/ viz/src/ui/constants.ts 2>/dev/null
+grep -rn 'vX\.Y\.Z' SPEC.md SPEC/ docs/ README.md SECURITY.md templates/ claude/ viz/src/ui/constants.ts 2>/dev/null
 ```
 
-Returns empty if the doc set is clean. Archived tasknotes under `_project/tasknote/archive/` are write-once and keep their historical version refs.
+The four pins above should be clean. **`last-verified` stamps — verify, don't bump.** Since CORE-224 the doc set carries `last-verified` version stamps (`docs/AGENT-COMPAT.md`, `claude/CAPABILITIES.md`, and per-agent `docs/PLATFORMS.md` stubs) formatted `vX.Y.Z · YYYY-MM[-DD] (context-tag)`. These are **not** release pins: per the convention's update obligation (AGENT-COMPAT.md §"Reading the cells"), they refresh only on a first flowtron session under that agent or after a **major** version bump — a routine minor/patch cut leaves them. So the grep above surfaces the old `vX.Y.Z` inside these stamps as **expected residue, not drift**: on a minor/patch release confirm the only remaining hits are these stamps and move on; on a major bump, re-verify and refresh them (version + date + context-tag) as part of the cut. Archived tasknotes under `_project/tasknote/archive/` are write-once and keep their historical version refs.
 
-Tick boxes; populate Implementation Notes with the diff shape (typical: 3 files, +3/−3).
+Tick boxes; populate Implementation Notes with the diff shape (typical: 4 files, +4/−4).
 
 ## Step 6 — Drive Phase 3: Testing & Linting
 
-Two of the 3 edits are markdown prose — run a markdown lint mental-pass on SPEC.md and docs/MIGRATION.md:
+Three of the 4 edits are markdown prose — run a markdown lint mental-pass on SPEC.md, docs/MIGRATION.md, and SECURITY.md:
 
 - Edits are single-token version-string substitutions; surrounding prose unchanged.
 - No frontmatter touched; no fenced blocks broken.
 
-The third edit (`viz/src/ui/constants.ts`) is a one-line string constant substitution — run lint/type-check on the viz package:
+The fourth edit (`viz/src/ui/constants.ts`) is a one-line string constant substitution — run lint/type-check on the viz package via its own package scripts:
 
 ```sh
-npm --prefix viz run lint 2>/dev/null; npm --prefix viz exec tsc -- --noEmit
+npm --prefix viz run lint; npm --prefix viz run typecheck
 ```
 
 If a viz/code feature ships in this release, surface that the feature's own tasknote already ran its test pass — `/ft-release` does not re-run feature tests beyond this version-string lint gate.
@@ -171,7 +173,7 @@ Skill(ft-audit-docs)
 `ft-audit-docs` walks its 5 passes (Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content) over the 4-file set and returns the report inline. In subroutine mode it does **not** write tickets to `_project/PLAN.md`; the release skill is the orchestrator and decides per finding whether to absorb the fix into the current cut.
 
 For each returned finding:
-- **Critical / High** — fix inline as part of the release cut (the 3 doc edits in Phase 2 normally clear the routine SPEC + MIGRATION version-pin drift; anything else surfaced here gets the same treatment).
+- **Critical / High** — fix inline as part of the release cut (the 4 doc edits in Phase 2 normally clear the routine SPEC + MIGRATION + SECURITY version-pin drift; anything else surfaced here gets the same treatment).
 - **Medium / Low** — surface to the user with a one-line summary; ask whether to absorb into the release cut or file a followup via `/ft-file-followup`. Default to file-followup if uncertain (release cuts should not balloon).
 
 If `ft-audit-docs` reports zero findings, state that explicitly and move on to §7.2.
@@ -210,20 +212,20 @@ Edit `_project/PLAN.md`:
 - Replace the un-checked release task line with stub form: `- [x] **<TASK-ID>** [<model>] | <shortname> — Completed YYYY-MM-DD.` (drop the long description per SPEC/tasknote-selection.md §"`## Completed` archive convention").
 - Move the line from its current section to the top of `## Completed`.
 
-Move the tasknote file: `git mv _project/tasknote/<TASK-ID>.md _project/tasknote/archive/core/<TASK-ID>.md`.
+Move the tasknote file with a plain `mv` — it was copied fresh in Step 3 and never committed, so it is **untracked** and `git mv` fails (`fatal: not under version control`): `mv _project/tasknote/<TASK-ID>.md _project/tasknote/archive/core/<TASK-ID>.md`. The §7.4 `git add` stages the archived file.
 
 ### 7.4 — Stage and surface the 📦 ready-to-commit gate
 
 Stage explicitly (do NOT use `git add .` or `-A` — there may be unrelated unstaged work):
 
 ```sh
-git add SPEC.md docs/MIGRATION.md viz/src/ui/constants.ts _project/PLAN.md
+git add SPEC.md docs/MIGRATION.md SECURITY.md viz/src/ui/constants.ts _project/PLAN.md
 git add _project/tasknote/archive/core/<TASK-ID>.md
 ```
 
-(`git mv` from 7.3 already staged the rename; the explicit `add` is defensive.)
+(The Step 7.3 `mv` left the archived tasknote untracked; the explicit `git add` here stages it.)
 
-Surface the bundled 📦 ready-to-commit gate per SPEC/gates.md §"Operator-gate cues" (banner block + mandatory 1-2 sentence preview line summarising what executes on commit-go — typically "cut flowtron vA.B.C: commit the 3 doc edits + PLAN.md flip + tasknote archive, create annotated `vA.B.C` tag, push branch + tag to origin (or hold local if push-go declined)"). Alongside the SPEC-defined bundle (closure review · recap · proposed commit message), this skill carries:
+Surface the bundled 📦 ready-to-commit gate per SPEC/gates.md §"Operator-gate cues" (banner block + mandatory 1-2 sentence preview line summarising what executes on commit-go — typically "cut flowtron vA.B.C: commit the 4 doc edits + PLAN.md flip + tasknote archive, create annotated `vA.B.C` tag, push branch + tag to origin (or hold local if push-go declined)"). Alongside the SPEC-defined bundle (closure review · recap · proposed commit message), this skill carries:
 
 - **Push-go prompt** — AskUserQuestion with default Yes, a bundled in-📦 prompt parallel to /ft-close-epic's parent-flip (per SPEC/gates.md §"Conditional skip rule" bundled-prompt override):
 
