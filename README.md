@@ -17,7 +17,7 @@ maintain.
   is for, the principles (recap of SPEC), and the PR/suggestion archetypes
   flowtron deliberately rejects
 - [docs/GLOSSARY.md](docs/GLOSSARY.md) — alphabetized one-line definitions for
-  ~48 load-bearing terms, phases, markers, and grammar elements (lazy-loaded
+  ~53 load-bearing terms, phases, markers, and grammar elements (lazy-loaded
   pointer to SPEC anchors)
 - [docs/MIGRATION.md](docs/MIGRATION.md) — adoption guide for fresh projects
   and migration from a prior workflow system
