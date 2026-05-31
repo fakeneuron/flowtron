@@ -11,8 +11,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-241** [light]🔧 | agents-snippet-model-path — Fix the adopter paste-block in `claude/AGENTS-snippet.md:21`: `SPEC/model.md` → `_project/flowtron/SPEC/model.md`, matching the other four SPEC references in the same block (lines 12/17/22). The block is copied verbatim into adopter AGENTS.md, where the unprefixed path doesn't resolve. Surfaced by audit-docs 2026-05-31 (Finding #1, High).
-
 ## Medium
 
 ## Low
@@ -26,6 +24,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-241** [light]🔧 | agents-snippet-model-path — Completed 2026-05-31.
 - [x] **CORE-240** [light]🔧 | model-vocab-cascade — Completed 2026-05-31.
 - [x] **CORE-239** [light]🔧 | security-csp-description — Completed 2026-05-31.
 - [x] **CORE-238** [light]🔧 | doc-xref-precision-sweep — Completed 2026-05-31.
