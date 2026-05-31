@@ -31,6 +31,13 @@ maintain.
   the two-layer model (agent-neutral contract / per-platform wiring) and
   the symmetric plug-in shape for future platforms (Codex CLI / grok /
   Cursor)
+- [docs/AGENT-COMPAT.md](docs/AGENT-COMPAT.md) — living agent-compatibility
+  matrix: which AI coding agents flowtron supports, their contract
+  entry-points, skill primitives, and last-verified currency
+- [docs/WORKTREES.md](docs/WORKTREES.md) — worktree convention for parallel
+  epic children: the five locked decisions (location, branch naming, skill
+  pair, tasknote handling, cleanup) behind `/ft-worktree-start` +
+  `/ft-worktree-end`
 - [CONTRIBUTING.md](CONTRIBUTING.md) — solo-maintenance model, how to file
   issues, when PRs make sense
 - [SECURITY.md](SECURITY.md) — threat model (prompt injection via

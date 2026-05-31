@@ -17,6 +17,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
+- [ ] **CORE-235** [light]🔧 | glossary-count-currency — Refresh "~48 entries" in README.md:20 + docs/GLOSSARY.md:8 to match the actual ~53. Surfaced by audit-docs 2026-05-30 (Finding #2, Low).
 - [x] **CORE-220** [grok] | settings-local-allowlist-growth — Completed 2026-05-30.
 
 ## Future Opportunities
@@ -25,6 +26,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-234** [light]🔧 | readme-doc-index — Completed 2026-05-30.
 - [x] **CORE-233** [light]🔧 | dep-gray-matter-stale — Completed 2026-05-30.
 - [x] **CORE-232** [light]🔧 | viz-link-allowlist — Completed 2026-05-30.
 - [x] **CORE-231** [heavy] 🧠 | viz-csp — Completed 2026-05-30.
