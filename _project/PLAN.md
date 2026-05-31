@@ -15,7 +15,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-242** [light]🔧 | worktrees-doc-reconcile — `docs/WORKTREES.md` cleanup: fix malformed `<wt-TASK-ID>` → `wt-<TASK-ID>` in the Location row (line 13, disagrees with line 41 + snippet + skill descriptions), and de-future-tense the now-shipped CORE-215.* framing (lines 51/57/59-61) since the skills landed. Surfaced by audit-docs 2026-05-31 (Findings #2+#3, Low).
 
 
 ## Future Opportunities
@@ -24,6 +23,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-242** [light]🔧 | worktrees-doc-reconcile — Completed 2026-05-31.
 - [x] **CORE-241** [light]🔧 | agents-snippet-model-path — Completed 2026-05-31.
 - [x] **CORE-240** [light]🔧 | model-vocab-cascade — Completed 2026-05-31.
 - [x] **CORE-239** [light]🔧 | security-csp-description — Completed 2026-05-31.

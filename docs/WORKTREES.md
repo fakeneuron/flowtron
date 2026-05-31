@@ -10,7 +10,7 @@ See [[CORE-EPIC-215]] (and its .1 Discovery [[CORE-215.1]]) for the origin, lock
 
 | Area                  | Choice                                      | Rationale |
 |-----------------------|---------------------------------------------|-----------|
-| Location              | `~/code/<project>-worktrees/<wt-TASK-ID>/` | Keeps the primary project checkout clean; mirrors the `viz/` co-location pattern used in flowtron self-host; global viz workspace scans (`~/code/*/_project/PLAN.md`) continue to work without special config. |
+| Location              | `~/code/<project>-worktrees/wt-<TASK-ID>/` | Keeps the primary project checkout clean; mirrors the `viz/` co-location pattern used in flowtron self-host; global viz workspace scans (`~/code/*/_project/PLAN.md`) continue to work without special config. |
 | Branch naming         | `wt-<TASK-ID>` (e.g. `wt-CORE-215.3`)      | Short, unambiguous, instantly recognizable as a flowtron worktree; avoids collision with normal feature branches. |
 | Skill naming          | `/ft-worktree-start` + `/ft-worktree-end` (verbose) | Matches flowtron's full-word preference; the pair is self-documenting; no need for ultra-short aliases. |
 | Tasknote handling     | Copy the active tasknote into the worktree | The agent working in the isolated checkout needs the full Phase 1 context (Goal, Acceptance, Discovery Notes, resolved questions). Copy is simple, reviewable, and avoids symlink/hardlink edge cases across machines. |
@@ -54,11 +54,11 @@ Exact mechanics, safety checks, and edge cases (unmerged work, dirty state, viz 
 
 - **No SPEC contract change.** The 4-phase workflow, relevance gate, operator cues (🛠️ / 📦), conditional skip rule, and post-closure protocol are unchanged inside any tasknote that happens to run inside a worktree.
 - **Epic lifecycle unchanged.** The `.1` Discovery + children + `.N` Audit bracket (see [`SPEC/epic.md`](../SPEC/epic.md)) still governs multi-child work; worktrees are merely an execution accelerator for the independent subset of those children.
-- **Adopter wiring.** The two new skills install via the same per-project symlink bundle as the rest of the tasknote family (see `docs/MIGRATION.md` §1.2 and the AGENTS.md paste block). Full surface updates land in [[CORE-215.5]].
+- **Adopter wiring.** The two new skills install via the same per-project symlink bundle as the rest of the tasknote family (see `docs/MIGRATION.md` §1.2 and the AGENTS.md paste block). Full surface updates landed in [[CORE-215.5]].
 
 ## Open Questions (None)
 
-All scoping decisions for the convention itself were locked before this document was authored. Implementation details that surface during [[CORE-215.3]] / [[CORE-215.4]] will be recorded in those tasknotes and, if load-bearing for adopters, folded back into this doc in a follow-up.
+All scoping decisions for the convention itself were locked before this document was authored. Implementation details that surfaced during [[CORE-215.3]] / [[CORE-215.4]] were recorded in those tasknotes; no adoption-relevant changes required updates here.
 
 ---
 
