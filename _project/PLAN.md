@@ -11,9 +11,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
+- [ ] **CORE-241** [light]🔧 | agents-snippet-model-path — Fix the adopter paste-block in `claude/AGENTS-snippet.md:21`: `SPEC/model.md` → `_project/flowtron/SPEC/model.md`, matching the other four SPEC references in the same block (lines 12/17/22). The block is copied verbatim into adopter AGENTS.md, where the unprefixed path doesn't resolve. Surfaced by audit-docs 2026-05-31 (Finding #1, High).
+
 ## Medium
 
 ## Low
+
+- [ ] **CORE-242** [light]🔧 | worktrees-doc-reconcile — `docs/WORKTREES.md` cleanup: fix malformed `<wt-TASK-ID>` → `wt-<TASK-ID>` in the Location row (line 13, disagrees with line 41 + snippet + skill descriptions), and de-future-tense the now-shipped CORE-215.* framing (lines 51/57/59-61) since the skills landed. Surfaced by audit-docs 2026-05-31 (Findings #2+#3, Low).
 
 
 ## Future Opportunities
