@@ -15,16 +15,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-244** [light]🔧 | doc-count-and-layout-currency — Refresh the "~53" glossary-term stamp (docs/GLOSSARY.md:7 + README.md:20) to the actual count, and complete/genericize README §"Repo layout" docs one-liner (README.md:130) which omits glossary/vision/agent-compat/worktrees. Surfaced by audit-docs 2026-05-31 (Findings #2 & #3, Low).
-
-
-
 ## Future Opportunities
 
 (none)
 
 ## Completed
 
+- [x] **CORE-244** [light]🔧 | doc-count-and-layout-currency — Completed 2026-05-31.
 - [x] **CORE-243** [opus] | glossary-audit-family-categorization — Completed 2026-05-31.
 - [x] **CORE-242** [light]🔧 | worktrees-doc-reconcile — Completed 2026-05-31.
 - [x] **CORE-241** [light]🔧 | agents-snippet-model-path — Completed 2026-05-31.
