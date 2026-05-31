@@ -58,7 +58,7 @@ The `checkout` step is what pins the project to a specific flowtron version. Wit
 
 ### 1.2 Wire the tasknote skills + worktree pair via symlinks
 
-Flowtron ships nine slash commands inside the submodule: the seven tasknote family (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`) plus two thin worktree utilities (`/ft-worktree-start` + `/ft-worktree-end`). Each tasknote family's purpose lives in its own SKILL.md frontmatter — short version: 4-phase runner; starter filer; micro one-shot; in-chat follow-up; epic open; epic close; hypothesis-first debug runner. The worktree pair are thin procedural utilities (see their SKILL.md frontmatter + `docs/WORKTREES.md`).
+The submodule ships 21 slash commands; this step wires nine — the seven tasknote family (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`) plus two thin worktree utilities (`/ft-worktree-start` + `/ft-worktree-end`). Each tasknote family's purpose lives in its own SKILL.md frontmatter — short version: 4-phase runner; starter filer; micro one-shot; in-chat follow-up; epic open; epic close; hypothesis-first debug runner. The worktree pair are thin procedural utilities (see their SKILL.md frontmatter + `docs/WORKTREES.md`).
 
 **Install:** open `_project/flowtron/claude/AGENTS-snippet.md` §"One-time symlink wiring" and run the commands from the project root — that file is the single source of truth for the wiring (and also holds the §1.3 `AGENTS.md` paste-block). The relative paths in the snippet survive `git clone` and pin to the submodule's current SHA, so symlinks never need touching on a version bump.
 

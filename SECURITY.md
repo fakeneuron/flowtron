@@ -108,7 +108,7 @@ a static export); the dev server is not the right shape for that.
 
 ## Adopter scanner false-positive allowlists
 
-Adopters running prompt-injection scanners (e.g., Semgrep rules) or secret-detection scanners (Gitleaks, TruffleHog, Snyk, etc.) will encounter false positives when scanning a repo that vendors flowtron as a submodule. The source is prose in `SPEC.md`, skill files, and this document that quotes the privileged-ops keyword triggers from SPEC §"Conditional skip rule".
+Adopters running prompt-injection scanners (e.g., Semgrep rules) or secret-detection scanners (Gitleaks, TruffleHog, Snyk, etc.) will encounter false positives when scanning a repo that vendors flowtron as a submodule. The source is prose in `SPEC.md`, skill files, and this document that quotes the privileged-ops keyword triggers from SPEC/gates.md §"Conditional skip rule".
 
 **The `filepath:regex` allowlist convention**
 
@@ -132,6 +132,6 @@ These suppress only the documented prose examples. Real credential material in y
 
 Add the lines above (adjusted for your submodule path) to your scanner configuration. The examples cover the four uppercase keywords (`API_KEY`, `SECRET`, `TOKEN`, `PASSWORD`) that appear in the Conditional skip rule definition and in explanatory text throughout the tree.
 
-See SPEC §"Conditional skip rule" for the authoritative privileged-ops path categories and keyword-trigger clause.
+See SPEC/gates.md §"Conditional skip rule" for the authoritative privileged-ops path categories and keyword-trigger clause.
 
 Flowtron does not ship `.prompt-injection-scanignore` or `.secretscanignore` files — zero runtime scanner configuration by design.

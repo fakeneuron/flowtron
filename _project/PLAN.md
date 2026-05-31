@@ -22,6 +22,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-238** [light]🔧 | doc-xref-precision-sweep — Completed 2026-05-31.
 - [x] **CORE-237** [sonnet] | post-closure-form-spec-drift — Completed 2026-05-30.
 - [x] **CORE-236** [light]🔧 | plan-stranded-completed — Completed 2026-05-30.
 - [x] **CORE-220** [grok] | settings-local-allowlist-growth — Completed 2026-05-30.
