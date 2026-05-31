@@ -17,7 +17,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-232** [light]🔧 | viz-link-allowlist — Add URL-protocol allowlist to `WikilinkMarkdown` non-wikilink anchor renderer (allow `http`/`https` only; return `null` for `data:`, `blob:`, `javascript:`). Surfaced by audit-security 2026-05-30 (Finding #1, Low).
 - [ ] **CORE-233** [light]🔧 | dep-gray-matter-stale — Track `gray-matter` for a v5 release targeting `js-yaml` v4; bump when available. No urgency — zero active CVEs. Surfaced by audit-security 2026-05-30 (Finding #3, Low).
 - [x] **CORE-220** [grok] | settings-local-allowlist-growth — Completed 2026-05-30.
 
@@ -27,6 +26,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-232** [light]🔧 | viz-link-allowlist — Completed 2026-05-30.
 - [x] **CORE-231** [heavy] 🧠 | viz-csp — Completed 2026-05-30.
 - [x] **CORE-230** [light] | doc-nit-sweep — Completed 2026-05-30.
 - [x] **CORE-229** [light] | migration-worktree-stale-forwardref — Completed 2026-05-30.

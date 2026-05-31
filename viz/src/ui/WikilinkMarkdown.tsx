@@ -43,6 +43,10 @@ export const WikilinkMarkdown: React.FC<{
             </button>
           );
         }
+        const isAllowed =
+          typeof href === 'string' &&
+          (href.startsWith('http://') || href.startsWith('https://'));
+        if (!isAllowed) return null;
         return (
           <a href={href} {...props}>
             {children}
