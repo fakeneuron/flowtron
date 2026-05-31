@@ -9,8 +9,8 @@ See [_project/flowtron/SPEC.md](flowtron/SPEC.md) for the canonical workflow con
 
 ## High
 
-- [ ] **TASK-ID** [!critical] [opus] | shortname — Optional `[!critical]` flag floats this row to the top of High.
-- [ ] **TASK-ID** [opus] | shortname — One-line description of the task
+- [ ] **TASK-ID** [!critical] [heavy] | shortname — Optional `[!critical]` flag floats this row to the top of High.
+- [ ] **TASK-ID** [light] | shortname — One-line description of the task
 
 ## Medium
 
@@ -26,7 +26,7 @@ See [_project/flowtron/SPEC.md](flowtron/SPEC.md) for the canonical workflow con
 
 ## Completed
 
-- [x] **TASK-ID** [opus] | shortname — Completed YYYY-MM-DD.
+- [x] **TASK-ID** [light] | shortname — Completed YYYY-MM-DD.
 
 <!--
 Task-line grammar (see _project/flowtron/SPEC.md §"Task-line format"):

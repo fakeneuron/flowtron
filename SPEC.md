@@ -142,18 +142,18 @@ backwards compatibility.
 | `- [ ]` / `- [x]` | yes | Open or completed checkbox |
 | `**TASK-ID**` | yes | Bold ID, matching the §"Task ID convention" pattern |
 | ` [!critical]` | optional | Urgency flag — orthogonal to priority bucket. Flagged tasks render a red marker chip and sort to the top of the High column. Filed under whatever priority heading the row already lives under (typically `## High`). |
-| ` [model]` | optional | Short identifier for the model assigned to this task. Recommended set: `opus` \| `sonnet` (flowtron's default convention, mirroring current Anthropic tiering). Adopters MAY substitute project-specific tokens (e.g., `haiku`, `gpt-5`, `gemini-pro`); downstream tooling buckets unknown tokens as `other`. Owns the model assignment — `/ft-task` reads this BEFORE scaffolding (see §"Model field"). New entries should declare a model. |
+| ` [model]` | optional | Short identifier for the model assigned to this task. Recommended primary labels: `[heavy]` (design, multi-file, high-ambiguity, or exploratory work) \| `[light]` (mechanical, well-scoped, clear-diff implementation). Specific names (`opus`, `sonnet`, `haiku`, `gpt-5`, `gemini-pro`, etc.) are valid precision tokens; downstream tooling buckets unknown tokens as `other`. Owns the model assignment — `/ft-task` reads this BEFORE scaffolding (see §"Model field"). New entries should declare a model. |
 | ` \| shortname` | optional | Short label up to ~30 chars; rendered as the row title in visualizers when present. Falls back to the tasknote frontmatter `title:` for tasks that have a tasknote, or the long description otherwise. |
 | ` — long description` | optional | Full description. Carries `Completed YYYY-MM-DD.` markers, re-scope notes, and any rationale that doesn't fit in the shortname. |
 
 Examples:
 
 ```markdown
-- [ ] **CORE-023** [opus] | task-line grammar — Extend grammar to declare shortname + model.
-- [ ] **FE-200** [!critical] [opus] | hotfix — Production breakage; floats to top of High.
-- [ ] **CORE-016** [sonnet] — Execute project adoption per CORE-008 playbook.
+- [ ] **CORE-023** [heavy] | task-line grammar — Extend grammar to declare shortname + model.
+- [ ] **FE-200** [!critical] [heavy] | hotfix — Production breakage; floats to top of High.
+- [ ] **CORE-016** [light] — Execute project adoption per CORE-008 playbook.
 - [ ] **FE-003** | wikilink resolution — Parse [[TASK-ID]] in tasknote body text and render as clickable links.
-- [ ] **CORE-024** [opus] | quick housekeeping
+- [ ] **CORE-024** [light] | quick housekeeping
 - [ ] **CORE-016** — Execute project adoption per CORE-008 playbook.    (legacy)
 ```
 

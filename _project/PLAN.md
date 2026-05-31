@@ -13,8 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-240** [light]🔧 | model-vocab-cascade — Post-CORE-206 vocabulary drift: (1) update `SPEC.md:145` task-line-format table `[model]` row to reflect `[heavy]`/`[light]` as recommended primary labels with opus/sonnet as examples; (2) update `templates/PLAN.md` example rows to show `[heavy]` or `[light]` instead of `[opus]`. Two-file mechanical edit. Surfaced by audit-docs 2026-05-31 (Findings #2 + #3, Medium/Low).
-
 ## Low
 
 
@@ -24,6 +22,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-240** [light]🔧 | model-vocab-cascade — Completed 2026-05-31.
 - [x] **CORE-239** [light]🔧 | security-csp-description — Completed 2026-05-31.
 - [x] **CORE-238** [light]🔧 | doc-xref-precision-sweep — Completed 2026-05-31.
 - [x] **CORE-237** [sonnet] | post-closure-form-spec-drift — Completed 2026-05-30.
