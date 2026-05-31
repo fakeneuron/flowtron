@@ -18,6 +18,31 @@ import {
 const SSE_DEBOUNCE_MS = 200;
 const SSE_HEARTBEAT_MS = 30_000;
 
+// Static nonce stamped onto every Vite-injected <script> (the React-refresh
+// preamble and @vite/client) via `html.cspNonce`, and echoed in the dev CSP's
+// script-src below. Lets script-src stay free of 'unsafe-inline' even though
+// Vite's dev server injects an inline preamble script. A fixed value (rather
+// than per-response random) is an accepted trade-off for a loopback-only dev
+// tool — the win is keeping the directive honestly inline-free.
+const DEV_CSP_NONCE = 'flowtron-dev';
+
+// Defense-in-depth CSP for the dev server (the only deployment surface).
+// script-src: 'self' + nonce, no 'unsafe-inline' — our theme-init.js is now an
+// external /public script ('self'), and Vite's injected scripts carry the nonce.
+// style-src keeps 'unsafe-inline': Vite/Tailwind inject <style> at runtime in
+// dev, which can't carry a build-time nonce. connect-src allows same-origin SSE
+// (/api/events) plus the HMR websocket.
+const DEV_CSP = [
+  "default-src 'self'",
+  `script-src 'self' 'nonce-${DEV_CSP_NONCE}'`,
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data:",
+  `connect-src 'self' ws://localhost:${DEV_PORT} ws://127.0.0.1:${DEV_PORT}`,
+  "object-src 'none'",
+  "base-uri 'self'",
+  "frame-ancestors 'none'",
+].join('; ');
+
 function flowtronApi(): Plugin {
   const sseClients = new Set<ServerResponse>();
   let debounceTimer: ReturnType<typeof setTimeout> | null = null;
@@ -89,6 +114,9 @@ function flowtronApi(): Plugin {
 
 export default defineConfig({
   plugins: [react(), flowtronApi()],
+  // Stamp DEV_CSP_NONCE onto Vite-injected <script>/<style> tags so the dev
+  // CSP's script-src can omit 'unsafe-inline' (see DEV_CSP above).
+  html: { cspNonce: DEV_CSP_NONCE },
   // Pin the dev port and refuse to auto-bump. 5120 is well outside the 5173+
   // Vite default cluster used by sibling projects (BananaPeel, Invisipaw).
   // Without strictPort, vite climbs 5120 → 5121 → ... and can collide
@@ -104,6 +132,9 @@ export default defineConfig({
     // server (a remote site resolving its domain to 127.0.0.1 to bypass
     // SOP). Mirrors Vite's own post-CVE-2025 default posture.
     allowedHosts: ['localhost', '127.0.0.1'],
+    headers: {
+      'Content-Security-Policy': DEV_CSP,
+    },
   },
   test: {
     environment: 'jsdom',

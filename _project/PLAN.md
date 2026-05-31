@@ -25,6 +25,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-231** [heavy] 🧠 | viz-csp — Completed 2026-05-30.
 - [x] **CORE-230** [light] | doc-nit-sweep — Completed 2026-05-30.
 - [x] **CORE-229** [light] | migration-worktree-stale-forwardref — Completed 2026-05-30.
 - [x] **CORE-228** [opus] | readme-skill-roster-drift — Completed 2026-05-30.

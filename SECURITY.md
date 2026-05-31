@@ -95,6 +95,12 @@ dev server:
 - Reads files only from projects discovered under
   `${FLOWTRON_VIZ_WORKSPACE:-~/code}/*/_project/`. There is no
   user-controlled path input on any endpoint.
+- Sends a defense-in-depth `Content-Security-Policy` response header
+  (`server.headers` in `vite.config.ts`): `default-src 'self'`,
+  `object-src 'none'`, `base-uri 'self'`, `frame-ancestors 'none'`, and a
+  `script-src` with no `'unsafe-inline'` (Vite's injected dev scripts carry
+  a static nonce). `connect-src` is limited to same-origin plus the local
+  HMR websocket.
 
 Do not expose port 5120 over a network or through a tunnel. If you need a
 shared read-only view of project state, build a separate artifact (e.g.,
