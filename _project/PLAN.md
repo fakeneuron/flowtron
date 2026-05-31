@@ -21,6 +21,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-245** [opus] | release v4.4.0 — Completed 2026-05-31.
 - [x] **CORE-244** [light]🔧 | doc-count-and-layout-currency — Completed 2026-05-31.
 - [x] **CORE-243** [opus] | glossary-audit-family-categorization — Completed 2026-05-31.
 - [x] **CORE-242** [light]🔧 | worktrees-doc-reconcile — Completed 2026-05-31.
