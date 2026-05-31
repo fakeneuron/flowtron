@@ -21,6 +21,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-250** [heavy]🧠 | injection-threat-model-harden — Completed 2026-05-31.
 - [x] **CORE-249** [light]🔧 | ft-release-untracked-tasknote-mv — Completed 2026-05-31.
 - [x] **CORE-248** [light]🔧 | ft-release-last-verified-awareness — Completed 2026-05-31.
 - [x] **CORE-247** [light]🔧 | ft-release-typecheck-cmd-broken — Completed 2026-05-31.

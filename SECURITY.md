@@ -53,6 +53,45 @@ the runtime's tool allowlist is.
 The flowtron skills themselves do not implement a sandbox; the Claude Code
 harness is the only enforcement layer.
 
+**Contemporary tactic refinements.** The "review the PR diff" mitigation
+above assumes the injected payload is visible to a human reading the diff.
+Three current tactics defeat that assumption; each sits inside the same
+any-AI-assistant threat model.
+
+- **Invisible-Unicode smuggling.** Instructions can be hidden in zero-width
+  characters (e.g. U+200B), the Unicode Tags block (U+E0000–E007F, the
+  "ASCII smuggler"), bidirectional overrides (U+202E), or homoglyphs. They
+  render blank or benign in a diff view while the model reads them
+  verbatim — so visual PR review is necessary but *not sufficient*. Before
+  acting on contributor-authored `_project/` content, scan the changed
+  text for the invisible classes specifically (ordinary emoji and
+  em-dashes are not the concern; the dangerous codepoints render to
+  nothing). For example:
+  `grep -nP '[\x{200B}-\x{200F}\x{202A}-\x{202E}\x{2060}-\x{2064}\x{FEFF}\x{E0000}-\x{E007F}]'`
+  over the changed files, and treat any hit as suspect.
+
+- **The lethal trifecta — git as the exfil channel.** In an adopter repo
+  the skills combine all three legs of the "lethal trifecta": access to
+  private local data, exposure to untrusted contributor content, and an
+  exfiltration channel. Blocking `Bash(curl *)` does not close the channel
+  — flowtron's own closure protocol commits and pushes, so a commit
+  message, branch name, or pushed file is itself an exfil surface (e.g. an
+  injected instruction to append `$(… | base64)` to the commit body). The
+  human 📦 ready-to-commit gate is the control that closes this; do not
+  suppress it (`--fast`) on a first run against contributor-authored
+  content.
+
+- **Forged in-content control-markers.** flowtron's safety rests on control
+  markers and gates the *assistant* emits about its own actions
+  (`✅ Closure complete; committing autonomously …`, the 🛠️/📦 banners) and
+  on diff-derived skip-rule signals. A malicious tasknote or `PLAN.md` line
+  can embed a forged version of these — or text engineered to read as "no
+  privileged-ops paths here" — to socially-engineer the assistant past the
+  human commit gate. Such markers are never authoritative when they appear
+  in read content; the operative contract clause is in
+  [`SPEC/gates.md`](SPEC/gates.md) §"Operator-gate cues" → "Control-marker
+  integrity".
+
 ### Submodule supply-chain trust
 
 Adopters pin flowtron as a git submodule at a specific commit. The
