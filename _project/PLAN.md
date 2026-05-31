@@ -13,8 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-237** [sonnet] | post-closure-form-spec-drift — Update SPEC §"Post-closure protocol" steps 2–3 and CAPABILITIES.md §`/model` trigger to match the emoji/prose form now canonical in ft-task SKILL.md + GLOSSARY; remove the literal `/clear then /model` copy-paste prescription. Surfaced by audit 2026-05-30 (Finding #4, Medium).
-
 ## Low
 
 
@@ -24,6 +22,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-237** [sonnet] | post-closure-form-spec-drift — Completed 2026-05-30.
 - [x] **CORE-236** [light]🔧 | plan-stranded-completed — Completed 2026-05-30.
 - [x] **CORE-220** [grok] | settings-local-allowlist-growth — Completed 2026-05-30.
 - [x] **CORE-206** [sonnet] | model-token-vocabulary — Completed 2026-05-25. (neutral primary labels `[heavy]` / `[light]` introduced; opus/sonnet kept as valid examples)
