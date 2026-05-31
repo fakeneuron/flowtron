@@ -15,6 +15,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
+- [ ] **CORE-251** [light]🔧 | reject-runtime-sec-tooling — Record the rejection of the external truvent.ai/MCP "security tooling" proposal (FastMCP audit server, MCP repo tools, 5th "Security Gate" phase, flowtron-sec daemon) in docs/VISION.md §"What we won't accept", optionally mirrored in SPEC.md PR-archetypes. Filed with starter at `_project/tasknote/CORE-251.md`.
+
 ## Future Opportunities
 
 (none)
