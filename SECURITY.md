@@ -99,8 +99,10 @@ dev server:
   (`server.headers` in `vite.config.ts`): `default-src 'self'`,
   `object-src 'none'`, `base-uri 'self'`, `frame-ancestors 'none'`, and a
   `script-src` with no `'unsafe-inline'` (Vite's injected dev scripts carry
-  a static nonce). `connect-src` is limited to same-origin plus the local
-  HMR websocket.
+  a static nonce). `style-src` keeps `'unsafe-inline'` because Vite/Tailwind
+  inject `<style>` at runtime in dev and those injections cannot carry a
+  build-time nonce. `img-src 'self' data:` permits data-URI images.
+  `connect-src` is limited to same-origin plus the local HMR websocket.
 
 Do not expose port 5120 over a network or through a tunnel. If you need a
 shared read-only view of project state, build a separate artifact (e.g.,
