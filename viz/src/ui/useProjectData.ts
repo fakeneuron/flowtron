@@ -33,6 +33,9 @@ export function useProjectData(activeProject: string | null): {
       const md = await planRes.text();
       const active = (await activeRes.json()) as Tasknote[];
       const archived = (await archiveRes.json()) as Tasknote[];
+      if (activeProjectRef.current !== project) {
+        return;
+      }
       setTasks(parsePlan(md));
       const merged = new Map<string, Tasknote>(archived.map((t) => [t.id, t]));
       for (const t of active) merged.set(t.id, t);
