@@ -104,7 +104,7 @@ ln -s ~/code/flowtron/claude/commands/*.md  ~/.claude/commands/
 
 Use the same global pattern shown in §1.0 for the thin utility skills. This is the supported way to get hot-reload behavior when you are the one modifying the `ft-*` family itself. The `ft-` prefix remains flowtron's reserved namespace.
 
-When you need the flowtron-self specializations of the audit family (the versions with flowtron-specific scope, rubric, and verification commands), they are the primary implementations inside the canonical scaffolds — no separate fork is required inside this tree.
+The canonical `claude/skills/ft-audit*` files are the **stack-neutral scaffolds** of §1.2.1 — they intentionally retain the §0 forker checklist and placeholder globs/rubrics so adopters (and flowtron's own release tooling) can fork them. They are **not** pre-filled flowtron-self specializations. Auditing flowtron itself therefore supplies scope at invocation time: `/ft-audit` with no baked-in default stops and asks for a target (e.g. `viz/src/**` for the React app, or a docs path), then runs the five passes against it — the verification gates are the `viz` `npm` scripts (`lint`, `typecheck`, `test`). If you audit this tree often, keep a local-only fork under the gitignored `.claude/skills/audit/` (fill in the `viz` glob + those three gates); like everything under `.claude/`, it stays per-machine and never enters git history.
 
 **Optional: local `.claude/` wiring when cwd is the flowtron checkout**
 

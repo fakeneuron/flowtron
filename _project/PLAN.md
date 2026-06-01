@@ -13,8 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-253** [light]🔧 | flowtron-self-audit-scope — The seven `ft-audit*` skills ship as unforked scaffolds (§0 checklist + `<default glob>` placeholders), so `/ft-audit` on flowtron-self has no default scope; either fork a flowtron-self audit variant (viz glob + npm gates) into `.claude/` or document in MIGRATION/AGENTS that audit-* aren't self-runnable. Surfaced by audit 2026-05-31 (Finding #2, Medium).
-
 ## Low
 
 ## Future Opportunities
@@ -23,6 +21,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-253** [light]🔧 | flowtron-self-audit-scope — Completed 2026-05-31. Investigation reframed the fix: `.claude/` is gitignored (no committable fork possible) and `MIGRATION.md §1.2.2` already (falsely) claimed the canonical `claude/skills/ft-audit*` scaffolds were pre-filled flowtron-self specializations — directly contradicting §1.2.1, which calls them stack-neutral templates adopters fork. Rewrote §1.2.2 to tell the truth: the scaffolds stay stack-neutral, and auditing flowtron-self supplies scope at invocation (e.g. `viz/src/**`, gates = the three `viz` npm scripts), with an optional local-only gitignored `.claude/skills/audit/` fork for frequent self-auditing. Surfaced by audit 2026-05-31 (Finding #2, Medium).
 - [x] **FE-045** [light]🔧 | vitest-fullrun-nondeterminism — Completed 2026-05-31. Root cause was not generic pool contention: the single `navigateToTask` test ran on `vi.useFakeTimers({ shouldAdvanceTime: true })` (needed to fire the mocked rAF in App.tsx), which coupled it to wall-clock and hung a worker to the timeout under load, starving siblings into collateral timeouts. Rewrote that test on real timers with a bounded `waitFor` + explicit 10s per-test timeout; no global config change. Full suite now 170/170 deterministic across runs and ~80s→9.5s. Surfaced by audit 2026-05-31 (Finding #1, High).
 - [x] **CORE-252** [light]🔧 | reject-wiki-layer-subsystem — Completed 2026-05-31.
 - [x] **CORE-251** [light]🔧 | reject-runtime-sec-tooling — Completed 2026-05-31.
