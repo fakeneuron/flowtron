@@ -238,15 +238,15 @@ Surface the bundled 📦 ready-to-commit gate per SPEC/gates.md §"Operator-gate
 
 - **Tag message** — locked at §7.2; included by reference (the user has already approved it). Surfaced here so the user sees the full atomic motion — commit + tag + optional push — when granting commit-go.
 
-The commit-go prompt carries the canonical `🟢` prefix (e.g., `🟢 Reply commit / go to land.`). Do not commit unprompted. The single 🟢 commit-go authorizes the atomic sequence: commit → tag → push (if push-go Yes).
+The commit-go prompt carries the canonical `🟢 GO` prefix (e.g., `🟢 GO: Reply commit / go to land.`). Do not commit unprompted. The single 🟢 GO commit-go authorizes the atomic sequence: commit → tag → push (if push-go Yes).
 
 ### 7.5 — Commit, tag, push (atomic on 🟢 commit-go)
 
-On 🟢 commit-go (push-go answer already captured in the §7.4 bundle), run in this order:
+On 🟢 GO commit-go (push-go answer already captured in the §7.4 bundle), run in this order:
 
-1. `git commit` with the surfaced message.
-2. `git tag -a vA.B.C -F -` with the approved message from §7.2 (HEREDOC).
-3. **If push-go was Yes** — `git push origin <current-branch>` then `git push origin vA.B.C`.
+1. ▶️ RUN: `git commit` with the surfaced message.
+2. ▶️ RUN: `git tag -a vA.B.C -F -` with the approved message from §7.2 (HEREDOC).
+3. **If push-go was Yes** — ▶️ RUN: `git push origin <current-branch>` then `git push origin vA.B.C`.
    **If push-go was No** — stop after the tag; §8's 🏁 marker names the manual push commands as a follow-up step.
 
 Verify each operation before the next (`git log -1 --stat`, `git tag --list vA.B.C`, and on push-go Yes also `git ls-remote --tags origin vA.B.C`). The separate prose "ask explicitly before pushing" pause from earlier revisions is collapsed — push approval is captured upstream as the bundled push-go prompt at §7.4, per SPEC.md:313 ("release push-go bundles into 📦").
@@ -263,7 +263,7 @@ The post-closure protocol is canonical in SPEC §"Post-closure protocol" (steps 
   <1-2 sentence plain-English summary of what shipped + adopter-impact>
   ```
 
-  On push-go No, append a one-line manual-push reminder under the marker (e.g., `Manual push pending: \`git push origin <branch>\` then \`git push origin vA.B.C\`.`).
+  On push-go No, append a one-line manual-push reminder under the marker (e.g., `Manual push pending: ▶️ RUN: \`git push origin <branch>\` then \`git push origin vA.B.C\`.`).
 
 - **Suggest-next-move + copy-paste line** — follow in the same response as the 🏁 marker. Candidates carry `[model]` inline per option (`**<TASK-ID>** [model] | shortname — one-sentence "why now"`). The next move is typically the next pending child in the cohort that filed this release, or `/ft-file-followup` for any drift surfaced during the cut.
 

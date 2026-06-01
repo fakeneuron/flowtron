@@ -17,7 +17,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-254.1** [heavy]🧠 | discovery — Completed 2026-05-31.
   - [x] **CORE-254.2** [heavy]🧠 | cue-vocabulary — Completed 2026-06-01.
   - [x] **CORE-254.3** [heavy]🧠 | cue-contract-codify — Completed 2026-06-01.
-  - [ ] **CORE-254.4** [light]🔧 | cue-skill-wiring — Wire the cues into skill prose (ft-task, ft-epic-discovery, ft-close-epic, ft-release, ft-micro-task) so DB/executable/user-action cues fire at the right moments and the light/heavy 🔧/🧠 next-task cues emit reliably at post-closure suggestions. Mechanical prose alignment, no contract change.
+  - [x] **CORE-254.4** [light]🔧 | cue-skill-wiring — Completed 2026-06-01.
   - [ ] **CORE-254.5** [heavy]🧠 | cue-cross-agent — Write the cross-agent cue fallback policy (glyph + word label survives non-render) and verify cue rendering/emission across Claude, Grok, and Codex. Update AGENT-COMPAT.md + CAPABILITIES.md rows with verification currency. Closes the "reliable and familiar across agents" brief ask.
   - [ ] **CORE-254.6** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest .N child.
 
