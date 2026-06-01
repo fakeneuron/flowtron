@@ -20,17 +20,16 @@ describe('App — navigateToTask', () => {
 - [ ] **CORE-900** | jumper — Has [[CORE-1.1]] in related.
 `;
 
-  beforeEach(() => {
-    vi.useFakeTimers({ shouldAdvanceTime: true });
-  });
-
-  afterEach(() => {
-    vi.useRealTimers();
-  });
-
+  // Real timers throughout. navigateToTask sequences its scroll + highlight
+  // inside requestAnimationFrame, then a setTimeout(HIGHLIGHT_MS). The earlier
+  // `vi.useFakeTimers({ shouldAdvanceTime: true })` variant was needed to fire
+  // the mocked rAF, but that coupled the test to wall-clock: under the full
+  // parallel run it intermittently timed out (FE-045). Real timers cost ~1.5s
+  // here but make the gate deterministic; the explicit per-test timeout below
+  // absorbs jsdom contention without a global testTimeout bump.
   it('clicking a wikilink in TaskDetail auto-expands the parent epic, scrolls, and clears highlight', async () => {
     const scrollSpy = vi.spyOn(Element.prototype, 'scrollIntoView').mockImplementation(() => {});
-    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const user = userEvent.setup();
     renderApp({ plan });
 
     await waitFor(() => expect(screen.getByText('CORE-EPIC-1')).toBeInTheDocument());
@@ -48,14 +47,19 @@ describe('App — navigateToTask', () => {
     );
     expect(document.getElementById('row-CORE-1.1')).not.toBeNull();
 
-    expect(scrollSpy).toHaveBeenCalledWith({ behavior: 'smooth', block: 'center' });
+    // scroll + highlight fire inside requestAnimationFrame — wait for them.
+    await waitFor(() =>
+      expect(scrollSpy).toHaveBeenCalledWith({ behavior: 'smooth', block: 'center' }),
+    );
 
     const targetRow = document.getElementById('row-CORE-1.1')!;
     expect(targetRow.className).toMatch(/ring-indigo/);
 
-    await vi.advanceTimersByTimeAsync(1500);
-    await waitFor(() => expect(targetRow.className).not.toMatch(/ring-indigo/));
-  });
+    // Highlight clears HIGHLIGHT_MS (1500ms) after navigation; allow margin.
+    await waitFor(() => expect(targetRow.className).not.toMatch(/ring-indigo/), {
+      timeout: 2500,
+    });
+  }, 10_000);
 });
 
 describe('App — expand-on-click toggling', () => {
