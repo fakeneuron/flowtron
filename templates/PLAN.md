@@ -10,7 +10,8 @@ See [_project/flowtron/SPEC.md](flowtron/SPEC.md) for the canonical workflow con
 ## High
 
 - [ ] **TASK-ID** [!critical] [heavy] | shortname — Optional `[!critical]` flag floats this row to the top of High.
-- [ ] **TASK-ID** [light] | shortname — One-line description of the task
+- [ ] **TASK-ID** [medium] | shortname — One-line description of a moderate, multi-step but well-scoped task.
+- [ ] **TASK-ID** [light] | shortname — One-line description of a mechanical, clear-diff task.
 
 ## Medium
 
@@ -35,8 +36,9 @@ Task-line grammar (see _project/flowtron/SPEC.md §"Task-line format"):
 
 All of `[!critical]`, `[model]` (see `SPEC/model.md` §"Model field" and its
 "Practical guidance and agent-aware defaults" subsection for examples,
-realistic defaults such as Grok often `[light]` on routine work, and the
-full agent-aware notes; any short token is valid), and `| shortname` are
+realistic defaults such as mid-tier models like Grok/Sonnet often `[medium]`
+(or `[light]` for mechanical work), and the full agent-aware notes; any short
+token is valid), and `| shortname` are
 optional. Canonical ordering: `[!critical]` BEFORE `[model]`. Flagged tasks
 float to the top of the High column with a red marker chip. The minimal
 legacy form `- [ ] **TASK-ID** — description` keeps parsing for backwards

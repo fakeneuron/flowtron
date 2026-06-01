@@ -28,9 +28,9 @@ identity and a **category** tag (`[heavy]`/`[light]`) by *tier* — see
   the active model via `/model <X>` then re-invoke `/ft-task`, or retag the
   PLAN.md line to the active model and proceed. No silent overrides.
 - Category tag tagged heavier than the active model's tier (e.g. `[heavy]` on a
-  light-tier model like grok) → emit a ⚠️ inline advisory note and proceed; the
-  operator decides whether to escalate or keep the lighter model. Never a silent
-  block.
+  lower-tier model such as `grok` (medium) or `haiku` (light)) → emit a ⚠️ inline
+  advisory note and proceed; the operator decides whether to escalate or keep the
+  lighter model. Never a silent block.
 - PLAN.md line has no `[model]` (legacy entry) → ask the user via a
   structured ask at `/ft-task` entry, before any scaffolding work.
 
@@ -58,12 +58,13 @@ the original gate.
 form an ordered ladder:
 
 ```text
-light  <  heavy
+light  <  medium  <  heavy
 ```
 
-Two tiers today; the rule reads the ladder, so a future middle tier slots in
-without changing the matching logic (a deliberate tier-count-agnostic design — a
-3rd-rung expansion is tracked separately, not pre-built here).
+Three tiers. The rule reads the ladder **by position, not by count**, so the
+matching logic is identical whether the ladder holds two rungs or three — a
+deliberate tier-count-agnostic design. The middle `medium` rung was added in
+CORE-259 with zero change to the comparison logic.
 
 Each concrete model has an inherent tier. This is **guidance for the agent to
 self-assess at gate time, not a frozen lookup table** — flowtron does not pin a
@@ -72,18 +73,21 @@ baseline:
 
 - **`heavy`** — deep-reasoning, large/long-context models: `opus`, upper-tier
   GPT-5.5-class, and peers.
-- **`light`** — capable, well-scoped implementation models: `sonnet`, `grok`,
-  `haiku`, and peers. Note `grok` reads as **light-tier** for the gate: fast and
-  reliable on well-scoped work, but not the deep-reasoning / large-context profile
-  that defines `heavy`.
+- **`medium`** — capable mid-tier models that handle multi-step, well-scoped work
+  reliably without the deep-reasoning / large-context profile that defines
+  `heavy`: `sonnet`, `grok`, and peers. A medium-tier model comfortably covers
+  both `[light]` and `[medium]` task work; it gets the ⚠️ under-tier note only on
+  a `[heavy]` task.
+- **`light`** — fast, small implementation models for mechanical, clear-diff
+  work: `haiku`-class and peers.
 
 The match compares the active model's tier against the tag's tier:
 
 | Active vs. tag tier | Gate action |
 |---|---|
 | equal (`[light]` on light-tier, `[heavy]` on heavy-tier) | proceed silently |
-| active **heavier** than tag (`[light]` on a heavy-tier model) | proceed — overkill is harmless, no flag |
-| active **lighter** than tag (`[heavy]` on a light-tier model, e.g. grok) | ⚠️ inline advisory note, then proceed — operator decides whether to escalate; **not** a block |
+| active **heavier** than tag (`[light]` on a heavy- or medium-tier model) | proceed — overkill is harmless, no flag |
+| active **lighter** than tag (`[heavy]` on a lower-tier model, e.g. `grok`) | ⚠️ inline advisory note, then proceed — operator decides whether to escalate; **not** a block |
 
 The ⚠️ note is an inline advisory only (like the `👁️` Phase 3 prefix) — not an
 operator-gate banner and not an approval pause; the standing phase-gate count is
@@ -106,11 +110,17 @@ observations from real usage, not rigid policy.
 - Single-file edits, small refactors with a clear local pattern, adding tests
   or assertions, doc patches, config tweaks, simple bug fixes with obvious
   root cause.
-- Current Grok 4.x usage (2026-05): the large majority of routine development,
-  maintenance, and even many multi-step but well-scoped flows stay effective
-  and low-drift on `[light]`. This task itself (model guidance improvement)
-  ran under `[grok]` after a routine retag and stayed on the light-appropriate
-  side of the spectrum.
+
+**Typical `[medium]` work** (the common middle of flowtron development):
+
+- Multi-step but well-scoped changes with a clear shape: a feature spanning two
+  or three known files, a refactor with a discoverable pattern, a bug fix whose
+  root cause needs a little tracing. More than a clear-diff mechanical edit, but
+  not deep cross-module synthesis or high-ambiguity design.
+- Capable mid-tier models (`sonnet`, `grok`) sit here and cover both `[light]`
+  and `[medium]` task work comfortably. Current Grok 4.x usage (2026-05): the
+  large majority of routine development and well-scoped multi-step flows stay
+  effective and low-drift across this band.
 
 **When to choose `[heavy]`** (even on agents that otherwise favor light):
 
@@ -128,9 +138,9 @@ observations from real usage, not rigid policy.
 - Different agents have different cost/quality curves on long context and
   sustained reasoning. Some Claude Opus sessions benefit from `[heavy]` on
   extended explorations where context retention across many turns matters;
-  current Grok stays crisp and reliable on `[light]` for the majority of
-  well-scoped implementation even when the initial description sounds
-  moderately complex.
+  current Grok stays crisp and reliable across `[light]`/`[medium]` for the
+  majority of well-scoped implementation even when the initial description
+  sounds moderately complex.
 - The model edge case exercised at the very start of *this* task (PLAN.md
   tagged `[sonnet]`, active assistant Grok 4.3 → user chose retag to `[grok]`)
   is a live demonstration of the Step 1.5 mismatch gate working as intended
@@ -139,7 +149,19 @@ observations from real usage, not rigid policy.
   shape* surfaced in Discovery. Escalate only when the work proves heavier
   than the filing description suggested.
 
-The primary labels `[heavy]` / `[light]` are the recommended starting
-vocabulary for new filers and for keeping PLAN.md scannable. Specific names
-are the precision escape hatch when you have a strong observed preference
+The primary labels `[heavy]` / `[medium]` / `[light]` are the recommended
+starting vocabulary for new filers and for keeping PLAN.md scannable. Specific
+names are the precision escape hatch when you have a strong observed preference
 for a particular agent on a particular class of task.
+
+## Tier ladder vs. the next-move suggestion glyph
+
+The three-rung tier ladder governs the **Step 1.5 gate**. It is *not* the same
+axis as the **next-move suggestion glyph** (🔧 `LIGHT` / 🧠 `HEAVY`), which is a
+deliberately **binary** design-vs-mechanical hint in the post-closure protocol
+(SPEC.md cue glossary + `SPEC/gates.md`). The glyph set stays two-valued — a
+`[medium]` next-move candidate takes the **nearer** glyph (🔧 when the work is
+build-it/mechanical-leaning, 🧠 when it leans design/ambiguity). No third glyph
+is added: the suggestion cue is a coarse fast-scan signal, not a mirror of the
+gate's tier ladder, and widening CORE-254's locked cue vocabulary for it isn't
+warranted.

@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-259** [heavy]🧠 | model-tier-third-rung — Explore a 3rd model-cognition tier in the `light < heavy` ladder ([[CORE-256]] left the gate rule tier-count-agnostic). Surfaced because grok-class models sit below opus/GPT-5.5-class deep-reasoning yet above purely mechanical work. Would ripple through `SPEC/model.md` vocabulary, `viz/src/parser.ts`, `/ft-stats` buckets, SPEC task-line grammar, and templates.
+(none)
 
 ## Low
 
@@ -25,6 +25,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-259** [heavy]🧠 | model-tier-third-rung — Completed 2026-06-01.
 - [x] **CORE-256** [heavy]🧠 | model-label-valid-set — Completed 2026-06-01.
 - [x] **CORE-EPIC-254** [heavy]🧠 | cross-agent-operator-cues — Completed 2026-06-01.
   - [x] **CORE-254.1** [heavy]🧠 | discovery — Completed 2026-05-31.
