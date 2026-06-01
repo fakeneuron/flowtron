@@ -15,13 +15,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-254** [heavy]🧠 | cross-agent-operator-cues — Make operator-facing emoji cues clear and reliable at gated events and landmark moments: distinct glyphs for database commands, executable/run steps, and explicit user-action prompts, plus dependable light/heavy next-task cues. Ensure cues render and trigger familiarly across Claude, Grok, and Codex. Filed via /ft-epic-discovery; refined at .1 closure.
-  - [x] **CORE-254.1** [heavy]🧠 | discovery — Completed 2026-05-31.
-  - [x] **CORE-254.2** [heavy]🧠 | cue-vocabulary — Completed 2026-06-01.
-  - [x] **CORE-254.3** [heavy]🧠 | cue-contract-codify — Completed 2026-06-01.
-  - [x] **CORE-254.4** [light]🔧 | cue-skill-wiring — Completed 2026-06-01.
-  - [x] **CORE-254.5** [heavy]🧠 | cue-cross-agent — Completed 2026-06-01.
-  - [ ] **CORE-254.6** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest .N child.
 - [ ] **CORE-256** [heavy]🧠 | model-label-valid-set — Design + codify: should Step 1.5's model gate treat category labels `[light]`/`[heavy]` as satisfied by a *set* of concrete models (e.g. `[light]` ⊇ {sonnet, grok, haiku}) so running sonnet on a `[light]` task doesn't flag — and optionally auto-retag to the running model? Category-vs-concrete match is currently undefined in SPEC/model.md + the step-1.5 fragment. [[CORE-EPIC-254]]
 
 ## Low
@@ -32,6 +25,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-254** [heavy]🧠 | cross-agent-operator-cues — Completed 2026-06-01.
+  - [x] **CORE-254.1** [heavy]🧠 | discovery — Completed 2026-05-31.
+  - [x] **CORE-254.2** [heavy]🧠 | cue-vocabulary — Completed 2026-06-01.
+  - [x] **CORE-254.3** [heavy]🧠 | cue-contract-codify — Completed 2026-06-01.
+  - [x] **CORE-254.4** [light]🔧 | cue-skill-wiring — Completed 2026-06-01.
+  - [x] **CORE-254.5** [heavy]🧠 | cue-cross-agent — Completed 2026-06-01.
+  - [x] **CORE-254.6** [heavy]🧠 | audit — Completed 2026-06-01.
 - [x] **CORE-258** [gpt-5] | verify-cues-codex — Completed 2026-06-01.
 - [x] **CORE-257** [grok] | verify-cues-grok — Completed 2026-06-01.
 - [x] **CORE-255** [light]🔧 | next-task-cue-emoji-hardcoded — Completed 2026-06-01.
