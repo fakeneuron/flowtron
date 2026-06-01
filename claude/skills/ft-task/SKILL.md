@@ -148,7 +148,7 @@ Run the three-step protocol (commit / suggest next move / copy-paste line) per S
 
 Skill-specific:
 - Suggest-next-move candidates: read the full PLAN.md task-line shape (including `[model]`) to know the recommended model for each option. When *printing the list to the user*, emit only the emoji primary label (`[heavy]🧠` / `[light]🔧`) + "design vs mechanical" prose + shortname — drop the bare bracketed token from the visible suggestion output.
-- Copy-paste helper: emit a short visual cue of the form "Clear your session, then use 🔧 /ft-task <next-ID>" (or equivalent tight phrasing). Never emit a literal `/clear then /model ...` instruction in the user-facing suggestion. The emoji on the candidate line + the wrench cue are the stable, agent-agnostic pattern.
+- Copy-paste helper: emit a short visual cue that uses the same emoji primary label just printed for the chosen next-task candidate line (🔧 for [light] or light-appropriate tokens; 🧠 for [heavy] or heavy tokens). Typical shape: "Clear your session, then use 🔧 /ft-task <next-ID>" (or 🧠 when the candidate carried 🧠). Never emit a literal `/clear then /model ...` instruction in the user-facing suggestion. The emoji on the candidate line + the matching cue glyph are the stable, agent-agnostic pattern (per SPEC §"Post-closure protocol" step 3).
 - **Audit-family flag** — see SPEC §"Post-closure protocol" step 2 for the 🔍 AUDIT prefix convention on `/ft-audit*` next-move candidates.
 
 ## Notes
