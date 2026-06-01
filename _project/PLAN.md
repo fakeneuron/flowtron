@@ -23,8 +23,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-254.5** [heavy]🧠 | cue-cross-agent — Completed 2026-06-01.
   - [ ] **CORE-254.6** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest .N child.
 - [ ] **CORE-256** [heavy]🧠 | model-label-valid-set — Design + codify: should Step 1.5's model gate treat category labels `[light]`/`[heavy]` as satisfied by a *set* of concrete models (e.g. `[light]` ⊇ {sonnet, grok, haiku}) so running sonnet on a `[light]` task doesn't flag — and optionally auto-retag to the running model? Category-vs-concrete match is currently undefined in SPEC/model.md + the step-1.5 fragment. [[CORE-EPIC-254]]
-- [ ] **CORE-257** [light]🔧 | verify-cues-grok — Live-dogfood operator cues under Grok: drive a flowtron task and confirm 🗄️/▶️/✋/🟢/👁️/🔍/🔧/🧠 + their UPPERCASE labels render/emit per docs/AGENT-COMPAT.md §"Cross-agent cue fallback policy"; record findings and refresh the Grok matrix-row currency. Discharges the live half of [[CORE-EPIC-254]]'s Grok verification.
-- [ ] **CORE-258** [light]🔧 | verify-cues-codex — Same as [[CORE-257]] for Codex, once Codex is up and running: live-dogfood operator-cue render/emit, record findings, refresh the Codex matrix row in docs/AGENT-COMPAT.md from `unverified` to dogfooded currency. Discharges the live half of [[CORE-EPIC-254]]'s Codex verification.
 
 ## Low
 
@@ -34,6 +32,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-258** [gpt-5] | verify-cues-codex — Completed 2026-06-01.
+- [x] **CORE-257** [grok] | verify-cues-grok — Completed 2026-06-01.
 - [x] **CORE-255** [light]🔧 | next-task-cue-emoji-hardcoded — Completed 2026-06-01.
 - [x] **CORE-253** [light]🔧 | flowtron-self-audit-scope — Completed 2026-05-31. Investigation reframed the fix: `.claude/` is gitignored (no committable fork possible) and `MIGRATION.md §1.2.2` already (falsely) claimed the canonical `claude/skills/ft-audit*` scaffolds were pre-filled flowtron-self specializations — directly contradicting §1.2.1, which calls them stack-neutral templates adopters fork. Rewrote §1.2.2 to tell the truth: the scaffolds stay stack-neutral, and auditing flowtron-self supplies scope at invocation (e.g. `viz/src/**`, gates = the three `viz` npm scripts), with an optional local-only gitignored `.claude/skills/audit/` fork for frequent self-auditing. Surfaced by audit 2026-05-31 (Finding #2, Medium).
 - [x] **FE-045** [light]🔧 | vitest-fullrun-nondeterminism — Completed 2026-05-31. Root cause was not generic pool contention: the single `navigateToTask` test ran on `vi.useFakeTimers({ shouldAdvanceTime: true })` (needed to fire the mocked rAF in App.tsx), which coupled it to wall-clock and hung a worker to the timeout under load, starving siblings into collateral timeouts. Rewrote that test on real timers with a bounded `waitFor` + explicit 10s per-test timeout; no global config change. Full suite now 170/170 deterministic across runs and ~80s→9.5s. Surfaced by audit 2026-05-31 (Finding #1, High).

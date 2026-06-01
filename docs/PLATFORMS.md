@@ -209,19 +209,17 @@ adopters paste the `AGENTS.md` block per [`MIGRATION.md`](MIGRATION.md)
 | **AGENTS.md visibility** | Grok Build "picks up AGENTS.md before it does anything" per xAI launch coverage — same load-before-act semantic as Claude Code | Paste-block is visible without configuration; no truncation noted in launch narratives |
 | **Skill / command primitives** | Skills live at `.grok/skills/<name>/` (cwd-walk to repo root) + `~/.grok/skills/` + plugin paths + custom paths via `[skills] paths` in `~/.grok/config.toml`. Skill bodies are markdown; user-invocable skills auto-wire as `/<skill-name>` slash commands | A future `grok/` sibling-dir contributor could mirror `claude/`'s shape 1:1: markdown skill bodies, relative symlinks from adopter `.grok/skills/<name>` into the submodule. The `ft-` namespace per SPEC §"Skill namespace" reserves skill names cross-platform. |
 
-_Pre-adoption verification only._ Content above reflects xAI documentation
-and Grok Build launch coverage as of May 2026; flowtron has not shipped
-`grok/` wiring and has not run a Grok Build session against an adopting
-project. Update on first-use observation if anything diverges.
+First-use verification 2026-06-01 (CORE-257 cue dogfood under Grok 4.3 interactive CLI). /ft-task + full 4-phase flow + AskUserQuestion structured prompt all rendered and executed successfully. Structured ask primitive observed to work (divergence from launch-coverage assumption in the triggers table below); other details matched. See docs/AGENT-COMPAT.md for the canonical matrix row currency.
 
 ## Non-Claude capability triggers
 
 _Mirrors the per-trigger shape in [`../claude/CAPABILITIES.md`](../claude/CAPABILITIES.md) —
 **what it is · syntax · what it controls in flowtron · when to reach for it** — for the
-non-Claude agents in the matrix. All rows below are pre-adoption: flowtron has not run a
-session under any of these agents. Content reflects vendor documentation and launch
-coverage; update a row on first-use observation if anything diverges. This mirrors the
-pre-adoption framing in §"Grok Build adoption notes" above._
+non-Claude agents in the matrix. Flowtron has not run a session under several
+of these agents. Grok Build and Codex CLI now carry
+first-use observations; remaining stub rows reflect vendor documentation and
+launch coverage. Update a row on first-use observation if anything diverges.
+This mirrors the pre-adoption framing in §"Grok Build adoption notes" above._
 
 ### Grok Build
 
@@ -231,22 +229,22 @@ pre-adoption framing in §"Grok Build adoption notes" above._
 | **Force-skip (`--fast` equivalent)** | No equivalent without a shipped `grok/` bundle. A future `grok/` contributor could mirror the trailing-arg form (e.g., `--fast`) in a `SKILL.md` body — the concept is contract-neutral; only the syntax is wiring detail. | Would suppress the 👁️ visual-confirmation ask and 📦 signal trips, routing closure to autonomous commit — same as Claude Code's `--fast`. | N/A today. If a `grok/` bundle ships, follow the same operator-gate convention as Claude Code's `--fast`. |
 | **Model / session switch** | Restart a new Grok Build session with the target model. No in-session `/model` command equivalent is documented. | Ensures the task runs at its assigned `[heavy]` / `[light]` depth. The post-closure copy-paste line from `/ft-task` emits a `/model` hint for Claude Code hand-offs; for Grok, the equivalent is the session-start model choice. | Before starting a task whose `[model]` differs from the previous session's model. |
 | **Context freshness** | Start a new Grok Build session. No in-session `/clear` equivalent is documented. | Resets the context window so the next task starts cold — "one task per context window" in practice. | Between tasks, before starting the next flowtron skill invocation, so each tasknote runs in a clean context. |
-| **Structured ask** | No equivalent to Claude Code's `AskUserQuestion` multi-option UI is documented for Grok Build. The contract falls back to a **prose ask** — the agent surfaces the question in free text and the operator replies. | Realizes Phase 1 clarification asks and other decision points. With no structured-ask primitive, the operator sees a prose question and replies conversationally rather than selecting a labeled option. | Grok Build will always use prose asks. Functionally equivalent to structured ask for single-decision clarifications; multi-option forks may require more care in phrasing. |
+| **Structured ask** | No equivalent to Claude Code's `AskUserQuestion` multi-option UI is documented for Grok Build. The contract falls back to a **prose ask** — the agent surfaces the question in free text and the operator replies. | Realizes Phase 1 clarification asks and other decision points. With no structured-ask primitive, the operator sees a prose question and replies conversationally rather than selecting a labeled option. | Grok Build will always use prose asks per launch docs. (2026-06-01 CORE-257 observation: AskUserQuestion tool rendered clean multi-option UI in this Grok 4.3 TUI; may be TUI enhancement vs. base CLI. Update on further runs.) Functionally equivalent to structured ask for single-decision clarifications; multi-option forks may require more care in phrasing. |
 
-_Pre-adoption verification._ Content above reflects xAI documentation and Grok Build
-launch coverage as of May 2026; flowtron has not shipped `grok/` wiring and has not run
-a Grok Build session against an adopting project. Update on first-use observation if
-anything diverges.
+First-use verification 2026-06-01 (CORE-257). /ft-task skill invocation, model gate (with retag), AskUserQuestion render, and cue emissions (✅ marker + post-closure expectations) exercised under Grok. Structured ask support observed (see trigger table note). Matrix currency lives in docs/AGENT-COMPAT.md.
 
-**Last verified:** `docs-only · 2026-05 (pre-adoption)`
+**Last verified:** `v4.4.0 · 2026-06-01 (dogfooded)`
 
-### Codex CLI (stub)
+### Codex CLI
 
-Contract-only agent; no capability-trigger research has been conducted for flowtron
-sessions under Codex CLI. See [`AGENT-COMPAT.md`](AGENT-COMPAT.md) for the current
-matrix row. Update this stub on first-use observation.
+Contract-only agent; no flowtron-specific Codex wiring bundle ships today.
+First-use verification 2026-06-01 (CORE-258): a Codex/GPT-5 session consumed
+the root `AGENTS.md` + `SPEC.md`, resumed a blocked flowtron task
+conversationally, updated the Codex matrix row, and completed the closure
+bookkeeping without a native `/ft-task` bundle. Operator cues rendered
+legibly in conversation; labels remained the durable fallback.
 
-**Last verified:** `unverified`
+**Last verified:** `v4.4.0 · 2026-06-01 (dogfooded)`
 
 ### Cursor (stub)
 
