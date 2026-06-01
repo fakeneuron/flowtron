@@ -15,8 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-262** [light]🔧 | ft-release-viz-constant-rename — Update claude/skills/ft-release/SKILL.md references from `FLOWTRON_VERSION` to `VIZ_VERSION` in acceptance criteria, execution steps, comments, grep, and git-add list (stale after FE-048 rename in viz/src/ui/constants.ts). Surfaced by audit-docs 2026-06-02 (Finding #1, High).
-- [ ] **CORE-263** [light]🔧 | ft-stats-model-buckets — Refresh claude/skills/ft-stats/SKILL.md model bucketing, table headers, and text to support current labels (`heavy`/`medium`/`light` per CORE-256 + agent tokens like `grok`) instead of only `opus`/`sonnet`/`other`/`legacy`. Surfaced by audit-docs 2026-06-02 (Finding #2, Medium).
+(none)
 
 ## Low
 
@@ -28,6 +27,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-263** [light]🔧 | ft-stats-model-buckets — Completed 2026-06-02.
+- [x] **CORE-262** [light]🔧 | ft-release-viz-constant-rename — Completed 2026-06-02.
 - [x] **FE-048** [light]🔧 | viz-per-project-version-display — Completed 2026-06-02.
 - [x] **FE-047** [light]🔧 | viz-api-error-path-leak — Completed 2026-06-01.
 - [x] **FE-046** [light]🔧 | viz-stale-response-guard — Completed 2026-06-01.
