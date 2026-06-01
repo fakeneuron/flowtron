@@ -290,17 +290,46 @@ Every tasknote follows four phases in strict serial order. Do not skip ahead.
 
 ### Operator-gate cues
 
-The 4-phase workflow surfaces **up to two** operator-gate banners —
+The 4-phase workflow surfaces **up to two** standing phase-gate banners —
 explicit-approval pauses, both conditional: 🛠️ Phase 1→2 (post-Discovery)
 and 📦 ready-to-commit. A fully mechanical task skips both and runs
 end-to-end with inline state markers. Once Phase 1 closes, Phase 2 →
 Phase 3 → Phase 4 closure ops flow continuously without intermediate
 gates; skill-level extensions (epic parent-flip, release push-go) bundle
-into 📦 rather than adding their own banners.
+into 📦 rather than adding their own banners. Separate from these two phase
+gates, a destructive 🗄️/▶️ command cue may trigger a one-off
+destructive-action banner — a bounded safety escalation, not a third
+standing gate (see the glossary below).
 
 Canonical gate contract — banner format, the trigger table, the Phase
-1→2 exit-gate flavors, the conditional skip rule, and the `--fast`
-operator override: see [`SPEC/gates.md`](SPEC/gates.md).
+1→2 exit-gate flavors, the conditional skip rule, the `--fast`
+operator override, and the full operator-cue vocabulary: see
+[`SPEC/gates.md`](SPEC/gates.md).
+
+### Operator-cue glossary
+
+Compact at-a-glance reference for the operator-facing cues skills emit.
+Every cue is `<glyph> <UPPERCASE-LABEL>` — the glyph is the fast-scan
+signal, the UPPERCASE label survives non-render for cross-agent
+reliability. Full contract (emission shapes, escalation, conventions):
+[`SPEC/gates.md` §"Operator-cue vocabulary"](SPEC/gates.md).
+
+| Glyph | Label | Means |
+|---|---|---|
+| 🗄️ | `DB` | run a database / migration command (inline) |
+| ▶️ | `RUN` | run a build / script / server step (inline) |
+| ✋ | `ACTION` | perform a manual, non-command action (inline) |
+| 🟢 | `GO` | commit-go approval ask |
+| 👁️ | `CONFIRM` | visual-confirmation ask (covers "visit a URL") |
+| 🔍 | `AUDIT` | `/ft-audit*` next-move flag |
+| 🛠️ | — | Phase 1→2 approval banner |
+| 📦 | — | ready-to-commit approval banner |
+| 🏁 | — | committed state-marker (carries the work summary) |
+| ✅ | — | phase / closure-complete marker |
+| 🔧 / 🧠 | `LIGHT` / `HEAVY` | next-task suggestion: mechanical / design |
+
+A destructive 🗄️/▶️ action may escalate from its inline prefix to a
+blocking banner — see [`SPEC/gates.md` §"Operator-cue vocabulary" → "Destructive-action escalation"](SPEC/gates.md).
 
 ### 📝 Phase 1: Discovery
 
@@ -355,7 +384,7 @@ Run the full test suite only when changes are broad or cross-cutting.
 The visual-confirmation ask carries a `👁️` inline prefix on the
 conversational prompt (e.g., `👁️ Could you confirm the new outline at
 http://localhost:5120?`). Inline emoji prefix only — **no banner block,
-no operator-gate**; gate count stays at up-to-2.
+no operator-gate**; the standing phase-gate count is unaffected.
 
 When `/ft-task` is invoked with `--fast`, the 👁️ ask is suppressed
 (lint/type-check on changed code still runs). See
