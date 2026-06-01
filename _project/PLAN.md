@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-256** [heavy]🧠 | model-label-valid-set — Design + codify: should Step 1.5's model gate treat category labels `[light]`/`[heavy]` as satisfied by a *set* of concrete models (e.g. `[light]` ⊇ {sonnet, grok, haiku}) so running sonnet on a `[light]` task doesn't flag — and optionally auto-retag to the running model? Category-vs-concrete match is currently undefined in SPEC/model.md + the step-1.5 fragment. [[CORE-EPIC-254]]
+- [ ] **CORE-259** [heavy]🧠 | model-tier-third-rung — Explore a 3rd model-cognition tier in the `light < heavy` ladder ([[CORE-256]] left the gate rule tier-count-agnostic). Surfaced because grok-class models sit below opus/GPT-5.5-class deep-reasoning yet above purely mechanical work. Would ripple through `SPEC/model.md` vocabulary, `viz/src/parser.ts`, `/ft-stats` buckets, SPEC task-line grammar, and templates.
 
 ## Low
 
@@ -25,6 +25,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-256** [heavy]🧠 | model-label-valid-set — Completed 2026-06-01.
 - [x] **CORE-EPIC-254** [heavy]🧠 | cross-agent-operator-cues — Completed 2026-06-01.
   - [x] **CORE-254.1** [heavy]🧠 | discovery — Completed 2026-05-31.
   - [x] **CORE-254.2** [heavy]🧠 | cue-vocabulary — Completed 2026-06-01.
