@@ -24,9 +24,9 @@ describe('App — navigateToTask', () => {
   // inside requestAnimationFrame, then a setTimeout(HIGHLIGHT_MS). The earlier
   // `vi.useFakeTimers({ shouldAdvanceTime: true })` variant was needed to fire
   // the mocked rAF, but that coupled the test to wall-clock: under the full
-  // parallel run it intermittently timed out (FE-045). Real timers cost ~1.5s
-  // here but make the gate deterministic; the explicit per-test timeout below
-  // absorbs jsdom contention without a global testTimeout bump.
+  // parallel run it intermittently timed out (FE-045). Real timers reduce but
+  // don't fully eliminate flakiness under parallel jsdom contention; the raised
+  // findByRole timeout below and the per-test timeout absorb the remaining slack.
   it('clicking a wikilink in TaskDetail auto-expands the parent epic, scrolls, and clears highlight', async () => {
     const scrollSpy = vi.spyOn(Element.prototype, 'scrollIntoView').mockImplementation(() => {});
     const user = userEvent.setup();
@@ -39,7 +39,7 @@ describe('App — navigateToTask', () => {
 
     await user.click(screen.getByRole('button', { name: /CORE-900/, expanded: false }));
 
-    const wikilink = await screen.findByRole('button', { name: /\[\[CORE-1\.1\]\]/ });
+    const wikilink = await screen.findByRole('button', { name: /\[\[CORE-1\.1\]\]/ }, { timeout: 4000 });
     await user.click(wikilink);
 
     await waitFor(() =>

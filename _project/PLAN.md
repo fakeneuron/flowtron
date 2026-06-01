@@ -15,11 +15,9 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
-
 ## Low
 
-(none)
+- [ ] **FE-050** [light]🔧 | originguard-referer-port — originGuard referer fallback validates hostname only, ignoring port (http://localhost:3000 passes), asymmetric with the exact ALLOWED_ORIGINS origin check; compare URL.origin or document why port-looseness is intentional. Surfaced by audit 2026-06-01 (Finding #2, Low).
 
 ## Future Opportunities
 
@@ -27,6 +25,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-049** [light]🔧 | deflake-wikilink-nav-test — Completed 2026-06-01.
 - [x] **CORE-263** [light]🔧 | ft-stats-model-buckets — Completed 2026-06-02.
 - [x] **CORE-262** [light]🔧 | ft-release-viz-constant-rename — Completed 2026-06-02.
 - [x] **FE-048** [light]🔧 | viz-per-project-version-display — Completed 2026-06-02.
