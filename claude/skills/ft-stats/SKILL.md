@@ -41,7 +41,7 @@ until the next H2 heading (`## …`) or end-of-file. For each line:
    - [x] **<TASK-ID>** [<model>] | <shortname> — Completed <YYYY-MM-DD>.
    ```
 
-   - `[<model>]` is the model token per SPEC §"Task-line format". Bucket: `opus` and `sonnet` (recommended set) keep their own buckets; any other token (e.g., `haiku`, `gpt-5`, `gemini-pro`) → `other`; absent `[<model>]` → `legacy`.
+   - `[<model>]` is the model token per SPEC §"Task-line format". Bucket: primary recommended tiers `[heavy]` / `[medium]` / `[light]` (from CORE-256); keep `opus` / `sonnet` for compatibility; any other (e.g. agent-specific `grok`, `gpt-5`, or historical) → `other`; absent `[<model>]` → `legacy`.
    - `| <shortname>` is optional (legacy entries may omit it).
    - The trailing date marker `Completed <YYYY-MM-DD>.` is the canonical date
      source. Both stub-form and legacy paragraph-form lines that carry this
@@ -57,7 +57,7 @@ For each parsed entry, capture:
 |---|---|
 | `task_id` | bold ID (e.g., `CORE-097.2`, `FE-EPIC-033`) |
 | `area` | prefix before the first `-` (`CORE`, `FE`, `BE`, `DB`, `DEPLOY`, `TEST`, or an adopter domain prefix) |
-| `model` | `opus` \| `sonnet` \| `other` \| `legacy` |
+| `model` | `heavy` \| `medium` \| `light` \| `opus` \| `sonnet` \| `other` \| `legacy` |
 | `date` | `YYYY-MM-DD` from the `Completed` marker |
 | `is_subtask` | true if `task_id` matches `<AREA>-<N>.<SUB>` |
 | `is_epic_parent` | true if `task_id` matches `<AREA>-EPIC-<N>` |
@@ -76,6 +76,9 @@ Compute against the parsed entries from Step 1. Two windows per section:
 
 | Model  | All | % | Last 30d | % (30d) |
 |---|---:|---:|---:|---:|
+| `heavy` | N | X% | M | X% |
+| `medium` | N | X% | M | X% |
+| `light` | N | X% | M | X% |
 | `opus` | N | X% | M | X% |
 | `sonnet` | N | X% | M | X% |
 | `other` | N | X% | M | X% |
@@ -84,7 +87,8 @@ Compute against the parsed entries from Step 1. Two windows per section:
 Percentage denominator is total parsed entries in that window. Round to the
 nearest integer percent. Omit the `other` and `legacy` rows entirely if their
 count is 0 in **both** windows; otherwise show them (zero counts render as
-`0` / `0%`).
+`0` / `0%`). The primary tiers (`heavy`/`medium`/`light`) and `opus`/`sonnet`
+are always shown if present in the data.
 
 ### Section B — Completion velocity
 
@@ -122,7 +126,7 @@ Source: `_project/PLAN.md` `## Completed` — <N> entries parsed<, M skipped>
 Last 30d window: <today − 30> → <today> (inclusive)
 
 ## Model distribution
-<Section A table>
+<Section A table (expanded for current tiers: heavy/medium/light + opus/sonnet + other/legacy)>
 
 ## Completion velocity
 <Section B table>

@@ -98,7 +98,7 @@ Acceptance (parameterized):
 - [ ] SPEC.md `**Version:** vX.Y.Z` → `vA.B.C`
 - [ ] docs/MIGRATION.md example pin bumped `vX.Y.Z` → `vA.B.C`
 - [ ] SECURITY.md release-tag example pin bumped `vX.Y.Z` → `vA.B.C`
-- [ ] `viz/src/ui/constants.ts` `FLOWTRON_VERSION` bumped `vX.Y.Z` → `vA.B.C`
+- [ ] `viz/src/ui/constants.ts` `VIZ_VERSION` bumped `vX.Y.Z` → `vA.B.C`
 - [ ] Phase 4 doc-drift sweep run across all `_project/tasknote/README.md` §"AI-referenced docs" entries
 - [ ] Single `feat: <TASK-ID> — flowtron vA.B.C (...)` commit lands
 - [ ] Annotated `vA.B.C` tag created with adopter-facing release notes
@@ -131,7 +131,7 @@ Apply the 4 doc edits in order:
 1. **`SPEC.md:3`** — `**Version:** vX.Y.Z` → `**Version:** vA.B.C`.
 2. **`docs/MIGRATION.md`** — locate the example pin (grep for `(e.g., v`) and bump `(e.g., vX.Y.Z)` → `(e.g., vA.B.C)`. Historical references like `v1.0 additions` stay (write-once historical context, per CORE-046 precedent).
 3. **`SECURITY.md`** — locate the release-tag example pin (grep for `release tags (e.g.`) and bump `(e.g. \`vX.Y.Z\`)` → `(e.g. \`vA.B.C\`)`.
-4. **`viz/src/ui/constants.ts`** — `FLOWTRON_VERSION = 'vX.Y.Z'` → `FLOWTRON_VERSION = 'vA.B.C'`.
+4. **`viz/src/ui/constants.ts`** — `VIZ_VERSION = 'vX.Y.Z'` → `VIZ_VERSION = 'vA.B.C'`.
 
 Verify post-edit with a single grep across the live doc set:
 
