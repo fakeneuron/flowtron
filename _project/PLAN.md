@@ -18,7 +18,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-254.2** [heavy]🧠 | cue-vocabulary — Completed 2026-06-01.
   - [x] **CORE-254.3** [heavy]🧠 | cue-contract-codify — Completed 2026-06-01.
   - [x] **CORE-254.4** [light]🔧 | cue-skill-wiring — Completed 2026-06-01.
-  - [ ] **CORE-254.5** [heavy]🧠 | cue-cross-agent — Write the cross-agent cue fallback policy (glyph + word label survives non-render) and verify cue rendering/emission across Claude, Grok, and Codex. Update AGENT-COMPAT.md + CAPABILITIES.md rows with verification currency. Closes the "reliable and familiar across agents" brief ask.
+  - [x] **CORE-254.5** [heavy]🧠 | cue-cross-agent — Completed 2026-06-01.
   - [ ] **CORE-254.6** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest .N child.
 
 ## Low

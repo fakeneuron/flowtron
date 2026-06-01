@@ -33,7 +33,7 @@ for its Grok Build notes. The agent-neutral workflow contract itself
 
 | Agent | Consume mode | Context entry-point | Skill / command primitive | Last verified |
 |---|---|---|---|---|
-| **Claude Code** | Wiring + contract | `AGENTS.md` (+ optional `CLAUDE.md`) | `.claude/skills/` + `.claude/commands/` slash commands — full `ft-*` bundle shipped | `v4.3.0` · 2026-05-30 (dogfooded) |
+| **Claude Code** | Wiring + contract | `AGENTS.md` (+ optional `CLAUDE.md`) | `.claude/skills/` + `.claude/commands/` slash commands — full `ft-*` bundle shipped | `v4.4.0` · 2026-06-01 (dogfooded) |
 | **Grok Build** | Contract only | `AGENTS.md` | `.grok/skills/` markdown skills, auto-wired as `/<name>` — no flowtron bundle shipped | docs-only · 2026-05 (pre-adoption) |
 | **Codex CLI** | Contract only | `AGENTS.md` | Native primitive exists; no flowtron bundle | unverified |
 | **Cursor** | Contract only | `AGENTS.md` | Native primitive exists; no flowtron bundle | unverified |
@@ -82,6 +82,33 @@ under Codex CLI, Cursor, Gemini CLI, Aider, Sourcegraph Amp, or Grok Build.
 Treat their cells as pre-adoption expectations; update a row on first-use
 observation if anything diverges. This mirrors the Grok Build footer in
 [`PLATFORMS.md`](PLATFORMS.md) §"Grok Build adoption notes".
+
+## Cross-agent cue fallback policy
+
+Flowtron's operator cues are `<glyph> <UPPERCASE-LABEL>` pairs — the canonical
+set lives in [`SPEC/gates.md` §"Operator-cue vocabulary"](../SPEC/gates.md). The
+pairing *is* the cross-agent reliability mechanism: the glyph is a fast-scan
+accelerator; the UPPERCASE ASCII label is the authoritative, durable token.
+
+A cue can hit three non-render failure modes on a given agent surface:
+
+- **Stripped** — the surface drops non-ASCII and the glyph vanishes.
+- **Tofu** — the glyph renders as a missing-glyph box (□).
+- **Mojibake** — the glyph is mis-decoded into garbage bytes.
+
+In all three, the trailing label (`DB`, `RUN`, `ACTION`, `GO`, `CONFIRM`,
+`AUDIT`) is plain ASCII and survives intact, so the cue's meaning is recoverable
+without the glyph. Banner cues carry their label inside the
+`AWAITING APPROVAL — <label>` line, so the same fallback holds for blocking
+gates. **Agents and operators should scan on the label as the authoritative
+token; the glyph never carries meaning alone.**
+
+This is why a row can sit at `docs-only` or `unverified` (§"The matrix") and the
+cues still convey reliably: legibility degrades gracefully to plain text, so
+per-agent emoji-render dogfooding is a currency nicety, not a correctness
+prerequisite. Live cue-render confirmation under a non-Claude agent refreshes
+that agent's row per the §"Reading the cells" update obligation — the natural
+next step for the Grok and Codex rows.
 
 ## Related
 
