@@ -15,14 +15,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-252** [light]🔧 | reject-wiki-layer-subsystem — Record the rejection of the external "Karpathy Wiki Layer" proposal (raw/wiki/instructions tree, /ft-wiki-* skills, "Knowledge Gate" 5th phase, flowtron-wiki submodule) in docs/VISION.md §"What we won't accept"; sibling of CORE-251. Filed with starter at `_project/tasknote/CORE-252.md`.
-
 ## Future Opportunities
 
 (none)
 
 ## Completed
 
+- [x] **CORE-252** [light]🔧 | reject-wiki-layer-subsystem — Completed 2026-05-31.
 - [x] **CORE-251** [light]🔧 | reject-runtime-sec-tooling — Completed 2026-05-31.
 - [x] **CORE-250** [heavy]🧠 | injection-threat-model-harden — Completed 2026-05-31.
 - [x] **CORE-249** [light]🔧 | ft-release-untracked-tasknote-mv — Completed 2026-05-31.
