@@ -1,14 +1,21 @@
 import { useCallback, useEffect, useState } from 'react';
 import { readStoredProject, writeStoredProject } from '../projectStorage';
 
+export interface ProjectInfo {
+  name: string;
+  flowtronVersion: string | null;
+}
+
 export function useProjects(): {
   projects: string[];
+  projectVersions: Record<string, string | null>;
   activeProject: string | null;
   setActiveProject: (name: string | null) => void;
   initialLoading: boolean;
   error: string | null;
 } {
   const [projects, setProjects] = useState<string[]>([]);
+  const [projectVersions, setProjectVersions] = useState<Record<string, string | null>>({});
   const [activeProject, setActiveProjectState] = useState<string | null>(null);
   const [initialLoading, setInitialLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -19,10 +26,13 @@ export function useProjects(): {
       try {
         const res = await fetch('/api/projects');
         if (!res.ok) throw new Error(`Project list failed: HTTP ${res.status}`);
-        const list = (await res.json()) as Array<{ name: string }>;
+        const list = (await res.json()) as Array<ProjectInfo>;
         if (cancelled) return;
         const names = list.map((p) => p.name);
+        const versions: Record<string, string | null> = {};
+        for (const p of list) versions[p.name] = p.flowtronVersion ?? null;
         setProjects(names);
+        setProjectVersions(versions);
         const stored = readStoredProject();
         const initial = stored && names.includes(stored) ? stored : (names[0] ?? null);
         setActiveProjectState(initial);
@@ -42,5 +52,5 @@ export function useProjects(): {
     if (name) writeStoredProject(name);
   }, []);
 
-  return { projects, activeProject, setActiveProject, initialLoading, error };
+  return { projects, projectVersions, activeProject, setActiveProject, initialLoading, error };
 }

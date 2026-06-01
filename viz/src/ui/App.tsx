@@ -8,7 +8,7 @@ import {
   type Task,
 } from '../parser';
 import { type TasknoteStatus } from '../tasknote';
-import { DENSITY_TOKENS, FLOWTRON_VERSION, TYPOGRAPHY } from './constants';
+import { DENSITY_TOKENS, VIZ_VERSION, TYPOGRAPHY } from './constants';
 import { VisibilityProvider } from './VisibilityContext';
 import { SearchProvider } from './SearchContext';
 import { LoadingSkeleton } from './LoadingSkeleton';
@@ -46,6 +46,7 @@ const HIGHLIGHT_MS = 1500;
 export const App: React.FC = () => {
   const {
     projects,
+    projectVersions,
     activeProject,
     setActiveProject,
     initialLoading,
@@ -278,7 +279,7 @@ export const App: React.FC = () => {
                 {filteredCount === total
                   ? `${total} tasks · ${inProgress} in progress${starterCount > 0 ? ` · ${starterCount} ${starterCount === 1 ? 'starter' : 'starters'}` : ''}`
                   : `${filteredCount} of ${total} matching · ${inProgress} in progress${starterCount > 0 ? ` · ${starterCount} ${starterCount === 1 ? 'starter' : 'starters'}` : ''}`}
-                {` · flowtron ${FLOWTRON_VERSION}`}
+                {` · flowtron ${projectVersions[activeProject ?? ''] ?? VIZ_VERSION}`}
               </p>
             </div>
             <div className="flex items-center gap-2">

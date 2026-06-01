@@ -1,4 +1,4 @@
-import { readdir, stat } from 'node:fs/promises';
+import { readdir, readFile, stat } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 
@@ -8,6 +8,7 @@ export interface ProjectDescriptor {
   planPath: string;
   tasknoteDir: string;
   archiveDir: string;
+  flowtronVersion: string | null;
 }
 
 function expandHome(path: string): string {
@@ -29,6 +30,19 @@ async function isFile(path: string): Promise<boolean> {
   }
 }
 
+async function readFlowtronVersion(specPath: string): Promise<string | null> {
+  try {
+    const text = await readFile(specPath, 'utf8');
+    // Matches "**Version:** v4.5.0" or "**Version:** 4.5.0" (with or without v prefix)
+    const m = /^\*\*Version:\*\*\s*(v?\d+\.\d+\.\d+)/m.exec(text);
+    if (!m) return null;
+    const v = m[1];
+    return v.startsWith('v') ? v : `v${v}`;
+  } catch {
+    return null;
+  }
+}
+
 export async function discoverProjects(root: string): Promise<ProjectDescriptor[]> {
   let entries;
   try {
@@ -43,12 +57,15 @@ export async function discoverProjects(root: string): Promise<ProjectDescriptor[
     const projectRoot = join(root, entry.name);
     const planPath = join(projectRoot, '_project', 'PLAN.md');
     if (!(await isFile(planPath))) continue;
+    const flowtronSpec = join(projectRoot, '_project', 'flowtron', 'SPEC.md');
+    const flowtronVersion = await readFlowtronVersion(flowtronSpec);
     projects.push({
       name: entry.name,
       root: projectRoot,
       planPath,
       tasknoteDir: join(projectRoot, '_project', 'tasknote'),
       archiveDir: join(projectRoot, '_project', 'tasknote', 'archive'),
+      flowtronVersion,
     });
   }
   projects.sort((a, b) => a.name.localeCompare(b.name));

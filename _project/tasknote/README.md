@@ -49,7 +49,14 @@ default cold-start sweep.
 
 ## Project quick commands
 
-- Viz tests: `npm test --prefix viz`
-- Viz typecheck: `npm run typecheck --prefix viz`
-- Viz lint: `npm run lint --prefix viz`
-- Viz dev server: `npm run dev --prefix viz`
+These assume you are at the repository root (parent of `viz/`). Use
+`npm --prefix viz ...` style:
+
+- Viz tests: `npm --prefix viz test`
+- Viz typecheck: `npm --prefix viz run typecheck`
+- Viz lint: `npm --prefix viz run lint`
+- Viz dev server: `npm --prefix viz run dev`
+
+If your shell is already inside `viz/`, drop the prefix:
+
+- `npm test`, `npm run typecheck`, `npm run lint`, `npm run dev`

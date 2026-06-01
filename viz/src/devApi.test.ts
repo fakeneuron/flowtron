@@ -102,7 +102,7 @@ async function makeProject(
   for (const [filename, content] of Object.entries(opts.tasknotes ?? {})) {
     await writeFile(join(tasknoteDir, filename), content);
   }
-  return { name, root: projectRoot, planPath, tasknoteDir, archiveDir };
+  return { name, root: projectRoot, planPath, tasknoteDir, archiveDir, flowtronVersion: null };
 }
 
 describe('projectFromQuery', () => {
@@ -113,6 +113,7 @@ describe('projectFromQuery', () => {
       planPath: '/tmp/alpha/_project/PLAN.md',
       tasknoteDir: '/tmp/alpha/_project/tasknote',
       archiveDir: '/tmp/alpha/_project/tasknote/archive',
+      flowtronVersion: null,
     };
     const projects = new Map([['alpha', proj]]);
     const req = makeReq({ url: '/api/plan?project=alpha' });
@@ -165,7 +166,10 @@ describe('createProjectsHandler', () => {
     handler(req, res);
 
     expect(state.headers['content-type']).toBe('application/json');
-    expect(JSON.parse(state.body)).toEqual([{ name: 'alpha' }, { name: 'beta' }]);
+    expect(JSON.parse(state.body)).toEqual([
+      { name: 'alpha', flowtronVersion: null },
+      { name: 'beta', flowtronVersion: null },
+    ]);
   });
 });
 

@@ -56,6 +56,7 @@ describe('discoverProjects', () => {
       planPath: join(root, 'alpha', '_project', 'PLAN.md'),
       tasknoteDir: join(root, 'alpha', '_project', 'tasknote'),
       archiveDir: join(root, 'alpha', '_project', 'tasknote', 'archive'),
+      flowtronVersion: null,
     });
   });
 

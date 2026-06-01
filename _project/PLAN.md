@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-048** [light]🔧 | viz-per-project-version-display — Completed 2026-06-02.
 - [x] **FE-047** [light]🔧 | viz-api-error-path-leak — Completed 2026-06-01.
 - [x] **FE-046** [light]🔧 | viz-stale-response-guard — Completed 2026-06-01.
 - [x] **CORE-261** [light]🔧 | last-verified-backtick-style — Completed 2026-06-01.

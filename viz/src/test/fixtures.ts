@@ -49,7 +49,7 @@ export function makeTasknote(partial: Partial<Tasknote> & Pick<Tasknote, 'id'>):
 export function seedFetch(seed: FetchSeed): void {
   const defaultActive = seed.active ?? [];
   const defaultArchive = seed.archive ?? [];
-  const projects = (seed.projects ?? ['flowtron']).map((name) => ({ name }));
+  const projects = (seed.projects ?? ['flowtron']).map((name) => ({ name, flowtronVersion: null }));
   const perProject = seed.perProject ?? {};
   const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
     const raw = typeof input === 'string' ? input : input.toString();

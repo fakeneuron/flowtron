@@ -27,10 +27,11 @@ async function readArchive(project: ProjectDescriptor): Promise<Tasknote[]> {
           try {
             const text = await readFile(path, 'utf8');
             return parseTasknote(id, path, text);
-          } catch (err) {
-            console.error(
-              `[archiveCache] failed to read/parse ${path}: ${(err as Error).message}`,
-            );
+          } catch {
+            // Legacy archived tasknotes may have malformed YAML frontmatter (write-once policy in SPEC.md).
+            // These are historical records; we must tolerate them. Failures are non-fatal (file is skipped).
+            // Intentionally silent: emitting per-file warnings produces a wall of noise on every `npm run dev`
+            // for anyone with old adopter checkouts (bananapeel, adppro, bidviz, etc.). No user action possible.
             return null;
           }
         }),

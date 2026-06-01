@@ -35,7 +35,10 @@ export function createProjectsHandler(
 ): Handler {
   return (req, res) => {
     if (!originGuard(req, res)) return;
-    const list = Array.from(projects.values()).map((p) => ({ name: p.name }));
+    const list = Array.from(projects.values()).map((p) => ({
+      name: p.name,
+      flowtronVersion: p.flowtronVersion,
+    }));
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(list));
   };

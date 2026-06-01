@@ -35,6 +35,7 @@ async function makeProject(
     planPath: join(projectDir, 'PLAN.md'),
     tasknoteDir,
     archiveDir,
+    flowtronVersion: null,
   };
 }
 
@@ -70,6 +71,7 @@ describe('createArchiveCache', () => {
       planPath: join(root, 'empty', '_project', 'PLAN.md'),
       tasknoteDir: join(root, 'empty', '_project', 'tasknote'),
       archiveDir: join(root, 'empty', '_project', 'tasknote', 'archive'),
+      flowtronVersion: null,
     };
     const cache = createArchiveCache();
 
