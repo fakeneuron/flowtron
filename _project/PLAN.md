@@ -11,6 +11,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
+- [ ] **CORE-255** [light]🔧 | next-task-cue-emoji-hardcoded — Post-closure copy-paste-line instruction hardcodes 🔧 ("the wrench cue … stable pattern") in the ft-task / ft-epic-discovery / ft-close-epic / ft-micro-task / ft-worktree-start SKILLs, so a `[heavy]🧠` next-task still emits a wrench. `SPEC.md:453` already carries the "(or 🧠 for heavy)" carve-out; align the 5 skills to vary 🔧/🧠 by the next task's `[model]`. User-reported [[CORE-EPIC-254]] residual.
+
 ## Medium
 
 - [ ] **CORE-EPIC-254** [heavy]🧠 | cross-agent-operator-cues — Make operator-facing emoji cues clear and reliable at gated events and landmark moments: distinct glyphs for database commands, executable/run steps, and explicit user-action prompts, plus dependable light/heavy next-task cues. Ensure cues render and trigger familiarly across Claude, Grok, and Codex. Filed via /ft-epic-discovery; refined at .1 closure.
@@ -20,6 +22,9 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-254.4** [light]🔧 | cue-skill-wiring — Completed 2026-06-01.
   - [x] **CORE-254.5** [heavy]🧠 | cue-cross-agent — Completed 2026-06-01.
   - [ ] **CORE-254.6** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest .N child.
+- [ ] **CORE-256** [heavy]🧠 | model-label-valid-set — Design + codify: should Step 1.5's model gate treat category labels `[light]`/`[heavy]` as satisfied by a *set* of concrete models (e.g. `[light]` ⊇ {sonnet, grok, haiku}) so running sonnet on a `[light]` task doesn't flag — and optionally auto-retag to the running model? Category-vs-concrete match is currently undefined in SPEC/model.md + the step-1.5 fragment. [[CORE-EPIC-254]]
+- [ ] **CORE-257** [light]🔧 | verify-cues-grok — Live-dogfood operator cues under Grok: drive a flowtron task and confirm 🗄️/▶️/✋/🟢/👁️/🔍/🔧/🧠 + their UPPERCASE labels render/emit per docs/AGENT-COMPAT.md §"Cross-agent cue fallback policy"; record findings and refresh the Grok matrix-row currency. Discharges the live half of [[CORE-EPIC-254]]'s Grok verification.
+- [ ] **CORE-258** [light]🔧 | verify-cues-codex — Same as [[CORE-257]] for Codex, once Codex is up and running: live-dogfood operator-cue render/emit, record findings, refresh the Codex matrix row in docs/AGENT-COMPAT.md from `unverified` to dogfooded currency. Discharges the live half of [[CORE-EPIC-254]]'s Codex verification.
 
 ## Low
 
