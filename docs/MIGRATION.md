@@ -357,7 +357,7 @@ npm install   # one-time
 npm run dev
 ```
 
-It scans `${FLOWTRON_VIZ_WORKSPACE:-~/code}/*/_project/PLAN.md` and renders every adopting project; the header-rail project selector swaps the active project. Port `5120` is pinned with `strictPort` — a second instance fails fast rather than scanning the same workspace on a different port. Set `FLOWTRON_VIZ_WORKSPACE` if your projects live somewhere other than `~/code/`. Adopter-side `_project/flowtron/viz/` still works (read-only submodule, unchanged) but is no longer the recommended path.
+It scans `${FLOWTRON_VIZ_WORKSPACE:-~/code}/*/_project/PLAN.md` and renders every adopting project; the header-rail project selector swaps the active project. The header subhead shows task counts, in-progress count, and the flowtron version the selected project is using (from its `_project/flowtron/SPEC.md`). Port `5120` is pinned with `strictPort` — a second instance fails fast rather than scanning the same workspace on a different port. Set `FLOWTRON_VIZ_WORKSPACE` if your projects live somewhere other than `~/code/`. Adopter-side `_project/flowtron/viz/` still works (read-only submodule, unchanged) but is no longer the recommended path.
 
 ## Common gotchas
 
