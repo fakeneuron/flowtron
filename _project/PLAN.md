@@ -23,10 +23,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Future Opportunities
 
-- [ ] **FE-047** [light]🔧 | viz-api-error-path-leak — stop echoing fs `error.message` (absolute home-dir paths) in `/api/*` error bodies in `viz/src/devApi.ts`; log server-side and return generic text — or document as accepted in `SECURITY.md`'s viz threat model. Surfaced by audit 2026-06-01 (Finding #1, Low).
+(none)
 
 ## Completed
 
+- [x] **FE-047** [light]🔧 | viz-api-error-path-leak — Completed 2026-06-01.
 - [x] **FE-046** [light]🔧 | viz-stale-response-guard — Completed 2026-06-01.
 - [x] **CORE-261** [light]🔧 | last-verified-backtick-style — Completed 2026-06-01.
 - [x] **CORE-260** [opus] | release v4.5.0 — Completed 2026-06-01.

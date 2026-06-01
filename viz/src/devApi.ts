@@ -57,8 +57,9 @@ export function createPlanHandler(
       res.setHeader('Content-Type', 'text/plain; charset=utf-8');
       res.end(text);
     } catch (e) {
+      console.error(`[devApi] Failed to read PLAN.md: ${(e as Error).message}`);
       res.statusCode = 500;
-      res.end(`Failed to read PLAN.md: ${(e as Error).message}`);
+      res.end('Failed to read PLAN.md');
     }
   };
 }
@@ -88,8 +89,9 @@ export function createActiveHandler(
       res.setHeader('Content-Type', 'application/json');
       res.end(JSON.stringify(tasknotes));
     } catch (e) {
+      console.error(`[devApi] Failed to list tasknotes: ${(e as Error).message}`);
       res.statusCode = 500;
-      res.end(`Failed to list tasknotes: ${(e as Error).message}`);
+      res.end('Failed to list tasknotes');
     }
   };
 }
@@ -111,8 +113,9 @@ export function createArchiveHandler(
       res.setHeader('Content-Type', 'application/json');
       res.end(JSON.stringify(tasknotes));
     } catch (e) {
+      console.error(`[devApi] Failed to list archived tasknotes: ${(e as Error).message}`);
       res.statusCode = 500;
-      res.end(`Failed to list archived tasknotes: ${(e as Error).message}`);
+      res.end('Failed to list archived tasknotes');
     }
   };
 }
