@@ -37,6 +37,8 @@ Future flowtron contributions — AI-suggested or human-PR'd — get filtered ag
 
 - **Multi-user / team features.** Flowtron is a solo system. Assignment fields, reviewer queues, approval workflows, shared-state coordination, role-based access — none of these belong here. Teams have different needs and different existing tools; flowtron deliberately doesn't compete with them.
 
+- **Runtime security scanners / agent-callable audit servers.** Markdown is the schema and the human at the gate is the control; an advisory risk-scorer — or an MCP "auditor" the agent calls into — adds attack surface and false confidence without an enforcement chokepoint. Deterministic enforcement (block-secrets, restrict-shell) belongs in per-project Claude Code permission hooks, not in flowtron. The markdown-native security need is already met by the `ft-audit-security` skill and [`SECURITY.md`](../SECURITY.md). PRs that ship audit daemons, scan scripts, or a fifth "Security Gate" lifecycle phase are rejected.
+
 ## Why this exists
 
 The full history — what failed before, why each principle hardened, why the infrastructure is deliberately thin — lives in [PHILOSOPHY.md](PHILOSOPHY.md). The one-paragraph version: flowtron is what's left after keeping the workflow pattern that survived three concurrent side projects and throwing away every piece of infrastructure that didn't earn its weight. The contract in [SPEC.md](../SPEC.md) is the result; everything else is a project-side helper.

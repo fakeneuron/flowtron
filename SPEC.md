@@ -475,3 +475,4 @@ For future-AI mid-task discipline. Outward-facing prose version with full justif
 - **Abstractions without two-project precedent.** Promote a helper into flowtron only when ≥2 projects need the same shape. Three similar lines is cheaper than premature abstraction.
 - **Cross-project query layers beyond the read-only visualizer.** PR-rejection mirror of "Cross-project query API" above — viz is the singular exception; anything richer is out of scope.
 - **Multi-user / team features.** Solo system; teams use a different tool.
+- **Runtime security scanners / audit daemons.** PR-rejection mirror of "Runtime security scanners" above — the control is the human at the gate, not a scorer; deterministic enforcement lives in per-project permission hooks. `ft-audit-security` + `SECURITY.md` already cover the markdown-native need.

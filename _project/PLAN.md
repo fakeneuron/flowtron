@@ -15,7 +15,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-251** [light]🔧 | reject-runtime-sec-tooling — Record the rejection of the external truvent.ai/MCP "security tooling" proposal (FastMCP audit server, MCP repo tools, 5th "Security Gate" phase, flowtron-sec daemon) in docs/VISION.md §"What we won't accept", optionally mirrored in SPEC.md PR-archetypes. Filed with starter at `_project/tasknote/CORE-251.md`.
 - [ ] **CORE-252** [light]🔧 | reject-wiki-layer-subsystem — Record the rejection of the external "Karpathy Wiki Layer" proposal (raw/wiki/instructions tree, /ft-wiki-* skills, "Knowledge Gate" 5th phase, flowtron-wiki submodule) in docs/VISION.md §"What we won't accept"; sibling of CORE-251. Filed with starter at `_project/tasknote/CORE-252.md`.
 
 ## Future Opportunities
@@ -24,6 +23,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-251** [light]🔧 | reject-runtime-sec-tooling — Completed 2026-05-31.
 - [x] **CORE-250** [heavy]🧠 | injection-threat-model-harden — Completed 2026-05-31.
 - [x] **CORE-249** [light]🔧 | ft-release-untracked-tasknote-mv — Completed 2026-05-31.
 - [x] **CORE-248** [light]🔧 | ft-release-last-verified-awareness — Completed 2026-05-31.
