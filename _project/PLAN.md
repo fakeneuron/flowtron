@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-261** [light]🔧 | last-verified-backtick-style — Align the six `last-verified` stamps to one backtick style: `docs/AGENT-COMPAT.md:36` (+ CAPABILITIES.md:56) use version-only backticks while `:37`/`:38` + `docs/PLATFORMS.md:236/247` backtick the whole stamp. Surfaced by audit-docs 2026-06-01 (Finding #1, Low).
+(none)
 
 ## Future Opportunities
 
@@ -28,6 +28,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-261** [light]🔧 | last-verified-backtick-style — Completed 2026-06-01.
 - [x] **CORE-260** [opus] | release v4.5.0 — Completed 2026-06-01.
 - [x] **CORE-259** [heavy]🧠 | model-tier-third-rung — Completed 2026-06-01.
 - [x] **CORE-256** [heavy]🧠 | model-label-valid-set — Completed 2026-06-01.
