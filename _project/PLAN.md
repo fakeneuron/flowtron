@@ -21,7 +21,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Future Opportunities
 
-(none)
+- [ ] **FE-046** [light]🔧 | viz-stale-response-guard — guard against a stale project fetch overwriting the current selection in `useProjectData.load`: re-check `activeProjectRef.current === project` before `setTasks`/`setTasknotesById`. Surfaced by audit 2026-06-01 (Finding #2, Low).
+- [ ] **FE-047** [light]🔧 | viz-api-error-path-leak — stop echoing fs `error.message` (absolute home-dir paths) in `/api/*` error bodies in `viz/src/devApi.ts`; log server-side and return generic text — or document as accepted in `SECURITY.md`'s viz threat model. Surfaced by audit 2026-06-01 (Finding #1, Low).
 
 ## Completed
 
