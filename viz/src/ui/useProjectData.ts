@@ -43,7 +43,7 @@ export function useProjectData(activeProject: string | null): {
     } catch (e) {
       setError((e as Error).message);
     } finally {
-      setLoading(false);
+      if (activeProjectRef.current === project) setLoading(false);
     }
   }, []);
 

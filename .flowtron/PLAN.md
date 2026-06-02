@@ -23,6 +23,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-051** [light]🔧 | viz-polish — Completed 2026-06-01.
 - [x] **CORE-264** [heavy]🧠 | flowtron-dir-rename — Completed 2026-06-01.
 - [x] **FE-050** [light]🔧 | originguard-referer-port — Completed 2026-06-01.
 - [x] **FE-049** [light]🔧 | deflake-wikilink-nav-test — Completed 2026-06-01.

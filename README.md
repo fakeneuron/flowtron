@@ -63,7 +63,7 @@ each project's `.flowtron/tasknote/` are flagged **In progress**. The
 header-rail project selector swaps the active project;
 the header subhead shows task counts, in-progress count, and the flowtron
 version the selected project is using (from its `.flowtron/core/SPEC.md`).
-filters and scroll position reset on switch.
+Filters and scroll position reset on switch.
 
 Run **once per machine** from flowtron's own checkout — there is no
 per-project install step. The dev server is pinned to port `5120` with
