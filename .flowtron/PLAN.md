@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-267.1** [heavy]🧠 | discovery — Completed 2026-06-01.
   - [x] **CORE-267.2** [heavy]🧠 | dogfood-checklist-convention — Completed 2026-06-01.
   - [x] **CORE-267.3** [heavy]🧠 | ft-release-gate-wiring — Completed 2026-06-01.
-  - [ ] **CORE-267.4** [light]🔧 | v5-skip-debt-discharge — Apply the new convention to the live debt: stamp the lagging Grok+Codex `last-verified` cells (AGENT-COMPAT.md + PLATFORMS.md) as `v4.4.0 · … (dogfooded; skipped @ v5.0.0)`, replacing CORE-265's silent leave-old-stamp. Doc-currency sweep on the 4 `unverified` rows for the noted-not-gated wording.
+  - [x] **CORE-267.4** [light]🔧 | v5-skip-debt-discharge — Completed 2026-06-01.
   - [ ] **CORE-267.5** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.
 
 ## Low
