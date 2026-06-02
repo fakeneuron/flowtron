@@ -137,7 +137,8 @@ To continue the task in isolation:
 
 1. Open a *fresh* session / context window with your agent (critical — do not carry the old window).
 2. cd ${WT_DIR}
-3. Clear your session, then use 🔧 /ft-task ${TASK_ID}
+3. Clear your session, then run (invocation on its own line, no trailing period):
+   🔧 /ft-task ${TASK_ID}
    (Use 🧠 instead of 🔧 when the PLAN.md line for ${TASK_ID} carries a heavy-appropriate [model] tag — match the glyph that the post-closure candidate line would have emitted for this task.)
 
 (If the original /ft-task run for this child used --fast, you can add it on the handoff invocation as well.)

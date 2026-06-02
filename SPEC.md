@@ -450,7 +450,14 @@ After a tasknote is archived, run the three-step protocol (commit / mark landed 
 
    **Audit-family flag.** When a next-move candidate is an `/ft-audit*` slash command, prefix the candidate line (this step) and the copy-paste line (step 3) with 🔍. Audit-family skills are forked per project per `docs/MIGRATION.md` §1.2.1 — in adopter context the local fork is unprefixed (e.g., `/audit-docs`), not `/ft-audit-docs`. The 🔍 marker doubles as a self-check for any AI about to emit `/ft-audit*` as next move.
 
-3. **Offer the copy-paste line.** Emit a tight visual cue of the form "Clear your session, then use 🔧 /<next-skill> <args>" (or 🧠 for heavy tasks). Never emit literal `/clear` or `/model` commands — the emoji on the candidate line (step 2) carries the model signal; the short prose cue carries the session-reset intent. The skill segment matches the appropriate flowtron skill for the next task — most commonly `/ft-task` (normal tasks), `/ft-micro-task` (micros), `/ft-starter-task` (filing-only), or `/ft-audit*` (audit follow-ups — adopters use the unprefixed local fork per §"Skill namespace"). `<args>` is the next task ID for tasknote-runner skills, or the skill's own argument shape otherwise.
+3. **Offer the copy-paste line.** Emit a session-reset **label line**, then put the skill invocation **on its own line as inline-code with no trailing punctuation** — a trailing `.` after the ID collides with the `.N` epic-subtask grammar (`FE-132.3.`) and breaks copy/paste. Shape:
+
+   ```markdown
+   🔧 Clear your session, then run:
+   `/<next-skill> <args>`
+   ```
+
+   (🧠 for heavy tasks.) Never emit literal `/clear` or `/model` commands — the emoji on the label line carries the model signal; the cue carries the session-reset intent. The skill segment matches the appropriate flowtron skill for the next task — most commonly `/ft-task` (normal tasks), `/ft-micro-task` (micros), `/ft-starter-task` (filing-only), or `/ft-audit*` (audit follow-ups — adopters use the unprefixed local fork per §"Skill namespace"). `<args>` is the next task ID for tasknote-runner skills, or the skill's own argument shape otherwise.
 
 ## When to use a tasknote (and when not to)
 
