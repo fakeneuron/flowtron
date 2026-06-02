@@ -67,9 +67,23 @@ for its Grok Build notes. The agent-neutral workflow contract itself
     documentation only; no flowtron session run under this agent
   - `unverified` — no verification conducted; row rests on launch coverage only
 
-  Update obligation: refresh the cell when you run a first flowtron session
-  under the agent, or after a major version bump diverges from the prior entry.
-  The same format applies to per-agent trigger-reference "Last verified"
+  A dogfooded row may additionally carry a `; skipped @ vX.Y.Z` suffix —
+  e.g. `v4.4.0 · 2026-06-01 (dogfooded; skipped @ v5.0.0)`. It records that
+  re-verification was *deliberately skipped* at release `vX.Y.Z` while the stamp
+  prefix stays pinned to the last **real** verification (`v4.4.0` here, not the
+  skipped version). The suffix carries the latest skip version; bump it each
+  release the row is skipped again.
+
+  Update obligation — **release gate (dogfood-or-explicit-skip).** Each row that
+  carries a `dogfooded` history (today: Claude / Grok / Codex) must be *resolved*
+  at every release — either refreshed from a real verification run at the new
+  version, or recorded as `skipped @ vX.Y.Z`. Leaving a stale stamp silently
+  untouched is not a valid release state: the skip must be a deliberate, recorded
+  act. Rows never dogfooded (`unverified`, `docs-only`) are *noted-not-gated* —
+  they rest on launch coverage until first dogfooded and are exempt from the gate.
+  Enforced at release time by the release flow (`ft-release` §5/§7), which walks
+  the dogfooded rows and forces per-row resolution before tagging. The same
+  format and obligation apply to per-agent trigger-reference "Last verified"
   sections (e.g. `claude/CAPABILITIES.md`, `docs/PLATFORMS.md` agent stubs).
 
 ## Pre-adoption verification
