@@ -34,8 +34,8 @@ for its Grok Build notes. The agent-neutral workflow contract itself
 | Agent | Consume mode | Context entry-point | Skill / command primitive | Last verified |
 |---|---|---|---|---|
 | **Claude Code** | Wiring + contract | `AGENTS.md` (+ optional `CLAUDE.md`) | `.claude/skills/` + `.claude/commands/` slash commands — full `ft-*` bundle shipped | `v5.1.0 · 2026-06-02 (dogfooded)` |
-| **Grok Build** | Contract only | `AGENTS.md` | `.grok/skills/` markdown skills, auto-wired as `/<name>` — no flowtron bundle shipped | `v5.1.0 · 2026-06-02 (dogfooded)` |
-| **Codex CLI** | Contract only | `AGENTS.md` | Native primitive exists; no flowtron bundle | `v5.1.0 · 2026-06-02 (dogfooded)` |
+| **Grok Build** | Contract only | `AGENTS.md` | `.grok/skills/` markdown skills, auto-wired as `/<name>` — no full flowtron bundle; `grok/procedures/ft-task.md` pointer wrapper shipped | `v5.1.0 · 2026-06-02 (dogfooded)` |
+| **Codex CLI** | Contract only | `AGENTS.md` | Native primitive exists; `codex/procedures/ft-task.md` pointer wrapper shipped — no full bundle | `v5.1.0 · 2026-06-02 (dogfooded)` |
 | **Cursor** | Contract only | `AGENTS.md` | Native primitive exists; no flowtron bundle | unverified |
 | **Gemini CLI** | Contract only | `AGENTS.md` | Native primitive exists; no flowtron bundle | unverified |
 | **Aider** | Contract only | `AGENTS.md` | Native primitive exists; no flowtron bundle | unverified |

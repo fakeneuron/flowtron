@@ -20,7 +20,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-271.2** [heavy]🧠 | spec-dir — Completed 2026-06-02.
   - [x] **CORE-271.3** [heavy]🧠 | ft-task-sop — Completed 2026-06-02.
   - [x] **CORE-271.4** [light]🔧 | per-agent-wrappers — Completed 2026-06-02.
-  - [ ] **CORE-271.5** [light]🔧 | doc-updates — Update PLATFORMS.md, AGENT-COMPAT.md, and AGENT-NEUTRALITY.md to register the new `SPEC/procedures/` layer and `grok/` + `codex/` dirs; update AGENTS-snippet.md if contract-only agents need a new load directive.
+  - [x] **CORE-271.5** [light]🔧 | doc-updates — Completed 2026-06-02.
   - [ ] **CORE-271.6** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line).
 
 ## Low

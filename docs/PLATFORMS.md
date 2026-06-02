@@ -15,7 +15,7 @@ auditing the wiring layer's structure, or writing a follow-up to
 
 | Layer | What it is | Where it lives | Agent-neutrality |
 |---|---|---|---|
-| **Contract** | The workflow spec any AI can follow conversationally — relevance gate, 4-phase tasknote lifecycle, post-closure protocol, versioning rules. | `SPEC.md`, `SPEC/`, `templates/`, `docs/`, `README.md`, `SECURITY.md`, and the `AGENTS.md` paste-block. | Mandatory. Any AI reading `AGENTS.md` should be able to execute the contract without platform-specific machinery. |
+| **Contract** | The workflow spec any AI can follow conversationally — relevance gate, 4-phase tasknote lifecycle, post-closure protocol, versioning rules. | `SPEC.md`, `SPEC/` (including `SPEC/procedures/` for agent-neutral execution SOPs), `templates/`, `docs/`, `README.md`, `SECURITY.md`, and the `AGENTS.md` paste-block. | Mandatory. Any AI reading `AGENTS.md` should be able to execute the contract without platform-specific machinery. |
 | **Wiring** | The platform-specific execution surface — slash commands, skills, structured-ask primitives, operator flags, install/symlink mechanics. | `claude/` today; future sibling top-level dirs per the plug-in pattern below. | Per-platform. Constraints documented in [`AGENT-NEUTRALITY.md`](AGENT-NEUTRALITY.md). |
 
 The split is non-negotiable: leaking platform-specific assumptions into
@@ -29,7 +29,7 @@ wiring but don't *depend* on it for contract semantics).
 | Platform | How it consumes flowtron | What ships in this repo |
 |---|---|---|
 | **Claude Code** | Wiring layer + contract layer. Seven tasknote skills (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`) plus two thin worktree utilities (`/ft-worktree-start`, `/ft-worktree-end`) drive the SPEC's 4-phase workflow inline (or accelerate independent epic children); the six `/ft-audit`-family skills run the 5-pass recipe; standalone skills `/ft-new-project`, `/ft-release`, `/ft-flowtron`, `/ft-stats`, `/ft-quality`, `/ft-audit-context` follow their own recipes. | `claude/` — `AGENTS-snippet.md` + `commands/*.md` + `skills/*/SKILL.md` (+ lazy fragments). Adopters symlink the bundle under `.claude/` per `claude/AGENTS-snippet.md` §"One-time symlink wiring". |
-| **Codex CLI, Cursor, Sourcegraph Amp, Aider, Gemini CLI, Grok Build** | Contract layer only. The platform reads `AGENTS.md`, sees flowtron's paste-block, and drives the contract conversationally — relevance gate, phase boundaries, post-closure protocol all live in `SPEC.md`. No platform-specific machinery required. | Nothing platform-specific. Adopters paste the `AGENTS.md` block from `claude/AGENTS-snippet.md` §"Block to paste into AGENTS.md"; that block is agent-neutral by design. For Grok Build adoption specifics (context-load semantics, AGENTS.md visibility, skill/command primitives), see §"Grok Build adoption notes" below. |
+| **Codex CLI, Cursor, Sourcegraph Amp, Aider, Gemini CLI, Grok Build** | Contract layer only. The platform reads `AGENTS.md`, sees flowtron's paste-block, and drives the contract conversationally — relevance gate, phase boundaries, post-closure protocol all live in `SPEC.md`. No platform-specific machinery required. | Procedure pointer wrappers shipped for Grok Build and Codex CLI: `grok/procedures/ft-task.md` and `codex/procedures/ft-task.md` (each routes to `SPEC/procedures/ft-task.md`). No full wiring bundle for any contract-only agent. Adopters paste the `AGENTS.md` block from `claude/AGENTS-snippet.md` §"Block to paste into AGENTS.md"; that block is agent-neutral by design. For Grok Build adoption specifics (context-load semantics, AGENTS.md visibility, skill/command primitives), see §"Grok Build adoption notes" below. |
 
 A platform doesn't need its own wiring to be useful. Most adopters paste
 the `AGENTS.md` block and drive conversationally. Wiring is an *optional
@@ -230,6 +230,7 @@ This mirrors the pre-adoption framing in §"Grok Build adoption notes" above._
 | **Model / session switch** | Restart a new Grok Build session with the target model. No in-session `/model` command equivalent is documented. | Ensures the task runs at its assigned `[heavy]` / `[medium]` / `[light]` depth. The post-closure copy-paste line from `/ft-task` emits a `/model` hint for Claude Code hand-offs; for Grok, the equivalent is the session-start model choice. | Before starting a task whose `[model]` differs from the previous session's model. |
 | **Context freshness** | Start a new Grok Build session. No in-session `/clear` equivalent is documented. | Resets the context window so the next task starts cold — "one task per context window" in practice. | Between tasks, before starting the next flowtron skill invocation, so each tasknote runs in a clean context. |
 | **Structured ask** | No equivalent to Claude Code's `AskUserQuestion` multi-option UI is documented for Grok Build. The contract falls back to a **prose ask** — the agent surfaces the question in free text and the operator replies. | Realizes Phase 1 clarification asks and other decision points. With no structured-ask primitive, the operator sees a prose question and replies conversationally rather than selecting a labeled option. | Grok Build will always use prose asks per launch docs. (2026-06-01 CORE-257 observation: AskUserQuestion tool rendered clean multi-option UI in this Grok 4.3 TUI; may be TUI enhancement vs. base CLI. Update on further runs.) Functionally equivalent to structured ask for single-decision clarifications; multi-option forks may require more care in phrasing. |
+| **Procedure pointer** | `grok/procedures/ft-task.md` ships in the flowtron repo, routing grok agents to `SPEC/procedures/ft-task.md` when asked to start a flowtron task (CORE-271.4). | Load `.flowtron/core/grok/procedures/ft-task.md` when starting a flowtron task — it routes to the agent-neutral `SPEC/procedures/ft-task.md` SOP in place of the Claude Code `/ft-task` skill. |
 
 First-use verification 2026-06-01 (CORE-257). /ft-task skill invocation, model gate (with retag), AskUserQuestion render, and cue emissions (✅ marker + post-closure expectations) exercised under Grok. Structured ask support observed (see trigger table note). Matrix currency lives in docs/AGENT-COMPAT.md.
 
@@ -238,6 +239,10 @@ First-use verification 2026-06-01 (CORE-257). /ft-task skill invocation, model g
 ### Codex CLI
 
 Contract-only agent; no flowtron-specific Codex wiring bundle ships today.
+Procedure pointer wrapper shipped (CORE-271.4): `codex/procedures/ft-task.md`
+routes codex agents to `SPEC/procedures/ft-task.md` when asked to start a
+flowtron task. For adopters, load `.flowtron/core/codex/procedures/ft-task.md`.
+
 First-use verification 2026-06-01 (CORE-258): a Codex/GPT-5 session consumed
 the root `AGENTS.md` + `SPEC.md`, resumed a blocked flowtron task
 conversationally, updated the Codex matrix row, and completed the closure
