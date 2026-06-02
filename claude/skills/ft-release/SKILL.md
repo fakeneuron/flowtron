@@ -99,6 +99,7 @@ Acceptance (parameterized):
 - [ ] docs/MIGRATION.md example pin bumped `vX.Y.Z` → `vA.B.C`
 - [ ] SECURITY.md release-tag example pin bumped `vX.Y.Z` → `vA.B.C`
 - [ ] `viz/src/ui/constants.ts` `VIZ_VERSION` bumped `vX.Y.Z` → `vA.B.C`
+- [ ] Dogfood gate resolved — every dogfooded row (Claude / Grok / Codex) refreshed from a real verification run at `vA.B.C`, or recorded `skipped @ vA.B.C` (per `docs/AGENT-COMPAT.md` §"Reading the cells")
 - [ ] Phase 4 doc-drift sweep run across all `.flowtron/tasknote/README.md` §"AI-referenced docs" entries
 - [ ] Single `feat: <TASK-ID> — flowtron vA.B.C (...)` commit lands
 - [ ] Annotated `vA.B.C` tag created with adopter-facing release notes
@@ -139,9 +140,19 @@ Verify post-edit with a single grep across the live doc set:
 grep -rn 'vX\.Y\.Z' SPEC.md SPEC/ docs/ README.md SECURITY.md templates/ claude/ viz/src/ui/constants.ts 2>/dev/null
 ```
 
-The four pins above should be clean. **`last-verified` stamps — verify, don't bump.** Since CORE-224 the doc set carries `last-verified` version stamps (`docs/AGENT-COMPAT.md`, `claude/CAPABILITIES.md`, and per-agent `docs/PLATFORMS.md` stubs) formatted `vX.Y.Z · YYYY-MM[-DD] (context-tag)`. These are **not** release pins: per the convention's update obligation (AGENT-COMPAT.md §"Reading the cells"), they refresh only on a first flowtron session under that agent or after a **major** version bump — a routine minor/patch cut leaves them. So the grep above surfaces the old `vX.Y.Z` inside these stamps as **expected residue, not drift**: on a minor/patch release confirm the only remaining hits are these stamps and move on; on a major bump, re-verify and refresh them (version + date + context-tag) as part of the cut. Archived tasknotes under `.flowtron/tasknote/archive/` are write-once and keep their historical version refs.
+The four pins above should be clean.
 
-Tick boxes; populate Implementation Notes with the diff shape (typical: 4 files, +4/−4).
+**Dogfood gate — walk the dogfooded rows (dogfood-or-explicit-skip).** Since CORE-224 the doc set carries `last-verified` version stamps (`docs/AGENT-COMPAT.md` matrix, `claude/CAPABILITIES.md`, and per-agent `docs/PLATFORMS.md` stubs) formatted `vX.Y.Z · YYYY-MM[-DD] (context-tag)`. These are **not** release pins. Per the release-gate obligation (`docs/AGENT-COMPAT.md` §"Reading the cells"), **every row carrying a `dogfooded` history must be resolved at each release** — refreshed from a real verification run at the new version, or recorded as a deliberate skip. Leaving a stale stamp silently untouched is not a valid release state. Walk it now:
+
+1. **Enumerate the dogfooded rows.** Grep the `docs/AGENT-COMPAT.md` matrix for stamps carrying a `(dogfooded…)` tag — today: **Claude**, **Grok**, **Codex**. (`unverified` / `docs-only` rows are *noted-not-gated*: skip them entirely; they rest on launch coverage until first dogfooded and are exempt from the gate.)
+2. **For each dogfooded agent, force a resolution** — AskUserQuestion whether a real flowtron session was run under that agent at `vA.B.C`:
+   - **Refreshed** — bump the stamp prefix to `vA.B.C` + today's date, keep `(dogfooded)`, and **drop any prior `; skipped @ …` suffix** (the row is current again).
+   - **Skipped** — keep the prefix pinned to the last *real* verification (do **not** bump it), and set/bump the suffix to `; skipped @ vA.B.C`. Result shape: `v4.4.0 · 2026-06-01 (dogfooded; skipped @ vA.B.C)`.
+3. **Apply each agent's resolution across all its stamp locations together** (so the matrix and the footers never drift): Claude → `docs/AGENT-COMPAT.md` matrix row + `claude/CAPABILITIES.md` §"Last verified"; Grok + Codex → `docs/AGENT-COMPAT.md` matrix rows + their `docs/PLATFORMS.md` per-agent footers.
+
+**Grep residue is expected for skipped rows.** A skipped stamp keeps its old prefix on purpose, so the grep above will still surface the pre-release `vX.Y.Z` inside it — that is a *recorded skip*, not drift. Confirm every remaining `vX.Y.Z` hit is either (a) a stamp on a row you just resolved as skipped, or (b) a write-once archived tasknote under `.flowtron/tasknote/archive/` (these keep their historical version refs). Any other hit is real drift — fix it before continuing.
+
+Tick boxes; populate Implementation Notes with the diff shape (the 4 version pins, plus any dogfood-gate stamp refreshes/skips landed by the walk above).
 
 ## Step 6 — Drive Phase 3: Testing & Linting
 
@@ -221,11 +232,25 @@ Stage explicitly (do NOT use `git add .` or `-A` — there may be unrelated unst
 ```sh
 git add SPEC.md docs/MIGRATION.md SECURITY.md viz/src/ui/constants.ts .flowtron/PLAN.md
 git add .flowtron/tasknote/archive/core/<TASK-ID>.md
+# If the §5 dogfood-gate walk landed any refresh/skip edits, also stage the touched stamp files
+# (a git add of an unchanged file is a no-op, so listing all three is safe):
+git add docs/AGENT-COMPAT.md docs/PLATFORMS.md claude/CAPABILITIES.md
 ```
 
 (The Step 7.3 `mv` left the archived tasknote untracked; the explicit `git add` here stages it.)
 
-Surface the bundled 📦 ready-to-commit gate per SPEC/gates.md §"Operator-gate cues" (banner block + mandatory 1-2 sentence preview line summarising what executes on commit-go — typically "cut flowtron vA.B.C: commit the 4 doc edits + PLAN.md flip + tasknote archive, create annotated `vA.B.C` tag, push branch + tag to origin (or hold local if push-go declined)"). Alongside the SPEC-defined bundle (closure review · recap · proposed commit message), this skill carries:
+Surface the bundled 📦 ready-to-commit gate per SPEC/gates.md §"Operator-gate cues" (banner block + mandatory 1-2 sentence preview line summarising what executes on commit-go — typically "cut flowtron vA.B.C: commit the 4 doc edits + any dogfood-gate stamp refreshes/skips + PLAN.md flip + tasknote archive, create annotated `vA.B.C` tag, push branch + tag to origin (or hold local if push-go declined)"). Alongside the SPEC-defined bundle (closure review · recap · proposed commit message), this skill carries:
+
+- **Dogfood-gate resolution (enforcement)** — confirm the §5 walk resolved **every** dogfooded row, and surface the per-agent summary inside the closure review:
+
+  ```text
+  Dogfood gate:
+    Claude  refreshed → vA.B.C
+    Grok    skipped @ vA.B.C
+    Codex   skipped @ vA.B.C
+  ```
+
+  This is a hard gate: **do not surface commit-go while any dogfooded row is unresolved** (stale prefix carrying no `; skipped @ vA.B.C` suffix for this release). An unresolved row sends you back to §5 to refresh-or-skip it before the cut continues — the gate blocks tagging until the summary shows every dogfooded row resolved.
 
 - **Push-go prompt** — AskUserQuestion with default Yes, a bundled in-📦 prompt parallel to /ft-close-epic's parent-flip (per SPEC/gates.md §"Conditional skip rule" bundled-prompt override):
 
