@@ -31,6 +31,7 @@ The skill verifies preconditions (cwd is a git repo with `CLAUDE.md`, no existin
 | `/ft-stats` | Adopters | Stats from `.flowtron/PLAN.md` `## Completed` — `[model]` distribution, velocity, per-area volume; `--write` flushes to `.flowtron/STATS.md` |
 | `/ft-quality` | Adopters | Lint + typecheck + test sweep (heuristic Node/Python/Go/Rust detection, fail-fast); runs outside the tasknote flow |
 | `/ft-audit-context` | Adopters (+ flowtron-self) | Adopter-context audit — 4 conversational passes over `CLAUDE.md`, `AGENTS.md`, `.claude/{commands,skills}` for bloat / paste-block redundancy / `ft-*` namespace conflicts / lean-context drift; soft prose recommendations with an offer to file PLAN tickets (no auto-write) |
+| `/ft-update` | Adopters only | Bump the pinned `.flowtron/core/` submodule to the latest tag — current→target + tag changelog, move pin, re-wire symlinks for newly shipped skills, smoke check; bails in flowtron's own checkout. Consumer-side counterpart to `/ft-release` |
 | `/ft-release` | Flowtron-self only | Cut a release; bails outside flowtron's checkout |
 
 Install each you want with the same shape (substitute `<skill>`):

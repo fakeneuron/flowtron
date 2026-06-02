@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **CORE-273** [light]🔧 | bootstrap-submodule-path-drift — Half-migrated submodule path in adopter bootstrap: `ft-new-project` Step 2 + `docs/MIGRATION.md` §1.1 / §"Pinning and bumping" add the submodule at `.flowtron/flowtron`, but Steps 3/5/6 + symlinks reference `.flowtron/core` (current canonical). Align them. Surfaced during CORE-272.
 
 ## Low
 
@@ -25,6 +25,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-272** [heavy]🧠 | ft-update-skill — Completed 2026-06-02.
 - [x] **CORE-EPIC-271** [heavy]🧠 | cross-agent-skill-projection — Completed 2026-06-02.
   - [x] **CORE-271.1** [heavy]🧠 | discovery — Completed 2026-06-02.
   - [x] **CORE-271.2** [heavy]🧠 | spec-dir — Completed 2026-06-02.

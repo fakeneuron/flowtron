@@ -56,7 +56,9 @@ To verify: invoke `/ft-task` in a fresh session with your coding agent (Claude C
 
 ## Bumping the pinned flowtron version
 
-Submodule bumps are themselves a project-side task (e.g., `CORE-XXX: Bump flowtron to vX.Y.Z`). Flowtron has no `CHANGELOG.md` — release notes and migration steps live in the annotated tag message (`git -C .flowtron/flowtron show vX.Y.Z`) and the per-release tasknote in `.flowtron/core/.flowtron/tasknote/archive/core/`. The symlinks above don't change on bump — they always track whatever the submodule currently points at.
+Run `/ft-update` from the project root to bump the pin: it shows the current→target version + the annotated-tag changelog for confirmation, moves the submodule pin, re-wires symlinks for any newly shipped skills, runs a smoke check, and stages the bump with a proposed commit. The symlinks above don't change for *existing* skills — they always track whatever the submodule currently points at; `/ft-update` only adds a symlink when the bump ships a brand-new tasknote-family skill.
+
+Manual equivalent, if `/ft-update` isn't wired: flowtron has no `CHANGELOG.md` — release notes and migration steps live in the annotated tag message (`git -C .flowtron/core show vX.Y.Z`) and the per-release tasknote in `.flowtron/core/.flowtron/tasknote/archive/core/`. Fetch + checkout the target tag inside `.flowtron/core`, then `git add .flowtron/core` to record the new pin (not `git submodule update`, which restores the current pin).
 
 ## Visualizer
 
