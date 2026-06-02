@@ -15,7 +15,9 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-270** [heavy]🧠 | cross-agent-skill-projection — Bridge well-developed Claude skills to contract-only agents (Grok/Codex/…) without per-agent redundancy. Lean: agent-neutral procedure SOPs as single source, thin generated per-agent pointer wrappers (route, don't copy), standalone generator that `ft-release` gates on. Scope children via `/ft-epic-discovery`. Filed with starter at `.flowtron/tasknote/CORE-270.md`.
+- [ ] **CORE-EPIC-271** [heavy]🧠 | cross-agent-skill-projection — Bridge Claude skills to contract-only agents via agent-neutral procedure SOPs (`SPEC/procedures/`) as single source and thin hand-authored per-agent pointer wrappers (route, don't copy). Proof slice: ft-task driver. Generator in a later epic. Decisions + context: CORE-270 tasknote.
+  - [ ] **CORE-271.1** [heavy]🧠 | discovery — Scope implementation children; finalize SOP format and `SPEC/procedures/` structure; establish thin wrapper shape for Grok and Codex. Run via `/ft-epic-discovery CORE-EPIC-271`.
+  - [ ] **CORE-271.2** [heavy]🧠 | audit — placeholder; N updated after discovery files implementation children.
 
 ## Low
 
@@ -25,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-270** [heavy]🧠 | cross-agent-skill-projection — Completed 2026-06-02.
 - [x] **CORE-269** [light]🔧 | dogfood-prompt-template — Completed 2026-06-02.
 - [x] **CORE-268** [opus] | release v5.1.0 — Completed 2026-06-02.
 - [x] **CORE-EPIC-267** [heavy]🧠 | release-dogfood-gate — Completed 2026-06-01.
