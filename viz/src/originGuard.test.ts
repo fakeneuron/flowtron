@@ -57,6 +57,25 @@ describe('originGuard', () => {
     expect(state.ended).toBe(true);
   });
 
+  it('allows a same-origin Referer when Origin is absent', () => {
+    const { res, state } = makeRes();
+    const req = makeReq({ referer: `http://localhost:${DEV_PORT}/some/path` });
+
+    expect(originGuard(req, res)).toBe(true);
+    expect(state.ended).toBe(false);
+    expect(state.statusCode).toBe(200);
+  });
+
+  it('blocks a same-hostname but wrong-port Referer with 403', () => {
+    const { res, state } = makeRes();
+    const req = makeReq({ referer: 'http://localhost:3000/some/path' });
+
+    expect(originGuard(req, res)).toBe(false);
+    expect(state.statusCode).toBe(403);
+    expect(state.body).toBe('Forbidden: cross-origin referer');
+    expect(state.ended).toBe(true);
+  });
+
   it('blocks a cross-origin Referer with 403 when Origin is absent', () => {
     const { res, state } = makeRes();
     const req = makeReq({ referer: 'https://evil.example.com/some/path' });

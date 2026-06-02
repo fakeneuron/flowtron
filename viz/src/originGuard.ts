@@ -7,8 +7,6 @@ export const ALLOWED_ORIGINS: ReadonlySet<string> = new Set([
   `http://127.0.0.1:${DEV_PORT}`,
 ]);
 
-const ALLOWED_HOSTNAMES: ReadonlySet<string> = new Set(['localhost', '127.0.0.1']);
-
 // Reject cross-origin browser requests to the viz dev API. Tasknote and
 // PLAN.md content is readable here; without this guard any website visited
 // during `npm run dev` could fetch /api/* and exfiltrate it (compounded
@@ -29,8 +27,8 @@ export function originGuard(req: IncomingMessage, res: ServerResponse): boolean 
   const referer = req.headers.referer;
   if (typeof referer === 'string' && referer.length > 0) {
     try {
-      const refHost = new URL(referer).hostname;
-      if (!ALLOWED_HOSTNAMES.has(refHost)) {
+      const refOrigin = new URL(referer).origin;
+      if (!ALLOWED_ORIGINS.has(refOrigin)) {
         res.statusCode = 403;
         res.end('Forbidden: cross-origin referer');
         return false;
