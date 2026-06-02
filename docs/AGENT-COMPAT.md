@@ -85,6 +85,8 @@ for its Grok Build notes. The agent-neutral workflow contract itself
   the dogfooded rows and forces per-row resolution before tagging. The same
   format and obligation apply to per-agent trigger-reference "Last verified"
   sections (e.g. `claude/CAPABILITIES.md`, `docs/PLATFORMS.md` agent stubs).
+  For the agent-side session procedure that drives a dogfood run, see
+  [`docs/DOGFOOD.md`](DOGFOOD.md).
 
 ## Pre-adoption verification
 
@@ -133,5 +135,7 @@ next step for the still-unverified rows (Cursor, Gemini CLI, Aider, Sourcegraph 
   intentional Claude-specific surfaces in the contract layer
 - [`MIGRATION.md`](MIGRATION.md) — the Claude Code adoption guide; the shape
   a future per-agent adoption guide would mirror
+- [`DOGFOOD.md`](DOGFOOD.md) — the versioned, pasteable dogfood procedure
+  agents run to refresh a row
 - [[CORE-EPIC-224]] — the epic that establishes this surface
 - [[CORE-154.4]] — the platform plug-in pattern (`PLATFORMS.md`) this builds on
