@@ -48,6 +48,7 @@ Flowtron does not submodule itself. When working in `~/code/flowtron/`:
 
 - This `SPEC.md` IS the canonical reference.
 - `SPEC/` — lazy SPEC modules loaded on demand by skills.
+- `SPEC/procedures/` — agent-neutral procedure SOPs: the source-of-truth projection of execution procedures (e.g. the `/ft-task` 4-phase workflow) for contract-only agents. Format + loading convention: [`SPEC/procedures/README.md`](SPEC/procedures/README.md).
 - The flowtron `.flowtron/PLAN.md` tracks flowtron's own development.
 - The `templates/` folder holds the canonical tasknote and PLAN.md templates.
 - `claude/` — Claude Code commands + skills (`/ft-task`, `/ft-release`, `/ft-new-project`, …); the adopter snippet lives at `claude/AGENTS-snippet.md`. Future non-Claude-Code platform wirings (e.g., `codex/`, `grok/`, `cursor/`) plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md) for the plug-in pattern.
@@ -78,6 +79,17 @@ The contract is **declarative today**: the source of truth for which
 module loads when is still `claude/skills/ft-task/SKILL.md`'s explicit
 dispatch (Steps 1.5 / 2 / 3a / 3c / 5). Future tooling MAY parse the
 frontmatter to drive dispatch dynamically.
+
+### Procedure SOPs (`SPEC/procedures/`)
+
+`SPEC/procedures/*.md` files are a distinct artifact from the lazy SPEC
+modules above: agent-neutral **procedure SOPs** that project an execution
+procedure (e.g. the `/ft-task` 4-phase workflow) for contract-only agents.
+They carry a different frontmatter shape — `procedure:` / `source:` /
+`last-verified:`, not `paths:` — and are loaded by thin per-agent pointer
+wrappers (`<platform>/procedures/<procedure>.md`) rather than by the
+`/ft-task` SKILL dispatch. Canonical schema + loading convention:
+[`SPEC/procedures/README.md`](SPEC/procedures/README.md).
 
 ## Skill namespace
 
