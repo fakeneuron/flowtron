@@ -36,7 +36,7 @@ import type { DensityMode, PaletteName } from '../visibilityPrefs';
  * FE-019's ≥4.5:1 small-text contrast in both light and dark.
  */
 
-export const VIZ_VERSION = 'v4.5.0';
+export const VIZ_VERSION = 'v5.0.0';
 
 export const TYPOGRAPHY = {
   heading: 'text-lg',

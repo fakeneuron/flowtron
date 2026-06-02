@@ -25,6 +25,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-265** [opus] | release v5.0.0 — Completed 2026-06-01.
 - [x] **CORE-266** [light]🔧 | next-task-cue-own-line — Completed 2026-06-01.
 - [x] **FE-051** [light]🔧 | viz-polish — Completed 2026-06-01.
 - [x] **CORE-264** [heavy]🧠 | flowtron-dir-rename — Completed 2026-06-01.
