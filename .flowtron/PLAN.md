@@ -11,7 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-268** [opus] | release v5.1.0 — Cut v5.1.0 minor release tagging the CORE-EPIC-267 dogfood-gate cohort since v5.0.0.
+(none)
 
 ## Medium
 
@@ -26,6 +26,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-268** [opus] | release v5.1.0 — Completed 2026-06-02.
 - [x] **CORE-EPIC-267** [heavy]🧠 | release-dogfood-gate — Completed 2026-06-01.
   - [x] **CORE-267.1** [heavy]🧠 | discovery — Completed 2026-06-01.
   - [x] **CORE-267.2** [heavy]🧠 | dogfood-checklist-convention — Completed 2026-06-01.
