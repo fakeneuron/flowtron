@@ -15,12 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-267** [heavy]🧠 | release-dogfood-gate — make per-agent dogfood-or-explicit-skip a release gate: `ft-release` scaffolds/updates a cross-agent dogfood checklist (Claude/Grok/Codex/…) that must be dogfooded or explicitly skipped before tagging, refreshing `last-verified` stamps from real verification. Immediate debt: Grok+Codex unverified at v5.0.0 (explicit-skip deferred from CORE-265). Drive via `/ft-epic-discovery` to scope children.
-  - [x] **CORE-267.1** [heavy]🧠 | discovery — Completed 2026-06-01.
-  - [x] **CORE-267.2** [heavy]🧠 | dogfood-checklist-convention — Completed 2026-06-01.
-  - [x] **CORE-267.3** [heavy]🧠 | ft-release-gate-wiring — Completed 2026-06-01.
-  - [x] **CORE-267.4** [light]🔧 | v5-skip-debt-discharge — Completed 2026-06-01.
-  - [ ] **CORE-267.5** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.
+(none)
 
 ## Low
 
@@ -30,6 +25,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-267** [heavy]🧠 | release-dogfood-gate — Completed 2026-06-01.
+  - [x] **CORE-267.1** [heavy]🧠 | discovery — Completed 2026-06-01.
+  - [x] **CORE-267.2** [heavy]🧠 | dogfood-checklist-convention — Completed 2026-06-01.
+  - [x] **CORE-267.3** [heavy]🧠 | ft-release-gate-wiring — Completed 2026-06-01.
+  - [x] **CORE-267.4** [light]🔧 | v5-skip-debt-discharge — Completed 2026-06-01.
+  - [x] **CORE-267.5** [heavy]🧠 | audit — Completed 2026-06-01.
 - [x] **CORE-265** [opus] | release v5.0.0 — Completed 2026-06-01.
 - [x] **CORE-266** [light]🔧 | next-task-cue-own-line — Completed 2026-06-01.
 - [x] **FE-051** [light]🔧 | viz-polish — Completed 2026-06-01.
