@@ -10,7 +10,7 @@ See [[CORE-EPIC-215]] (and its .1 Discovery [[CORE-215.1]]) for the origin, lock
 
 | Area                  | Choice                                      | Rationale |
 |-----------------------|---------------------------------------------|-----------|
-| Location              | `~/code/<project>-worktrees/wt-<TASK-ID>/` | Keeps the primary project checkout clean; mirrors the `viz/` co-location pattern used in flowtron self-host; global viz workspace scans (`~/code/*/_project/PLAN.md`) continue to work without special config. |
+| Location              | `~/code/<project>-worktrees/wt-<TASK-ID>/` | Keeps the primary project checkout clean; mirrors the `viz/` co-location pattern used in flowtron self-host; global viz workspace scans (`~/code/*/.flowtron/PLAN.md`) continue to work without special config. |
 | Branch naming         | `wt-<TASK-ID>` (e.g. `wt-CORE-215.3`)      | Short, unambiguous, instantly recognizable as a flowtron worktree; avoids collision with normal feature branches. |
 | Skill naming          | `/ft-worktree-start` + `/ft-worktree-end` (verbose) | Matches flowtron's full-word preference; the pair is self-documenting; no need for ultra-short aliases. |
 | Tasknote handling     | Copy the active tasknote into the worktree | The agent working in the isolated checkout needs the full Phase 1 context (Goal, Acceptance, Discovery Notes, resolved questions). Copy is simple, reviewable, and avoids symlink/hardlink edge cases across machines. |
@@ -39,7 +39,7 @@ The convention is deliberately narrow so the two thin skills stay thin and the m
 **Start** (`/ft-worktree-start <TASK-ID>`):
 1. From the main checkout on the correct parent branch, create a new branch `wt-<TASK-ID>`.
 2. Create a git worktree at `~/code/<project>-worktrees/wt-<TASK-ID>/` pointing at that branch.
-3. Copy the currently active tasknote (`_project/tasknote/<TASK-ID>.md`) into the worktree's `_project/tasknote/` (so the agent there sees the identical Phase 1 record).
+3. Copy the currently active tasknote (`.flowtron/tasknote/<TASK-ID>.md`) into the worktree's `.flowtron/tasknote/` (so the agent there sees the identical Phase 1 record).
 4. Hand off: the operator opens a fresh session in the worktree directory and invokes `/ft-task <TASK-ID>` (or the next appropriate command).
 
 **End** (`/ft-worktree-end <TASK-ID>`):

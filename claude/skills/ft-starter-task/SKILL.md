@@ -1,6 +1,6 @@
 ---
 name: ft-starter-task
-description: File a starter tasknote for a task discovered mid-flow with rich AI-captured context that isn't ready to start. Invoke with the task ID as args (e.g., args="CORE-028"). Writes _project/tasknote/<ID>.md from templates/tasknote-starter-template.md, appends the PLAN.md entry, and hands off without committing. See SPEC/starter.md for when to file.
+description: File a starter tasknote for a task discovered mid-flow with rich AI-captured context that isn't ready to start. Invoke with the task ID as args (e.g., args="CORE-028"). Writes .flowtron/tasknote/<ID>.md from templates/tasknote-starter-template.md, appends the PLAN.md entry, and hands off without committing. See SPEC/starter.md for when to file.
 ---
 
 # starter-task — flowtron starter filer
@@ -17,21 +17,21 @@ This skill is **filing-only** and assumes the AI already has rich context from t
 
 Two layouts. Pick by which file exists:
 
-- **Adopter project:** `_project/flowtron/SPEC.md` exists → `<root>` = `_project/flowtron/`.
+- **Adopter project:** `.flowtron/core/SPEC.md` exists → `<root>` = `.flowtron/core/`.
 - **Flowtron self-host:** repo-root `SPEC.md` with heading `# Flowtron — Workflow Specification` → `<root>` = repo-root.
 
 If neither matches, bail.
 
-Paths: SPEC=`<root>SPEC.md`, SPEC_DIR=`<root>SPEC/`, starter template=`<root>templates/tasknote-starter-template.md`, PLAN=`_project/PLAN.md`, tasknote dir=`_project/tasknote/`.
+Paths: SPEC=`<root>SPEC.md`, SPEC_DIR=`<root>SPEC/`, starter template=`<root>templates/tasknote-starter-template.md`, PLAN=`.flowtron/PLAN.md`, tasknote dir=`.flowtron/tasknote/`.
 
 After resolving, Read `<SPEC_DIR>/starter.md` for the canonical starter lifecycle before drafting the body.
 
 ## Step 1 — Pre-flight checks
 
-- Resolve the **Area** from the task ID prefix per SPEC §"Task ID convention". Unknown prefix → read `_project/tasknote/README.md`; if still unresolved, stop and ask.
+- Resolve the **Area** from the task ID prefix per SPEC §"Task ID convention". Unknown prefix → read `.flowtron/tasknote/README.md`; if still unresolved, stop and ask.
 - The task ID must NOT already exist in PLAN.md. If it does, stop and ask whether the user meant a different ID — `/ft-starter-task` files NEW tasks; converting an existing PLAN.md entry to a starter is a manual edit (write the file, flip nothing in PLAN.md).
-- `_project/tasknote/<TASK-ID>.md` must NOT already exist. If it does, stop. Surface the conflict (could be in-flight, blocked, completed, or already a starter).
-- `_project/tasknote/archive/<area>/<TASK-ID>.md` must NOT already exist. If it does, stop — the ID has been used and archived; pick a fresh ID.
+- `.flowtron/tasknote/<TASK-ID>.md` must NOT already exist. If it does, stop. Surface the conflict (could be in-flight, blocked, completed, or already a starter).
+- `.flowtron/tasknote/archive/<area>/<TASK-ID>.md` must NOT already exist. If it does, stop — the ID has been used and archived; pick a fresh ID.
 
 ## Step 2 — Collect inputs
 
@@ -54,10 +54,10 @@ Compose the `## 🌱 Starter context` body from conversation context using the c
 Copy the starter template (path resolved in Step 0), then fill it:
 
 ```sh
-cp <starter template path> _project/tasknote/<TASK-ID>.md
+cp <starter template path> .flowtron/tasknote/<TASK-ID>.md
 ```
 
-In `_project/tasknote/<TASK-ID>.md`:
+In `.flowtron/tasknote/<TASK-ID>.md`:
 
 - Fill YAML frontmatter per SPEC §"Tasknote frontmatter" using Step 2 inputs. Skill-specific values: `title:` = the shortname from Step 2; `status: starter` (already correct from template); `created:` = today's date in `YYYY-MM-DD`.
 - Replace the H1 with `# <TASK-ID> | <title>` (matching frontmatter `title:`).
@@ -69,7 +69,7 @@ In `_project/tasknote/<TASK-ID>.md`:
 Append a new entry under the appropriate `## <Priority>` heading. Use the canonical task-line grammar (SPEC §"Task-line format"):
 
 ```text
-- [ ] **<TASK-ID>** [<model>] | <shortname> — <one-line long description>. Filed with starter at `_project/tasknote/<TASK-ID>.md`.
+- [ ] **<TASK-ID>** [<model>] | <shortname> — <one-line long description>. Filed with starter at `.flowtron/tasknote/<TASK-ID>.md`.
 ```
 
 Placement:
@@ -85,7 +85,7 @@ The starter body is the canonical home for rationale, file surveys, and decision
 
 Surface to the user, in one short message:
 
-- Starter filed at `_project/tasknote/<TASK-ID>.md`.
+- Starter filed at `.flowtron/tasknote/<TASK-ID>.md`.
 - PLAN.md entry appended under `## <Priority>` with model `<model>`.
 - The starter sits until `/ft-task <TASK-ID>` is invoked — that promotion will drift-check the captured context against current code and scaffold the rest of the tasknote (see `<SPEC_DIR>/starter.md` lifecycle).
 

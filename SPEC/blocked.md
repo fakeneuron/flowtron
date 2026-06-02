@@ -36,7 +36,7 @@ flip the nav-header chip from `🟢 In progress` to `⏸ Blocked`, optionally
 add `Blocked by [[ID]]` to the PLAN.md line (recommended for viz
 visibility, not required — the two signals stay independent), and stop. Do
 not run Phase 3 or Phase 4. The tasknote sits at
-`_project/tasknote/<TASK-ID>.md` until the blocker clears.
+`.flowtron/tasknote/<TASK-ID>.md` until the blocker clears.
 
 **Parked state.** A blocked tasknote is paused, not closed — Phase 4 is
 reserved for actual completion (or a Phase 1 De-scope). The tasknote is not

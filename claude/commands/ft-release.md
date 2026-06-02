@@ -2,7 +2,7 @@
 description: Cut a flowtron release — version bump, doc-currency shifts, doc-drift sweep, single feat: commit, annotated tag, push. Flowtron-self only.
 ---
 
-Invoke the `release` skill. The skill verifies cwd is the flowtron repo, scans `_project/PLAN.md` for the next pending `release v*` task line (bails on 0 or >1 matches), classifies commits since the last tag to propose a bump kind (user confirms/overrides), scaffolds + drives a release tasknote through the 4-phase workflow, and at closure auto-drafts the annotated-tag message for user review before committing/tagging/pushing.
+Invoke the `release` skill. The skill verifies cwd is the flowtron repo, scans `.flowtron/PLAN.md` for the next pending `release v*` task line (bails on 0 or >1 matches), classifies commits since the last tag to propose a bump kind (user confirms/overrides), scaffolds + drives a release tasknote through the 4-phase workflow, and at closure auto-drafts the annotated-tag message for user review before committing/tagging/pushing.
 
 Takes no arguments — file the PLAN.md release line first (e.g., `**<TASK-ID>** [model] | release vX.Y.Z — ...`), then run `/ft-release`.
 

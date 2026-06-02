@@ -1,6 +1,6 @@
 ---
 name: ft-audit-performance
-description: Performance-focused audit — 5 passes (Hot paths · Payload & bundle · Data access · Memory & resource · Caching), capped findings, writes tickets to `_project/PLAN.md`. Stack-neutral scaffold; adopters fork into `.claude/skills/audit-performance/` and customize budgets + profiling tools + benchmarks. See `docs/MIGRATION.md` §1.2.1.
+description: Performance-focused audit — 5 passes (Hot paths · Payload & bundle · Data access · Memory & resource · Caching), capped findings, writes tickets to `.flowtron/PLAN.md`. Stack-neutral scaffold; adopters fork into `.claude/skills/audit-performance/` and customize budgets + profiling tools + benchmarks. See `docs/MIGRATION.md` §1.2.1.
 ---
 
 # audit-performance — flowtron performance audit skill
@@ -60,15 +60,15 @@ Severity guide:
 
 1. **Summary** — health score 1–10 with one-sentence justification + top 3 issues (by severity, not pass order).
 2. **Exploratory Insights** — what the findings reveal about the project's perf posture. Patterns, not individual issues (e.g. "four of five hot-path findings cluster in JSON serialization — suggests the serializer choice is the bottleneck, not the routes").
-3. **Proposed tasks for `_project/PLAN.md`** — prioritized, actionable tickets using flowtron's task-line grammar. One ticket per thematic cluster, not per finding. Present them inline so the user can review before anything is written to disk.
+3. **Proposed tasks for `.flowtron/PLAN.md`** — prioritized, actionable tickets using flowtron's task-line grammar. One ticket per thematic cluster, not per finding. Present them inline so the user can review before anything is written to disk.
 4. **Questions for the user** — anything ambiguous that blocks implementation. Use `AskUserQuestion`, not prose.
 
-## 5. Write the proposed tasks into `_project/PLAN.md` (required, not optional)
+## 5. Write the proposed tasks into `.flowtron/PLAN.md` (required, not optional)
 
 The deliverable is tickets in PLAN.md.
 
 1. **After** §§1–3 are presented and any `AskUserQuestion` blockers are answered, write tickets using flowtron's task-line grammar: `- [ ] **<AREA>-<N>** [model] | shortname — long description.` (primary labels `[heavy]🧠` / `[light]🔧` recommended; specifics e.g. `opus` / `sonnet` / `grok` remain valid per SPEC §"Model field"). See §"Task-line format".
-2. Pick the next free `<N>` per area prefix (valid prefixes in `_project/tasknote/README.md` §"Area prefixes").
+2. Pick the next free `<N>` per area prefix (valid prefixes in `.flowtron/tasknote/README.md` §"Area prefixes").
 3. Insert in correct priority section. Append `Surfaced by audit-performance YYYY-MM-DD (Finding #N, <severity>)` **plus the measured-impact number** so future-you can validate the fix moved the metric.
 4. **No code changes**, no formatters, no opening files for fixes. Tickets only.
 5. User pushes back on a ticket → drop it.
@@ -79,8 +79,8 @@ Zero findings across all passes → say so explicitly and skip the write.
 
 - **Measure, don't guess.** Every finding above Low severity must cite a measurement (profiler output, bundle bytes, query count, heap snapshot). "I think this might be slow" is a code-smell finding, not a performance finding — route to `/ft-audit-backend` or `/ft-audit-frontend` instead.
 - **Targeted, not exhaustive.** Five findings per pass is a *ceiling*, not a target.
-- **Write tickets, not fixes.** `_project/PLAN.md` gets updated; source files do NOT.
+- **Write tickets, not fixes.** `.flowtron/PLAN.md` gets updated; source files do NOT.
 - **Defer to specialists when appropriate.** If a finding is cleanly inside one layer (a single React component re-rendering, a single Pydantic model over-validating), cross-list with `audit-frontend` / `audit-backend` and leave the detailed write-up to the specialist audit.
 - **Don't audit adjacent code.** Stay inside the resolved scope.
-- **No final summary of what you just did.** The report + the `_project/PLAN.md` diff *are* the deliverable.
+- **No final summary of what you just did.** The report + the `.flowtron/PLAN.md` diff *are* the deliverable.
 - _(forker: append project-specific hard rules — e.g. "p95 read-API SLO is sacred. Any finding implicating it is Critical regardless of fix-cost.")_

@@ -16,14 +16,14 @@ The skill operates on the current working directory. Before doing anything:
 - `.git/` exists (cwd is a git repo). If not, stop and tell the user to `git init` first.
 - `CLAUDE.md` exists in cwd. If not, stop and ask the user to create one before proceeding — this is a project-validity check (signals an AI-coding project); the flowtron paste-block itself lands in `AGENTS.md` (created in Step 4 if missing).
 - None of the following exist (their presence means flowtron is already adopted):
-  - `_project/flowtron/`
-  - `_project/PLAN.md`
+  - `.flowtron/core/`
+  - `.flowtron/PLAN.md`
   - `.claude/commands/ft-task.md`
   - `.claude/skills/ft-task`
 
   If any are present, stop. Surface what's already there and ask whether the user meant to bump the pinned version (see `docs/MIGRATION.md` §"Pinning and bumping") instead of bootstrapping fresh.
 
-- None of the following exist at the project root (their presence means a legacy workflow system is in place — flowtron would conflict, e.g. a root `PLAN.md` collides with `_project/PLAN.md`):
+- None of the following exist at the project root (their presence means a legacy workflow system is in place — flowtron would conflict, e.g. a root `PLAN.md` collides with `.flowtron/PLAN.md`):
   - `PLAN.md`
   - `plan.json`
   - `WORKFLOW.md`
@@ -39,16 +39,16 @@ Use AskUserQuestion to gather:
 1. **Project name** — default suggestion: cwd basename (e.g., `~/code/flowmagic` → `flowmagic`). Used to substitute the `# Project Name — PLAN.md` placeholder in `templates/PLAN.md`.
 2. **Pinned flowtron version** — default suggestion: latest semver tag from `git ls-remote --tags --sort=-v:refname https://github.com/fakeneuron/flowtron.git | head -n1 | sed 's|.*/||'`. User can accept, override, or pin to `main` for unstable tracking (warn before doing so — the bump-tasknote / annotated-tag-message contract assumes a tag).
 
-Record both before proceeding. If the user picks `main`, set the variable but skip the `git -C _project/flowtron checkout vX.Y.Z` step in Step 2.
+Record both before proceeding. If the user picks `main`, set the variable but skip the `git -C .flowtron/flowtron checkout vX.Y.Z` step in Step 2.
 
 ## Step 2 — Add the submodule
 
 From cwd:
 
 ```sh
-mkdir -p _project
-git submodule add https://github.com/fakeneuron/flowtron.git _project/flowtron
-git -C _project/flowtron checkout vX.Y.Z   # use the pinned version from Step 1
+mkdir -p .flowtron
+git submodule add https://github.com/fakeneuron/flowtron.git .flowtron/flowtron
+git -C .flowtron/flowtron checkout vX.Y.Z   # use the pinned version from Step 1
 ```
 
 The `checkout` step is what pins the project to a specific flowtron commit. Skip it only if the user explicitly chose `main` in Step 1.
@@ -57,34 +57,34 @@ Reference: `docs/MIGRATION.md` §1.1.
 
 ## Step 3 — Wire /ft-task, /ft-starter-task, /ft-micro-task, /ft-file-followup, /ft-epic-discovery, /ft-close-epic, /ft-debug, /ft-worktree-start, /ft-worktree-end via symlinks
 
-Read `_project/flowtron/claude/AGENTS-snippet.md` and run the bash block under the §"One-time symlink wiring" heading from the project root. Run it verbatim — relative paths are intentional (they survive `git clone` and pin to whichever flowtron commit the submodule is checked out at). Do not substitute absolute paths.
+Read `.flowtron/core/claude/AGENTS-snippet.md` and run the bash block under the §"One-time symlink wiring" heading from the project root. Run it verbatim — relative paths are intentional (they survive `git clone` and pin to whichever flowtron commit the submodule is checked out at). Do not substitute absolute paths.
 
 Reference: `claude/AGENTS-snippet.md` §"One-time symlink wiring" (canonical) · `docs/MIGRATION.md` §1.2 (adopter doc, points to the snippet).
 
 ## Step 4 — Create or patch AGENTS.md
 
-Read `_project/flowtron/claude/AGENTS-snippet.md` and extract the markdown block under the "Block to paste into AGENTS.md" heading (the fenced ```markdown ... ``` block). If `AGENTS.md` doesn't exist in the project root, create it with the block's *contents* (without the outer fences) as initial content. If it exists, append the contents at the end of the file — do not overwrite or insert mid-file (project-specific instructions in `AGENTS.md` must be preserved).
+Read `.flowtron/core/claude/AGENTS-snippet.md` and extract the markdown block under the "Block to paste into AGENTS.md" heading (the fenced ```markdown ... ``` block). If `AGENTS.md` doesn't exist in the project root, create it with the block's *contents* (without the outer fences) as initial content. If it exists, append the contents at the end of the file — do not overwrite or insert mid-file (project-specific instructions in `AGENTS.md` must be preserved).
 
 Reference: `docs/MIGRATION.md` §1.3.
 
-## Step 5 — Create _project/PLAN.md
+## Step 5 — Create .flowtron/PLAN.md
 
 ```sh
-cp _project/flowtron/templates/PLAN.md _project/PLAN.md
+cp .flowtron/core/templates/PLAN.md .flowtron/PLAN.md
 ```
 
 Then substitute `Project Name` (line 1: `# Project Name — PLAN.md`) with the project name from Step 1. Leave the rest of the placeholders (vision paragraph, task list) for the user to fill in afterward — surface this in the hand-off in Step 8.
 
 Reference: `docs/MIGRATION.md` §1.4.
 
-## Step 6 — Create _project/tasknote/README.md
+## Step 6 — Create .flowtron/tasknote/README.md
 
 ```sh
-mkdir -p _project/tasknote/archive
-cp _project/flowtron/templates/tasknote-README.md _project/tasknote/README.md
+mkdir -p .flowtron/tasknote/archive
+cp .flowtron/core/templates/tasknote-README.md .flowtron/tasknote/README.md
 ```
 
-The README includes a description of the current tasknote template shape: YAML frontmatter (`title`, `status`, `tags`, `created`, `due`, `related-tasks`) and a spec-on-top + log-below body. The `/ft-task` skill scaffolds all new tasknotes in this shape automatically; the canonical layout is at `_project/flowtron/templates/tasknote-template.md`.
+The README includes a description of the current tasknote template shape: YAML frontmatter (`title`, `status`, `tags`, `created`, `due`, `related-tasks`) and a spec-on-top + log-below body. The `/ft-task` skill scaffolds all new tasknotes in this shape automatically; the canonical layout is at `.flowtron/core/templates/tasknote-template.md`.
 
 Reference: `docs/MIGRATION.md` §1.5.
 
@@ -93,7 +93,7 @@ Reference: `docs/MIGRATION.md` §1.5.
 Stage the bootstrap files explicitly. Do **not** use `git add .` or `git add -A` — the project may have unrelated unstaged work that should not be bundled into the adoption commit:
 
 ```sh
-git add .gitmodules _project/flowtron _project/PLAN.md _project/tasknote/ \
+git add .gitmodules .flowtron/flowtron .flowtron/PLAN.md .flowtron/tasknote/ \
         .claude/commands/ft-task.md .claude/commands/ft-starter-task.md .claude/commands/ft-micro-task.md .claude/commands/ft-file-followup.md .claude/commands/ft-epic-discovery.md .claude/commands/ft-close-epic.md .claude/commands/ft-debug.md \
         .claude/commands/ft-worktree-start.md .claude/commands/ft-worktree-end.md \
         .claude/skills/ft-task .claude/skills/ft-starter-task .claude/skills/ft-micro-task .claude/skills/ft-file-followup .claude/skills/ft-epic-discovery .claude/skills/ft-close-epic .claude/skills/ft-debug \
@@ -114,24 +114,24 @@ Reference: `docs/MIGRATION.md` §1.6.
 Confirm all eighteen symlinks resolve correctly:
 
 ```sh
-readlink .claude/commands/ft-task.md            # → ../../_project/flowtron/claude/commands/ft-task.md
-readlink .claude/commands/ft-starter-task.md    # → ../../_project/flowtron/claude/commands/ft-starter-task.md
-readlink .claude/commands/ft-micro-task.md      # → ../../_project/flowtron/claude/commands/ft-micro-task.md
-readlink .claude/commands/ft-file-followup.md   # → ../../_project/flowtron/claude/commands/ft-file-followup.md
-readlink .claude/commands/ft-epic-discovery.md  # → ../../_project/flowtron/claude/commands/ft-epic-discovery.md
-readlink .claude/commands/ft-close-epic.md      # → ../../_project/flowtron/claude/commands/ft-close-epic.md
-readlink .claude/commands/ft-debug.md           # → ../../_project/flowtron/claude/commands/ft-debug.md
-readlink .claude/skills/ft-task                 # → ../../_project/flowtron/claude/skills/ft-task
-readlink .claude/skills/ft-starter-task         # → ../../_project/flowtron/claude/skills/ft-starter-task
-readlink .claude/skills/ft-micro-task           # → ../../_project/flowtron/claude/skills/ft-micro-task
-readlink .claude/skills/ft-file-followup        # → ../../_project/flowtron/claude/skills/ft-file-followup
-readlink .claude/skills/ft-epic-discovery       # → ../../_project/flowtron/claude/skills/ft-epic-discovery
-readlink .claude/skills/ft-close-epic           # → ../../_project/flowtron/claude/skills/ft-close-epic
-readlink .claude/skills/ft-debug                # → ../../_project/flowtron/claude/skills/ft-debug
-readlink .claude/commands/ft-worktree-start.md   # → ../../_project/flowtron/claude/commands/ft-worktree-start.md
-readlink .claude/commands/ft-worktree-end.md     # → ../../_project/flowtron/claude/commands/ft-worktree-end.md
-readlink .claude/skills/ft-worktree-start        # → ../../_project/flowtron/claude/skills/ft-worktree-start
-readlink .claude/skills/ft-worktree-end          # → ../../_project/flowtron/claude/skills/ft-worktree-end
+readlink .claude/commands/ft-task.md            # → ../../.flowtron/core/claude/commands/ft-task.md
+readlink .claude/commands/ft-starter-task.md    # → ../../.flowtron/core/claude/commands/ft-starter-task.md
+readlink .claude/commands/ft-micro-task.md      # → ../../.flowtron/core/claude/commands/ft-micro-task.md
+readlink .claude/commands/ft-file-followup.md   # → ../../.flowtron/core/claude/commands/ft-file-followup.md
+readlink .claude/commands/ft-epic-discovery.md  # → ../../.flowtron/core/claude/commands/ft-epic-discovery.md
+readlink .claude/commands/ft-close-epic.md      # → ../../.flowtron/core/claude/commands/ft-close-epic.md
+readlink .claude/commands/ft-debug.md           # → ../../.flowtron/core/claude/commands/ft-debug.md
+readlink .claude/skills/ft-task                 # → ../../.flowtron/core/claude/skills/ft-task
+readlink .claude/skills/ft-starter-task         # → ../../.flowtron/core/claude/skills/ft-starter-task
+readlink .claude/skills/ft-micro-task           # → ../../.flowtron/core/claude/skills/ft-micro-task
+readlink .claude/skills/ft-file-followup        # → ../../.flowtron/core/claude/skills/ft-file-followup
+readlink .claude/skills/ft-epic-discovery       # → ../../.flowtron/core/claude/skills/ft-epic-discovery
+readlink .claude/skills/ft-close-epic           # → ../../.flowtron/core/claude/skills/ft-close-epic
+readlink .claude/skills/ft-debug                # → ../../.flowtron/core/claude/skills/ft-debug
+readlink .claude/commands/ft-worktree-start.md   # → ../../.flowtron/core/claude/commands/ft-worktree-start.md
+readlink .claude/commands/ft-worktree-end.md     # → ../../.flowtron/core/claude/commands/ft-worktree-end.md
+readlink .claude/skills/ft-worktree-start        # → ../../.flowtron/core/claude/skills/ft-worktree-start
+readlink .claude/skills/ft-worktree-end          # → ../../.flowtron/core/claude/skills/ft-worktree-end
 ```
 
 If any resolves wrong, fix before reporting success.
@@ -140,8 +140,8 @@ Then surface to the user, in one short message:
 
 - Bootstrap is complete; flowtron is pinned to `vX.Y.Z` (or `main` if unpinned).
 - **Next steps for them** (the skill leaves these as placeholders):
-  - Edit `_project/PLAN.md` — fill in the vision paragraph and initial task list.
-  - Edit `_project/tasknote/README.md` — declare any project-specific area prefixes; replace the "Project quick commands" section with real commands; extend `## AI-referenced docs` (seeded with `README.md` / `AGENTS.md` / `CLAUDE.md` / `_project/PLAN.md`) as the architecture matures (architecture notes, API specs, DB schema docs, ADRs, inventories).
+  - Edit `.flowtron/PLAN.md` — fill in the vision paragraph and initial task list.
+  - Edit `.flowtron/tasknote/README.md` — declare any project-specific area prefixes; replace the "Project quick commands" section with real commands; extend `## AI-referenced docs` (seeded with `README.md` / `AGENTS.md` / `CLAUDE.md` / `.flowtron/PLAN.md`) as the architecture matures (architecture notes, API specs, DB schema docs, ADRs, inventories).
 - **To verify the wiring:** invoke `/ft-task` in a fresh session with your coding agent (Claude Code, Cursor, Grok Build, Codex CLI, etc.; or the platform's equivalent slash/prompt command) in the project root. The command should appear in the menu (alongside the other flowtron skills) with its description.
 - **Recommended follow-up.** If they've installed `/ft-audit-context` globally (per `docs/MIGRATION.md` §1.0), suggest running it now: `/ft-audit-context` scans the freshly-bootstrapped `CLAUDE.md`, `AGENTS.md`, and `.claude/{commands,skills}` for context bloat, redundancy with the just-pasted `AGENTS.md` block, `ft-*` namespace conflicts, and lean-context drift. Output is conversational; ticket-filing is opt-in. Catches first-day context-surface issues before they ossify.
 

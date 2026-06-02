@@ -14,7 +14,7 @@ This skill is the deliberate counterpart to `/ft-audit*` (forked, 5-pass, writes
 1. **Preflight** the current working directory:
    - At least one of `CLAUDE.md`, `AGENTS.md`, or `.claude/` must exist. If none do, bail with a one-line "no AI-coding context surfaces here — nothing to audit" notice.
    - Determine flowtron-mode for passes (b) and (c):
-     - **Adopter mode** — `_project/flowtron/` submodule exists. Reference paste-block: `_project/flowtron/claude/AGENTS-snippet.md`. Reference bundled skill names: `_project/flowtron/claude/skills/`.
+     - **Adopter mode** — `.flowtron/core/` submodule exists. Reference paste-block: `.flowtron/core/claude/AGENTS-snippet.md`. Reference bundled skill names: `.flowtron/core/claude/skills/`.
      - **Flowtron-self mode** — repo-root `SPEC.md` exists with heading `# Flowtron — Workflow Specification`. Reference paste-block: `claude/AGENTS-snippet.md`. Reference bundled skill names: `claude/skills/`.
      - **No flowtron** — passes (b) and (c) downgrade (skip the reference comparison; note this in the summary). Passes (a) and (d) still run.
 2. **Read** the in-scope surfaces:
@@ -48,7 +48,7 @@ Compare project `AGENTS.md` against flowtron's `<flowtron-root>/claude/AGENTS-sn
 
 Severity:
 
-- **High** — contradictions. The assistant sees conflicting directives (e.g., `AGENTS.md` says tasknotes live at `tasks/` but the paste-block says `_project/tasknote/`).
+- **High** — contradictions. The assistant sees conflicting directives (e.g., `AGENTS.md` says tasknotes live at `tasks/` but the paste-block says `.flowtron/tasknote/`).
 - **Medium** — direct restatements. The paste-block is the single source of truth per [[CORE-091]]; restating bloats and risks drift on the next flowtron bump.
 - **Low** — partial overlaps that may be intentional (e.g., project-specific extension of a workflow concept).
 
@@ -92,17 +92,17 @@ After passes (a)–(d) complete:
 
 2. **Offer** — call `AskUserQuestion` with these options:
 
-   - **File all as PLAN tickets** — write each finding as a `- [ ]` line under the appropriate priority heading in `_project/PLAN.md` using flowtron's task-line grammar.
+   - **File all as PLAN tickets** — write each finding as a `- [ ]` line under the appropriate priority heading in `.flowtron/PLAN.md` using flowtron's task-line grammar.
    - **Pick a subset** — let the user name which findings to file (free-text response).
    - **File none** — close out the audit with no writes.
    - **Show me the report again** — re-print §§1-4 verbatim.
 
-3. If filing, ticket format: `- [ ] **<AREA>-<N>** [model] | shortname — recommendation. Surfaced by audit-context YYYY-MM-DD (Pass <a|b|c|d>, <severity>).` Pick the next free `<N>` per area prefix; default to `[sonnet]` for follow-up fixes (user can override). Insert under `## High` for High-severity findings, `## Medium` for Medium, `## Low` for Low. Bail with a warning if `_project/PLAN.md` doesn't exist.
+3. If filing, ticket format: `- [ ] **<AREA>-<N>** [model] | shortname — recommendation. Surfaced by audit-context YYYY-MM-DD (Pass <a|b|c|d>, <severity>).` Pick the next free `<N>` per area prefix; default to `[sonnet]` for follow-up fixes (user can override). Insert under `## High` for High-severity findings, `## Medium` for Medium, `## Low` for Low. Bail with a warning if `.flowtron/PLAN.md` doesn't exist.
 
 ## 6. Hard rules
 
 - **Never edit a source file across any pass.** The only allowed write is the optional PLAN.md ticket-filing in §5, gated behind explicit user confirmation via `AskUserQuestion`.
 - **No `Finding #N` scaffold.** This is the deliberate distinction from `/ft-audit*` family — use natural prose with severity tags inline (`**High**`, `**Medium**`, `**Low**`), grouped under the four `## (a) ... ## (d) ...` pass headings.
 - **Cap each pass at 5 findings.** A clean pass gets zero findings and moves on.
-- **No final summary of what you just did.** The report + the optional `_project/PLAN.md` write are the deliverable.
+- **No final summary of what you just did.** The report + the optional `.flowtron/PLAN.md` write are the deliverable.
 - **Subroutine-safe.** Designed for standalone invocation; no scope argument supported today. Adopter-side invocations target the project's cwd; flowtron-self invocations target flowtron's own context surfaces.

@@ -5,7 +5,7 @@
 One-paragraph statement of the project's purpose and end state. Replace this
 with the actual project vision.
 
-See [_project/flowtron/SPEC.md](flowtron/SPEC.md) for the canonical workflow contract.
+See [.flowtron/core/SPEC.md](flowtron/SPEC.md) for the canonical workflow contract.
 
 ## High
 
@@ -30,7 +30,7 @@ See [_project/flowtron/SPEC.md](flowtron/SPEC.md) for the canonical workflow con
 - [x] **TASK-ID** [light] | shortname — Completed YYYY-MM-DD.
 
 <!--
-Task-line grammar (see _project/flowtron/SPEC.md §"Task-line format"):
+Task-line grammar (see .flowtron/core/SPEC.md §"Task-line format"):
 
   - [ ] **TASK-ID** [!critical] [model] | shortname — long description
 

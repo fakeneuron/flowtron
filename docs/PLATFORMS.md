@@ -60,7 +60,7 @@ flowtron/
 The structural decision is locked at [[CORE-154.3]]: no parent
 `wiring/` dir, no rename of `claude/`. Adopter symlinks already in
 production (InvisiPaw, fintown, photard) point at
-`../../_project/flowtron/claude/...` — that path stability is a
+`../../.flowtron/core/claude/...` — that path stability is a
 non-negotiable per [[CORE-154.1]] Constitution.
 
 ### Naming conventions

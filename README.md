@@ -51,7 +51,7 @@ Run `/ft-new-project` in your project's root directory (git repo required;
 heuristic) to add the flowtron submodule, wire the seven tasknote skills
 (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`,
 `/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`) plus the two worktree
-utilities (`/ft-worktree-start`, `/ft-worktree-end`), and drop in the `_project/`
+utilities (`/ft-worktree-start`, `/ft-worktree-end`), and drop in the `.flowtron/`
 skeleton in one pass. See [docs/MIGRATION.md](docs/MIGRATION.md) §1.0 for the
 one-time global install.
 
@@ -59,10 +59,10 @@ one-time global install.
 
 `viz/` is a read-only Kanban view of every flowtron-adopting project under
 your workspace, grouped by priority. Open tasks with an active tasknote in
-each project's `_project/tasknote/` are flagged **In progress**. The
+each project's `.flowtron/tasknote/` are flagged **In progress**. The
 header-rail project selector swaps the active project;
 the header subhead shows task counts, in-progress count, and the flowtron
-version the selected project is using (from its `_project/flowtron/SPEC.md`).
+version the selected project is using (from its `.flowtron/core/SPEC.md`).
 filters and scroll position reset on switch.
 
 Run **once per machine** from flowtron's own checkout — there is no
@@ -76,13 +76,13 @@ npm install
 npm run dev
 ```
 
-The scanner globs `${FLOWTRON_VIZ_WORKSPACE:-~/code}/*/_project/PLAN.md` to
+The scanner globs `${FLOWTRON_VIZ_WORKSPACE:-~/code}/*/.flowtron/PLAN.md` to
 discover projects; the directory name (e.g., `myproject`) becomes the project
-label. Dirs without a `_project/PLAN.md` are silently skipped. Set
+label. Dirs without a `.flowtron/PLAN.md` are silently skipped. Set
 `FLOWTRON_VIZ_WORKSPACE` if your projects live somewhere other than
 `~/code/`.
 
-Adopter projects' own `_project/flowtron/viz/` continues to work (read-only
+Adopter projects' own `.flowtron/core/viz/` continues to work (read-only
 submodule, unchanged) but is no longer the recommended path — prefer the
 single global instance above.
 
@@ -97,7 +97,7 @@ truth — but two of its choices happen to fit markdown-vault tools
 - The YAML frontmatter on every tasknote (`status`, `tags`, `due`,
   `related-tasks`) is the shape vault-tool query plugins consume.
 
-**Obsidian.** Open the project root (or just `_project/`) as a vault and
+**Obsidian.** Open the project root (or just `.flowtron/`) as a vault and
 tasknotes become a queryable, graph-viewable knowledge base with no extra
 wiring. A minimal
 [Dataview](https://blacksmithgu.github.io/obsidian-dataview/) snippet
@@ -106,7 +106,7 @@ wiring. A minimal
 ````markdown
 ```dataview
 TABLE status, due
-FROM "_project/tasknote"
+FROM ".flowtron/tasknote"
 WHERE status != "completed"
 SORT due
 ```
@@ -130,7 +130,7 @@ These tools are opt-in companion surfaces. None of the above is required.
 - `templates/` — canonical tasknote and `PLAN.md` templates
 - `claude/` — Claude Code skills + slash commands (adopter-facing snippet + self-hosted skills like `/ft-task`, `/ft-release`); future non-Claude-Code platform wirings (e.g., `codex/`, `grok/`, `cursor/`) plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md)
 - `docs/` — philosophy, vision, glossary, migration, conventions, agent-neutrality, platforms, agent-compat, and worktrees docs
-- `_project/` — flowtron's own roadmap and tasknotes (self-hosted)
+- `.flowtron/` — flowtron's own roadmap and tasknotes (self-hosted)
 - `viz/` — Vite/React Kanban visualizer
 - `CONTRIBUTING.md` — solo-maintenance model; issue and PR guidance
 - `SECURITY.md` — threat model and vulnerability reporting

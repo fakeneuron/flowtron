@@ -222,7 +222,7 @@ The ðŸ“¦ gate fires when the closure diff trips a signal below OR a bundled in-ð
   matches the glob set `**/*.tsx`, `**/*.jsx`, `**/*.css`, `**/*.scss`,
   `**/*.html`, `**/*.vue`, `**/*.svelte`, or `**/*.ts` *under an explicit
   UI dir* (e.g., `viz/`). Adopters declare project-specific UI dirs in
-  `_project/tasknote/README.md`; those dirs join the glob set for that
+  `.flowtron/tasknote/README.md`; those dirs join the glob set for that
   project.
 - **Zero privileged-ops paths changed.** A changed path is
   "privileged-ops" if it matches any of:

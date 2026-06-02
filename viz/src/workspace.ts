@@ -55,16 +55,16 @@ export async function discoverProjects(root: string): Promise<ProjectDescriptor[
     if (!(entry.isDirectory() || entry.isSymbolicLink())) continue;
     if (entry.name.startsWith('.')) continue;
     const projectRoot = join(root, entry.name);
-    const planPath = join(projectRoot, '_project', 'PLAN.md');
+    const planPath = join(projectRoot, '.flowtron', 'PLAN.md');
     if (!(await isFile(planPath))) continue;
-    const flowtronSpec = join(projectRoot, '_project', 'flowtron', 'SPEC.md');
+    const flowtronSpec = join(projectRoot, '.flowtron', 'core', 'SPEC.md');
     const flowtronVersion = await readFlowtronVersion(flowtronSpec);
     projects.push({
       name: entry.name,
       root: projectRoot,
       planPath,
-      tasknoteDir: join(projectRoot, '_project', 'tasknote'),
-      archiveDir: join(projectRoot, '_project', 'tasknote', 'archive'),
+      tasknoteDir: join(projectRoot, '.flowtron', 'tasknote'),
+      archiveDir: join(projectRoot, '.flowtron', 'tasknote', 'archive'),
       flowtronVersion,
     });
   }

@@ -113,7 +113,7 @@ Closed task lines under `## Completed` collapse to a stub form:
 ```
 
 The long description drops — the archived tasknote at
-`_project/tasknote/archive/<area>/<TASK-ID>.md` is the canonical record.
+`.flowtron/tasknote/archive/<area>/<TASK-ID>.md` is the canonical record.
 Phase 4 closure rewrites the line to the stub form (not just the
 checkbox + date); `| shortname` is required so visualizers have a row
 title, `[model]` stays optional. Adopting projects pick up the

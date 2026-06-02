@@ -13,7 +13,7 @@ If `args` is missing or its first token doesn't match `<AREA>-<NUMBER>` (or `<AR
 
 Two layouts. Pick by which file exists:
 
-- **Adopter project:** `_project/flowtron/SPEC.md` exists → `<root>` = `_project/flowtron/`.
+- **Adopter project:** `.flowtron/core/SPEC.md` exists → `<root>` = `.flowtron/core/`.
 - **Flowtron self-host:** repo-root `SPEC.md` with heading `# Flowtron — Workflow Specification` → `<root>` = repo-root.
 
 If neither matches, bail.
@@ -23,7 +23,7 @@ Paths this skill uses:
 - SPEC_DIR (lazy modules `epic.md` · `starter.md` · `blocked.md` · `model.md` · `versioning.md`): `<root>SPEC/`
 - SKILL_DIR (lazy fragments `step-1.5-model-edge.md` · `step-3a-promote-starter.md` · `step-3c-resume-blocked.md`): `<root>claude/skills/ft-task/`
 - Template: `<root>templates/tasknote-template.md`
-- PLAN: `_project/PLAN.md`, tasknote dir: `_project/tasknote/` (always)
+- PLAN: `.flowtron/PLAN.md`, tasknote dir: `.flowtron/tasknote/` (always)
 
 Subsequent steps name what to Read; the SPEC contract + matching SKILL fragment typically load in parallel.
 
@@ -76,10 +76,10 @@ Gate on the `[model]` segment captured in Step 1 before any source reads — hea
 
 ## Step 2 — Pre-flight checks & file-state branch
 
-- Resolve the **Area** from the task ID prefix per SPEC §"Task ID convention". Unknown prefix → read `_project/tasknote/README.md`; if still unresolved, stop and ask.
+- Resolve the **Area** from the task ID prefix per SPEC §"Task ID convention". Unknown prefix → read `.flowtron/tasknote/README.md`; if still unresolved, stop and ask.
 - **Epic-ID dispatch.** If the TASK-ID is `<AREA>-EPIC-<N>` (parent epic) or `<AREA>-<N>.<sub>` (epic subtask), Read `<SPEC_DIR>/epic.md` for the lifecycle contract before continuing. Plain `<AREA>-<N>` IDs do not load this module.
-- If `_project/tasknote/archive/<area>/<TASK-ID>.md` already exists: stop. The task is already closed and archived. Surface the conflict and ask whether the user meant a different task ID — do not scaffold a duplicate.
-- Check `_project/tasknote/<TASK-ID>.md`. **Four-way branch on the file's YAML `status:`:**
+- If `.flowtron/tasknote/archive/<area>/<TASK-ID>.md` already exists: stop. The task is already closed and archived. Surface the conflict and ask whether the user meant a different task ID — do not scaffold a duplicate.
+- Check `.flowtron/tasknote/<TASK-ID>.md`. **Four-way branch on the file's YAML `status:`:**
   - **`status: starter`** — starter tasknote awaiting promotion. Continue at **Step 3a (Promote a starter)**.
   - **`status: blocked`** — parked tasknote awaiting resume. Continue at **Step 3c (Resume a blocked tasknote)**.
   - **Any other `status:`** (`not-started` / `in-progress` / `completed`) — file is in flight or already closed. Stop. Tell the user the tasknote exists and recommend they continue conversationally (e.g., "continue CORE-004") rather than restarting. This skill is start-only by design.
@@ -91,7 +91,7 @@ Read `<SPEC_DIR>/starter.md` (lifecycle contract) and `<SKILL_DIR>/step-3a-promo
 
 ## Step 3b — Scaffold a fresh tasknote (no existing file)
 
-Copy the template (path resolved in Step 0) to `_project/tasknote/<TASK-ID>.md`. The frontmatter schema and body layout are canonical in SPEC §"Tasknote frontmatter" and §"Tasknote body shape" — fill them as specified there. The template ships the canonical phase checklists; leave them exactly as they ship.
+Copy the template (path resolved in Step 0) to `.flowtron/tasknote/<TASK-ID>.md`. The frontmatter schema and body layout are canonical in SPEC §"Tasknote frontmatter" and §"Tasknote body shape" — fill them as specified there. The template ships the canonical phase checklists; leave them exactly as they ship.
 
 **Skill-specific values at scaffold time:**
 
@@ -114,7 +114,7 @@ Skill-specific imperatives on top of the SPEC contract:
 
 - Tick boxes in the tasknote as you complete them.
 - The first checklist item (Reviewed PLAN.md) is already done in Step 1 of this skill.
-- For the Archive skim step: `ls _project/tasknote/archive/<area>/` to enumerate, then for each source path in scope run `grep -l <path> _project/tasknote/archive/<area>/*.md`. Read the hits and log anything load-bearing in Discovery Notes (file moves, regressions, design decisions, hardlink notes, etc.). If `archive/<area>/` is empty or absent, log "no prior tasknotes" and tick the box.
+- For the Archive skim step: `ls .flowtron/tasknote/archive/<area>/` to enumerate, then for each source path in scope run `grep -l <path> .flowtron/tasknote/archive/<area>/*.md`. Read the hits and log anything load-bearing in Discovery Notes (file moves, regressions, design decisions, hardlink notes, etc.). If `archive/<area>/` is empty or absent, log "no prior tasknotes" and tick the box.
 - For the Clarifying questions step: use AskUserQuestion for anything genuinely ambiguous. If nothing is ambiguous, write `No clarifications needed` in the tasknote with the explicit assumptions.
   **When `fast-mode = true`** (from Step 0): skip the AskUserQuestion call and write `No clarifications needed (--fast)` with the explicit assumptions the operator is asserting.
 - For the "populate Subtasks" step: fill the tasknote's `## 🧩 Subtasks` checklist with concrete, ordered steps.
@@ -136,7 +136,7 @@ cue is the 📦 ready-to-commit banner in Step 6.
 
 - **Phase 2: Execution** — pattern survey first (look at sibling modules / parallel components for an existing shape to extend; justify a new shape if none fits), then minimal implementation, then targeted tests on changed files. Tick boxes as you go. **If a hard dependency surfaces mid-execution**, Read `<SPEC_DIR>/blocked.md` and park the tasknote per its contract — flip `status: blocked`, update the nav header to `⏸ Blocked`, and stop. The next `/ft-task <ID>` invocation enters the resume path (Step 3c) automatically.
 - **Phase 3: Testing & Linting** — targeted tests, lint/type-check on changed code, visual confirmation for frontend changes (`👁️` prefix on the prose ask, per SPEC §"🧪 Phase 3: Testing & Linting" — inline emoji only, not a banner block). Run the full suite only for broad/cross-cutting changes. Flows directly into Phase 4 closure ops; no gate between them. **When `fast-mode = true`** (from Step 0), suppress the 👁️ CONFIRM prose ask — lint/type-check on changed code still runs, but the operator owns the visual-confirmation responsibility.
-- **Phase 4: Closure (auto-run)** — run the doc-drift sweep across `_project/tasknote/README.md` §"AI-referenced docs" (per-entry verdict: "no change" or the specific update), flip the PLAN.md line to the stub form `[x] **<TASK-ID>** [model] | shortname — Completed YYYY-MM-DD.` per SPEC/tasknote-selection.md §"`## Completed` archive convention" (drop the long description — the archived tasknote is the canonical record), move the line to the `## Completed` section, and move the tasknote file to `_project/tasknote/archive/<area>/<TASK-ID>.md` as a single closure write. Draft the recap (1-2 sentence plain-English summary first, then technical detail: file paths / LOC / key decisions + optional verification request) but **do not surface a banner here** — the recap bundles into Step 6's 📦 gate. **Recap is recap-only — do not include the next-task suggestion in the recap; that lands after the commit (Step 6); see SPEC §"🚀 Phase 4: Closure" callout.**
+- **Phase 4: Closure (auto-run)** — run the doc-drift sweep across `.flowtron/tasknote/README.md` §"AI-referenced docs" (per-entry verdict: "no change" or the specific update), flip the PLAN.md line to the stub form `[x] **<TASK-ID>** [model] | shortname — Completed YYYY-MM-DD.` per SPEC/tasknote-selection.md §"`## Completed` archive convention" (drop the long description — the archived tasknote is the canonical record), move the line to the `## Completed` section, and move the tasknote file to `.flowtron/tasknote/archive/<area>/<TASK-ID>.md` as a single closure write. Draft the recap (1-2 sentence plain-English summary first, then technical detail: file paths / LOC / key decisions + optional verification request) but **do not surface a banner here** — the recap bundles into Step 6's 📦 gate. **Recap is recap-only — do not include the next-task suggestion in the recap; that lands after the commit (Step 6); see SPEC §"🚀 Phase 4: Closure" callout.**
 
 ## Step 6 — Post-closure protocol
 

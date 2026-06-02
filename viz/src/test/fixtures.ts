@@ -22,7 +22,7 @@ export interface FetchSeed {
 export function makeTasknote(partial: Partial<Tasknote> & Pick<Tasknote, 'id'>): Tasknote {
   return {
     id: partial.id,
-    path: partial.path ?? `/_project/tasknote/${partial.id}.md`,
+    path: partial.path ?? `/.flowtron/tasknote/${partial.id}.md`,
     frontmatter: partial.frontmatter ?? {
       title: partial.id,
       status: 'in-progress',

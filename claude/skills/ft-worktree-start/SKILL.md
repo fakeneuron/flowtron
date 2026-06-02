@@ -26,7 +26,7 @@ git status --porcelain
 ```
 
 - If not a git repo → stop. Tell the user to `cd` to the project root.
-- If the git-dir path contains `/worktrees/` → you are already inside a worktree checkout. Stop and tell the user to run this from the *main* project tree (the one that contains the full `_project/tasknote/` archive).
+- If the git-dir path contains `/worktrees/` → you are already inside a worktree checkout. Stop and tell the user to run this from the *main* project tree (the one that contains the full `.flowtron/tasknote/` archive).
 - If `git status --porcelain` is non-empty → warn loudly. The convention prefers a clean main checkout before creating the parallel branch + worktree. Offer to proceed anyway or abort.
 
 Resolve the task ID:
@@ -38,7 +38,7 @@ TASK_ID="<the first token from args>"
 Verify the source tasknote exists in the *current* tree:
 
 ```sh
-ls -l _project/tasknote/${TASK_ID}.md
+ls -l .flowtron/tasknote/${TASK_ID}.md
 ```
 
 If missing → stop. The child must be filed (and ideally have had at least its Phase 1 Discovery run) before you move it to a worktree. Point the user at `/ft-task ${TASK_ID}` first.
@@ -89,21 +89,21 @@ Follow the exact sequence from `docs/WORKTREES.md` §"Start / End Flow (Conceptu
 3. Copy the active tasknote into the worktree so the agent working there has the identical Phase 1 record (Goal, Acceptance, Discovery Notes, resolved questions, subtasks):
 
    ```sh
-   mkdir -p "${WT_DIR}/_project/tasknote"
-   cp "_project/tasknote/${TASK_ID}.md" "${WT_DIR}/_project/tasknote/${TASK_ID}.md"
+   mkdir -p "${WT_DIR}/.flowtron/tasknote"
+   cp ".flowtron/tasknote/${TASK_ID}.md" "${WT_DIR}/.flowtron/tasknote/${TASK_ID}.md"
    ```
 
    Verify the copy:
 
    ```sh
-   ls -l "${WT_DIR}/_project/tasknote/${TASK_ID}.md"
-   wc -l "${WT_DIR}/_project/tasknote/${TASK_ID}.md"
+   ls -l "${WT_DIR}/.flowtron/tasknote/${TASK_ID}.md"
+   wc -l "${WT_DIR}/.flowtron/tasknote/${TASK_ID}.md"
    ```
 
 4. (Optional but recommended) Also copy the tasknote directory's README if the operator relies on it for area prefixes in the worktree session:
 
    ```sh
-   cp "_project/tasknote/README.md" "${WT_DIR}/_project/tasknote/README.md" 2>/dev/null || true
+   cp ".flowtron/tasknote/README.md" "${WT_DIR}/.flowtron/tasknote/README.md" 2>/dev/null || true
    ```
 
 Leave the original tasknote in the main checkout untouched. The main copy remains the coordination point until `/ft-worktree-end` is run after merge.
@@ -115,7 +115,7 @@ Run from the *main* checkout:
 ```sh
 git worktree list
 git branch --list "${BRANCH}"
-ls -la "${WT_DIR}/_project/tasknote/${TASK_ID}.md"
+ls -la "${WT_DIR}/.flowtron/tasknote/${TASK_ID}.md"
 ```
 
 The worktree list should show both the main tree and the new `wt-...` entry pointing at the branch.
@@ -142,7 +142,7 @@ To continue the task in isolation:
 
 (If the original /ft-task run for this child used --fast, you can add it on the handoff invocation as well.)
 
-The copied tasknote at _project/tasknote/${TASK_ID}.md inside the worktree contains the full Phase 1 record (including any resolved scoping questions). The agent there will see an ordinary tasknote and drive the normal 4-phase flow.
+The copied tasknote at .flowtron/tasknote/${TASK_ID}.md inside the worktree contains the full Phase 1 record (including any resolved scoping questions). The agent there will see an ordinary tasknote and drive the normal 4-phase flow.
 
 When the child is complete (or you decide to discard the work), return to the *main* checkout and run:
 

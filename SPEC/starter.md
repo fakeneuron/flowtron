@@ -38,7 +38,7 @@ in `templates/tasknote-starter-template.md`.
 
 1. **Filing** (mid-flow): when AI surfaces rich context that warrants
    preserving, the `/ft-starter-task <ID>` skill writes the starter file at
-   `_project/tasknote/<ID>.md` and appends the PLAN.md entry under the
+   `.flowtron/tasknote/<ID>.md` and appends the PLAN.md entry under the
    appropriate priority section.
 2. **Sitting**: visualizers render a 🌱 chip on the row and exclude starters
    from "in progress" counts.

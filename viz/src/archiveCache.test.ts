@@ -20,7 +20,7 @@ async function makeProject(
   files: Record<string, string> = {},
 ): Promise<ProjectDescriptor> {
   const projectRoot = join(root, name);
-  const projectDir = join(projectRoot, '_project');
+  const projectDir = join(projectRoot, '.flowtron');
   const tasknoteDir = join(projectDir, 'tasknote');
   const archiveDir = join(tasknoteDir, 'archive');
   await mkdir(archiveDir, { recursive: true });
@@ -68,9 +68,9 @@ describe('createArchiveCache', () => {
     const project: ProjectDescriptor = {
       name: 'empty',
       root: join(root, 'empty'),
-      planPath: join(root, 'empty', '_project', 'PLAN.md'),
-      tasknoteDir: join(root, 'empty', '_project', 'tasknote'),
-      archiveDir: join(root, 'empty', '_project', 'tasknote', 'archive'),
+      planPath: join(root, 'empty', '.flowtron', 'PLAN.md'),
+      tasknoteDir: join(root, 'empty', '.flowtron', 'tasknote'),
+      archiveDir: join(root, 'empty', '.flowtron', 'tasknote', 'archive'),
       flowtronVersion: null,
     };
     const cache = createArchiveCache();

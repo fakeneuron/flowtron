@@ -2,7 +2,7 @@
 
 **Lazy-loaded vocabulary reference.** One-line definitions for the load-bearing terms, primitives, phases, markers, and grammar elements of the flowtron workflow contract. Pointers only — the authoritative text lives in `SPEC.md` (and lazy `SPEC/` modules + skills).
 
-Adopted from the GSD-Pi `CONTEXT.md` glossary pattern (the "mega-doc" slice that survived the one-task-per-window filter during CORE-EPIC-194 Discovery). See [CORE-194.1](../_project/tasknote/archive/core/CORE-194.1.md) for the extraction rationale and term-cohort decisions.
+Adopted from the GSD-Pi `CONTEXT.md` glossary pattern (the "mega-doc" slice that survived the one-task-per-window filter during CORE-EPIC-194 Discovery). See [CORE-194.1](../.flowtron/tasknote/archive/core/CORE-194.1.md) for the extraction rationale and term-cohort decisions.
 
 Alphabetized. ~51 entries. Maintained via epic children and audits.
 
@@ -10,9 +10,9 @@ Alphabetized. ~51 entries. Maintained via epic children and audits.
 
 **AGENTS.md** — The agent-neutral block adopters paste into their project `AGENTS.md`; defines the adopter-facing assistant surface (skills, commands, one-time wiring). Source: `claude/AGENTS-snippet.md`. See docs/MIGRATION.md §1.3.
 
-**AI-referenced docs** — The flat list in `_project/tasknote/README.md` §"AI-referenced docs" that every Phase 4 closure and epic-audit subtask walks for the doc-drift sweep. `SPEC/` lazy modules and `claude/skills/*` are deliberately excluded from the default cold-start set.
+**AI-referenced docs** — The flat list in `.flowtron/tasknote/README.md` §"AI-referenced docs" that every Phase 4 closure and epic-audit subtask walks for the doc-drift sweep. `SPEC/` lazy modules and `claude/skills/*` are deliberately excluded from the default cold-start set.
 
-**area prefix** — The leading token of a TASK-ID (e.g. `CORE-`, `FE-`, `BE-`); declares the scope bucket per SPEC §"Task ID convention". Adopters declare extra domain prefixes in their `_project/tasknote/README.md`.
+**area prefix** — The leading token of a TASK-ID (e.g. `CORE-`, `FE-`, `BE-`); declares the scope bucket per SPEC §"Task ID convention". Adopters declare extra domain prefixes in their `.flowtron/tasknote/README.md`.
 
 **audit-family** — The six forkable stack-scaffold audit skills and command stubs `/ft-audit{,-docs,-backend,-frontend,-performance,-security}`. `/ft-audit-context` is a standalone context-surface skill, not part of the family (it follows its own recipe — see SPEC §"Skill namespace"). Forking rules and naming (no `ft-` prefix on forks) in docs/MIGRATION.md §1.2.1.
 
@@ -114,4 +114,4 @@ Alphabetized. ~51 entries. Maintained via epic children and audits.
 
 **Maintenance.** This file is the survivor slice of the GSD-Pi `CONTEXT.md` pattern (see CORE-194.1). It is deliberately lazy-loaded and must never be added to the AI-referenced docs list. New terms are introduced only by epic children or audit follow-ups that also update the authoritative SPEC anchors. Last significant update: CORE-194.3 (2026-05-26).
 
-See [SPEC.md](../SPEC.md) for the contract and [_project/PLAN.md](../_project/PLAN.md) for the current epic context.
+See [SPEC.md](../SPEC.md) for the contract and [.flowtron/PLAN.md](../.flowtron/PLAN.md) for the current epic context.

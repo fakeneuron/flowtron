@@ -93,7 +93,7 @@ async function makeProject(
   opts: { planText?: string; tasknotes?: Record<string, string> } = {},
 ): Promise<ProjectDescriptor> {
   const projectRoot = join(root, name);
-  const projectDir = join(projectRoot, '_project');
+  const projectDir = join(projectRoot, '.flowtron');
   const tasknoteDir = join(projectDir, 'tasknote');
   const archiveDir = join(tasknoteDir, 'archive');
   await mkdir(archiveDir, { recursive: true });
@@ -110,9 +110,9 @@ describe('projectFromQuery', () => {
     const proj: ProjectDescriptor = {
       name: 'alpha',
       root: '/tmp/alpha',
-      planPath: '/tmp/alpha/_project/PLAN.md',
-      tasknoteDir: '/tmp/alpha/_project/tasknote',
-      archiveDir: '/tmp/alpha/_project/tasknote/archive',
+      planPath: '/tmp/alpha/.flowtron/PLAN.md',
+      tasknoteDir: '/tmp/alpha/.flowtron/tasknote',
+      archiveDir: '/tmp/alpha/.flowtron/tasknote/archive',
       flowtronVersion: null,
     };
     const projects = new Map([['alpha', proj]]);

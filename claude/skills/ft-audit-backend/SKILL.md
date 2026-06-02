@@ -1,6 +1,6 @@
 ---
 name: ft-audit-backend
-description: Backend-focused audit — 5 passes (Input & contracts · Error & lifecycle · Persistence · Async correctness · Observability), capped findings, writes tickets to `_project/PLAN.md`. Stack-neutral scaffold; adopters fork into `.claude/skills/audit-backend/` and customize framework + ORM + test commands. See `docs/MIGRATION.md` §1.2.1.
+description: Backend-focused audit — 5 passes (Input & contracts · Error & lifecycle · Persistence · Async correctness · Observability), capped findings, writes tickets to `.flowtron/PLAN.md`. Stack-neutral scaffold; adopters fork into `.claude/skills/audit-backend/` and customize framework + ORM + test commands. See `docs/MIGRATION.md` §1.2.1.
 ---
 
 # audit-backend — flowtron backend audit skill
@@ -57,15 +57,15 @@ Severity guide:
 
 1. **Summary** — health score 1–10 with one-sentence justification + top 3 issues (by severity, not pass order).
 2. **Exploratory Insights** — what the findings reveal about how the backend evolved. Patterns, not individual issues (e.g. "three N+1 findings cluster in the dashboard endpoints — suggests the dashboard module skipped the eager-load convention adopted elsewhere").
-3. **Proposed tasks for `_project/PLAN.md`** — prioritized, actionable tickets using flowtron's task-line grammar. One ticket per thematic cluster, not per finding. Present them inline so the user can review before anything is written to disk.
+3. **Proposed tasks for `.flowtron/PLAN.md`** — prioritized, actionable tickets using flowtron's task-line grammar. One ticket per thematic cluster, not per finding. Present them inline so the user can review before anything is written to disk.
 4. **Questions for the user** — anything ambiguous that blocks implementation. Use `AskUserQuestion`, not prose.
 
-## 5. Write the proposed tasks into `_project/PLAN.md` (required, not optional)
+## 5. Write the proposed tasks into `.flowtron/PLAN.md` (required, not optional)
 
 The deliverable is tickets in PLAN.md.
 
 1. **After** §§1–3 are presented and any `AskUserQuestion` blockers are answered, write tickets using flowtron's task-line grammar: `- [ ] **<AREA>-<N>** [model] | shortname — long description.` (primary labels `[heavy]🧠` / `[light]🔧` recommended; specifics e.g. `opus` / `sonnet` / `grok` remain valid per SPEC §"Model field"). See §"Task-line format".
-2. Pick the next free `<N>` per area prefix (valid prefixes in `_project/tasknote/README.md` §"Area prefixes" — typically `BE-`, `DB-`, `TEST-`).
+2. Pick the next free `<N>` per area prefix (valid prefixes in `.flowtron/tasknote/README.md` §"Area prefixes" — typically `BE-`, `DB-`, `TEST-`).
 3. Insert in correct priority section. Append `Surfaced by audit-backend YYYY-MM-DD (Finding #N, <severity>)`.
 4. **No code changes**, no formatters, no opening files for fixes. Tickets only.
 5. User pushes back on a ticket → drop it.
@@ -75,9 +75,9 @@ Zero findings across all passes → say so explicitly and skip the write.
 ## 6. Hard rules
 
 - **Targeted, not exhaustive.** Five findings per pass is a *ceiling*, not a target.
-- **Write tickets, not fixes.** `_project/PLAN.md` gets updated; source files do NOT.
+- **Write tickets, not fixes.** `.flowtron/PLAN.md` gets updated; source files do NOT.
 - **Don't repeat the type-checker.** If `mypy` / `pyright` / `tsc` already flagged it, surface the aggregate count once — don't enumerate each row as a finding.
 - **Verify N+1 before reporting.** Don't flag a `for x in xs: x.related` pattern as N+1 if `xs` was loaded with eager-load already. Read the loader.
 - **Don't audit adjacent code.** Stay inside the resolved scope.
-- **No final summary of what you just did.** The report + the `_project/PLAN.md` diff *are* the deliverable.
+- **No final summary of what you just did.** The report + the `.flowtron/PLAN.md` diff *are* the deliverable.
 - _(forker: append project-specific hard rules — e.g. "Every external API call has a timeout. No exceptions. Findings here are High minimum.")_

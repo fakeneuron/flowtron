@@ -18,7 +18,7 @@ async function makeAdopter(
   name: string,
   opts: { withTasknoteDir?: boolean } = {},
 ): Promise<void> {
-  const projectDir = join(root, name, '_project');
+  const projectDir = join(root, name, '.flowtron');
   await mkdir(projectDir, { recursive: true });
   await writeFile(join(projectDir, 'PLAN.md'), `## High\n\n- [ ] **${name.toUpperCase()}-001** — seed\n`);
   if (opts.withTasknoteDir ?? true) {
@@ -31,7 +31,7 @@ async function makeNonAdopterDir(name: string): Promise<void> {
 }
 
 describe('discoverProjects', () => {
-  it('finds dirs with _project/PLAN.md and skips others', async () => {
+  it('finds dirs with .flowtron/PLAN.md and skips others', async () => {
     await makeAdopter('alpha');
     await makeAdopter('beta');
     await makeNonAdopterDir('gamma');
@@ -53,9 +53,9 @@ describe('discoverProjects', () => {
     expect(projects[0]).toEqual({
       name: 'alpha',
       root: join(root, 'alpha'),
-      planPath: join(root, 'alpha', '_project', 'PLAN.md'),
-      tasknoteDir: join(root, 'alpha', '_project', 'tasknote'),
-      archiveDir: join(root, 'alpha', '_project', 'tasknote', 'archive'),
+      planPath: join(root, 'alpha', '.flowtron', 'PLAN.md'),
+      tasknoteDir: join(root, 'alpha', '.flowtron', 'tasknote'),
+      archiveDir: join(root, 'alpha', '.flowtron', 'tasknote', 'archive'),
       flowtronVersion: null,
     });
   });
@@ -67,13 +67,13 @@ describe('discoverProjects', () => {
 
     expect(projects).toHaveLength(1);
     expect(projects[0].name).toBe('lonely');
-    expect(projects[0].tasknoteDir).toBe(join(root, 'lonely', '_project', 'tasknote'));
+    expect(projects[0].tasknoteDir).toBe(join(root, 'lonely', '.flowtron', 'tasknote'));
   });
 
   it('skips dotfiles and dot-dirs', async () => {
     await makeAdopter('visible');
-    await mkdir(join(root, '.hidden', '_project'), { recursive: true });
-    await writeFile(join(root, '.hidden', '_project', 'PLAN.md'), '## High\n');
+    await mkdir(join(root, '.hidden', '.flowtron'), { recursive: true });
+    await writeFile(join(root, '.hidden', '.flowtron', 'PLAN.md'), '## High\n');
 
     const projects = await discoverProjects(root);
 

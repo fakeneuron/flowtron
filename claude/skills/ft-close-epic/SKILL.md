@@ -13,20 +13,20 @@ The skill takes the **audit subtask ID** as `args` (e.g., `args="CORE-057.6"`). 
 
 Two layouts. Pick by which file exists:
 
-- **Adopter project:** `_project/flowtron/SPEC.md` exists → `<root>` = `_project/flowtron/`.
+- **Adopter project:** `.flowtron/core/SPEC.md` exists → `<root>` = `.flowtron/core/`.
 - **Flowtron self-host:** repo-root `SPEC.md` with heading `# Flowtron — Workflow Specification` → `<root>` = repo-root.
 
 If neither matches, bail.
 
-Paths: SPEC=`<root>SPEC.md`, SPEC_DIR=`<root>SPEC/`, template=`<root>templates/tasknote-template.md`, PLAN=`_project/PLAN.md`, tasknote dir=`_project/tasknote/`.
+Paths: SPEC=`<root>SPEC.md`, SPEC_DIR=`<root>SPEC/`, template=`<root>templates/tasknote-template.md`, PLAN=`.flowtron/PLAN.md`, tasknote dir=`.flowtron/tasknote/`.
 
 After resolving, Read `<SPEC_DIR>/epic.md` for the canonical lifecycle before drafting anything.
 
 ## Step 1 — Pre-flight
 
-- `_project/PLAN.md` must exist (cwd is a flowtron-adopting project or flowtron itself).
+- `.flowtron/PLAN.md` must exist (cwd is a flowtron-adopting project or flowtron itself).
 - Parse `args` as `<AREA>-<NUMBER>.<SUB>`:
-  - **Area** must resolve per SPEC §"Task ID convention" or via `_project/tasknote/README.md`'s project-specific prefixes. Unknown prefix → stop and ask.
+  - **Area** must resolve per SPEC §"Task ID convention" or via `.flowtron/tasknote/README.md`'s project-specific prefixes. Unknown prefix → stop and ask.
   - **`.<SUB>` segment is required** — `/ft-close-epic` only runs against epic subtasks, not standalone tasks. If the ID matches `<AREA>-<NUMBER>` (no `.<SUB>` suffix), stop and tell the user "`/ft-close-epic` runs against the audit `.N` subtask of an epic, not a standalone task. Use `/ft-task <ID>` for standalone tasks."
 - Check `<tasknote dir>/<AUDIT-SUBTASK-ID>.md`:
   - If the file already exists with `status: in-progress`, stop and tell the user the audit tasknote is already in flight. Recommend continuing conversationally (e.g., "continue CORE-057.6") rather than restarting — this skill is start-only by design.
@@ -35,7 +35,7 @@ After resolving, Read `<SPEC_DIR>/epic.md` for the canonical lifecycle before dr
 
 ## Step 2 — Validate audit position and check sibling state
 
-Read `_project/PLAN.md`. Locate the parent epic ID by stripping the `.<SUB>` suffix and looking for `<AREA>-EPIC-<NUMBER>`:
+Read `.flowtron/PLAN.md`. Locate the parent epic ID by stripping the `.<SUB>` suffix and looking for `<AREA>-EPIC-<NUMBER>`:
 
 - If no parent epic line is found in PLAN.md (active OR `## Completed`), stop and tell the user no parent epic `<AREA>-EPIC-<NUMBER>` exists for the given audit ID. The audit subtask must be filed under a parent epic via `/ft-epic-discovery`.
 - If the parent epic line lives under `## Completed`, stop and surface the conflict — the parent has already been closed.
@@ -76,18 +76,18 @@ Pre-populate `## 🎯 Goal`, `## ✅ Acceptance`, and `## 🧩 Subtasks` with th
 
 **Goal (one sentence):**
 
-> Verify the completed `<AREA>-EPIC-<NUMBER>` (`<shortname>`) cohort sits coherently in the codebase: cumulative doc-drift sweep across `_project/tasknote/README.md` §"AI-referenced docs", naming/style consistency across the cohort's deliverables, and follow-up filings for any miss.
+> Verify the completed `<AREA>-EPIC-<NUMBER>` (`<shortname>`) cohort sits coherently in the codebase: cumulative doc-drift sweep across `.flowtron/tasknote/README.md` §"AI-referenced docs", naming/style consistency across the cohort's deliverables, and follow-up filings for any miss.
 
 **Acceptance (parameterized; the first criterion is the fixed doc-drift line per `SPEC/epic.md` §"Audit acceptance — fixed doc-drift line" and is non-negotiable):**
 
 ```markdown
-- [ ] **Doc-drift sweep (fixed line, per SPEC/epic.md §"Audit acceptance — fixed doc-drift line")** — for each entry in `_project/tasknote/README.md` §"AI-referenced docs", state "no change" or the specific update. Always present; surfaces cumulative slice-local staleness that per-task Phase 4 closures can miss.
+- [ ] **Doc-drift sweep (fixed line, per SPEC/epic.md §"Audit acceptance — fixed doc-drift line")** — for each entry in `.flowtron/tasknote/README.md` §"AI-referenced docs", state "no change" or the specific update. Always present; surfaces cumulative slice-local staleness that per-task Phase 4 closures can miss.
 - [ ] Cohort coherence inventory: each implementation child's deliverables read against the others (naming consistency, style parity, no contradictory cross-refs)
 - [ ] No regressions surfaced in earlier-shipped cohort children's surfaces
 - [ ] Audit findings recorded in Implementation Notes; misses cited as candidates for `/ft-file-followup <NEW-ID>` filing (filed AFTER audit closure to preserve `/ft-file-followup`'s filing-discipline gate)
 - [ ] Single `feat: <AUDIT-SUBTASK-ID> — audit <AREA>-EPIC-<NUMBER>` (or `chore: ...` if no code edits land) commit lands
 - [ ] PLAN.md line for `<AUDIT-SUBTASK-ID>` flipped to stub form `Completed YYYY-MM-DD.`
-- [ ] Tasknote moved to `_project/tasknote/archive/<area>/<AUDIT-SUBTASK-ID>.md`
+- [ ] Tasknote moved to `.flowtron/tasknote/archive/<area>/<AUDIT-SUBTASK-ID>.md`
 - [ ] Parent-flip prompt surfaced after audit closure (skill Step 8) — user confirms or declines flipping `<AREA>-EPIC-<NUMBER>` to `Completed` and moving the cohort to `## Completed`
 ```
 
@@ -95,7 +95,7 @@ Pre-populate `## 🎯 Goal`, `## ✅ Acceptance`, and `## 🧩 Subtasks` with th
 
 ```markdown
 - [ ] Inventory cohort children's archived tasknotes — read each implementation child's Final Summary + Implementation Notes; capture deliverables in Discovery Notes
-- [ ] Walk `_project/tasknote/README.md` §"AI-referenced docs" entries — fixed doc-drift sweep
+- [ ] Walk `.flowtron/tasknote/README.md` §"AI-referenced docs" entries — fixed doc-drift sweep
 - [ ] Cohort coherence pass — naming consistency, style parity, no contradictory cross-refs across the cohort's deliverables
 - [ ] Surface audit findings in Implementation Notes; cite each miss as a `/ft-file-followup <NEW-ID>` candidate
 - [ ] Phase 4: flip `<AUDIT-SUBTASK-ID>` PLAN line to stub form + archive tasknote
@@ -153,7 +153,7 @@ Walk the Phase 4 checklist for the audit subtask itself. **No banner here** — 
 
 ## Step 8 — Parent-epic flip eligibility (no banner)
 
-After the audit closes cleanly, scan `_project/PLAN.md` for the parent epic line + all its children. Determine eligibility:
+After the audit closes cleanly, scan `.flowtron/PLAN.md` for the parent epic line + all its children. Determine eligibility:
 
 - All children `[x]` (including the audit just closed) → **all-children-closed**: parent-flip is eligible. The Yes/No prompt fires inside Step 9's 📦 bundle.
 - Any child `[ ]` (typical only when Step 2's early-audit gate was bypassed) → **not-all-closed**: parent-flip is **not eligible**. Note the open children for surfacing inside Step 9's bundle as a heads-up; the prompt is skipped.

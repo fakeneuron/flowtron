@@ -5,7 +5,7 @@ Flowtron is a workflow system for one person — me — built to keep my solo AI
 ## Maintenance model
 
 - **One maintainer.** Flowtron is solo-maintained. Roadmap, scope, and release timing are all judgment calls I make per-project. [docs/PHILOSOPHY.md](docs/PHILOSOPHY.md) explains the "why" — flowtron exists because it works for *my* workflow, and growing that into a community-driven project would change what it is.
-- **AI-assisted.** Most edits land via Claude Code sessions, including the tasknotes that document them. The development log lives in `_project/PLAN.md` and `_project/tasknote/archive/` — a complete history of every non-trivial change with rationale.
+- **AI-assisted.** Most edits land via Claude Code sessions, including the tasknotes that document them. The development log lives in `.flowtron/PLAN.md` and `.flowtron/tasknote/archive/` — a complete history of every non-trivial change with rationale.
 - **Adoption-first.** Flowtron is designed to be vendored into your project as a git submodule pinned to a specific commit. You stay in control of when (and whether) to bump. See [docs/MIGRATION.md](docs/MIGRATION.md) for the adoption recipe.
 
 ## Filing issues

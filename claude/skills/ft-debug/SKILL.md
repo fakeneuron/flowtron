@@ -19,7 +19,7 @@ A trailing `--fast` / `-f` is the only other accepted token after the ID.
 
 Two layouts. Pick by which file exists:
 
-- **Adopter project:** `_project/flowtron/SPEC.md` exists → `<root>` = `_project/flowtron/`.
+- **Adopter project:** `.flowtron/core/SPEC.md` exists → `<root>` = `.flowtron/core/`.
 - **Flowtron self-host:** repo-root `SPEC.md` with heading `# Flowtron — Workflow Specification` → `<root>` = repo-root.
 
 If neither matches, bail.
@@ -29,7 +29,7 @@ Paths this skill uses:
 - SPEC_DIR (lazy modules `epic.md` · `starter.md` · `blocked.md` · `model.md` · `versioning.md`): `<root>SPEC/`
 - SKILL_DIR: `<root>claude/skills/ft-debug/` (no private fragments in v1; falls back to same mental model as ft-task)
 - Template: `<root>templates/tasknote-template.md`
-- PLAN: `_project/PLAN.md`, tasknote dir: `_project/tasknote/` (always)
+- PLAN: `.flowtron/PLAN.md`, tasknote dir: `.flowtron/tasknote/` (always)
 
 **Parse `args`.** Split on whitespace into `(TASK-ID, rest...)`. Branch on `rest`:
 
@@ -54,7 +54,7 @@ Resolve Area, epic-ID dispatch (read `SPEC/epic.md` for `<AREA>-<N>.<sub>`), arc
 ## Step 3a / 3b / 3c — Promote, Scaffold, Resume (identical to /ft-task)
 
 - Starter promotion: read `SPEC/starter.md` + the promote fragment if present.
-- Fresh scaffold: copy `templates/tasknote-template.md` to `_project/tasknote/<TASK-ID>.md`, fill title from shortname or description, status `in-progress`, created date, related-tasks from context (parent epic for children), leave checklists empty for Phase 1 population.
+- Fresh scaffold: copy `templates/tasknote-template.md` to `.flowtron/tasknote/<TASK-ID>.md`, fill title from shortname or description, status `in-progress`, created date, related-tasks from context (parent epic for children), leave checklists empty for Phase 1 population.
 - Blocked resume: read `SPEC/blocked.md` + resume fragment.
 
 All mechanics identical. The debug flavor appears in the *content* the operator records during Phase 1, not in the scaffolding shape.
@@ -121,7 +121,7 @@ If a hard dependency surfaces mid-execution, read `SPEC/blocked.md` and park the
 
 ## Step 7 — Phase 4: Closure + Post-closure (identical to /ft-task)
 
-Doc-drift sweep across the AI-referenced docs in `_project/tasknote/README.md`, flip the PLAN.md line to the stub `Completed YYYY-MM-DD.` form, move the tasknote to `archive/<area>/`, draft the recap (1-2 sentence plain-English summary first, then technical detail + verification request), then the conditional skip / 📦 gate logic, commit protocol, next-move suggestions, and copy-paste cue — all exactly as `/ft-task` Step 5 / Step 6.
+Doc-drift sweep across the AI-referenced docs in `.flowtron/tasknote/README.md`, flip the PLAN.md line to the stub `Completed YYYY-MM-DD.` form, move the tasknote to `archive/<area>/`, draft the recap (1-2 sentence plain-English summary first, then technical detail + verification request), then the conditional skip / 📦 gate logic, commit protocol, next-move suggestions, and copy-paste cue — all exactly as `/ft-task` Step 5 / Step 6.
 
 The recap should mention the top hypothesis that was ultimately addressed and whether the minimal repro now passes.
 

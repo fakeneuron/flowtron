@@ -1,6 +1,6 @@
 # flowtron stats — 2026-06-02
 
-Source: `_project/PLAN.md` `## Completed` — 305 entries parsed
+Source: `.flowtron/PLAN.md` `## Completed` — 305 entries parsed
 Last 30d window: 2026-05-03 → 2026-06-02 (inclusive)
 
 ## Model distribution

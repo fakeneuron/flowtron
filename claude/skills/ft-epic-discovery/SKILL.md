@@ -13,7 +13,7 @@ The skill takes one optional argument: `--deep`. When passed, it stages a `const
 
 Two layouts. Pick by which file exists:
 
-- **Adopter project:** `_project/flowtron/SPEC.md` exists → `<root>` = `_project/flowtron/`.
+- **Adopter project:** `.flowtron/core/SPEC.md` exists → `<root>` = `.flowtron/core/`.
 - **Flowtron self-host:** repo-root `SPEC.md` with heading `# Flowtron — Workflow Specification` → `<root>` = repo-root.
 
 If neither matches, bail.
@@ -22,13 +22,13 @@ Paths this skill uses:
 - SPEC: `<root>SPEC.md` (always loaded core)
 - SPEC_DIR (lazy modules `epic.md`): `<root>SPEC/`
 - Template: `<root>templates/tasknote-template.md`
-- PLAN: `_project/PLAN.md`, tasknote dir: `_project/tasknote/` (always)
+- PLAN: `.flowtron/PLAN.md`, tasknote dir: `.flowtron/tasknote/` (always)
 
 After resolving paths, Read `<SPEC_DIR>/epic.md` for the canonical lifecycle before drafting anything.
 
 ## Step 1 — Pre-flight
 
-- `_project/PLAN.md` must exist (cwd is a flowtron-adopting project or flowtron itself).
+- `.flowtron/PLAN.md` must exist (cwd is a flowtron-adopting project or flowtron itself).
 - The conversation should already have surfaced enough context to motivate filing an epic: a problem worth bracketing with Discovery + Audit subtasks, not a single-task scope. If the conversation has only surfaced a single-task scope, surface to the user: "This looks like single-task scope rather than an epic — recommend `/ft-starter-task <ID>` or a one-line PLAN.md filing instead." Do not proceed unless the user confirms epic scope.
 
 ## Step 1.5 — Parse `$ARGUMENTS`
@@ -45,7 +45,7 @@ The skill recognizes one optional argument: `--deep`. Branch:
 
 Use AskUserQuestion to gather all inputs in one motion. Pre-populate from conversation context where possible — the AI proposes; the user confirms or overrides:
 
-1. **Area** — per SPEC §"Task ID convention"; any project-specific prefixes declared in `_project/tasknote/README.md`. AI proposes from conversation context.
+1. **Area** — per SPEC §"Task ID convention"; any project-specific prefixes declared in `.flowtron/tasknote/README.md`. AI proposes from conversation context.
 2. **Shortname** — concise label up to ~30 chars (e.g., `expand-shipped-skills`, `viz-keyboard-overhaul`). Used as the parent epic's `| shortname` segment.
 3. **Priority** — `High | Medium | Low | Future Opportunities`. AI proposes its best read. For urgent epics, propose `High` with a `[!critical]` flag on the parent (see SPEC §"Task-line format").
 4. **Model** — see `SPEC/model.md` §"Model field" (and its "Practical guidance and agent-aware defaults" subsection) for examples and realistic defaults (mid-tier models like Grok/Sonnet often `[medium]`, or `[light]` for mechanical work); AI proposes a token (primary labels or specific name); goes on every PLAN.md line this skill writes.
@@ -55,7 +55,7 @@ The user may decline the audit subtask if the epic is a simple multi-child imple
 
 ## Step 3 — Resolve next available `<AREA>-EPIC-<N>`
 
-Scan `_project/PLAN.md` AND `_project/tasknote/archive/<area>/` for the highest used numeric suffix in the chosen area, considering BOTH regular task IDs (`<AREA>-NNN`, `<AREA>-NNN.M`) AND epic IDs (`<AREA>-EPIC-NNN`). Per SPEC §"Task ID convention": `<AREA>-EPIC-<N>` and `<AREA>-<N>.<sub>` share the numeric suffix — the epic and its children use the same N.
+Scan `.flowtron/PLAN.md` AND `.flowtron/tasknote/archive/<area>/` for the highest used numeric suffix in the chosen area, considering BOTH regular task IDs (`<AREA>-NNN`, `<AREA>-NNN.M`) AND epic IDs (`<AREA>-EPIC-NNN`). Per SPEC §"Task ID convention": `<AREA>-EPIC-<N>` and `<AREA>-<N>.<sub>` share the numeric suffix — the epic and its children use the same N.
 
 Compute `next-N = max-used + 1`. The new parent epic ID = `<AREA>-EPIC-<next-N>`; children will be `<AREA>-<next-N>.1` (Discovery), `<AREA>-<next-N>.<N>` (audit), and `<AREA>-<next-N>.2..(N-1)` (implementation, filed during Phase 2).
 
@@ -75,7 +75,7 @@ The user may override the numeric suffix (e.g., to align with an externally-trac
 
 ## Step 4 — File the PLAN.md lines
 
-Append to `_project/PLAN.md` under the chosen `## <Priority>` heading. Use the canonical task-line grammar (SPEC §"Task-line format"). Three lines (or two if N excludes audit), nested with 2-space indent under the parent for the subtask lines:
+Append to `.flowtron/PLAN.md` under the chosen `## <Priority>` heading. Use the canonical task-line grammar (SPEC §"Task-line format"). Three lines (or two if N excludes audit), nested with 2-space indent under the parent for the subtask lines:
 
 ```markdown
 - [ ] **<AREA>-EPIC-<next-N>** [<model>] | <shortname> — One-paragraph epic description (filed via /ft-epic-discovery; refined at .1 closure).
@@ -87,7 +87,7 @@ Placement:
 
 - If the priority section already has entries, append to the bottom of that section.
 - If the section carries a `(none)` placeholder, replace the placeholder with the new entries.
-- Preserve the 2-space child indent on the `.1` and `.N` lines (per CORE-EPIC-057 cohort in `_project/PLAN.md`: `  - [ ] **CORE-057.1** ...`).
+- Preserve the 2-space child indent on the `.1` and `.N` lines (per CORE-EPIC-057 cohort in `.flowtron/PLAN.md`: `  - [ ] **CORE-057.1** ...`).
 
 Do NOT pre-write `.2..(N-1)` lines here — that is the Discovery's Phase 2 deliverable.
 
@@ -108,14 +108,14 @@ Pre-populate `## 🎯 Goal`, `## ✅ Acceptance`, and `## 🧩 Subtasks` with th
 
 **Goal (one sentence):**
 
-> Scope the `<AREA>-EPIC-<next-N>` epic (`<shortname>`) before any implementation child fires; deliverable = filed concrete child scopes for `<AREA>-<next-N>.2..(N-1)` in `_project/PLAN.md`.
+> Scope the `<AREA>-EPIC-<next-N>` epic (`<shortname>`) before any implementation child fires; deliverable = filed concrete child scopes for `<AREA>-<next-N>.2..(N-1)` in `.flowtron/PLAN.md`.
 
 **Acceptance (parameterized):**
 
 ```markdown
 - [ ] Shared design surface inventoried for the epic (sources, adopter wiring, SPEC contract impact, templates) — captured in Discovery Notes
 - [ ] Open scoping questions resolved with the user via AskUserQuestion — captured in a "Resolved scoping" table in Discovery Notes
-- [ ] Concrete child scopes for <AREA>-<next-N>.2 .. <AREA>-<next-N>.<N-1> filed in _project/PLAN.md (each line under the 50w target / 70w hard cap per SPEC/tasknote-selection.md §"PLAN.md filing-discipline thresholds")
+- [ ] Concrete child scopes for <AREA>-<next-N>.2 .. <AREA>-<next-N>.<N-1> filed in .flowtron/PLAN.md (each line under the 50w target / 70w hard cap per SPEC/tasknote-selection.md §"PLAN.md filing-discipline thresholds")
 - [ ] Audit line <AREA>-<next-N>.<N> reviewed and confirmed as-filed (or rewritten if the Discovery surfaces a scope shift)
 - [ ] Phase 4 doc-drift sweep at closure: typically no AI-referenced doc updates land in pure Discovery filing (contract edits land inside the implementation children)
 ```
@@ -124,11 +124,11 @@ Pre-populate `## 🎯 Goal`, `## ✅ Acceptance`, and `## 🧩 Subtasks` with th
 
 ```markdown
 - [ ] Inventory shared design surface (source files, adopter-wiring surfaces, SPEC contract impact, templates) — log in Discovery Notes
-- [ ] Skim _project/tasknote/archive/<area>/ for relevant precedents — log load-bearing findings in Discovery Notes
+- [ ] Skim .flowtron/tasknote/archive/<area>/ for relevant precedents — log load-bearing findings in Discovery Notes
 - [ ] Drift check on cited paths and concepts — flag any drift before re-interpreting the epic
 - [ ] Surface open scoping questions via AskUserQuestion (typical: per-child shortname + scope + adopter-wiring policy) — record answers in a "Resolved scoping" table
 - [ ] Draft refined long descriptions for <AREA>-<next-N>.2 .. <AREA>-<next-N>.<N-1>; word-count each (≤50w target / 70w hard cap)
-- [ ] Phase 2: write the drafted child lines into _project/PLAN.md under <AREA>-EPIC-<next-N> with 2-space indent
+- [ ] Phase 2: write the drafted child lines into .flowtron/PLAN.md under <AREA>-EPIC-<next-N> with 2-space indent
 - [ ] Phase 3: markdown mental-pass on the PLAN.md edits (grammar / indent / cross-refs)
 - [ ] Phase 4: doc-drift sweep + flip .1 PLAN line to stub form + archive tasknote
 ```
@@ -194,7 +194,7 @@ Do not enter Phase 2 until every Phase 1 box is ticked. Once ticked, apply the S
 The Phase 2 deliverable is the filed child lines. Walk the Phase 2 checklist:
 
 - **Pattern survey** — the existing CORE-EPIC-057 children are the closest precedent for the cohort-children filing pattern (2-space indent under the parent; `[<model>]` tag preserved on every line; em-dash separator; per-child long description ≤50w target / 70w hard cap).
-- **Implemented the minimal solution** — write the drafted `.2..(N-1)` child lines into `_project/PLAN.md` directly under the existing `.1` Discovery line, before the `.N` audit line (or at the bottom if N excluded audit). Preserve the 2-space child indent. Word-count each line; rewrite if any breach the 70w cap.
+- **Implemented the minimal solution** — write the drafted `.2..(N-1)` child lines into `.flowtron/PLAN.md` directly under the existing `.1` Discovery line, before the `.N` audit line (or at the bottom if N excluded audit). Preserve the 2-space child indent. Word-count each line; rewrite if any breach the 70w cap.
 - **Updated/added tests** — N/A (pure PLAN.md filing; no executable code surface).
 
 Capture in Implementation Notes: the count of lines written, word-count per line, and any audit-number bump (if Discovery decided N was wrong and the audit's number shifted).

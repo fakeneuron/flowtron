@@ -9,7 +9,7 @@ You are cutting a flowtron release. The recipe is canonical (CORE-048 / CORE-046
 
 This skill is **flowtron-self only**. It is symlinked under `~/.claude/skills/ft-release` and `~/.claude/commands/ft-release.md` for global invocation, but it never runs in adopter projects. Step 0 enforces this.
 
-The release task ID must already be filed in `_project/PLAN.md` as a one-line entry — for example:
+The release task ID must already be filed in `.flowtron/PLAN.md` as a one-line entry — for example:
 
 ```text
 - [ ] **<TASK-ID>** [model] | release vX.Y.Z — Cut vX.Y.Z minor release tagging <FEAT-A> + <FEAT-B> since v<prev>.
@@ -22,14 +22,14 @@ The release task ID must already be filed in `_project/PLAN.md` as a one-line en
 The skill bails if invoked outside flowtron's own checkout:
 
 - `SPEC.md` exists at the repo root with the heading `# Flowtron — Workflow Specification` on line 1.
-- `_project/PLAN.md` exists (flowtron's own PLAN.md, not an adopter's `_project/flowtron/PLAN.md`).
-- `_project/flowtron/SPEC.md` does NOT exist (its presence means we're inside an adopting project — `/ft-release` must not run there).
+- `.flowtron/PLAN.md` exists (flowtron's own PLAN.md, not an adopter's `.flowtron/core/PLAN.md`).
+- `.flowtron/core/SPEC.md` does NOT exist (its presence means we're inside an adopting project — `/ft-release` must not run there).
 
 If any check fails, stop. Tell the user `/ft-release` only runs from inside the flowtron repo (typical: `~/code/flowtron`). Do not modify any files.
 
 ## Step 1 — Find the pending release task in PLAN.md
 
-Read `_project/PLAN.md`. Scan un-checked task lines under `## High | Medium | Low` (and `## Critical` if a legacy heading is still present — see SPEC §"Task-line format"; skip `## Completed` and `## Future Opportunities`) whose `| <shortname>` segment matches `release v*` (case-insensitive — e.g., `release vX.Y.Z`).
+Read `.flowtron/PLAN.md`. Scan un-checked task lines under `## High | Medium | Low` (and `## Critical` if a legacy heading is still present — see SPEC §"Task-line format"; skip `## Completed` and `## Future Opportunities`) whose `| <shortname>` segment matches `release v*` (case-insensitive — e.g., `release vX.Y.Z`).
 
 - **Zero matches.** Stop. Tell the user "No pending `release v*` task in PLAN.md. File a one-liner first (e.g., `**<TASK-ID>** [model] | release vX.Y.Z — ...`), then run `/ft-release` again." Do not scaffold.
 - **Multiple matches.** Stop. List the matches and tell the user `/ft-release` requires exactly one pending release task. Ask them to close/de-scope the duplicates or restructure to a single line. Do not scaffold.
@@ -81,7 +81,7 @@ If the proposed bump and the PLAN-line target match, the user confirms in one sh
 
 ## Step 3 — Scaffold the release tasknote
 
-Copy `templates/tasknote-template.md` to `_project/tasknote/<TASK-ID>.md` and populate the frontmatter:
+Copy `templates/tasknote-template.md` to `.flowtron/tasknote/<TASK-ID>.md` and populate the frontmatter:
 
 - `title:` — the PLAN-line shortname (e.g., `release vX.Y.Z`).
 - `status:` — `in-progress`.
@@ -99,12 +99,12 @@ Acceptance (parameterized):
 - [ ] docs/MIGRATION.md example pin bumped `vX.Y.Z` → `vA.B.C`
 - [ ] SECURITY.md release-tag example pin bumped `vX.Y.Z` → `vA.B.C`
 - [ ] `viz/src/ui/constants.ts` `VIZ_VERSION` bumped `vX.Y.Z` → `vA.B.C`
-- [ ] Phase 4 doc-drift sweep run across all `_project/tasknote/README.md` §"AI-referenced docs" entries
+- [ ] Phase 4 doc-drift sweep run across all `.flowtron/tasknote/README.md` §"AI-referenced docs" entries
 - [ ] Single `feat: <TASK-ID> — flowtron vA.B.C (...)` commit lands
 - [ ] Annotated `vA.B.C` tag created with adopter-facing release notes
 - [ ] Tag pushed to origin
 - [ ] PLAN.md line flipped to stub form under `## Completed`
-- [ ] Tasknote archived to `_project/tasknote/archive/core/<TASK-ID>.md`
+- [ ] Tasknote archived to `.flowtron/tasknote/archive/core/<TASK-ID>.md`
 ```
 
 Subtasks (parameterized): mirror CORE-048's 6-line subtask list with the same shape — line-numbered references will need re-resolution via grep at execution time (they drift between releases).
@@ -116,7 +116,7 @@ Walk the Phase 1 checklist per SPEC §"📝 Phase 1: Discovery". Most boxes tick
 - **Reviewed PLAN.md** — already done in Step 1 of this skill.
 - **Relevance Assessment** — Verdict: Proceed. Rationale: bump pattern is well-established; commit log + version drift verified in Step 2.
 - **Read relevant source files** — `SPEC.md:3`, `docs/MIGRATION.md` example pin (grep for `(e.g., v`).
-- **Archive skim** — `_project/tasknote/archive/core/` for prior release tasknotes (CORE-048, CORE-046, CORE-043). Note any structural drift in their precedents that this release should account for.
+- **Archive skim** — `.flowtron/tasknote/archive/core/` for prior release tasknotes (CORE-048, CORE-046, CORE-043). Note any structural drift in their precedents that this release should account for.
 - **Drift check** — verify the cited locations: `SPEC.md:3` reads `**Version:** vX.Y.Z`; docs/MIGRATION.md grep returns one example pin at `(e.g., vX.Y.Z)`. Surface any drift before continuing.
 - **Adopter migration impact** — for each commit since the last tag, classify whether it requires adopter action (new template section, new doc-set entry, BREAKING change with migration steps). Capture findings in Discovery Notes — feeds the Migration block of the tag message in Phase 4. CORE-047 (in CORE-048's release) is the canonical example of a context-sensitive migration block.
 - **Clarifying questions** — typically none. If the bump is major, or if any commit's adopter impact is ambiguous, AskUserQuestion to confirm the migration block contents.
@@ -139,7 +139,7 @@ Verify post-edit with a single grep across the live doc set:
 grep -rn 'vX\.Y\.Z' SPEC.md SPEC/ docs/ README.md SECURITY.md templates/ claude/ viz/src/ui/constants.ts 2>/dev/null
 ```
 
-The four pins above should be clean. **`last-verified` stamps — verify, don't bump.** Since CORE-224 the doc set carries `last-verified` version stamps (`docs/AGENT-COMPAT.md`, `claude/CAPABILITIES.md`, and per-agent `docs/PLATFORMS.md` stubs) formatted `vX.Y.Z · YYYY-MM[-DD] (context-tag)`. These are **not** release pins: per the convention's update obligation (AGENT-COMPAT.md §"Reading the cells"), they refresh only on a first flowtron session under that agent or after a **major** version bump — a routine minor/patch cut leaves them. So the grep above surfaces the old `vX.Y.Z` inside these stamps as **expected residue, not drift**: on a minor/patch release confirm the only remaining hits are these stamps and move on; on a major bump, re-verify and refresh them (version + date + context-tag) as part of the cut. Archived tasknotes under `_project/tasknote/archive/` are write-once and keep their historical version refs.
+The four pins above should be clean. **`last-verified` stamps — verify, don't bump.** Since CORE-224 the doc set carries `last-verified` version stamps (`docs/AGENT-COMPAT.md`, `claude/CAPABILITIES.md`, and per-agent `docs/PLATFORMS.md` stubs) formatted `vX.Y.Z · YYYY-MM[-DD] (context-tag)`. These are **not** release pins: per the convention's update obligation (AGENT-COMPAT.md §"Reading the cells"), they refresh only on a first flowtron session under that agent or after a **major** version bump — a routine minor/patch cut leaves them. So the grep above surfaces the old `vX.Y.Z` inside these stamps as **expected residue, not drift**: on a minor/patch release confirm the only remaining hits are these stamps and move on; on a major bump, re-verify and refresh them (version + date + context-tag) as part of the cut. Archived tasknotes under `.flowtron/tasknote/archive/` are write-once and keep their historical version refs.
 
 Tick boxes; populate Implementation Notes with the diff shape (typical: 4 files, +4/−4).
 
@@ -164,13 +164,13 @@ Walk the closure steps in order. Tag-message review (§7.2) and the bundled 📦
 
 ### 7.1 — Doc-drift sweep (via `/ft-audit-docs` subroutine)
 
-Invoke the flowtron-self `ft-audit-docs` skill in **subroutine mode** with the default scope (the AI-referenced docs set declared in `_project/tasknote/README.md` §"AI-referenced docs"):
+Invoke the flowtron-self `ft-audit-docs` skill in **subroutine mode** with the default scope (the AI-referenced docs set declared in `.flowtron/tasknote/README.md` §"AI-referenced docs"):
 
 ```text
 Skill(ft-audit-docs)
 ```
 
-`ft-audit-docs` walks its 5 passes (Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content) over the 4-file set and returns the report inline. In subroutine mode it does **not** write tickets to `_project/PLAN.md`; the release skill is the orchestrator and decides per finding whether to absorb the fix into the current cut.
+`ft-audit-docs` walks its 5 passes (Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content) over the 4-file set and returns the report inline. In subroutine mode it does **not** write tickets to `.flowtron/PLAN.md`; the release skill is the orchestrator and decides per finding whether to absorb the fix into the current cut.
 
 For each returned finding:
 - **Critical / High** — fix inline as part of the release cut (the 4 doc edits in Phase 2 normally clear the routine SPEC + MIGRATION + SECURITY version-pin drift; anything else surfaced here gets the same treatment).
@@ -207,20 +207,20 @@ Lock the tag message when the user approves. Save it for use in step 7.5.
 
 Write the tasknote's `**Final Summary:**` block (one paragraph: what shipped + adopter-impact summary) and set `**Archived:** YYYY-MM-DD`.
 
-Edit `_project/PLAN.md`:
+Edit `.flowtron/PLAN.md`:
 
 - Replace the un-checked release task line with stub form: `- [x] **<TASK-ID>** [<model>] | <shortname> — Completed YYYY-MM-DD.` (drop the long description per SPEC/tasknote-selection.md §"`## Completed` archive convention").
 - Move the line from its current section to the top of `## Completed`.
 
-Move the tasknote file with a plain `mv` — it was copied fresh in Step 3 and never committed, so it is **untracked** and `git mv` fails (`fatal: not under version control`): `mv _project/tasknote/<TASK-ID>.md _project/tasknote/archive/core/<TASK-ID>.md`. The §7.4 `git add` stages the archived file.
+Move the tasknote file with a plain `mv` — it was copied fresh in Step 3 and never committed, so it is **untracked** and `git mv` fails (`fatal: not under version control`): `mv .flowtron/tasknote/<TASK-ID>.md .flowtron/tasknote/archive/core/<TASK-ID>.md`. The §7.4 `git add` stages the archived file.
 
 ### 7.4 — Stage and surface the 📦 ready-to-commit gate
 
 Stage explicitly (do NOT use `git add .` or `-A` — there may be unrelated unstaged work):
 
 ```sh
-git add SPEC.md docs/MIGRATION.md SECURITY.md viz/src/ui/constants.ts _project/PLAN.md
-git add _project/tasknote/archive/core/<TASK-ID>.md
+git add SPEC.md docs/MIGRATION.md SECURITY.md viz/src/ui/constants.ts .flowtron/PLAN.md
+git add .flowtron/tasknote/archive/core/<TASK-ID>.md
 ```
 
 (The Step 7.3 `mv` left the archived tasknote untracked; the explicit `git add` here stages it.)
@@ -259,7 +259,7 @@ The post-closure protocol is canonical in SPEC §"Post-closure protocol" (steps 
 - **🏁 post-commit state-marker** — once §7.5's operations land (commit + tag + push on push-go Yes; commit + tag only on push-go No), emit the marker per SPEC §"Post-closure protocol" step 2:
 
   ```markdown
-  🏁 **<TASK-ID> — committed `<sha>`, tagged `vA.B.C`** · archived to `_project/tasknote/archive/core/<TASK-ID>.md`
+  🏁 **<TASK-ID> — committed `<sha>`, tagged `vA.B.C`** · archived to `.flowtron/tasknote/archive/core/<TASK-ID>.md`
   <1-2 sentence plain-English summary of what shipped + adopter-impact>
   ```
 

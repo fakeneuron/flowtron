@@ -1,14 +1,14 @@
 ---
 name: ft-stats
-description: Show flowtron stats — `[model]` distribution, completion velocity, per-area volume — aggregated from `_project/PLAN.md` `## Completed` data. Read-only; with `--write`, also flushes the screen to `_project/STATS.md`.
+description: Show flowtron stats — `[model]` distribution, completion velocity, per-area volume — aggregated from `.flowtron/PLAN.md` `## Completed` data. Read-only; with `--write`, also flushes the screen to `.flowtron/STATS.md`.
 ---
 
 # flowtron — stats screen
 
 Output an analysis screen aggregating the `## Completed` data in
-`_project/PLAN.md`: `[model]` distribution, completion velocity, and per-area
+`.flowtron/PLAN.md`: `[model]` distribution, completion velocity, and per-area
 volume. Read-only by default. With the `--write` arg, also flushes the same
-screen content to `_project/STATS.md` (overwrite).
+screen content to `.flowtron/STATS.md` (overwrite).
 
 The skill is markdown-only — the assistant does the parsing and aggregation
 inline at invocation time, like every other flowtron skill. No CLI, no
@@ -16,12 +16,12 @@ executable surface (per `SPEC.md` §"What flowtron does NOT provide").
 
 ## Step 0 — Resolve inputs and args
 
-- **PLAN.md path:** `_project/PLAN.md` (identical in flowtron-self and adopter
+- **PLAN.md path:** `.flowtron/PLAN.md` (identical in flowtron-self and adopter
   contexts — adopters keep their own PLAN.md at this path; flowtron-self uses
   the same path for its own roadmap). If the file is absent, stop and tell
   the user this directory doesn't look like a flowtron-using project.
 - **Args:** if `$ARGUMENTS` contains the token `--write` (whitespace-delimited),
-  set `WRITE_OUT = _project/STATS.md`; otherwise `WRITE_OUT = null`. Unknown
+  set `WRITE_OUT = .flowtron/STATS.md`; otherwise `WRITE_OUT = null`. Unknown
   args (anything other than `--write`) → stop and surface the usage:
   `Usage: /ft-stats [--write]`. Do not write or print stats.
 - **Today's date:** use the conversation's `# currentDate` reminder if
@@ -122,7 +122,7 @@ from Step 2.
 ```text
 # flowtron stats — <today>
 
-Source: `_project/PLAN.md` `## Completed` — <N> entries parsed<, M skipped>
+Source: `.flowtron/PLAN.md` `## Completed` — <N> entries parsed<, M skipped>
 Last 30d window: <today − 30> → <today> (inclusive)
 
 ## Model distribution
@@ -142,14 +142,14 @@ The `, M skipped` segment is omitted entirely when no lines were skipped.
 ## Step 4 — Optional `--write`
 
 If `WRITE_OUT` was set in Step 0, write the **same screen content** (exactly
-what was printed in Step 3, verbatim) to `_project/STATS.md` (overwrite). Then
+what was printed in Step 3, verbatim) to `.flowtron/STATS.md` (overwrite). Then
 print one confirmation line beneath the screen:
 
 ```text
-Wrote `_project/STATS.md` (<N> entries).
+Wrote `.flowtron/STATS.md` (<N> entries).
 ```
 
-`_project/STATS.md` is a regeneratable artifact — adopters may `.gitignore`
+`.flowtron/STATS.md` is a regeneratable artifact — adopters may `.gitignore`
 it or commit it at their own cadence. The skill does not stage or commit.
 
 If `WRITE_OUT` is null, skip this step entirely.

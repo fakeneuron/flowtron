@@ -1,6 +1,6 @@
 ---
 name: ft-audit-security
-description: Security-focused audit — 5 passes (Secrets · Input handling · Auth & authz · Network & boundaries · Dependencies), capped findings, writes tickets to `_project/PLAN.md`. Stack-neutral scaffold; adopters fork into `.claude/skills/audit-security/` and customize sacred invariants + dep-scan + secret-scan tooling. See `docs/MIGRATION.md` §1.2.1.
+description: Security-focused audit — 5 passes (Secrets · Input handling · Auth & authz · Network & boundaries · Dependencies), capped findings, writes tickets to `.flowtron/PLAN.md`. Stack-neutral scaffold; adopters fork into `.claude/skills/audit-security/` and customize sacred invariants + dep-scan + secret-scan tooling. See `docs/MIGRATION.md` §1.2.1.
 ---
 
 # audit-security — flowtron security audit skill
@@ -57,15 +57,15 @@ Severity guide:
 
 1. **Summary** — health score 1–10 with one-sentence justification + top 3 issues (by severity, not pass order).
 2. **Exploratory Insights** — what the findings reveal about the project's security posture. Patterns, not individual issues (e.g. "three of five auth findings cluster on the admin routes — suggests the admin module skipped the standard auth middleware").
-3. **Proposed tasks for `_project/PLAN.md`** — prioritized, actionable tickets using flowtron's task-line grammar. One ticket per thematic cluster, not per finding. Present them inline so the user can review before anything is written to disk.
+3. **Proposed tasks for `.flowtron/PLAN.md`** — prioritized, actionable tickets using flowtron's task-line grammar. One ticket per thematic cluster, not per finding. Present them inline so the user can review before anything is written to disk.
 4. **Questions for the user** — anything ambiguous that blocks implementation (e.g. "is the admin route intentionally public for the read paths?"). Use `AskUserQuestion`, not prose.
 
-## 5. Write the proposed tasks into `_project/PLAN.md` (required, not optional)
+## 5. Write the proposed tasks into `.flowtron/PLAN.md` (required, not optional)
 
 The deliverable is tickets in PLAN.md.
 
 1. **After** §§1–3 are presented and any `AskUserQuestion` blockers are answered, write tickets using flowtron's task-line grammar: `- [ ] **<AREA>-<N>** [model] | shortname — long description.` (primary labels `[heavy]🧠` / `[light]🔧` recommended; specifics e.g. `opus` / `sonnet` / `grok` remain valid per SPEC §"Model field"). See §"Task-line format".
-2. Pick the next free `<N>` per area prefix (valid prefixes in `_project/tasknote/README.md` §"Area prefixes").
+2. Pick the next free `<N>` per area prefix (valid prefixes in `.flowtron/tasknote/README.md` §"Area prefixes").
 3. Insert in correct priority section. Append `Surfaced by audit-security YYYY-MM-DD (Finding #N, <severity>)`.
 4. **No code changes.** Tickets only — fixes happen in `/ft-task` cycles. **Exception:** secret currently leaked in a tracked file → surface immediately and ask whether to rotate/scrub now.
 5. User pushes back on a ticket → drop it.
@@ -75,9 +75,9 @@ Zero findings across all passes → say so explicitly and skip the write.
 ## 6. Hard rules
 
 - **Targeted, not exhaustive.** Five findings per pass is a *ceiling*, not a target. A clean pass gets zero findings and moves on.
-- **Write tickets, not fixes.** `_project/PLAN.md` gets updated; source files do NOT (with the secret-leaked exception in §5 step 4).
+- **Write tickets, not fixes.** `.flowtron/PLAN.md` gets updated; source files do NOT (with the secret-leaked exception in §5 step 4).
 - **Don't repeat the scanner.** If `gitleaks` / `npm audit` / etc. already flagged it, surface the count once in pass 1 or 5 and link to the scanner output — don't enumerate each scanner row as a separate finding.
 - **Don't audit adjacent code.** Stay inside the resolved scope.
 - **Don't theorize about exploits.** If you can't trace an attacker-controlled input to the vulnerable sink, downgrade severity. Speculative "could be exploitable" is Low at most.
-- **No final summary of what you just did.** The report + the `_project/PLAN.md` diff *are* the deliverable.
+- **No final summary of what you just did.** The report + the `.flowtron/PLAN.md` diff *are* the deliverable.
 - _(forker: append project-specific hard rules — e.g. "Secrets never appear in log lines, even at DEBUG. Any finding touching this is Critical regardless of how 'small' it looks.")_

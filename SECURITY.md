@@ -34,7 +34,7 @@ the runtime's tool allowlist is.
 
 **Adopter mitigations (any AI assistant).**
 
-- Review contributor PRs that touch `_project/` content with the same care
+- Review contributor PRs that touch `.flowtron/` content with the same care
   you would give to a code change. The body of a tasknote is executable
   context, even though it is plain markdown.
 - Treat the first run of a skill against contributor-authored content as a
@@ -63,7 +63,7 @@ any-AI-assistant threat model.
   "ASCII smuggler"), bidirectional overrides (U+202E), or homoglyphs. They
   render blank or benign in a diff view while the model reads them
   verbatim — so visual PR review is necessary but *not sufficient*. Before
-  acting on contributor-authored `_project/` content, scan the changed
+  acting on contributor-authored `.flowtron/` content, scan the changed
   text for the invisible classes specifically (ordinary emoji and
   em-dashes are not the concern; the dangerous codepoints render to
   nothing). For example:
@@ -132,7 +132,7 @@ dev server:
   origin-less requests from the local terminal (e.g. `curl`), are
   allowed.
 - Reads files only from projects discovered under
-  `${FLOWTRON_VIZ_WORKSPACE:-~/code}/*/_project/`. There is no
+  `${FLOWTRON_VIZ_WORKSPACE:-~/code}/*/.flowtron/`. There is no
   user-controlled path input on any endpoint.
 - Sends a defense-in-depth `Content-Security-Policy` response header
   (`server.headers` in `vite.config.ts`): `default-src 'self'`,
@@ -162,9 +162,9 @@ filepath:regex
 Examples (one per line):
 
 ```
-_project/flowtron/SPEC.md:(API_KEY|SECRET|TOKEN|PASSWORD)
-_project/flowtron/claude/skills/**/*.md:(API_KEY|SECRET|TOKEN|PASSWORD)
-_project/flowtron/SECURITY.md:(API_KEY|SECRET|TOKEN|PASSWORD)
+.flowtron/core/SPEC.md:(API_KEY|SECRET|TOKEN|PASSWORD)
+.flowtron/core/claude/skills/**/*.md:(API_KEY|SECRET|TOKEN|PASSWORD)
+.flowtron/core/SECURITY.md:(API_KEY|SECRET|TOKEN|PASSWORD)
 ```
 
 These suppress only the documented prose examples. Real credential material in your code or env files remains flagged.

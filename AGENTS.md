@@ -5,9 +5,9 @@
 This repository is **flowtron** itself. The canonical workflow contract lives
 in `SPEC.md`; read it before starting non-trivial work.
 
-- Plans live in `_project/PLAN.md`.
-- Active tasknotes live in `_project/tasknote/<TASK-ID>.md`.
-- Completed tasknotes live in `_project/tasknote/archive/<area>/<TASK-ID>.md`.
+- Plans live in `.flowtron/PLAN.md`.
+- Active tasknotes live in `.flowtron/tasknote/<TASK-ID>.md`.
+- Completed tasknotes live in `.flowtron/tasknote/archive/<area>/<TASK-ID>.md`.
 - Tasknote templates live in `templates/`.
 - Lazy workflow modules live in `SPEC/` and are loaded when the task shape
   calls for them.
@@ -22,7 +22,7 @@ small direct change.
 - `SPEC.md` — canonical workflow contract.
 - `SPEC/` — lazy modules for epics, starter tasks, blocked tasks, model
   routing, gates, versioning, and tasknote selection.
-- `_project/` — flowtron's own plan and tasknotes.
+- `.flowtron/` — flowtron's own plan and tasknotes.
 - `claude/` — Claude Code wiring: commands, skills, and the historical
   source for the agent-neutral adopter snippet.
 - `docs/` — supporting docs, conventions, migration, platform compatibility,
@@ -64,7 +64,7 @@ The visualizer dev server is pinned to port `5120` with `strictPort`.
 - Keep markdown GitHub-Flavored Markdown compatible.
 - Follow `.editorconfig`: UTF-8, LF endings, 2-space indentation, trim
   trailing whitespace, final newline.
-- This repo is not an adopter checkout. There is no `_project/flowtron/`
+- This repo is not an adopter checkout. There is no `.flowtron/core/`
   submodule here; `SPEC.md` at the root is the source of truth.
 
 ## Platform Notes

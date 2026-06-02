@@ -1,6 +1,6 @@
 ---
 name: ft-audit-frontend
-description: Frontend-focused audit — 5 passes (Bundle & payload · Accessibility · Render perf · Browser hygiene · Component health), capped findings, writes tickets to `_project/PLAN.md`. Stack-neutral scaffold; adopters fork into `.claude/skills/audit-frontend/` and customize framework + bundler + a11y tooling. See `docs/MIGRATION.md` §1.2.1.
+description: Frontend-focused audit — 5 passes (Bundle & payload · Accessibility · Render perf · Browser hygiene · Component health), capped findings, writes tickets to `.flowtron/PLAN.md`. Stack-neutral scaffold; adopters fork into `.claude/skills/audit-frontend/` and customize framework + bundler + a11y tooling. See `docs/MIGRATION.md` §1.2.1.
 ---
 
 # audit-frontend — flowtron frontend audit skill
@@ -58,15 +58,15 @@ Severity guide:
 
 1. **Summary** — health score 1–10 with one-sentence justification + top 3 issues (by severity, not pass order).
 2. **Exploratory Insights** — what the findings reveal about how the frontend evolved. Patterns, not individual issues (e.g. "four a11y findings cluster in the modal stack — suggests the modal primitive predates the a11y baseline").
-3. **Proposed tasks for `_project/PLAN.md`** — prioritized, actionable tickets using flowtron's task-line grammar. One ticket per thematic cluster, not per finding. Present them inline so the user can review before anything is written to disk.
+3. **Proposed tasks for `.flowtron/PLAN.md`** — prioritized, actionable tickets using flowtron's task-line grammar. One ticket per thematic cluster, not per finding. Present them inline so the user can review before anything is written to disk.
 4. **Questions for the user** — anything ambiguous that blocks implementation. Use `AskUserQuestion`, not prose.
 
-## 5. Write the proposed tasks into `_project/PLAN.md` (required, not optional)
+## 5. Write the proposed tasks into `.flowtron/PLAN.md` (required, not optional)
 
 The deliverable is tickets in PLAN.md.
 
 1. **After** §§1–3 are presented and any `AskUserQuestion` blockers are answered, write tickets using flowtron's task-line grammar: `- [ ] **<AREA>-<N>** [model] | shortname — long description.` (primary labels `[heavy]🧠` / `[light]🔧` recommended; specifics e.g. `opus` / `sonnet` / `grok` remain valid per SPEC §"Model field"). See §"Task-line format".
-2. Pick the next free `<N>` per area prefix (valid prefixes in `_project/tasknote/README.md` §"Area prefixes" — typically `FE-`).
+2. Pick the next free `<N>` per area prefix (valid prefixes in `.flowtron/tasknote/README.md` §"Area prefixes" — typically `FE-`).
 3. Insert in correct priority section. Append `Surfaced by audit-frontend YYYY-MM-DD (Finding #N, <severity>)`.
 4. **No code changes**, no formatters, no opening files for fixes. Tickets only.
 5. User pushes back on a ticket → drop it.
@@ -76,9 +76,9 @@ Zero findings across all passes → say so explicitly and skip the write.
 ## 6. Hard rules
 
 - **Targeted, not exhaustive.** Five findings per pass is a *ceiling*, not a target.
-- **Write tickets, not fixes.** `_project/PLAN.md` gets updated; source files do NOT.
+- **Write tickets, not fixes.** `.flowtron/PLAN.md` gets updated; source files do NOT.
 - **Don't repeat the build tool.** If type-check / lint / a11y CI already flagged it, surface the aggregate count once — don't enumerate.
 - **Measure before recommending memoization.** Suggesting `useMemo` / `memo` without a measurable re-render cost is hygiene churn. If you can't point to a render that observably re-runs unnecessarily, downgrade to Low or drop.
 - **Don't audit adjacent code.** Stay inside the resolved scope.
-- **No final summary of what you just did.** The report + the `_project/PLAN.md` diff *are* the deliverable.
+- **No final summary of what you just did.** The report + the `.flowtron/PLAN.md` diff *are* the deliverable.
 - _(forker: append project-specific hard rules — e.g. "Design tokens are sacred. Any hardcoded color outside the token scale is Medium minimum.")_

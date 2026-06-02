@@ -3,7 +3,7 @@ description: Start a hypothesis-first debugging tasknote for the given task ID a
 argument-hint: <TASK-ID> [--fast | -f]
 ---
 
-Invoke the `debug` skill with `args="$ARGUMENTS"`. The skill scaffolds `_project/tasknote/$ARGUMENTS.md` from the standard flowtron template, runs Phase 1 Discovery with explicit hypothesis-first scaffolding (capture expected vs observed → generate & rank hypotheses → design & run minimal repro), then continues conversationally through Phases 2-4 and the post-closure protocol.
+Invoke the `debug` skill with `args="$ARGUMENTS"`. The skill scaffolds `.flowtron/tasknote/$ARGUMENTS.md` from the standard flowtron template, runs Phase 1 Discovery with explicit hypothesis-first scaffolding (capture expected vs observed → generate & rank hypotheses → design & run minimal repro), then continues conversationally through Phases 2-4 and the post-closure protocol.
 
 Supports the same `--fast` / `-f` flag semantics as `/ft-task` (autonomous execution; still fires 🛠️ on Re-scope/De-scope).
 

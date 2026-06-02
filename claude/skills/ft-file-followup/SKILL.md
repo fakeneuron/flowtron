@@ -17,17 +17,17 @@ If `args` is missing or doesn't match `<AREA>-<NUMBER>` (or `<AREA>-<NUMBER>.<SU
 
 Two layouts. Pick by which file exists:
 
-- **Adopter project:** `_project/flowtron/SPEC.md` exists → SPEC=`_project/flowtron/SPEC.md`.
+- **Adopter project:** `.flowtron/core/SPEC.md` exists → SPEC=`.flowtron/core/SPEC.md`.
 - **Flowtron self-host:** repo-root `SPEC.md` with heading `# Flowtron — Workflow Specification` → SPEC=`SPEC.md`.
 
-If neither matches, bail. PLAN=`_project/PLAN.md`, tasknote dir=`_project/tasknote/` either way.
+If neither matches, bail. PLAN=`.flowtron/PLAN.md`, tasknote dir=`.flowtron/tasknote/` either way.
 
 ## Step 1 — Pre-flight checks
 
-- Resolve the **Area** from the task ID prefix per SPEC §"Task ID convention". Unknown prefix → read `_project/tasknote/README.md`; if still unresolved, stop and ask.
+- Resolve the **Area** from the task ID prefix per SPEC §"Task ID convention". Unknown prefix → read `.flowtron/tasknote/README.md`; if still unresolved, stop and ask.
 - The task ID must NOT already exist in PLAN.md. If it does, stop and ask whether the user meant a different ID — `/ft-file-followup` files NEW tasks; reusing an existing entry is out of scope.
-- `_project/tasknote/<TASK-ID>.md` must NOT already exist. If it does, stop. Surface the conflict (could be in-flight, blocked, completed, starter, or already a follow-up that was promoted).
-- `_project/tasknote/archive/<area>/<TASK-ID>.md` must NOT already exist. If it does, stop — the ID has been used and archived; pick a fresh ID.
+- `.flowtron/tasknote/<TASK-ID>.md` must NOT already exist. If it does, stop. Surface the conflict (could be in-flight, blocked, completed, starter, or already a follow-up that was promoted).
+- `.flowtron/tasknote/archive/<area>/<TASK-ID>.md` must NOT already exist. If it does, stop — the ID has been used and archived; pick a fresh ID.
 
 ## Step 2 — Collect inputs
 
@@ -85,7 +85,7 @@ In one continuous motion:
 
 Surface to the user, in one short message:
 
-- `<TASK-ID>` filed at `_project/PLAN.md` under `## <Priority>` with model `<model>`.
+- `<TASK-ID>` filed at `.flowtron/PLAN.md` under `## <Priority>` with model `<model>`.
 - The follow-up sits as a one-line PLAN.md entry until `/ft-task <TASK-ID>` (or `/ft-micro-task` / `/ft-starter-task` for promotion) fires.
 - (Conversational paragraph from Step 4.2 is included in this response.)
 

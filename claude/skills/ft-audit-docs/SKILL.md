@@ -1,6 +1,6 @@
 ---
 name: ft-audit-docs
-description: Documentation-focused audit — 5 passes (Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content), capped findings, writes tickets to `_project/PLAN.md`. Stack-neutral scaffold; adopters fork into `.claude/skills/audit-docs/` and customize doc set + verification commands. See `docs/MIGRATION.md` §1.2.1.
+description: Documentation-focused audit — 5 passes (Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content), capped findings, writes tickets to `.flowtron/PLAN.md`. Stack-neutral scaffold; adopters fork into `.claude/skills/audit-docs/` and customize doc set + verification commands. See `docs/MIGRATION.md` §1.2.1.
 ---
 
 # audit-docs — flowtron documentation audit skill
@@ -13,9 +13,9 @@ Stack-neutral scaffold — **fork**, don't symlink (doc-set + link conventions +
 
 ## 1. Scope & ground rules (do this first, always)
 
-1. **Resolve scope** from `$ARGUMENTS`: `all`/empty → `<default doc-set glob>` _(forker: set this)_; a path/glob → just that; `last-commit` → markdown files in `HEAD`; `staged` → markdown files in `git diff --cached`; `ai-referenced` → walk `_project/tasknote/README.md` §"AI-referenced docs". If ambiguous, **stop and ask** via `AskUserQuestion`.
+1. **Resolve scope** from `$ARGUMENTS`: `all`/empty → `<default doc-set glob>` _(forker: set this)_; a path/glob → just that; `last-commit` → markdown files in `HEAD`; `staged` → markdown files in `git diff --cached`; `ai-referenced` → walk `.flowtron/tasknote/README.md` §"AI-referenced docs". If ambiguous, **stop and ask** via `AskUserQuestion`.
 2. **Load the project rubric** (contracts the docs must reflect, not generic good writing):
-   - `<rubric file 1>` — _(forker: e.g. `_project/tasknote/README.md` §"AI-referenced docs" — canonical doc-set contract)_
+   - `<rubric file 1>` — _(forker: e.g. `.flowtron/tasknote/README.md` §"AI-referenced docs" — canonical doc-set contract)_
    - `<rubric file 2>` — _(forker: e.g. `README.md` — public-facing first impression)_
    - `<rubric file 3>` — _(forker: e.g. `docs/ARCHITECTURE.md` — design source-of-truth)_
 3. **Run verification gates** so passes don't report toolchain noise:
@@ -56,15 +56,15 @@ Severity guide:
 
 1. **Summary** — health score 1–10 with one-sentence justification + top 3 issues (by severity, not pass order).
 2. **Exploratory Insights** — what the findings reveal about how the documentation evolved. Patterns, not individual issues (e.g. "five claims-vs-code findings cluster around the CLI section — suggests the CLI changed without a doc-sweep").
-3. **Proposed tasks for `_project/PLAN.md`** — prioritized, actionable tickets using flowtron's task-line grammar. One ticket per thematic cluster, not per finding. Present them inline so the user can review before anything is written to disk.
+3. **Proposed tasks for `.flowtron/PLAN.md`** — prioritized, actionable tickets using flowtron's task-line grammar. One ticket per thematic cluster, not per finding. Present them inline so the user can review before anything is written to disk.
 4. **Questions for the user** — anything ambiguous that blocks implementation. Use `AskUserQuestion` for these, not prose.
 
-## 5. Write the proposed tasks into `_project/PLAN.md` (required, not optional)
+## 5. Write the proposed tasks into `.flowtron/PLAN.md` (required, not optional)
 
 The deliverable is tickets in PLAN.md.
 
 1. **After** §§1–3 are presented and any `AskUserQuestion` blockers are answered, write tickets using flowtron's task-line grammar: `- [ ] **<AREA>-<N>** [model] | shortname — long description.` (primary labels `[heavy]🧠` / `[light]🔧` recommended; specifics e.g. `opus` / `sonnet` / `grok` remain valid per SPEC §"Model field"). See §"Task-line format".
-2. Pick the next free `<N>` per area prefix (valid prefixes in `_project/tasknote/README.md` §"Area prefixes").
+2. Pick the next free `<N>` per area prefix (valid prefixes in `.flowtron/tasknote/README.md` §"Area prefixes").
 3. Insert in correct priority section. Append `Surfaced by audit-docs YYYY-MM-DD (Finding #N, <severity>)`.
 4. **No direct edits to audited docs.** Tickets only — edits happen in `/ft-task` cycles.
 5. User pushes back on a ticket → drop it.
@@ -74,8 +74,8 @@ Zero findings across all passes → say so explicitly and skip the write.
 ## 6. Hard rules
 
 - **Targeted, not exhaustive.** Five findings per pass is a *ceiling*, not a target. A clean pass gets zero findings and moves on.
-- **Write tickets, not fixes.** `_project/PLAN.md` gets updated; source docs do NOT. Do not open files in edit mode for fixes; do not run formatters; do not "fix while I'm in here."
+- **Write tickets, not fixes.** `.flowtron/PLAN.md` gets updated; source docs do NOT. Do not open files in edit mode for fixes; do not run formatters; do not "fix while I'm in here."
 - **Don't audit code, audit the docs about the code.** If the docs are accurate but the code is wrong, that's a code finding — out of scope here. Use `/ft-audit` or `/ft-audit-backend` etc. for that.
-- **Archived tasknotes are write-once.** Skip `_project/tasknote/archive/` entirely — those are historical records, not living docs.
+- **Archived tasknotes are write-once.** Skip `.flowtron/tasknote/archive/` entirely — those are historical records, not living docs.
 - **Subroutine-safe.** This skill is designed to be invoked from other skills (notably `/ft-release`'s doc-drift sweep). When invoked as a subroutine with an explicit scope, skip §0 forker prompts and surface the report inline rather than blocking on `AskUserQuestion` for non-blocker items.
-- **No final summary of what you just did.** The report + the `_project/PLAN.md` diff *are* the deliverable.
+- **No final summary of what you just did.** The report + the `.flowtron/PLAN.md` diff *are* the deliverable.

@@ -7,7 +7,7 @@ description: Clean up an isolated git worktree for an independent epic child tas
 
 You are cleaning up / ending an **isolated git worktree** for the task ID provided in `args` (e.g., `args="CORE-215.3"`). The full convention lives in `docs/WORKTREES.md` — this skill is the executable interpretation of the "End" half, not a replacement. Treat `docs/WORKTREES.md` and `SPEC/tasknote-selection.md` §"When to use a tasknote (and when not to)" (epic children) as authoritative when this file is silent or in tension.
 
-**This is a utility cleanup skill, not a tasknote runner.** It does *not* scaffold or drive a 4-phase tasknote. The operator must already have completed (or decided to discard) the work inside the `wt-<TASK-ID>` worktree. This skill removes the isolated execution environment and ensures the *copied* tasknote's final state is captured in the main checkout's canonical `_project/tasknote/archive/` (the main archive is always the source of truth).
+**This is a utility cleanup skill, not a tasknote runner.** It does *not* scaffold or drive a 4-phase tasknote. The operator must already have completed (or decided to discard) the work inside the `wt-<TASK-ID>` worktree. This skill removes the isolated execution environment and ensures the *copied* tasknote's final state is captured in the main checkout's canonical `.flowtron/tasknote/archive/` (the main archive is always the source of truth).
 
 The skill supports only a bare `<TASK-ID>` (no `--fast` flag; the flag is for the `/ft-task` the operator ran *inside* the worktree).
 
@@ -25,7 +25,7 @@ git rev-parse --git-dir          # must NOT contain "/worktrees/" in the path
 ```
 
 - If not a git repo → stop. Tell the user to `cd` to the project root.
-- If the git-dir path contains `/worktrees/` → you are inside a worktree checkout. Stop and tell the user to run this from the *main* project tree (the one that contains the full `_project/tasknote/` archive and is the target for merges).
+- If the git-dir path contains `/worktrees/` → you are inside a worktree checkout. Stop and tell the user to run this from the *main* project tree (the one that contains the full `.flowtron/tasknote/` archive and is the target for merges).
 
 Resolve the task ID:
 
@@ -81,13 +81,13 @@ Record the operator's answer ("merged" or "discard") for the rest of the flow.
 
 Before touching the worktree, ensure the final closed tasknote that was produced inside the isolated execution is captured in the *main* checkout's archive.
 
-The "copied tasknote" lives inside `${WT_DIR}/_project/tasknote/` (either at the live location or, after inner closure, in its `archive/<area>/` sibling).
+The "copied tasknote" lives inside `${WT_DIR}/.flowtron/tasknote/` (either at the live location or, after inner closure, in its `archive/<area>/` sibling).
 
 ```sh
 # Prefer the archive/ sibling inside the worktree (post-closure location)
-COPIED_ARCHIVE="${WT_DIR}/_project/tasknote/archive/core/${TASK_ID}.md"
-COPIED_LIVE="${WT_DIR}/_project/tasknote/${TASK_ID}.md"
-MAIN_ARCHIVE_DIR="_project/tasknote/archive/core"
+COPIED_ARCHIVE="${WT_DIR}/.flowtron/tasknote/archive/core/${TASK_ID}.md"
+COPIED_LIVE="${WT_DIR}/.flowtron/tasknote/${TASK_ID}.md"
+MAIN_ARCHIVE_DIR=".flowtron/tasknote/archive/core"
 MAIN_ARCHIVE="${MAIN_ARCHIVE_DIR}/${TASK_ID}.md"
 
 if [ -f "${COPIED_ARCHIVE}" ]; then
@@ -130,7 +130,7 @@ Run from the *main* checkout:
 ```sh
 git worktree list
 git branch --list "${BRANCH}" || echo "(branch pruned)"
-ls -la "_project/tasknote/archive/core/${TASK_ID}.md" 2>/dev/null || echo "(no archived tasknote for this ID in main — expected on discard path or if merge brought it via git)"
+ls -la ".flowtron/tasknote/archive/core/${TASK_ID}.md" 2>/dev/null || echo "(no archived tasknote for this ID in main — expected on discard path or if merge brought it via git)"
 ```
 
 Surface a clear, scannable block:
@@ -141,7 +141,7 @@ Surface a clear, scannable block:
   Main checkout:  ${PROJECT_ROOT}
   Removed:        ${WT_DIR}
   Branch:         ${BRANCH} (merged | discarded; pruned? yes/no)
-  Archived tasknote: copied into main's _project/tasknote/archive/core/ (or already present via merge)
+  Archived tasknote: copied into main's .flowtron/tasknote/archive/core/ (or already present via merge)
 
 The main checkout now holds the canonical PLAN update (from your merge) and the archived tasknote. The worktree environment is gone.
 

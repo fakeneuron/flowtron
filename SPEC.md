@@ -27,8 +27,8 @@ After adopting flowtron, a project looks like:
 
 ```text
 <project>/
-├── AGENTS.md                       # references _project/flowtron/SPEC.md
-├── _project/
+├── AGENTS.md                       # references .flowtron/core/SPEC.md
+├── .flowtron/
 │   ├── PLAN.md                     # project-owned roadmap (this format)
 │   ├── tasknote/
 │   │   ├── README.md               # one-line pointer + project-specific notes
@@ -38,7 +38,7 @@ After adopting flowtron, a project looks like:
 └── ...
 ```
 
-The `_project/flowtron/` submodule is **read-only** in adopting projects.
+The `.flowtron/core/` submodule is **read-only** in adopting projects.
 Edits go upstream to the flowtron repo and are pulled via deliberate version
 bumps (see Versioning below).
 
@@ -48,7 +48,7 @@ Flowtron does not submodule itself. When working in `~/code/flowtron/`:
 
 - This `SPEC.md` IS the canonical reference.
 - `SPEC/` — lazy SPEC modules loaded on demand by skills.
-- The flowtron `_project/PLAN.md` tracks flowtron's own development.
+- The flowtron `.flowtron/PLAN.md` tracks flowtron's own development.
 - The `templates/` folder holds the canonical tasknote and PLAN.md templates.
 - `claude/` — Claude Code commands + skills (`/ft-task`, `/ft-release`, `/ft-new-project`, …); the adopter snippet lives at `claude/AGENTS-snippet.md`. Future non-Claude-Code platform wirings (e.g., `codex/`, `grok/`, `cursor/`) plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md) for the plug-in pattern.
 
@@ -115,7 +115,7 @@ Canonical area prefixes:
 
 Adopting projects may add domain prefixes (e.g., `OCR-` for a vision-heavy
 project's OCR pipeline). Domain prefixes must be declared in the project's
-`_project/tasknote/README.md`.
+`.flowtron/tasknote/README.md`.
 
 Numbering: sequential within prefix. Decimals only for epic subtasks (e.g.,
 `CORE-EPIC-009` parent + `CORE-009.1`, `CORE-009.2` children).
@@ -338,7 +338,7 @@ Mandatory steps:
 - [ ] Reviewed the task entry in PLAN.md
 - [ ] **Relevance Assessment** — `Proceed` / `Re-scope` / `De-scope` with one-line rationale
 - [ ] Read relevant source files
-- [ ] **Archive skim** — surface prior decisions on the same files / area by skimming `_project/tasknote/archive/<area>/` for tasknotes that touched the source paths in scope; log relevant findings in Discovery Notes before re-interpreting the task
+- [ ] **Archive skim** — surface prior decisions on the same files / area by skimming `.flowtron/tasknote/archive/<area>/` for tasknotes that touched the source paths in scope; log relevant findings in Discovery Notes before re-interpreting the task
 - [ ] **Drift check** — verify file paths, line numbers, function names, and root-cause hypotheses cited in the task description still match current code; surface any drift to the user before re-interpreting the task
 - [ ] Asked clarifying questions OR logged "No clarifications needed" with explicit assumptions
 - [ ] Subtasks above populated with concrete, ordered steps
@@ -393,8 +393,8 @@ flag's full surface.
 
 ### 🚀 Phase 4: Closure
 
-- [ ] **Doc-drift sweep** — for each entry in `_project/tasknote/README.md` §"AI-referenced docs", state "no change" or the update
-- [ ] Closed — PLAN.md line flipped to stub form `Completed YYYY-MM-DD.` (see [`SPEC/tasknote-selection.md` §"`## Completed` archive convention"](SPEC/tasknote-selection.md)) and tasknote moved to `_project/tasknote/archive/<area>/`
+- [ ] **Doc-drift sweep** — for each entry in `.flowtron/tasknote/README.md` §"AI-referenced docs", state "no change" or the update
+- [ ] Closed — PLAN.md line flipped to stub form `Completed YYYY-MM-DD.` (see [`SPEC/tasknote-selection.md` §"`## Completed` archive convention"](SPEC/tasknote-selection.md)) and tasknote moved to `.flowtron/tasknote/archive/<area>/`
 - [ ] Recap drafted (surfaces at the 📦 ready-to-commit gate, or inline on conditional skip)
 
 Phase 4 closure ops (doc-drift sweep, PLAN.md flip, archive move) auto-run

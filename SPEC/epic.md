@@ -42,7 +42,7 @@ subtasks — same grammar, same 4-phase tasknote, same model rules.
 
 **Audit acceptance — fixed doc-drift line.** Every audit subtask's
 `## ✅ Acceptance` includes a doc-drift sweep across
-`_project/tasknote/README.md` §"AI-referenced docs": for each entry,
+`.flowtron/tasknote/README.md` §"AI-referenced docs": for each entry,
 "no change" or the update. Always present — ticks fast when nothing
 drifted, surfaces the cumulative slice-local staleness that per-task
 Phase 4 closures can miss.
