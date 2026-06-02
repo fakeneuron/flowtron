@@ -15,13 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-271** [heavy]🧠 | cross-agent-skill-projection — Bridge Claude skills to contract-only agents via agent-neutral procedure SOPs (`SPEC/procedures/`) as single source and thin hand-authored per-agent pointer wrappers (route, don't copy). Proof slice: ft-task driver. Generator in a later epic. Decisions + context: CORE-270 tasknote.
-  - [x] **CORE-271.1** [heavy]🧠 | discovery — Completed 2026-06-02.
-  - [x] **CORE-271.2** [heavy]🧠 | spec-dir — Completed 2026-06-02.
-  - [x] **CORE-271.3** [heavy]🧠 | ft-task-sop — Completed 2026-06-02.
-  - [x] **CORE-271.4** [light]🔧 | per-agent-wrappers — Completed 2026-06-02.
-  - [x] **CORE-271.5** [light]🔧 | doc-updates — Completed 2026-06-02.
-  - [ ] **CORE-271.6** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line).
+(none)
 
 ## Low
 
@@ -31,6 +25,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-271** [heavy]🧠 | cross-agent-skill-projection — Completed 2026-06-02.
+  - [x] **CORE-271.1** [heavy]🧠 | discovery — Completed 2026-06-02.
+  - [x] **CORE-271.2** [heavy]🧠 | spec-dir — Completed 2026-06-02.
+  - [x] **CORE-271.3** [heavy]🧠 | ft-task-sop — Completed 2026-06-02.
+  - [x] **CORE-271.4** [light]🔧 | per-agent-wrappers — Completed 2026-06-02.
+  - [x] **CORE-271.5** [light]🔧 | doc-updates — Completed 2026-06-02.
+  - [x] **CORE-271.6** [heavy]🧠 | audit — Completed 2026-06-02.
 - [x] **CORE-270** [heavy]🧠 | cross-agent-skill-projection — Completed 2026-06-02.
 - [x] **CORE-269** [light]🔧 | dogfood-prompt-template — Completed 2026-06-02.
 - [x] **CORE-268** [opus] | release v5.1.0 — Completed 2026-06-02.
