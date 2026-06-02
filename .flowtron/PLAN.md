@@ -11,11 +11,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-(none)
+- [ ] **CORE-268** [opus] | release v5.1.0 — Cut v5.1.0 minor release tagging the CORE-EPIC-267 dogfood-gate cohort since v5.0.0.
 
 ## Medium
 
-(none)
+- [ ] **CORE-269** [light]🔧 | dogfood-prompt-template — Formalize the agent-neutral dogfood prompt drafted during CORE-268: a versioned, pasteable procedure (contract comprehension + cue-render check + Phase-1 drive) any agent runs to refresh its AGENT-COMPAT `last-verified` row. Closes the procedure gap the CORE-267 dogfood gate left open. Likely `templates/` or `docs/DOGFOOD.md`.
+- [ ] **CORE-270** [heavy]🧠 | cross-agent-skill-projection — Bridge well-developed Claude skills to contract-only agents (Grok/Codex/…) without per-agent redundancy. Lean: agent-neutral procedure SOPs as single source, thin generated per-agent pointer wrappers (route, don't copy), standalone generator that `ft-release` gates on. Scope children via `/ft-epic-discovery`. Filed with starter at `.flowtron/tasknote/CORE-270.md`.
 
 ## Low
 
