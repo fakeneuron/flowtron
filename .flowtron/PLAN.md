@@ -15,6 +15,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
+- [ ] **CORE-EPIC-267** [heavy]🧠 | release-dogfood-gate — make per-agent dogfood-or-explicit-skip a release gate: `ft-release` scaffolds/updates a cross-agent dogfood checklist (Claude/Grok/Codex/…) that must be dogfooded or explicitly skipped before tagging, refreshing `last-verified` stamps from real verification. Immediate debt: Grok+Codex unverified at v5.0.0 (explicit-skip deferred from CORE-265). Drive via `/ft-epic-discovery` to scope children.
+
 ## Low
 
 ## Future Opportunities
