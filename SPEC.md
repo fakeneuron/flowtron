@@ -34,7 +34,7 @@ After adopting flowtron, a project looks like:
 │   │   ├── README.md               # one-line pointer + project-specific notes
 │   │   ├── BE-014.md               # active tasknotes
 │   │   └── archive/<area>/         # completed tasknotes by area
-│   └── flowtron/                   # git submodule pinned to a flowtron version
+│   └── core/                       # git submodule pinned to a flowtron version
 └── ...
 ```
 

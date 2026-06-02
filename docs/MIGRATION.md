@@ -51,8 +51,8 @@ From the project root:
 
 ```sh
 mkdir -p .flowtron
-git submodule add https://github.com/fakeneuron/flowtron.git .flowtron/flowtron
-git -C .flowtron/flowtron checkout vX.Y.Z   # replace with the version you want to pin (see git tags)
+git submodule add https://github.com/fakeneuron/flowtron.git .flowtron/core
+git -C .flowtron/core checkout vX.Y.Z   # replace with the version you want to pin (see git tags)
 ```
 
 The `checkout` step is what pins the project to a specific flowtron version. Without it, the submodule tracks `main` and updates would be undeliberate.
@@ -151,7 +151,7 @@ Tasknote shape and lifecycles: see SPEC §"Tasknote frontmatter" + §"Tasknote b
 ### 1.6 Commit
 
 ```sh
-git add .gitmodules .flowtron/flowtron .flowtron/PLAN.md .flowtron/tasknote/ \
+git add .gitmodules .flowtron/core .flowtron/PLAN.md .flowtron/tasknote/ \
         .claude/commands/ft-task.md .claude/commands/ft-starter-task.md .claude/commands/ft-micro-task.md \
         .claude/commands/ft-file-followup.md .claude/commands/ft-epic-discovery.md .claude/commands/ft-close-epic.md \
         .claude/commands/ft-debug.md \
@@ -321,7 +321,7 @@ After §3.2–§3.7 land and `/ft-task` shows in the slash menu, sweep for resid
 - **CI / pre-commit hook check.** `grep -rn "<retired-helper-script-name>" .git/hooks/ .github/ docker/ scripts/` (project root) — confirm nothing depends on retired scripts. Resolve before next CI run.
 - **`/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`, `/ft-worktree-start`, `/ft-worktree-end` smoke.** Invoke each in a fresh session with your coding agent (Claude Code, Cursor, Grok Build, Codex CLI, etc.; or platform equivalent) — confirm the tasknote family + worktree pair (eight total) appear in the slash/prompt menu alongside `/ft-task` (v1.0+ additions; symlinks added in §1.2; worktree pair added in CORE-215.5).
 - **Context-surface audit.** If you've installed `/ft-audit-context` globally (see §1.0), run it now — migrations frequently carry over context bloat from the legacy era (stale `CLAUDE.md` workflow tutorials, project-local skills that now shadow `ft-*` namespace, AGENTS.md content redundant with the freshly-pasted block). Soft prose; ticket-filing is opt-in.
-- **Final pin verification.** `git -C .flowtron/flowtron describe --tags` shows the pinned version recorded at the start (e.g., `v5.1.0`). A mismatch means the submodule drifted off the pin during migration.
+- **Final pin verification.** `git -C .flowtron/core describe --tags` shows the pinned version recorded at the start (e.g., `v5.1.0`). A mismatch means the submodule drifted off the pin during migration.
 - **Cleanup commit.** Bundle the decisions above into a single follow-up commit (`chore: <ID> post-migration cleanup`) OR fold into the §3.9 closure commit if scope is small.
 
 ### 3.9 Commit the migration
@@ -332,17 +332,17 @@ A lightweight migration is itself a tasknote — typically a `CORE-` task in the
 
 ## Pinning and bumping
 
-The submodule SHA in `.flowtron/flowtron` is what pins the project to a specific flowtron commit.
+The submodule SHA in `.flowtron/core` is what pins the project to a specific flowtron commit.
 
 To bump:
 
-1. For a major version bump, read the annotated tag message (`git -C .flowtron/flowtron show vX.Y.Z`) and the per-release tasknote in `.flowtron/core/.flowtron/tasknote/archive/core/` — both list migration steps. Follow them before changing anything in the project.
+1. For a major version bump, read the annotated tag message (`git -C .flowtron/core show vX.Y.Z`) and the per-release tasknote in `.flowtron/core/.flowtron/tasknote/archive/core/` — both list migration steps. Follow them before changing anything in the project.
 2. Update the submodule:
    ```sh
-   git -C .flowtron/flowtron fetch --tags
-   git -C .flowtron/flowtron checkout vX.Y.Z
+   git -C .flowtron/core fetch --tags
+   git -C .flowtron/core checkout vX.Y.Z
    ```
-3. Commit. The parent repo's submodule pointer (the SHA recorded for `.flowtron/flowtron`) changes; `.gitmodules` itself only changes if the URL or branch field changes.
+3. Commit. The parent repo's submodule pointer (the SHA recorded for `.flowtron/core`) changes; `.gitmodules` itself only changes if the URL or branch field changes.
 
 The symlinks in `.claude/` don't need to be touched — they always track whatever the submodule currently points at.
 

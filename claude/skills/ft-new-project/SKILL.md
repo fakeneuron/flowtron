@@ -39,7 +39,7 @@ Use AskUserQuestion to gather:
 1. **Project name** — default suggestion: cwd basename (e.g., `~/code/flowmagic` → `flowmagic`). Used to substitute the `# Project Name — PLAN.md` placeholder in `templates/PLAN.md`.
 2. **Pinned flowtron version** — default suggestion: latest semver tag from `git ls-remote --tags --sort=-v:refname https://github.com/fakeneuron/flowtron.git | head -n1 | sed 's|.*/||'`. User can accept, override, or pin to `main` for unstable tracking (warn before doing so — the bump-tasknote / annotated-tag-message contract assumes a tag).
 
-Record both before proceeding. If the user picks `main`, set the variable but skip the `git -C .flowtron/flowtron checkout vX.Y.Z` step in Step 2.
+Record both before proceeding. If the user picks `main`, set the variable but skip the `git -C .flowtron/core checkout vX.Y.Z` step in Step 2.
 
 ## Step 2 — Add the submodule
 
@@ -47,8 +47,8 @@ From cwd:
 
 ```sh
 mkdir -p .flowtron
-git submodule add https://github.com/fakeneuron/flowtron.git .flowtron/flowtron
-git -C .flowtron/flowtron checkout vX.Y.Z   # use the pinned version from Step 1
+git submodule add https://github.com/fakeneuron/flowtron.git .flowtron/core
+git -C .flowtron/core checkout vX.Y.Z   # use the pinned version from Step 1
 ```
 
 The `checkout` step is what pins the project to a specific flowtron commit. Skip it only if the user explicitly chose `main` in Step 1.
@@ -93,7 +93,7 @@ Reference: `docs/MIGRATION.md` §1.5.
 Stage the bootstrap files explicitly. Do **not** use `git add .` or `git add -A` — the project may have unrelated unstaged work that should not be bundled into the adoption commit:
 
 ```sh
-git add .gitmodules .flowtron/flowtron .flowtron/PLAN.md .flowtron/tasknote/ \
+git add .gitmodules .flowtron/core .flowtron/PLAN.md .flowtron/tasknote/ \
         .claude/commands/ft-task.md .claude/commands/ft-starter-task.md .claude/commands/ft-micro-task.md .claude/commands/ft-file-followup.md .claude/commands/ft-epic-discovery.md .claude/commands/ft-close-epic.md .claude/commands/ft-debug.md \
         .claude/commands/ft-worktree-start.md .claude/commands/ft-worktree-end.md \
         .claude/skills/ft-task .claude/skills/ft-starter-task .claude/skills/ft-micro-task .claude/skills/ft-file-followup .claude/skills/ft-epic-discovery .claude/skills/ft-close-epic .claude/skills/ft-debug \
