@@ -199,8 +199,9 @@ shape).
 
 xAI's [Grok Build](https://x.ai/cli) CLI (launched May 2026) adopts
 flowtron via the **contract-layer-only path** — same as Codex CLI /
-Cursor / Amp / Aider. No `grok/` wiring directory exists today;
-adopters paste the `AGENTS.md` block per [`MIGRATION.md`](MIGRATION.md)
+Cursor / Amp / Aider. A `grok/procedures/ft-task.md` procedure pointer
+ships in the repo (CORE-271.4); no full wiring bundle exists today.
+Adopters paste the `AGENTS.md` block per [`MIGRATION.md`](MIGRATION.md)
 §1.3 and drive the contract conversationally.
 
 | Quirk | Behavior | Flowtron implication |
