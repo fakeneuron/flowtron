@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [x] **CORE-274** [light]🔧 | slash-cmd-count-22 — Completed 2026-06-02.
+(none)
 
 ## Future Opportunities
 
