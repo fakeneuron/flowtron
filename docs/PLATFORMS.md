@@ -172,12 +172,12 @@ The only platform with wiring shipped today. Concrete instantiation:
 
 - **Sibling dir**: `claude/` at the repo root
 - **Adopter-facing snippet**: `claude/AGENTS-snippet.md`
-- **`commands/`**: 21 `.md` slash-command stubs (`ft-task.md`,
+- **`commands/`**: 22 `.md` slash-command stubs (`ft-task.md`,
   `ft-starter-task.md`, `ft-micro-task.md`, `ft-file-followup.md`,
   `ft-epic-discovery.md`, `ft-close-epic.md`, `ft-debug.md`, `ft-worktree-start.md`, `ft-worktree-end.md`, the six `ft-audit`-family skills,
   plus `ft-new-project.md`, `ft-release.md`, `ft-flowtron.md`,
   `ft-stats.md`, `ft-quality.md`, `ft-audit-context.md`)
-- **`skills/`**: 21 `SKILL.md` skill bodies (one per command), some with
+- **`skills/`**: 22 `SKILL.md` skill bodies (one per command), some with
   lazy-load fragments (`ft-task/step-*.md`); includes `ft-worktree-start/` and `ft-worktree-end/`
 - **Adopter install**: relative symlinks from `.claude/commands/*` and
   `.claude/skills/*` into the submodule, per

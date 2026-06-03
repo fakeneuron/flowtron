@@ -19,12 +19,16 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
+- [x] **CORE-274** [light]🔧 | slash-cmd-count-22 — Completed 2026-06-02.
+- [ ] **CORE-275** [light]🔧 | grok-wiring-dir-claim — Fix `docs/PLATFORMS.md` §"Grok Build adoption notes" opening sentence "No `grok/` wiring directory exists today" — contradicts the "Today's surface" table in the same doc; `grok/procedures/ft-task.md` was shipped in CORE-271.4. Surfaced by audit 2026-06-02 (Finding #3, Medium).
+
 ## Future Opportunities
 
 (none)
 
 ## Completed
 
+- [x] **CORE-274** [light]🔧 | slash-cmd-count-22 — Completed 2026-06-02.
 - [x] **CORE-273** [light]🔧 | bootstrap-submodule-path-drift — Completed 2026-06-02.
 - [x] **CORE-272** [heavy]🧠 | ft-update-skill — Completed 2026-06-02.
 - [x] **CORE-EPIC-271** [heavy]🧠 | cross-agent-skill-projection — Completed 2026-06-02.
