@@ -33,9 +33,9 @@ for its Grok Build notes. The agent-neutral workflow contract itself
 
 | Agent | Consume mode | Context entry-point | Skill / command primitive | Last verified |
 |---|---|---|---|---|
-| **Claude Code** | Wiring + contract | `AGENTS.md` (+ optional `CLAUDE.md`) | `.claude/skills/` + `.claude/commands/` slash commands — full `ft-*` bundle shipped | `v5.1.0 · 2026-06-02 (dogfooded)` |
-| **Grok Build** | Contract only | `AGENTS.md` | `.grok/skills/` markdown skills, auto-wired as `/<name>` — no full flowtron bundle; `grok/procedures/ft-task.md` pointer wrapper shipped | `v5.1.0 · 2026-06-02 (dogfooded)` |
-| **Codex CLI** | Contract only | `AGENTS.md` | Native primitive exists; `codex/procedures/ft-task.md` pointer wrapper shipped — no full bundle | `v5.1.0 · 2026-06-02 (dogfooded)` |
+| **Claude Code** | Wiring + contract | `AGENTS.md` (+ optional `CLAUDE.md`) | `.claude/skills/` + `.claude/commands/` slash commands — full `ft-*` bundle shipped | `v5.2.0 · 2026-06-03 (dogfooded)` |
+| **Grok Build** | Contract only | `AGENTS.md` | `.grok/skills/` markdown skills, auto-wired as `/<name>` — no full flowtron bundle; `grok/procedures/ft-task.md` pointer wrapper shipped | `v5.2.0 · 2026-06-03 (dogfooded)` |
+| **Codex CLI** | Contract only | `AGENTS.md` | Native primitive exists; `codex/procedures/ft-task.md` pointer wrapper shipped — no full bundle | `v5.2.0 · 2026-06-03 (dogfooded)` |
 | **Cursor** | Contract only | `AGENTS.md` | Native primitive exists; no flowtron bundle | unverified |
 | **Gemini CLI** | Contract only | `AGENTS.md` | Native primitive exists; no flowtron bundle | unverified |
 | **Aider** | Contract only | `AGENTS.md` | Native primitive exists; no flowtron bundle | unverified |
@@ -93,7 +93,7 @@ for its Grok Build notes. The agent-neutral workflow contract itself
 _Only Claude Code is verified by continuous dogfooding._ Contract-only rows
 start from vendor documentation and launch coverage until a live flowtron
 session is run under that agent. Grok Build and Codex CLI have now been
-dogfooded and re-verified at v5.1.0; Cursor, Gemini CLI, Aider, and Sourcegraph Amp remain
+dogfooded and re-verified at v5.2.0; Cursor, Gemini CLI, Aider, and Sourcegraph Amp remain
 pre-adoption expectations. Flowtron has not shipped wiring for any
 contract-only agent. Update a row on first-use observation if anything
 diverges. This mirrors the per-agent footers in [`PLATFORMS.md`](PLATFORMS.md)

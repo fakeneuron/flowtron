@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-278** [heavy]🧠 | release v5.2.0 — Completed 2026-06-03.
 - [x] **CORE-275** [light]🔧 | grok-wiring-dir-claim — Completed 2026-06-02.
 - [x] **CORE-274** [light]🔧 | slash-cmd-count-22 — Completed 2026-06-02.
 - [x] **CORE-273** [light]🔧 | bootstrap-submodule-path-drift — Completed 2026-06-02.
