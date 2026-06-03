@@ -356,14 +356,18 @@ flowtron **v5.0.0** renames the convention directory `_project/` → `.flowtron/
    ```sh
    git mv _project .flowtron
    ```
-2. **Re-pin the submodule to v5.0.0:**
+2. **Rename the submodule directory** to the canonical `core` name (v4.x used `flowtron` as the submodule dirname within `_project`; after the mv above it lands at `.flowtron/flowtron`):
    ```sh
-   git -C .flowtron/flowtron fetch --tags
-   git -C .flowtron/flowtron checkout v5.0.0
+   git mv .flowtron/flowtron .flowtron/core
    ```
-3. **Re-run the symlink wiring.** The old `.claude/` symlinks point at `_project/flowtron/...` and now dangle — re-create them from `.flowtron/core/claude/AGENTS-snippet.md` §"One-time symlink wiring" (run from the project root).
-4. **Update stray `_project/` references** in `AGENTS.md`, `CLAUDE.md`, and project docs to `.flowtron/`. Confirm clean: `grep -rn _project . --exclude-dir=.git`.
-5. **Commit** the rename + re-pin + rewiring as a single bump task (4-phase flow per the note above).
+3. **Re-pin the submodule to v5.0.0:**
+   ```sh
+   git -C .flowtron/core fetch --tags
+   git -C .flowtron/core checkout v5.0.0
+   ```
+4. **Re-run the symlink wiring.** The old `.claude/` symlinks point at `_project/flowtron/...` and now dangle — re-create them from `.flowtron/core/claude/AGENTS-snippet.md` §"One-time symlink wiring" (run from the project root).
+5. **Update stray `_project/` references** in `AGENTS.md`, `CLAUDE.md`, and project docs to `.flowtron/`. Confirm clean: `grep -rn _project . --exclude-dir=.git`.
+6. **Commit** the rename + re-pin + rewiring as a single bump task (4-phase flow per the note above).
 
 ## Visualizer
 
