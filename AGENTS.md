@@ -32,8 +32,8 @@ small direct change.
 
 ## Validation
 
-Use the narrowest validation that covers the change. For visualizer work,
-the main commands are. **Run from the repository root** (the directory containing
+Use the narrowest validation that covers the change. For visualizer work, the
+main commands are. **Run from the repository root** (the directory containing
 the `viz/` subdirectory):
 
 ```sh
@@ -43,15 +43,8 @@ npm --prefix viz run lint
 npm --prefix viz run dev
 ```
 
-If your shell is already inside `viz/` (common when iterating on the UI), the
-direct forms work instead:
-
-```sh
-npm test
-npm run typecheck
-npm run lint
-npm run dev
-```
+If your shell is already inside `viz/` (common when iterating on the UI), drop
+the `--prefix viz` and run the bare forms (`npm test`, `npm run typecheck`, etc.).
 
 The visualizer dev server is pinned to port `5120` with `strictPort`.
 
