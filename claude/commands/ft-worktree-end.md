@@ -1,5 +1,5 @@
 ---
-description: Clean up an isolated git worktree for an independent epic child tasknote. From the main checkout: verifies the `wt-<TASK-ID>` branch was merged (or operator explicitly discards), removes the worktree, archives the copied tasknote from the worktree into the main checkout's canonical archive, and optionally prunes the local `wt-` branch. Thin utility skill; does not drive tasknotes itself. Pair with /ft-worktree-start. See docs/WORKTREES.md for the full convention and when to use.
+description: Clean up an isolated git worktree for an independent epic child tasknote. From the main checkout: lists any orphaned wt-* branches (non-blocking), surfaces ahead-of-target commit count before the merge/discard decision, verifies the `wt-<TASK-ID>` branch was merged (or operator explicitly discards), removes the worktree, archives the copied tasknote from the worktree into the main checkout's canonical archive, and optionally prunes the local `wt-` branch. Thin utility skill; does not drive tasknotes itself. Pair with /ft-worktree-start. See docs/WORKTREES.md for the full convention and when to use.
 argument-hint: <TASK-ID>
 ---
 

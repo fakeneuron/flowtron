@@ -60,10 +60,12 @@ Echo the computed values for the operator to see. Confirm they look sane (especi
 ```sh
 git show-ref --verify --quiet refs/heads/${BRANCH} && echo "branch exists" || echo "branch free"
 test -d "${WT_DIR}" && echo "worktree dir exists" || echo "dir free"
+git worktree list | grep "${BRANCH}" || echo "not a live worktree"
 ```
 
 - If the local branch `wt-${TASK_ID}` already exists → surface the conflict. Ask whether to (a) delete it (`git branch -D`), (b) use a different ID, or (c) abort. Do not overwrite silently.
 - If the target `WT_DIR` already exists on disk → this is almost certainly a left-over from a prior run that wasn't cleaned with `/ft-worktree-end`. Offer to `rm -rf` it (after manual inspection) or abort. Never auto-clobber.
+- If `git worktree list` shows the branch already registered as a live worktree (branch exists but the `WT_DIR` may have been manually deleted, leaving a stale registration) → surface the worktree path from the list output and ask whether to (a) run `git worktree prune` and proceed, (b) use a different ID, or (c) abort. `git worktree add` will refuse anyway in this state; explicit guidance is better than a cryptic git error.
 
 Also verify that `~/code/` is writable and the parent `*-worktrees/` dir can be created.
 

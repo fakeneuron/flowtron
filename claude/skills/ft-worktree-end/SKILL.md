@@ -54,6 +54,26 @@ git branch --list "${BRANCH}" || echo "branch not found locally"
 
 If neither the branch nor any reference to the worktree dir appears, surface a clear message and ask whether to abort or proceed with a no-op cleanup (the latter is safe).
 
+### Orphaned `wt-*` branches (non-blocking heads-up)
+
+After confirming the task-specific worktree/branch, run a project-wide orphan scan — `wt-*` branches that have no active worktree (start-without-end leftovers):
+
+```sh
+ACTIVE_WT=$(git worktree list --porcelain | grep "^branch refs/heads/wt-" | sed 's|branch refs/heads/||')
+ALL_WT=$(git branch --list 'wt-*' | sed 's/^[* ]*//')
+if [ -n "$ALL_WT" ]; then
+  comm -23 <(echo "$ALL_WT" | sort) <(echo "$ACTIVE_WT" | sort)
+fi
+```
+
+If the `comm` output is non-empty, surface a non-blocking note before continuing:
+
+> ⚠️ Orphaned `wt-*` branches (branch exists, no active worktree):
+> `wt-TASK-ID`, ...
+> These may be left-over from prior sessions. Run `/ft-worktree-end <ID>` for each, or `git branch -D <branch>` after manual inspection.
+
+If empty, emit "No orphaned `wt-*` branches." This scan is **informational only** — it never blocks the current cleanup.
+
 ## Step 1 — Verify branch state (merged or explicit discard)
 
 This is the critical safety gate. The operator must have either merged the worktree branch or decided the work is disposable.
@@ -65,9 +85,18 @@ git branch --merged | grep -E "^[* ] ${BRANCH}$" && echo "branch appears merged"
 git log --oneline -5 --decorate | cat
 ```
 
+Surface the ahead-of-target commit count and shortlog before asking:
+
+```sh
+git rev-list --count HEAD..${BRANCH}
+git log --oneline HEAD..${BRANCH} | head -10
+```
+
+Emit the count inline (e.g., `wt-CORE-279 is 4 commit(s) ahead of HEAD`). A count of 0 means all branch commits are already reachable from HEAD — consistent with a completed merge, though `git branch --merged` is the definitive check. A non-zero count with unfamiliar commit messages may indicate the branch drifted past the original tasknote scope; surface this as context for the operator's decision, not as a block.
+
 Ask the operator (or infer from prior conversation context if unambiguous):
 
-- "Has the `wt-<TASK-ID>` branch been merged into main (or your integration branch)?"
+- "The `wt-<TASK-ID>` branch is <N> commit(s) ahead of HEAD (see shortlog above). Has it been merged into main (or your integration branch)?"
 - If no: "Do you explicitly want to *discard* all work in that branch and its worktree? (This is irreversible — the branch and any uncommitted state in the worktree will be lost after `git worktree remove`.)"
 
 Only proceed on a clear "yes, merged" or "yes, discard".
