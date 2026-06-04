@@ -62,6 +62,7 @@ The visualizer dev server is pinned to port `5120` with `strictPort`.
 
 ## Platform Notes
 
-Claude Code has shipped wiring under `claude/`. Other agents, including Codex
-CLI, currently consume the contract conversationally through this file and
-`SPEC.md`; no Codex-specific flowtron bundle ships yet.
+Claude Code has shipped wiring under `claude/`. Codex CLI and Grok also have
+per-agent pointer wrappers under `codex/` and `grok/` that route procedures to
+`SPEC/procedures/`. Other agents consume the contract conversationally through
+this file and `SPEC.md`.

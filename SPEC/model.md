@@ -11,8 +11,8 @@ of §"Task-line format". PLAN.md is the source of truth. The token is a short
 identifier representing the cognitive load of the task.
 
 Flowtron's recommended primary labels are `[heavy]` (design, multi-file,
-high ambiguity, or exploratory work) and `[light]` (mechanical, well-scoped,
-clear-diff implementation). Adopters MAY use any short token they prefer
+high ambiguity, or exploratory work), `[medium]` (multi-step, well-scoped),
+and `[light]` (mechanical, well-scoped, clear-diff implementation). Adopters MAY use any short token they prefer
 (e.g. `opus`, `sonnet`, `haiku`, `gpt-5`, `gemini-pro`, project-specific names).
 The visualizer parser accepts any short lowercase token (`[a-z][\w.-]*`), and
 `/ft-stats` buckets unknown tokens as `other`.

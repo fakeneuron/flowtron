@@ -14,7 +14,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-282** [light]🔧 | doc-audit-prose-patches — Four small prose fixes: SPEC/model.md intro sentence adds [medium] as third primary label; AGENTS.md Codex wiring statement updated to reflect shipped pointer wrapper; SPEC/procedures/README.md stale forward-reference removed; dead [[CORE-206]] wikilinks replaced with inline text in AGENT-NEUTRALITY.md. Surfaced by audit-docs 2026-06-04 (Findings #2, #3, #4, #6, Medium/Low cluster).
 
 ## Low
 
@@ -26,6 +25,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-282** [light]🔧 | doc-audit-prose-patches — Completed 2026-06-04.
 - [x] **CORE-281** [light]🔧 | doc-audit-spec-namespace — Completed 2026-06-04.
 - [x] **CORE-280** [light]🔧 | release-gate-runs-viz-test — Completed 2026-06-04.
 - [x] **FE-052** [light]🔧 | restore-viz-test-gate — Completed 2026-06-04.

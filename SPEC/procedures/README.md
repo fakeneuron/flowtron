@@ -15,9 +15,6 @@ instead by a thin per-agent **pointer wrapper**
 routes the agent here rather than copying the steps — the "route, don't
 copy" posture locked at [[CORE-091]] and [[CORE-270]].
 
-> This README defines the **format**. The first SOP —
-> `SPEC/procedures/ft-task.md` — lands in CORE-271.3.
-
 ## Why this layer exists
 
 Claude Code enforces the 4-phase gates deterministically through its
