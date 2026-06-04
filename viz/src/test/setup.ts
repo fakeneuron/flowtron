@@ -1,5 +1,45 @@
 import '@testing-library/jest-dom/vitest';
 
+// Node 26 defines globalThis.localStorage as undefined (experimental, needs
+// --localstorage-file), which causes vitest's populateGlobal to skip copying
+// jsdom's Storage implementation. Polyfill here, matching the existing
+// scrollTo/matchMedia pattern.
+if (typeof window.localStorage === 'undefined') {
+  const makeStorage = (): Storage => {
+    const store = new Map<string, string>();
+    return {
+      get length() {
+        return store.size;
+      },
+      key(index: number): string | null {
+        return [...store.keys()][index] ?? null;
+      },
+      getItem(key: string): string | null {
+        return store.get(key) ?? null;
+      },
+      setItem(key: string, value: string): void {
+        store.set(key, String(value));
+      },
+      removeItem(key: string): void {
+        store.delete(key);
+      },
+      clear(): void {
+        store.clear();
+      },
+    };
+  };
+  Object.defineProperty(window, 'localStorage', {
+    value: makeStorage(),
+    writable: true,
+    configurable: true,
+  });
+  Object.defineProperty(window, 'sessionStorage', {
+    value: makeStorage(),
+    writable: true,
+    configurable: true,
+  });
+}
+
 if (!Element.prototype.scrollIntoView) {
   Element.prototype.scrollIntoView = function () {};
 }
