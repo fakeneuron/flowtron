@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-(none)
+- [ ] **CORE-279** [light]🔧 | worktree-end-hardening — Harden `/ft-worktree-end` close checks — drift detection past tasknote scope, unmerged/ahead-of-target warning, orphaned `wt-` branch listing, and a reused-name collision guard. flowtron stays main-centric; everyday branches remain the user's domain. Filed with starter at `.flowtron/tasknote/CORE-279.md`.
 
 ## Future Opportunities
 
