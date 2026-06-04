@@ -164,10 +164,10 @@ Three of the 4 edits are markdown prose — run a markdown lint mental-pass on S
 The fourth edit (`viz/src/ui/constants.ts`) is a one-line string constant substitution — run lint/type-check on the viz package via its own package scripts:
 
 ```sh
-npm --prefix viz run lint; npm --prefix viz run typecheck
+npm --prefix viz run lint; npm --prefix viz run typecheck; npm --prefix viz run test
 ```
 
-If a viz/code feature ships in this release, surface that the feature's own tasknote already ran its test pass — `/ft-release` does not re-run feature tests beyond this version-string lint gate.
+If a viz/code feature ships in this release, surface that the feature's own tasknote already ran its test pass — `/ft-release` does not re-run feature tests beyond this version-string lint/test gate.
 
 ## Step 7 — Drive Phase 4: Closure
 

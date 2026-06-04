@@ -11,7 +11,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-280** [light]🔧 | release-gate-runs-viz-test — Add `npm --prefix viz run test` as a hard gate to `/ft-release` Step 6 (`claude/skills/ft-release/SKILL.md:164`), alongside the existing lint/typecheck, so infra rot can't ship behind a green typecheck. Blocked by [[FE-052]] (suite must be green first). Surfaced by audit 2026-06-04 (Finding #2, High).
 
 ## Medium
 
@@ -27,6 +26,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-280** [light]🔧 | release-gate-runs-viz-test — Completed 2026-06-04.
 - [x] **FE-052** [light]🔧 | restore-viz-test-gate — Completed 2026-06-04.
 - [x] **CORE-279** [light]🔧 | worktree-end-hardening — Completed 2026-06-04.
 - [x] **CORE-278** [heavy]🧠 | release v5.2.0 — Completed 2026-06-03.
