@@ -32,9 +32,9 @@ small direct change.
 
 ## Validation
 
-Use the narrowest validation that covers the change. For visualizer work, the
-main commands are. **Run from the repository root** (the directory containing
-the `viz/` subdirectory):
+Use the narrowest validation that covers the change. For visualizer work, run
+the main commands from the repository root (the directory containing the
+`viz/` subdirectory):
 
 ```sh
 npm --prefix viz test
