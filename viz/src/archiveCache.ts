@@ -1,17 +1,9 @@
-import { readdir, readFile } from 'node:fs/promises';
-import type { Dirent } from 'node:fs';
+import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { parseTasknote } from './tasknote-parse';
+import { safeReaddir } from './fsSafe';
 import type { Tasknote } from './tasknote';
 import type { ProjectDescriptor } from './workspace';
-
-async function safeReaddir(dir: string): Promise<Dirent[]> {
-  try {
-    return (await readdir(dir, { withFileTypes: true })) as Dirent[];
-  } catch {
-    return [];
-  }
-}
 
 async function readArchive(project: ProjectDescriptor): Promise<Tasknote[]> {
   const areas = (await safeReaddir(project.archiveDir)).filter((e) => e.isDirectory());

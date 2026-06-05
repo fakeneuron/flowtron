@@ -1,22 +1,14 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { readFile, readdir } from 'node:fs/promises';
-import type { Dirent } from 'node:fs';
+import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { originGuard } from './originGuard';
 import { parseTasknote } from './tasknote-parse';
+import { safeReaddir } from './fsSafe';
 import type { ProjectDescriptor } from './workspace';
 import type { ArchiveCache } from './archiveCache';
 
 type Handler = (req: IncomingMessage, res: ServerResponse) => void;
 type AsyncHandler = (req: IncomingMessage, res: ServerResponse) => Promise<void>;
-
-async function safeReaddir(dir: string): Promise<Dirent[]> {
-  try {
-    return (await readdir(dir, { withFileTypes: true })) as Dirent[];
-  } catch {
-    return [];
-  }
-}
 
 export function projectFromQuery(
   req: IncomingMessage,
