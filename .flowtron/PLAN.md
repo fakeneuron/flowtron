@@ -16,7 +16,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-(none)
+- [ ] **CORE-284** [light] | agents-md-prose-nit — fix broken sentence in `AGENTS.md:36` ("the main commands are. **Run from the repository root**…" — stray `are.` before the bolded clause). Surfaced by audit-context 2026-06-05 (Pass d, Low).
 
 ## Future Opportunities
 
@@ -24,6 +24,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-283** [light] | ft-update-wiring-confirm — Completed 2026-06-05.
 - [x] **FE-054** [light]🔧 | dedupe-safeReaddir — Completed 2026-06-05.
 - [x] **FE-053** [light]🔧 | viz-test-timeout — Completed 2026-06-05.
 - [x] **CORE-282** [light]🔧 | doc-audit-prose-patches — Completed 2026-06-04.

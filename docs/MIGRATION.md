@@ -118,7 +118,7 @@ ln -s ../../claude/commands/*.md .claude/commands/
 ln -s ../../claude/skills/* .claude/skills/
 ```
 
-The relative `../../` paths are clone-location independent. The symlinks land under the ignored `.claude/` directory, so they never enter git history. This gives the complete `/ft-*` surface (all audit variants, `ft-debug`, worktree pair, quality, release, stats, new-project, etc.) for any agent started while inside the tree.
+The relative `../../` paths are clone-location independent. The symlinks land under the ignored `.claude/` directory, so they never enter git history. This gives the complete `/ft-*` surface (all audit variants, `ft-debug`, worktree pair, quality, release, stats, new-project, etc.) for any agent started while inside the tree. The glob also wires `/ft-update`, which is intentional — the skill is adopter-only but bails in flowtron-self with a clear message rather than silently misbehaving, so wiring it here is harmless.
 
 The global form above is still the right choice when you want a single `~/.claude/` that serves flowtron + every adopter project on the machine.
 
