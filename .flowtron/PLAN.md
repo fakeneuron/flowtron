@@ -11,13 +11,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-
 ## Medium
 
 
 ## Low
 
-(none)
+- [ ] **FE-054** [light]🔧 | dedupe-safeReaddir — an identical 6-line `safeReaddir(dir)` try/catch helper is copy-pasted in `viz/src/devApi.ts:13` and `viz/src/archiveCache.ts:8`; extract to a shared `viz/src/fsSafe.ts` and import in both. Surfaced by audit 2026-06-05 (Finding #2, Low).
 
 ## Future Opportunities
 
@@ -25,6 +24,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-053** [light]🔧 | viz-test-timeout — Completed 2026-06-05.
 - [x] **CORE-282** [light]🔧 | doc-audit-prose-patches — Completed 2026-06-04.
 - [x] **CORE-281** [light]🔧 | doc-audit-spec-namespace — Completed 2026-06-04.
 - [x] **CORE-280** [light]🔧 | release-gate-runs-viz-test — Completed 2026-06-04.

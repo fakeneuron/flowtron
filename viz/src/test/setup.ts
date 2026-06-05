@@ -1,4 +1,12 @@
 import '@testing-library/jest-dom/vitest';
+import { configure } from '@testing-library/dom';
+
+// Node 26 slows jsdom/userEvent tests enough that waitFor's default 1000ms
+// polling window expires under parallel contention, flaking userEvent-heavy
+// App.test.tsx tests (element-not-found). Raise it to 5s — the companion to
+// vite.config.ts's testTimeout bump — so the /ft-release viz gate stays
+// reliable. See FE-053.
+configure({ asyncUtilTimeout: 5000 });
 
 // Node 26 defines globalThis.localStorage as undefined (experimental, needs
 // --localstorage-file), which causes vitest's populateGlobal to skip copying

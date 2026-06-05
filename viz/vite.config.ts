@@ -140,5 +140,11 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
     globals: false,
+    // Default 5000ms is too tight for userEvent-heavy App.test.tsx tests under
+    // Node 26: the file runs ~26s in full-suite runs (vs ~340ms per test in
+    // isolation), so parallel contention can push a single test past 5s and
+    // flake the /ft-release viz gate. 15s leaves headroom while still catching
+    // genuine hangs. See FE-053.
+    testTimeout: 15_000,
   },
 });
