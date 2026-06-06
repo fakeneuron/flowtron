@@ -1,6 +1,8 @@
 ---
 name: audit-<stack>
 description: <stack> audit — thin overlay over flowtron's bundled `ft-audit-<x>` (runs its 5 passes by reference, applies the project deltas below). Forked from flowtron's audit-overlay template; see `docs/MIGRATION.md` §1.2.1.
+flowtron-reconciled: <version>
+flowtron-tracks: ft-audit-<x>
 ---
 
 # audit-<stack> — thin overlay over `ft-audit-<x>`
@@ -40,3 +42,9 @@ write-to-PLAN step, hard rules) is inherited verbatim.
 > thin — if you find yourself editing pass *bodies* (not just the deltas
 > above), you've outgrown the overlay; full-copy the scaffold per
 > `docs/MIGRATION.md` §1.2.1 instead.
+>
+> Set `flowtron-reconciled:` to the flowtron version tag you installed from
+> (e.g. `v5.2.0`). Set `flowtron-tracks:` to the exact bundled scaffold name
+> (e.g. `ft-audit-backend`). These fields enable `/ft-update` to warn you
+> when the upstream scaffold changes on a version bump — update
+> `flowtron-reconciled:` to the new version after you re-reconcile.

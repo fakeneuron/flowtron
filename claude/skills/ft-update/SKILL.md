@@ -87,6 +87,40 @@ The authoritative per-project wiring list is the `ln -s … .claude/skills/<name
 
 Report the added symlinks (or "no new skills to wire"). Note: globally-installed skills (`/ft-flowtron`, `/ft-stats`, `/ft-quality`, `/ft-new-project`, `/ft-audit-context`, `/ft-update`) are picked up by the machine-level `claude/skills/*` glob, not per-project — do not symlink them here.
 
+## Step 4.5 — Audit-fork drift scan
+
+Scan the adopter's `.claude/skills/` for local audit forks that carry fork-provenance markers — these signal which bundled scaffold a fork was last reconciled against so that silent upstream drift becomes visible.
+
+For each file matching `.claude/skills/*/SKILL.md` that is a **regular file** (not a symlink — `test ! -L <path>`) and contains a `flowtron-reconciled:` frontmatter field:
+
+1. Parse the file's YAML frontmatter to read:
+   - `flowtron-reconciled:` — the version tag the fork was last reconciled against (e.g. `v5.2.0`).
+   - `flowtron-tracks:` — the bundled scaffold name (e.g. `ft-audit-backend`).
+
+2. If either field is missing or empty, skip this file and note it was skipped.
+
+3. Check whether the tracked scaffold changed between the reconciled version and `<target>`:
+
+   ```sh
+   git -C <FT> log <reconciled>..<target> --oneline -- claude/skills/<flowtron-tracks>/SKILL.md
+   ```
+
+4. If the log is non-empty, emit a **non-blocking warning** for that fork:
+
+   ```text
+   ⚠️  Audit fork drift: .claude/skills/<dir>/SKILL.md
+       Reconciled at: <reconciled>  →  bumping to: <target>
+       Scaffold `claude/skills/<flowtron-tracks>/SKILL.md` changed in N commit(s) since <reconciled>.
+       Review the upstream diff, re-reconcile your fork, then update `flowtron-reconciled:` to <target>:
+
+         git -C <FT> diff <reconciled>..<target> -- claude/skills/<flowtron-tracks>/SKILL.md
+   ```
+
+5. If no `.claude/skills/*/SKILL.md` file carries `flowtron-reconciled:`, emit:
+   `No provenance-marked audit forks found; skipping drift scan.`
+
+Drift warnings are **informational only** — the bump proceeds regardless. After the adopter reviews and re-reconciles, they manually update `flowtron-reconciled:` to `<target>`. Report all warnings (if any) before continuing to Step 5.
+
 ## Step 5 — Smoke check, stage, hand off
 
 - **Symlink resolve check:** `readlink .claude/commands/ft-task.md` resolves into `<FT>/claude/commands/ft-task.md`; spot-check one skill dir symlink too. A broken link means the submodule isn't checked out — surface it.

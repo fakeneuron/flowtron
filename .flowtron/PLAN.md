@@ -18,11 +18,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Future Opportunities
 
-- [ ] **CORE-288** [sonnet] | ft-update-fork-drift-warn — Add fork-provenance markers (flowtron sha/version a fork was reconciled against) + a `/ft-update` check that warns when a bundled `ft-audit-*` changed since an adopter's same-base-name fork was pinned. Turns silent drift into a visible prompt. Surfaced via FinTown audit-context 2026-06-05.
 - [ ] **CORE-289** [sonnet] | promote-audit-orphans — Evaluate promoting commonly-forked adopter audit skills with no upstream (api / database / e2e) into bundled `ft-audit-*` skills, so adopters drop to thin overlays carrying only project specifics. Surfaced via FinTown audit-context 2026-06-05.
 
 ## Completed
 
+- [x] **CORE-288** [sonnet] | ft-update-fork-drift-warn — Completed 2026-06-05.
 - [x] **CORE-287** [opus] | adopter-audit-overlay — Completed 2026-06-05.
 - [x] **CORE-286** [heavy]🧠 | audit-skip-threshold-inline — Completed 2026-06-05.
 - [x] **CORE-285** [heavy]🧠 | ft-release-inline — Completed 2026-06-05.

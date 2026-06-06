@@ -125,6 +125,15 @@ deltas, so the skill can't be customized for your stack at all.)
 
 Splitting one skill into per-area forks (e.g., `audit-backend` → `audit-backend-payments` + `audit-backend-ingest`): copy SKILL.md into multiple sibling dirs and customize each. Forks are yours — flowtron bumps don't touch them; re-copy upstream when you want scaffold improvements.
 
+**Fork-provenance markers.** Both full-copy and overlay forks support two optional frontmatter fields that let `/ft-update` detect when the upstream scaffold has changed since your fork was last reconciled:
+
+```yaml
+flowtron-reconciled: v5.2.0   # version tag you installed or last reconciled from
+flowtron-tracks: ft-audit-backend  # bundled scaffold this fork mirrors
+```
+
+Add these fields to your fork's `SKILL.md` frontmatter at install time (the overlay template already ships them as placeholders). On every `/ft-update` run, the bump step scans your `.claude/skills/*/SKILL.md` files for these markers and runs `git log <reconciled>..<target> -- claude/skills/<tracked>/SKILL.md` against the submodule — if the scaffold changed, it warns you with an upstream diff command so you can review and re-reconcile. After reconciling, update `flowtron-reconciled:` to the new version. Forks without these markers are silently skipped (pre-marker forks keep working; adding the fields is opt-in).
+
 Optional section — skip entirely if you don't want structured audit skills.
 
 ### 1.2.2 Developing flowtron skills & commands (maintainer & contributors)
