@@ -15,14 +15,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **FE-056** [light]🔧 | viz-version-single-source — `VIZ_VERSION` in `viz/src/ui/constants.ts` (`v5.2.0`, shown in the footer) disagrees with `viz/package.json` `"version"` (`0.1.0`); pick one source of truth (derive the footer version from `package.json` at build via Vite `define`, or bump package.json in the release recipe) and document the choice. Surfaced by audit 2026-06-05 (Finding #2, Low).
-
-
 ## Future Opportunities
 
 
 ## Completed
 
+- [x] **FE-056** [light]🔧 | viz-version-single-source — Completed 2026-06-06.
 - [x] **FE-055** [light]🔧 | active-handler-partial-tolerance — Completed 2026-06-06.
 - [x] **CORE-289** [sonnet] | promote-audit-orphans — Completed 2026-06-05.
 - [x] **CORE-288** [sonnet] | ft-update-fork-drift-warn — Completed 2026-06-05.

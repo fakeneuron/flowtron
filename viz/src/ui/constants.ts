@@ -36,6 +36,8 @@ import type { DensityMode, PaletteName } from '../visibilityPrefs';
  * FE-019's ≥4.5:1 small-text contrast in both light and dark.
  */
 
+// Single source of truth for the footer version display. Bumped by /ft-release
+// alongside SPEC.md; viz/package.json mirrors this value via the same recipe.
 export const VIZ_VERSION = 'v5.2.0';
 
 export const TYPOGRAPHY = {
