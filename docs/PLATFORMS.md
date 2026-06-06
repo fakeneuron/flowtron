@@ -52,8 +52,8 @@ repo root, named after the platform:
 ```text
 flowtron/
 ├── claude/         # Claude Code wiring (today)
-├── codex/          # hypothetical Codex CLI wiring
-├── grok/           # hypothetical grok-cli wiring
+├── codex/          # procedure-pointer shipped; full bundle hypothetical
+├── grok/           # procedure-pointer shipped; full bundle hypothetical
 └── cursor/         # hypothetical Cursor wiring
 ```
 

@@ -48,7 +48,7 @@ export const WikilinkMarkdown: React.FC<{
           (href.startsWith('http://') || href.startsWith('https://'));
         if (!isAllowed) return null;
         return (
-          <a href={href} {...props}>
+          <a href={href} {...props} target="_blank" rel="noopener noreferrer">
             {children}
           </a>
         );

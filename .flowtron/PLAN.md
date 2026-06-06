@@ -20,6 +20,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-298** [light]🔧 | commit-inline-fixes — Completed 2026-06-06.
 - [x] **CORE-296** [light]🔧 | agents-model-field-guidance — Completed 2026-06-06.
 - [x] **CORE-295** [light]🔧 | validation-dev-server-separation — Completed 2026-06-06.
 - [x] **CORE-297** [light]🔧 | file-followup-no-clear-cue — Completed 2026-06-06.
