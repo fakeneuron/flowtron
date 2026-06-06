@@ -13,6 +13,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
+- [ ] **CORE-285** [heavy]🧠 | ft-release-inline — make `/ft-release` drive the full release flow in one session instead of filing a task that requires a new `/ft-task` chat; add a context-size escape hatch (suggest file+new-chat when context is large).
+- [ ] **CORE-286** [heavy]🧠 | audit-skip-threshold-inline — when an audit identifies a fix that would immediately hit the skip-the-tasknote path (single-line doc patch, trivial config), execute it inline and close directly to `## Completed` rather than filing an intermediate `## Low` entry.
 
 ## Low
 
