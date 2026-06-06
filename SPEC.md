@@ -456,6 +456,8 @@ After a tasknote is archived, run the three-step protocol (commit / mark landed 
    - **<TASK-ID>** [heavy]🧠 | shortname — one-sentence "why now" (design)
    ```
 
+   **Re-read PLAN.md now** (fresh Read tool call — do not rely on the Step 1 cached parse; the Completed section grows long and stale-context suggestions are a known error mode). For each candidate you intend to name, verify its task line is `- [ ]` (unchecked) and lives in an open section (`## High`, `## Medium`, `## Low`, or `## Future Opportunities`), **not** under `## Completed`. Drop any candidate that fails this check before surfacing it.
+
    Either form:
    - **Epic continuation:** closed task is in an active epic with cleared dependencies → name the single most natural next task ID.
    - **Open menu:** 2-3 candidates from PLAN.md mixing priority and readiness; user picks.
@@ -470,6 +472,8 @@ After a tasknote is archived, run the three-step protocol (commit / mark landed 
    ```
 
    (🧠 for heavy tasks.) Never emit literal `/clear` or `/model` commands — the emoji on the label line carries the model signal; the cue carries the session-reset intent. The skill segment matches the appropriate flowtron skill for the next task — most commonly `/ft-task` (normal tasks), `/ft-micro-task` (micros), `/ft-starter-task` (filing-only), or `/ft-audit*` (audit follow-ups — adopters use the unprefixed local fork per §"Skill namespace"). `<args>` is the next task ID for tasknote-runner skills, or the skill's own argument shape otherwise.
+
+   **Context-dependent skills flag.** When the next-skill is `/ft-file-followup` or `/ft-epic-discovery`, replace the label line with `🔧 Run in this session:` (or `🧠 Run in this session:` if heavy) — these skills draw from current-conversation context to draft their output, so clearing the session destroys what they need. Keep the skill invocation line unchanged.
 
 ## When to use a tasknote (and when not to)
 

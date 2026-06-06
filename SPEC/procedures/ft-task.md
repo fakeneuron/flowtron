@@ -207,4 +207,7 @@ Run the three-step protocol in
    ```
 
    (🧠 for a heavy next task.) The emoji carries the model signal; never emit
-   literal session-reset or model-switch commands.
+   literal session-reset or model-switch commands. **Exception — context-dependent
+   skills:** when the next-skill is `/ft-file-followup` or `/ft-epic-discovery`,
+   replace the label line with `🔧 Run in this session:` (or `🧠`) — these skills
+   draw from current-conversation context; clearing destroys what they need.
