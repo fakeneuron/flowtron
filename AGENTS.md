@@ -41,11 +41,20 @@ the main commands from the repository root (the directory containing the
 npm --prefix viz test
 npm --prefix viz run typecheck
 npm --prefix viz run lint
-npm --prefix viz run dev
 ```
 
 If your shell is already inside `viz/` (common when iterating on the UI), drop
 the `--prefix viz` and run the bare forms (`npm test`, `npm run typecheck`, etc.).
+
+## Dev Server
+
+To preview the visualizer locally, start the dev server from the repository root:
+
+```sh
+npm --prefix viz run dev
+```
+
+Or, if your shell is already inside `viz/`: `npm run dev`.
 
 The visualizer dev server is pinned to port `5120` with `strictPort`.
 
