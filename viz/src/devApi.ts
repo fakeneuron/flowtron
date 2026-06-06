@@ -6,6 +6,7 @@ import { parseTasknote } from './tasknote-parse';
 import { safeReaddir } from './fsSafe';
 import type { ProjectDescriptor } from './workspace';
 import type { ArchiveCache } from './archiveCache';
+import type { Tasknote } from './tasknote';
 
 type Handler = (req: IncomingMessage, res: ServerResponse) => void;
 type AsyncHandler = (req: IncomingMessage, res: ServerResponse) => Promise<void>;
@@ -73,14 +74,23 @@ export function createActiveHandler(
     try {
       const entries = await safeReaddir(project.tasknoteDir);
       const files = entries.filter((e) => e.isFile() && e.name.endsWith('.md'));
-      const tasknotes = await Promise.all(
-        files.map(async (e) => {
-          const id = e.name.replace(/\.md$/, '');
-          const path = join(project.tasknoteDir, e.name);
-          const text = await readFile(path, 'utf8');
-          return parseTasknote(id, path, text);
-        }),
-      );
+      const tasknotes = (
+        await Promise.all(
+          files.map(async (e) => {
+            const id = e.name.replace(/\.md$/, '');
+            const path = join(project.tasknoteDir, e.name);
+            try {
+              const text = await readFile(path, 'utf8');
+              return parseTasknote(id, path, text);
+            } catch {
+              // One unreadable/malformed tasknote (or a TOCTOU delete between readdir
+              // and readFile during live editing) must not 500 the whole active list.
+              // Mirror archiveCache.readArchive: skip the bad file, keep the rest.
+              return null;
+            }
+          }),
+        )
+      ).filter((t): t is Tasknote => t !== null);
       res.setHeader('Content-Type', 'application/json');
       res.end(JSON.stringify(tasknotes));
     } catch (e) {

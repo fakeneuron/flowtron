@@ -255,6 +255,33 @@ created: 2026-05-18
     const parsed = JSON.parse(state.body) as Array<{ id: string }>;
     expect(parsed.map((t) => t.id)).toEqual(['CORE-999']);
   });
+
+  it('tolerates a malformed tasknote and returns the rest', async () => {
+    const good = `---
+title: hi
+status: in-progress
+created: 2026-05-18
+---
+
+# CORE-999 | hi
+`;
+    const malformed = '---\nkey:\n\tdrops-good-rest\n---\nbody\n';
+    const alpha = await makeProject('alpha', {
+      tasknotes: { 'CORE-999.md': good, 'CORE-998.md': malformed },
+    });
+    const handler = createActiveHandler(new Map([['alpha', alpha]]));
+    const req = makeReq({
+      url: '/api/active?project=alpha',
+      headers: { origin: ALLOWED_ORIGIN },
+    });
+    const { res, state } = makeRes();
+
+    await handler(req, res);
+
+    expect(state.statusCode).toBe(200);
+    const parsed = JSON.parse(state.body) as Array<{ id: string }>;
+    expect(parsed.map((t) => t.id)).toEqual(['CORE-999']);
+  });
 });
 
 describe('createArchiveHandler', () => {
