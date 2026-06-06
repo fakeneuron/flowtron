@@ -67,15 +67,23 @@ The deliverable is tickets in PLAN.md.
 1. **After** §§1–3 are presented and any `AskUserQuestion` blockers are answered, write tickets using flowtron's task-line grammar: `- [ ] **<AREA>-<N>** [model] | shortname — long description.` (primary labels `[heavy]🧠` / `[light]🔧` recommended; specifics e.g. `opus` / `sonnet` / `grok` remain valid per SPEC §"Model field"). See §"Task-line format".
 2. Pick the next free `<N>` per area prefix (valid prefixes in `.flowtron/tasknote/README.md` §"Area prefixes" — typically `BE-`, `DB-`, `TEST-`).
 3. Insert in correct priority section. Append `Surfaced by audit-backend YYYY-MM-DD (Finding #N, <severity>)`.
-4. **No code changes**, no formatters, no opening files for fixes. Tickets only.
+4. **No code changes**, no formatters, no opening files for fixes. Tickets only. One exception: the skip-the-tasknote carve-out below.
 5. User pushes back on a ticket → drop it.
+
+**Trivial-fix carve-out (skip-the-tasknote inline path).** When a finding's fix is small enough to hit the skip-the-tasknote threshold — single-line patch, pure formatting tweak, a doc edit under ~10 lines, or a trivial config edit with no logic impact (per SPEC §"When to use a tasknote (and when not to)") — don't file an intermediate `## Low` ticket that needs its own `/ft-task` cycle. Instead, present it in the report under a distinct **Proposed inline fixes** heading (kept separate from the proposed-ticket list) and, on the **same** write-step confirmation that lands the tickets, apply the edit and record it directly under PLAN.md's `## Completed` as a **self-contained** line:
+
+```text
+- [x] **<AREA>-<N>** [light] | shortname — <what changed>. Surfaced by audit-backend YYYY-MM-DD (Finding #N, <severity>), fixed inline.
+```
+
+Keep the description (there is no tasknote/archive file to be the canonical record — see SPEC §"`## Completed` archive convention") and take the next free `<N>` like any ticket. Anything above the skip threshold — multi-file, logic impact, or a design tradeoff worth recording — files a normal ticket; never apply a non-trivial fix under this carve-out. The single write-step confirmation covers both tickets and inline fixes; no separate gate.
 
 Zero findings across all passes → say so explicitly and skip the write.
 
 ## 6. Hard rules
 
 - **Targeted, not exhaustive.** Five findings per pass is a *ceiling*, not a target.
-- **Write tickets, not fixes.** `.flowtron/PLAN.md` gets updated; source files do NOT.
+- **Write tickets, not fixes.** `.flowtron/PLAN.md` gets updated; source files do NOT. **Exception:** the §5 trivial-fix carve-out — skip-the-tasknote-sized fixes may be applied inline and recorded under `## Completed`.
 - **Don't repeat the type-checker.** If `mypy` / `pyright` / `tsc` already flagged it, surface the aggregate count once — don't enumerate each row as a finding.
 - **Verify N+1 before reporting.** Don't flag a `for x in xs: x.related` pattern as N+1 if `xs` was loaded with eager-load already. Read the loader.
 - **Don't audit adjacent code.** Stay inside the resolved scope.

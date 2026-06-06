@@ -66,15 +66,23 @@ The deliverable is tickets in PLAN.md.
 1. **After** §§1–3 are presented and any `AskUserQuestion` blockers are answered, write tickets using flowtron's task-line grammar: `- [ ] **<AREA>-<N>** [model] | shortname — long description.` (primary labels `[heavy]🧠` / `[light]🔧` recommended; specifics e.g. `opus` / `sonnet` / `grok` remain valid per SPEC §"Model field"). See §"Task-line format".
 2. Pick the next free `<N>` per area prefix (valid prefixes in `.flowtron/tasknote/README.md` §"Area prefixes").
 3. Insert in correct priority section. Append `Surfaced by audit-docs YYYY-MM-DD (Finding #N, <severity>)`.
-4. **No direct edits to audited docs.** Tickets only — edits happen in `/ft-task` cycles.
+4. **No direct edits to audited docs.** Tickets only — edits happen in `/ft-task` cycles. One exception: the skip-the-tasknote carve-out below.
 5. User pushes back on a ticket → drop it.
+
+**Trivial-fix carve-out (skip-the-tasknote inline path).** When a finding's fix is small enough to hit the skip-the-tasknote threshold — single-line doc patch, pure formatting tweak, a doc edit under ~10 lines, or a trivial config edit with no logic impact (per SPEC §"When to use a tasknote (and when not to)") — don't file an intermediate `## Low` ticket that needs its own `/ft-task` cycle. Instead, present it in the report under a distinct **Proposed inline fixes** heading (kept separate from the proposed-ticket list) and, on the **same** write-step confirmation that lands the tickets, apply the edit and record it directly under PLAN.md's `## Completed` as a **self-contained** line:
+
+```text
+- [x] **<AREA>-<N>** [light] | shortname — <what changed>. Surfaced by audit-docs YYYY-MM-DD (Finding #N, <severity>), fixed inline.
+```
+
+Keep the description (there is no tasknote/archive file to be the canonical record — see SPEC §"`## Completed` archive convention") and take the next free `<N>` like any ticket. Anything above the skip threshold — multi-file, a substantive rewrite, or a design tradeoff worth recording — files a normal ticket; never apply a non-trivial edit under this carve-out. The single write-step confirmation covers both tickets and inline fixes; no separate gate. (Doc audits hit this carve-out often — most doc-drift fixes are exactly skip-the-tasknote sized.)
 
 Zero findings across all passes → say so explicitly and skip the write.
 
 ## 6. Hard rules
 
 - **Targeted, not exhaustive.** Five findings per pass is a *ceiling*, not a target. A clean pass gets zero findings and moves on.
-- **Write tickets, not fixes.** `.flowtron/PLAN.md` gets updated; source docs do NOT. Do not open files in edit mode for fixes; do not run formatters; do not "fix while I'm in here."
+- **Write tickets, not fixes.** `.flowtron/PLAN.md` gets updated; source docs do NOT. Do not open files in edit mode for fixes; do not run formatters; do not "fix while I'm in here." **Exception:** the §5 trivial-fix carve-out — skip-the-tasknote-sized fixes may be applied inline and recorded under `## Completed`.
 - **Don't audit code, audit the docs about the code.** If the docs are accurate but the code is wrong, that's a code finding — out of scope here. Use `/ft-audit` or `/ft-audit-backend` etc. for that.
 - **Archived tasknotes are write-once.** Skip `.flowtron/tasknote/archive/` entirely — those are historical records, not living docs.
 - **Subroutine-safe.** This skill is designed to be invoked from other skills (notably `/ft-release`'s doc-drift sweep). When invoked as a subroutine with an explicit scope, skip §0 forker prompts and surface the report inline rather than blocking on `AskUserQuestion` for non-blocker items.

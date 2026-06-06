@@ -119,3 +119,11 @@ checkbox + date); `| shortname` is required so visualizers have a row
 title, `[model]` stays optional. Adopting projects pick up the
 convention on their next bump (additive change; legacy paragraph-form
 entries continue to parse).
+
+**Exception — inline audit fixes.** A trivial fix applied inline by an
+audit skill (the `/ft-audit*` §5 trivial-fix carve-out: skip-the-tasknote-sized
+patches done at audit time instead of filed as a `## Low` ticket) has no
+tasknote and no archive file, so its `## Completed` line **retains** a
+short self-contained description plus `Surfaced by <audit-label>
+YYYY-MM-DD (Finding #N, <severity>), fixed inline` — here the line itself
+is the canonical record.

@@ -13,8 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-286** [heavy]🧠 | audit-skip-threshold-inline — when an audit identifies a fix that would immediately hit the skip-the-tasknote path (single-line doc patch, trivial config), execute it inline and close directly to `## Completed` rather than filing an intermediate `## Low` entry.
-
 ## Low
 
 
@@ -26,6 +24,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-286** [heavy]🧠 | audit-skip-threshold-inline — Completed 2026-06-05.
 - [x] **CORE-285** [heavy]🧠 | ft-release-inline — Completed 2026-06-05.
 - [x] **CORE-284** [light] | agents-md-prose-nit — Completed 2026-06-05.
 - [x] **CORE-283** [light] | ft-update-wiring-confirm — Completed 2026-06-05.

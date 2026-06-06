@@ -67,15 +67,23 @@ The deliverable is tickets in PLAN.md.
 1. **After** §§1–3 are presented and any `AskUserQuestion` blockers are answered, write tickets using flowtron's task-line grammar: `- [ ] **<AREA>-<N>** [model] | shortname — long description.` (primary labels `[heavy]🧠` / `[light]🔧` recommended; specifics e.g. `opus` / `sonnet` / `grok` remain valid per SPEC §"Model field"). See §"Task-line format".
 2. Pick the next free `<N>` per area prefix (valid prefixes in `.flowtron/tasknote/README.md` §"Area prefixes").
 3. Insert in correct priority section. Append `Surfaced by audit-security YYYY-MM-DD (Finding #N, <severity>)`.
-4. **No code changes.** Tickets only — fixes happen in `/ft-task` cycles. **Exception:** secret currently leaked in a tracked file → surface immediately and ask whether to rotate/scrub now.
+4. **No code changes.** Tickets only — fixes happen in `/ft-task` cycles. **Exception:** secret currently leaked in a tracked file → surface immediately and ask whether to rotate/scrub now. Second exception: the skip-the-tasknote carve-out below.
 5. User pushes back on a ticket → drop it.
+
+**Trivial-fix carve-out (skip-the-tasknote inline path).** When a finding's fix is small enough to hit the skip-the-tasknote threshold — single-line patch, pure formatting tweak, a doc edit under ~10 lines, or a trivial config edit with no logic impact (per SPEC §"When to use a tasknote (and when not to)") — don't file an intermediate `## Low` ticket that needs its own `/ft-task` cycle. Instead, present it in the report under a distinct **Proposed inline fixes** heading (kept separate from the proposed-ticket list) and, on the **same** write-step confirmation that lands the tickets, apply the edit and record it directly under PLAN.md's `## Completed` as a **self-contained** line:
+
+```text
+- [x] **<AREA>-<N>** [light] | shortname — <what changed>. Surfaced by audit-security YYYY-MM-DD (Finding #N, <severity>), fixed inline.
+```
+
+Keep the description (there is no tasknote/archive file to be the canonical record — see SPEC §"`## Completed` archive convention") and take the next free `<N>` like any ticket. This carve-out is for trivial hygiene only — never apply an actual security fix (auth, validation, crypto, secret rotation) inline; those are above the skip threshold and follow the §4 secret-leaked path or a normal `/ft-task` ticket. The single write-step confirmation covers both tickets and inline fixes; no separate gate.
 
 Zero findings across all passes → say so explicitly and skip the write.
 
 ## 6. Hard rules
 
 - **Targeted, not exhaustive.** Five findings per pass is a *ceiling*, not a target. A clean pass gets zero findings and moves on.
-- **Write tickets, not fixes.** `.flowtron/PLAN.md` gets updated; source files do NOT (with the secret-leaked exception in §5 step 4).
+- **Write tickets, not fixes.** `.flowtron/PLAN.md` gets updated; source files do NOT (with the secret-leaked exception in §5 step 4, plus the §5 trivial-fix carve-out — skip-the-tasknote-sized hygiene fixes may be applied inline and recorded under `## Completed`).
 - **Don't repeat the scanner.** If `gitleaks` / `npm audit` / etc. already flagged it, surface the count once in pass 1 or 5 and link to the scanner output — don't enumerate each scanner row as a separate finding.
 - **Don't audit adjacent code.** Stay inside the resolved scope.
 - **Don't theorize about exploits.** If you can't trace an attacker-controlled input to the vulnerable sink, downgrade severity. Speculative "could be exploitable" is Low at most.
