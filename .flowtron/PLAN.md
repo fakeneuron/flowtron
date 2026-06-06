@@ -21,7 +21,9 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Future Opportunities
 
-(none)
+- [ ] **CORE-287** [opus] | adopter-audit-overlay — Design a sanctioned thin-overlay pattern for adopter audit forks: a short project SKILL.md that runs a bundled `ft-audit-*` skill's passes by reference, then layers project deltas — instead of full-copying the body (drift) or symlinking verbatim (no deltas). Surfaced via FinTown audit-context 2026-06-05.
+- [ ] **CORE-288** [sonnet] | ft-update-fork-drift-warn — Add fork-provenance markers (flowtron sha/version a fork was reconciled against) + a `/ft-update` check that warns when a bundled `ft-audit-*` changed since an adopter's same-base-name fork was pinned. Turns silent drift into a visible prompt. Surfaced via FinTown audit-context 2026-06-05.
+- [ ] **CORE-289** [sonnet] | promote-audit-orphans — Evaluate promoting commonly-forked adopter audit skills with no upstream (api / database / e2e) into bundled `ft-audit-*` skills, so adopters drop to thin overlays carrying only project specifics. Surfaced via FinTown audit-context 2026-06-05.
 
 ## Completed
 
