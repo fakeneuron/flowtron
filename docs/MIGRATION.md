@@ -87,6 +87,42 @@ cp .flowtron/core/claude/commands/ft-$SKILL.md      .claude/commands/$SKILL.md
 
 Upstream carries the `ft-` prefix (flowtron's owned namespace per SPEC §"Skill namespace"); the local fork drops it so ownership is clear in skill resolution. Open each fork's SKILL.md and walk the **§0 Forker checklist** — set glob, rubric files, verification commands, stack-specific pass examples, sacred-invariant callouts under Critical. Delete §0 when filled in.
 
+**Two ways to fork: full copy vs. thin overlay.** The `cp` above is the
+**full-copy** path — you own a complete ~100-line SKILL.md and customize it
+freely. Its cost is **drift**: when flowtron improves a scaffold's pass
+structure or finding format on a later version bump, your copy doesn't pick it
+up (re-copy manually to catch up). When your only divergence from a bundled
+scaffold *is* the §0 checklist surface — glob, rubric, gates, sacred
+invariants, per-pass examples, extra hard rules — prefer the lighter **thin
+overlay** instead: a ~20-line SKILL.md that points at the bundled scaffold,
+runs its 5 passes *by reference*, and carries only a `## Deltas` block.
+
+```sh
+SKILL=audit-backend   # your fork's local (unprefixed) name
+mkdir -p .claude/skills/$SKILL
+cp .flowtron/core/templates/audit-overlay-template.md .claude/skills/$SKILL/SKILL.md
+cp .flowtron/core/claude/commands/ft-audit-backend.md .claude/commands/$SKILL.md
+# then edit SKILL.md: set the referenced scaffold path + fill the ## Deltas block
+```
+
+The overlay points at the **read-only submodule path**
+`.flowtron/core/claude/skills/ft-audit-<x>/SKILL.md` — clone-independent and
+stable across version bumps (the audit family is forked-not-symlinked, so it is
+*not* in the `.claude/` wiring; the submodule path is the only reliable
+reference). On every run the overlay's first action is to read that scaffold
+and run **its** passes, substituting the `## Deltas` values for the scaffold's
+`<placeholder>` slots — the same read-by-reference pattern `/ft-task` uses for
+its lazy SPEC modules. Because the body lives upstream, an overlay **inherits
+scaffold improvements automatically** on a version bump (it never copied them).
+
+Choose by how much you diverge: **overlay** when only the §0 surface changes
+(most stacks); **full copy** when you need to edit pass *bodies* — reorder or
+rewrite passes, change the finding format, or restructure the closing sections.
+The overlay's one limitation is that it relies on the agent loading the
+referenced scaffold at runtime; if your agent can't follow the pointer, full-copy
+instead. (Verbatim **symlinking** a scaffold is *not* an option — it carries no
+deltas, so the skill can't be customized for your stack at all.)
+
 Splitting one skill into per-area forks (e.g., `audit-backend` → `audit-backend-payments` + `audit-backend-ingest`): copy SKILL.md into multiple sibling dirs and customize each. Forks are yours — flowtron bumps don't touch them; re-copy upstream when you want scaffold improvements.
 
 Optional section — skip entirely if you don't want structured audit skills.

@@ -127,7 +127,7 @@ These tools are opt-in companion surfaces. None of the above is required.
 
 - `SPEC.md` — workflow contract (authoritative)
 - `SPEC/` — lazy SPEC modules (epic, starter, blocked, model, versioning, gates, tasknote-selection); loaded on demand by skills
-- `templates/` — canonical tasknote and `PLAN.md` templates
+- `templates/` — canonical tasknote, `PLAN.md`, and audit-overlay fork templates
 - `claude/` — Claude Code skills + slash commands (adopter-facing snippet + self-hosted skills like `/ft-task`, `/ft-release`); future non-Claude-Code platform wirings (e.g., `codex/`, `grok/`, `cursor/`) plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md)
 - `docs/` — philosophy, vision, glossary, migration, conventions, agent-neutrality, platforms, agent-compat, and worktrees docs
 - `.flowtron/` — flowtron's own roadmap and tasknotes (self-hosted)
