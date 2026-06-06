@@ -5,7 +5,7 @@
 One-paragraph statement of the project's purpose and end state. Replace this
 with the actual project vision.
 
-See [.flowtron/core/SPEC.md](flowtron/SPEC.md) for the canonical workflow contract.
+See [.flowtron/core/SPEC.md](core/SPEC.md) for the canonical workflow contract.
 
 ## High
 

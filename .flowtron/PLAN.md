@@ -20,6 +20,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-299** [light]🔧 | template-plan-spec-link — Fixed broken SPEC href in templates/PLAN.md (flowtron/SPEC.md → core/SPEC.md). Surfaced by audit 2026-06-06 (Finding #1, Medium), fixed inline.
 - [x] **CORE-298** [light]🔧 | commit-inline-fixes — Completed 2026-06-06.
 - [x] **CORE-296** [light]🔧 | agents-model-field-guidance — Completed 2026-06-06.
 - [x] **CORE-295** [light]🔧 | validation-dev-server-separation — Completed 2026-06-06.
