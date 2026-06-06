@@ -15,7 +15,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-294** [light]🔧 | ft-update-symlink-trailing-slash — Fix `.claude/skills/ft-update` symlink target to include a trailing slash, matching every other skill symlink in `.claude/skills/`. Surfaced by audit-context 2026-06-06 (Pass c, Low).
 - [ ] **CORE-295** [light]🔧 | validation-dev-server-separation — Move `npm run dev` from the `## Validation` section of AGENTS.md into a separate `## Dev Server` or `## Manual Testing` heading so agents don't accidentally start the server during a validation sweep. Surfaced by audit-context 2026-06-06 (Pass d, Low).
 - [ ] **CORE-296** [light]🔧 | agents-model-field-guidance — Add a sentence to AGENTS.md directing agents to `SPEC/model.md` for model-field semantics and the model-mismatch surface cue — matching what the paste-block already tells adopter agents. Surfaced by audit-context 2026-06-06 (Pass d, Low).
 
@@ -25,6 +24,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Completed
 
 - [x] **CORE-297** [light]🔧 | file-followup-no-clear-cue — Completed 2026-06-06.
+- [x] **CORE-294** [light]🔧 | ft-update-symlink-trailing-slash — Completed 2026-06-06.
 - [x] **CORE-293** [sonnet] | agents-skill-roster-gap — Completed 2026-06-06.
 - [x] **CORE-292** [sonnet] | prune-settings-local-debt — Completed 2026-06-06.
 - [x] **CORE-291** [sonnet] | prune-stale-project-allows — Completed 2026-06-06.
