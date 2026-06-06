@@ -15,11 +15,16 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
+- [ ] **CORE-292** [sonnet] | prune-settings-local-debt — Prune one-time `ln -s` setup commands, version-pinned debugging one-liners, and the blanket `Bash(cd *)` allow from `.claude/settings.local.json` (135 Bash entries, 10.5 KB accumulated permission debt). Surfaced by audit-context 2026-06-06 (Pass d, Low).
+
 ## Future Opportunities
 
 
 ## Completed
 
+- [x] **CORE-291** [sonnet] | prune-stale-project-allows — Completed 2026-06-06.
+- [x] **FE-057** [light]🔧 | wikilink-external-link-attrs — Added `target="_blank" rel="noopener noreferrer"` to external links in WikilinkMarkdown so clicking a URL in task detail opens a new tab instead of navigating the viz window away. Surfaced by audit 2026-06-06 (Finding #1, Medium), fixed inline.
+- [x] **CORE-290** [light]🔧 | platforms-tree-hypothetical-drift — Updated PLATFORMS.md tree comments for `codex/` and `grok/` from "hypothetical … wiring" to "procedure-pointer shipped; full bundle hypothetical" to reflect current repo state. Surfaced by audit 2026-06-06 (Finding #2, Low), fixed inline.
 - [x] **FE-056** [light]🔧 | viz-version-single-source — Completed 2026-06-06.
 - [x] **FE-055** [light]🔧 | active-handler-partial-tolerance — Completed 2026-06-06.
 - [x] **CORE-289** [sonnet] | promote-audit-orphans — Completed 2026-06-05.
