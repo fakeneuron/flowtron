@@ -15,13 +15,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-296** [light]🔧 | agents-model-field-guidance — Add a sentence to AGENTS.md directing agents to `SPEC/model.md` for model-field semantics and the model-mismatch surface cue — matching what the paste-block already tells adopter agents. Surfaced by audit-context 2026-06-06 (Pass d, Low).
-
 ## Future Opportunities
 
 
 ## Completed
 
+- [x] **CORE-296** [light]🔧 | agents-model-field-guidance — Completed 2026-06-06.
 - [x] **CORE-295** [light]🔧 | validation-dev-server-separation — Completed 2026-06-06.
 - [x] **CORE-297** [light]🔧 | file-followup-no-clear-cue — Completed 2026-06-06.
 - [x] **CORE-294** [light]🔧 | ft-update-symlink-trailing-slash — Completed 2026-06-06.
