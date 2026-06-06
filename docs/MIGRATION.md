@@ -134,6 +134,8 @@ flowtron-tracks: ft-audit-backend  # bundled scaffold this fork mirrors
 
 Add these fields to your fork's `SKILL.md` frontmatter at install time (the overlay template already ships them as placeholders). On every `/ft-update` run, the bump step scans your `.claude/skills/*/SKILL.md` files for these markers and runs `git log <reconciled>..<target> -- claude/skills/<tracked>/SKILL.md` against the submodule — if the scaffold changed, it warns you with an upstream diff command so you can review and re-reconcile. After reconciling, update `flowtron-reconciled:` to the new version. Forks without these markers are silently skipped (pre-marker forks keep working; adding the fields is opt-in).
 
+**Surfaces not covered by the six bundled scaffolds.** For audit surfaces without a dedicated bundled skill — API contracts, database schema/migrations, E2E test quality — use the nearest bundled scaffold as the overlay base rather than starting from scratch: `ft-audit-backend` covers API and database surfaces well through its Input & contracts and Persistence passes (scope the glob to your API routes or migrations dir; point the rubric at your API contract and schema docs). There is no bundled `ft-audit-e2e` yet; if your project needs one, start from `ft-audit` (catch-all) and customize the pass bodies — at that point, full-copy rather than overlay.
+
 Optional section — skip entirely if you don't want structured audit skills.
 
 ### 1.2.2 Developing flowtron skills & commands (maintainer & contributors)

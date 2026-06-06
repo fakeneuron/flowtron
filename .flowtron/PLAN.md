@@ -18,10 +18,10 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Future Opportunities
 
-- [ ] **CORE-289** [sonnet] | promote-audit-orphans — Evaluate promoting commonly-forked adopter audit skills with no upstream (api / database / e2e) into bundled `ft-audit-*` skills, so adopters drop to thin overlays carrying only project specifics. Surfaced via FinTown audit-context 2026-06-05.
 
 ## Completed
 
+- [x] **CORE-289** [sonnet] | promote-audit-orphans — Completed 2026-06-05.
 - [x] **CORE-288** [sonnet] | ft-update-fork-drift-warn — Completed 2026-06-05.
 - [x] **CORE-287** [opus] | adopter-audit-overlay — Completed 2026-06-05.
 - [x] **CORE-286** [heavy]🧠 | audit-skip-threshold-inline — Completed 2026-06-05.
