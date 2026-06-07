@@ -12,7 +12,7 @@ in `SPEC.md`; read it before starting non-trivial work.
 - Lazy workflow modules live in `SPEC/` and are loaded when the task shape
   calls for them.
 - Start a task with `/ft-task <TASK-ID>`; peer skills: `/ft-micro-task` (small tasks), `/ft-starter-task` (filing-only), `/ft-file-followup` (brief notes), `/ft-epic-discovery`/`/ft-close-epic` (epics), `/ft-debug` (bugs), `/ft-worktree-start`/`/ft-worktree-end` (parallel branches).
-- Each PLAN.md task line carries a `[model]` segment (see `SPEC/model.md` §"Model field" for practical/agent-aware guidance and the model-mismatch surface cue). The task runs end-to-end on the tagged model. If the loaded model doesn't match, surface the mismatch before continuing.
+- Each PLAN.md task line carries a `[model]` segment (see `SPEC/model.md` §"Model field" for practical/agent-aware guidance and the model-mismatch surface cue). The task runs end-to-end on the tagged model.
 
 Flowtron self-hosts its own roadmap. For non-trivial edits, follow the
 tasknote lifecycle from `SPEC.md`: Discovery -> Execution -> Testing &
@@ -55,8 +55,7 @@ To preview the visualizer locally, start the dev server from the repository root
 npm --prefix viz run dev
 ```
 
-Or, if your shell is already inside `viz/`: `npm run dev`.
-
+(As with validation, drop `--prefix viz` if your shell is already inside `viz/`.)
 The visualizer dev server is pinned to port `5120` with `strictPort`.
 
 ## Editing Rules
