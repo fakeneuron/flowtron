@@ -48,6 +48,8 @@ ln -s ../../.flowtron/core/claude/commands/ft-worktree-start.md   .claude/comman
 ln -s ../../.flowtron/core/claude/commands/ft-worktree-end.md     .claude/commands/ft-worktree-end.md
 ln -s ../../.flowtron/core/claude/skills/ft-worktree-start    .claude/skills/ft-worktree-start
 ln -s ../../.flowtron/core/claude/skills/ft-worktree-end      .claude/skills/ft-worktree-end
+ln -s ../../.flowtron/core/claude/commands/ft-update.md       .claude/commands/ft-update.md
+ln -s ../../.flowtron/core/claude/skills/ft-update            .claude/skills/ft-update
 ```
 
 The relative paths are intentional — they survive `git clone` and pin to whichever flowtron commit the submodule is checked out at. Commit the symlinks (`git add .claude/`).
