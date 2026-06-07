@@ -4,7 +4,7 @@
 
 Adopted from the GSD-Pi `CONTEXT.md` glossary pattern (the "mega-doc" slice that survived the one-task-per-window filter during CORE-EPIC-194 Discovery). See [CORE-194.1](../.flowtron/tasknote/archive/core/CORE-194.1.md) for the extraction rationale and term-cohort decisions.
 
-Alphabetized. ~51 entries. Maintained via epic children and audits.
+Alphabetized. ~52 entries. Maintained via epic children and audits.
 
 ---
 
@@ -39,6 +39,8 @@ Alphabetized. ~51 entries. Maintained via epic children and audits.
 **Discovery (Phase 1)** — The mandatory opening phase of every tasknote: Reviewed PLAN, Relevance Assessment (Proceed/Re-scope/De-scope), read sources, archive skim, drift check, clarifying questions (or logged assumptions), populate subtasks. Exit gate may emit 🛠️. See SPEC §"📝 Phase 1: Discovery".
 
 **Doc-drift sweep** — The mandatory Phase 4 (and epic-audit) step that walks every entry in the AI-referenced docs list and records "no change" or the precise update performed.
+
+**Downstream-impact reconciliation** — The scan that keeps PLAN.md cohesive as it grows: when a new task is filed or a mid-flow decision changes direction, active PLAN entries are checked for stale / contradictory / redundant overlap and one reconcile action (merge / nest / edit / delete / leave) is proposed per impacted entry behind a user-confirm gate (the plan is never auto-rewritten). Wired into the filing skills and the `/ft-task` Phase 2 decision path. See SPEC/tasknote-selection.md §"Downstream-impact reconciliation".
 
 **Drift check** — Phase 1 step that verifies file paths, line numbers, function names, and root-cause hypotheses cited in the original PLAN description still match current HEAD before any re-interpretation.
 
@@ -112,6 +114,6 @@ Alphabetized. ~51 entries. Maintained via epic children and audits.
 
 ---
 
-**Maintenance.** This file is the survivor slice of the GSD-Pi `CONTEXT.md` pattern (see CORE-194.1). It is deliberately lazy-loaded and must never be added to the AI-referenced docs list. New terms are introduced only by epic children or audit follow-ups that also update the authoritative SPEC anchors. Last significant update: CORE-194.3 (2026-05-26).
+**Maintenance.** This file is the survivor slice of the GSD-Pi `CONTEXT.md` pattern (see CORE-194.1). It is deliberately lazy-loaded and must never be added to the AI-referenced docs list. New terms are introduced only by epic children or audit follow-ups that also update the authoritative SPEC anchors. Last significant update: CORE-301.5 (2026-06-07).
 
 See [SPEC.md](../SPEC.md) for the contract and [.flowtron/PLAN.md](../.flowtron/PLAN.md) for the current epic context.
