@@ -197,7 +197,9 @@ The Phase 2 deliverable is the filed child lines. Walk the Phase 2 checklist:
 - **Implemented the minimal solution** — write the drafted `.2..(N-1)` child lines into `.flowtron/PLAN.md` directly under the existing `.1` Discovery line, before the `.N` audit line (or at the bottom if N excluded audit). Preserve the 2-space child indent. Word-count each line; rewrite if any breach the 70w cap.
 - **Updated/added tests** — N/A (pure PLAN.md filing; no executable code surface).
 
-Capture in Implementation Notes: the count of lines written, word-count per line, and any audit-number bump (if Discovery decided N was wrong and the audit's number shifted).
+**Downstream-impact reconciliation scan** (per SPEC/tasknote-selection.md §"Downstream-impact reconciliation" — authoritative for triggers, scan steps, and vocabulary). The child cohort is a **new-task filing** trigger, so after writing the `.2..(N-1)` lines, scan the **rest of** the active PLAN (`High` / `Medium` / `Low` / `Future Opportunities`; the just-filed children and the `## Completed` section are out of scope) for existing entries that share a surface with any new child — same files, subsystem, contract, or a cited `[[wikilink]]` dependency. For each, classify impact (stale / contradictory / redundant / unaffected) and propose one reconcile action (merge / nest / edit / delete / leave). Surface the impacted-entry list — one line each with classification + proposed action — and wait for explicit user confirmation before editing any existing line; apply only the confirmed edits (amend or reject per the user). A fresh-area epic whose children obviously touch nothing already filed skips the scan (judgment) — note "no downstream impact" and move on. This user-confirm is an **AskUserQuestion-style review prompt, not a new banner** — the two-banner cap (🛠️ Phase 1→2 + 📦 ready-to-commit) is preserved, consistent with Step 5.5's per-stage gates.
+
+Capture in Implementation Notes: the count of lines written, word-count per line, any audit-number bump (if Discovery decided N was wrong and the audit's number shifted), and any reconcile edits applied to existing entries (or "no downstream impact").
 
 Phase 2 flows continuously into the Step 8 markdown mental-pass and Step 9 closure ops without an intermediate gate; the next operator-gate cue is the 📦 ready-to-commit banner in Step 10.
 
@@ -212,6 +214,7 @@ Markdown-prose edits only — no test surface. Markdown mental-pass on the edite
 - Em-dash separator (` — `) consistent.
 - Long description ≤70w hard cap; ≤50w target.
 - No trailing whitespace.
+- Any reconcile-edited existing lines (the Step 7 scan) still parse — grammar, indent, and cross-refs intact.
 
 Tick all three Phase 3 boxes (test suite N/A, lint N/A, frontend N/A).
 

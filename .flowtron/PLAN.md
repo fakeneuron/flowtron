@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-301.1** [heavy]🧠 | discovery — Completed 2026-06-07.
   - [x] **CORE-301.2** [heavy]🧠 | reconciliation-contract — Completed 2026-06-07.
   - [x] **CORE-301.3** [heavy]🧠 | wire-inline-filers — Completed 2026-06-07.
-  - [ ] **CORE-301.4** [heavy]🧠 | wire-epic-and-decisions — Wire the scan into ft-epic-discovery (Phase 2 child filing scans existing PLAN for impacted tasks) and add a ft-task hook so a direction-changing Phase 2 decision triggers the same downstream reconciliation before continuing.
+  - [x] **CORE-301.4** [heavy]🧠 | wire-epic-and-decisions — Completed 2026-06-07.
   - [ ] **CORE-301.5** [heavy]🧠 | adopter-doc-propagation — Propagate the reconciliation contract to the adopter surface: AGENTS-snippet.md, docs/MIGRATION.md, and the glossary; verification sweep that every wired skill's cross-references resolve and no doc claims the old filing-only behavior.
   - [ ] **CORE-301.6** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest .N child.
 
