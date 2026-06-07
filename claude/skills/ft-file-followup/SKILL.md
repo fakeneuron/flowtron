@@ -46,7 +46,7 @@ Use AskUserQuestion to confirm the key fields. Pre-populate from conversation co
 
 The 70w cap exists so PLAN.md stays scannable; rich context belongs in starter bodies (`/ft-starter-task`) or full tasknotes (`/ft-task`). `/ft-file-followup`'s niche is the ≤50w + ephemeral-context band only.
 
-## Step 3 — Draft and surface for review
+## Step 3 — Draft, scan, and surface for review
 
 Draft the conversational paragraph from prior conversation context. **Free-form prose**, no fixed schema or bold-prefix prompts; the SKILL prescribes intent only:
 
@@ -56,16 +56,19 @@ Draft the conversational paragraph from prior conversation context. **Free-form 
 
 Keep the paragraph under ~80 words. If the conversation has surfaced more context than fits, that is itself a signal to use `/ft-starter-task` instead — surface to the user.
 
+**Downstream-impact reconciliation scan** (per SPEC/tasknote-selection.md §"Downstream-impact reconciliation" — authoritative for triggers, scan steps, and vocabulary). After drafting the new line, scan **active** PLAN entries (`High` / `Medium` / `Low` / `Future Opportunities`; `## Completed` is out of scope) for ones that share a surface with the new follow-up — same files, subsystem, contract, or a cited `[[wikilink]]` dependency. For each, classify impact (stale / contradictory / redundant / unaffected) and propose one reconcile action (merge / nest / edit / delete / leave). Routine filings that obviously touch nothing downstream (first task in a fresh area, a self-contained ticket) skip the scan — apply judgment, then note "no downstream impact" in the review surface. **Propose only — never edit an existing line before the user confirms** (the user-confirm gate is the existing review below, not a separate approval).
+
 **Surface for review.** Show the user, in one short message:
 
 - The proposed PLAN.md line, exactly as it will be appended.
 - The drafted conversational paragraph.
+- **Any proposed reconcile actions** — one impacted entry per line with its classification and proposed action (or "no downstream impact" when the scan found none or was skipped).
 
-Edit per their feedback before writing anything. Do not skip the review.
+Edit per their feedback before writing anything. Do not skip the review. The reconcile proposals fold into this same review gate — they are not a separate approval step.
 
 ## Step 4 — File the entry
 
-In one continuous motion:
+In one continuous motion, after the user has confirmed the Step 3 review (including any reconcile proposals):
 
 1. **Append the PLAN.md entry.** Append a new entry under the appropriate `## <Priority>` heading using the canonical task-line grammar (SPEC §"Task-line format"):
 
@@ -79,7 +82,9 @@ In one continuous motion:
 
    No `Filed with starter at ...` pointer (that suffix is `/ft-starter-task`'s contract). The new line carries only the long description — no breadcrumb to a tasknote that doesn't exist.
 
-2. **Deliver the conversational paragraph.** Surface the reviewed paragraph from Step 3 in the same response as the filing confirmation. The paragraph is **chat-only** — never persisted to disk, never written into the active tasknote.
+2. **Apply confirmed reconcile edits.** If the Step 3 scan surfaced impacted entries and the user accepted (or amended) any proposed actions, apply those PLAN.md edits in the same motion — merge / nest / edit / delete the affected lines per the confirmed action. Apply nothing the user rejected or didn't see. No impact (or scan skipped) → no-op.
+
+3. **Deliver the conversational paragraph.** Surface the reviewed paragraph from Step 3 in the same response as the filing confirmation. The paragraph is **chat-only** — never persisted to disk, never written into the active tasknote.
 
 ## Step 5 — Hand off
 
@@ -87,7 +92,7 @@ Surface to the user, in one short message:
 
 - `<TASK-ID>` filed at `.flowtron/PLAN.md` under `## <Priority>` with model `<model>`.
 - The follow-up sits as a one-line PLAN.md entry until `/ft-task <TASK-ID>` (or `/ft-micro-task` / `/ft-starter-task` for promotion) fires.
-- (Conversational paragraph from Step 4.2 is included in this response.)
+- (Conversational paragraph from Step 4.3 is included in this response.)
 
 Do **not** commit unprompted. The new PLAN.md line is typically bundled into whatever commit the surrounding conversation produces (if any) or left for the user to handle. If the user asks for a commit, the message format is `chore: file <TASK-ID> follow-up — <shortname>`.
 

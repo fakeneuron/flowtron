@@ -43,11 +43,13 @@ Use AskUserQuestion to confirm the key fields. Pre-populate from conversation co
 
 Optional inputs the AI may pre-fill silently (user corrects on Step 3 review): `tags:` (visualizer filter), `due:` (only if the conversation specified a deadline), `related-tasks:` (wikilinks to predecessors / parent epic / follow-ups surfaced in conversation).
 
-## Step 3 — Draft the starter body
+## Step 3 — Draft the starter body and scan for downstream impact
 
 Compose the `## 🌱 Starter context` body from conversation context using the canonical sub-headings in the starter template (path resolved in Step 0); drop any sub-heading with nothing genuine to capture (per `<SPEC_DIR>/starter.md`, Read in Step 0). The whole body remains under the single `## 🌱 Starter context` section.
 
-**Surface the drafted body and proposed PLAN.md entry to the user for review before writing anything.** Edit per their feedback.
+**Downstream-impact reconciliation scan** (per SPEC/tasknote-selection.md §"Downstream-impact reconciliation" — authoritative for triggers, scan steps, and vocabulary). After drafting the new line, scan **active** PLAN entries (`High` / `Medium` / `Low` / `Future Opportunities`; `## Completed` is out of scope) for ones that share a surface with the new starter — same files, subsystem, contract, or a cited `[[wikilink]]` dependency. For each, classify impact (stale / contradictory / redundant / unaffected) and propose one reconcile action (merge / nest / edit / delete / leave). Routine filings that obviously touch nothing downstream skip the scan — apply judgment, then note "no downstream impact" in the review surface. **Propose only — never edit an existing line before the user confirms** (the user-confirm gate is the review below, not a separate approval).
+
+**Surface the drafted body, the proposed PLAN.md entry, and any proposed reconcile actions to the user for review before writing anything** — one impacted entry per line with its classification and proposed action (or "no downstream impact" when the scan found none or was skipped). The reconcile proposals fold into this same review gate, not a separate approval step. Edit per their feedback.
 
 ## Step 4 — Write the starter file
 
@@ -78,6 +80,8 @@ Placement:
 - If the section carries a `(none)` placeholder, replace the placeholder with the new entry.
 
 **Threshold check.** Word-count the long description (excluding the trailing `Filed with starter at ...` pointer) and apply SPEC/tasknote-selection.md §"PLAN.md filing-discipline thresholds". **Skill-specific override:** at >70w, if the user insists, document the rationale in the starter body's `## 🌱 Starter context` (under a `Why the line couldn't be trimmed` sub-heading) before writing. Do not silently breach the cap.
+
+**Apply confirmed reconcile edits.** If the Step 3 scan surfaced impacted entries and the user accepted (or amended) any proposed actions, apply those PLAN.md edits in the same motion as the append — merge / nest / edit / delete the affected lines per the confirmed action. Apply nothing the user rejected or didn't see. No impact (or scan skipped) → no-op.
 
 The starter body is the canonical home for rationale, file surveys, and decisions — moving content there is the point of `/ft-starter-task`.
 
