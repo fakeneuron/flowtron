@@ -480,8 +480,10 @@ After a tasknote is archived, run the three-step protocol (commit / mark landed 
 Canonical contract: see [`SPEC/tasknote-selection.md`](SPEC/tasknote-selection.md).
 The module carries the full use/skip thresholds (tasknote · starter ·
 follow-up · micro-tasknote · debug), the PLAN.md filing-discipline word
-budget (≤50w target / 70w hard cap), and the `## Completed` archive
-stub-form convention.
+budget (≤50w target / 70w hard cap), the `## Completed` archive
+stub-form convention, and the downstream-impact reconciliation scan (a new
+filing or a mid-flow direction change triggers a cohesion check against
+active PLAN entries, behind a user-confirm gate).
 
 ## Priority levels
 

@@ -127,3 +127,68 @@ tasknote and no archive file, so its `## Completed` line **retains** a
 short self-contained description plus `Surfaced by <audit-label>
 YYYY-MM-DD (Finding #N, <severity>), fixed inline` — here the line itself
 is the canonical record.
+
+## Downstream-impact reconciliation
+
+PLAN.md is worked incrementally, so the plan drifts out of cohesion as it
+grows: a newly filed task or a mid-flow change of direction can leave an
+**already-filed** entry stale, contradictory, or redundant. The filing
+motion alone appends the new line and stops — it never checks whether
+existing downstream entries still make sense. The classic failure mode: a
+decision to change one task's approach (a contract, data model, or
+dependency) silently invalidates a separate task that was written against
+the old shape, and nobody notices until that task is picked up. The
+**downstream-impact reconciliation scan** closes that gap.
+
+**Triggers.** Run the scan at two moments:
+
+- **New-task filing** — whenever a filing skill writes a new PLAN.md line
+  (`/ft-file-followup`, `/ft-starter-task`, the `/ft-epic-discovery` child
+  cohort, or a direct inline addition).
+- **Mid-flow direction-changing decision** — whenever a decision inside an
+  active task (typically `/ft-task` Phase 2) changes the approach, contract,
+  data model, or sequencing in a way that reaches beyond the current task.
+
+Routine cases that obviously touch nothing downstream (the first task in a
+fresh area, a self-contained typo ticket) skip the scan — apply judgment,
+same as the selection thresholds above.
+
+**The scan.** Three steps:
+
+1. **Enumerate** active PLAN entries (`High` / `Medium` / `Low` / `Future
+   Opportunities`) that share a surface with the new task or decision — same
+   files, same subsystem, same contract, or a cited `[[wikilink]]`
+   dependency. Closed (`## Completed`) entries are out of scope.
+2. **Classify impact** per candidate (table below).
+3. **Propose a reconcile action** for each impacted entry, then **wait for
+   user confirmation** before editing any line.
+
+**Impact classification:**
+
+| Class | Meaning |
+|---|---|
+| Stale | entry describes a now-superseded shape (old approach, renamed file, changed contract) |
+| Contradictory | entry would conflict with the new task/decision if both shipped |
+| Redundant | the new task subsumes the entry, or two entries now overlap |
+| Unaffected | shares a surface but its premise is unchanged — left as-is |
+
+**Reconcile actions.** For each impacted entry, the scan proposes one of:
+
+| Action | Effect |
+|---|---|
+| Merge | fold the entry into the new task (or vice versa); drop the absorbed line |
+| Nest | convert it into an epic subtask / dependency of the new task |
+| Edit | rewrite the entry's description to match the new direction |
+| Delete | remove an entry the new work makes obsolete |
+| Leave | no change — surfaced so the user sees it was considered |
+
+**User-confirm gate.** The scan **never auto-rewrites the plan.** It
+surfaces the impacted-entry list with one proposed action per line and waits
+for explicit confirmation; the user accepts, amends, or rejects each, and
+only then are the PLAN.md edits applied. The control is the human at the
+gate, not an automated scorer (consistent with `SPEC.md` §"What flowtron
+does NOT provide").
+
+This section is the contract. The filing and runner skills invoke the scan
+at their filing / decision points — see each skill's own steps for where the
+scan fires and how it folds into the existing review gate.
