@@ -11,6 +11,14 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
+- [ ] **CORE-EPIC-301** [heavy]🧠 | plan-cohesion-blast-radius — Newly filed tasks and inline decisions must trigger a downstream-impact scan against existing PLAN entries so the plan stays cohesive as it is worked; reconcile impacted tasks via merge/nest/edit/delete. Motivated by the blastimage auth-vs-api drift. Filed via /ft-epic-discovery; refined at .1 closure.
+  - [x] **CORE-301.1** [heavy]🧠 | discovery — Completed 2026-06-07.
+  - [ ] **CORE-301.2** [heavy]🧠 | reconciliation-contract — Add a §"Downstream-impact reconciliation" to SPEC/tasknote-selection.md: when a task is filed or a mid-flow decision changes direction, scan active PLAN entries for impacted tasks, classify impact, and propose reconcile actions (merge/nest/edit/delete/leave) behind a user-confirm gate.
+  - [ ] **CORE-301.3** [heavy]🧠 | wire-inline-filers — Wire the reconciliation scan into ft-file-followup and ft-starter-task: after drafting the new line, scan active PLAN entries for downstream impact and surface proposed reconcile actions in the same review gate before writing.
+  - [ ] **CORE-301.4** [heavy]🧠 | wire-epic-and-decisions — Wire the scan into ft-epic-discovery (Phase 2 child filing scans existing PLAN for impacted tasks) and add a ft-task hook so a direction-changing Phase 2 decision triggers the same downstream reconciliation before continuing.
+  - [ ] **CORE-301.5** [heavy]🧠 | adopter-doc-propagation — Propagate the reconciliation contract to the adopter surface: AGENTS-snippet.md, docs/MIGRATION.md, and the glossary; verification sweep that every wired skill's cross-references resolve and no doc claims the old filing-only behavior.
+  - [ ] **CORE-301.6** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest .N child.
+
 ## Medium
 
 ## Low
