@@ -11,14 +11,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-EPIC-301** [heavy]🧠 | plan-cohesion-blast-radius — Newly filed tasks and inline decisions must trigger a downstream-impact scan against existing PLAN entries so the plan stays cohesive as it is worked; reconcile impacted tasks via merge/nest/edit/delete. Motivated by the blastimage auth-vs-api drift. Filed via /ft-epic-discovery; refined at .1 closure.
-  - [x] **CORE-301.1** [heavy]🧠 | discovery — Completed 2026-06-07.
-  - [x] **CORE-301.2** [heavy]🧠 | reconciliation-contract — Completed 2026-06-07.
-  - [x] **CORE-301.3** [heavy]🧠 | wire-inline-filers — Completed 2026-06-07.
-  - [x] **CORE-301.4** [heavy]🧠 | wire-epic-and-decisions — Completed 2026-06-07.
-  - [x] **CORE-301.5** [heavy]🧠 | adopter-doc-propagation — Completed 2026-06-07.
-  - [ ] **CORE-301.6** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest .N child.
-
 ## Medium
 
 ## Low
@@ -28,6 +20,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-301** [heavy]🧠 | plan-cohesion-blast-radius — Completed 2026-06-07.
+  - [x] **CORE-301.1** [heavy]🧠 | discovery — Completed 2026-06-07.
+  - [x] **CORE-301.2** [heavy]🧠 | reconciliation-contract — Completed 2026-06-07.
+  - [x] **CORE-301.3** [heavy]🧠 | wire-inline-filers — Completed 2026-06-07.
+  - [x] **CORE-301.4** [heavy]🧠 | wire-epic-and-decisions — Completed 2026-06-07.
+  - [x] **CORE-301.5** [heavy]🧠 | adopter-doc-propagation — Completed 2026-06-07.
+  - [x] **CORE-301.6** [heavy]🧠 | audit — Completed 2026-06-07.
 - [x] **CORE-300** [opus] | release v5.3.0 — Completed 2026-06-06.
 - [x] **CORE-299** [light]🔧 | template-plan-spec-link — Fixed broken SPEC href in templates/PLAN.md (flowtron/SPEC.md → core/SPEC.md). Surfaced by audit 2026-06-06 (Finding #1, Medium), fixed inline.
 - [x] **CORE-298** [light]🔧 | commit-inline-fixes — Completed 2026-06-06.
