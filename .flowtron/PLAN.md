@@ -11,6 +11,10 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
+- [ ] **CORE-305** [heavy] | release v5.5.0 — Cut v5.5.0 minor release tagging CORE-303 (fable model vocabulary) + CORE-304 (de-anchored copy-paste glyph templates) since v5.4.0.
+- [ ] **CORE-306** [light] | grok dogfood v5.5.0 — Drive this task under Grok Build in the flowtron checkout via `grok/procedures/ft-task.md` routing: verify the post-closure hand-off emits the candidate-matching 🔧/🧠 glyph (CORE-304) and `fable` is recognized in the model vocabulary (CORE-303); refresh the Grok stamps (AGENT-COMPAT matrix row + PLATFORMS Grok footer) to v5.5.0. ⚠️ Release CORE-305 is in flight in this tree — stage only this task's files.
+- [ ] **CORE-307** [light] | codex dogfood v5.5.0 — Drive this task under Codex CLI in the flowtron checkout via `codex/procedures/ft-task.md` routing: same verification targets as CORE-306; refresh the Codex stamps (AGENT-COMPAT matrix row + PLATFORMS Codex footer) to v5.5.0. ⚠️ Release CORE-305 is in flight in this tree — stage only this task's files.
+
 ## Medium
 
 ## Low
@@ -20,6 +24,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-308** [light]🔧 | in-session cue glyph — Completed 2026-06-10.
 - [x] **CORE-304** [light]🔧 | de-anchor copy-paste glyph — Completed 2026-06-10.
 - [x] **CORE-303** [light]🔧 | fable-model-vocab — Completed 2026-06-10.
 - [x] **CORE-302** [opus] | release v5.4.0 — Completed 2026-06-08.

@@ -108,10 +108,18 @@ glyphs and label text.
 |---|---|---|---|
 | Light next-task | 🔧 | `LIGHT` (mechanical) | Next-move suggestion + copy-paste line |
 | Heavy next-task | 🧠 | `HEAVY` (design) | Next-move suggestion + copy-paste line |
+| In-session next-task | 👇 | `HERE` (run here — do not clear) | Copy-paste label line, context-dependent skills only |
 
 The bare 🔧/🧠 glyphs are the emitted form in next-move suggestions; the
 optional `LIGHT`/`HEAVY` labels are available for non-render fallback. Making
 these fire dependably is CORE-254.4 wiring, not a vocabulary change.
+
+👇 (`HERE`) replaces the model glyph on the copy-paste **label line** when the
+next-skill is context-dependent (`/ft-file-followup` / `/ft-epic-discovery` —
+clearing the session destroys the context they draw on). It signals *where* to
+run, not task weight — the 🔧/🧠 model signal stays on the candidate line just
+printed above. The next-move glyph set itself stays binary 🔧/🧠 (CORE-259);
+👇 is a deliberate one-glyph widening of the CORE-254 vocabulary (CORE-308).
 
 ### Destructive-action escalation
 
@@ -155,7 +163,7 @@ narrow so cues stay inline by default:
   add a recurring checkpoint to the phase flow.
 - The two standing phase-gate banners (🛠️ / 📦) remain capped at two and are
   orthogonal to this escalation. All non-command cues (✋ / 🟢 / 👁️ / 🔍 /
-  🔧 / 🧠) never escalate.
+  🔧 / 🧠 / 👇) never escalate.
 
 **`--fast` interaction.** `--fast` does not suppress a destructive-action
 banner — the escalation is a safety control on irreversible actions, not a

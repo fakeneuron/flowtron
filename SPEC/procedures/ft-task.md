@@ -47,7 +47,7 @@ equivalent where a step calls for one (full ledger:
 | **trigger** | The operator's conversational request to start the task — there is no slash dispatch to rely on. |
 | **autonomous mode** | The operator may ask you to run without stopping at the conditional gates (Claude Code exposes this as `--fast`). Honor it as described under each gate; the concept is platform-neutral, the flag syntax is not. |
 
-The **operator-cue vocabulary** (🛠️ 📦 🟢 👁️ 🏁 ✅ 🔧 🧠 🗄️ ▶️ ✋ 🔍 and
+The **operator-cue vocabulary** (🛠️ 📦 🟢 👁️ 🏁 ✅ 🔧 🧠 👇 🗄️ ▶️ ✋ 🔍 and
 their UPPERCASE labels) is contract-layer, not Claude-specific — emit it
 **verbatim**. The glyph is the fast-scan signal; the UPPERCASE label is the
 fallback if your surface strips emoji. Full vocabulary:
@@ -212,6 +212,7 @@ Run the three-step protocol in
    The emoji carries the model signal; never emit
    literal session-reset or model-switch commands. **Exception — context-dependent
    skills:** when the next-skill is `/ft-file-followup` or `/ft-epic-discovery`,
-   replace the label line with `<glyph> Run in this session:` (same glyph rule) —
-   these skills draw from current-conversation context; clearing destroys what
-   they need.
+   replace the label line with `👇 Run in this session:` — 👇 (`HERE`) replaces
+   the model glyph and signals run-here-don't-clear; the model signal stays on
+   the candidate line. These skills draw from current-conversation context;
+   clearing destroys what they need.
