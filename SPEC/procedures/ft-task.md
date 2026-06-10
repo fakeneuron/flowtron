@@ -197,17 +197,21 @@ Run the three-step protocol in
    the next task. Use the emoji primary label inline per candidate —
    `[heavy]🧠` (design) or `[light]🔧` (mechanical), never the bare `[model]`
    token. Prefix any `/ft-audit*` candidate with 🔍.
-3. **Offer the copy-paste line.** A session-reset label line, then the next
+3. **Offer the copy-paste line.** The label-line glyph is copied from the
+   chosen candidate line just printed in step 2 — 🧠 when it showed 🧠, 🔧 when
+   it showed 🔧; never default to 🔧. A session-reset label line, then the next
    invocation alone on its own line as inline code **with no trailing
-   punctuation** (a trailing `.` collides with the `.N` epic-subtask grammar):
+   punctuation** (a trailing `.` collides with the `.N` epic-subtask grammar).
+   Shape, where `<glyph>` is the candidate's 🔧/🧠:
 
    ```markdown
-   🔧 Clear your session, then run:
+   <glyph> Clear your session, then run:
    `/ft-task <next-ID>`
    ```
 
-   (🧠 for a heavy next task.) The emoji carries the model signal; never emit
+   The emoji carries the model signal; never emit
    literal session-reset or model-switch commands. **Exception — context-dependent
    skills:** when the next-skill is `/ft-file-followup` or `/ft-epic-discovery`,
-   replace the label line with `🔧 Run in this session:` (or `🧠`) — these skills
-   draw from current-conversation context; clearing destroys what they need.
+   replace the label line with `<glyph> Run in this session:` (same glyph rule) —
+   these skills draw from current-conversation context; clearing destroys what
+   they need.

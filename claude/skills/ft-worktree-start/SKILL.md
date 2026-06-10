@@ -126,7 +126,7 @@ The worktree list should show both the main tree and the new `wt-...` entry poin
 
 ## Step 4 — Handoff to the operator (the critical UX step)
 
-Surface a clear, copy-paste-ready block:
+Surface a clear, copy-paste-ready block. `${GLYPH}` is 🧠 when the PLAN.md line for `${TASK_ID}` carries a heavy-appropriate `[model]` tag, 🔧 when light — the same glyph the post-closure candidate line would have emitted for this task; never default to 🔧. Substitute it like the other `${...}` values when printing:
 
 ```
 ✅ Worktree created for ${TASK_ID}
@@ -140,8 +140,7 @@ To continue the task in isolation:
 1. Open a *fresh* session / context window with your agent (critical — do not carry the old window).
 2. cd ${WT_DIR}
 3. Clear your session, then run (invocation on its own line, no trailing period):
-   🔧 /ft-task ${TASK_ID}
-   (Use 🧠 instead of 🔧 when the PLAN.md line for ${TASK_ID} carries a heavy-appropriate [model] tag — match the glyph that the post-closure candidate line would have emitted for this task.)
+   ${GLYPH} /ft-task ${TASK_ID}
 
 (If the original /ft-task run for this child used --fast, you can add it on the handoff invocation as well.)
 
