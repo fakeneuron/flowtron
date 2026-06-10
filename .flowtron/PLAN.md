@@ -20,6 +20,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-303** [light]🔧 | fable-model-vocab — Completed 2026-06-10.
 - [x] **CORE-302** [opus] | release v5.4.0 — Completed 2026-06-08.
 - [x] **CORE-EPIC-301** [heavy]🧠 | plan-cohesion-blast-radius — Completed 2026-06-07.
   - [x] **CORE-301.1** [heavy]🧠 | discovery — Completed 2026-06-07.

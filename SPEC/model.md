@@ -71,8 +71,8 @@ self-assess at gate time, not a frozen lookup table** — flowtron does not pin 
 cross-provider model→tier table that needs maintenance every release. Calibration
 baseline:
 
-- **`heavy`** — deep-reasoning, large/long-context models: `opus`, upper-tier
-  GPT-5.5-class, and peers.
+- **`heavy`** — deep-reasoning, large/long-context models: `fable` (Anthropic's
+  tier above opus), `opus`, upper-tier GPT-5.5-class, and peers.
 - **`medium`** — capable mid-tier models that handle multi-step, well-scoped work
   reliably without the deep-reasoning / large-context profile that defines
   `heavy`: `sonnet`, `grok`, and peers. A medium-tier model comfortably covers
