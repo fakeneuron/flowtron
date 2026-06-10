@@ -34,7 +34,7 @@ for its Grok Build notes. The agent-neutral workflow contract itself
 | Agent | Consume mode | Context entry-point | Skill / command primitive | Last verified |
 |---|---|---|---|---|
 | **Claude Code** | Wiring + contract | `AGENTS.md` (+ optional `CLAUDE.md`) | `.claude/skills/` + `.claude/commands/` slash commands — full `ft-*` bundle shipped | `v5.4.0 · 2026-06-08 (dogfooded)` |
-| **Grok Build** | Contract only | `AGENTS.md` | `.grok/skills/` markdown skills, auto-wired as `/<name>` — no full flowtron bundle; `grok/procedures/ft-task.md` pointer wrapper shipped | `v5.3.0 · 2026-06-06 (dogfooded; skipped @ v5.4.0)` |
+| **Grok Build** | Contract only | `AGENTS.md` | `.grok/skills/` markdown skills, auto-wired as `/<name>` — no full flowtron bundle; `grok/procedures/ft-task.md` pointer wrapper shipped | `v5.5.0 · 2026-06-10 (dogfooded)` |
 | **Codex CLI** | Contract only | `AGENTS.md` | Native primitive exists; `codex/procedures/ft-task.md` pointer wrapper shipped — no full bundle | `v5.2.0 · 2026-06-03 (dogfooded; skipped @ v5.4.0)` |
 | **Cursor** | Contract only | `AGENTS.md` | Native primitive exists; no flowtron bundle | unverified |
 | **Gemini CLI** | Contract only | `AGENTS.md` | Native primitive exists; no flowtron bundle | unverified |
@@ -93,7 +93,7 @@ for its Grok Build notes. The agent-neutral workflow contract itself
 _Only Claude Code is verified by continuous dogfooding._ Contract-only rows
 start from vendor documentation and launch coverage until a live flowtron
 session is run under that agent. Grok Build has been dogfooded and
-re-verified at v5.3.0, and Codex CLI at v5.2.0; Cursor, Gemini CLI, Aider, and Sourcegraph Amp remain
+re-verified at v5.5.0, and Codex CLI at v5.2.0; Cursor, Gemini CLI, Aider, and Sourcegraph Amp remain
 pre-adoption expectations. Flowtron has not shipped wiring for any
 contract-only agent. Update a row on first-use observation if anything
 diverges. This mirrors the per-agent footers in [`PLATFORMS.md`](PLATFORMS.md)
