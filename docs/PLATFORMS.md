@@ -250,7 +250,7 @@ conversationally, updated the Codex matrix row, and completed the closure
 bookkeeping without a native `/ft-task` bundle. Operator cues rendered
 legibly in conversation; labels remained the durable fallback.
 
-**Last verified:** `v5.2.0 · 2026-06-03 (dogfooded; skipped @ v5.4.0)`
+**Last verified:** `v5.2.0 · 2026-06-03 (dogfooded; skipped @ v5.5.0)`
 
 ### Cursor (stub)
 

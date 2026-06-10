@@ -33,9 +33,9 @@ for its Grok Build notes. The agent-neutral workflow contract itself
 
 | Agent | Consume mode | Context entry-point | Skill / command primitive | Last verified |
 |---|---|---|---|---|
-| **Claude Code** | Wiring + contract | `AGENTS.md` (+ optional `CLAUDE.md`) | `.claude/skills/` + `.claude/commands/` slash commands — full `ft-*` bundle shipped | `v5.4.0 · 2026-06-08 (dogfooded)` |
+| **Claude Code** | Wiring + contract | `AGENTS.md` (+ optional `CLAUDE.md`) | `.claude/skills/` + `.claude/commands/` slash commands — full `ft-*` bundle shipped | `v5.5.0 · 2026-06-10 (dogfooded)` |
 | **Grok Build** | Contract only | `AGENTS.md` | `.grok/skills/` markdown skills, auto-wired as `/<name>` — no full flowtron bundle; `grok/procedures/ft-task.md` pointer wrapper shipped | `v5.5.0 · 2026-06-10 (dogfooded)` |
-| **Codex CLI** | Contract only | `AGENTS.md` | Native primitive exists; `codex/procedures/ft-task.md` pointer wrapper shipped — no full bundle | `v5.2.0 · 2026-06-03 (dogfooded; skipped @ v5.4.0)` |
+| **Codex CLI** | Contract only | `AGENTS.md` | Native primitive exists; `codex/procedures/ft-task.md` pointer wrapper shipped — no full bundle | `v5.2.0 · 2026-06-03 (dogfooded; skipped @ v5.5.0)` |
 | **Cursor** | Contract only | `AGENTS.md` | Native primitive exists; no flowtron bundle | unverified |
 | **Gemini CLI** | Contract only | `AGENTS.md` | Native primitive exists; no flowtron bundle | unverified |
 | **Aider** | Contract only | `AGENTS.md` | Native primitive exists; no flowtron bundle | unverified |
@@ -113,7 +113,7 @@ A cue can hit three non-render failure modes on a given agent surface:
 - **Mojibake** — the glyph is mis-decoded into garbage bytes.
 
 In all three, the trailing label (`DB`, `RUN`, `ACTION`, `GO`, `CONFIRM`,
-`AUDIT`) is plain ASCII and survives intact, so the cue's meaning is recoverable
+`AUDIT`, `LIGHT`, `HEAVY`, `HERE`) is plain ASCII and survives intact, so the cue's meaning is recoverable
 without the glyph. Banner cues carry their label inside the
 `AWAITING APPROVAL — <label>` line, so the same fallback holds for blocking
 gates. **Agents and operators should scan on the label as the authoritative

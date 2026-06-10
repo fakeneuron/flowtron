@@ -11,18 +11,17 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-305** [heavy] | release v5.5.0 — Cut v5.5.0 minor release tagging CORE-303 (fable model vocabulary) + CORE-304 (de-anchored copy-paste glyph templates) since v5.4.0.
-- [ ] **CORE-307** [light] | codex dogfood v5.5.0 — Drive this task under Codex CLI in the flowtron checkout via `codex/procedures/ft-task.md` routing: same verification targets as CORE-306; refresh the Codex stamps (AGENT-COMPAT matrix row + PLATFORMS Codex footer) to v5.5.0. ⚠️ Release CORE-305 is in flight in this tree — stage only this task's files.
-
 ## Medium
 
 ## Low
 
 ## Future Opportunities
 
+- [ ] **CORE-307** [light] | codex dogfood — Dogfood a Codex CLI session at the then-current release via `codex/procedures/ft-task.md` routing once a Codex subscription is available again (skipped @ v5.5.0, 2026-06-10); refresh the Codex stamps (AGENT-COMPAT matrix row + PLATFORMS Codex footer).
 
 ## Completed
 
+- [x] **CORE-305** [heavy]🧠 | release v5.5.0 — Completed 2026-06-10.
 - [x] **CORE-306** [light]🔧 | grok dogfood v5.5.0 — Completed 2026-06-10.
 - [x] **CORE-308** [light]🔧 | in-session cue glyph — Completed 2026-06-10.
 - [x] **CORE-304** [light]🔧 | de-anchor copy-paste glyph — Completed 2026-06-10.
