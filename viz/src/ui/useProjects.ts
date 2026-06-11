@@ -6,9 +6,15 @@ export interface ProjectInfo {
   flowtronVersion: string | null;
 }
 
+export interface ProjectsResponse {
+  latestRelease: string | null;
+  projects: ProjectInfo[];
+}
+
 export function useProjects(): {
   projects: string[];
   projectVersions: Record<string, string | null>;
+  latestRelease: string | null;
   activeProject: string | null;
   setActiveProject: (name: string | null) => void;
   initialLoading: boolean;
@@ -16,6 +22,7 @@ export function useProjects(): {
 } {
   const [projects, setProjects] = useState<string[]>([]);
   const [projectVersions, setProjectVersions] = useState<Record<string, string | null>>({});
+  const [latestRelease, setLatestRelease] = useState<string | null>(null);
   const [activeProject, setActiveProjectState] = useState<string | null>(null);
   const [initialLoading, setInitialLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -26,13 +33,15 @@ export function useProjects(): {
       try {
         const res = await fetch('/api/projects');
         if (!res.ok) throw new Error(`Project list failed: HTTP ${res.status}`);
-        const list = (await res.json()) as Array<ProjectInfo>;
+        const payload = (await res.json()) as ProjectsResponse;
         if (cancelled) return;
+        const list = payload.projects;
         const names = list.map((p) => p.name);
         const versions: Record<string, string | null> = {};
         for (const p of list) versions[p.name] = p.flowtronVersion ?? null;
         setProjects(names);
         setProjectVersions(versions);
+        setLatestRelease(payload.latestRelease ?? null);
         const stored = readStoredProject();
         const initial = stored && names.includes(stored) ? stored : (names[0] ?? null);
         setActiveProjectState(initial);
@@ -52,5 +61,13 @@ export function useProjects(): {
     if (name) writeStoredProject(name);
   }, []);
 
-  return { projects, projectVersions, activeProject, setActiveProject, initialLoading, error };
+  return {
+    projects,
+    projectVersions,
+    latestRelease,
+    activeProject,
+    setActiveProject,
+    initialLoading,
+    error,
+  };
 }

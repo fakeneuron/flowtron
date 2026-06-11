@@ -16,6 +16,8 @@ export interface FetchSeed {
   active?: Tasknote[];
   archive?: Tasknote[];
   projects?: string[];
+  projectVersions?: Record<string, string | null>;
+  latestRelease?: string | null;
   perProject?: Record<string, ProjectFetchOverride>;
 }
 
@@ -49,7 +51,11 @@ export function makeTasknote(partial: Partial<Tasknote> & Pick<Tasknote, 'id'>):
 export function seedFetch(seed: FetchSeed): void {
   const defaultActive = seed.active ?? [];
   const defaultArchive = seed.archive ?? [];
-  const projects = (seed.projects ?? ['flowtron']).map((name) => ({ name, flowtronVersion: null }));
+  const projects = (seed.projects ?? ['flowtron']).map((name) => ({
+    name,
+    flowtronVersion: seed.projectVersions?.[name] ?? null,
+  }));
+  const projectsPayload = { latestRelease: seed.latestRelease ?? null, projects };
   const perProject = seed.perProject ?? {};
   const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
     const raw = typeof input === 'string' ? input : input.toString();
@@ -58,7 +64,7 @@ export function seedFetch(seed: FetchSeed): void {
     const override: ProjectFetchOverride = perProject[project] ?? {};
     const fail = override.fail ?? {};
     if (url.pathname.endsWith('/api/projects')) {
-      return new Response(JSON.stringify(projects), {
+      return new Response(JSON.stringify(projectsPayload), {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
       });

@@ -23,6 +23,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-312** [medium]🧠 | adopter-version-status — Completed 2026-06-11.
 - [x] **CORE-310** [heavy]🧠 | release v5.6.0 — Completed 2026-06-10.
 - [x] **CORE-309** [heavy]🧠 | ft-audit-repo — Completed 2026-06-10.
 - [x] **CORE-305** [heavy]🧠 | release v5.5.0 — Completed 2026-06-10.

@@ -1,5 +1,21 @@
 import { describe, expect, it } from 'vitest';
-import { splitHighlight } from './utils';
+import { splitHighlight, versionCurrency } from './utils';
+
+describe('versionCurrency', () => {
+  it('is current when the pinned version equals the latest release', () => {
+    expect(versionCurrency('v5.6.0', 'v5.6.0')).toBe('current');
+  });
+
+  it('is behind when the pinned version differs from the latest release', () => {
+    expect(versionCurrency('v5.4.0', 'v5.6.0')).toBe('behind');
+  });
+
+  it('is unknown when either side is null', () => {
+    expect(versionCurrency(null, 'v5.6.0')).toBe('unknown');
+    expect(versionCurrency('v5.6.0', null)).toBe('unknown');
+    expect(versionCurrency(null, null)).toBe('unknown');
+  });
+});
 
 describe('splitHighlight', () => {
   it('returns single unmatched segment when query is empty', () => {

@@ -25,6 +25,7 @@ export function projectFromQuery(
 
 export function createProjectsHandler(
   projects: Map<string, ProjectDescriptor>,
+  latestRelease: string | null,
 ): Handler {
   return (req, res) => {
     if (!originGuard(req, res)) return;
@@ -33,7 +34,7 @@ export function createProjectsHandler(
       flowtronVersion: p.flowtronVersion,
     }));
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(list));
+    res.end(JSON.stringify({ latestRelease, projects: list }));
   };
 }
 

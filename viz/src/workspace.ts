@@ -1,6 +1,10 @@
+import { execFile } from 'node:child_process';
 import { readdir, readFile, stat } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
+import { promisify } from 'node:util';
+
+const execFileAsync = promisify(execFile);
 
 export interface ProjectDescriptor {
   name: string;
@@ -38,6 +42,25 @@ async function readFlowtronVersion(specPath: string): Promise<string | null> {
     if (!m) return null;
     const v = m[1];
     return v.startsWith('v') ? v : `v${v}`;
+  } catch {
+    return null;
+  }
+}
+
+// Latest released flowtron tag, resolved from the repo enclosing `repoDir`
+// (git walks up from cwd, so the viz dir resolves the flowtron checkout).
+// Read once at dev-server startup — a release cut mid-session shows up on
+// the next restart, which matches how /ft-release restarts the gate anyway.
+export async function latestReleaseTag(repoDir: string): Promise<string | null> {
+  try {
+    const { stdout } = await execFileAsync('git', ['tag', '--sort=-v:refname'], {
+      cwd: repoDir,
+    });
+    const first = stdout
+      .split('\n')
+      .map((line) => line.trim())
+      .find((line) => line.length > 0);
+    return first ?? null;
   } catch {
     return null;
   }

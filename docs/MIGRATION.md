@@ -406,6 +406,8 @@ The symlinks in `.claude/` don't need to be touched — they always track whatev
 
 A bump is itself a project-side task (e.g., `CORE-XXX: Bump flowtron to vX.Y.Z`), with a tasknote and the usual 4-phase flow. Don't bump in passing.
 
+For sweeping **non-breaking** releases across the whole workspace at once, flowtron's checkout ships `tools/update-adopters.mjs` (dry-run by default; see `SPEC.md` §"What flowtron does NOT provide" for the carve-out). It skips any repo whose release range carries real migration steps — those still go through the per-project flow above (or `/ft-update`).
+
 ### Upgrading an existing adopter from v4.x (`_project/` → `.flowtron/`)
 
 flowtron **v5.0.0** renames the convention directory `_project/` → `.flowtron/` (the dotfolder convention). Fresh adopters following §1 are unaffected — the steps above already use `.flowtron/`. An existing adopter pinned under the v4.x `_project/` layout does a one-time rename when bumping to v5.0.0:

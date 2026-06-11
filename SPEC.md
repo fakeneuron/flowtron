@@ -52,6 +52,7 @@ Flowtron does not submodule itself. When working in `~/code/flowtron/`:
 - The flowtron `.flowtron/PLAN.md` tracks flowtron's own development.
 - The `templates/` folder holds the canonical tasknote and PLAN.md templates, plus the audit-overlay fork template (see [`docs/MIGRATION.md`](docs/MIGRATION.md) §1.2.1).
 - `claude/` — Claude Code commands + skills (`/ft-task`, `/ft-release`, `/ft-new-project`, …); the adopter snippet lives at `claude/AGENTS-snippet.md`. Future non-Claude-Code platform wirings (e.g., `codex/`, `grok/`, `cursor/`) plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md) for the plug-in pattern.
+- `tools/` — operator-side fleet scripts. Currently just `update-adopters.mjs`, the singular CLI carve-out documented in §"What flowtron does NOT provide".
 
 For flowtron-self global installs (e.g. `/ft-release`), see [`docs/MIGRATION.md`](docs/MIGRATION.md) §1.0 → "One-time global installs" table, `Flowtron-self only` row.
 
@@ -511,7 +512,13 @@ Canonical contract: see [`SPEC/versioning.md`](SPEC/versioning.md).
 
 To prevent scope creep, flowtron deliberately omits:
 
-- A CLI tool (use `cp`, `mv`, and your editor)
+- A CLI tool (use `cp`, `mv`, and your editor) — with one carved-out
+  exception: [`tools/update-adopters.mjs`](tools/update-adopters.mjs), the
+  operator-side batch updater that walks the workspace and moves each
+  adopter's pinned submodule to the latest non-breaking release (dry-run by
+  default, local commits only, never pushes). It maintains the fleet *around*
+  flowtron-adopting projects, not the workflow inside one — like viz under
+  the query-API exclusion, it is the singular exception, not a precedent.
 - Schema validation (markdown is the schema; the assistant catches drift)
 - A database backend (markdown files in git are the database)
 - Cross-project query API (each project owns its history; the read-only

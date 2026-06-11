@@ -25,6 +25,19 @@ export function effectiveStatus(task: Task, tn: Tasknote | undefined): TasknoteS
   return tn?.frontmatter?.status ?? null;
 }
 
+// Version-currency of an adopter's pinned flowtron release vs the latest
+// released tag. 'unknown' (no pinned version readable, or no tag resolved —
+// e.g. the flowtron checkout itself) renders no dot: unknown ≠ stale.
+export type VersionCurrency = 'current' | 'behind' | 'unknown';
+
+export function versionCurrency(
+  version: string | null,
+  latestRelease: string | null,
+): VersionCurrency {
+  if (!version || !latestRelease) return 'unknown';
+  return version === latestRelease ? 'current' : 'behind';
+}
+
 export function rowOutlineClass(
   palette: PaletteTokens,
   isHighlighted: boolean,

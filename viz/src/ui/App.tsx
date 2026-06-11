@@ -47,6 +47,7 @@ export const App: React.FC = () => {
   const {
     projects,
     projectVersions,
+    latestRelease,
     activeProject,
     setActiveProject,
     initialLoading,
@@ -343,6 +344,8 @@ export const App: React.FC = () => {
               projects={projects}
               active={activeProject}
               onSelect={handleSelectProject}
+              versions={projectVersions}
+              latestRelease={latestRelease}
             />
           </div>
         </div>

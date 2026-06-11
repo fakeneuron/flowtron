@@ -3,8 +3,14 @@ import type { Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import type { ServerResponse } from 'node:http';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import chokidar from 'chokidar';
-import { discoverProjects, workspaceRoot, type ProjectDescriptor } from './src/workspace';
+import {
+  discoverProjects,
+  latestReleaseTag,
+  workspaceRoot,
+  type ProjectDescriptor,
+} from './src/workspace';
 import { createArchiveCache } from './src/archiveCache';
 import { DEV_PORT } from './src/originGuard';
 import {
@@ -68,6 +74,8 @@ function flowtronApi(): Plugin {
       const root = workspaceRoot();
       const discovered = await discoverProjects(root);
       for (const p of discovered) projects.set(p.name, p);
+      // Resolved from the viz dir — git walks up to the flowtron checkout.
+      const latestRelease = await latestReleaseTag(fileURLToPath(new URL('.', import.meta.url)));
 
       if (server.httpServer) {
         const watchPaths = discovered.flatMap((p) => [
@@ -104,7 +112,7 @@ function flowtronApi(): Plugin {
         server.middlewares.use('/api/events', createEventsHandler(sseClients));
       }
 
-      server.middlewares.use('/api/projects', createProjectsHandler(projects));
+      server.middlewares.use('/api/projects', createProjectsHandler(projects, latestRelease));
       server.middlewares.use('/api/plan', createPlanHandler(projects));
       server.middlewares.use('/api/active', createActiveHandler(projects));
       server.middlewares.use('/api/archive', createArchiveHandler(projects, archiveCache));

@@ -39,6 +39,47 @@ describe('ProjectSelector', () => {
     expect(onSelect).toHaveBeenCalledWith('beta');
   });
 
+  it('renders a green dot for a project at the latest release and a red dot for one behind', () => {
+    render(
+      React.createElement(ProjectSelector, {
+        projects: ['fresh', 'stale'],
+        active: 'fresh',
+        onSelect: () => {},
+        versions: { fresh: 'v5.6.0', stale: 'v5.4.0' },
+        latestRelease: 'v5.6.0',
+      }),
+    );
+
+    const fresh = screen.getByRole('button', {
+      name: 'Project: fresh (flowtron up to date, v5.6.0)',
+    });
+    expect(fresh.querySelector('[data-currency="current"]')).toBeTruthy();
+    expect(fresh.querySelector('[data-currency="behind"]')).toBeNull();
+
+    const stale = screen.getByRole('button', {
+      name: 'Project: stale (flowtron outdated: v5.4.0, latest v5.6.0)',
+    });
+    expect(stale.querySelector('[data-currency="behind"]')).toBeTruthy();
+    expect(stale.querySelector('[data-currency="current"]')).toBeNull();
+  });
+
+  it('renders no dot when the version or latest release is unknown', () => {
+    render(
+      React.createElement(ProjectSelector, {
+        projects: ['mystery', 'pinned'],
+        active: 'mystery',
+        onSelect: () => {},
+        versions: { mystery: null, pinned: 'v5.6.0' },
+        latestRelease: null,
+      }),
+    );
+
+    for (const name of ['mystery', 'pinned']) {
+      const chip = screen.getByRole('button', { name: `Project: ${name}` });
+      expect(chip.querySelector('[data-currency]')).toBeNull();
+    }
+  });
+
   it('renders nothing when the project list is empty', () => {
     const { container } = render(
       React.createElement(ProjectSelector, {

@@ -63,7 +63,9 @@ each project's `.flowtron/tasknote/` are flagged **In progress**. The
 header-rail project selector swaps the active project;
 the header subhead shows task counts, in-progress count, and the flowtron
 version the selected project is using (from its `.flowtron/core/SPEC.md`).
-Filters and scroll position reset on switch.
+Each project chip carries a version-currency dot — green when the project is
+pinned at the latest released flowtron tag, red when it's behind, none when
+no pin is readable. Filters and scroll position reset on switch.
 
 Run **once per machine** from flowtron's own checkout — there is no
 per-project install step. The dev server is pinned to port `5120` with
@@ -132,6 +134,7 @@ These tools are opt-in companion surfaces. None of the above is required.
 - `docs/` — philosophy, vision, glossary, migration, conventions, agent-neutrality, platforms, agent-compat, and worktrees docs
 - `.flowtron/` — flowtron's own roadmap and tasknotes (self-hosted)
 - `viz/` — Vite/React Kanban visualizer
+- `tools/` — operator-side fleet scripts (`update-adopters.mjs`, the singular CLI carve-out — see `SPEC.md` §"What flowtron does NOT provide")
 - `CONTRIBUTING.md` — solo-maintenance model; issue and PR guidance
 - `SECURITY.md` — threat model and vulnerability reporting
 - `LICENSE` — MIT

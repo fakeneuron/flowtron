@@ -1,8 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { execFile } from 'node:child_process';
 import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { discoverProjects, workspaceRoot } from './workspace';
+import { promisify } from 'node:util';
+import { discoverProjects, latestReleaseTag, workspaceRoot } from './workspace';
+
+const execFileAsync = promisify(execFile);
 
 let root: string;
 
@@ -83,6 +87,49 @@ describe('discoverProjects', () => {
   it('returns empty array if workspace root does not exist', async () => {
     const projects = await discoverProjects(join(root, 'does-not-exist'));
     expect(projects).toEqual([]);
+  });
+});
+
+describe('latestReleaseTag', () => {
+  async function git(cwd: string, ...args: string[]): Promise<void> {
+    await execFileAsync('git', args, { cwd });
+  }
+
+  async function makeTaggedRepo(tags: string[]): Promise<string> {
+    const repo = join(root, 'tagged-repo');
+    await mkdir(repo, { recursive: true });
+    await git(repo, 'init', '--quiet');
+    await writeFile(join(repo, 'seed.txt'), 'seed\n');
+    await git(repo, 'add', 'seed.txt');
+    await git(
+      repo,
+      '-c',
+      'user.name=test',
+      '-c',
+      'user.email=test@example.com',
+      'commit',
+      '--quiet',
+      '-m',
+      'seed',
+    );
+    for (const tag of tags) await git(repo, 'tag', tag);
+    return repo;
+  }
+
+  it('returns the highest semver tag', async () => {
+    const repo = await makeTaggedRepo(['v0.9.0', 'v0.10.0', 'v0.2.1']);
+    expect(await latestReleaseTag(repo)).toBe('v0.10.0');
+  });
+
+  it('returns null for a repo with no tags', async () => {
+    const repo = await makeTaggedRepo([]);
+    expect(await latestReleaseTag(repo)).toBeNull();
+  });
+
+  it('returns null when the dir is not inside a git repo', async () => {
+    const bare = join(root, 'not-a-repo');
+    await mkdir(bare, { recursive: true });
+    expect(await latestReleaseTag(bare)).toBeNull();
   });
 });
 

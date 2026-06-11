@@ -142,7 +142,7 @@ describe('projectFromQuery', () => {
 
 describe('createProjectsHandler', () => {
   it('rejects a cross-origin request with 403', () => {
-    const handler = createProjectsHandler(new Map());
+    const handler = createProjectsHandler(new Map(), null);
     const req = makeReq({ headers: { origin: BLOCKED_ORIGIN } });
     const { res, state } = makeRes();
 
@@ -152,24 +152,41 @@ describe('createProjectsHandler', () => {
     expect(state.body).toBe('Forbidden: cross-origin request');
   });
 
-  it('returns the project-name list as JSON on the allowed origin', async () => {
+  it('returns the latest release + project list as JSON on the allowed origin', async () => {
     const alpha = await makeProject('alpha');
     const beta = await makeProject('beta');
     const projects = new Map([
       ['alpha', alpha],
       ['beta', beta],
     ]);
-    const handler = createProjectsHandler(projects);
+    const handler = createProjectsHandler(projects, 'v5.6.0');
     const req = makeReq({ headers: { origin: ALLOWED_ORIGIN } });
     const { res, state } = makeRes();
 
     handler(req, res);
 
     expect(state.headers['content-type']).toBe('application/json');
-    expect(JSON.parse(state.body)).toEqual([
-      { name: 'alpha', flowtronVersion: null },
-      { name: 'beta', flowtronVersion: null },
-    ]);
+    expect(JSON.parse(state.body)).toEqual({
+      latestRelease: 'v5.6.0',
+      projects: [
+        { name: 'alpha', flowtronVersion: null },
+        { name: 'beta', flowtronVersion: null },
+      ],
+    });
+  });
+
+  it('serves a null latestRelease when no tag resolved', async () => {
+    const alpha = await makeProject('alpha');
+    const handler = createProjectsHandler(new Map([['alpha', alpha]]), null);
+    const req = makeReq({ headers: { origin: ALLOWED_ORIGIN } });
+    const { res, state } = makeRes();
+
+    handler(req, res);
+
+    expect(JSON.parse(state.body)).toEqual({
+      latestRelease: null,
+      projects: [{ name: 'alpha', flowtronVersion: null }],
+    });
   });
 });
 
