@@ -133,9 +133,9 @@ Walk the Phase 1 checklist per SPEC §"📝 Phase 1: Discovery". Most boxes tick
 
 - **Reviewed PLAN.md** — already done in Step 1 of this skill.
 - **Relevance Assessment** — Verdict: Proceed. Rationale: bump pattern is well-established; commit log + version drift verified in Step 2.
-- **Read relevant source files** — `SPEC.md:3`, `docs/MIGRATION.md` example pin (grep for `(e.g., v`).
+- **Read relevant source files** — `SPEC.md:3`, `docs/MIGRATION.md` example pin (grep for `describe --tags`).
 - **Archive skim** — `.flowtron/tasknote/archive/core/` for prior release tasknotes (CORE-048, CORE-046, CORE-043). Note any structural drift in their precedents that this release should account for.
-- **Drift check** — verify the cited locations: `SPEC.md:3` reads `**Version:** vX.Y.Z`; docs/MIGRATION.md grep returns one example pin at `(e.g., vX.Y.Z)`. Surface any drift before continuing.
+- **Drift check** — verify the cited locations: `SPEC.md:3` reads `**Version:** vX.Y.Z`; docs/MIGRATION.md grep returns one example pin at `(e.g., \`vX.Y.Z\`)`. Surface any drift before continuing.
 - **Adopter migration impact** — for each commit since the last tag, classify whether it requires adopter action (new template section, new doc-set entry, BREAKING change with migration steps). Capture findings in Discovery Notes — feeds the Migration block of the tag message in Phase 4. CORE-047 (in CORE-048's release) is the canonical example of a context-sensitive migration block.
 - **Clarifying questions** — typically none. If the bump is major, or if any commit's adopter impact is ambiguous, AskUserQuestion to confirm the migration block contents.
 - **Subtasks populated** — already populated in Step 3 from the recipe.
@@ -147,7 +147,7 @@ Tick boxes as each step completes. Do not enter Phase 2 until every Phase 1 box 
 Apply the 5 version edits in order:
 
 1. **`SPEC.md:3`** — `**Version:** vX.Y.Z` → `**Version:** vA.B.C`.
-2. **`docs/MIGRATION.md`** — locate the example pin (grep for `(e.g., v`) and bump `(e.g., vX.Y.Z)` → `(e.g., vA.B.C)`. Historical references like `v1.0 additions` stay (write-once historical context, per CORE-046 precedent).
+2. **`docs/MIGRATION.md`** — locate the example pin (grep for `describe --tags`) and bump `(e.g., \`vX.Y.Z\`)` → `(e.g., \`vA.B.C\`)`. Historical references like `v1.0 additions` stay (write-once historical context, per CORE-046 precedent).
 3. **`SECURITY.md`** — locate the release-tag example pin (grep for `release tags (e.g.`) and bump `(e.g. \`vX.Y.Z\`)` → `(e.g. \`vA.B.C\`)`.
 4. **`viz/src/ui/constants.ts`** — `VIZ_VERSION = 'vX.Y.Z'` → `VIZ_VERSION = 'vA.B.C'`.
 5. **`viz/package.json`** — `"version": "X.Y.Z"` → `"version": "A.B.C"`. Bare semver (no `v` prefix); mirrors VIZ_VERSION so tooling stays consistent.

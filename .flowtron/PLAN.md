@@ -15,14 +15,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-311** [light]🔧 | ft-release-pin-grep-drift — Update ft-release SKILL.md's three MIGRATION-pin locator cites (Steps 4-5): the documented grep pattern `(e.g., v` predates the backticked pin style and returns zero hits; this release re-derived the location by version grep. Surfaced by audit-docs 2026-06-10 (Finding #1, Low).
-
 ## Future Opportunities
 
 - [ ] **CORE-307** [light] | codex dogfood — Dogfood a Codex CLI session at the then-current release via `codex/procedures/ft-task.md` routing once a Codex subscription is available again (skipped @ v5.5.0, 2026-06-10); refresh the Codex stamps (AGENT-COMPAT matrix row + PLATFORMS Codex footer).
 
 ## Completed
 
+- [x] **CORE-311** [light]🔧 | ft-release-pin-grep-drift — Completed 2026-06-11.
 - [x] **CORE-312** [medium]🧠 | adopter-version-status — Completed 2026-06-11.
 - [x] **CORE-310** [heavy]🧠 | release v5.6.0 — Completed 2026-06-10.
 - [x] **CORE-309** [heavy]🧠 | ft-audit-repo — Completed 2026-06-10.
