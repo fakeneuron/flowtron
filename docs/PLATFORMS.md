@@ -28,7 +28,7 @@ wiring but don't *depend* on it for contract semantics).
 
 | Platform | How it consumes flowtron | What ships in this repo |
 |---|---|---|
-| **Claude Code** | Wiring layer + contract layer. Seven tasknote skills (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`) plus two thin worktree utilities (`/ft-worktree-start`, `/ft-worktree-end`) drive the SPEC's 4-phase workflow inline (or accelerate independent epic children); the six `/ft-audit`-family skills run the 5-pass recipe; standalone skills `/ft-new-project`, `/ft-release`, `/ft-flowtron`, `/ft-stats`, `/ft-quality`, `/ft-audit-context`, `/ft-update` follow their own recipes. | `claude/` — `AGENTS-snippet.md` + `commands/*.md` + `skills/*/SKILL.md` (+ lazy fragments). Adopters symlink the bundle under `.claude/` per `claude/AGENTS-snippet.md` §"One-time symlink wiring". |
+| **Claude Code** | Wiring layer + contract layer. Seven tasknote skills (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`) plus two thin worktree utilities (`/ft-worktree-start`, `/ft-worktree-end`) drive the SPEC's 4-phase workflow inline (or accelerate independent epic children); the six focused `/ft-audit`-family skills run the 5-pass recipe and `/ft-audit-repo` runs the first-contact holistic recipe; standalone skills `/ft-new-project`, `/ft-release`, `/ft-flowtron`, `/ft-stats`, `/ft-quality`, `/ft-audit-context`, `/ft-update` follow their own recipes. | `claude/` — `AGENTS-snippet.md` + `commands/*.md` + `skills/*/SKILL.md` (+ lazy fragments). Adopters symlink the bundle under `.claude/` per `claude/AGENTS-snippet.md` §"One-time symlink wiring". |
 | **Codex CLI, Cursor, Sourcegraph Amp, Aider, Gemini CLI, Grok Build** | Contract layer only. The platform reads `AGENTS.md`, sees flowtron's paste-block, and drives the contract conversationally — relevance gate, phase boundaries, post-closure protocol all live in `SPEC.md`. No platform-specific machinery required. | Procedure pointer wrappers shipped for Grok Build and Codex CLI: `grok/procedures/ft-task.md` and `codex/procedures/ft-task.md` (each routes to `SPEC/procedures/ft-task.md`). No full wiring bundle for any contract-only agent. Adopters paste the `AGENTS.md` block from `claude/AGENTS-snippet.md` §"Block to paste into AGENTS.md"; that block is agent-neutral by design. For Grok Build adoption specifics (context-load semantics, AGENTS.md visibility, skill/command primitives), see §"Grok Build adoption notes" below. |
 
 A platform doesn't need its own wiring to be useful. Most adopters paste
@@ -172,12 +172,12 @@ The only platform with wiring shipped today. Concrete instantiation:
 
 - **Sibling dir**: `claude/` at the repo root
 - **Adopter-facing snippet**: `claude/AGENTS-snippet.md`
-- **`commands/`**: 22 `.md` slash-command stubs (`ft-task.md`,
+- **`commands/`**: 23 `.md` slash-command stubs (`ft-task.md`,
   `ft-starter-task.md`, `ft-micro-task.md`, `ft-file-followup.md`,
-  `ft-epic-discovery.md`, `ft-close-epic.md`, `ft-debug.md`, `ft-worktree-start.md`, `ft-worktree-end.md`, the six `ft-audit`-family skills,
+  `ft-epic-discovery.md`, `ft-close-epic.md`, `ft-debug.md`, `ft-worktree-start.md`, `ft-worktree-end.md`, the seven `ft-audit`-family skills,
   plus `ft-new-project.md`, `ft-release.md`, `ft-flowtron.md`,
-  `ft-stats.md`, `ft-quality.md`, `ft-audit-context.md`)
-- **`skills/`**: 22 `SKILL.md` skill bodies (one per command), some with
+  `ft-stats.md`, `ft-quality.md`, `ft-audit-context.md`, `ft-update.md`)
+- **`skills/`**: 23 `SKILL.md` skill bodies (one per command), some with
   lazy-load fragments (`ft-task/step-*.md`); includes `ft-worktree-start/` and `ft-worktree-end/`
 - **Adopter install**: relative symlinks from `.claude/commands/*` and
   `.claude/skills/*` into the submodule, per

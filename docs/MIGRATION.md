@@ -59,7 +59,7 @@ The `checkout` step is what pins the project to a specific flowtron version. Wit
 
 ### 1.2 Wire the tasknote skills + worktree pair via symlinks
 
-The submodule ships 22 slash commands; this step wires nine — the seven tasknote family (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`) plus two thin worktree utilities (`/ft-worktree-start` + `/ft-worktree-end`). Each tasknote family's purpose lives in its own SKILL.md frontmatter — short version: 4-phase runner; starter filer; micro one-shot; in-chat follow-up; epic open; epic close; hypothesis-first debug runner. The worktree pair are thin procedural utilities (see their SKILL.md frontmatter + `docs/WORKTREES.md`).
+The submodule ships 23 slash commands; this step wires nine — the seven tasknote family (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`) plus two thin worktree utilities (`/ft-worktree-start` + `/ft-worktree-end`). Each tasknote family's purpose lives in its own SKILL.md frontmatter — short version: 4-phase runner; starter filer; micro one-shot; in-chat follow-up; epic open; epic close; hypothesis-first debug runner. The worktree pair are thin procedural utilities (see their SKILL.md frontmatter + `docs/WORKTREES.md`).
 
 **Install:** open `.flowtron/core/claude/AGENTS-snippet.md` §"One-time symlink wiring" and run the commands from the project root — that file is the single source of truth for the wiring (and also holds the §1.3 `AGENTS.md` paste-block). The relative paths in the snippet survive `git clone` and pin to the submodule's current SHA, so symlinks never need touching on a version bump.
 
@@ -75,6 +75,17 @@ Flowtron ships six stack-neutral audit scaffolds at `.flowtron/core/claude/skill
 | `/ft-audit-frontend` | Frontend (framework-agnostic) | Bundle & payload · Accessibility · Render perf · Browser hygiene · Component health |
 | `/ft-audit-backend` | Backend (framework-agnostic) | Input & contracts · Error & lifecycle · Persistence · Async correctness · Observability |
 | `/ft-audit-performance` | Cross-cutting perf (measurements required) | Hot paths · Payload & bundle · Data access · Memory & resource · Caching |
+
+**First contact: `/ft-audit-repo` (seventh family member — no fork).** Before
+picking focused audits on a repo you (or your agent) don't know yet, run the
+first-contact holistic audit: it builds a Repo Map before judging, runs one
+thin capped sweep, synthesizes 3–5 themes, files a milestone-sequenced plan
+as native flowtron epics in `.flowtron/PLAN.md`, and recommends which of the
+six focused skills below deserve full runs. It is stack-neutral, strictly
+read-only, and carries no §0 forker checklist — don't fork it; invoke it by
+reference from the read-only submodule path
+(`.flowtron/core/claude/skills/ft-audit-repo/SKILL.md`), the same
+by-reference pattern the thin overlay below uses.
 
 Pick the ones you'll use — `/ft-audit` is a sensible default if you don't need specialists yet. To install one (repeat per skill):
 

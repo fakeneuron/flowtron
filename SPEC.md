@@ -99,7 +99,7 @@ Bundled flowtron skills carry the `ft-` prefix in their slug (`/ft-task`,
 `/ft-close-epic`, `/ft-debug`, `/ft-worktree-start`, `/ft-worktree-end`,
 `/ft-flowtron`, `/ft-stats`, `/ft-quality`,
 `/ft-audit-context`, `/ft-update`, and the audit family
-`/ft-audit{,-docs,-security,-frontend,-backend,-performance}`). The prefix
+`/ft-audit{,-repo,-docs,-security,-frontend,-backend,-performance}`). The prefix
 reserves the `ft-` slug namespace for flowtron-owned skills so adopter
 projects can drop the bundle into `.claude/` without shadowing their own
 skill names.
