@@ -13,14 +13,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-314** [sonnet] | wire ft-audit-repo into bootstrap sets — `/ft-new-project` and `docs/MIGRATION.md` §1.2.2 (global symlink setup) omit `ft-audit-repo` from their wiring sets, so fresh machines / new adopters don't auto-wire it (shipped in CORE-309). Add it to both the per-project and global symlink lists alongside the existing audit family / `ft-new-project`. Surfaced by audit-context 2026-06-13 (Pass d, Medium).
-
 ## Low
 
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-314** [sonnet] | audit-repo §1.0 install row — Added a `/ft-audit-repo` row to `docs/MIGRATION.md` §1.0 "One-time global installs" table (sibling to `ft-audit-context` / `ft-new-project`), giving adopters a documented path to make the first-contact audit globally invocable before flowtron is wired into a repo. §1.2.2 maintainer wiring already globs `claude/skills/*` (not a gap there); §1.2.1 already names the skill. Surfaced by audit-context 2026-06-13 (Pass d, Medium).
 - [x] **CORE-313** [light]🔧 | readme-doc-drift — Listed `docs/DOGFOOD.md` in README §Documents + §Repo layout, noted `SPEC/procedures/` in the §Repo layout SPEC/ line, and aligned the GLOSSARY count ~51→~52. Surfaced by audit 2026-06-12 (Findings #1–#3, Low), fixed inline.
 - [x] **CORE-307** [light]🔧 | codex dogfood — Completed 2026-06-11.
 - [x] **CORE-311** [light]🔧 | ft-release-pin-grep-drift — Completed 2026-06-11.
