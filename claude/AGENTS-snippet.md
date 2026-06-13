@@ -6,6 +6,8 @@ Paste the block below into your project's `AGENTS.md`, then run the symlink comm
 
 ## Block to paste into AGENTS.md
 
+<!-- KEEP IN SYNC: the peer-skill roster in the block below is also kept (terse) in AGENTS.md §Workflow; adding/removing a tasknote-family skill requires editing both. This comment sits outside the fence so adopters never paste it. -->
+
 ```markdown
 ## Workflow
 
