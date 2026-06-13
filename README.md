@@ -17,7 +17,7 @@ maintain.
   is for, the principles (recap of SPEC), and the PR/suggestion archetypes
   flowtron deliberately rejects
 - [docs/GLOSSARY.md](docs/GLOSSARY.md) — alphabetized one-line definitions for
-  ~51 load-bearing terms, phases, markers, and grammar elements (lazy-loaded
+  ~52 load-bearing terms, phases, markers, and grammar elements (lazy-loaded
   pointer to SPEC anchors)
 - [docs/MIGRATION.md](docs/MIGRATION.md) — adoption guide for fresh projects
   and migration from a prior workflow system
@@ -34,6 +34,9 @@ maintain.
 - [docs/AGENT-COMPAT.md](docs/AGENT-COMPAT.md) — living agent-compatibility
   matrix: which AI coding agents flowtron supports, their contract
   entry-points, skill primitives, and last-verified currency
+- [docs/DOGFOOD.md](docs/DOGFOOD.md) — pasteable verification procedure any AI
+  agent runs to confirm flowtron compatibility and refresh its
+  `docs/AGENT-COMPAT.md` `last-verified` row
 - [docs/WORKTREES.md](docs/WORKTREES.md) — worktree convention for parallel
   epic children: the five locked decisions (location, branch naming, skill
   pair, tasknote handling, cleanup) behind `/ft-worktree-start` +
@@ -128,10 +131,10 @@ These tools are opt-in companion surfaces. None of the above is required.
 ## Repo layout
 
 - `SPEC.md` — workflow contract (authoritative)
-- `SPEC/` — lazy SPEC modules (epic, starter, blocked, model, versioning, gates, tasknote-selection); loaded on demand by skills
+- `SPEC/` — lazy SPEC modules (epic, starter, blocked, model, versioning, gates, tasknote-selection) plus `procedures/` (pasteable skill procedures); loaded on demand by skills
 - `templates/` — canonical tasknote, `PLAN.md`, and audit-overlay fork templates
 - `claude/` — Claude Code skills + slash commands (adopter-facing snippet + self-hosted skills like `/ft-task`, `/ft-release`); future non-Claude-Code platform wirings (e.g., `codex/`, `grok/`, `cursor/`) plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md)
-- `docs/` — philosophy, vision, glossary, migration, conventions, agent-neutrality, platforms, agent-compat, and worktrees docs
+- `docs/` — philosophy, vision, glossary, migration, conventions, agent-neutrality, platforms, agent-compat, dogfood, and worktrees docs
 - `.flowtron/` — flowtron's own roadmap and tasknotes (self-hosted)
 - `viz/` — Vite/React Kanban visualizer
 - `tools/` — operator-side fleet scripts (`update-adopters.mjs`, the singular CLI carve-out — see `SPEC.md` §"What flowtron does NOT provide")

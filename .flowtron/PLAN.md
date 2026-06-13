@@ -19,6 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-313** [light]🔧 | readme-doc-drift — Listed `docs/DOGFOOD.md` in README §Documents + §Repo layout, noted `SPEC/procedures/` in the §Repo layout SPEC/ line, and aligned the GLOSSARY count ~51→~52. Surfaced by audit 2026-06-12 (Findings #1–#3, Low), fixed inline.
 - [x] **CORE-307** [light]🔧 | codex dogfood — Completed 2026-06-11.
 - [x] **CORE-311** [light]🔧 | ft-release-pin-grep-drift — Completed 2026-06-11.
 - [x] **CORE-312** [medium]🧠 | adopter-version-status — Completed 2026-06-11.
