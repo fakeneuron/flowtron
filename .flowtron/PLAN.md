@@ -13,6 +13,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
+- [ ] **CORE-314** [sonnet] | wire ft-audit-repo into bootstrap sets — `/ft-new-project` and `docs/MIGRATION.md` §1.2.2 (global symlink setup) omit `ft-audit-repo` from their wiring sets, so fresh machines / new adopters don't auto-wire it (shipped in CORE-309). Add it to both the per-project and global symlink lists alongside the existing audit family / `ft-new-project`. Surfaced by audit-context 2026-06-13 (Pass d, Medium).
+
 ## Low
 
 ## Future Opportunities
