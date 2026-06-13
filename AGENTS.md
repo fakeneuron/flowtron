@@ -11,7 +11,7 @@ in `SPEC.md`; read it before starting non-trivial work.
 - Tasknote templates live in `templates/`.
 - Lazy workflow modules live in `SPEC/` and are loaded when the task shape
   calls for them.
-- Start a task with `/ft-task <TASK-ID>`; peer skills: `/ft-micro-task` (small tasks), `/ft-starter-task` (filing-only), `/ft-file-followup` (brief notes), `/ft-epic-discovery`/`/ft-close-epic` (epics), `/ft-debug` (bugs), `/ft-worktree-start`/`/ft-worktree-end` (parallel branches).
+- Start a task with `/ft-task <TASK-ID>`; peer skills: `/ft-micro-task` (small tasks), `/ft-starter-task` (filing-only), `/ft-file-followup` (brief notes), `/ft-epic-discovery`/`/ft-close-epic` (epics), `/ft-debug` (bugs), `/ft-worktree-start`/`/ft-worktree-end` (parallel branches), `/ft-update` (version bump).
 - Each PLAN.md task line carries a `[model]` segment (see `SPEC/model.md` §"Model field" for practical/agent-aware guidance and the model-mismatch surface cue). The task runs end-to-end on the tagged model.
 
 Flowtron self-hosts its own roadmap. For non-trivial edits, follow the

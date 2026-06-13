@@ -19,6 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-315** [sonnet] | agents-skill-roster — Completed 2026-06-13.
 - [x] **CORE-314** [sonnet] | audit-repo §1.0 install row — Added a `/ft-audit-repo` row to `docs/MIGRATION.md` §1.0 "One-time global installs" table (sibling to `ft-audit-context` / `ft-new-project`), giving adopters a documented path to make the first-contact audit globally invocable before flowtron is wired into a repo. §1.2.2 maintainer wiring already globs `claude/skills/*` (not a gap there); §1.2.1 already names the skill. Surfaced by audit-context 2026-06-13 (Pass d, Medium).
 - [x] **CORE-313** [light]🔧 | readme-doc-drift — Listed `docs/DOGFOOD.md` in README §Documents + §Repo layout, noted `SPEC/procedures/` in the §Repo layout SPEC/ line, and aligned the GLOSSARY count ~51→~52. Surfaced by audit 2026-06-12 (Findings #1–#3, Low), fixed inline.
 - [x] **CORE-307** [light]🔧 | codex dogfood — Completed 2026-06-11.
