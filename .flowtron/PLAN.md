@@ -15,12 +15,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-317** [sonnet] | agents-dev-server-hint-dedup — Remove the near-duplicate `--prefix viz` parenthetical in `AGENTS.md` `## Dev Server` (lines 57–58); the `## Validation` section already states it and the Dev Server paragraph's "As with validation…" cross-reference is sufficient. Surfaced by audit-context 2026-06-13 (Pass d, Low).
-
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-317** [sonnet] | agents-dev-server-hint-dedup — Completed 2026-06-13.
 - [x] **CORE-316** [sonnet] | audit-repo-symlink-trailing-slash — Completed 2026-06-13.
 - [x] **CORE-315** [sonnet] | agents-skill-roster — Completed 2026-06-13.
 - [x] **CORE-314** [sonnet] | audit-repo §1.0 install row — Added a `/ft-audit-repo` row to `docs/MIGRATION.md` §1.0 "One-time global installs" table (sibling to `ft-audit-context` / `ft-new-project`), giving adopters a documented path to make the first-contact audit globally invocable before flowtron is wired into a repo. §1.2.2 maintainer wiring already globs `claude/skills/*` (not a gap there); §1.2.1 already names the skill. Surfaced by audit-context 2026-06-13 (Pass d, Medium).

@@ -55,7 +55,6 @@ To preview the visualizer locally, start the dev server from the repository root
 npm --prefix viz run dev
 ```
 
-(As with validation, drop `--prefix viz` if your shell is already inside `viz/`.)
 The visualizer dev server is pinned to port `5120` with `strictPort`.
 
 ## Editing Rules
