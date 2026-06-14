@@ -13,8 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **FE-058** [light]🔧 | viz-logo-optimize — `viz/public/LOGO.png` is a 374 KB unoptimized PNG shown at ~24px (`App.tsx` header, `h-6 w-auto`); it's the single largest payload, ~6× the gzipped main JS bundle. Resize/recompress to an optimized small PNG/WebP/SVG, target <10 KB. Surfaced by audit-frontend 2026-06-13 (Finding #1, Medium).
-
 ## Low
 
 - [ ] **FE-060** [light]🔧 | subtask-row-a11y-completion — `SubtaskRow.tsx` conveys a subtask's completed/incomplete state only via an `aria-hidden` ✓ glyph; the row button's accessible name (`id + description`) omits status, so screen-reader users can't distinguish done from not-done. Add completion state to the button's accessible name. Surfaced by audit-frontend 2026-06-13 (Finding #3, Low).
@@ -23,6 +21,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-058** [light]🔧 | viz-logo-optimize — Completed 2026-06-14.
 - [x] **FE-059** [light]🔧 | model-chip-fable-row-gate — Completed 2026-06-13.
 - [x] **CORE-320** [light]🔧 | update-adopters-skill-flag-precision — `tools/update-adopters.mjs` `newSkillsShipped()` now gates the "wire symlinks via /ft-update" note on the per-project `AGENTS-snippet.md` §"One-time symlink wiring" `ln -s` list (read at `toTag`) instead of any add under `claude/skills/`|`claude/commands/`, so global/by-reference skills (`ft-audit-repo`, the six global installs) no longer false-positive-flag. Verified: v5.5.0→v5.7.0 no longer flags; a genuinely wired skill still does. Surfaced during CORE-319 release, fixed inline. Completed 2026-06-13.
 - [x] **CORE-319** [opus] | release v5.7.0 — Completed 2026-06-13.

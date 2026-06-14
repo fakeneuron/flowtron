@@ -273,7 +273,7 @@ export const App: React.FC = () => {
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h1 className="flex items-center gap-2 text-lg font-semibold">
-                <img src="/LOGO.png" alt="" aria-hidden="true" className="h-6 w-auto" />
+                <img src="/LOGO.webp" alt="" aria-hidden="true" className="h-6 w-auto" />
                 Flowtron — {activeProject ?? '…'}
               </h1>
               <p className="text-sm text-slate-600 dark:text-slate-400">
