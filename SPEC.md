@@ -1,6 +1,6 @@
 # Flowtron — Workflow Specification
 
-**Version:** v5.7.0
+**Version:** v5.7.1
 **Status:** Stable
 
 ## What is Flowtron
