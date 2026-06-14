@@ -18,7 +18,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Low
 
 - [x] **FE-062** [light]🔧 | sse-backpressure — Completed 2026-06-14.
-- [ ] **CORE-322** [light]🔧 | update-adopters-node-guard — Add Node ≥20 version check at top of tools/update-adopters.mjs. Surfaced by audit-repo 2026-06-14 (Theme: deliberate-minimalism).
+- [x] **CORE-322** [light]🔧 | update-adopters-node-guard — Completed 2026-06-14.
 - [ ] **CORE-323** [light]🔧 | dogfood-grok-refresh — Run DOGFOOD.md procedure under Grok to refresh AGENT-COMPAT.md Grok row from skipped@v5.7.0 to v5.8.0+. Surfaced by audit-repo 2026-06-14 (Theme: multi-agent-currency).
 - [ ] **CORE-324** [light]🔧 | dogfood-codex-refresh — Run DOGFOOD.md procedure under Codex CLI to refresh row from v5.2.0 (5 releases stale). Surfaced by audit-repo 2026-06-14 (Theme: multi-agent-currency).
 - [x] **FE-061** [light]🔧 | workspace-semver-filter — Completed 2026-06-14.

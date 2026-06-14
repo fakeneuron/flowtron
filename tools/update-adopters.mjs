@@ -32,6 +32,11 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 
+if (Number(process.versions.node.split('.')[0]) < 20) {
+  console.error(`update-adopters requires Node ≥20 (found ${process.version})`);
+  process.exit(1);
+}
+
 const execFileAsync = promisify(execFile);
 
 const FLOWTRON_REPO = resolve(dirname(fileURLToPath(import.meta.url)), '..');
