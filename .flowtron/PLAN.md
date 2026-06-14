@@ -19,6 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-320** [light]🔧 | update-adopters-skill-flag-precision — `tools/update-adopters.mjs` `newSkillsShipped()` now gates the "wire symlinks via /ft-update" note on the per-project `AGENTS-snippet.md` §"One-time symlink wiring" `ln -s` list (read at `toTag`) instead of any add under `claude/skills/`|`claude/commands/`, so global/by-reference skills (`ft-audit-repo`, the six global installs) no longer false-positive-flag. Verified: v5.5.0→v5.7.0 no longer flags; a genuinely wired skill still does. Surfaced during CORE-319 release, fixed inline. Completed 2026-06-13.
 - [x] **CORE-319** [opus] | release v5.7.0 — Completed 2026-06-13.
 - [x] **CORE-318** [sonnet] | dedup-peer-skill-roster — added reciprocal `KEEP IN SYNC` markers on both peer-skill rosters (`AGENTS.md` §Workflow inline comment ↔ `claude/AGENTS-snippet.md` above the paste-fence) so editing one flags the twin; no generator (flowtron forbids scripts). Surfaced by audit-context 2026-06-13 (Pass d, Low), fixed inline same day.
 - [x] **CORE-317** [sonnet] | agents-dev-server-hint-dedup — Completed 2026-06-13.

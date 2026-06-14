@@ -21,7 +21,9 @@
 //
 // Not covered (by design — run /ft-update in the repo for these): per-project
 // symlink wiring for newly shipped skills, and audit-fork drift scans. When a
-// bumped range ships new skills/commands, the report flags the repo.
+// bumped range ships a new *per-project-wired* skill (one named in the
+// AGENTS-snippet ln -s block — not a global/by-reference skill like
+// ft-audit-repo), the report flags the repo.
 
 import { execFile } from 'node:child_process';
 import { readdir, readFile, stat } from 'node:fs/promises';
@@ -153,6 +155,37 @@ async function migrationBearingTags(tags) {
   return bearing;
 }
 
+// The per-project symlink-wiring set: basenames named in the freshly-bumped
+// AGENTS-snippet §"One-time symlink wiring" ln -s block — the authority
+// /ft-update Step 4 consults. Globally-installed / by-reference skills
+// (ft-audit-repo, ft-flowtron, …) are deliberately absent here, so they never
+// need a per-project link. Read at toTag to match what the adopter bumps to.
+async function wiredSkillKeys(toTag) {
+  let snippet;
+  try {
+    snippet = await git(FLOWTRON_REPO, 'show', `${toTag}:claude/AGENTS-snippet.md`);
+  } catch {
+    return null; // snippet unreadable at toTag — caller falls back to coarse check
+  }
+  const keys = new Set();
+  for (const line of snippet.split('\n')) {
+    if (!line.includes('ln -s')) continue;
+    const m = line.match(/\.flowtron\/core\/(claude\/(?:skills|commands)\/\S+)/);
+    if (m) keys.add(m[1]); // e.g. claude/skills/ft-task or claude/commands/ft-task.md
+  }
+  return keys;
+}
+
+// Reduce an added repo path to its wiring key: a skill dir collapses to
+// claude/skills/<name>; a command file stays claude/commands/<name>.md.
+function wiringKeyForAddedFile(path) {
+  const skill = path.match(/^(claude\/skills\/[^/]+)/);
+  if (skill) return skill[1];
+  const command = path.match(/^(claude\/commands\/[^/]+\.md)$/);
+  if (command) return command[1];
+  return null;
+}
+
 async function newSkillsShipped(fromTag, toTag) {
   const stdout = await git(
     FLOWTRON_REPO,
@@ -164,7 +197,18 @@ async function newSkillsShipped(fromTag, toTag) {
     'claude/skills/',
     'claude/commands/',
   );
-  return stdout.split('\n').some((l) => l.trim().length > 0);
+  const added = stdout.split('\n').filter((l) => l.trim().length > 0);
+  if (added.length === 0) return false;
+
+  const wired = await wiredSkillKeys(toTag);
+  // Snippet unreadable → fall back to the coarse "any add" signal (better to
+  // over-advise a no-op /ft-update than to silently miss a genuine new link).
+  if (wired === null) return true;
+
+  return added.some((path) => {
+    const key = wiringKeyForAddedFile(path);
+    return key !== null && wired.has(key);
+  });
 }
 
 async function discoverAdopters(root) {
