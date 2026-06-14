@@ -19,6 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-319** [opus] | release v5.7.0 — Completed 2026-06-13.
 - [x] **CORE-318** [sonnet] | dedup-peer-skill-roster — added reciprocal `KEEP IN SYNC` markers on both peer-skill rosters (`AGENTS.md` §Workflow inline comment ↔ `claude/AGENTS-snippet.md` above the paste-fence) so editing one flags the twin; no generator (flowtron forbids scripts). Surfaced by audit-context 2026-06-13 (Pass d, Low), fixed inline same day.
 - [x] **CORE-317** [sonnet] | agents-dev-server-hint-dedup — Completed 2026-06-13.
 - [x] **CORE-316** [sonnet] | audit-repo-symlink-trailing-slash — Completed 2026-06-13.

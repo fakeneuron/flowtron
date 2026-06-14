@@ -106,7 +106,7 @@ invocations will execute.
 
 **Adopter mitigations.**
 
-- Pin to annotated release tags (e.g. `v5.6.0`), not to `main` or to an
+- Pin to annotated release tags (e.g. `v5.7.0`), not to `main` or to an
   unreviewed commit on `main`. Release tags are reviewed deliberately;
   `main` is a moving target.
 - Review the diff between your pinned commit and the new tag before
