@@ -126,9 +126,16 @@ export function createArchiveHandler(
   };
 }
 
+const MAX_SSE_CLIENTS = 10;
+
 export function createEventsHandler(sseClients: Set<ServerResponse>): Handler {
   return (req, res) => {
     if (!originGuard(req, res)) return;
+    if (sseClients.size >= MAX_SSE_CLIENTS) {
+      res.statusCode = 503;
+      res.end('SSE capacity full');
+      return;
+    }
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache, no-transform');
     res.setHeader('Connection', 'keep-alive');

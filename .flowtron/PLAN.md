@@ -17,7 +17,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **FE-062** [light]🔧 | sse-backpressure — Add MAX_SSE_CLIENTS cap (e.g. 10) to devApi.ts:createEventsHandler before sseClients.add(). Surfaced by audit-repo 2026-06-14 (Theme: viz-correctness).
+- [x] **FE-062** [light]🔧 | sse-backpressure — Completed 2026-06-14.
 - [ ] **CORE-322** [light]🔧 | update-adopters-node-guard — Add Node ≥20 version check at top of tools/update-adopters.mjs. Surfaced by audit-repo 2026-06-14 (Theme: deliberate-minimalism).
 - [ ] **CORE-323** [light]🔧 | dogfood-grok-refresh — Run DOGFOOD.md procedure under Grok to refresh AGENT-COMPAT.md Grok row from skipped@v5.7.0 to v5.8.0+. Surfaced by audit-repo 2026-06-14 (Theme: multi-agent-currency).
 - [ ] **CORE-324** [light]🔧 | dogfood-codex-refresh — Run DOGFOOD.md procedure under Codex CLI to refresh row from v5.2.0 (5 releases stale). Surfaced by audit-repo 2026-06-14 (Theme: multi-agent-currency).
