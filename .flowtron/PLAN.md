@@ -11,13 +11,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-EPIC-324** [heavy]🧠 | repo-best-practices-sweep — Deep-dive review of the flowtron codebase (SPEC, skills, viz, and tooling) against best practices; Discovery scopes the 3 highest-impact finding areas into implementation children.
-  - [x] **CORE-324.1** [heavy]🧠 | discovery — Completed 2026-06-14.
-  - [x] **CORE-324.2** [heavy]🧠 | viz-best-practices — Completed 2026-06-14.
-  - [x] **CORE-324.3** [heavy]🧠 | spec-skill-consistency — Completed 2026-06-14.
-  - [x] **CORE-324.4** [heavy]🧠 | docs-tooling-sweep — Completed 2026-06-14.
-  - [ ] **CORE-324.5** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.
-
 ## Medium
 
 ## Low
@@ -26,6 +19,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-324** [heavy]🧠 | repo-best-practices-sweep — Completed 2026-06-14.
+  - [x] **CORE-324.1** [heavy]🧠 | discovery — Completed 2026-06-14.
+  - [x] **CORE-324.2** [heavy]🧠 | viz-best-practices — Completed 2026-06-14.
+  - [x] **CORE-324.3** [heavy]🧠 | spec-skill-consistency — Completed 2026-06-14.
+  - [x] **CORE-324.4** [heavy]🧠 | docs-tooling-sweep — Completed 2026-06-14.
+  - [x] **CORE-324.5** [heavy]🧠 | audit — Completed 2026-06-14.
 - [x] **CORE-321** [light]🔧 | ci-question — Completed 2026-06-14.
 - [x] **FE-062** [light]🔧 | sse-backpressure — Completed 2026-06-14.
 - [x] **CORE-322** [light]🔧 | update-adopters-node-guard — Completed 2026-06-14.
