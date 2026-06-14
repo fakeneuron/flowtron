@@ -298,6 +298,28 @@ describe('App — load() partial failure on project switch', () => {
   });
 });
 
+describe('App — model chip row gate (FE-059)', () => {
+  beforeEach(() => {
+    window.localStorage.clear();
+  });
+
+  it('renders the 🧠 chip for a fable task in its row (model prefs default-on)', async () => {
+    const plan = `## High\n\n- [ ] **CORE-100** [fable] | one — Task one\n`;
+    renderApp({ plan });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+    expect(screen.getByText('🧠')).toBeInTheDocument();
+  });
+
+  it('renders no chip for a non-heavy (sonnet) task', async () => {
+    const plan = `## High\n\n- [ ] **CORE-100** [sonnet] | one — Task one\n`;
+    renderApp({ plan });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+    expect(screen.queryByText('🧠')).not.toBeInTheDocument();
+  });
+});
+
 describe('App — settings modal', () => {
   const plan = `## High
 

@@ -39,7 +39,7 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
   const tags = tn?.frontmatter?.tags ?? [];
   const due = tn?.frontmatter?.due;
   const showTags = rowChips.tags && tags.length > 0;
-  const showModel = rowChips.model && task.model === 'opus';
+  const showModel = rowChips.model;
   const showRelated = rowChips.related && task.relatedTasks.length > 0;
   const showDue = rowChips.due && !!due;
   const showOptionalChips = showTags || showRelated || showDue;
