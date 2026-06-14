@@ -136,8 +136,9 @@ async function tagsInRange(fromTag, toTag) {
 }
 
 // A tag is migration-bearing unless its Migration block opens with the
-// release convention's all-clear line ("No required project-side edits").
-// "Migration (BREAKING — ...)" headings are always migration-bearing.
+// release convention's all-clear sentinel ("No required project-side edits",
+// checked case-insensitively). "Migration (BREAKING — ...)" headings are
+// always migration-bearing.
 async function migrationBearingTags(tags) {
   const bearing = [];
   for (const tag of tags) {
@@ -153,7 +154,7 @@ async function migrationBearingTags(tags) {
       .slice(headingIdx + 1)
       .map((l) => l.trim())
       .find((l) => l.length > 0);
-    if (!firstBody || !firstBody.startsWith('No required project-side edits')) {
+    if (!firstBody || !firstBody.toLowerCase().startsWith('no required project-side edits')) {
       bearing.push(tag);
     }
   }
