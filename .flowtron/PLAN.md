@@ -11,6 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
+
 ## Medium
 
 ## Low
@@ -19,6 +20,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-327** [sonnet] | release v5.7.2 — Completed 2026-06-14.
 - [x] **CORE-326** [heavy]🧠 | release-migration-sentinel — Completed 2026-06-14.
 - [x] **CORE-325** [opus] | release v5.7.1 — Completed 2026-06-14.
 - [x] **CORE-EPIC-324** [heavy]🧠 | repo-best-practices-sweep — Completed 2026-06-14.
