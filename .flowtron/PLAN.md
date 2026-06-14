@@ -13,20 +13,18 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [x] **CORE-321** [light]🔧 | ci-question — Completed 2026-06-14.
-
 ## Low
-
-- [x] **FE-062** [light]🔧 | sse-backpressure — Completed 2026-06-14.
-- [x] **CORE-322** [light]🔧 | update-adopters-node-guard — Completed 2026-06-14.
-- [x] **CORE-323** [light]🔧 | dogfood-grok-refresh — Completed 2026-06-14.
-- [x] **FE-061** [light]🔧 | workspace-semver-filter — Completed 2026-06-14.
-- [x] **FE-060** [light]🔧 | subtask-row-a11y-completion — Completed 2026-06-14.
 
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-321** [light]🔧 | ci-question — Completed 2026-06-14.
+- [x] **FE-062** [light]🔧 | sse-backpressure — Completed 2026-06-14.
+- [x] **CORE-322** [light]🔧 | update-adopters-node-guard — Completed 2026-06-14.
+- [x] **CORE-323** [light]🔧 | dogfood-grok-refresh — Completed 2026-06-14.
+- [x] **FE-061** [light]🔧 | workspace-semver-filter — Completed 2026-06-14.
+- [x] **FE-060** [light]🔧 | subtask-row-a11y-completion — Completed 2026-06-14.
 - [x] **FE-058** [light]🔧 | viz-logo-optimize — Completed 2026-06-14.
 - [x] **FE-059** [light]🔧 | model-chip-fable-row-gate — Completed 2026-06-13.
 - [x] **CORE-320** [light]🔧 | update-adopters-skill-flag-precision — `tools/update-adopters.mjs` `newSkillsShipped()` now gates the "wire symlinks via /ft-update" note on the per-project `AGENTS-snippet.md` §"One-time symlink wiring" `ln -s` list (read at `toTag`) instead of any add under `claude/skills/`|`claude/commands/`, so global/by-reference skills (`ft-audit-repo`, the six global installs) no longer false-positive-flag. Verified: v5.5.0→v5.7.0 no longer flags; a genuinely wired skill still does. Surfaced during CORE-319 release, fixed inline. Completed 2026-06-13.
