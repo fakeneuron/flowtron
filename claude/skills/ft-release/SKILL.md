@@ -296,7 +296,7 @@ On 🟢 GO commit-go (push-go answer already captured in the §7.4 bundle), run 
 3. **If push-go was Yes** — ▶️ RUN: `git push origin <current-branch>` then `git push origin vA.B.C`.
    **If push-go was No** — stop after the tag; §8's 🏁 marker names the manual push commands as a follow-up step.
 
-Verify each operation before the next (`git log -1 --stat`, `git tag --list vA.B.C`, and on push-go Yes also `git ls-remote --tags origin vA.B.C`). The separate prose "ask explicitly before pushing" pause from earlier revisions is collapsed — push approval is captured upstream as the bundled push-go prompt at §7.4, per SPEC.md:313 ("release push-go bundles into 📦").
+Verify each operation before the next (`git log -1 --stat`, `git tag --list vA.B.C`, and on push-go Yes also `git ls-remote --tags origin vA.B.C`). The separate prose "ask explicitly before pushing" pause from earlier revisions is collapsed — push approval is captured upstream as the bundled push-go prompt at §7.4, per SPEC §"Operator-gate cues" ("skill-level extensions (epic parent-flip, release push-go) bundle into 📦").
 
 ## Step 8 — Post-closure protocol (🏁 marker + suggest-next-move + copy-paste)
 

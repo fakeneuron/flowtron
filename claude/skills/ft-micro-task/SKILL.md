@@ -29,7 +29,7 @@ Paths this skill uses:
 - Micro template: `<root>templates/tasknote-micro-template.md`
 - PLAN: `.flowtron/PLAN.md`, tasknote dir: `.flowtron/tasknote/` (always)
 
-Step 1.5 Reads `<SPEC_DIR>/model.md` and `<SKILL_DIR>/step-1.5-model-edge.md` in parallel.
+Step 1.5 Reads `<SPEC_DIR>/model.md` and `<SKILL_DIR>/step-1.5-model-edge.md` in parallel on its edge-case branches (category under-tier / concrete mismatch / legacy); a satisfied tag proceeds without the read.
 
 **Parse `args`.** Split on whitespace into `(TASK-ID, rest...)`. Branch on `rest`:
 
@@ -65,10 +65,11 @@ The full task-line grammar is `- [ ] **TASK-ID** [!critical] [model] | shortname
 
 ## Step 1.5 — Model gate (BEFORE scaffolding)
 
-Gate on the `[model]` segment captured in Step 1 before any source reads — heavy thinking shouldn't run on the wrong model. The active model is whatever the assistant is currently running as (ask the user if uncertain).
+Gate on the `[model]` segment captured in Step 1 before any source reads — heavy thinking shouldn't run on the wrong model. The active model is whatever the assistant is currently running as (ask the user if uncertain). A **concrete** tag (`opus`/`sonnet`/`grok`/…) is matched by exact identity; a **category** tag (`[heavy]`/`[medium]`/`[light]`) is matched by *tier*, not string — see `<SPEC_DIR>/model.md` §"Category-vs-concrete matching" for the tier ladder + rule.
 
-- **Matches active model** → proceed silently to Step 2.
-- **Differs from active model** → STOP. Read `<SPEC_DIR>/model.md` + `<SKILL_DIR>/step-1.5-model-edge.md` in parallel, then follow the "Mismatch" branch.
+- **Satisfied** — concrete tag equals the active model, OR a category tag whose tier the active model meets or exceeds (e.g. `[light]` on sonnet, `[heavy]` on opus) → proceed silently to Step 2.
+- **Category under-tier** — a category tag tagged heavier than the active model's tier (e.g. `[heavy]` on a lower-tier model such as grok (medium) or haiku (light)) → Read `<SPEC_DIR>/model.md` + `<SKILL_DIR>/step-1.5-model-edge.md` in parallel, then follow the "Category under-tier" branch (⚠️ inline note, then proceed — not a STOP, not an auto-retag).
+- **Concrete mismatch** — a concrete tag differs from the active model → STOP. Read `<SPEC_DIR>/model.md` + `<SKILL_DIR>/step-1.5-model-edge.md` in parallel, then follow the "Mismatch" branch.
 - **Absent (legacy line)** → Read `<SPEC_DIR>/model.md` + `<SKILL_DIR>/step-1.5-model-edge.md` in parallel, then follow the "Legacy entry" branch.
 
 ## Step 2 — Scaffold the micro-tasknote

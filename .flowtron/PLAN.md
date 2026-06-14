@@ -14,7 +14,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-EPIC-324** [heavy]🧠 | repo-best-practices-sweep — Deep-dive review of the flowtron codebase (SPEC, skills, viz, and tooling) against best practices; Discovery scopes the 3 highest-impact finding areas into implementation children.
   - [x] **CORE-324.1** [heavy]🧠 | discovery — Completed 2026-06-14.
   - [x] **CORE-324.2** [heavy]🧠 | viz-best-practices — Completed 2026-06-14.
-  - [ ] **CORE-324.3** [heavy]🧠 | spec-skill-consistency — Review SPEC.md, SPEC/ modules, and all skill SKILL.md files for internal consistency, stale cross-references, and contract drift; fix inline where clear, file follow-ups for larger gaps.
+  - [x] **CORE-324.3** [heavy]🧠 | spec-skill-consistency — Completed 2026-06-14.
   - [ ] **CORE-324.4** [heavy]🧠 | docs-tooling-sweep — Audit `docs/` (MIGRATION, CONVENTIONS, PLATFORMS, etc.) and `tools/update-adopters.mjs` for accuracy, completeness, and code quality; apply inline fixes for each high-confidence finding.
   - [ ] **CORE-324.5** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.
 
