@@ -243,7 +243,7 @@ export const App: React.FC = () => {
         highlightTimer.current = setTimeout(() => setHighlightId(null), HIGHLIGHT_MS);
       });
     },
-    [tasks],
+    [tasks, setCollapsedSections, setExpandedEpicIds],
   );
 
   useKeyboardNav({

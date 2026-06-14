@@ -1,6 +1,7 @@
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import globals from 'globals';
+import reactHooks from 'eslint-plugin-react-hooks';
 
 export default tseslint.config(
   { ignores: ['dist/**', 'public/**', 'node_modules/**'] },
@@ -8,11 +9,21 @@ export default tseslint.config(
   tseslint.configs.recommended,
   {
     files: ['src/**/*.{ts,tsx}'],
+    plugins: { 'react-hooks': reactHooks },
     languageOptions: {
       globals: { ...globals.browser },
     },
     rules: {
       'no-empty': ['error', { allowEmptyCatch: true }],
+      // Enable only the two canonical React Hooks rules. The v7
+      // `configs.flat.recommended` preset additionally bundles the React
+      // Compiler ruleset (set-state-in-effect, refs, purity, …), which flags
+      // well-established correct patterns here (fetch-on-mount effects, the
+      // ref-latest-value idiom in useProjectData) as errors — out of scope
+      // for this guardrail. Revisit the full preset only on a deliberate
+      // React Compiler adoption.
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
     },
   },
 );
