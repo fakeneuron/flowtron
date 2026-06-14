@@ -60,6 +60,7 @@ export const SubtaskRow: React.FC<SubtaskRowProps> = ({
           type="button"
           onClick={() => setExpandedId(isExpandedDetail ? null : task.id)}
           aria-expanded={isExpandedDetail}
+          aria-label={`${task.completed ? 'Completed' : 'Incomplete'}: ${task.id} ${task.description}`}
           className="flex min-w-0 flex-1 items-center gap-2 rounded text-left focus:outline-none focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
         >
           <span className="font-mono text-sm font-medium text-slate-700 dark:text-slate-300">

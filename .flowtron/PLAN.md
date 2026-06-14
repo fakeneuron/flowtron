@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **FE-060** [light]🔧 | subtask-row-a11y-completion — `SubtaskRow.tsx` conveys a subtask's completed/incomplete state only via an `aria-hidden` ✓ glyph; the row button's accessible name (`id + description`) omits status, so screen-reader users can't distinguish done from not-done. Add completion state to the button's accessible name. Surfaced by audit-frontend 2026-06-13 (Finding #3, Low).
+- [x] **FE-060** [light]🔧 | subtask-row-a11y-completion — Completed 2026-06-14.
 
 ## Future Opportunities
 
