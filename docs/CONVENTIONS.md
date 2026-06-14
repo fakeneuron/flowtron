@@ -82,3 +82,13 @@ Flowtron does not ship pre-commit hooks. The pattern declined is [pre-commit](ht
 Validation runs inline as Phase 3 of every tasknote — targeted tests, lint and type-check on changed code, optional visual confirmation for frontend changes. Phase 3 is part of the workflow contract (see [SPEC.md](../SPEC.md)) and runs in the same context where the change was authored; hooks would duplicate the check at commit time.
 
 Same backing principle as release automation: [PHILOSOPHY.md](PHILOSOPHY.md) §"The decisions that fall out" (Zero scripts) — the assistant is the validator, and the workflow phase is the gate.
+
+### CI / GitHub Actions
+
+Flowtron does not ship a `.github/workflows/` CI pipeline. The pattern declined is automated test / lint / typecheck runs on push or pull request.
+
+Two reasons. First, the same logic that rules out pre-commit hooks applies here: validation already runs inline as Phase 3 of every tasknote (targeted tests, lint, and type-check on changed code), and the `/ft-release` skill gates every release on `npm test`, `npm run typecheck`, and `npm run lint` before the version tag lands. A CI run would duplicate those checks without adding enforcement surface.
+
+Second, flowtron is a single-maintainer solo system. There are no external contributor pull requests that need automated gating — the maintainer is always in the loop and the workflow phase is the gate.
+
+Same backing principle as pre-commit hooks and release automation: [PHILOSOPHY.md](PHILOSOPHY.md) §"The decisions that fall out" (Zero scripts) — the assistant is the validator, and the workflow phase is the gate.
