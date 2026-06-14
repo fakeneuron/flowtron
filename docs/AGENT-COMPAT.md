@@ -93,7 +93,7 @@ for its Grok Build notes. The agent-neutral workflow contract itself
 _Only Claude Code is verified by continuous dogfooding._ Contract-only rows
 start from vendor documentation and launch coverage until a live flowtron
 session is run under that agent. Grok Build has been dogfooded and
-re-verified at v5.5.0, and Codex CLI at v5.2.0; Cursor, Gemini CLI, Aider, and Sourcegraph Amp remain
+re-verified at v5.7.0, and Codex CLI at v5.2.0; Cursor, Gemini CLI, Aider, and Sourcegraph Amp remain
 pre-adoption expectations. Flowtron has not shipped wiring for any
 contract-only agent. Update a row on first-use observation if anything
 diverges. This mirrors the per-agent footers in [`PLATFORMS.md`](PLATFORMS.md)

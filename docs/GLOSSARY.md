@@ -60,7 +60,7 @@ Alphabetized. ~52 entries. Maintained via epic children and audits.
 
 **lazy-loaded** — Contract for `SPEC/*.md` modules and `claude/skills/*/SKILL.md` implementations: loaded on demand by the calling stub rather than read at every cold start. The glossary itself follows this pattern to protect one-task-per-window.
 
-**[model]** — Optional short token in a task-line declaring the recommended cognitive-load tier for the work (primary labels `[heavy]` / `[light]`; specific names `fable`, `opus`, `grok`, etc. remain valid). Read by `/ft-task` Step 1.5 before scaffolding. See SPEC §"Model field".
+**[model]** — Optional short token in a task-line declaring the recommended cognitive-load tier for the work (primary labels `[heavy]` / `[medium]` / `[light]`; specific names `fable`, `opus`, `grok`, etc. remain valid). Read by `/ft-task` Step 1.5 before scaffolding. See SPEC §"Model field".
 
 **micro-tasknote** — A single-section tasknote (do-the-work + recap only) used for work that exceeds the skip-the-tasknote threshold but is too small for the full 4-phase ceremony. Uses `templates/tasknote-micro-template.md`.
 
@@ -78,7 +78,7 @@ Alphabetized. ~52 entries. Maintained via epic children and audits.
 
 **post-closure protocol** — The three steps that run after a tasknote is archived: commit decision (per Conditional skip rule), suggest-next-move (model-aware), copy-paste line. See SPEC §"Post-closure protocol".
 
-**PR / suggestion archetypes** — The four shapes flowtron deliberately rejects in contributions: schema validators, abstractions without two-project precedent, cross-project query layers beyond the read-only visualizer, multi-user/team features. Terse AI-facing list lives in SPEC; prose mirror in VISION.md. See SPEC §"What flowtron does NOT provide" and docs/VISION.md.
+**PR / suggestion archetypes** — The six shapes flowtron deliberately rejects in contributions: schema validators, abstractions without two-project precedent, cross-project query layers beyond the read-only visualizer, multi-user/team features, runtime security scanners / audit daemons, and LLM knowledge-base / "wiki layer" subsystems. Terse AI-facing list lives in SPEC; prose mirror in VISION.md. See SPEC §"What flowtron does NOT provide" and docs/VISION.md.
 
 **priority level** — The PLAN.md heading under which a task row lives (`## High`, `## Medium`, etc.). The `[!critical]` flag can float a row inside High. See SPEC §"Priority levels".
 

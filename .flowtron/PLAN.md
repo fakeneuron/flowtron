@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-324.1** [heavy]🧠 | discovery — Completed 2026-06-14.
   - [x] **CORE-324.2** [heavy]🧠 | viz-best-practices — Completed 2026-06-14.
   - [x] **CORE-324.3** [heavy]🧠 | spec-skill-consistency — Completed 2026-06-14.
-  - [ ] **CORE-324.4** [heavy]🧠 | docs-tooling-sweep — Audit `docs/` (MIGRATION, CONVENTIONS, PLATFORMS, etc.) and `tools/update-adopters.mjs` for accuracy, completeness, and code quality; apply inline fixes for each high-confidence finding.
+  - [x] **CORE-324.4** [heavy]🧠 | docs-tooling-sweep — Completed 2026-06-14.
   - [ ] **CORE-324.5** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.
 
 ## Medium
