@@ -13,8 +13,15 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
+- [ ] **CORE-321** [light]🔧 | ci-question — Revisit CONVENTIONS.md §CI stance: document the explicit decision to remain CI-free at v5.7.0+ (and update the rationale), or add a minimal GitHub Actions workflow running viz test/typecheck/lint on push. Surfaced by audit-repo 2026-06-14 (Theme: deliberate-minimalism).
+
 ## Low
 
+- [ ] **FE-062** [light]🔧 | sse-backpressure — Add MAX_SSE_CLIENTS cap (e.g. 10) to devApi.ts:createEventsHandler before sseClients.add(). Surfaced by audit-repo 2026-06-14 (Theme: viz-correctness).
+- [ ] **CORE-322** [light]🔧 | update-adopters-node-guard — Add Node ≥20 version check at top of tools/update-adopters.mjs. Surfaced by audit-repo 2026-06-14 (Theme: deliberate-minimalism).
+- [ ] **CORE-323** [light]🔧 | dogfood-grok-refresh — Run DOGFOOD.md procedure under Grok to refresh AGENT-COMPAT.md Grok row from skipped@v5.7.0 to v5.8.0+. Surfaced by audit-repo 2026-06-14 (Theme: multi-agent-currency).
+- [ ] **CORE-324** [light]🔧 | dogfood-codex-refresh — Run DOGFOOD.md procedure under Codex CLI to refresh row from v5.2.0 (5 releases stale). Surfaced by audit-repo 2026-06-14 (Theme: multi-agent-currency).
+- [x] **FE-061** [light]🔧 | workspace-semver-filter — Completed 2026-06-14.
 - [x] **FE-060** [light]🔧 | subtask-row-a11y-completion — Completed 2026-06-14.
 
 ## Future Opportunities

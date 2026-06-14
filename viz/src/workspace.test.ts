@@ -121,6 +121,11 @@ describe('latestReleaseTag', () => {
     expect(await latestReleaseTag(repo)).toBe('v0.10.0');
   });
 
+  it('ignores non-semver tags', async () => {
+    const repo = await makeTaggedRepo(['legacy-v0', 'tmp-test', 'v1.2.3']);
+    expect(await latestReleaseTag(repo)).toBe('v1.2.3');
+  });
+
   it('returns null for a repo with no tags', async () => {
     const repo = await makeTaggedRepo([]);
     expect(await latestReleaseTag(repo)).toBeNull();

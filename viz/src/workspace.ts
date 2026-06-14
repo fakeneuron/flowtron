@@ -59,7 +59,7 @@ export async function latestReleaseTag(repoDir: string): Promise<string | null> 
     const first = stdout
       .split('\n')
       .map((line) => line.trim())
-      .find((line) => line.length > 0);
+      .find((line) => /^v\d+\.\d+\.\d+$/.test(line));
     return first ?? null;
   } catch {
     return null;
