@@ -13,7 +13,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **CORE-EPIC-329** [light]🔧 | adopter-surface-sync — sync the `/ft-update` wiring fan-out across its downstream doc consumers and adopt the new logo. Discovery supplied by audit-repo 2026-07-02. Surfaced by audit-repo 2026-07-02 (Theme: Canonical-block fan-out drift)
   - [x] **CORE-329.2** [light]🔧 | ft-update-wiring-sync — Completed 2026-07-02.
-  - [ ] **CORE-329.3** [light]🔧 | new-logo-adoption — root `LOGO.png` (446 KB, untracked) is the new logo: commit the source, regenerate `viz/public/LOGO.webp` + favicons from it, `git rm` the dead 374 KB `viz/public/LOGO.png` (FE-058 leftover, unreferenced) and unused `viz/public/favicon.svg`
+  - [x] **CORE-329.3** [light]🔧 | new-logo-adoption — Completed 2026-07-02.
   - [ ] **CORE-329.4** [light]🔧 | cosmetic-sweep — strip the internal CORE-215.5 reference from `claude/commands/ft-worktree-start.md`; glossary count ~52→~53 in `README.md:20` + `docs/GLOSSARY.md:7`
   - [ ] **CORE-329.5** [light]🔧 | audit — close-out doc-drift sweep per `SPEC/epic.md`
 
