@@ -17,7 +17,7 @@ maintain.
   is for, the principles (recap of SPEC), and the PR/suggestion archetypes
   flowtron deliberately rejects
 - [docs/GLOSSARY.md](docs/GLOSSARY.md) — alphabetized one-line definitions for
-  ~53 load-bearing terms, phases, markers, and grammar elements (lazy-loaded
+  ~56 load-bearing terms, phases, markers, and grammar elements (lazy-loaded
   pointer to SPEC anchors)
 - [docs/MIGRATION.md](docs/MIGRATION.md) — adoption guide for fresh projects
   and migration from a prior workflow system
@@ -51,9 +51,9 @@ maintain.
 
 Run `/ft-new-project` in your project's root directory (git repo required;
 `/ft-new-project` additionally checks for `CLAUDE.md` as a project-validity
-heuristic) to add the flowtron submodule, wire the seven tasknote skills
+heuristic) to add the flowtron submodule, wire the eight tasknote skills
 (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`,
-`/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`) plus the two worktree
+`/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`, `/ft-goal-task`) plus the two worktree
 utilities (`/ft-worktree-start`, `/ft-worktree-end`), and drop in the `.flowtron/`
 skeleton in one pass. See [docs/MIGRATION.md](docs/MIGRATION.md) §1.0 for the
 one-time global install.

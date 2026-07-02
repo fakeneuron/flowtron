@@ -18,7 +18,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-330.2** [heavy]🧠 | loop-contract — Completed 2026-07-02.
   - [x] **CORE-330.3** [medium]🧠 | heartbeat-template — Completed 2026-07-02.
   - [x] **CORE-330.4** [heavy]🧠 | ft-goal-task-skill — Completed 2026-07-02.
-  - [ ] **CORE-330.5** [light]🔧 | loop-wiring-doc-sync — Wire /ft-goal-task into the auto-symlink set (ft-new-project staging/verify counts, MIGRATION §1.2/§1.6, AGENTS-snippet, ft-update); ship the heartbeat template; GLOSSARY entries (goal loop, heartbeat, iteration log); README skill-roster touch-up. CORE-329.2 fan-out precedent sizes this.
+  - [x] **CORE-330.5** [light]🔧 | loop-wiring-doc-sync — Completed 2026-07-02.
   - [ ] **CORE-330.6** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest .N child.
 
 ## Low

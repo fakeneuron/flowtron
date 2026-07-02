@@ -4,7 +4,7 @@
 
 Adopted from the GSD-Pi `CONTEXT.md` glossary pattern (the "mega-doc" slice that survived the one-task-per-window filter during CORE-EPIC-194 Discovery). See [CORE-194.1](../.flowtron/tasknote/archive/core/CORE-194.1.md) for the extraction rationale and term-cohort decisions.
 
-Alphabetized. ~53 entries. Maintained via epic children and audits.
+Alphabetized. ~56 entries. Maintained via epic children and audits.
 
 ---
 
@@ -58,7 +58,13 @@ Alphabetized. ~53 entries. Maintained via epic children and audits.
 
 **`/ft-update`** — The adopter-side command that bumps a project's pinned flowtron submodule to the latest released tag: shows current→target + changelog, moves the pin, re-wires newly shipped symlinks, runs a smoke check. Consumer-side counterpart to `/ft-release`. Adopter-only (bails in flowtron-self); takes no arguments. See docs/MIGRATION.md.
 
+**goal loop** — The loop-task shape that repeats Phase 2→3 (execute→verify) against a fixed, machine-checkable `## ✅ Acceptance` target until every check passes, `loop-max` is exhausted, or the per-cycle relevance gate says stop. Driven by `/ft-goal-task`; contrast heartbeat. See SPEC/loop.md.
+
 **grammar elements** — The syntactic pieces of the PLAN.md task-line and tasknote body: `[!critical]`, `[model]`, `| shortname`, `[[TASK-ID]]` wikilink, `Blocked by [[ID]]`, `Completed YYYY-MM-DD.` stub form, etc. See SPEC §"Task-line format".
+
+**heartbeat** — The recurring-maintenance loop-task shape: each cycle runs a cheap pre-check then does at most one bounded duty, filing findings as PLAN lines rather than converging on a single target. Ships as `templates/loop-heartbeat-template.md` (copied to `.claude/loop.md`); a stale `loop-last-run:` is its death signal. See SPEC/loop.md.
+
+**iteration log (🔁 Iterations)** — The append-only `## 🔁 Iterations` section a loop task adds between Phase 3 and Phase 4; one line per cycle (number · relevance verdict · verify result · commit sha or no-commit reason). The loop's memory — replaces re-reading the transcript each cycle. See SPEC/loop.md.
 
 **lazy-loaded** — Contract for `SPEC/*.md` modules and `claude/skills/*/SKILL.md` implementations: loaded on demand by the calling stub rather than read at every cold start. The glossary itself follows this pattern to protect one-task-per-window.
 

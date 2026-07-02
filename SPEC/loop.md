@@ -11,6 +11,10 @@ assistant repeats Phase 2 → Phase 3 (execute → verify) against a fixed
 Acceptance target until the target is met, a budget is exhausted, or a
 per-cycle relevance check says stop. Goal loops (converge on a verifiable
 outcome) and heartbeats (recurring maintenance passes) are the two shapes.
+The goal shape is driven by `/ft-goal-task`; the heartbeat shape ships as a
+ready-made per-cycle contract at
+[`templates/loop-heartbeat-template.md`](../templates/loop-heartbeat-template.md)
+(copy to `.claude/loop.md`, replace its Duties, run under a loop runner).
 
 ## Runtime vs. contract — the boundary
 
