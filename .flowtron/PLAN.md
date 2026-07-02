@@ -13,11 +13,17 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
+- [ ] **FE-064** [medium]🧠 | viz-render-resilience — Add a React `ErrorBoundary` wrapping the `WikilinkMarkdown`/section subtree so a malformed tasknote degrades one row instead of blanking the whole board (`viz/src/ui/App.tsx:268`); add an `EventSource` `error` handler in `useProjectData` for silent SSE loss (`viz/src/ui/useProjectData.ts:64`); validate the `vscode://` path in `TaskDetail.tsx:51` before interpolating. Surfaced by audit 2026-07-02 (Finding #2, Medium; #3, Low; #1, Low).
+
 ## Low
+
+- [ ] **FE-065** [light]🔧 | viz-dedup-orphan-cleanup — Extract a `renderSection` closure to collapse the duplicate `PrioritySection` prop-spreads (`viz/src/ui/App.tsx:409-456`); dedupe the starter-count pluralization (`App.tsx:281-284`); delete the orphan `parsePlan` export and repoint its back-compat test at `parsePlanWithDiagnostics` (`viz/src/parser.ts:229`). Surfaced by audit 2026-07-02 (Finding #4, Medium; #5, Low).
 
 ## Future Opportunities
 
 ## Completed
+
+- [x] **CORE-331** [light]🔧 | loop-integration-doc-sync — Propagated CORE-EPIC-330 into the enumeration sites the epic missed: added `loop` to the `SPEC/` module inventories (`SPEC.md:74`, `README.md:192`, `AGENTS.md:25`); added `/ft-goal-task` to the `docs/MIGRATION.md:385` smoke checklist and bumped "eight total"→"nine total"; noted `/ft-goal-task`'s SKILL as the dispatch source for `SPEC/loop.md` (`SPEC.md:79`); anchored the `.flowtron/LOOP-LOG.md` heartbeat convention in `SPEC/loop.md:41`; refreshed the `README.md:20` glossary count. Surfaced by audit 2026-07-02 (Finding #6, High; #7, Medium; +3 Low), fixed inline.
 
 - [x] **CORE-EPIC-330** [heavy]🧠 | loop-integration — Completed 2026-07-02.
   - [x] **CORE-330.1** [heavy]🧠 | discovery — Completed 2026-07-02.

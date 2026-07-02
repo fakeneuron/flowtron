@@ -71,14 +71,16 @@ paths: ['*-EPIC-*.md', '*.[0-9]*.md']
 The field is **populated only where a filename-based trigger applies**.
 `SPEC/epic.md` declares the parent-epic and epic-subtask filename shapes;
 the remaining modules (`starter` · `blocked` · `model` · `versioning` ·
-`gates` · `tasknote-selection`) have status- or content-based triggers
+`gates` · `tasknote-selection` · `loop`) have status- or content-based triggers
 and declare `paths: []`. The
 leading `> Lazy-loaded SPEC module. Loaded by ...` prose line stays
 authoritative for status/content triggers.
 
 The contract is **declarative today**: the source of truth for which
 module loads when is still `claude/skills/ft-task/SKILL.md`'s explicit
-dispatch (Steps 1.5 / 2 / 3a / 3c / 5). Future tooling MAY parse the
+dispatch (Steps 1.5 / 2 / 3a / 3c / 5) — plus
+`claude/skills/ft-goal-task/SKILL.md`, which is the dispatch source for
+`SPEC/loop.md`. Future tooling MAY parse the
 frontmatter to drive dispatch dynamically.
 
 ### Procedure SOPs (`SPEC/procedures/`)

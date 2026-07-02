@@ -23,7 +23,7 @@ small direct change.
 
 - `SPEC.md` — canonical workflow contract.
 - `SPEC/` — lazy modules for epics, starter tasks, blocked tasks, model
-  routing, gates, versioning, and tasknote selection.
+  routing, gates, versioning, tasknote selection, and loop tasks.
 - `.flowtron/` — flowtron's own plan and tasknotes.
 - `claude/` — Claude Code wiring: commands, skills, and the historical
   source for the agent-neutral adopter snippet.

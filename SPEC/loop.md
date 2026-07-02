@@ -38,7 +38,7 @@ module names how they compose under repetition:
 | Runaway backstop | `loop-max:` hard iteration ceiling |
 | Blast-radius control | `wt-<ID>` worktree isolation ([`docs/WORKTREES.md`](../docs/WORKTREES.md)) |
 | Hard-stop escape hatch | `status: blocked` park ([`SPEC/blocked.md`](blocked.md)) |
-| Loop memory | `## 🔁 Iterations` append-only log (below) |
+| Loop memory | `## 🔁 Iterations` append-only log (below); the heartbeat shape logs to `.flowtron/LOOP-LOG.md` per [`templates/loop-heartbeat-template.md`](../templates/loop-heartbeat-template.md) |
 
 "One tasknote per session" (README §"Sessions, loops, and sub-agents")
 holds under looping: a loop **deepens within-task autonomy on exactly one
