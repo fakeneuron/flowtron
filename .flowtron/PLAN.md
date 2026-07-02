@@ -11,10 +11,19 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
+- [ ] **CORE-EPIC-329** [light]🔧 | adopter-surface-sync — sync the `/ft-update` wiring fan-out across its downstream doc consumers and adopt the new logo. Discovery supplied by audit-repo 2026-07-02. Surfaced by audit-repo 2026-07-02 (Theme: Canonical-block fan-out drift)
+  - [ ] **CORE-329.2** [light]🔧 | ft-update-wiring-sync — `docs/MIGRATION.md:63` count nine→ten; §1.6 staging block +2 `ft-update` paths; `claude/skills/ft-new-project/SKILL.md` Step 7 staging + Step 8 verify 18→20 symlinks; consider a standing snippet-count check (`grep -c "^ln -s" claude/AGENTS-snippet.md` vs the three consumers) in the `/ft-release` doc-drift sweep
+  - [ ] **CORE-329.3** [light]🔧 | new-logo-adoption — root `LOGO.png` (446 KB, untracked) is the new logo: commit the source, regenerate `viz/public/LOGO.webp` + favicons from it, `git rm` the dead 374 KB `viz/public/LOGO.png` (FE-058 leftover, unreferenced) and unused `viz/public/favicon.svg`
+  - [ ] **CORE-329.4** [light]🔧 | cosmetic-sweep — strip the internal CORE-215.5 reference from `claude/commands/ft-worktree-start.md`; glossary count ~52→~53 in `README.md:20` + `docs/GLOSSARY.md:7`
+  - [ ] **CORE-329.5** [light]🔧 | audit — close-out doc-drift sweep per `SPEC/epic.md`
 
 ## Medium
 
-(none)
+- [ ] **FE-EPIC-063** [medium]🧠 | viz-plan-grammar-resilience — stop the visualizer silently losing tasks on hand-authored PLAN.md input. Discovery supplied by audit-repo 2026-07-02. Surfaced by audit-repo 2026-07-02 (Theme: The parser trusts hand-written markdown)
+  - [ ] **FE-063.2** [medium]🧠 | unparsed-line-diagnostics — `viz/src/parser.ts:171` collects `- [ ]` lines that fail `TASK_LINE` instead of dropping them; UI surfaces an "N unparsed" badge with the offending line text
+  - [ ] **FE-063.3** [medium]🧠 | search-reaches-subtasks — `viz/src/ui/App.tsx:135` `filteredNodes` keeps an epic when any child matches; test covers subtask-ID search
+  - [ ] **FE-063.4** [light]🔧 | order-independent-grouping — two-pass `groupTasks` (index epics first, then attach children); test covers subtask-above-epic ordering
+  - [ ] **FE-063.5** [light]🔧 | audit — close-out doc-drift sweep per `SPEC/epic.md`
 
 ## Low
 
