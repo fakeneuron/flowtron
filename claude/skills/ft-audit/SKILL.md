@@ -1,6 +1,6 @@
 ---
 name: ft-audit
-description: Ruthless principal-engineer code audit — 5 passes (Security · Idioms · Hygiene · Orphans · Doc drift), capped at 5 findings each, writes prioritized tickets to `.flowtron/PLAN.md`. Stack-neutral scaffold; adopters fork into `.claude/skills/audit/` and fill in rubric / verification gates / per-pass examples for their stack. See `docs/MIGRATION.md` §1.2.1.
+description: Ruthless principal-engineer code audit — 5 passes (Security · Idioms · Hygiene · Orphans · Doc drift), capped at 5 findings each, writes prioritized tickets to `.flowtron/PLAN.md`. Use when the user asks for a general code audit or review with no specific domain named (security/backend/frontend/etc. — prefer the focused `ft-audit-*` skill when one is named). Stack-neutral scaffold; adopters fork into `.claude/skills/audit/` and fill in rubric / verification gates / per-pass examples for their stack. See `docs/MIGRATION.md` §1.2.1.
 ---
 
 # audit — flowtron stack-neutral code-audit skill

@@ -17,7 +17,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-EPIC-328** [heavy] | cc-agent-alignment — Explore where flowtron can better leverage current Claude Code agent patterns (Agent Skills dispatch, filesystem-memory positioning, autonomous/sub-agent loops) under a strict net-positive filter. The agent-compat/projection surface (CORE-EPIC-224/271) is already built, so this targets narrow additive polish only. Filed via /ft-epic-discovery; refined at .1 closure.
   - [x] **CORE-328.1** [heavy] | discovery — Completed 2026-07-02.
   - [x] **CORE-328.2** [heavy] | agent-memory-positioning — Completed 2026-07-02.
-  - [ ] **CORE-328.3** [medium] | skill-description-dispatch-audit — Audit all bundled SKILL.md `description` fields for agent-dispatch quality: does each state when an agent should invoke it, per the Agent Skills on-demand-loading model? Fix human-first or ambiguous ones; existing-frontmatter edits only. Bounded — verify yield in its own Phase 1.
+  - [x] **CORE-328.3** [medium] | skill-description-dispatch-audit — Completed 2026-07-02.
   - [ ] **CORE-328.4** [heavy] | autonomous-loop-guidance — Document the "one task per context window" ↔ operator-`/clear` coupling, why autonomous multi-task loops and sub-agents bypass it, and the recommended safe pattern (fresh session / worktree per independent epic child / how `--fast` fits). Descriptive doc only — no loop machinery (VISION "won't accept").
   - [ ] **CORE-328.5** [heavy] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.
 

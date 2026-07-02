@@ -1,6 +1,6 @@
 ---
 name: ft-audit-context
-description: Adopter-context audit — 4 conversational passes (Bloat · Redundancy · Namespace · Drift) over `CLAUDE.md`, `AGENTS.md`, `.claude/{commands,skills}`. Soft prose recommendations with an explicit offer to file PLAN tickets at the end (no auto-write). Global install per `docs/MIGRATION.md` §1.0.
+description: Adopter-context audit — 4 conversational passes (Bloat · Redundancy · Namespace · Drift) over `CLAUDE.md`, `AGENTS.md`, `.claude/{commands,skills}`. Use when the user asks to review or clean up their AI-coding context files for bloat, redundancy, naming conflicts, or drift. Soft prose recommendations with an explicit offer to file PLAN tickets at the end (no auto-write). Global install per `docs/MIGRATION.md` §1.0.
 ---
 
 # audit-context — flowtron adopter-context audit

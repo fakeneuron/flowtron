@@ -1,6 +1,6 @@
 ---
 name: ft-audit-performance
-description: Performance-focused audit — 5 passes (Hot paths · Payload & bundle · Data access · Memory & resource · Caching), capped findings, writes tickets to `.flowtron/PLAN.md`. Stack-neutral scaffold; adopters fork into `.claude/skills/audit-performance/` and customize budgets + profiling tools + benchmarks. See `docs/MIGRATION.md` §1.2.1.
+description: Performance-focused audit — 5 passes (Hot paths · Payload & bundle · Data access · Memory & resource · Caching), capped findings, writes tickets to `.flowtron/PLAN.md`. Use when the user asks to audit or profile the app for performance, latency, or resource-usage issues. Stack-neutral scaffold; adopters fork into `.claude/skills/audit-performance/` and customize budgets + profiling tools + benchmarks. See `docs/MIGRATION.md` §1.2.1.
 ---
 
 # audit-performance — flowtron performance audit skill
