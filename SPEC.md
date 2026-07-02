@@ -431,6 +431,22 @@ itself is not part of the tasknote.
 
 Canonical contract: see [`SPEC/blocked.md`](SPEC/blocked.md).
 
+## Loop tasks
+
+A tasknote run under an iteration loop (goal loops, heartbeats) — the
+assistant repeats Phase 2 → Phase 3 against a fixed Acceptance target until
+it's met, a budget is exhausted, or a per-cycle relevance check says stop.
+The runtime (cadence, re-invocation, session lifetime) is Claude Code's
+`/loop` or any equivalent runner — flowtron ships no loop runner or
+scheduler (see [`docs/VISION.md`](docs/VISION.md) §"What we won't accept").
+Flowtron ships the **contract the loop reports to**: gate collapse to
+`--fast` semantics (commit-per-verified-iteration; destructive actions park
+via `status: blocked` rather than collapse), a per-cycle relevance gate, a
+`loop-max:` budget, the `## 🔁 Iterations` log, and the additive
+`loop:` / `loop-max:` / `loop-last-run:` frontmatter keys.
+
+Canonical contract: see [`SPEC/loop.md`](SPEC/loop.md).
+
 ## Post-closure protocol
 
 After a tasknote is archived, run the three-step protocol (commit / mark landed / offer copy-paste line). Step 1 branches on the **conditional skip rule** — the deterministic three-signal test (frontend / privileged-ops / perf-narrative), the bundled-prompt override, the `--fast` operator override, and the on-skip/on-fire routing all live in [`SPEC/gates.md` §"Conditional skip rule"](SPEC/gates.md). On skip, the closure auto-commits behind a `✅ Closure complete; committing autonomously (…)` marker; on fire, proceed with step 1 below. Steps 2-3 are identical across branches.
@@ -539,3 +555,4 @@ For future-AI mid-task discipline. Outward-facing prose version with full justif
 - **Multi-user / team features.** Solo system; teams use a different tool.
 - **Runtime security scanners / audit daemons.** PR-rejection mirror of "Runtime security scanners" above — the control is the human at the gate, not a scorer; deterministic enforcement lives in per-project permission hooks. `ft-audit-security` + `SECURITY.md` already cover the markdown-native need.
 - **LLM knowledge-base / "wiki layer" subsystems.** PR-rejection mirror of "LLM knowledge-base" above — tasknotes + `PLAN.md` + `archive/` already are the clean LLM-maintained markdown layer; a parallel `raw/`+`wiki/` tree duplicates the SSOT. "Knowledge Gate" phase, `/ft-wiki-*` skills, and link-linters are rejected like schema validators.
+- **Loop runtime — runners, schedulers, session daemons.** PR-rejection mirror of "Loop runners" above — the loop *runtime* (cadence, re-invocation, session lifetime) is Claude Code's `/loop` or any equivalent, not flowtron. Flowtron ships only the markdown *contract* the loop reports to (§"Loop tasks" → [`SPEC/loop.md`](SPEC/loop.md)); a scheduler, a session daemon, or a `loop-interval` tasknote field is rejected like a cross-project query layer.

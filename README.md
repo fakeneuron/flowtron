@@ -177,9 +177,14 @@ the discipline the sizing principle depends on. The safe patterns:
   reads one `tasknote/<ID>.md` and works its scope inherits the full
   Phase 1 record; anything broader belongs to the operator's session.
 
-This is guidance, not machinery: flowtron ships no loop runner,
-scheduler, or session tooling, by design
-([docs/VISION.md](docs/VISION.md) §"What we won't accept").
+This is guidance, not machinery — but the loop case has a contract.
+Flowtron ships no loop *runtime*: the runner, scheduler, and session
+lifetime are Claude Code's `/loop` (or any equivalent), by design
+([docs/VISION.md](docs/VISION.md) §"What we won't accept"). What flowtron
+*does* ship is the markdown **contract a loop reports to** — how gates
+collapse, when a loop parks, and how iterations are logged — in
+[SPEC.md](SPEC.md) §"Loop tasks" ([SPEC/loop.md](SPEC/loop.md)). The
+runtime lives in the runner; the contract lives in flowtron.
 
 ## Repo layout
 
