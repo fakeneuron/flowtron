@@ -211,6 +211,14 @@ For each returned finding:
 
 If `ft-audit-docs` reports zero findings, state that explicitly and move on to §7.2.
 
+**Standing symlink-wiring count check.** Independently of the subroutine findings, compare the canonical wiring block against its three consumers:
+
+```sh
+grep -c "^ln -s" claude/AGENTS-snippet.md
+```
+
+That count must equal the number of `.claude/` paths in `docs/MIGRATION.md` §1.6's staging block, the number of `.claude/` paths in `claude/skills/ft-new-project/SKILL.md` Step 7's staging block, and the number of `readlink` lines in its Step 8 (whose prose count word must also match). A mismatch means a skill was added to the snippet without fanning out to the consumers (the CORE-329.2 drift class) — fix inline as Critical/High before cutting the release.
+
 ### 7.2 — Auto-draft annotated tag message
 
 Use CORE-048's structure as the template:

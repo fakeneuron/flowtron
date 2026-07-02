@@ -55,7 +55,7 @@ The `checkout` step is what pins the project to a specific flowtron commit. Skip
 
 Reference: `docs/MIGRATION.md` §1.1.
 
-## Step 3 — Wire /ft-task, /ft-starter-task, /ft-micro-task, /ft-file-followup, /ft-epic-discovery, /ft-close-epic, /ft-debug, /ft-worktree-start, /ft-worktree-end via symlinks
+## Step 3 — Wire /ft-task, /ft-starter-task, /ft-micro-task, /ft-file-followup, /ft-epic-discovery, /ft-close-epic, /ft-debug, /ft-worktree-start, /ft-worktree-end, /ft-update via symlinks
 
 Read `.flowtron/core/claude/AGENTS-snippet.md` and run the bash block under the §"One-time symlink wiring" heading from the project root. Run it verbatim — relative paths are intentional (they survive `git clone` and pin to whichever flowtron commit the submodule is checked out at). Do not substitute absolute paths.
 
@@ -96,8 +96,10 @@ Stage the bootstrap files explicitly. Do **not** use `git add .` or `git add -A`
 git add .gitmodules .flowtron/core .flowtron/PLAN.md .flowtron/tasknote/ \
         .claude/commands/ft-task.md .claude/commands/ft-starter-task.md .claude/commands/ft-micro-task.md .claude/commands/ft-file-followup.md .claude/commands/ft-epic-discovery.md .claude/commands/ft-close-epic.md .claude/commands/ft-debug.md \
         .claude/commands/ft-worktree-start.md .claude/commands/ft-worktree-end.md \
+        .claude/commands/ft-update.md \
         .claude/skills/ft-task .claude/skills/ft-starter-task .claude/skills/ft-micro-task .claude/skills/ft-file-followup .claude/skills/ft-epic-discovery .claude/skills/ft-close-epic .claude/skills/ft-debug \
         .claude/skills/ft-worktree-start .claude/skills/ft-worktree-end \
+        .claude/skills/ft-update \
         AGENTS.md
 ```
 
@@ -111,7 +113,7 @@ Reference: `docs/MIGRATION.md` §1.6.
 
 ## Step 8 — Verify and hand off
 
-Confirm all eighteen symlinks resolve correctly:
+Confirm all twenty symlinks resolve correctly:
 
 ```sh
 readlink .claude/commands/ft-task.md            # → ../../.flowtron/core/claude/commands/ft-task.md
@@ -132,6 +134,8 @@ readlink .claude/commands/ft-worktree-start.md   # → ../../.flowtron/core/clau
 readlink .claude/commands/ft-worktree-end.md     # → ../../.flowtron/core/claude/commands/ft-worktree-end.md
 readlink .claude/skills/ft-worktree-start        # → ../../.flowtron/core/claude/skills/ft-worktree-start
 readlink .claude/skills/ft-worktree-end          # → ../../.flowtron/core/claude/skills/ft-worktree-end
+readlink .claude/commands/ft-update.md           # → ../../.flowtron/core/claude/commands/ft-update.md
+readlink .claude/skills/ft-update                # → ../../.flowtron/core/claude/skills/ft-update
 ```
 
 If any resolves wrong, fix before reporting success.

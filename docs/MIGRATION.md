@@ -58,9 +58,9 @@ git -C .flowtron/core checkout vX.Y.Z   # replace with the version you want to p
 
 The `checkout` step is what pins the project to a specific flowtron version. Without it, the submodule tracks `main` and updates would be undeliberate.
 
-### 1.2 Wire the tasknote skills + worktree pair via symlinks
+### 1.2 Wire the tasknote skills + worktree pair + /ft-update via symlinks
 
-The submodule ships 23 slash commands; this step wires nine — the seven tasknote family (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`) plus two thin worktree utilities (`/ft-worktree-start` + `/ft-worktree-end`). Each tasknote family's purpose lives in its own SKILL.md frontmatter — short version: 4-phase runner; starter filer; micro one-shot; in-chat follow-up; epic open; epic close; hypothesis-first debug runner. The worktree pair are thin procedural utilities (see their SKILL.md frontmatter + `docs/WORKTREES.md`).
+The submodule ships 23 slash commands; this step wires ten — the seven tasknote family (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`), two thin worktree utilities (`/ft-worktree-start` + `/ft-worktree-end`), plus the `/ft-update` submodule-bump utility. Each tasknote family's purpose lives in its own SKILL.md frontmatter — short version: 4-phase runner; starter filer; micro one-shot; in-chat follow-up; epic open; epic close; hypothesis-first debug runner. The worktree pair are thin procedural utilities (see their SKILL.md frontmatter + `docs/WORKTREES.md`); `/ft-update` is the adopter-side version-bump counterpart to `/ft-release` (see the skill table above).
 
 **Install:** open `.flowtron/core/claude/AGENTS-snippet.md` §"One-time symlink wiring" and run the commands from the project root — that file is the single source of truth for the wiring (and also holds the §1.3 `AGENTS.md` paste-block). The relative paths in the snippet survive `git clone` and pin to the submodule's current SHA, so symlinks never need touching on a version bump.
 
@@ -215,10 +215,12 @@ git add .gitmodules .flowtron/core .flowtron/PLAN.md .flowtron/tasknote/ \
         .claude/commands/ft-file-followup.md .claude/commands/ft-epic-discovery.md .claude/commands/ft-close-epic.md \
         .claude/commands/ft-debug.md \
         .claude/commands/ft-worktree-start.md .claude/commands/ft-worktree-end.md \
+        .claude/commands/ft-update.md \
         .claude/skills/ft-task .claude/skills/ft-starter-task .claude/skills/ft-micro-task \
         .claude/skills/ft-file-followup .claude/skills/ft-epic-discovery .claude/skills/ft-close-epic \
         .claude/skills/ft-debug \
         .claude/skills/ft-worktree-start .claude/skills/ft-worktree-end \
+        .claude/skills/ft-update \
         AGENTS.md
 git commit -m "chore: adopt flowtron at vX.Y.Z"
 ```
@@ -227,7 +229,7 @@ If your project already has other files under `.claude/` (settings, other skills
 
 ### 1.7 Verify
 
-In a fresh session with your coding agent (Claude Code, Cursor, Grok Build, Codex CLI, etc.; or the platform's equivalent slash/prompt command), invoke `/ft-task`. The command should appear in the menu (alongside `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`, `/ft-worktree-start`, and `/ft-worktree-end`) with its description. Running `/ft-task <SOME-ID>` against a real entry in your `.flowtron/PLAN.md` should scaffold a tasknote and begin Phase 1 Discovery.
+In a fresh session with your coding agent (Claude Code, Cursor, Grok Build, Codex CLI, etc.; or the platform's equivalent slash/prompt command), invoke `/ft-task`. The command should appear in the menu (alongside `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`, `/ft-worktree-start`, `/ft-worktree-end`, and `/ft-update`) with its description. Running `/ft-task <SOME-ID>` against a real entry in your `.flowtron/PLAN.md` should scaffold a tasknote and begin Phase 1 Discovery.
 
 If any command doesn't appear, the symlinks are likely wrong — check that each `readlink .claude/commands/<name>.md` and `readlink .claude/skills/<name>` resolves under the submodule.
 
