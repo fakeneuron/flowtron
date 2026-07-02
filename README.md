@@ -152,6 +152,35 @@ There is no memory database, vector store, or server here — markdown
 files in git are the memory. Nothing to enable: the workflow writes this
 layer as a side effect of doing the work.
 
+## Sessions, loops, and sub-agents
+
+"One task per context window" ([SPEC.md](SPEC.md) Core Principle #3) has
+an operator-side half: the reset *between* tasks. The assistant cannot
+clear its own context — the post-closure cue ("Clear your session, then
+run: …") hands that step to the operator. An agent that chains tasks
+autonomously in one session skips the reset and accretes context; a
+free-roaming sub-agent starts a fresh context outside the workflow's
+gates and archive trail. Neither breaks flowtron — but both quietly drop
+the discipline the sizing principle depends on. The safe patterns:
+
+- **One tasknote per session.** A fresh session *is* the reset, and it's
+  cheap: the tasknote is the resume point (§"Agent memory" above), so
+  starting cold costs one file read, not a re-discovery.
+- **One worktree + fresh session per independent epic child.** For
+  parallel work, isolate each child in its own checkout and context —
+  the locked convention in [docs/WORKTREES.md](docs/WORKTREES.md).
+- **`--fast` for within-task autonomy.** Passing `--fast` to `/ft-task`
+  suppresses the routine operator gates on a single run — the sanctioned
+  hands-off mode. It makes one task autonomous; it is not a license to
+  chain tasks in one window.
+- **Sub-agents get exactly one tasknote.** A delegated context that
+  reads one `tasknote/<ID>.md` and works its scope inherits the full
+  Phase 1 record; anything broader belongs to the operator's session.
+
+This is guidance, not machinery: flowtron ships no loop runner,
+scheduler, or session tooling, by design
+([docs/VISION.md](docs/VISION.md) §"What we won't accept").
+
 ## Repo layout
 
 - `SPEC.md` — workflow contract (authoritative)

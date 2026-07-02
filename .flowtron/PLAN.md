@@ -18,7 +18,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-328.1** [heavy] | discovery — Completed 2026-07-02.
   - [x] **CORE-328.2** [heavy] | agent-memory-positioning — Completed 2026-07-02.
   - [x] **CORE-328.3** [medium] | skill-description-dispatch-audit — Completed 2026-07-02.
-  - [ ] **CORE-328.4** [heavy] | autonomous-loop-guidance — Document the "one task per context window" ↔ operator-`/clear` coupling, why autonomous multi-task loops and sub-agents bypass it, and the recommended safe pattern (fresh session / worktree per independent epic child / how `--fast` fits). Descriptive doc only — no loop machinery (VISION "won't accept").
+  - [x] **CORE-328.4** [heavy] | autonomous-loop-guidance — Completed 2026-07-02.
   - [ ] **CORE-328.5** [heavy] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.
 
 ## Low
