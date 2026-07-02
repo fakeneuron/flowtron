@@ -128,6 +128,30 @@ uses Logseq's `:query` syntax rather than Dataview.
 
 These tools are opt-in companion surfaces. None of the above is required.
 
+## Agent memory
+
+Autonomous AI coding agents — Claude Code sessions, sub-agents, fresh
+context windows — need persistent memory that survives the context window:
+state on disk they can reload and resume from. Flowtron's markdown state
+model already is that layer:
+
+- `PLAN.md` — durable intent: priorities, open tasks, and the
+  `## Completed` history in one scannable, git-versioned file.
+- `tasknote/<ID>.md` — working state for the active task: goal,
+  acceptance criteria, subtasks, and the phase log. A fresh session (or a
+  sub-agent handed the task) reads one file and picks up where the last
+  context window stopped.
+- `archive/<area>/` — long-term memory: one file per completed task,
+  preserving decisions, regressions, and rationale. The Phase 1 archive
+  skim ([SPEC.md](SPEC.md) §"📝 Phase 1: Discovery") is the recall step —
+  grep the archive for prior work on the files in scope before acting.
+- Git history — provenance and time-travel for all of the above; the
+  memory is diffable, revertable, and reviewable like any other source.
+
+There is no memory database, vector store, or server here — markdown
+files in git are the memory. Nothing to enable: the workflow writes this
+layer as a side effect of doing the work.
+
 ## Repo layout
 
 - `SPEC.md` — workflow contract (authoritative)
