@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { parsePlan, type Task } from '../parser';
+import { parsePlanWithDiagnostics, type Task, type UnparsedLine } from '../parser';
 import { type Tasknote } from '../tasknote';
 
 export function useProjectData(activeProject: string | null): {
   tasks: Task[];
+  unparsed: UnparsedLine[];
   tasknotesById: Map<string, Tasknote>;
   loading: boolean;
   error: string | null;
@@ -11,6 +12,7 @@ export function useProjectData(activeProject: string | null): {
   reset: () => void;
 } {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [unparsed, setUnparsed] = useState<UnparsedLine[]>([]);
   const [tasknotesById, setTasknotesById] = useState<Map<string, Tasknote>>(new Map());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -36,7 +38,9 @@ export function useProjectData(activeProject: string | null): {
       if (activeProjectRef.current !== project) {
         return;
       }
-      setTasks(parsePlan(md));
+      const parsed = parsePlanWithDiagnostics(md);
+      setTasks(parsed.tasks);
+      setUnparsed(parsed.unparsed);
       const merged = new Map<string, Tasknote>(archived.map((t) => [t.id, t]));
       for (const t of active) merged.set(t.id, t);
       setTasknotesById(merged);
@@ -65,9 +69,10 @@ export function useProjectData(activeProject: string | null): {
 
   const reset = useCallback(() => {
     setTasks([]);
+    setUnparsed([]);
     setTasknotesById(new Map());
     setLoading(true);
   }, []);
 
-  return { tasks, tasknotesById, loading, error, refresh, reset };
+  return { tasks, unparsed, tasknotesById, loading, error, refresh, reset };
 }

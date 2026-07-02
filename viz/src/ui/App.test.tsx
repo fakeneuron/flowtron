@@ -798,3 +798,34 @@ describe('App — shortcuts modal', () => {
     await waitFor(() => expect(shortcutsDialog.open).toBe(true));
   });
 });
+
+describe('App — unparsed-line diagnostics (FE-063.2)', () => {
+  const plan = `## High
+
+- [ ] **CORE-100** | fine — Parses fine.
+- [ ] *CORE-101* | broken — Single-asterisk ID fails TASK_LINE.
+`;
+
+  it('shows the "N unparsed" badge and the offending line text', async () => {
+    renderApp({ plan });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+
+    expect(screen.getByText(/1 unparsed/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/1 line in PLAN\.md looks like a task but failed to parse/),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/L4: - \[ \] \*CORE-101\* \| broken/),
+    ).toBeInTheDocument();
+  });
+
+  it('renders no badge or strip when every task line parses', async () => {
+    renderApp({ plan: '## High\n\n- [ ] **CORE-100** | fine — Parses fine.\n' });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+
+    expect(screen.queryByText(/unparsed/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/failed to parse/)).not.toBeInTheDocument();
+  });
+});

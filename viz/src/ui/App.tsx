@@ -55,6 +55,7 @@ export const App: React.FC = () => {
   } = useProjects();
   const {
     tasks,
+    unparsed,
     tasknotesById,
     loading: dataLoading,
     error: dataError,
@@ -281,6 +282,11 @@ export const App: React.FC = () => {
                   ? `${total} tasks · ${inProgress} in progress${starterCount > 0 ? ` · ${starterCount} ${starterCount === 1 ? 'starter' : 'starters'}` : ''}`
                   : `${filteredCount} of ${total} matching · ${inProgress} in progress${starterCount > 0 ? ` · ${starterCount} ${starterCount === 1 ? 'starter' : 'starters'}` : ''}`}
                 {` · flowtron ${projectVersions[activeProject ?? ''] ?? VIZ_VERSION}`}
+                {unparsed.length > 0 && (
+                  <span className="ml-2 inline-flex items-center rounded bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-200">
+                    ⚠ {unparsed.length} unparsed
+                  </span>
+                )}
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -354,6 +360,23 @@ export const App: React.FC = () => {
       {errorMessage && (
         <div className="mx-4 mt-3 rounded border border-red-300 bg-red-50 p-3 text-base text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200">
           {errorMessage}
+        </div>
+      )}
+
+      {!loading && unparsed.length > 0 && (
+        <div className="mx-4 mt-3 rounded border border-amber-300 bg-amber-50 p-3 text-base text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200">
+          <p>
+            ⚠ {unparsed.length === 1
+              ? '1 line in PLAN.md looks like a task but failed to parse:'
+              : `${unparsed.length} lines in PLAN.md look like tasks but failed to parse:`}
+          </p>
+          <ul className="mt-1 font-mono text-sm">
+            {unparsed.map((u) => (
+              <li key={u.line}>
+                L{u.line}: {u.text}
+              </li>
+            ))}
+          </ul>
         </div>
       )}
 

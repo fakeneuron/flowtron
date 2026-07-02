@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { groupTasks, parsePlan, type Task } from './parser';
+import { groupTasks, parsePlan, parsePlanWithDiagnostics, type Task } from './parser';
 
 describe('parsePlan', () => {
   it('parses an open task in High', () => {
@@ -277,6 +277,59 @@ describe('parsePlan', () => {
     expect(tasks).toHaveLength(2);
     expect(tasks[0]).toMatchObject({ id: 'CORE-99', priority: 'High', critical: true });
     expect(tasks[1]).toMatchObject({ id: 'CORE-100', priority: 'High', critical: false });
+  });
+});
+
+describe('parsePlanWithDiagnostics', () => {
+  it('collects checkbox-bullet lines that fail TASK_LINE with 1-based line numbers', () => {
+    const md = `## High
+
+- [ ] **CORE-001** — parses fine
+- [ ] *FE-064* [medium] | bad-bold — single-asterisk ID fails
+- [x] **fe-065** — lowercase ID fails
+`;
+    const { tasks, unparsed } = parsePlanWithDiagnostics(md);
+    expect(tasks.map((t) => t.id)).toEqual(['CORE-001']);
+    expect(unparsed).toEqual([
+      { line: 4, text: '- [ ] *FE-064* [medium] | bad-bold — single-asterisk ID fails' },
+      { line: 5, text: '- [x] **fe-065** — lowercase ID fails' },
+    ]);
+  });
+
+  it('does not collect valid task lines or non-checkbox prose bullets', () => {
+    const md = `## Medium
+
+- [ ] **CORE-002** [light] | fine — valid line
+- plain prose bullet, not a checkbox
+(none)
+`;
+    const { tasks, unparsed } = parsePlanWithDiagnostics(md);
+    expect(tasks).toHaveLength(1);
+    expect(unparsed).toEqual([]);
+  });
+
+  it('ignores malformed checkbox lines outside recognized section headings', () => {
+    const md = `## Vision
+
+- [ ] *CORE-999* — malformed but outside a known section
+
+## High
+
+- [ ] *CORE-998* — malformed inside a known section
+`;
+    const { unparsed } = parsePlanWithDiagnostics(md);
+    expect(unparsed).toEqual([
+      { line: 7, text: '- [ ] *CORE-998* — malformed inside a known section' },
+    ]);
+  });
+
+  it('parsePlan stays back-compat, returning tasks only', () => {
+    const md = `## High
+
+- [ ] **CORE-001** — fine
+- [ ] *CORE-002* — malformed
+`;
+    expect(parsePlan(md).map((t) => t.id)).toEqual(['CORE-001']);
   });
 });
 

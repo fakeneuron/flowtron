@@ -14,7 +14,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Medium
 
 - [ ] **FE-EPIC-063** [medium]🧠 | viz-plan-grammar-resilience — stop the visualizer silently losing tasks on hand-authored PLAN.md input. Discovery supplied by audit-repo 2026-07-02. Surfaced by audit-repo 2026-07-02 (Theme: The parser trusts hand-written markdown)
-  - [ ] **FE-063.2** [medium]🧠 | unparsed-line-diagnostics — `viz/src/parser.ts:171` collects `- [ ]` lines that fail `TASK_LINE` instead of dropping them; UI surfaces an "N unparsed" badge with the offending line text
+  - [x] **FE-063.2** [medium]🧠 | unparsed-line-diagnostics — Completed 2026-07-02.
   - [ ] **FE-063.3** [medium]🧠 | search-reaches-subtasks — `viz/src/ui/App.tsx:135` `filteredNodes` keeps an epic when any child matches; test covers subtask-ID search
   - [ ] **FE-063.4** [light]🔧 | order-independent-grouping — two-pass `groupTasks` (index epics first, then attach children); test covers subtask-above-epic ordering
   - [ ] **FE-063.5** [light]🔧 | audit — close-out doc-drift sweep per `SPEC/epic.md`

@@ -144,13 +144,32 @@ export function groupTasks(tasks: Task[]): TaskNode[] {
   return nodes;
 }
 
-export function parsePlan(markdown: string): Task[] {
+export interface UnparsedLine {
+  /** 1-based line number in PLAN.md */
+  line: number;
+  text: string;
+}
+
+export interface PlanParseResult {
+  tasks: Task[];
+  unparsed: UnparsedLine[];
+}
+
+// Loose checkbox-bullet prefix: a line that *looks like* a task entry. Lines
+// matching this inside a recognized section but failing TASK_LINE are
+// hand-authoring mistakes — collected as diagnostics instead of silently
+// dropped (FE-063.2).
+const CHECKBOX_BULLET = /^\s*-\s+\[[ xX]\]/;
+
+export function parsePlanWithDiagnostics(markdown: string): PlanParseResult {
   const lines = markdown.split(/\r?\n/);
   const tasks: Task[] = [];
+  const unparsed: UnparsedLine[] = [];
   let currentPriority: Priority | null = null;
   let legacyCriticalSection = false;
 
-  for (const line of lines) {
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
     const headingMatch = HEADING_LINE.exec(line);
     if (headingMatch) {
       const heading = headingMatch[1];
@@ -169,7 +188,12 @@ export function parsePlan(markdown: string): Task[] {
     if (!currentPriority) continue;
 
     const m = TASK_LINE.exec(line);
-    if (!m) continue;
+    if (!m) {
+      if (CHECKBOX_BULLET.test(line)) {
+        unparsed.push({ line: i + 1, text: line.trim() });
+      }
+      continue;
+    }
 
     const [, mark, id, criticalRaw, modelRaw, shortnameRaw, longRaw] = m;
     const completed = mark === 'x' || mark === 'X';
@@ -192,5 +216,9 @@ export function parsePlan(markdown: string): Task[] {
     });
   }
 
-  return tasks;
+  return { tasks, unparsed };
+}
+
+export function parsePlan(markdown: string): Task[] {
+  return parsePlanWithDiagnostics(markdown).tasks;
 }
