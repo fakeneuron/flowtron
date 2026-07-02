@@ -16,4 +16,4 @@ Usage:
 - `/ft-worktree-start <TASK-ID>` — full safety-checked setup + conversational handoff. Use only for independent children of a multi-child epic per `docs/WORKTREES.md`.
 - After handoff, the operator runs the normal `/ft-task <TASK-ID>` (or `/ft-task <TASK-ID> --fast`) inside the fresh worktree context.
 
-This skill + its end sibling (`/ft-worktree-end`) plus the wiring in CORE-215.5 complete the worktree-convention epic. The convention itself is workflow-orthogonal to the 4-phase contract.
+This skill + its end sibling (`/ft-worktree-end`) complete the worktree-convention epic. The convention itself is workflow-orthogonal to the 4-phase contract.

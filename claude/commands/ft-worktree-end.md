@@ -16,4 +16,4 @@ Usage:
 - `/ft-worktree-end <TASK-ID>` — full safety-checked verification + cleanup + canonical archive capture. Use only after completing (or deciding to discard) an independent child of a multi-child epic per `docs/WORKTREES.md`.
 - The skill is the symmetric counterpart to `/ft-worktree-start`; together they implement the full start/end lifecycle for isolated epic-child execution.
 
-This skill + its start sibling (`/ft-worktree-start`) plus the wiring in CORE-215.5 complete the worktree-convention epic. The convention itself is workflow-orthogonal to the 4-phase contract.
+This skill + its start sibling (`/ft-worktree-start`) complete the worktree-convention epic. The convention itself is workflow-orthogonal to the 4-phase contract.
