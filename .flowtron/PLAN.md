@@ -13,20 +13,19 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-330** [heavy]🧠 | loop-integration — Integrate Claude Code loop patterns (bounded goal loops, recurring heartbeats) into flowtron: SPEC/loop.md autonomy/gate contract, heartbeat loop.md template, /ft-goal-task runner, adopter wiring. Boundary per CORE-328.4 reconciliation: Claude Code /loop is the runtime; flowtron ships the markdown contract the loop reports to.
-  - [x] **CORE-330.1** [heavy]🧠 | discovery — Completed 2026-07-02.
-  - [x] **CORE-330.2** [heavy]🧠 | loop-contract — Completed 2026-07-02.
-  - [x] **CORE-330.3** [medium]🧠 | heartbeat-template — Completed 2026-07-02.
-  - [x] **CORE-330.4** [heavy]🧠 | ft-goal-task-skill — Completed 2026-07-02.
-  - [x] **CORE-330.5** [light]🔧 | loop-wiring-doc-sync — Completed 2026-07-02.
-  - [ ] **CORE-330.6** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest .N child.
-
 ## Low
 
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-EPIC-330** [heavy]🧠 | loop-integration — Completed 2026-07-02.
+  - [x] **CORE-330.1** [heavy]🧠 | discovery — Completed 2026-07-02.
+  - [x] **CORE-330.2** [heavy]🧠 | loop-contract — Completed 2026-07-02.
+  - [x] **CORE-330.3** [medium]🧠 | heartbeat-template — Completed 2026-07-02.
+  - [x] **CORE-330.4** [heavy]🧠 | ft-goal-task-skill — Completed 2026-07-02.
+  - [x] **CORE-330.5** [light]🔧 | loop-wiring-doc-sync — Completed 2026-07-02.
+  - [x] **CORE-330.6** [heavy]🧠 | loop-integration audit — Completed 2026-07-02.
 - [x] **FE-EPIC-063** [medium]🧠 | viz-plan-grammar-resilience — Completed 2026-07-02.
   - [x] **FE-063.2** [medium]🧠 | unparsed-line-diagnostics — Completed 2026-07-02.
   - [x] **FE-063.3** [medium]🧠 | search-reaches-subtasks — Completed 2026-07-02.
