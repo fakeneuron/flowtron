@@ -16,7 +16,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **FE-EPIC-063** [medium]🧠 | viz-plan-grammar-resilience — stop the visualizer silently losing tasks on hand-authored PLAN.md input. Discovery supplied by audit-repo 2026-07-02. Surfaced by audit-repo 2026-07-02 (Theme: The parser trusts hand-written markdown)
   - [x] **FE-063.2** [medium]🧠 | unparsed-line-diagnostics — Completed 2026-07-02.
   - [x] **FE-063.3** [medium]🧠 | search-reaches-subtasks — Completed 2026-07-02.
-  - [ ] **FE-063.4** [light]🔧 | order-independent-grouping — two-pass `groupTasks` (index epics first, then attach children); test covers subtask-above-epic ordering
+  - [x] **FE-063.4** [light]🔧 | order-independent-grouping — Completed 2026-07-02.
   - [ ] **FE-063.5** [light]🔧 | audit — close-out doc-drift sweep per `SPEC/epic.md`
 
 ## Low

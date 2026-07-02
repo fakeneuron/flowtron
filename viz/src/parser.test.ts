@@ -382,6 +382,20 @@ describe('groupTasks', () => {
     expect(nodes[1].children.map((c) => c.id)).toEqual(['CORE-009.1']);
   });
 
+  it('attaches a subtask to its epic even when listed above the epic', () => {
+    const nodes = groupTasks([
+      t('CORE-009.1'),
+      t('CORE-EPIC-009'),
+      t('CORE-009.2'),
+    ]);
+    expect(nodes).toHaveLength(1);
+    expect(nodes[0].task.id).toBe('CORE-EPIC-009');
+    expect(nodes[0].children.map((c) => c.id)).toEqual([
+      'CORE-009.1',
+      'CORE-009.2',
+    ]);
+  });
+
   it('treats orphan subtasks (no matching epic) as top-level rows', () => {
     const nodes = groupTasks([t('CORE-009.1'), t('FE-001')]);
     expect(nodes.map((n) => n.task.id)).toEqual(['CORE-009.1', 'FE-001']);

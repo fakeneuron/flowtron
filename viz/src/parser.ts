@@ -122,15 +122,22 @@ export function getSubtaskParentEpicId(id: string): string | null {
 }
 
 export function groupTasks(tasks: Task[]): TaskNode[] {
-  const nodes: TaskNode[] = [];
   const epicByKey = new Map<string, TaskNode>();
 
+  // Pass 1: index every epic first so a subtask listed before its epic in
+  // the input array still finds its parent in pass 2.
   for (const task of tasks) {
     const eKey = epicKey(task.id);
     if (eKey) {
-      const node: TaskNode = { task, children: [] };
-      epicByKey.set(eKey, node);
-      nodes.push(node);
+      epicByKey.set(eKey, { task, children: [] });
+    }
+  }
+
+  const nodes: TaskNode[] = [];
+  for (const task of tasks) {
+    const eKey = epicKey(task.id);
+    if (eKey) {
+      nodes.push(epicByKey.get(eKey)!);
       continue;
     }
     const pKey = subtaskParentKey(task.id);
