@@ -100,6 +100,8 @@ Mental-pass on all 7 edited frontmatter blocks: single `---` fence pair intact �
 
 - [x] **Doc-drift sweep** — all 11 AI-referenced docs: **no change**. None quote the 7 edited descriptions verbatim; `claude/skills/ft-flowtron/SKILL.md`'s roster table and `claude/commands/ft-audit*.md` wrappers carry independent human-facing one-liners (checked in Phase 2), also unaffected. Noted but out of scope: `docs/PLATFORMS.md`:180 says "23 `SKILL.md` skill bodies" vs. the current count of 22 (pre-existing drift unrelated to this task's dispatch-quality fix — flagged in Discovery, not touched here).
 
+  > **Audit correction ([[CORE-328.5]], 2026-07-02):** the "22" denominator above (and in the Drift check + Final Summary) was a miscount — `git ls-tree` at this task's own commit shows 23 skill dirs, and the classification table above itself lists 23 skills (5+4+6+1+7). `docs/PLATFORMS.md:180`'s "23" is **correct**; no PLATFORMS drift exists. Do not "fix" PLATFORMS.md down to 22. The audit's substance (7 weak `ft-audit-*` descriptions, fixed) is unaffected.
+
 - [x] Closed — PLAN.md line flipped to stub form `Completed 2026-07-02.`; tasknote moved to `.flowtron/tasknote/archive/core/`.
 
 - [x] Recap drafted (bundled into the 📦/skip closure marker below).

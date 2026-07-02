@@ -14,12 +14,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-328** [heavy] | cc-agent-alignment — Explore where flowtron can better leverage current Claude Code agent patterns (Agent Skills dispatch, filesystem-memory positioning, autonomous/sub-agent loops) under a strict net-positive filter. The agent-compat/projection surface (CORE-EPIC-224/271) is already built, so this targets narrow additive polish only. Filed via /ft-epic-discovery; refined at .1 closure.
-  - [x] **CORE-328.1** [heavy] | discovery — Completed 2026-07-02.
-  - [x] **CORE-328.2** [heavy] | agent-memory-positioning — Completed 2026-07-02.
-  - [x] **CORE-328.3** [medium] | skill-description-dispatch-audit — Completed 2026-07-02.
-  - [x] **CORE-328.4** [heavy] | autonomous-loop-guidance — Completed 2026-07-02.
-  - [ ] **CORE-328.5** [heavy] | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed at filing time as highest `.N` child.
+(none)
 
 ## Low
 
@@ -27,6 +22,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-328** [heavy] | cc-agent-alignment — Completed 2026-07-02.
+  - [x] **CORE-328.1** [heavy] | discovery — Completed 2026-07-02.
+  - [x] **CORE-328.2** [heavy] | agent-memory-positioning — Completed 2026-07-02.
+  - [x] **CORE-328.3** [medium] | skill-description-dispatch-audit — Completed 2026-07-02.
+  - [x] **CORE-328.4** [heavy] | autonomous-loop-guidance — Completed 2026-07-02.
+  - [x] **CORE-328.5** [heavy] | audit — Completed 2026-07-02.
 - [x] **CORE-327** [sonnet] | release v5.7.2 — Completed 2026-06-14.
 - [x] **CORE-326** [heavy]🧠 | release-migration-sentinel — Completed 2026-06-14.
 - [x] **CORE-325** [opus] | release v5.7.1 — Completed 2026-06-14.
