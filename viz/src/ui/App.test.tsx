@@ -152,6 +152,39 @@ describe('App — subtask expand-on-click toggling', () => {
   });
 });
 
+describe('App — search reaches subtasks', () => {
+  const plan = `## High
+
+- [ ] **CORE-EPIC-1** | epic — Parent epic
+- [ ] **CORE-1.1** | sub one — Subtask one
+- [ ] **CORE-200** | other — Unrelated task
+`;
+
+  it('keeps the parent epic visible when only a subtask matches the query', async () => {
+    const user = userEvent.setup();
+    renderApp({ plan });
+
+    await waitFor(() => expect(screen.getByText('CORE-EPIC-1')).toBeInTheDocument());
+
+    await user.type(screen.getByRole('searchbox'), 'CORE-1.1');
+
+    expect(screen.getByText('CORE-EPIC-1')).toBeInTheDocument();
+    expect(screen.queryByText('CORE-200')).not.toBeInTheDocument();
+  });
+
+  it('still filters out an epic when neither it nor its children match', async () => {
+    const user = userEvent.setup();
+    renderApp({ plan });
+
+    await waitFor(() => expect(screen.getByText('CORE-EPIC-1')).toBeInTheDocument());
+
+    await user.type(screen.getByRole('searchbox'), 'CORE-200');
+
+    await waitFor(() => expect(screen.queryByText('CORE-EPIC-1')).not.toBeInTheDocument());
+    expect(screen.getByText('CORE-200')).toBeInTheDocument();
+  });
+});
+
 describe('App — row StatusChip', () => {
   const plan = `## High
 

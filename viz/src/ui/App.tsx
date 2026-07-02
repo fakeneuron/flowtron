@@ -134,7 +134,7 @@ export const App: React.FC = () => {
   const allNodes = useMemo(() => groupTasks(tasks), [tasks]);
 
   const filteredNodes = useMemo(
-    () => allNodes.filter((n) => matchesFilter(n.task)),
+    () => allNodes.filter((n) => matchesFilter(n.task) || n.children.some(matchesFilter)),
     [allNodes, matchesFilter],
   );
 
