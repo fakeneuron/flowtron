@@ -19,6 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-332** [sonnet] | release v5.8.0 — Completed 2026-07-03.
 - [x] **FE-065** [light]🔧 | viz-dedup-orphan-cleanup — Completed 2026-07-02.
 - [x] **FE-066** [medium]🧠 | viz-plan-grammar-glyph-tolerance — Completed 2026-07-02.
 - [x] **FE-064** [medium]🧠 | viz-render-resilience — Completed 2026-07-02.
