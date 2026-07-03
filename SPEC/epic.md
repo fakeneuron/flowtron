@@ -39,13 +39,15 @@ going forward.
    step 1) or `/ft-task <ID>.1` if filed manually. Deliverable: filed child
    entries in PLAN.md, not code.
 3. **Run children** in order, normal flow.
-4. **Run Audit** via `/ft-close-epic <ID>.<final>` (or `/ft-task <ID>.<final>`)
-   once all implementation children are closed. Final summary records
-   findings even when nothing is wrong.
-5. **Audit follow-ups.** Misses surfaced by the audit get filed as `.<N+1>`
-   children. For a few small follow-ups, close the audit and execute them
-   as normal children. For many, also file a fresh Audit subtask at the new
-   highest number to cover the second wave.
+4. **Run Audit** via `/ft-close-epic <ID>.N` (or `/ft-task <ID>.N`; legacy
+   epics with a numeric audit child pass that number instead) once all
+   implementation children are closed. Final summary records findings even
+   when nothing is wrong.
+5. **Audit follow-ups.** Misses surfaced by the audit get filed as new
+   numeric children (the next `.<k>` after the highest existing numeric
+   child; they slot before the terminal `.N`). For a few small follow-ups,
+   close the audit and execute them as normal children. For many, also file
+   a fresh Audit subtask to cover the second wave.
 
 **Audit acceptance — fixed doc-drift line.** Every audit subtask's
 `## ✅ Acceptance` includes a doc-drift sweep across

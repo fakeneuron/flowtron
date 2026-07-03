@@ -1,13 +1,13 @@
 ---
 name: ft-close-epic
-description: Close a flowtron epic by scaffolding and driving its audit `.N` tasknote in one motion. Invoke with the audit subtask ID as args (e.g., args="CORE-057.6"). Pre-fills the audit tasknote with the fixed doc-drift sweep acceptance line per `SPEC/epic.md`, drives the full 4-phase audit inline, then prompts to flip the parent `<AREA>-EPIC-<N>` to `Completed` and move the cohort to `## Completed`. Auto-wired into adopters via `/ft-new-project` and `docs/MIGRATION.md` §1.2.
+description: Close a flowtron epic by scaffolding and driving its audit `.N` tasknote in one motion. Invoke with the audit subtask ID as args (e.g., args="CORE-057.N"; legacy numeric audit IDs like args="CORE-057.6" are also accepted). Pre-fills the audit tasknote with the fixed doc-drift sweep acceptance line per `SPEC/epic.md`, drives the full 4-phase audit inline, then prompts to flip the parent `<AREA>-EPIC-<N>` to `Completed` and move the cohort to `## Completed`. Auto-wired into adopters via `/ft-new-project` and `docs/MIGRATION.md` §1.2.
 ---
 
 # close-epic — flowtron epic audit + close driver
 
 You are scaffolding and driving the audit `.N` subtask of an epic, then prompting the user whether to flip the parent epic to `Completed`. The full lifecycle contract lives in `<SPEC_DIR>/epic.md` — this skill is the executable interpretation of the lifecycle's audit-and-close side, not a replacement. Treat `SPEC/epic.md` as authoritative when this file is silent or in tension.
 
-The skill takes the **audit subtask ID** as `args` (e.g., `args="CORE-057.6"`). If `args` is missing or doesn't match `<AREA>-<NUMBER>.<SUB>`, stop and ask the user for a valid ID. Do not guess.
+The skill takes the **audit subtask ID** as `args` — canonically the reserved `.N` suffix (e.g., `args="CORE-057.N"`); a legacy numeric audit ID (e.g., `args="CORE-057.6"`) is also accepted. If `args` is missing or doesn't match `<AREA>-<NUMBER>.<SUB>`, stop and ask the user for a valid ID. Do not guess.
 
 ## Step 0 — Resolve paths
 
@@ -25,7 +25,7 @@ After resolving, Read `<SPEC_DIR>/epic.md` for the canonical lifecycle before dr
 ## Step 1 — Pre-flight
 
 - `.flowtron/PLAN.md` must exist (cwd is a flowtron-adopting project or flowtron itself).
-- Parse `args` as `<AREA>-<NUMBER>.<SUB>`:
+- Parse `args` as `<AREA>-<NUMBER>.<SUB>` (where `.<SUB>` is a number or the reserved literal `.N` — both parse per SPEC §"Task ID convention"):
   - **Area** must resolve per SPEC §"Task ID convention" or via `.flowtron/tasknote/README.md`'s project-specific prefixes. Unknown prefix → stop and ask.
   - **`.<SUB>` segment is required** — `/ft-close-epic` only runs against epic subtasks, not standalone tasks. If the ID matches `<AREA>-<NUMBER>` (no `.<SUB>` suffix), stop and tell the user "`/ft-close-epic` runs against the audit `.N` subtask of an epic, not a standalone task. Use `/ft-task <ID>` for standalone tasks."
 - Check `<tasknote dir>/<AUDIT-SUBTASK-ID>.md`:
@@ -40,14 +40,16 @@ Read `.flowtron/PLAN.md`. Locate the parent epic ID by stripping the `.<SUB>` su
 - If no parent epic line is found in PLAN.md (active OR `## Completed`), stop and tell the user no parent epic `<AREA>-EPIC-<NUMBER>` exists for the given audit ID. The audit subtask must be filed under a parent epic via `/ft-epic-discovery`.
 - If the parent epic line lives under `## Completed`, stop and surface the conflict — the parent has already been closed.
 
-Walk the parent's nested children block (lines indented 2 spaces under the parent line, matching `  - [ ] **<AREA>-<NUMBER>.<SUB>**` or `  - [x] **<AREA>-<NUMBER>.<SUB>**`). Determine:
+Walk the parent's nested children block (lines indented 2 spaces under the parent line, matching `  - [ ] **<AREA>-<NUMBER>.<SUB>**` or `  - [x] **<AREA>-<NUMBER>.<SUB>**`, where `.<SUB>` is a number or the reserved literal `.N`). Determine:
 
-- The **highest `.<SUB>` numeric value** across all children.
-- Whether the chosen `<AUDIT-SUBTASK-ID>` matches that highest `.<SUB>`.
+- Whether a **`.N` audit child** (the reserved terminal suffix) is filed.
+- The **highest `.<SUB>` numeric value** across the numeric children (legacy fallback).
 
-If the chosen ID is **not** the highest `.<SUB>`:
+Validate that the chosen `<AUDIT-SUBTASK-ID>` is the epic's audit child:
 
-- Stop. Surface "The audit must be the highest-numbered child of its parent epic. The highest `.N` currently filed is `<AREA>-<NUMBER>.<HIGHEST>`. Either pass that ID or re-file the audit at a higher number."
+- **Canonical (`.N`)** — the ID ends in `.N`. Accept it: `.N` is the reserved terminal audit suffix per SPEC/epic.md and never renumbers.
+- **Legacy numeric** — the epic has no `.N` child and the chosen ID matches the highest numeric `.<SUB>`. Accept it (repos that filed a numeric audit before the `.N` convention — both forms are valid per SPEC §"Task ID convention").
+- **Neither** — stop. Surface "The audit is the epic's terminal child: the reserved `.N` suffix (canonical), or the highest-numbered child for legacy epics. This epic's audit child is `<AREA>-<NUMBER>.<AUDIT>` — pass that ID." (where `<AUDIT>` = `N` if a `.N` child exists, else the highest numeric `.<SUB>`).
 
 Walk the children for **un-checked** `[ ]` siblings (excluding the chosen audit ID itself):
 
@@ -180,7 +182,7 @@ Run the protocol per SPEC §"Post-closure protocol", branching on SPEC/gates.md 
     All <AREA>-EPIC-<NUMBER> children closed. Flip parent + move cohort to `## Completed`?
 
       Parent: <AREA>-EPIC-<NUMBER> | <shortname>
-      Children to move (N total): <AREA>-<N>.1 .. <AREA>-<N>.<HIGHEST>
+      Children to move: <AREA>-<N>.1 .. <AREA>-<N>.<M+1>, plus audit <AREA>-<N>.N
 
     (default Yes; declines leave cohort nested under current `## <Priority>` section)
     ```
@@ -199,7 +201,7 @@ Skill-specific next-move shape:
 ## Notes
 
 - **Bracket twin of `/ft-epic-discovery`.** `/ft-epic-discovery` opens an epic (files parent + `.1` + `.N`, drives `.1` Discovery); `/ft-close-epic` closes it (drives audit `.N`, prompts parent flip). Together they bracket `SPEC/epic.md` lifecycle steps 1-2 and 4-5; `/ft-task` runs the implementation children (step 3).
-- **Audit-only — never standalone.** Validates arg is `<AREA>-<NUMBER>.<SUB>` at the highest `.<SUB>` for its parent. Standalone tasks → `/ft-task <ID>`.
+- **Audit-only — never standalone.** Validates arg is the parent epic's audit child — the reserved `.N` suffix (canonical) or the highest numeric `.<SUB>` (legacy). Standalone tasks → `/ft-task <ID>`.
 - **Open-children warn-and-proceed.** Sibling implementation children still open → skill warns and asks (default No bails). Useful for early audits when a child is stuck or deferred.
 - **Audit follow-ups → `/ft-file-followup`.** Misses logged in Implementation Notes as `/ft-file-followup <NEW-ID>` candidates; user invokes per miss after closure (preserves the 50w/70w cap at its natural boundary).
 - **Parent-flip is a prompt, not automatic.** Skill never silently flips. User confirms (default Yes); declines leave cohort nested for a later flip.
