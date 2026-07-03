@@ -55,7 +55,7 @@ const LEGACY_CRITICAL_HEADING = 'Critical';
 // Emoji are matched via alternation (not a char class) so astral-plane glyphs
 // match correctly without the `u` flag; an optional trailing VS16 is tolerated.
 const TASK_LINE =
-  /^\s*-\s+\[([ xX])\]\s+(?:(?:🟢|⏸|✅|⚪|🌱)\uFE0F?\s+)?\*\*([A-Z]+(?:-EPIC)?-\d+(?:\.\d+)?)\*\*(?:\s+\[(!critical)\])?(?:\s+\[([a-z][\w.-]*)\])?(?:\s+\[[a-z][\w.-]*\])*(?:\s*(?:🧠|🔧)\uFE0F?)?(?:\s+\|\s+(.+?))?(?:\s+[—-]\s+(.+?))?\s*$/;
+  /^\s*-\s+\[([ xX])\]\s+(?:(?:🟢|⏸|✅|⚪|🌱)\uFE0F?\s+)?\*\*([A-Z]+(?:-EPIC)?-\d+(?:\.(?:\d+|N))?)\*\*(?:\s+\[(!critical)\])?(?:\s+\[([a-z][\w.-]*)\])?(?:\s+\[[a-z][\w.-]*\])*(?:\s*(?:🧠|🔧)\uFE0F?)?(?:\s+\|\s+(.+?))?(?:\s+[—-]\s+(.+?))?\s*$/;
 const COMPLETED_DATE = /\bCompleted\s+(\d{4}-\d{2}-\d{2})\.?/;
 const HEADING_LINE = /^##\s+(.+?)\s*$/;
 
@@ -77,9 +77,9 @@ function cleanDescription(raw: string): string {
 // A wikilink that appears inside a `Blocked by` block lands in `blockedBy` only;
 // the same ID elsewhere in the description is excluded from `relatedTasks` to
 // avoid double-rendering (blocker is the stronger signal).
-export const WIKILINK_PATTERN = /\[\[([A-Z]+(?:-EPIC)?-\d+(?:\.\d+)?)\]\]/g;
+export const WIKILINK_PATTERN = /\[\[([A-Z]+(?:-EPIC)?-\d+(?:\.(?:\d+|N))?)\]\]/g;
 const BLOCKED_BY_BLOCK =
-  /Blocked by\s+(\[\[[A-Z]+(?:-EPIC)?-\d+(?:\.\d+)?\]\](?:\s*,\s*\[\[[A-Z]+(?:-EPIC)?-\d+(?:\.\d+)?\]\])*)/g;
+  /Blocked by\s+(\[\[[A-Z]+(?:-EPIC)?-\d+(?:\.(?:\d+|N))?\]\](?:\s*,\s*\[\[[A-Z]+(?:-EPIC)?-\d+(?:\.(?:\d+|N))?\]\])*)/g;
 const CODE_SPAN = /`[^`]*`/g;
 
 function stripCodeSpans(text: string): string {
@@ -111,7 +111,7 @@ export interface TaskNode {
 }
 
 const EPIC_ID = /^([A-Z]+)-EPIC-(\d+)$/;
-const SUBTASK_ID = /^([A-Z]+)-(\d+)\.\d+$/;
+const SUBTASK_ID = /^([A-Z]+)-(\d+)\.(?:\d+|N)$/;
 
 function epicKey(id: string): string | null {
   const m = EPIC_ID.exec(id);
@@ -193,7 +193,7 @@ const LEGACY_LABEL_LINE =
 // as a hand-authoring typo and must keep surfacing as unparsed — only a token
 // with no letter-dash-digit structure at all (checked case-insensitively) is
 // eligible for the legacy exclusion above.
-const ID_SHAPE_CASE_INSENSITIVE = /^[A-Za-z]+(?:-EPIC)?-\d+(?:\.\d+)?$/;
+const ID_SHAPE_CASE_INSENSITIVE = /^[A-Za-z]+(?:-EPIC)?-\d+(?:\.(?:\d+|N))?$/;
 
 export function parsePlanWithDiagnostics(markdown: string): PlanParseResult {
   const lines = markdown.split(/\r?\n/);

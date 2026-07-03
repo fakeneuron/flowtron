@@ -20,8 +20,15 @@ epic Discovery subtask scopes the whole epic and produces the child task
 list filed in PLAN.md.
 
 **Numbering convention.** Discovery is the first child (`<AREA>-<N>.1`);
-audit is the highest-numbered child at filing time. Both are normal
-subtasks — same grammar, same 4-phase tasknote, same model rules.
+the audit is the terminal child, filed as the reserved suffix `<AREA>-<N>.N`.
+Both are normal subtasks — same grammar, same 4-phase tasknote, same model
+rules. `.N` is **grammar-legal and permanently valid** (parser accepts
+`\.(?:\d+|N)` in the subtask slot), so the audit child never needs renaming
+to a sequential number at epic-close time. When an epic grows, new
+implementation children insert *before* `.N` (`.2`, `.3`, …); `.N` always
+remains the last child. Historical: repos that already renamed an audit
+child to a concrete number are unaffected — both forms parse and are valid
+going forward.
 
 **Lifecycle:**
 

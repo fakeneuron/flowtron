@@ -57,6 +57,30 @@ describe('parsePlan', () => {
     expect(tasks.every((t) => t.priority === 'Low')).toBe(true);
   });
 
+  // CORE-333: `.N` is a grammar-legal reserved terminal subtask suffix (the
+  // epic audit child) — parses like a numeric subtask, no rename required.
+  it('parses a `.N` audit subtask and nests it under its epic', () => {
+    const md = `## Low
+
+- [ ] **CORE-EPIC-005** — Epic top
+  - [ ] **CORE-005.1** — Discovery
+  - [ ] **CORE-005.N** — Final audit
+`;
+    const tasks = parsePlan(md);
+    expect(tasks.map((t) => t.id)).toEqual([
+      'CORE-EPIC-005',
+      'CORE-005.1',
+      'CORE-005.N',
+    ]);
+  });
+
+  it('resolves a `[[TASK-ID.N]]` wikilink into relatedTasks', () => {
+    const md = `## Medium\n\n- [ ] **CORE-005.2** — Builds on [[CORE-005.N]] audit findings.\n`;
+    const t = parsePlan(md)[0];
+    expect(t.relatedTasks).toEqual(['CORE-005.N']);
+    expect(t.blockedBy).toEqual([]);
+  });
+
   it('skips task-shaped lines outside known section headings', () => {
     const md = `## Vision
 
@@ -361,6 +385,18 @@ describe('parsePlanWithDiagnostics', () => {
     ]);
   });
 
+  // CORE-333: a `.N` audit line is a valid ID shape — never an unparsed diagnostic.
+  it('does not flag a `.N` audit subtask as an unparsed diagnostic', () => {
+    const md = `## Low
+
+- [ ] **CORE-EPIC-005** — Epic top
+  - [ ] **CORE-005.N** [light] | audit — Final-subtask audit.
+`;
+    const { tasks, unparsed } = parsePlanWithDiagnostics(md);
+    expect(tasks.map((t) => t.id)).toEqual(['CORE-EPIC-005', 'CORE-005.N']);
+    expect(unparsed).toEqual([]);
+  });
+
   it('does not collect valid task lines or non-checkbox prose bullets', () => {
     const md = `## Medium
 
@@ -510,6 +546,18 @@ describe('groupTasks', () => {
       'CORE-009.1',
       'CORE-009.2',
     ]);
+  });
+
+  // CORE-333: a `.N` audit child groups under its epic like any numeric child.
+  it('attaches a `.N` audit subtask to its epic parent', () => {
+    const nodes = groupTasks([
+      t('CORE-EPIC-005'),
+      t('CORE-005.1'),
+      t('CORE-005.N'),
+    ]);
+    expect(nodes).toHaveLength(1);
+    expect(nodes[0].task.id).toBe('CORE-EPIC-005');
+    expect(nodes[0].children.map((c) => c.id)).toEqual(['CORE-005.1', 'CORE-005.N']);
   });
 
   it('treats orphan subtasks (no matching epic) as top-level rows', () => {

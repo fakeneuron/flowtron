@@ -19,6 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-333** [light]🔧 | dotN-grammar-suffix — Completed 2026-07-03.
 - [x] **FE-068** [light]🔧 | project-switcher-tab-overflow — Completed 2026-07-03.
 - [x] **FE-067** [medium]🧠 | viz-legacy-line-parse-tolerance — Completed 2026-07-03.
 - [x] **CORE-332** [sonnet] | release v5.8.0 — Completed 2026-07-03.

@@ -133,7 +133,10 @@ project's OCR pipeline). Domain prefixes must be declared in the project's
 `.flowtron/tasknote/README.md`.
 
 Numbering: sequential within prefix. Decimals only for epic subtasks (e.g.,
-`CORE-EPIC-009` parent + `CORE-009.1`, `CORE-009.2` children).
+`CORE-EPIC-009` parent + `CORE-009.1`, `CORE-009.2` children). The subtask
+slot accepts either a number (`\d+`) or the reserved literal `N` — `<AREA>-<N>.N`
+is the epic's terminal **audit** child (see [`SPEC/epic.md`](SPEC/epic.md)),
+grammar-legal as-is so it never needs renaming to a sequential number.
 
 ## Epic lifecycle
 
