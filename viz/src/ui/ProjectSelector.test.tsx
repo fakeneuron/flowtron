@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { ProjectSelector } from './ProjectSelector';
@@ -89,5 +89,109 @@ describe('ProjectSelector', () => {
       }),
     );
     expect(container.firstChild).toBeNull();
+  });
+
+  it('renders no overflow toggle at or below the visible threshold', () => {
+    render(
+      React.createElement(ProjectSelector, {
+        projects: ['p1', 'p2', 'p3', 'p4', 'p5'],
+        active: 'p1',
+        onSelect: () => {},
+      }),
+    );
+
+    expect(screen.getByRole('button', { name: 'Project: p5' })).toBeTruthy();
+    expect(screen.queryByRole('button', { name: /more projects/ })).toBeNull();
+  });
+
+  it('collapses projects past the visible threshold behind a "+N" toggle', () => {
+    render(
+      React.createElement(ProjectSelector, {
+        projects: ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7'],
+        active: 'p1',
+        onSelect: () => {},
+      }),
+    );
+
+    expect(screen.getByRole('button', { name: 'Project: p1' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Project: p5' })).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Project: p6' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Project: p7' })).toBeNull();
+    expect(screen.getByRole('button', { name: '2 more projects' })).toBeTruthy();
+  });
+
+  it('pins the active project into the visible set when it would otherwise overflow', () => {
+    render(
+      React.createElement(ProjectSelector, {
+        projects: ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7'],
+        active: 'p7',
+        onSelect: () => {},
+      }),
+    );
+
+    expect(
+      screen.getByRole('button', { name: 'Project: p7', pressed: true }),
+    ).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Project: p4' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: '2 more projects' })).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Project: p5' })).toBeNull();
+  });
+
+  it('opens the overflow dropdown and selects a project from it', async () => {
+    const user = userEvent.setup();
+    const onSelect = vi.fn();
+    render(
+      React.createElement(ProjectSelector, {
+        projects: ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7'],
+        active: 'p1',
+        onSelect,
+      }),
+    );
+
+    await user.click(screen.getByRole('button', { name: '2 more projects' }));
+    const menu = screen.getByRole('menu', { name: 'More projects' });
+    const p6 = within(menu).getByRole('button', { name: 'Project: p6' });
+    await user.click(p6);
+
+    expect(onSelect).toHaveBeenCalledWith('p6');
+    expect(screen.queryByRole('menu')).toBeNull();
+  });
+
+  it('closes the overflow dropdown on Escape', async () => {
+    const user = userEvent.setup();
+    render(
+      React.createElement(ProjectSelector, {
+        projects: ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7'],
+        active: 'p1',
+        onSelect: () => {},
+      }),
+    );
+
+    await user.click(screen.getByRole('button', { name: '2 more projects' }));
+    expect(screen.getByRole('menu')).toBeTruthy();
+
+    await user.keyboard('{Escape}');
+    expect(screen.queryByRole('menu')).toBeNull();
+  });
+
+  it('closes the overflow dropdown on outside click', async () => {
+    const user = userEvent.setup();
+    render(
+      React.createElement('div', null, [
+        React.createElement(ProjectSelector, {
+          key: 'selector',
+          projects: ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7'],
+          active: 'p1',
+          onSelect: () => {},
+        }),
+        React.createElement('button', { key: 'outside' }, 'outside'),
+      ]),
+    );
+
+    await user.click(screen.getByRole('button', { name: '2 more projects' }));
+    expect(screen.getByRole('menu')).toBeTruthy();
+
+    await user.click(screen.getByRole('button', { name: 'outside' }));
+    expect(screen.queryByRole('menu')).toBeNull();
   });
 });
