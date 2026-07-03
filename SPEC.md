@@ -183,6 +183,23 @@ Adopting projects' visualizers parse the line per `viz/src/parser.ts`
 (canonical reference). The grammar is additive — flowtron bumps don't
 require migrating legacy entries; new entries should use the extended form.
 
+**Parser tolerances (decorative, not captured).** `viz/src/parser.ts`
+additionally accepts three real-board decorations without parsing them into
+`Task` fields — they are dropped, not stored:
+
+- **Model-suggestion glyph after `[model]`** — a `🧠` (heavy) / `🔧` (light)
+  glyph appended to the model token (`[medium]🧠`, space-optional), mirroring
+  the next-move suggestion label. Redundant with the model tier; ignored.
+- **Stacked `[model]` tokens** — `[fable] [light]`: the first bracket token is
+  captured as `model`; trailing bracket tokens are tolerated and dropped.
+- **Leading status glyph** — a nav-header chip (`🟢`/`⏸`/`✅`/`⚪`/`🌱`) between
+  the checkbox and the bold ID (`- [ ] ⏸ **ID**`).
+
+These keep hand-decorated rows from being silently dropped (they surface in
+the `parsePlanWithDiagnostics` diagnostics otherwise). They are tolerances,
+not canonical authoring grammar — new entries should still use the clean form
+above.
+
 ### Long-description conventions
 
 The long description is free prose, but two machine-readable

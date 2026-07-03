@@ -11,8 +11,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **FE-066** [medium]🧠 | viz-plan-grammar-glyph-tolerance — `TASK_LINE` in `viz/src/parser.ts` rejects three real PLAN conventions, silently dropping 148 completed rows on flowtron's own board (exposed by FE-063.2's banner): model-suggestion glyph after `[model]` (`[medium]` + glyph, space-optional); stacked `[model]` tokens (`[fable]` `[light]`); leading status glyph (`- [ ] ⏸ **ID**`). Make the grammar tolerant + add fixtures; reconcile SPEC §"Task-line format". Sequel to [[FE-EPIC-063]].
-
 ## Medium
 
 ## Low
@@ -23,6 +21,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-066** [medium]🧠 | viz-plan-grammar-glyph-tolerance — Completed 2026-07-02.
 - [x] **FE-064** [medium]🧠 | viz-render-resilience — Completed 2026-07-02.
 - [x] **CORE-331** [light]🔧 | loop-integration-doc-sync — Propagated CORE-EPIC-330 into the enumeration sites the epic missed: added `loop` to the `SPEC/` module inventories (`SPEC.md:74`, `README.md:192`, `AGENTS.md:25`); added `/ft-goal-task` to the `docs/MIGRATION.md:385` smoke checklist and bumped "eight total"→"nine total"; noted `/ft-goal-task`'s SKILL as the dispatch source for `SPEC/loop.md` (`SPEC.md:79`); anchored the `.flowtron/LOOP-LOG.md` heartbeat convention in `SPEC/loop.md:41`; refreshed the `README.md:20` glossary count. Surfaced by audit 2026-07-02 (Finding #6, High; #7, Medium; +3 Low), fixed inline.
 

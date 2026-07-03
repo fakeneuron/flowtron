@@ -177,6 +177,67 @@ describe('parsePlan', () => {
     expect(parsePlan(md)).toEqual([]);
   });
 
+  // FE-066: grammar tolerances for real PLAN.md decorations.
+  it('parses a model-suggestion glyph after [model] with no space', () => {
+    const md = `## High\n\n- [ ] **FE-066** [medium]🧠 | glyph tol — long desc\n`;
+    const t = parsePlan(md)[0];
+    expect(t).toMatchObject({ id: 'FE-066', model: 'medium', shortname: 'glyph tol' });
+    expect(t.description).toBe('long desc');
+  });
+
+  it('parses a model-suggestion glyph after [model] with a space', () => {
+    const md = `## High\n\n- [ ] **FE-065** [light] 🔧 | dedup — cleanup work\n`;
+    const t = parsePlan(md)[0];
+    expect(t).toMatchObject({ id: 'FE-065', model: 'light', shortname: 'dedup' });
+    expect(t.description).toBe('cleanup work');
+  });
+
+  it('parses a suggestion glyph directly before the long description (no shortname)', () => {
+    const md = `## Completed\n\n- [x] **FE-064** [medium]🧠 — Completed 2026-07-02.\n`;
+    const t = parsePlan(md)[0];
+    expect(t).toMatchObject({ id: 'FE-064', model: 'medium', completed: true, completedDate: '2026-07-02' });
+    expect(t.shortname).toBeUndefined();
+  });
+
+  it('parses stacked [model] tokens, capturing the first and dropping the rest', () => {
+    const md = `## High\n\n- [ ] **CORE-001** [fable] [light] | stacked — desc\n`;
+    const t = parsePlan(md)[0];
+    expect(t.model).toBe('fable');
+    expect(t.shortname).toBe('stacked');
+    expect(t.description).toBe('desc');
+  });
+
+  it('parses a leading status glyph between the checkbox and the bold ID', () => {
+    const md = `## High\n\n- [ ] ⏸ **CORE-042** [heavy] | parked — blocked work\n`;
+    const t = parsePlan(md)[0];
+    expect(t).toMatchObject({ id: 'CORE-042', model: 'heavy', shortname: 'parked' });
+    expect(t.description).toBe('blocked work');
+  });
+
+  it('composes all three tolerances with [!critical], shortname, long desc, and a wikilink', () => {
+    const md = `## High\n\n- [ ] ⏸ **CORE-042** [!critical] [fable] [light]🧠 | hotfix — Builds on [[FE-001]].\n`;
+    const t = parsePlan(md)[0];
+    expect(t).toMatchObject({
+      id: 'CORE-042',
+      critical: true,
+      model: 'fable',
+      shortname: 'hotfix',
+    });
+    expect(t.relatedTasks).toEqual(['FE-001']);
+  });
+
+  it('does not flag glyph-decorated rows as unparsed diagnostics', () => {
+    const md = [
+      '## High',
+      '',
+      '- [ ] **FE-066** [medium]🧠 | glyph — real row',
+      '- [ ] ⏸ **CORE-042** [fable] [light]🔧 | parked — stacked + leading glyph',
+    ].join('\n');
+    const { tasks, unparsed } = parsePlanWithDiagnostics(md);
+    expect(tasks.map((t) => t.id)).toEqual(['FE-066', 'CORE-042']);
+    expect(unparsed).toEqual([]);
+  });
+
   it('extracts a single [[TASK-ID]] wikilink into relatedTasks', () => {
     const md = `## Medium\n\n- [ ] **FE-003** | wikilink resolution — Builds on [[FE-001]] in viz/.\n`;
     const t = parsePlan(md)[0];
