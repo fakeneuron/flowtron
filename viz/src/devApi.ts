@@ -145,5 +145,11 @@ export function createEventsHandler(sseClients: Set<ServerResponse>): Handler {
     req.on('close', () => {
       sseClients.delete(res);
     });
+    // A write to a socket dropped by RST (before `close` fires) emits an
+    // 'error' on the response; without this listener that error is unhandled
+    // and crashes the long-running dev server. Prune the client instead.
+    res.on('error', () => {
+      sseClients.delete(res);
+    });
   };
 }

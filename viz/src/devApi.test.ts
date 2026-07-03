@@ -42,7 +42,7 @@ function makeReq(opts: {
   return req;
 }
 
-function makeRes(): { res: ServerResponse; state: FakeRes } {
+function makeRes(): { res: ServerResponse & { _error: () => void }; state: FakeRes } {
   const state: FakeRes = {
     statusCode: 200,
     headers: {},
@@ -51,6 +51,7 @@ function makeRes(): { res: ServerResponse; state: FakeRes } {
     ended: false,
     flushed: false,
   };
+  const errorListeners: Array<() => void> = [];
   const res = {
     get statusCode() {
       return state.statusCode;
@@ -67,11 +68,17 @@ function makeRes(): { res: ServerResponse; state: FakeRes } {
     flushHeaders() {
       state.flushed = true;
     },
+    on(event: string, cb: () => void) {
+      if (event === 'error') errorListeners.push(cb);
+    },
     end(body?: string) {
       if (typeof body === 'string') state.body = body;
       state.ended = true;
     },
-  } as unknown as ServerResponse;
+    _error() {
+      for (const cb of errorListeners) cb();
+    },
+  } as unknown as ServerResponse & { _error: () => void };
   return { res, state };
 }
 
@@ -373,6 +380,19 @@ describe('createEventsHandler', () => {
     expect(sseClients.has(res)).toBe(true);
 
     req._close();
+    expect(sseClients.has(res)).toBe(false);
+  });
+
+  it('unregisters the client when the response emits an error (dropped socket)', () => {
+    const sseClients = new Set<ServerResponse>();
+    const handler = createEventsHandler(sseClients);
+    const req = makeReq({ headers: { origin: ALLOWED_ORIGIN } });
+    const { res } = makeRes();
+
+    handler(req, res);
+    expect(sseClients.has(res)).toBe(true);
+
+    res._error();
     expect(sseClients.has(res)).toBe(false);
   });
 });
