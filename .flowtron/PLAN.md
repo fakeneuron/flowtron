@@ -19,6 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-340** [opus] | plan-exhausted-terminal-state — Completed 2026-07-03.
 - [x] **CORE-339** [opus] | release v5.9.0 — Completed 2026-07-03.
 - [x] **CORE-338** [light] | sse-write-error-guard — Attach a `res.on('error')` listener in `createEventsHandler` so a write to a socket dropped by RST prunes the SSE client instead of crashing the dev server with an unhandled error; added a regression test. Surfaced by audit 2026-07-03 (Finding #2, Low), fixed inline.
 - [x] **CORE-337** [light] | spec-doc-html-comment-tolerance — Added an "HTML comments are ignored" note to SPEC.md §"Task-line format" parser-tolerances, mirroring the CORE-336 parser behavior. Surfaced by audit 2026-07-03 (Finding #1, Low), fixed inline.

@@ -196,7 +196,12 @@ Run the three-step protocol in
    state-marker carrying a 1-2 sentence accomplishment summary, then suggest
    the next task. Use the emoji primary label inline per candidate —
    `[heavy]🧠` (design) or `[light]🔧` (mechanical), never the bare `[model]`
-   token. Prefix any `/ft-audit*` candidate with 🔍.
+   token. Prefix any `/ft-audit*` candidate with 🔍. **Terminal case:** if the
+   fresh PLAN.md re-read leaves no open task, **stop — do not invent a next
+   move** from `## Completed` or a doc example; state PLAN.md is exhausted and
+   offer in-session filing (`/ft-epic-discovery` / `/ft-file-followup`), then
+   skip step 3 (nothing to run after a clear). See SPEC §"Post-closure
+   protocol" step 2's **PLAN exhausted (terminal)** form.
 3. **Offer the copy-paste line.** The label-line glyph is copied from the
    chosen candidate line just printed in step 2 — 🧠 when it showed 🧠, 🔧 when
    it showed 🔧; never default to 🔧. A session-reset label line, then the next
