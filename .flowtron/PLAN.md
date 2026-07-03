@@ -11,6 +11,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
+- [ ] **FE-066** [medium]🧠 | viz-plan-grammar-glyph-tolerance — `TASK_LINE` in `viz/src/parser.ts` rejects three real PLAN conventions, silently dropping 148 completed rows on flowtron's own board (exposed by FE-063.2's banner): model-suggestion glyph after `[model]` (`[medium]` + glyph, space-optional); stacked `[model]` tokens (`[fable]` `[light]`); leading status glyph (`- [ ] ⏸ **ID**`). Make the grammar tolerant + add fixtures; reconcile SPEC §"Task-line format". Sequel to [[FE-EPIC-063]].
+
 ## Medium
 
 ## Low
