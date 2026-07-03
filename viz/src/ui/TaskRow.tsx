@@ -5,6 +5,7 @@ import type { VisibilityPrefs } from '../visibilityPrefs';
 import { DENSITY_TOKENS } from './constants';
 import { usePalette } from './VisibilityContext';
 import { TaskRowInner } from './TaskRowInner';
+import { ErrorBoundary } from './ErrorBoundary';
 import { rowOutlineClass } from './utils';
 
 const TaskDetail = lazy(() => import('./TaskDetail'));
@@ -51,15 +52,17 @@ export const TaskRow: React.FC<TaskRowProps> = ({
       />
     </div>
     {expandedId === task.id && (
-      <Suspense fallback={null}>
-        <TaskDetail
-          task={task}
-          tasknote={tasknotesById.get(task.id)}
-          detailSections={visibility.detailSections}
-          starterSections={visibility.starterSections}
-          navigateToTask={navigateToTask}
-        />
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback={null}>
+          <TaskDetail
+            task={task}
+            tasknote={tasknotesById.get(task.id)}
+            detailSections={visibility.detailSections}
+            starterSections={visibility.starterSections}
+            navigateToTask={navigateToTask}
+          />
+        </Suspense>
+      </ErrorBoundary>
     )}
   </div>
   );

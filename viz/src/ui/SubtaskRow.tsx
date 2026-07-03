@@ -6,6 +6,7 @@ import { DENSITY_TOKENS } from './constants';
 import { usePalette } from './VisibilityContext';
 import { highlightMatch } from './highlight';
 import { useSearchQuery } from './SearchContext';
+import { ErrorBoundary } from './ErrorBoundary';
 
 const TaskDetail = lazy(() => import('./TaskDetail'));
 
@@ -75,16 +76,18 @@ export const SubtaskRow: React.FC<SubtaskRowProps> = ({
         )}
       </div>
       {isExpandedDetail && (
-        <Suspense fallback={null}>
-          <TaskDetail
-            task={task}
-            tasknote={tasknotesById.get(task.id)}
-            detailSections={visibility.detailSections}
-            starterSections={visibility.starterSections}
-            navigateToTask={navigateToTask}
-            compact
-          />
-        </Suspense>
+        <ErrorBoundary>
+          <Suspense fallback={null}>
+            <TaskDetail
+              task={task}
+              tasknote={tasknotesById.get(task.id)}
+              detailSections={visibility.detailSections}
+              starterSections={visibility.starterSections}
+              navigateToTask={navigateToTask}
+              compact
+            />
+          </Suspense>
+        </ErrorBoundary>
       )}
     </div>
   );

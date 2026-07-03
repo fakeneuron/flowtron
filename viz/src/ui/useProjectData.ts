@@ -63,7 +63,22 @@ export function useProjectData(activeProject: string | null): {
 
   useEffect(() => {
     const es = new EventSource('/api/events');
+    let droppedSinceOpen = false;
     es.addEventListener('change', refresh);
+    es.addEventListener('open', () => {
+      // On reconnect after a drop, reconcile changes missed during the gap.
+      // The first connect has no prior drop, so no redundant initial refresh.
+      if (droppedSinceOpen) {
+        droppedSinceOpen = false;
+        refresh();
+      }
+    });
+    es.addEventListener('error', () => {
+      // Connection dropped; the browser auto-reconnects. Flag so the next
+      // 'open' reconciles any changes missed while disconnected, rather than
+      // letting the board go silently stale.
+      droppedSinceOpen = true;
+    });
     return () => es.close();
   }, [refresh]);
 

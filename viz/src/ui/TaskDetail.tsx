@@ -15,6 +15,12 @@ const STARTER_SUBSECTION_LABEL: Record<StarterSubsectionKey, string> = {
   outOfScope: 'Out of scope',
 };
 
+// Build a `vscode://file` href only for a well-formed absolute path, encoding
+// it so spaces / special characters don't break the URI. Returns null for a
+// path that isn't an absolute POSIX path, so no broken link renders.
+export const vscodeFileHref = (path: string): string | null =>
+  path.startsWith('/') ? `vscode://file${encodeURI(path)}` : null;
+
 const TaskDetail: React.FC<{
   task: Task;
   tasknote: Tasknote | undefined;
@@ -28,6 +34,7 @@ const TaskDetail: React.FC<{
   const isStarter = status === 'starter';
   const priority = tasknote ? task.priority : undefined;
   const showMetaHeader = priority || (task.completed && task.completedDate) || tasknote;
+  const vscodeHref = tasknote ? vscodeFileHref(tasknote.path) : null;
   const rootClass = compact
     ? '-mx-2 mt-2 mb-0.5 rounded border border-slate-200 bg-white pl-9 pr-3 py-2.5 text-sm text-slate-700 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300'
     : 'border-t border-slate-100 bg-slate-50/40 pl-9 pr-3 py-2 text-sm text-slate-700 dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-300';
@@ -46,9 +53,9 @@ const TaskDetail: React.FC<{
           {task.completed && task.completedDate && (
             <span>Completed {task.completedDate}</span>
           )}
-          {tasknote && (
+          {vscodeHref && (
             <a
-              href={`vscode://file${tasknote.path}`}
+              href={vscodeHref}
               className="ml-auto hover:text-slate-800 hover:underline dark:hover:text-slate-100"
               title="Open tasknote in VS Code"
             >
