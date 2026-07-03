@@ -236,7 +236,3 @@ export function parsePlanWithDiagnostics(markdown: string): PlanParseResult {
 
   return { tasks, unparsed };
 }
-
-export function parsePlan(markdown: string): Task[] {
-  return parsePlanWithDiagnostics(markdown).tasks;
-}

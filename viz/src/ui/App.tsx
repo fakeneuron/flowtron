@@ -199,6 +199,8 @@ export const App: React.FC = () => {
       tasks.filter((t) => tasknotesById.get(t.id)?.frontmatter?.status === 'starter').length,
     [tasks, tasknotesById],
   );
+  const starterSuffix =
+    starterCount > 0 ? ` · ${starterCount} ${starterCount === 1 ? 'starter' : 'starters'}` : '';
 
   const handleSelectProject = (name: string) => {
     if (name === activeProject) return;
@@ -247,6 +249,29 @@ export const App: React.FC = () => {
     [tasks, setCollapsedSections, setExpandedEpicIds],
   );
 
+  const renderSection = (p: Priority) => {
+    const nodes = bySection[p] ?? [];
+    const collapsed = collapsedSections.has(p);
+    return (
+      <PrioritySection
+        key={p}
+        priority={p}
+        nodes={nodes}
+        collapsed={collapsed}
+        onToggle={() => toggleSection(p)}
+        tasknotesById={tasknotesById}
+        visibility={visibilityPrefs}
+        expandedId={expandedId}
+        setExpandedId={setExpandedId}
+        expandedEpicIds={expandedEpicIds}
+        toggleEpic={toggleEpic}
+        highlightId={highlightId}
+        selectedId={selectedId}
+        navigateToTask={navigateToTask}
+      />
+    );
+  };
+
   useKeyboardNav({
     visibleIds,
     epicIds,
@@ -279,8 +304,8 @@ export const App: React.FC = () => {
               </h1>
               <p className="text-sm text-slate-600 dark:text-slate-400">
                 {filteredCount === total
-                  ? `${total} tasks · ${inProgress} in progress${starterCount > 0 ? ` · ${starterCount} ${starterCount === 1 ? 'starter' : 'starters'}` : ''}`
-                  : `${filteredCount} of ${total} matching · ${inProgress} in progress${starterCount > 0 ? ` · ${starterCount} ${starterCount === 1 ? 'starter' : 'starters'}` : ''}`}
+                  ? `${total} tasks · ${inProgress} in progress${starterSuffix}`
+                  : `${filteredCount} of ${total} matching · ${inProgress} in progress${starterSuffix}`}
                 {` · flowtron ${projectVersions[activeProject ?? ''] ?? VIZ_VERSION}`}
                 {unparsed.length > 0 && (
                   <span className="ml-2 inline-flex items-center rounded bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-200">
@@ -406,54 +431,12 @@ export const App: React.FC = () => {
               selectedId={selectedId}
               navigateToTask={navigateToTask}
             />
-            {BELOW_BOARD_SECTIONS.map((p) => {
-              const nodes = bySection[p] ?? [];
-              const collapsed = collapsedSections.has(p);
-              return (
-                <PrioritySection
-                  key={p}
-                  priority={p}
-                  nodes={nodes}
-                  collapsed={collapsed}
-                  onToggle={() => toggleSection(p)}
-                  tasknotesById={tasknotesById}
-                  visibility={visibilityPrefs}
-                  expandedId={expandedId}
-                  setExpandedId={setExpandedId}
-                  expandedEpicIds={expandedEpicIds}
-                  toggleEpic={toggleEpic}
-                  highlightId={highlightId}
-                  selectedId={selectedId}
-                  navigateToTask={navigateToTask}
-                />
-              );
-            })}
+            {BELOW_BOARD_SECTIONS.map(renderSection)}
           </div>
         ) : (
           <>
             <div className={`flex flex-col ${DENSITY_TOKENS[visibilityPrefs.density].betweenSectionsGap}`}>
-              {SECTIONS.filter((p) => (bySection[p] ?? []).length > 0).map((p) => {
-                const nodes = bySection[p] ?? [];
-                const collapsed = collapsedSections.has(p);
-                return (
-                  <PrioritySection
-                    key={p}
-                    priority={p}
-                    nodes={nodes}
-                    collapsed={collapsed}
-                    onToggle={() => toggleSection(p)}
-                    tasknotesById={tasknotesById}
-                    visibility={visibilityPrefs}
-                    expandedId={expandedId}
-                    setExpandedId={setExpandedId}
-                    expandedEpicIds={expandedEpicIds}
-                    toggleEpic={toggleEpic}
-                    highlightId={highlightId}
-                    selectedId={selectedId}
-                    navigateToTask={navigateToTask}
-                  />
-                );
-              })}
+              {SECTIONS.filter((p) => (bySection[p] ?? []).length > 0).map(renderSection)}
             </div>
             {listViewEmptySections.length > 0 && (
               <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">

@@ -15,12 +15,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **FE-065** [light]🔧 | viz-dedup-orphan-cleanup — Extract a `renderSection` closure to collapse the duplicate `PrioritySection` prop-spreads (`viz/src/ui/App.tsx:409-456`); dedupe the starter-count pluralization (`App.tsx:281-284`); delete the orphan `parsePlan` export and repoint its back-compat test at `parsePlanWithDiagnostics` (`viz/src/parser.ts:229`). Surfaced by audit 2026-07-02 (Finding #4, Medium; #5, Low).
-
 ## Future Opportunities
 
 ## Completed
 
+- [x] **FE-065** [light]🔧 | viz-dedup-orphan-cleanup — Completed 2026-07-02.
 - [x] **FE-066** [medium]🧠 | viz-plan-grammar-glyph-tolerance — Completed 2026-07-02.
 - [x] **FE-064** [medium]🧠 | viz-render-resilience — Completed 2026-07-02.
 - [x] **CORE-331** [light]🔧 | loop-integration-doc-sync — Propagated CORE-EPIC-330 into the enumeration sites the epic missed: added `loop` to the `SPEC/` module inventories (`SPEC.md:74`, `README.md:192`, `AGENTS.md:25`); added `/ft-goal-task` to the `docs/MIGRATION.md:385` smoke checklist and bumped "eight total"→"nine total"; noted `/ft-goal-task`'s SKILL as the dispatch source for `SPEC/loop.md` (`SPEC.md:79`); anchored the `.flowtron/LOOP-LOG.md` heartbeat convention in `SPEC/loop.md:41`; refreshed the `README.md:20` glossary count. Surfaced by audit 2026-07-02 (Finding #6, High; #7, Medium; +3 Low), fixed inline.

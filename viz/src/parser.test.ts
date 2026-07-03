@@ -1,5 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { groupTasks, parsePlan, parsePlanWithDiagnostics, type Task } from './parser';
+import { groupTasks, parsePlanWithDiagnostics, type Task } from './parser';
+
+function parsePlan(markdown: string): Task[] {
+  return parsePlanWithDiagnostics(markdown).tasks;
+}
 
 describe('parsePlan', () => {
   it('parses an open task in High', () => {
@@ -384,13 +388,13 @@ describe('parsePlanWithDiagnostics', () => {
     ]);
   });
 
-  it('parsePlan stays back-compat, returning tasks only', () => {
+  it('parsePlanWithDiagnostics tasks omit malformed lines', () => {
     const md = `## High
 
 - [ ] **CORE-001** — fine
 - [ ] *CORE-002* — malformed
 `;
-    expect(parsePlan(md).map((t) => t.id)).toEqual(['CORE-001']);
+    expect(parsePlanWithDiagnostics(md).tasks.map((t) => t.id)).toEqual(['CORE-001']);
   });
 });
 
