@@ -203,6 +203,13 @@ the `parsePlanWithDiagnostics` diagnostics otherwise). They are tolerances,
 not canonical authoring grammar — new entries should still use the clean form
 above.
 
+**HTML comments are ignored.** Checkbox-shaped lines inside `<!-- ... -->`
+comment blocks are non-rendered content: the parser blanks the comment
+interior first, so such lines are neither parsed as tasks nor surfaced as
+diagnostics. This lets a grammar-reference example carrying a literal
+`**TASK-ID**` placeholder live in a comment block (see `templates/PLAN.md`)
+without polluting the task list.
+
 **Legacy label lines (excluded, not tolerated).** Some adopter PLAN.md files
 predate flowtron entirely and carry completed historical records whose bold
 token was never an `<AREA>-NNN` ID (`**P1**`, `**flowtron v5.2.0 bump**`).

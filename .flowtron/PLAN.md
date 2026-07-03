@@ -19,6 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-337** [light] | spec-doc-html-comment-tolerance — Added an "HTML comments are ignored" note to SPEC.md §"Task-line format" parser-tolerances, mirroring the CORE-336 parser behavior. Surfaced by audit 2026-07-03 (Finding #1, Low), fixed inline.
 - [x] **CORE-336** [light] | parser-strip-html-comments — Completed 2026-07-03.
 - [x] **CORE-334** [medium] | epic-audit-emit-dotN — Completed 2026-07-03.
 - [x] **CORE-335** [light] | plan-template-example-diagnostics — Completed 2026-07-03.
