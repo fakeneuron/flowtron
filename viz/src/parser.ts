@@ -195,8 +195,19 @@ const LEGACY_LABEL_LINE =
 // eligible for the legacy exclusion above.
 const ID_SHAPE_CASE_INSENSITIVE = /^[A-Za-z]+(?:-EPIC)?-\d+(?:\.(?:\d+|N))?$/;
 
+// HTML comments (`<!-- ... -->`, possibly multi-line) are non-rendered content:
+// checkbox lines inside them — typically a grammar-reference example carrying a
+// literal `**TASK-ID**` placeholder — must not parse as tasks or surface as
+// diagnostics (CORE-336). Blank the comment interior while preserving newlines so
+// the 1-based line numbers reported for real content stay accurate. An unclosed
+// `<!--` (no matching `-->`) is left untouched — PLAN.md comment blocks are always
+// closed, and matching to EOF risks blanking real content below a stray marker.
+function blankHtmlComments(markdown: string): string {
+  return markdown.replace(/<!--[\s\S]*?-->/g, (m) => m.replace(/[^\n]/g, ' '));
+}
+
 export function parsePlanWithDiagnostics(markdown: string): PlanParseResult {
-  const lines = markdown.split(/\r?\n/);
+  const lines = blankHtmlComments(markdown).split(/\r?\n/);
   const tasks: Task[] = [];
   const unparsed: UnparsedLine[] = [];
   let currentPriority: Priority | null = null;

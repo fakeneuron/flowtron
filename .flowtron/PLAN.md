@@ -19,6 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-336** [light] | parser-strip-html-comments — Completed 2026-07-03.
 - [x] **CORE-334** [medium] | epic-audit-emit-dotN — Completed 2026-07-03.
 - [x] **CORE-335** [light] | plan-template-example-diagnostics — Completed 2026-07-03.
 - [x] **CORE-333** [light]🔧 | dotN-grammar-suffix — Completed 2026-07-03.

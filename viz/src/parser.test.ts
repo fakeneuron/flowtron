@@ -409,6 +409,47 @@ describe('parsePlanWithDiagnostics', () => {
     expect(unparsed).toEqual([]);
   });
 
+  // CORE-336: checkbox lines inside an HTML comment (e.g. the trailing
+  // grammar-reference block) are non-rendered content — never tasks, never
+  // diagnostics — regardless of which section the comment sits in.
+  it('ignores checkbox lines inside a trailing HTML comment', () => {
+    const md = `## High
+
+- [ ] **CORE-001** [light] | real — a real task
+
+## Completed
+
+- [x] **CORE-000** — Completed 2026-07-01.
+
+<!--
+Task-line grammar:
+
+  - [ ] **TASK-ID** [model] | shortname — long description
+
+All segments optional.
+-->
+`;
+    const { tasks, unparsed } = parsePlanWithDiagnostics(md);
+    expect(tasks.map((t) => t.id)).toEqual(['CORE-001', 'CORE-000']);
+    expect(unparsed).toEqual([]);
+  });
+
+  it('preserves accurate line numbers for a malformed line after a multi-line comment', () => {
+    const md = [
+      '## High', // 1
+      '', // 2
+      '<!--', // 3
+      '  - [ ] **TASK-ID** | example — ignore me', // 4
+      '-->', // 5
+      '', // 6
+      '- [ ] *CORE-002* — malformed real line', // 7
+    ].join('\n');
+    const { unparsed } = parsePlanWithDiagnostics(md);
+    expect(unparsed).toEqual([
+      { line: 7, text: '- [ ] *CORE-002* — malformed real line' },
+    ]);
+  });
+
   it('ignores malformed checkbox lines outside recognized section headings', () => {
     const md = `## Vision
 
