@@ -179,6 +179,22 @@ export interface PlanParseResult {
 // dropped (FE-063.2).
 const CHECKBOX_BULLET = /^\s*-\s+\[[ xX]\]/;
 
+// Pre-flowtron legacy record (FE-067): a completed historical line whose bold
+// token was never an `<AREA>-NNN` ID (`**P1**`, `**flowtron v5.2.0 bump**`) —
+// it predates flowtron's ID convention and has no tasknote to promote it to.
+// The grammar allows only a bare `**token**` optionally followed by an
+// em/en-dash description — no room for `[!critical]`/`[model]`/`| shortname`,
+// so a line carrying any of those never matches here and still falls through
+// to the unparsed diagnostic below.
+const LEGACY_LABEL_LINE =
+  /^\s*-\s+\[([ xX])\]\s+\*\*([^*]+)\*\*(?:\s+[—-]\s+(.+))?\s*$/;
+
+// A token that merely has the wrong case of a real ID (`fe-065`) still reads
+// as a hand-authoring typo and must keep surfacing as unparsed — only a token
+// with no letter-dash-digit structure at all (checked case-insensitively) is
+// eligible for the legacy exclusion above.
+const ID_SHAPE_CASE_INSENSITIVE = /^[A-Za-z]+(?:-EPIC)?-\d+(?:\.\d+)?$/;
+
 export function parsePlanWithDiagnostics(markdown: string): PlanParseResult {
   const lines = markdown.split(/\r?\n/);
   const tasks: Task[] = [];
@@ -208,7 +224,14 @@ export function parsePlanWithDiagnostics(markdown: string): PlanParseResult {
     const m = TASK_LINE.exec(line);
     if (!m) {
       if (CHECKBOX_BULLET.test(line)) {
-        unparsed.push({ line: i + 1, text: line.trim() });
+        const legacyMatch = LEGACY_LABEL_LINE.exec(line);
+        const isLegacyRecord =
+          legacyMatch !== null &&
+          (legacyMatch[1] === 'x' || legacyMatch[1] === 'X') &&
+          !ID_SHAPE_CASE_INSENSITIVE.test(legacyMatch[2]);
+        if (!isLegacyRecord) {
+          unparsed.push({ line: i + 1, text: line.trim() });
+        }
       }
       continue;
     }

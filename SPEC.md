@@ -200,6 +200,18 @@ the `parsePlanWithDiagnostics` diagnostics otherwise). They are tolerances,
 not canonical authoring grammar — new entries should still use the clean form
 above.
 
+**Legacy label lines (excluded, not tolerated).** Some adopter PLAN.md files
+predate flowtron entirely and carry completed historical records whose bold
+token was never an `<AREA>-NNN` ID (`**P1**`, `**flowtron v5.2.0 bump**`).
+Unlike the decorative tolerances above, these aren't parsed into a `Task` at
+all — a completed (`[x]`) checkbox line with a bare `**token**` (optionally
+followed by an em/en-dash description, no `[!critical]`/`[model]`/
+`| shortname`) whose token has no letter-dash-digit ID shape (checked
+case-insensitively, so a case-typo like `**fe-065**` still surfaces as a
+diagnostic) is silently excluded from both the task list and
+`parsePlanWithDiagnostics`'s `unparsed` output. A pending (`[ ]`) line in this
+shape still surfaces as unparsed — new entries should get a real ID.
+
 ### Long-description conventions
 
 The long description is free prose, but two machine-readable

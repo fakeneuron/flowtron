@@ -396,6 +396,57 @@ describe('parsePlanWithDiagnostics', () => {
 `;
     expect(parsePlanWithDiagnostics(md).tasks.map((t) => t.id)).toEqual(['CORE-001']);
   });
+
+  // FE-067: pre-flowtron legacy records (bold label with no <AREA>-NNN shape)
+  // are excluded from both tasks and unparsed diagnostics — but only when
+  // completed, to avoid masking a hand-authoring typo of a real ID.
+  it('silently excludes completed legacy-label lines from both tasks and unparsed', () => {
+    const md = `## Completed
+
+- [x] **flowtron v5.2.0 bump** — Completed 2026-06-03 (\`d2c9766\`). Submodule pin reconciled.
+- [x] **P1** — CLI core. Pre-flowtron historical task — no flowtron tasknote.
+- [x] **P3-1** — OCR robustness fixes. Pre-flowtron tasknote: archive/P3-1.md.
+`;
+    const { tasks, unparsed } = parsePlanWithDiagnostics(md);
+    expect(tasks).toEqual([]);
+    expect(unparsed).toEqual([]);
+  });
+
+  it('still flags a pending (unchecked) legacy-shaped line as unparsed', () => {
+    const md = `## Low
+
+- [ ] **P9** — future legacy-style line, not yet done
+`;
+    const { tasks, unparsed } = parsePlanWithDiagnostics(md);
+    expect(tasks).toEqual([]);
+    expect(unparsed).toEqual([
+      { line: 3, text: '- [ ] **P9** — future legacy-style line, not yet done' },
+    ]);
+  });
+
+  it('still flags a completed case-typo of a real ID as unparsed (not treated as legacy)', () => {
+    const md = `## Completed
+
+- [x] **fe-065** — lowercase ID is a typo, not a legacy record
+`;
+    const { tasks, unparsed } = parsePlanWithDiagnostics(md);
+    expect(tasks).toEqual([]);
+    expect(unparsed).toEqual([
+      { line: 3, text: '- [x] **fe-065** — lowercase ID is a typo, not a legacy record' },
+    ]);
+  });
+
+  it('still flags a completed legacy-shaped line carrying a [model] segment as unparsed', () => {
+    const md = `## Completed
+
+- [x] **P1** [medium] — a model segment means this isn't the bare legacy shape
+`;
+    const { tasks, unparsed } = parsePlanWithDiagnostics(md);
+    expect(tasks).toEqual([]);
+    expect(unparsed).toEqual([
+      { line: 3, text: '- [x] **P1** [medium] — a model segment means this isn\'t the bare legacy shape' },
+    ]);
+  });
 });
 
 describe('groupTasks', () => {

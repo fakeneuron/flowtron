@@ -13,12 +13,15 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
+- [ ] **FE-068** [light]🔧 | project-switcher-tab-overflow — Multi-project switcher's tab bar overflows/gets visually cut off once enough project tabs are open; needs wrap or an alternate layout (dropdown/scroll) at high tab counts.
+
 ## Low
 
 ## Future Opportunities
 
 ## Completed
 
+- [x] **FE-067** [medium]🧠 | viz-legacy-line-parse-tolerance — Completed 2026-07-03.
 - [x] **CORE-332** [sonnet] | release v5.8.0 — Completed 2026-07-03.
 - [x] **FE-065** [light]🔧 | viz-dedup-orphan-cleanup — Completed 2026-07-02.
 - [x] **FE-066** [medium]🧠 | viz-plan-grammar-glyph-tolerance — Completed 2026-07-02.
