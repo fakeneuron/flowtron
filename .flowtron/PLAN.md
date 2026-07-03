@@ -13,7 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-
 ## Low
 
 ## Future Opportunities
