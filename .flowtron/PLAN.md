@@ -13,12 +13,15 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
+- [ ] **CORE-334** [medium] | epic-audit-emit-dotN — Migrate `/ft-epic-discovery` + `/ft-close-epic` to emit/validate the literal `.N` audit child (retire the numeric audit-number-bump logic); keep legacy numeric audit IDs valid. Follow-up to [[CORE-333]].
+
 ## Low
 
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-335** [light] | plan-template-example-diagnostics — Completed 2026-07-03.
 - [x] **CORE-333** [light]🔧 | dotN-grammar-suffix — Completed 2026-07-03.
 - [x] **FE-068** [light]🔧 | project-switcher-tab-overflow — Completed 2026-07-03.
 - [x] **FE-067** [medium]🧠 | viz-legacy-line-parse-tolerance — Completed 2026-07-03.
