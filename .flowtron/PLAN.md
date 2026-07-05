@@ -11,11 +11,21 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
+- [ ] **CORE-EPIC-342** [light]🔧 | sidequest-release-and-projection-refresh — Discovery supplied by audit-repo 2026-07-05. Surfaced by audit-repo 2026-07-05 (Theme: Cross-agent projection lag).
+  - [x] **CORE-342.2** [light]🔧 | release-v5.10.0 — Completed 2026-07-05.
+  - [x] **CORE-342.3** [light]🔧 | procedure-sop-stamp — Completed 2026-07-05.
+  - [ ] **CORE-342.4** [light]🔧 | audit
+
 ## Medium
 
 ## Low
 
 ## Future Opportunities
+
+- [ ] **FE-EPIC-069** [medium]🧠 | viz-sidequest-surface — Discovery supplied by audit-repo 2026-07-05. Surfaced by audit-repo 2026-07-05 (Theme: Sidequest viz parity).
+  - [ ] **FE-069.2** [medium]🧠 | sidequest-discovery — Glob `.flowtron/sidequest/*.md`; expose stub metadata in dev API.
+  - [ ] **FE-069.3** [light]🔧 | sidequest-ui-badge — PLAN-row badge/filter distinguishing sidequest-parked tasks.
+  - [ ] **FE-069.4** [light]🔧 | audit
 
 ## Completed
 

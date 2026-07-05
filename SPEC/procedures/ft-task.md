@@ -1,7 +1,7 @@
 ---
 procedure: ft-task
 source: claude/skills/ft-task/SKILL.md
-last-verified: v5.1.0 · 2026-06-02
+last-verified: v5.10.0 · 2026-07-05
 ---
 
 # Procedure SOP — `ft-task`
