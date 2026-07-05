@@ -60,7 +60,7 @@ The `checkout` step is what pins the project to a specific flowtron version. Wit
 
 ### 1.2 Wire the tasknote skills + worktree pair + /ft-update via symlinks
 
-The submodule ships 24 slash commands; this step wires eleven — the eight tasknote family (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`, `/ft-goal-task`), two thin worktree utilities (`/ft-worktree-start` + `/ft-worktree-end`), plus the `/ft-update` submodule-bump utility. Each tasknote family's purpose lives in its own SKILL.md frontmatter — short version: 4-phase runner; starter filer; micro one-shot; in-chat follow-up; epic open; epic close; hypothesis-first debug runner; converge-until-verified goal-loop runner. The worktree pair are thin procedural utilities (see their SKILL.md frontmatter + `docs/WORKTREES.md`); `/ft-update` is the adopter-side version-bump counterpart to `/ft-release` (see the skill table above).
+The submodule ships 25 slash commands; this step wires twelve — the nine tasknote family (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-sidequest`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`, `/ft-goal-task`), two thin worktree utilities (`/ft-worktree-start` + `/ft-worktree-end`), plus the `/ft-update` submodule-bump utility. Each tasknote family's purpose lives in its own SKILL.md frontmatter — short version: 4-phase runner; starter filer; micro one-shot; sidequest parker; in-chat follow-up; epic open; epic close; hypothesis-first debug runner; converge-until-verified goal-loop runner. The worktree pair are thin procedural utilities (see their SKILL.md frontmatter + `docs/WORKTREES.md`); `/ft-update` is the adopter-side version-bump counterpart to `/ft-release` (see the skill table above).
 
 **Install:** open `.flowtron/core/claude/AGENTS-snippet.md` §"One-time symlink wiring" and run the commands from the project root — that file is the single source of truth for the wiring (and also holds the §1.3 `AGENTS.md` paste-block). The relative paths in the snippet survive `git clone` and pin to the submodule's current SHA, so symlinks never need touching on a version bump.
 
@@ -212,13 +212,13 @@ Tasknote shape and lifecycles: see SPEC §"Tasknote frontmatter" + §"Tasknote b
 ```sh
 git add .gitmodules .flowtron/core .flowtron/PLAN.md .flowtron/tasknote/ \
         .claude/commands/ft-task.md .claude/commands/ft-starter-task.md .claude/commands/ft-micro-task.md \
-        .claude/commands/ft-file-followup.md .claude/commands/ft-epic-discovery.md .claude/commands/ft-close-epic.md \
+        .claude/commands/ft-sidequest.md .claude/commands/ft-file-followup.md .claude/commands/ft-epic-discovery.md .claude/commands/ft-close-epic.md \
         .claude/commands/ft-debug.md \
         .claude/commands/ft-worktree-start.md .claude/commands/ft-worktree-end.md \
         .claude/commands/ft-update.md \
         .claude/commands/ft-goal-task.md \
         .claude/skills/ft-task .claude/skills/ft-starter-task .claude/skills/ft-micro-task \
-        .claude/skills/ft-file-followup .claude/skills/ft-epic-discovery .claude/skills/ft-close-epic \
+        .claude/skills/ft-sidequest .claude/skills/ft-file-followup .claude/skills/ft-epic-discovery .claude/skills/ft-close-epic \
         .claude/skills/ft-debug \
         .claude/skills/ft-worktree-start .claude/skills/ft-worktree-end \
         .claude/skills/ft-update \
@@ -231,7 +231,7 @@ If your project already has other files under `.claude/` (settings, other skills
 
 ### 1.7 Verify
 
-In a fresh session with your coding agent (Claude Code, Cursor, Grok Build, Codex CLI, etc.; or the platform's equivalent slash/prompt command), invoke `/ft-task`. The command should appear in the menu (alongside `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`, `/ft-goal-task`, `/ft-worktree-start`, `/ft-worktree-end`, and `/ft-update`) with its description. Running `/ft-task <SOME-ID>` against a real entry in your `.flowtron/PLAN.md` should scaffold a tasknote and begin Phase 1 Discovery.
+In a fresh session with your coding agent (Claude Code, Cursor, Grok Build, Codex CLI, etc.; or the platform's equivalent slash/prompt command), invoke `/ft-task`. The command should appear in the menu (alongside `/ft-starter-task`, `/ft-micro-task`, `/ft-sidequest`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`, `/ft-goal-task`, `/ft-worktree-start`, `/ft-worktree-end`, and `/ft-update`) with its description. Running `/ft-task <SOME-ID>` against a real entry in your `.flowtron/PLAN.md` should scaffold a tasknote and begin Phase 1 Discovery.
 
 If any command doesn't appear, the symlinks are likely wrong — check that each `readlink .claude/commands/<name>.md` and `readlink .claude/skills/<name>` resolves under the submodule.
 
@@ -382,7 +382,7 @@ After §3.2–§3.7 land and `/ft-task` shows in the slash menu, sweep for resid
   - In code comments / docstrings: low-risk; leave or update at touch time.
   - In archived/legacy content: leave untouched (write-once policy applies — don't retroactively rewrite history).
 - **CI / pre-commit hook check.** `grep -rn "<retired-helper-script-name>" .git/hooks/ .github/ docker/ scripts/` (project root) — confirm nothing depends on retired scripts. Resolve before next CI run.
-- **`/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`, `/ft-goal-task`, `/ft-worktree-start`, `/ft-worktree-end` smoke.** Invoke each in a fresh session with your coding agent (Claude Code, Cursor, Grok Build, Codex CLI, etc.; or platform equivalent) — confirm the tasknote family + worktree pair (nine total) appear in the slash/prompt menu alongside `/ft-task` (v1.0+ additions; symlinks added in §1.2; worktree pair added in CORE-215.5; `/ft-goal-task` added in CORE-EPIC-330).
+- **`/ft-starter-task`, `/ft-micro-task`, `/ft-sidequest`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`, `/ft-goal-task`, `/ft-worktree-start`, `/ft-worktree-end` smoke.** Invoke each in a fresh session with your coding agent (Claude Code, Cursor, Grok Build, Codex CLI, etc.; or platform equivalent) — confirm the tasknote family + worktree pair (ten total) appear in the slash/prompt menu alongside `/ft-task` (v1.0+ additions; symlinks added in §1.2; worktree pair added in CORE-215.5; `/ft-goal-task` added in CORE-EPIC-330; `/ft-sidequest` added with the sidequest parker).
 - **Context-surface audit.** If you've installed `/ft-audit-context` globally (see §1.0), run it now — migrations frequently carry over context bloat from the legacy era (stale `CLAUDE.md` workflow tutorials, project-local skills that now shadow `ft-*` namespace, AGENTS.md content redundant with the freshly-pasted block). Soft prose; ticket-filing is opt-in.
 - **Final pin verification.** `git -C .flowtron/core describe --tags` shows the pinned version recorded at the start (e.g., `v5.9.1`). A mismatch means the submodule drifted off the pin during migration.
 - **Cleanup commit.** Bundle the decisions above into a single follow-up commit (`chore: <ID> post-migration cleanup`) OR fold into the §3.9 closure commit if scope is small.

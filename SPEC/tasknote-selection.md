@@ -4,7 +4,7 @@ paths: []
 
 # Tasknote selection
 
-> Lazy-loaded SPEC module. Loaded by the filing/runner skills (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-debug`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release`, `/ft-worktree-{start,end}`) when they need the use/skip thresholds, filing-discipline word budget, or `## Completed` archive convention. See `SPEC.md` for the always-loaded core spec.
+> Lazy-loaded SPEC module. Loaded by the filing/runner skills (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-sidequest`, `/ft-debug`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release`, `/ft-worktree-{start,end}`) when they need the use/skip thresholds, filing-discipline word budget, or `## Completed` archive convention. See `SPEC.md` for the always-loaded core spec.
 
 ## When to use a tasknote (and when not to)
 
@@ -36,6 +36,22 @@ paths: []
 - The task is straightforward enough that the long description suffices
 - No design decisions or file survey work has been done yet
 - The next available `/ft-task <ID>` slot is the natural next move (file, then start; no sitting time)
+
+**Park a sidequest (`/ft-sidequest [flags] [ID] [idea]`) when:**
+
+- An idea or **quick fix** surfaces mid-session (while coding a feature, auditing a file, etc.) and you do not want to lose it, but you are **not** switching context now
+- The note fits in ≤80 words and a ≤30w PLAN one-liner — enough to reopen in the next chat, not enough for starter sections or a review gate
+- You want the lightest **persistent** filing motion: tiny stub at `.flowtron/sidequest/<ID>.md` + one PLAN line at the right priority, then straight back to the interrupted work
+
+**Priority flags** (skip the question): `--low` → `## Low` (`pickup: next-chat`); `--med` / `--medium` → `## Medium`; `--fut` / `--future` → `## Future Opportunities`; `--high` → `## High`. **No flag** → one short question (`Low · Medium · Future?`) before any disk write; the AI may parenthesize its best read but does not auto-file.
+
+A `/ft-sidequest` filing skips review gates and downstream-impact reconciliation. With a flag (or after you answer), the reply is ≤70 words (park confirmation + priority + resume anchor) and **must** continue the main session inline.
+
+**Skip the sidequest (use `/ft-file-followup` or `/ft-starter-task`) when:**
+
+- You want a review gate, downstream reconciliation, or a conversational rationale paragraph at filing time → `/ft-file-followup`
+- The idea needs a file survey, open questions, or design decisions preserved beyond a stub → `/ft-starter-task`
+- You're ready to execute now → `/ft-micro-task` or `/ft-task`
 
 **File a follow-up (`/ft-file-followup <ID>`) when:**
 

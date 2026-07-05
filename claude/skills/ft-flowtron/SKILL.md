@@ -44,6 +44,7 @@ A lightweight, project-agnostic tasknote system for solo AI-assisted coding. Kee
 | `/ft-task` | Drive a full 4-phase tasknote (Discovery → Execution → Testing & Linting → Closure). Primary workflow for normal-size tasks. |
 | `/ft-micro-task` | Single-section lightweight tasknote for tasks above the skip threshold but too small for full ceremony (~30 min or under). |
 | `/ft-starter-task` | File a rich-context starter tasknote discovered mid-flow — writes the artifact and PLAN entry, does not start it. |
+| `/ft-sidequest` | Park an idea or quick fix mid-session — tiny stub + PLAN line; `--low`/`--med`/`--fut` flags or one short priority question, then resume inline. Lightest persistent filing. |
 | `/ft-file-followup` | File a follow-up task from inside an active tasknote — one PLAN line + context paragraph only, no tasknote artifact. |
 | `/ft-epic-discovery` | Scaffold and drive a new epic: files parent + `.1` Discovery + audit placeholder, then drives Discovery inline. |
 | `/ft-close-epic` | Close an epic by scaffolding and driving its audit subtask, then flips the parent entry to Completed. |
@@ -76,7 +77,7 @@ A lightweight, project-agnostic tasknote system for solo AI-assisted coding. Kee
 - `docs/PLATFORMS.md` — multi-platform wiring pattern: two-layer model (agent-neutral contract / per-platform wiring) and the symmetric plug-in shape for future platforms (Codex CLI / grok / Cursor)
 - `CONTRIBUTING.md` — solo-maintenance model; issue and PR guidance
 - `SECURITY.md` — threat model (prompt injection, submodule supply-chain trust, viz dev-server scope) and vulnerability reporting
-- `templates/` — tasknote templates (full, micro, starter)
+- `templates/` — tasknote templates (full, micro, starter, sidequest)
 
 ---
 

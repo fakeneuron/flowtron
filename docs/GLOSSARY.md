@@ -4,7 +4,7 @@
 
 Adopted from the GSD-Pi `CONTEXT.md` glossary pattern (the "mega-doc" slice that survived the one-task-per-window filter during CORE-EPIC-194 Discovery). See [CORE-194.1](../.flowtron/tasknote/archive/core/CORE-194.1.md) for the extraction rationale and term-cohort decisions.
 
-Alphabetized. ~56 entries. Maintained via epic children and audits.
+Alphabetized. ~57 entries. Maintained via epic children and audits.
 
 ---
 
@@ -55,6 +55,8 @@ Alphabetized. ~56 entries. Maintained via epic children and audits.
 **Extension-first** — Outward-facing principle (VISION-only, not in SPEC Core principles): prefer extending an existing pattern (sibling skill, doc convention, tasknote shape) over inventing a parallel one. Promoted from the Phase 2 "Pattern survey" contract step. See docs/VISION.md and SPEC §"🛠️ Phase 2: Execution".
 
 **follow-up** — A lightweight mid-flow task filed via `/ft-file-followup`; produces a one-line PLAN.md entry plus a short context paragraph delivered conversationally. Below the normal tasknote threshold.
+
+**sidequest** — The lightest persistent mid-flow park, filed via `/ft-sidequest`; writes a tiny stub at `.flowtron/sidequest/<ID>.md` plus one PLAN line. Priority via flags (`--low`, `--med`, `--fut`) or one short question when omitted. Replies with priority + resume anchor, then continues the main session inline. Promote via `/ft-micro-task`, `/ft-task`, or `/ft-starter-task`.
 
 **`/ft-update`** — The adopter-side command that bumps a project's pinned flowtron submodule to the latest released tag: shows current→target + changelog, moves the pin, re-wires newly shipped symlinks, runs a smoke check. Consumer-side counterpart to `/ft-release`. Adopter-only (bails in flowtron-self); takes no arguments. See docs/MIGRATION.md.
 
