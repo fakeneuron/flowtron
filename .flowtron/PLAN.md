@@ -11,11 +11,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-EPIC-342** [light]🔧 | sidequest-release-and-projection-refresh — Discovery supplied by audit-repo 2026-07-05. Surfaced by audit-repo 2026-07-05 (Theme: Cross-agent projection lag).
-  - [x] **CORE-342.2** [light]🔧 | release-v5.10.0 — Completed 2026-07-05.
-  - [x] **CORE-342.3** [light]🔧 | procedure-sop-stamp — Completed 2026-07-05.
-  - [ ] **CORE-342.4** [light]🔧 | audit
-
 ## Medium
 
 ## Low
@@ -29,6 +24,10 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-342** [light]🔧 | sidequest-release-and-projection-refresh — Completed 2026-07-05.
+  - [x] **CORE-342.2** [light]🔧 | release-v5.10.0 — Completed 2026-07-05.
+  - [x] **CORE-342.3** [light]🔧 | procedure-sop-stamp — Completed 2026-07-05.
+  - [x] **CORE-342.4** [light]🔧 | audit — Completed 2026-07-05.
 - [x] **CORE-341** [sonnet] | release v5.9.1 — Completed 2026-07-03.
 - [x] **CORE-340** [opus] | plan-exhausted-terminal-state — Completed 2026-07-03.
 - [x] **CORE-339** [opus] | release v5.9.0 — Completed 2026-07-03.
