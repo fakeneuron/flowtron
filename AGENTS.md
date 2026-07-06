@@ -71,7 +71,8 @@ The visualizer dev server is pinned to port `5120` with `strictPort`.
 
 ## Platform Notes
 
-Claude Code has shipped wiring under `claude/`. Codex CLI and Grok also have
-per-agent pointer wrappers under `codex/` and `grok/` that route procedures to
-`SPEC/procedures/`. Other agents consume the contract conversationally through
-this file and `SPEC.md`.
+Claude Code has shipped wiring under `claude/`. Codex CLI has first-class
+skill wrappers under `codex/` for the full `ft-*` inventory; `ft-task` routes
+through `SPEC/procedures/`. Grok currently has a per-agent pointer wrapper under
+`grok/` that routes to `SPEC/procedures/`. Other agents consume the contract
+conversationally through this file and `SPEC.md`.

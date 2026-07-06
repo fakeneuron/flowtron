@@ -219,6 +219,16 @@ grep -c "^ln -s" claude/AGENTS-snippet.md
 
 That count must equal the number of `.claude/` paths in `docs/MIGRATION.md` §1.6's staging block, the number of `.claude/` paths in `claude/skills/ft-new-project/SKILL.md` Step 7's staging block, and the number of `readlink` lines in its Step 8 (whose prose count word must also match). A mismatch means a skill was added to the snippet without fanning out to the consumers (the CORE-329.2 drift class) — fix inline as Critical/High before cutting the release.
 
+**Standing Claude/Codex skill parity check.** Independently of the subroutine findings, compare the exported skill inventories:
+
+```sh
+find claude/skills -mindepth 1 -maxdepth 1 -type d -exec test -f "{}/SKILL.md" \; -print | sed 's#^claude/skills/##' | sort
+find codex/skills -mindepth 1 -maxdepth 1 -type d -exec test -f "{}/SKILL.md" \; -print | sed 's#^codex/skills/##' | sort
+grep -c "^ln -s ../../.flowtron/core/codex/skills/" codex/AGENTS-snippet.md
+```
+
+The first two inventories must match exactly by slug, and the Codex snippet count must equal the inventory count. This is parity of exported Flowtron skill names and routing coverage, not byte-identical skill bodies; Codex wrappers may route to `SPEC/procedures/` or to the canonical Claude skill body to avoid duplicated maintenance. A mismatch means a Flowtron skill shipped on one platform surface without the other — fix inline as Critical/High before cutting the release.
+
 ### 7.2 — Auto-draft annotated tag message
 
 Use CORE-048's structure as the template:

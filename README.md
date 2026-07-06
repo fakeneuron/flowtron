@@ -191,7 +191,8 @@ runtime lives in the runner; the contract lives in flowtron.
 - `SPEC.md` — workflow contract (authoritative)
 - `SPEC/` — lazy SPEC modules (epic, starter, blocked, model, versioning, gates, tasknote-selection, loop) plus `procedures/` (pasteable skill procedures); loaded on demand by skills
 - `templates/` — canonical tasknote, `PLAN.md`, and audit-overlay fork templates
-- `claude/` — Claude Code skills + slash commands (adopter-facing snippet + self-hosted skills like `/ft-task`, `/ft-release`); future non-Claude-Code platform wirings (e.g., `codex/`, `grok/`, `cursor/`) plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md)
+- `claude/` — Claude Code skills + slash commands (adopter-facing snippet + self-hosted skills like `/ft-task`, `/ft-release`)
+- `codex/` — Codex skill wrappers for the full `ft-*` inventory plus Codex-specific wiring notes; future platform wirings (e.g., `grok/`, `cursor/`) plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md)
 - `docs/` — philosophy, vision, glossary, migration, conventions, agent-neutrality, platforms, agent-compat, dogfood, and worktrees docs
 - `.flowtron/` — flowtron's own roadmap and tasknotes (self-hosted)
 - `viz/` — Vite/React Kanban visualizer
