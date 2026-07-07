@@ -415,11 +415,11 @@ To bump:
    ```
 3. Commit. The parent repo's submodule pointer (the SHA recorded for `.flowtron/core`) changes; `.gitmodules` itself only changes if the URL or branch field changes.
 
-The symlinks in `.claude/` don't need to be touched — they always track whatever the submodule currently points at.
+Existing symlinks in `.claude/` and `.agents/skills/` don't need to be touched — they always track whatever the submodule currently points at.
 
 A bump is itself a project-side task (e.g., `CORE-XXX: Bump flowtron to vX.Y.Z`), with a tasknote and the usual 4-phase flow. Don't bump in passing.
 
-For sweeping **non-breaking** releases across the whole workspace at once, flowtron's checkout ships `tools/update-adopters.mjs` (dry-run by default; see `SPEC.md` §"What flowtron does NOT provide" for the carve-out). It skips any repo whose release range carries real migration steps — those still go through the per-project flow above (or `/ft-update`).
+For sweeping **non-breaking** releases across the whole workspace at once, flowtron's checkout ships `tools/update-adopters.mjs` (dry-run by default; see `SPEC.md` §"What flowtron does NOT provide" for the carve-out). It skips any repo whose release range carries real migration steps and flags ranges that shipped new Claude or Codex skill symlinks — those still go through the per-project flow above (or `/ft-update`).
 
 ### Upgrading an existing adopter from v4.x (`_project/` → `.flowtron/`)
 

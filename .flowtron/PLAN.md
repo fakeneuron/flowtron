@@ -19,6 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-345** [medium] | codex-adopter-update-wiring — Completed 2026-07-07.
 - [x] **CORE-344** [heavy]🧠 | codex-wiring-parity — Completed 2026-07-06.
 - [x] **CORE-343** [sonnet] | release v5.10.1 — Completed 2026-07-05.
 - [x] **CORE-EPIC-342** [light]🔧 | sidequest-release-and-projection-refresh — Completed 2026-07-05.

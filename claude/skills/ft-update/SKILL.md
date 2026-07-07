@@ -1,6 +1,6 @@
 ---
 name: ft-update
-description: Bump an adopter project's pinned flowtron submodule to the latest released tag — show current→target version + tag changelog, fetch + checkout the tag, record the new pin, re-wire per-project symlinks for any newly shipped tasknote-family skills, and run a lightweight smoke check. Adopter-only (bails in flowtron-self); thin procedural skill, no tasknote.
+description: Bump an adopter project's pinned flowtron submodule to the latest released tag — show current→target version + tag changelog, fetch + checkout the tag, record the new pin, re-wire per-project Claude/Codex symlinks for newly shipped skills, and run a lightweight smoke check. Adopter-only (bails in flowtron-self); thin procedural skill, no tasknote.
 ---
 
 # update — flowtron submodule bump (adopter-side)
@@ -78,14 +78,14 @@ git add <FT>
 
 ## Step 4 — Re-wire per-project symlinks for newly shipped skills
 
-Existing relative symlinks (`.claude/{skills,commands}/ft-*`) need no change — they track whatever the submodule points at. Only a **newly shipped** per-project skill needs a fresh symlink (it has none yet).
+Existing relative symlinks need no change — they track whatever the submodule points at. Only a **newly shipped** per-project skill needs a fresh symlink (it has none yet).
 
-The authoritative per-project wiring list is the `ln -s … .claude/skills/<name>` / `.claude/commands/<name>.md` block in the freshly-bumped `<FT>/claude/AGENTS-snippet.md` §"One-time symlink wiring". For each skill named there:
+Handle each platform wiring surface independently:
 
-- If `.claude/skills/<name>` (and `.claude/commands/<name>.md`) is missing, create it with the same relative form the snippet uses (substituting the resolved `<FT>`, e.g. `ln -s ../../<FT>/claude/skills/<name> .claude/skills/<name>`).
-- If it already exists, skip.
+- **Claude Code:** authoritative list is the `ln -s … .claude/skills/<name>` / `.claude/commands/<name>.md` block in the freshly-bumped `<FT>/claude/AGENTS-snippet.md` §"One-time symlink wiring". If `.claude/` exists, create any missing symlinks with the same relative form the snippet uses (substituting the resolved `<FT>`, e.g. `ln -s ../../<FT>/claude/skills/<name> .claude/skills/<name>`). If `.claude/` is absent, do not create a new Claude wiring surface during an update; report "Claude wiring not present; skipped `.claude/` symlink check."
+- **Codex:** authoritative list is the `ln -s … .agents/skills/<name>` block in the freshly-bumped `<FT>/codex/AGENTS-snippet.md` §"One-time skill wiring". If `.agents/skills/` exists, create any missing symlinks with the same relative form the snippet uses (substituting the resolved `<FT>`, e.g. `ln -s ../../<FT>/codex/skills/<name> .agents/skills/<name>`). If `.agents/skills/` is absent, do not create a new Codex wiring surface during an update; report "Codex wiring not present; skipped `.agents/skills/` symlink check."
 
-Report the added symlinks (or "no new skills to wire"). Note: globally-installed skills (`/ft-flowtron`, `/ft-stats`, `/ft-quality`, `/ft-new-project`, `/ft-audit-context`, `/ft-update`) are picked up by the machine-level `claude/skills/*` glob, not per-project — do not symlink them here.
+Report the added symlinks per platform (or "no new skills to wire"). Note: Claude's global/by-reference skills (`/ft-flowtron`, `/ft-stats`, `/ft-quality`, `/ft-new-project`, `/ft-audit-context`, `/ft-update`) are picked up by the machine-level `claude/skills/*` glob, not per-project — do not add extra Claude symlinks beyond the snippet list. Codex repo-scoped wiring intentionally lists the full `codex/skills/*` wrapper inventory under `.agents/skills/`.
 
 ## Step 4.5 — Audit-fork drift scan
 
@@ -123,14 +123,19 @@ Drift warnings are **informational only** — the bump proceeds regardless. Afte
 
 ## Step 5 — Smoke check, stage, hand off
 
-- **Symlink resolve check:** `readlink .claude/commands/ft-task.md` resolves into `<FT>/claude/commands/ft-task.md`; spot-check one skill dir symlink too. A broken link means the submodule isn't checked out — surface it.
+- **Symlink resolve check:** for each wiring surface present, verify one canonical link resolves into `<FT>`:
+  - Claude: `readlink .claude/commands/ft-task.md` resolves into `<FT>/claude/commands/ft-task.md`; spot-check one skill dir symlink too.
+  - Codex: `readlink .agents/skills/ft-task` resolves into `<FT>/codex/skills/ft-task`.
+  A broken link means the submodule isn't checked out or the symlink target is stale — surface it.
 - **Version confirm:** re-read `<FT>/SPEC.md:3` — now `<target>`.
 - Optionally **offer** (do not auto-run) a full `/ft-task <ID>` against a real PLAN.md entry as a deeper smoke test.
 
-Stage the bump explicitly (do **not** `git add .` / `-A` — there may be unrelated work):
+Stage the bump explicitly, plus whichever wiring dirs exist and were checked (do **not** `git add .` / `-A` — there may be unrelated work):
 
 ```sh
-git add <FT> .claude/
+git add <FT>
+git add .claude/         # if present
+git add .agents/skills/  # if present
 ```
 
 Surface a recap (current→target, tag headline, any new symlinks wired, any Migration action items) and a proposed commit message:

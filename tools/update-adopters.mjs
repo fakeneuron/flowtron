@@ -21,9 +21,9 @@
 //
 // Not covered (by design — run /ft-update in the repo for these): per-project
 // symlink wiring for newly shipped skills, and audit-fork drift scans. When a
-// bumped range ships a new *per-project-wired* skill (one named in the
-// AGENTS-snippet ln -s block — not a global/by-reference skill like
-// ft-audit-repo), the report flags the repo.
+// bumped range ships a new *per-project-wired* skill (one named in a platform
+// AGENTS-snippet ln -s block), the report flags the repo and names the affected
+// wiring surface.
 
 import { execFile } from 'node:child_process';
 import { readdir, readFile, stat } from 'node:fs/promises';
@@ -41,6 +41,31 @@ const execFileAsync = promisify(execFile);
 
 const FLOWTRON_REPO = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const SUBMODULE_PATH = join('.flowtron', 'core');
+const WIRING_SURFACES = [
+  {
+    label: 'Claude .claude/',
+    snippetPath: 'claude/AGENTS-snippet.md',
+    diffPaths: ['claude/skills/', 'claude/commands/'],
+    snippetKeyPattern: /\.flowtron\/core\/(claude\/(?:skills|commands)\/\S+)/,
+    addedKeyForFile(path) {
+      const skill = path.match(/^(claude\/skills\/[^/]+)/);
+      if (skill) return skill[1];
+      const command = path.match(/^(claude\/commands\/[^/]+\.md)$/);
+      if (command) return command[1];
+      return null;
+    },
+  },
+  {
+    label: 'Codex .agents/skills',
+    snippetPath: 'codex/AGENTS-snippet.md',
+    diffPaths: ['codex/skills/'],
+    snippetKeyPattern: /\.flowtron\/core\/(codex\/skills\/\S+)/,
+    addedKeyForFile(path) {
+      const skill = path.match(/^(codex\/skills\/[^/]+)/);
+      return skill ? skill[1] : null;
+    },
+  },
+];
 
 async function git(cwd, ...args) {
   const { stdout } = await execFileAsync('git', args, { cwd });
@@ -161,38 +186,26 @@ async function migrationBearingTags(tags) {
   return bearing;
 }
 
-// The per-project symlink-wiring set: basenames named in the freshly-bumped
-// AGENTS-snippet §"One-time symlink wiring" ln -s block — the authority
-// /ft-update Step 4 consults. Globally-installed / by-reference skills
-// (ft-audit-repo, ft-flowtron, …) are deliberately absent here, so they never
-// need a per-project link. Read at toTag to match what the adopter bumps to.
-async function wiredSkillKeys(toTag) {
+// The per-platform symlink-wiring set: paths named in the freshly-bumped
+// AGENTS-snippet ln -s block — the authority /ft-update Step 4 consults.
+// Read at toTag to match what the adopter bumps to.
+async function wiredSkillKeys(toTag, surface) {
   let snippet;
   try {
-    snippet = await git(FLOWTRON_REPO, 'show', `${toTag}:claude/AGENTS-snippet.md`);
+    snippet = await git(FLOWTRON_REPO, 'show', `${toTag}:${surface.snippetPath}`);
   } catch {
     return null; // snippet unreadable at toTag — caller falls back to coarse check
   }
   const keys = new Set();
   for (const line of snippet.split('\n')) {
     if (!line.includes('ln -s')) continue;
-    const m = line.match(/\.flowtron\/core\/(claude\/(?:skills|commands)\/\S+)/);
-    if (m) keys.add(m[1]); // e.g. claude/skills/ft-task or claude/commands/ft-task.md
+    const m = line.match(surface.snippetKeyPattern);
+    if (m) keys.add(m[1]); // e.g. claude/skills/ft-task or codex/skills/ft-task
   }
   return keys;
 }
 
-// Reduce an added repo path to its wiring key: a skill dir collapses to
-// claude/skills/<name>; a command file stays claude/commands/<name>.md.
-function wiringKeyForAddedFile(path) {
-  const skill = path.match(/^(claude\/skills\/[^/]+)/);
-  if (skill) return skill[1];
-  const command = path.match(/^(claude\/commands\/[^/]+\.md)$/);
-  if (command) return command[1];
-  return null;
-}
-
-async function newSkillsShipped(fromTag, toTag) {
+async function addedFilesForSurface(fromTag, toTag, surface) {
   const stdout = await git(
     FLOWTRON_REPO,
     'diff',
@@ -200,21 +213,41 @@ async function newSkillsShipped(fromTag, toTag) {
     '--diff-filter=A',
     `${fromTag}..${toTag}`,
     '--',
-    'claude/skills/',
-    'claude/commands/',
+    ...surface.diffPaths,
   );
-  const added = stdout.split('\n').filter((l) => l.trim().length > 0);
-  if (added.length === 0) return false;
+  return stdout.split('\n').filter((l) => l.trim().length > 0);
+}
 
-  const wired = await wiredSkillKeys(toTag);
-  // Snippet unreadable → fall back to the coarse "any add" signal (better to
-  // over-advise a no-op /ft-update than to silently miss a genuine new link).
-  if (wired === null) return true;
+async function newSkillWiringSurfaces(fromTag, toTag) {
+  const affected = [];
+  for (const surface of WIRING_SURFACES) {
+    const added = await addedFilesForSurface(fromTag, toTag, surface);
+    if (added.length === 0) continue;
 
-  return added.some((path) => {
-    const key = wiringKeyForAddedFile(path);
-    return key !== null && wired.has(key);
-  });
+    const wired = await wiredSkillKeys(toTag, surface);
+    // Snippet unreadable → fall back to the coarse platform signal (better to
+    // over-advise a no-op /ft-update than to silently miss a genuine new link).
+    if (wired === null) {
+      affected.push(surface.label);
+      continue;
+    }
+
+    const needsWiring = added.some((path) => {
+      const key = surface.addedKeyForFile(path);
+      return key !== null && wired.has(key);
+    });
+    if (needsWiring) affected.push(surface.label);
+  }
+  return affected;
+}
+
+function formatSkillsNote(surfaces) {
+  if (surfaces.length === 0) return '';
+  const surfaceText =
+    surfaces.length === 1
+      ? surfaces[0]
+      : `${surfaces.slice(0, -1).join(', ')} and ${surfaces.at(-1)}`;
+  return ` (new skills shipped in range — run /ft-update to wire ${surfaceText} symlinks)`;
 }
 
 async function discoverAdopters(root) {
@@ -269,9 +302,7 @@ async function checkAdopter(adopter, latest) {
     return { status: 'skip', current, reason: 'dirty .flowtron/core worktree' };
   }
 
-  const skillsNote = (await newSkillsShipped(current, latest))
-    ? ' (new skills shipped in range — wire symlinks via /ft-update)'
-    : '';
+  const skillsNote = formatSkillsNote(await newSkillWiringSurfaces(current, latest));
   return { status: 'bump', current, skillsNote };
 }
 
