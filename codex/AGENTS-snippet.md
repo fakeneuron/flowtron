@@ -13,31 +13,19 @@ Do not maintain a second copy here.
 
 Codex discovers repo-scoped skills from `.agents/skills` in the current
 directory walk. From an adopting project's repository root, after adding the
-flowtron submodule at `.flowtron/core`, wire the full Flowtron skill surface:
+flowtron submodule at `.flowtron/core`, wire the adopter-facing Flowtron skill
+subset (tasknote execution family, worktree pair, and `ft-update`):
 
 ```sh
 mkdir -p .agents/skills
-ln -s ../../.flowtron/core/codex/skills/ft-audit .agents/skills/ft-audit
-ln -s ../../.flowtron/core/codex/skills/ft-audit-backend .agents/skills/ft-audit-backend
-ln -s ../../.flowtron/core/codex/skills/ft-audit-context .agents/skills/ft-audit-context
-ln -s ../../.flowtron/core/codex/skills/ft-audit-docs .agents/skills/ft-audit-docs
-ln -s ../../.flowtron/core/codex/skills/ft-audit-frontend .agents/skills/ft-audit-frontend
-ln -s ../../.flowtron/core/codex/skills/ft-audit-performance .agents/skills/ft-audit-performance
-ln -s ../../.flowtron/core/codex/skills/ft-audit-repo .agents/skills/ft-audit-repo
-ln -s ../../.flowtron/core/codex/skills/ft-audit-security .agents/skills/ft-audit-security
 ln -s ../../.flowtron/core/codex/skills/ft-close-epic .agents/skills/ft-close-epic
 ln -s ../../.flowtron/core/codex/skills/ft-debug .agents/skills/ft-debug
 ln -s ../../.flowtron/core/codex/skills/ft-epic-discovery .agents/skills/ft-epic-discovery
 ln -s ../../.flowtron/core/codex/skills/ft-file-followup .agents/skills/ft-file-followup
-ln -s ../../.flowtron/core/codex/skills/ft-flowtron .agents/skills/ft-flowtron
 ln -s ../../.flowtron/core/codex/skills/ft-goal-task .agents/skills/ft-goal-task
 ln -s ../../.flowtron/core/codex/skills/ft-micro-task .agents/skills/ft-micro-task
-ln -s ../../.flowtron/core/codex/skills/ft-new-project .agents/skills/ft-new-project
-ln -s ../../.flowtron/core/codex/skills/ft-quality .agents/skills/ft-quality
-ln -s ../../.flowtron/core/codex/skills/ft-release .agents/skills/ft-release
 ln -s ../../.flowtron/core/codex/skills/ft-sidequest .agents/skills/ft-sidequest
 ln -s ../../.flowtron/core/codex/skills/ft-starter-task .agents/skills/ft-starter-task
-ln -s ../../.flowtron/core/codex/skills/ft-stats .agents/skills/ft-stats
 ln -s ../../.flowtron/core/codex/skills/ft-task .agents/skills/ft-task
 ln -s ../../.flowtron/core/codex/skills/ft-update .agents/skills/ft-update
 ln -s ../../.flowtron/core/codex/skills/ft-worktree-end .agents/skills/ft-worktree-end
@@ -45,9 +33,12 @@ ln -s ../../.flowtron/core/codex/skills/ft-worktree-start .agents/skills/ft-work
 ```
 
 Use `/skills` in Codex or type `$ft-task` / `$ft-update` / another wired
-skill name to invoke a Flowtron skill. Codex's built-in CLI slash commands do
-not define arbitrary custom `/ft-*` commands; the stable exported surface is
-the `ft-*` skill name.
+skill name to invoke a Flowtron skill. Global utility skills such as
+`ft-new-project`, `ft-flowtron`, `ft-stats`, `ft-quality`, `ft-audit-context`,
+and `ft-audit-repo` may be installed in the user skill directory when desired;
+`ft-release` remains flowtron-self-only and is not part of the adopter snippet.
+Codex's built-in CLI slash commands do not define arbitrary custom `/ft-*`
+commands; the stable exported surface is the `ft-*` skill name.
 
 ## Pinning notes
 
