@@ -63,7 +63,9 @@ ln -s ../../.flowtron/core/claude/skills/ft-goal-task         .claude/skills/ft-
 
 The relative paths are intentional — they survive `git clone` and pin to whichever flowtron commit the submodule is checked out at. Commit the symlinks (`git add .claude/`).
 
-To verify Claude Code wiring: invoke `/ft-task` in a fresh Claude Code session. The command should appear in the menu (alongside the other flowtron skills) with the description from `commands/ft-task.md`. For Codex, use the sibling `codex/AGENTS-snippet.md` wiring and invoke the skill through `/skills` or `$ft-task`.
+This snippet wires the adopter-installed subset: tasknote family, worktree pair, and `/ft-update`. Global utilities live in the user's agent home when desired; `/ft-release` is flowtron-self-only.
+
+To verify Claude Code wiring: invoke `/ft-task` in a fresh Claude Code session. The command should appear in the menu (alongside the other wired adopter-subset skills) with the description from `commands/ft-task.md`. For Codex, use the sibling `codex/AGENTS-snippet.md` wiring and invoke the skill through `/skills` or `$ft-task`.
 
 ## Bumping the pinned flowtron version
 

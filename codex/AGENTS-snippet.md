@@ -37,6 +37,8 @@ skill name to invoke a Flowtron skill. Global utility skills such as
 `ft-new-project`, `ft-flowtron`, `ft-stats`, `ft-quality`, `ft-audit-context`,
 and `ft-audit-repo` may be installed in the user skill directory when desired;
 `ft-release` remains flowtron-self-only and is not part of the adopter snippet.
+The canonical category table lives in
+`.flowtron/core/docs/PLATFORMS.md` §"Installed-surface policy".
 Codex's built-in CLI slash commands do not define arbitrary custom `/ft-*`
 commands; the stable exported surface is the `ft-*` skill name.
 
@@ -45,10 +47,11 @@ commands; the stable exported surface is the `ft-*` skill name.
 These relative symlinks point through the project's pinned
 `.flowtron/core` submodule, so the wired skill bodies move only when the
 project deliberately bumps flowtron. Existing symlinks do not need rewiring on
-a normal version bump; newly shipped skills may need new symlinks.
+a normal version bump; newly shipped adopter-subset skills may need new symlinks.
 
 For flowtron maintainers who want hot-reload behavior while editing this
-checkout, symlink the bundle into the user skill directory instead:
+checkout, symlink the upstream skill inventory into the user skill directory
+instead:
 
 ```sh
 mkdir -p ~/.agents/skills

@@ -58,13 +58,15 @@ git -C .flowtron/core checkout vX.Y.Z   # replace with the version you want to p
 
 The `checkout` step is what pins the project to a specific flowtron version. Without it, the submodule tracks `main` and updates would be undeliberate.
 
-### 1.2 Wire the tasknote skills + worktree pair + /ft-update via symlinks
+### 1.2 Wire the adopter skill subset via symlinks
 
-The submodule ships 25 Claude slash commands and 25 Codex skill wrappers. For Claude Code, this step wires twelve — the nine tasknote family (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-sidequest`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`, `/ft-goal-task`), two thin worktree utilities (`/ft-worktree-start` + `/ft-worktree-end`), plus the `/ft-update` submodule-bump utility. Each tasknote family's purpose lives in its own SKILL.md frontmatter — short version: 4-phase runner; starter filer; micro one-shot; sidequest parker; in-chat follow-up; epic open; epic close; hypothesis-first debug runner; converge-until-verified goal-loop runner. The worktree pair are thin procedural utilities (see their SKILL.md frontmatter + `docs/WORKTREES.md`); `/ft-update` is the adopter-side version-bump counterpart to `/ft-release` (see the skill table above).
+The submodule ships the full Claude slash-command inventory and matching Codex skill-wrapper inventory. Adopter projects wire only the policy subset: the nine tasknote family (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-sidequest`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`, `/ft-goal-task`), two thin worktree utilities (`/ft-worktree-start` + `/ft-worktree-end`), plus the `/ft-update` submodule-bump utility. Each tasknote family's purpose lives in its own SKILL.md frontmatter — short version: 4-phase runner; starter filer; micro one-shot; sidequest parker; in-chat follow-up; epic open; epic close; hypothesis-first debug runner; converge-until-verified goal-loop runner. The worktree pair are thin procedural utilities (see their SKILL.md frontmatter + `docs/WORKTREES.md`); `/ft-update` is the adopter-side version-bump counterpart to `/ft-release` (see the skill table above).
+
+Global utilities (`/ft-new-project`, `/ft-flowtron`, `/ft-stats`, `/ft-quality`, `/ft-audit-context`, `/ft-audit-repo`) live in the user's agent home when desired, not in every adopter repo. `/ft-release` is flowtron-self-only. The canonical category table lives in [`docs/PLATFORMS.md`](PLATFORMS.md) §"Installed-surface policy".
 
 **Claude Code install:** open `.flowtron/core/claude/AGENTS-snippet.md` §"One-time symlink wiring" and run the commands from the project root — that file is the single source of truth for Claude wiring (and also holds the §1.3 `AGENTS.md` paste-block). The relative paths in the snippet survive `git clone` and pin to the submodule's current SHA, so symlinks never need touching on a version bump.
 
-**Codex install:** open `.flowtron/core/codex/AGENTS-snippet.md` §"One-time skill wiring" and run the commands from the project root. Codex discovers these repo-scoped skills under `.agents/skills/`; invoke them through `/skills` or `$ft-task` / `$ft-update`.
+**Codex install:** open `.flowtron/core/codex/AGENTS-snippet.md` §"One-time skill wiring" and run the commands from the project root. Codex discovers these repo-scoped subset skills under `.agents/skills/`; invoke them through `/skills` or `$ft-task` / `$ft-update`.
 
 ### 1.2.1 Optional: fork the `/ft-audit` family per stack
 
@@ -236,7 +238,7 @@ If your project already has other files under `.claude/` (settings, other skills
 In a fresh session with your coding agent, verify the platform's wired entry point:
 
 - **Claude Code:** invoke `/ft-task`. The command should appear in the menu (alongside `/ft-starter-task`, `/ft-micro-task`, `/ft-sidequest`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`, `/ft-goal-task`, `/ft-worktree-start`, `/ft-worktree-end`, and `/ft-update`) with its description.
-- **Codex:** use `/skills` or mention `$ft-task`. The skill should appear alongside the other wired `ft-*` skills from `.agents/skills/`.
+- **Codex:** use `/skills` or mention `$ft-task`. The skill should appear alongside the other wired adopter-subset `ft-*` skills from `.agents/skills/`.
 - **Contract-only agents:** ask the assistant to start the task conversationally; it should read `AGENTS.md` and `SPEC.md` and follow the tasknote contract.
 
 Running the task runner against a real entry in your `.flowtron/PLAN.md` should scaffold a tasknote and begin Phase 1 Discovery.
