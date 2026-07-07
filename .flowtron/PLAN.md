@@ -19,6 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-347** [light] | doc-audit-platform-drift — Refreshed small docs wording for current Codex/Grok wiring: `SECURITY.md` threat model, `README.md` `/ft-new-project` summary, and `PLATFORMS` / `AGENT-NEUTRALITY` two-layer wording. Surfaced by audit-docs 2026-07-07 (Findings #1-#3, Medium/Low), fixed inline.
 - [x] **CORE-346** [heavy] | release v5.11.0 — Completed 2026-07-07.
 - [x] **CORE-345** [medium] | codex-adopter-update-wiring — Completed 2026-07-07.
 - [x] **CORE-344** [heavy]🧠 | codex-wiring-parity — Completed 2026-07-06.

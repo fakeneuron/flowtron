@@ -54,9 +54,9 @@ Run `/ft-new-project` in your project's root directory (git repo required;
 heuristic) to add the flowtron submodule, wire the nine tasknote skills
 (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-sidequest`, `/ft-file-followup`,
 `/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`, `/ft-goal-task`) plus the two worktree
-utilities (`/ft-worktree-start`, `/ft-worktree-end`), and drop in the `.flowtron/`
-skeleton in one pass. See [docs/MIGRATION.md](docs/MIGRATION.md) §1.0 for the
-one-time global install.
+utilities (`/ft-worktree-start`, `/ft-worktree-end`) and `/ft-update`, and drop in
+the `.flowtron/` skeleton in one pass. See [docs/MIGRATION.md](docs/MIGRATION.md)
+§1.0 for the one-time global install.
 
 ## Visualizer
 

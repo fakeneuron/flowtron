@@ -16,7 +16,7 @@ auditing the wiring layer's structure, or writing a follow-up to
 | Layer | What it is | Where it lives | Agent-neutrality |
 |---|---|---|---|
 | **Contract** | The workflow spec any AI can follow conversationally — relevance gate, 4-phase tasknote lifecycle, post-closure protocol, versioning rules. | `SPEC.md`, `SPEC/` (including `SPEC/procedures/` for agent-neutral execution SOPs), `templates/`, `docs/`, `README.md`, `SECURITY.md`, and the `AGENTS.md` paste-block. | Mandatory. Any AI reading `AGENTS.md` should be able to execute the contract without platform-specific machinery. |
-| **Wiring** | The platform-specific execution surface — slash commands, skills, structured-ask primitives, operator flags, install/symlink mechanics. | `claude/` today; future sibling top-level dirs per the plug-in pattern below. | Per-platform. Constraints documented in [`AGENT-NEUTRALITY.md`](AGENT-NEUTRALITY.md). |
+| **Wiring** | The platform-specific execution surface — slash commands, skills, structured-ask primitives, operator flags, install/symlink mechanics. | `claude/` and `codex/` today; `grok/` carries the `ft-task` procedure pointer; future full bundles use sibling top-level dirs per the plug-in pattern below. | Per-platform. Constraints documented in [`AGENT-NEUTRALITY.md`](AGENT-NEUTRALITY.md). |
 
 The split is non-negotiable: leaking platform-specific assumptions into
 the contract layer fails [[CORE-154.1]] Constitution principle 1 (the

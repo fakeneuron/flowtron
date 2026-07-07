@@ -5,17 +5,18 @@
 Flowtron's **contract layer** (`SPEC.md`, `SPEC/`, `templates/`, `docs/`,
 `README.md`, `SECURITY.md`) is agent-neutral — any AI assistant reading
 `AGENTS.md` should be able to follow the workflow contract
-conversationally. Flowtron's **wiring layer** (`claude/`) is
-Claude-Code-specific by design: slash commands, structured-ask
-primitives, the `--fast` skill argument, and adopter symlinks under
-`.claude/` are execution-surface details of the Claude Code runtime.
+conversationally. Flowtron's **wiring layer** (`claude/`, `codex/`, and
+procedure pointers such as `grok/`) is platform-specific by design:
+slash commands, skills, structured-ask primitives, operator flags, and
+adopter symlinks under paths such as `.claude/` or `.agents/skills/`
+are execution-surface details of the target runtime.
 
 Adding agent-specific execution surfaces is fine; leaking agent-specific
 assumptions into the contract layer is not.
 
-Future platform wiring (Codex CLI, grok, Cursor, …) plugs in
-symmetrically — see [`docs/PLATFORMS.md`](PLATFORMS.md) ([[CORE-154.4]])
-for the plug-in pattern.
+Future full platform wiring (Grok Build, Cursor, …) plugs in symmetrically —
+see [`docs/PLATFORMS.md`](PLATFORMS.md) ([[CORE-154.4]]) for the plug-in
+pattern.
 
 ## Intentional Claude-specific surfaces
 
