@@ -11,7 +11,20 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
+- [ ] **CORE-EPIC-349** [heavy]🧠 | platform-wiring-policy — Settle and enforce adopter-vs-global wiring policy across Claude/Codex snippets, self-only skills, and release/update guardrails. Discovery supplied by audit-repo 2026-07-07. Surfaced by audit-repo 2026-07-07 (Theme: Wiring surface policy drift)
+  - [ ] **CORE-349.2** [heavy]🧠 | wiring-surface-policy — Define the canonical installed-surface policy for Claude and Codex: shipped inventory, adopter-installed subset, global-only utilities, and flowtron-self-only skills.
+  - [ ] **CORE-349.3** [light]🔧 | codex-release-exposure — Remove or reclassify Codex adopter wiring for `ft-release` so adopter projects do not install a flowtron-self-only skill.
+  - [ ] **CORE-349.4** [medium]🧠 | wiring-doc-sync — Align README, PLATFORMS, AGENT-COMPAT, MIGRATION, Claude/Codex snippets, and ft-update wording to the policy.
+  - [ ] **CORE-349.5** [medium]🧠 | release-wiring-guardrails — Extend release standing checks to verify self-only/global-only skills are absent/present in the right install snippets, not just slug-count parity.
+  - [ ] **CORE-349.N** [heavy]🧠 | audit — Audit platform wiring policy implementation.
+
 ## Medium
+
+- [ ] **CORE-348** [medium] | suggested-id-filers — Let `ft-file-followup` and `ft-starter-task` suggest the next available task ID instead of requiring one up front.
+- [ ] **TEST-EPIC-001** [medium]🧠 | gate-output-signal — Clean up passing viz test output so expected-error and Node 26 warnings no longer obscure real failures. Discovery supplied by audit-repo 2026-07-07. Surfaced by audit-repo 2026-07-07 (Theme: Verification signal quality)
+  - [ ] **TEST-001.2** [light]🔧 | error-boundary-test-noise — Suppress expected React/jsdom stack output from ErrorBoundary tests while preserving assertions.
+  - [ ] **TEST-001.3** [light]🔧 | localstorage-warning-noise — Remove or explicitly suppress the known Node 26 localStorage experimental warning in Vitest setup.
+  - [ ] **TEST-001.N** [medium]🧠 | audit — Audit viz gate output cleanliness across test/typecheck/lint.
 
 ## Low
 
