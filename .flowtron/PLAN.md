@@ -12,7 +12,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## High
 
 - [ ] **CORE-EPIC-349** [heavy]🧠 | platform-wiring-policy — Settle and enforce adopter-vs-global wiring policy across Claude/Codex snippets, self-only skills, and release/update guardrails. Discovery supplied by audit-repo 2026-07-07. Surfaced by audit-repo 2026-07-07 (Theme: Wiring surface policy drift)
-  - [ ] **CORE-349.2** [heavy]🧠 | wiring-surface-policy — Define the canonical installed-surface policy for Claude and Codex: shipped inventory, adopter-installed subset, global-only utilities, and flowtron-self-only skills.
   - [ ] **CORE-349.3** [light]🔧 | codex-release-exposure — Remove or reclassify Codex adopter wiring for `ft-release` so adopter projects do not install a flowtron-self-only skill.
   - [ ] **CORE-349.4** [medium]🧠 | wiring-doc-sync — Align README, PLATFORMS, AGENT-COMPAT, MIGRATION, Claude/Codex snippets, and ft-update wording to the policy.
   - [ ] **CORE-349.5** [medium]🧠 | release-wiring-guardrails — Extend release standing checks to verify self-only/global-only skills are absent/present in the right install snippets, not just slug-count parity.
@@ -32,6 +31,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-349.2** [heavy]🧠 | wiring-surface-policy — Completed 2026-07-07.
 - [x] **CORE-347** [light] | doc-audit-platform-drift — Refreshed small docs wording for current Codex/Grok wiring: `SECURITY.md` threat model, `README.md` `/ft-new-project` summary, and `PLATFORMS` / `AGENT-NEUTRALITY` two-layer wording. Surfaced by audit-docs 2026-07-07 (Findings #1-#3, Medium/Low), fixed inline.
 - [x] **CORE-346** [heavy] | release v5.11.0 — Completed 2026-07-07.
 - [x] **CORE-345** [medium] | codex-adopter-update-wiring — Completed 2026-07-07.
