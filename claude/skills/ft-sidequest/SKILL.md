@@ -64,7 +64,7 @@ From conversation context + remaining `args` text after flag/ID stripped:
 3. Append under `## <Priority>`:
 
    ```text
-   - [ ] **<TASK-ID>** [light] | <shortname> — <long description>. Sidequest at `.flowtron/sidequest/<TASK-ID>.md`.
+   - [ ] **<TASK-ID>** [light] | <shortname> — <long description>
    ```
 
    Replace `(none)` placeholder if present; else append to section bottom.
@@ -88,5 +88,6 @@ Then **continue the interrupted work inline** in the same response (pick up code
 ## Notes
 
 - **Routing:** see SPEC/tasknote-selection.md. `/ft-sidequest` = park idea or quick fix, ≤80w, resume inline. Needs review gate or reconcile scan → `/ft-file-followup`. Rich context → `/ft-starter-task`. Execute now → `/ft-micro-task` or `/ft-task`.
+- **PLAN row shape:** standard task-line grammar only — no sidequest suffix, badge hook, or viz-specific label. The board shows a normal open task; rich context lives in the stub (`## Idea`, `## Resume anchor`). Viz parity is intentionally out of scope for this ephemeral parking state.
 - **Promotion:** fresh session → read stub; `/ft-micro-task <ID>` (quick fix), `/ft-task <ID>` (normal), or `/ft-starter-task <ID>` (expand context). Delete `.flowtron/sidequest/<ID>.md` after promotion.
 - **Context-dependent:** draws from the current conversation — run in-session, not after `/clear`.
