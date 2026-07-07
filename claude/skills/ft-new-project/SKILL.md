@@ -115,12 +115,13 @@ Reference: `docs/MIGRATION.md` §1.6.
 
 ## Step 8 — Verify and hand off
 
-Confirm all twenty-two symlinks resolve correctly:
+Confirm all twenty-four symlinks resolve correctly:
 
 ```sh
 readlink .claude/commands/ft-task.md            # → ../../.flowtron/core/claude/commands/ft-task.md
 readlink .claude/commands/ft-starter-task.md    # → ../../.flowtron/core/claude/commands/ft-starter-task.md
 readlink .claude/commands/ft-micro-task.md      # → ../../.flowtron/core/claude/commands/ft-micro-task.md
+readlink .claude/commands/ft-sidequest.md       # → ../../.flowtron/core/claude/commands/ft-sidequest.md
 readlink .claude/commands/ft-file-followup.md   # → ../../.flowtron/core/claude/commands/ft-file-followup.md
 readlink .claude/commands/ft-epic-discovery.md  # → ../../.flowtron/core/claude/commands/ft-epic-discovery.md
 readlink .claude/commands/ft-close-epic.md      # → ../../.flowtron/core/claude/commands/ft-close-epic.md
@@ -128,6 +129,7 @@ readlink .claude/commands/ft-debug.md           # → ../../.flowtron/core/claud
 readlink .claude/skills/ft-task                 # → ../../.flowtron/core/claude/skills/ft-task
 readlink .claude/skills/ft-starter-task         # → ../../.flowtron/core/claude/skills/ft-starter-task
 readlink .claude/skills/ft-micro-task           # → ../../.flowtron/core/claude/skills/ft-micro-task
+readlink .claude/skills/ft-sidequest            # → ../../.flowtron/core/claude/skills/ft-sidequest
 readlink .claude/skills/ft-file-followup        # → ../../.flowtron/core/claude/skills/ft-file-followup
 readlink .claude/skills/ft-epic-discovery       # → ../../.flowtron/core/claude/skills/ft-epic-discovery
 readlink .claude/skills/ft-close-epic           # → ../../.flowtron/core/claude/skills/ft-close-epic

@@ -33,9 +33,9 @@ for its Grok Build notes. The agent-neutral workflow contract itself
 
 | Agent | Consume mode | Context entry-point | Skill / command primitive | Last verified |
 |---|---|---|---|---|
-| **Claude Code** | Wiring + contract | `AGENTS.md` (+ optional `CLAUDE.md`) | `.claude/skills/` + `.claude/commands/` slash commands — full `ft-*` bundle shipped | `v5.10.0 · 2026-07-05 (dogfooded; skipped @ v5.10.1)` |
-| **Grok Build** | Contract only | `AGENTS.md` | `.grok/skills/` markdown skills, auto-wired as `/<name>` — no full flowtron bundle; `grok/procedures/ft-task.md` pointer wrapper shipped | `v5.10.0 · 2026-07-05 (dogfooded; skipped @ v5.10.1)` |
-| **Codex CLI** | Wiring + contract | `AGENTS.md` | `.agents/skills/` repo-scoped skills — full `ft-*` bundle shipped under `codex/skills/`; `codex/procedures/ft-task.md` pointer wrapper retained | `v5.9.0 · 2026-07-03 (dogfooded; skipped @ v5.10.1)` |
+| **Claude Code** | Wiring + contract | `AGENTS.md` (+ optional `CLAUDE.md`) | `.claude/skills/` + `.claude/commands/` slash commands — full `ft-*` bundle shipped | `v5.10.0 · 2026-07-05 (dogfooded; skipped @ v5.11.0)` |
+| **Grok Build** | Contract only | `AGENTS.md` | `.grok/skills/` markdown skills, auto-wired as `/<name>` — no full flowtron bundle; `grok/procedures/ft-task.md` pointer wrapper shipped | `v5.10.0 · 2026-07-05 (dogfooded; skipped @ v5.11.0)` |
+| **Codex CLI** | Wiring + contract | `AGENTS.md` | `.agents/skills/` repo-scoped skills — full `ft-*` bundle shipped under `codex/skills/`; `codex/procedures/ft-task.md` pointer wrapper retained | `v5.11.0 · 2026-07-07 (dogfooded)` |
 | **Cursor** | Contract only | `AGENTS.md` | Native primitive exists; no flowtron bundle | unverified |
 | **Gemini CLI** | Contract only | `AGENTS.md` | Native primitive exists; no flowtron bundle | unverified |
 | **Aider** | Contract only | `AGENTS.md` | Native primitive exists; no flowtron bundle | unverified |
@@ -54,11 +54,11 @@ for its Grok Build notes. The agent-neutral workflow contract itself
   Aider's `CONVENTIONS.md`); those are orthogonal to flowtron, which
   targets `AGENTS.md` so one paste-block serves all agents.
 - **Skill / command primitive** — whether the agent exposes a slash-command
-  or skill mechanism, and whether flowtron ships a bundle for it. Only
-  Claude Code has a bundle today; Grok Build's primitive is researched (see
-  PLATFORMS.md §"Grok Build adoption notes") but no `grok/` bundle exists.
-  The remaining five rows note only that a native primitive exists — their
-  per-agent detail is filed with the non-Claude trigger reference.
+  or skill mechanism, and whether flowtron ships a bundle for it. Claude Code
+  and Codex CLI have bundles today; Grok Build's primitive is researched (see
+  PLATFORMS.md §"Grok Build adoption notes") but no full `grok/` bundle exists.
+  The remaining contract-only rows note only that a native primitive exists —
+  their per-agent detail is filed with the non-Claude trigger reference.
 - **Last verified** — when this row was last checked against reality. Format:
   `vX.Y.Z · YYYY-MM[-DD] (context-tag)` where the context tag is one of:
   - `dogfooded` — verified by running a flowtron session under this agent at
