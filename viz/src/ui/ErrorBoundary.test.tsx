@@ -12,6 +12,21 @@ const Boom: React.FC = () => {
   throw new Error('render exploded');
 };
 
+const renderWithSuppressedBoundaryNoise = (ui: React.ReactElement) => {
+  const swallowExpectedJsdomError = (event: ErrorEvent) => {
+    if (event.error instanceof Error && event.error.message === 'render exploded') {
+      event.preventDefault();
+    }
+  };
+
+  window.addEventListener('error', swallowExpectedJsdomError);
+  try {
+    render(ui);
+  } finally {
+    window.removeEventListener('error', swallowExpectedJsdomError);
+  }
+};
+
 describe('ErrorBoundary', () => {
   beforeEach(() => {
     // React logs caught errors to console.error; silence it for clean output.
@@ -28,7 +43,7 @@ describe('ErrorBoundary', () => {
   });
 
   it('renders the default fallback when a child throws', () => {
-    render(
+    renderWithSuppressedBoundaryNoise(
       <ErrorBoundary>
         <Boom />
       </ErrorBoundary>,
@@ -37,7 +52,7 @@ describe('ErrorBoundary', () => {
   });
 
   it('renders a custom fallback when provided', () => {
-    render(
+    renderWithSuppressedBoundaryNoise(
       <ErrorBoundary fallback={<span>custom fallback</span>}>
         <Boom />
       </ErrorBoundary>,

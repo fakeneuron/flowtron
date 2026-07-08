@@ -16,7 +16,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Medium
 
 - [ ] **TEST-EPIC-001** [medium]🧠 | gate-output-signal — Clean up passing viz test output so expected-error and Node 26 warnings no longer obscure real failures. Discovery supplied by audit-repo 2026-07-07. Surfaced by audit-repo 2026-07-07 (Theme: Verification signal quality)
-  - [ ] **TEST-001.2** [light]🔧 | error-boundary-test-noise — Suppress expected React/jsdom stack output from ErrorBoundary tests while preserving assertions.
   - [ ] **TEST-001.3** [light]🔧 | localstorage-warning-noise — Remove or explicitly suppress the known Node 26 localStorage experimental warning in Vitest setup.
   - [ ] **TEST-001.N** [medium]🧠 | audit — Audit viz gate output cleanliness across test/typecheck/lint.
 
@@ -27,6 +26,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Completed
 
 - [x] **CORE-348** [medium] | suggested-id-filers — Completed 2026-07-08.
+- [x] **TEST-001.2** [light] | error-boundary-test-noise — Completed 2026-07-08.
 - [x] **CORE-350** [light] | archive-metadata-cleanup — Completed 2026-07-08.
 - [x] **CORE-EPIC-349** [heavy]🧠 | platform-wiring-policy — Completed 2026-07-08.
   - [x] **CORE-349.2** [heavy]🧠 | wiring-surface-policy — Completed 2026-07-07.
