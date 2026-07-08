@@ -11,8 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-EPIC-349** [heavy]🧠 | platform-wiring-policy — Settle and enforce adopter-vs-global wiring policy across Claude/Codex snippets, self-only skills, and release/update guardrails. Discovery supplied by audit-repo 2026-07-07. Surfaced by audit-repo 2026-07-07 (Theme: Wiring surface policy drift)
-  - [ ] **CORE-349.N** [heavy]🧠 | audit — Audit platform wiring policy implementation.
+(none)
 
 ## Medium
 
@@ -28,10 +27,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
-- [x] **CORE-349.5** [medium]🧠 | release-wiring-guardrails — Completed 2026-07-08.
-- [x] **CORE-349.4** [medium]🧠 | wiring-doc-sync — Completed 2026-07-07.
-- [x] **CORE-349.3** [light]🔧 | codex-release-exposure — Completed 2026-07-07.
-- [x] **CORE-349.2** [heavy]🧠 | wiring-surface-policy — Completed 2026-07-07.
+- [x] **CORE-EPIC-349** [heavy]🧠 | platform-wiring-policy — Completed 2026-07-08.
+  - [x] **CORE-349.2** [heavy]🧠 | wiring-surface-policy — Completed 2026-07-07.
+  - [x] **CORE-349.3** [light]🔧 | codex-release-exposure — Completed 2026-07-07.
+  - [x] **CORE-349.4** [medium]🧠 | wiring-doc-sync — Completed 2026-07-07.
+  - [x] **CORE-349.5** [medium]🧠 | release-wiring-guardrails — Completed 2026-07-08.
+  - [x] **CORE-349.N** [heavy]🧠 | audit — Completed 2026-07-08.
 - [x] **CORE-347** [light] | doc-audit-platform-drift — Refreshed small docs wording for current Codex/Grok wiring: `SECURITY.md` threat model, `README.md` `/ft-new-project` summary, and `PLATFORMS` / `AGENT-NEUTRALITY` two-layer wording. Surfaced by audit-docs 2026-07-07 (Findings #1-#3, Medium/Low), fixed inline.
 - [x] **CORE-346** [heavy] | release v5.11.0 — Completed 2026-07-07.
 - [x] **CORE-345** [medium] | codex-adopter-update-wiring — Completed 2026-07-07.
