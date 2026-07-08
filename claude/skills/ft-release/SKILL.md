@@ -211,23 +211,77 @@ For each returned finding:
 
 If `ft-audit-docs` reports zero findings, state that explicitly and move on to §7.2.
 
-**Standing symlink-wiring count check.** Independently of the subroutine findings, compare the canonical wiring block against its three consumers:
+**Standing Claude symlink-wiring count check.** Independently of the subroutine findings, compare the canonical Claude adopter-wiring block against its three consumers:
 
 ```sh
 grep -c "^ln -s" claude/AGENTS-snippet.md
 ```
 
-That count must equal the number of `.claude/` paths in `docs/MIGRATION.md` §1.6's staging block, the number of `.claude/` paths in `claude/skills/ft-new-project/SKILL.md` Step 7's staging block, and the number of `readlink` lines in its Step 8 (whose prose count word must also match). A mismatch means a skill was added to the snippet without fanning out to the consumers (the CORE-329.2 drift class) — fix inline as Critical/High before cutting the release.
+That count must equal the number of `.claude/` paths in `docs/MIGRATION.md` §1.6's staging block, the number of `.claude/` paths in `claude/skills/ft-new-project/SKILL.md` Step 7's staging block, and the number of `readlink` lines in its Step 8 (whose prose count word must also match). A mismatch means a Claude adopter symlink was added to the snippet without fanning out to the consumers (the CORE-329.2 drift class) — fix inline as Critical/High before cutting the release.
 
-**Standing Claude/Codex skill parity check.** Independently of the subroutine findings, compare the exported skill inventories:
+**Standing shipped-skill parity check.** Independently of the subroutine findings, compare the exported skill inventories:
 
 ```sh
 find claude/skills -mindepth 1 -maxdepth 1 -type d -exec test -f "{}/SKILL.md" \; -print | sed 's#^claude/skills/##' | sort
 find codex/skills -mindepth 1 -maxdepth 1 -type d -exec test -f "{}/SKILL.md" \; -print | sed 's#^codex/skills/##' | sort
-grep -c "^ln -s ../../.flowtron/core/codex/skills/" codex/AGENTS-snippet.md
 ```
 
-The first two inventories must match exactly by slug, and the Codex snippet count must equal the inventory count. This is parity of exported Flowtron skill names and routing coverage, not byte-identical skill bodies; Codex wrappers may route to `SPEC/procedures/` or to the canonical Claude skill body to avoid duplicated maintenance. A mismatch means a Flowtron skill shipped on one platform surface without the other — fix inline as Critical/High before cutting the release.
+The two shipped inventories must match exactly by slug. This is parity of exported Flowtron skill names and routing coverage, not byte-identical skill bodies; Codex wrappers may route to `SPEC/procedures/` or to the canonical Claude skill body to avoid duplicated maintenance. A mismatch means a Flowtron skill shipped on one platform surface without the other — fix inline as Critical/High before cutting the release.
+
+**Standing installed-surface policy check.** Independently of the subroutine findings, verify the repo-scoped adopter snippets install exactly the policy subset from `docs/PLATFORMS.md` §"Installed-surface policy", not the full shipped inventories.
+
+Expected adopter-installed skill slugs:
+
+```text
+ft-close-epic
+ft-debug
+ft-epic-discovery
+ft-file-followup
+ft-goal-task
+ft-micro-task
+ft-sidequest
+ft-starter-task
+ft-task
+ft-update
+ft-worktree-end
+ft-worktree-start
+```
+
+Forbidden repo-scoped upstream `ft-*` installs:
+
+```text
+ft-audit
+ft-audit-backend
+ft-audit-context
+ft-audit-docs
+ft-audit-frontend
+ft-audit-performance
+ft-audit-repo
+ft-audit-security
+ft-flowtron
+ft-new-project
+ft-quality
+ft-release
+ft-stats
+```
+
+Run the exact-set checks:
+
+```sh
+diff -u <(printf '%s\n' ft-close-epic ft-debug ft-epic-discovery ft-file-followup ft-goal-task ft-micro-task ft-sidequest ft-starter-task ft-task ft-update ft-worktree-end ft-worktree-start | sort) <(grep "^ln -s ../../.flowtron/core/claude/skills/" claude/AGENTS-snippet.md | sed -E 's#.*claude/skills/(ft-[^ ]+).*#\1#' | sort)
+diff -u <(printf '%s\n' ft-close-epic ft-debug ft-epic-discovery ft-file-followup ft-goal-task ft-micro-task ft-sidequest ft-starter-task ft-task ft-update ft-worktree-end ft-worktree-start | sort) <(grep "^ln -s ../../.flowtron/core/claude/commands/" claude/AGENTS-snippet.md | sed -E 's#.*claude/commands/(ft-[^ ]+)\.md.*#\1#' | sort)
+diff -u <(printf '%s\n' ft-close-epic ft-debug ft-epic-discovery ft-file-followup ft-goal-task ft-micro-task ft-sidequest ft-starter-task ft-task ft-update ft-worktree-end ft-worktree-start | sort) <(grep "^ln -s ../../.flowtron/core/codex/skills/" codex/AGENTS-snippet.md | sed -E 's#.*codex/skills/(ft-[^ ]+).*#\1#' | sort)
+```
+
+Then run the explicit forbidden-install checks:
+
+```sh
+grep "^ln -s ../../.flowtron/core/claude/skills/" claude/AGENTS-snippet.md | sed -E 's#.*claude/skills/(ft-[^ ]+).*#\1#' | grep -E '^(ft-audit|ft-audit-backend|ft-audit-context|ft-audit-docs|ft-audit-frontend|ft-audit-performance|ft-audit-repo|ft-audit-security|ft-flowtron|ft-new-project|ft-quality|ft-release|ft-stats)$'
+grep "^ln -s ../../.flowtron/core/claude/commands/" claude/AGENTS-snippet.md | sed -E 's#.*claude/commands/(ft-[^ ]+)\.md.*#\1#' | grep -E '^(ft-audit|ft-audit-backend|ft-audit-context|ft-audit-docs|ft-audit-frontend|ft-audit-performance|ft-audit-repo|ft-audit-security|ft-flowtron|ft-new-project|ft-quality|ft-release|ft-stats)$'
+grep "^ln -s ../../.flowtron/core/codex/skills/" codex/AGENTS-snippet.md | sed -E 's#.*codex/skills/(ft-[^ ]+).*#\1#' | grep -E '^(ft-audit|ft-audit-backend|ft-audit-context|ft-audit-docs|ft-audit-frontend|ft-audit-performance|ft-audit-repo|ft-audit-security|ft-flowtron|ft-new-project|ft-quality|ft-release|ft-stats)$'
+```
+
+The `diff` commands must produce no output and exit 0. The forbidden-install `grep` commands must produce no output and exit 1. Any missing adopter-subset skill or any installed forbidden slug means the snippets contradict the installed-surface policy — fix inline as Critical/High before cutting the release.
 
 ### 7.2 — Auto-draft annotated tag message
 
