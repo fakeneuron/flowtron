@@ -1,6 +1,6 @@
 ---
 title: wiring-surface-policy
-status: in-progress
+status: completed
 tags: []
 created: 2026-07-07
 due:
@@ -9,7 +9,7 @@ related-tasks: [CORE-EPIC-349]
 
 # CORE-349.2 | wiring-surface-policy
 
-[← PLAN.md](../PLAN.md) · 🟢 In progress · 🔗 [[CORE-EPIC-349]]
+[← PLAN.md](../PLAN.md) · ✅ Completed · 🔗 [[CORE-EPIC-349]]
 
 ## 🎯 Goal
 

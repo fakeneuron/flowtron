@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-350** [light] | archive-metadata-cleanup — Completed 2026-07-08.
 - [x] **CORE-EPIC-349** [heavy]🧠 | platform-wiring-policy — Completed 2026-07-08.
   - [x] **CORE-349.2** [heavy]🧠 | wiring-surface-policy — Completed 2026-07-07.
   - [x] **CORE-349.3** [light]🔧 | codex-release-exposure — Completed 2026-07-07.
