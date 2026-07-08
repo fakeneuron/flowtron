@@ -1,15 +1,23 @@
 ---
 name: ft-starter-task
-description: File a starter tasknote for a task discovered mid-flow with rich AI-captured context that isn't ready to start. Invoke with the task ID as args (e.g., args="CORE-028"). Writes .flowtron/tasknote/<ID>.md from templates/tasknote-starter-template.md, appends the PLAN.md entry, and hands off without committing. See SPEC/starter.md for when to file.
+description: File a starter tasknote for a task discovered mid-flow with rich AI-captured context that isn't ready to start. Invoke with an optional task ID as args (e.g., args="CORE-028"); when omitted, the skill suggests the next available ID for review. Writes .flowtron/tasknote/<ID>.md from templates/tasknote-starter-template.md, appends the PLAN.md entry, and hands off without committing. See SPEC/starter.md for when to file.
 ---
 
 # starter-task — flowtron starter filer
 
-You are filing a **starter tasknote** for the task ID provided in `args`. The full lifecycle contract lives in `<SPEC_DIR>/starter.md` (resolve `SPEC_DIR` via Step 0); Read it before drafting the body. This skill is the executable interpretation, not a replacement — treat the SPEC module as authoritative when this file is silent or in tension.
+You are filing a **starter tasknote** for the task ID provided in `args`, or for
+the suggested ID confirmed during input collection when `args` is omitted. The
+full lifecycle contract lives in `<SPEC_DIR>/starter.md` (resolve `SPEC_DIR` via
+Step 0); Read it before drafting the body. This skill is the executable
+interpretation, not a replacement — treat the SPEC module as authoritative when
+this file is silent or in tension.
 
 A starter tasknote captures rich AI-discovered context (rationale, suspected files, design decisions, open questions) at filing time, without bloating the PLAN.md long description. The starter sits at `status: starter` until `/ft-task <ID>` checkout promotes it into a full tasknote.
 
-If `args` is missing or doesn't match `<AREA>-<NUMBER>` (or `<AREA>-<NUMBER>.<SUB>` for epic subtasks), stop and ask the user for a valid task ID. Do not guess.
+If `args` is missing, suggest a task ID during input collection instead of
+requiring one up front. If `args` is present but doesn't match
+`<AREA>-<NUMBER>` (or `<AREA>-<NUMBER>.<SUB>` for epic subtasks), stop and ask
+the user for a valid task ID.
 
 This skill is **filing-only** and assumes the AI already has rich context from the current conversation — rationale, design decisions, a file survey, open questions. If the conversation hasn't surfaced that yet, do not invoke this skill: file a one-line PLAN.md entry directly instead (see SPEC/tasknote-selection.md §"When to use a tasknote (and when not to)" for the threshold).
 
@@ -26,7 +34,29 @@ Paths: SPEC=`<root>SPEC.md`, SPEC_DIR=`<root>SPEC/`, starter template=`<root>tem
 
 After resolving, Read `<SPEC_DIR>/starter.md` for the canonical starter lifecycle before drafting the body.
 
-## Step 1 — Pre-flight checks
+## Step 1 — Resolve or suggest the task ID
+
+If `args` is missing, propose a **Suggested ID** before collecting the rest of
+the fields:
+
+1. Choose the likely **Area** from conversation context (`CORE`, `FE`, `BE`,
+   `DB`, `DEPLOY`, `TEST`, or a project-specific prefix declared in
+   `.flowtron/tasknote/README.md`). If the area is genuinely ambiguous, ask one
+   short area question before suggesting an ID.
+2. Scan `.flowtron/PLAN.md`, `.flowtron/tasknote/`,
+   `.flowtron/tasknote/archive/`, and `.flowtron/sidequest/` for IDs with that
+   prefix.
+3. Suggest the lowest unused next numeric task ID for that prefix. Use the
+   next integer after the highest existing non-epic task number; skip any ID
+   already present in PLAN.md, active tasknotes, archived tasknotes, or sidequest
+   stubs. Do not allocate epic decimal children unless the user explicitly asked
+   to file an epic subtask.
+4. Carry the suggested ID into Step 2 as a user-reviewable field. The user can
+   accept it or provide a different valid ID before anything is written.
+
+If `args` is present, use it as the proposed task ID.
+
+## Step 1a — Pre-flight checks
 
 - Resolve the **Area** from the task ID prefix per SPEC §"Task ID convention". Unknown prefix → read `.flowtron/tasknote/README.md`; if still unresolved, stop and ask.
 - The task ID must NOT already exist in PLAN.md. If it does, stop and ask whether the user meant a different ID — `/ft-starter-task` files NEW tasks; converting an existing PLAN.md entry to a starter is a manual edit (write the file, flip nothing in PLAN.md).
@@ -37,6 +67,9 @@ After resolving, Read `<SPEC_DIR>/starter.md` for the canonical starter lifecycl
 
 Use AskUserQuestion to confirm the key fields. Pre-populate from conversation context where possible — the AI proposes; the user confirms or overrides.
 
+0. **Task ID** — use `args` when provided; otherwise use the Suggested ID from
+   Step 1. The user may override before filing. If the user changes the ID,
+   rerun Step 1a against the final ID before Step 3.
 1. **Title (shortname)** — concise; up to ~30 chars. Used as the YAML `title:` and the H1.
 2. **Priority** — `High | Medium | Low | Future Opportunities`. AI proposes its best read. For urgent rows, propose `High` with a `[!critical]` flag (see SPEC §"Task-line format").
 3. **Model** — see `SPEC/model.md` §"Model field" (and its "Practical guidance and agent-aware defaults" subsection) for examples and realistic defaults (mid-tier models like Grok/Sonnet often `[medium]`, or `[light]` for mechanical work); AI proposes a token (primary labels or specific name); goes on the PLAN.md task line, not in frontmatter.
@@ -99,4 +132,4 @@ Do **not** commit unprompted. The new starter file + PLAN.md flip are typically 
 
 - This skill is filing-only — no design decisions are made in the skill flow itself. All rich context comes from the prior conversation; the skill just records it.
 - **Routing:** see SPEC/tasknote-selection.md §"When to use a tasknote (and when not to)". `/ft-starter-task`'s niche: rich AI-captured context (file survey, open questions, design decisions) for a task not yet ready to start. One-liner suffices → write the PLAN.md line directly. Starting an existing entry → `/ft-task`. Bootstrapping a fresh repo → `/ft-new-project`.
-- **Proactive invocation on cross-session handoff:** when rich mid-conversation context (epic brief, design conclusion, multi-step plan) won't be consumed in this session — e.g., the user is about to `/clear` and start a fresh session to run `/ft-epic-discovery` or `/ft-task` against an ID not yet filed — **invoke `/ft-starter-task` now** rather than burying the brief in a parenthetical "(run `/ft-X` next and paste this above)" suggestion. The filing is cheap; the cost of regenerating a lost brief is much higher. See SPEC §"File a starter (`/ft-starter-task <ID>`) when:" for the trigger.
+- **Proactive invocation on cross-session handoff:** when rich mid-conversation context (epic brief, design conclusion, multi-step plan) won't be consumed in this session — e.g., the user is about to `/clear` and start a fresh session to run `/ft-epic-discovery` or `/ft-task` against an ID not yet filed — **invoke `/ft-starter-task` now** rather than burying the brief in a parenthetical "(run `/ft-X` next and paste this above)" suggestion. The filing is cheap; the cost of regenerating a lost brief is much higher. See SPEC §"File a starter (`/ft-starter-task [ID]`) when:" for the trigger.

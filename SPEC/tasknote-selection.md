@@ -22,13 +22,16 @@ paths: []
 - Documentation patches under ~10 lines
 - Trivial config edits with no logic impact
 
-**File a starter (`/ft-starter-task <ID>`) when:**
+**File a starter (`/ft-starter-task [ID]`) when:**
 
 - The PLAN.md long description would exceed **~50 words (target) or 70 words (hard cap)** — richer context belongs in the starter body, not on the line
 - A task is discovered mid-flow with rich context (rationale, design decisions, file survey, open questions) but isn't ready to start now
 - The captured context would be lost or would bloat the PLAN.md long description if recorded as inline prose
 - The right shape isn't fully obvious; the AI wants to preserve the survey and open questions for resolution at `/ft-task` checkout
 - Rich mid-conversation context (epic brief, design conclusion, multi-step plan) won't be consumed in this session — park it in a starter now to protect against `/clear` loss, rather than surfacing it as a parenthetical "run `/ft-X` next and paste this" suggestion
+
+If the ID is omitted, the skill suggests the next available task ID for review
+before writing the starter.
 
 **Skip the starter (just add a one-line PLAN.md entry) when:**
 
@@ -53,13 +56,15 @@ A `/ft-sidequest` filing skips review gates and downstream-impact reconciliation
 - The idea needs a file survey, open questions, or design decisions preserved beyond a stub → `/ft-starter-task`
 - You're ready to execute now → `/ft-micro-task` or `/ft-task`
 
-**File a follow-up (`/ft-file-followup <ID>`) when:**
+**File a follow-up (`/ft-file-followup [ID]`) when:**
 
 - A new task surfaces mid-flow (typically inside an active `/ft-task`) and the long description fits in ≤50 words, but the surrounding conversation context (why this came up, suspected files, recommended priority/model) is worth surfacing once at filing time without persisting it to disk
 - The follow-up is clear enough that it doesn't need a starter body — but you still want a paragraph of rationale visible in chat alongside the new PLAN.md line
 - You want the lightest filing motion in the cohort: one PLAN.md line written, a short paragraph delivered conversationally, zero edits to the active tasknote
 
 A `/ft-file-followup` filing produces **no tasknote file** — the rationale paragraph lives in chat only, and the active tasknote (if any) is not edited.
+If the ID is omitted, the skill suggests the next available task ID for review
+before writing the PLAN.md line.
 
 **Skip the follow-up (use `/ft-starter-task` or just inline a PLAN.md line) when:**
 
@@ -109,7 +114,7 @@ line stays scannable, and rich context routes into starter bodies:
 |---|---|---|
 | ≤50 words | Target — comfortably scannable | Keep the one-liner |
 | 51-70 words | Yellow flag | Trim if practical; otherwise consider promoting to a starter |
-| >70 words | Hard cap — exceeded | Move the rich context into a starter body via `/ft-starter-task <ID>`; PLAN.md line keeps a ≤50w summary |
+| >70 words | Hard cap — exceeded | Move the rich context into a starter body via `/ft-starter-task [ID]`; PLAN.md line keeps a ≤50w summary |
 
 The thresholds apply to **active** task lines (`High` / `Medium` /
 `Low` / `Future Opportunities`). Lines under `## Completed`

@@ -1,17 +1,25 @@
 ---
 name: ft-file-followup
-description: File a mid-flow follow-up task from inside an active tasknote. Invoke with the task ID as args (e.g., args="CORE-058"). Writes one PLAN.md line and delivers a short context paragraph conversationally only — no tasknote artifact. Lighter than `/ft-starter-task`. See SPEC/tasknote-selection.md §"When to use a tasknote" for the threshold.
+description: File a mid-flow follow-up task from inside an active tasknote. Invoke with an optional task ID as args (e.g., args="CORE-058"); when omitted, the skill suggests the next available ID for review. Writes one PLAN.md line and delivers a short context paragraph conversationally only — no tasknote artifact. Lighter than `/ft-starter-task`. See SPEC/tasknote-selection.md §"When to use a tasknote" for the threshold.
 ---
 
 # file-followup — flowtron lightweight follow-up filer
 
-You are filing a **follow-up task** for the task ID provided in `args`. The full filing thresholds live in `SPEC/tasknote-selection.md` §"When to use a tasknote (and when not to)" — this skill is the executable interpretation, not a replacement. Treat SPEC.md as authoritative when this file is silent or in tension.
+You are filing a **follow-up task** for the task ID provided in `args`, or for
+the suggested ID confirmed during input collection when `args` is omitted. The
+full filing thresholds live in `SPEC/tasknote-selection.md` §"When to use a
+tasknote (and when not to)" — this skill is the executable interpretation, not
+a replacement. Treat SPEC.md as authoritative when this file is silent or in
+tension.
 
 A `/ft-file-followup` filing produces **zero artifacts on disk beyond a single PLAN.md task line**. The "short context paragraph" — rationale + suspected scope + recommended priority/model — is delivered conversationally only, in the same response as the filing confirmation. There is no tasknote file. Active tasknotes (if `/ft-file-followup` runs mid-flow inside `/ft-task`) are **not** edited — no breadcrumb, no log entry. The active tasknote stays a record of what it was for, not a coordination ledger.
 
 This skill is **filing-only and lighter than `/ft-starter-task`**: use it when the description fits in ≤50 words and no rich context (file survey / open questions / design decisions) needs to persist. If the description would breach 70 words or rich context warrants preserving, escalate to `/ft-starter-task` instead — the SKILL surfaces this gate at Step 2.
 
-If `args` is missing or doesn't match `<AREA>-<NUMBER>` (or `<AREA>-<NUMBER>.<SUB>` for epic subtasks), stop and ask the user for a valid task ID. Do not guess.
+If `args` is missing, suggest a task ID during input collection instead of
+requiring one up front. If `args` is present but doesn't match
+`<AREA>-<NUMBER>` (or `<AREA>-<NUMBER>.<SUB>` for epic subtasks), stop and ask
+the user for a valid task ID.
 
 ## Step 0 — Resolve paths
 
@@ -22,7 +30,29 @@ Two layouts. Pick by which file exists:
 
 If neither matches, bail. PLAN=`.flowtron/PLAN.md`, tasknote dir=`.flowtron/tasknote/` either way.
 
-## Step 1 — Pre-flight checks
+## Step 1 — Resolve or suggest the task ID
+
+If `args` is missing, propose a **Suggested ID** before collecting the rest of
+the fields:
+
+1. Choose the likely **Area** from conversation context (`CORE`, `FE`, `BE`,
+   `DB`, `DEPLOY`, `TEST`, or a project-specific prefix declared in
+   `.flowtron/tasknote/README.md`). If the area is genuinely ambiguous, ask one
+   short area question before suggesting an ID.
+2. Scan `.flowtron/PLAN.md`, `.flowtron/tasknote/`,
+   `.flowtron/tasknote/archive/`, and `.flowtron/sidequest/` for IDs with that
+   prefix.
+3. Suggest the lowest unused next numeric task ID for that prefix. Use the
+   next integer after the highest existing non-epic task number; skip any ID
+   already present in PLAN.md, active tasknotes, archived tasknotes, or sidequest
+   stubs. Do not allocate epic decimal children unless the user explicitly asked
+   to file an epic subtask.
+4. Carry the suggested ID into Step 2 as a user-reviewable field. The user can
+   accept it or provide a different valid ID before anything is written.
+
+If `args` is present, use it as the proposed task ID.
+
+## Step 1a — Pre-flight checks
 
 - Resolve the **Area** from the task ID prefix per SPEC §"Task ID convention". Unknown prefix → read `.flowtron/tasknote/README.md`; if still unresolved, stop and ask.
 - The task ID must NOT already exist in PLAN.md. If it does, stop and ask whether the user meant a different ID — `/ft-file-followup` files NEW tasks; reusing an existing entry is out of scope.
@@ -33,6 +63,9 @@ If neither matches, bail. PLAN=`.flowtron/PLAN.md`, tasknote dir=`.flowtron/task
 
 Use AskUserQuestion to confirm the key fields. Pre-populate from conversation context where possible — the AI proposes; the user confirms or overrides.
 
+0. **Task ID** — use `args` when provided; otherwise use the Suggested ID from
+   Step 1. The user may override before filing. If the user changes the ID,
+   rerun Step 1a against the final ID before Step 3.
 1. **Title (shortname)** — concise; up to ~30 chars. Used as the `| shortname` segment on the PLAN.md line.
 2. **Priority** — `High | Medium | Low | Future Opportunities`. AI proposes its best read. For urgent rows, propose `High` with a `[!critical]` flag (see SPEC §"Task-line format").
 3. **Model** — see `SPEC/model.md` §"Model field" (and its "Practical guidance and agent-aware defaults" subsection) for examples and realistic defaults (mid-tier models like Grok/Sonnet often `[medium]`, or `[light]` for mechanical work); AI proposes a token (primary labels or specific name); goes on the PLAN.md task line.
