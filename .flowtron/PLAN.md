@@ -11,7 +11,10 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-(none)
+- [ ] **CORE-EPIC-351** [medium]🧠 | audit-repo-safety-net — Milestone 0 safety net: clear current viz dependency advisories and harden `update-adopters.mjs` current-state detection before new feature work. Discovery supplied by audit-repo 2026-07-08. Surfaced by audit-repo 2026-07-08 (Theme: Security Currency Needs A Small Safety Net)
+  - [ ] **CORE-351.2** [light]🔧 | viz-advisory-patches — Apply the minimal dependency updates needed for `npm --prefix viz audit --audit-level=moderate` to pass, then rerun test/typecheck/lint.
+  - [ ] **CORE-351.3** [medium]🧠 | update-adopters-gitlink-state — Teach `tools/update-adopters.mjs` to detect/report superproject gitlink drift even when `.flowtron/core/SPEC.md` already reads the latest release.
+  - [ ] **CORE-351.N** [medium]🧠 | audit — Close the safety-net epic by rerunning dependency/security checks and the three viz gates; verify no docs drift.
 
 ## Medium
 
