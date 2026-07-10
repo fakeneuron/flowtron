@@ -15,6 +15,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [ ] **CORE-351.2** [light]🔧 | viz-advisory-patches — Apply the minimal dependency updates needed for `npm --prefix viz audit --audit-level=moderate` to pass, then rerun test/typecheck/lint.
   - [ ] **CORE-351.3** [medium]🧠 | update-adopters-gitlink-state — Teach `tools/update-adopters.mjs` to detect/report superproject gitlink drift even when `.flowtron/core/SPEC.md` already reads the latest release.
   - [ ] **CORE-351.N** [medium]🧠 | audit — Close the safety-net epic by rerunning dependency/security checks and the three viz gates; verify no docs drift.
+- [ ] **CORE-EPIC-352** [heavy]🧠 | spec-agent-validation — Add optional /ft-spec planning skill plus external-agent and soft validation guidance, without new lifecycle phases, hooks, or orchestration — preserve git-native agent-neutral Flowtron.
+  - [x] **CORE-352.1** [heavy]🧠 | discovery — Completed 2026-07-10.
+  - [ ] **CORE-352.2** [heavy]🧠 | ft-spec-skill — Ship /ft-spec: skill + command + Codex wrapper, templates/spec-template.md, review-first optional write to .flowtron/specs/, interactive + --fast. Align tone with PHILOSOPHY/VISION.
+  - [ ] **CORE-352.3** [light]🔧 | ft-spec-wiring — Fan-out adopter wiring: MIGRATION §1.2 counts, AGENTS-snippets, ft-new-project, ft-flowtron roster, Agents.md peer list, tasknote-selection when-to-use bullet.
+  - [ ] **CORE-352.4** [medium]🧠 | external-and-validation — Add docs/EXTERNAL-AGENTS.md (Kiro/Claude/Codex handoff; one-agent-per-tasknote; cross-link WORKTREES). Soft optional Phase 3/template validation + light PBT guidance — no new phase.
+  - [ ] **CORE-352.5** [medium]🧠 | ft-spec-dogfood — Dogfood /ft-spec on a real Flowtron goal; refine prompt/format from friction; file follow-ups only if needed.
+  - [ ] **CORE-352.N** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
 
 ## Medium
 
