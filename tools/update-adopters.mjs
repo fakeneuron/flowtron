@@ -19,6 +19,14 @@
 //   - staged changes in the adopter's index → a commit here would surprise
 //   - dirty .flowtron/core submodule worktree
 //
+// Gitlink-drift detection: even when the checked-out .flowtron/core/SPEC.md reads
+// the latest release, the superproject's committed submodule pin can still record
+// an older commit (the tag was checked out inside .flowtron/core but the pin was
+// never committed). The submodule worktree is clean, so the dirty-worktree gate
+// misses it — a fresh clone would revert to the stale pin. Such a repo is reported
+// as `drift` (not `current`); the fix is `git add .flowtron/core` + commit, or
+// /ft-update. Report-only — never auto-committed.
+//
 // Not covered (by design — run /ft-update in the repo for these): per-project
 // symlink wiring for newly shipped skills, and audit-fork drift scans. When a
 // bumped range ships a new *per-project-wired* skill (one named in a platform
@@ -138,6 +146,42 @@ async function pinnedVersion(specPath) {
   } catch {
     return null;
   }
+}
+
+// Resolve a committed gitlink SHA to a human-legible label: a release tag when
+// the commit is tagged, else a short SHA.
+async function describePin(sha) {
+  try {
+    const tags = (await git(FLOWTRON_REPO, 'tag', '--points-at', sha))
+      .split('\n')
+      .map((l) => l.trim())
+      .filter((t) => parseSemverTag(t));
+    if (tags.length > 0) return tags[0];
+  } catch {
+    // fall through to the short SHA
+  }
+  return sha.slice(0, 12);
+}
+
+// Compare the superproject's committed submodule gitlink against the latest
+// release commit. Returns a reason string when they diverge (drift), else null.
+// Commit SHAs are content-identical across clones, so FLOWTRON_REPO is the
+// canonical source for the latest-tag SHA — no adopter-side fetch needed.
+async function gitlinkDrift(repo, latest) {
+  let recorded;
+  try {
+    recorded = (await git(repo, 'rev-parse', `HEAD:${SUBMODULE_PATH}`)).trim();
+  } catch {
+    return null; // no committed gitlink to compare — nothing to report
+  }
+  let latestSha;
+  try {
+    latestSha = (await git(FLOWTRON_REPO, 'rev-parse', `${latest}^{commit}`)).trim();
+  } catch {
+    return null; // can't resolve the latest tag locally — skip the cross-check
+  }
+  if (recorded === latestSha) return null;
+  return `committed gitlink at ${await describePin(recorded)}, worktree SPEC.md at ${latest} — commit the pin (git add ${SUBMODULE_PATH}) or run /ft-update`;
 }
 
 async function latestReleaseTag() {
@@ -279,7 +323,11 @@ async function checkAdopter(adopter, latest) {
   const sub = join(repo, SUBMODULE_PATH);
   const current = await pinnedVersion(join(sub, 'SPEC.md'));
   if (current === null) return { status: 'skip', reason: 'unreadable pinned SPEC.md version' };
-  if (current === latest) return { status: 'current', current };
+  if (current === latest) {
+    const drift = await gitlinkDrift(repo, latest);
+    if (drift) return { status: 'drift', current, reason: drift };
+    return { status: 'current', current };
+  }
 
   const range = await tagsInRange(current, latest);
   const bearing = await migrationBearingTags(range);
@@ -341,7 +389,7 @@ async function main() {
     return;
   }
 
-  const counts = { current: 0, bumped: 0, planned: 0, skipped: 0, failed: 0 };
+  const counts = { current: 0, drifted: 0, bumped: 0, planned: 0, skipped: 0, failed: 0 };
   for (const adopter of adopters) {
     let result;
     try {
@@ -354,6 +402,9 @@ async function main() {
     if (result.status === 'current') {
       counts.current += 1;
       console.log(`  ✓ ${adopter.name}: current (${result.current})`);
+    } else if (result.status === 'drift') {
+      counts.drifted += 1;
+      console.log(`  ⚠ ${adopter.name} (${result.current}): gitlink drift — ${result.reason}`);
     } else if (result.status === 'skip') {
       counts.skipped += 1;
       const at = result.current ? ` (${result.current})` : '';
@@ -383,7 +434,7 @@ async function main() {
 
   const planned = args.apply ? `bumped ${counts.bumped}` : `would bump ${counts.planned}`;
   console.log(
-    `\nSummary: ${counts.current} current · ${planned} · ${counts.skipped} skipped · ${counts.failed} failed`,
+    `\nSummary: ${counts.current} current · ${counts.drifted} drift · ${planned} · ${counts.skipped} skipped · ${counts.failed} failed`,
   );
   if (!args.apply && counts.planned > 0) {
     console.log('Re-run with --apply to perform the bumps. Commits are local only — review and push per repo.');
