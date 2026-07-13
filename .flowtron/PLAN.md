@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **CORE-354** [heavy]🧠 | repo-health-review — Holistic repo-health and consistency review of the recent implementation waves (CORE-EPIC-352/353 cohorts + surrounding work): audit docs, SPEC, skills, and viz for drift, naming/style parity, and stale cross-refs. Consider running via /ft-audit-repo or /ft-audit.
 
 ## Low
 
