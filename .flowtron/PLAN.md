@@ -11,10 +11,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-EPIC-351** [medium]🧠 | audit-repo-safety-net — Milestone 0 safety net: clear current viz dependency advisories and harden `update-adopters.mjs` current-state detection before new feature work. Discovery supplied by audit-repo 2026-07-08. Surfaced by audit-repo 2026-07-08 (Theme: Security Currency Needs A Small Safety Net)
-  - [x] **CORE-351.2** [light]🔧 | viz-advisory-patches — Completed 2026-07-12.
-  - [x] **CORE-351.3** [medium]🧠 | update-adopters-gitlink-state — Completed 2026-07-12.
-  - [ ] **CORE-351.N** [medium]🧠 | audit — Close the safety-net epic by rerunning dependency/security checks and the three viz gates; verify no docs drift.
 - [ ] **CORE-EPIC-352** [heavy]🧠 | spec-agent-validation — Add optional /ft-spec planning skill plus external-agent and soft validation guidance, without new lifecycle phases, hooks, or orchestration — preserve git-native agent-neutral Flowtron.
   - [x] **CORE-352.1** [heavy]🧠 | discovery — Completed 2026-07-10.
   - [ ] **CORE-352.2** [heavy]🧠 | ft-spec-skill — Ship /ft-spec: skill + command + Codex wrapper, templates/spec-template.md, review-first optional write to .flowtron/specs/, interactive + --fast. Align tone with PHILOSOPHY/VISION.
@@ -33,6 +29,10 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-351** [medium]🧠 | audit-repo-safety-net — Completed 2026-07-12.
+  - [x] **CORE-351.2** [light]🔧 | viz-advisory-patches — Completed 2026-07-12.
+  - [x] **CORE-351.3** [medium]🧠 | update-adopters-gitlink-state — Completed 2026-07-12.
+  - [x] **CORE-351.N** [medium]🧠 | audit — Completed 2026-07-12.
 - [x] **TEST-EPIC-001** [medium]🧠 | gate-output-signal — Completed 2026-07-08.
   - [x] **TEST-001.2** [light] | error-boundary-test-noise — Completed 2026-07-08.
   - [x] **TEST-001.3** [light] | localstorage-warning-noise — Completed 2026-07-08.
