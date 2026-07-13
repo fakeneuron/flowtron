@@ -15,7 +15,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **CORE-EPIC-353** [medium]🧠 | refresh-model-roster — Modernize flowtron's effort-gate model handling for the model×effort era: add an effort-axis note to SPEC/model.md's abstract tier ladder, add a third post-closure suggestion glyph for [medium] tasks (reversing CORE-254's two-glyph lock) and propagate it through skill emitters, and refresh stale version-pinned model strings across docs. Claude-tree + SPEC only (codex is glyph/token-neutral).
+  - [x] **CORE-353.1** [medium]🧠 | discovery — Completed 2026-07-13.
+  - [ ] **CORE-353.2** [medium]🧠 | effort-axis-calibration — Rework SPEC/model.md's calibration baseline — add an effort-axis note (each abstract tier is realizable as small-model-high-effort or big-model-low-effort; tier stays a cognitive-load label, no frozen table) and refresh the roster examples to current Claude/Grok/Codex as illustrative-only. Verify current per-vendor effort levels via WebSearch.
+  - [ ] **CORE-353.3** [heavy]🧠 | third-glyph-contract — Add a third post-closure suggestion glyph for [medium] next-move candidates, reversing CORE-254's two-glyph lock. Define it in SPEC.md's cue glossary + post-closure protocol, rewrite SPEC/model.md §'Tier ladder vs. next-move glyph', and update SPEC/gates.md — pick the glyph char and firing rule.
+  - [ ] **CORE-353.4** [light]🔧 | glyph-emitter-propagation — Roll the new [medium] glyph through every post-closure next-move + copy-paste cue emitter — the 13 claude/skills files plus SPEC/procedures/ft-task.md — per the .3 contract. The codex/ tree has no glyph emitters (inherits SPEC), so it needs none. Mechanical propagation.
+  - [ ] **CORE-353.5** [light]🔧 | docs-example-currency — Refresh remaining stale/version-pinned model strings and last-verified stamps in docs (PLATFORMS.md, AGENT-COMPAT.md, AGENT-NEUTRALITY.md, GLOSSARY.md, CAPABILITIES.md) plus skill example token lists not covered by .2, aligning all to the .2/.3 decisions.
+  - [ ] **CORE-353.N** [medium]🔧 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
 
 ## Low
 
