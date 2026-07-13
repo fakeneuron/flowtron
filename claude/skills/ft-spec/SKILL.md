@@ -88,7 +88,9 @@ ask the operator two things before writing anything:
 
 - Does the draft look right (edits welcome)?
 - Write it to `.flowtron/specs/<slug>.md`, or leave it in the conversation
-  only? Offer the proposed slug; the operator may override it.
+  only? Offer the proposed slug; the operator may override it. A slug override
+  updates **both** the write filename and the frontmatter `slug:` field so the
+  two never diverge.
 
 Wait for the operator's go. Apply any requested edits, then continue to Step 5
 only if they chose to write.

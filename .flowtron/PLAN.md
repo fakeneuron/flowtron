@@ -16,7 +16,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-352.2** [heavy]🧠 | ft-spec-skill — Completed 2026-07-12.
   - [x] **CORE-352.3** [light]🔧 | ft-spec-wiring — Completed 2026-07-12.
   - [x] **CORE-352.4** [medium]🧠 | external-and-validation — Completed 2026-07-12.
-  - [ ] **CORE-352.5** [medium]🧠 | ft-spec-dogfood — Dogfood /ft-spec on a real Flowtron goal; refine prompt/format from friction; file follow-ups only if needed.
+  - [x] **CORE-352.5** [medium]🧠 | ft-spec-dogfood — Completed 2026-07-12.
   - [ ] **CORE-352.N** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
 
 ## Medium
