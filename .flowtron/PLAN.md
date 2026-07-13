@@ -21,7 +21,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-353.3** [heavy]🧠 | third-glyph-contract — Completed 2026-07-13.
   - [x] **CORE-353.4** [light]🔧 | glyph-emitter-propagation — Completed 2026-07-13.
   - [x] **CORE-353.5** [light]🔧 | docs-example-currency — Completed 2026-07-13.
-  - [ ] **CORE-353.6** [light]🔧 | viz-parser-glyph-tolerance — Extend `viz/src/parser.ts`'s suggestion-glyph tolerance `🧠|🔧` → `🧠|🔧|🧩` so `[medium]🧩`-decorated PLAN rows parse instead of dropping as diagnostics; add a regression test and refresh the SPEC.md parser-tolerance note + parser header comment to the three-glyph set. Gap surfaced by CORE-353.3.
+  - [x] **CORE-353.6** [light]🔧 | viz-parser-glyph-tolerance — Completed 2026-07-13.
   - [ ] **CORE-353.N** [medium]🔧 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
 
 ## Low

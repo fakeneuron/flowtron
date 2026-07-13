@@ -254,6 +254,13 @@ describe('parsePlan', () => {
     expect(t.relatedTasks).toEqual(['FE-001']);
   });
 
+  it('parses a [medium] suggestion glyph (🧩)', () => {
+    const md = `## High\n\n- [ ] **CORE-353** [medium]🧩 | medium glyph — long desc\n`;
+    const t = parsePlan(md)[0];
+    expect(t).toMatchObject({ id: 'CORE-353', model: 'medium', shortname: 'medium glyph' });
+    expect(t.description).toBe('long desc');
+  });
+
   it('does not flag glyph-decorated rows as unparsed diagnostics', () => {
     const md = [
       '## High',
