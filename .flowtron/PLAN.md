@@ -11,13 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-EPIC-352** [heavy]🧠 | spec-agent-validation — Add optional /ft-spec planning skill plus external-agent and soft validation guidance, without new lifecycle phases, hooks, or orchestration — preserve git-native agent-neutral Flowtron.
-  - [x] **CORE-352.1** [heavy]🧠 | discovery — Completed 2026-07-10.
-  - [x] **CORE-352.2** [heavy]🧠 | ft-spec-skill — Completed 2026-07-12.
-  - [x] **CORE-352.3** [light]🔧 | ft-spec-wiring — Completed 2026-07-12.
-  - [x] **CORE-352.4** [medium]🧠 | external-and-validation — Completed 2026-07-12.
-  - [x] **CORE-352.5** [medium]🧠 | ft-spec-dogfood — Completed 2026-07-12.
-  - [ ] **CORE-352.N** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
+(none)
 
 ## Medium
 
@@ -29,6 +23,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-352** [heavy]🧠 | spec-agent-validation — Completed 2026-07-12.
+  - [x] **CORE-352.1** [heavy]🧠 | discovery — Completed 2026-07-10.
+  - [x] **CORE-352.2** [heavy]🧠 | ft-spec-skill — Completed 2026-07-12.
+  - [x] **CORE-352.3** [light]🔧 | ft-spec-wiring — Completed 2026-07-12.
+  - [x] **CORE-352.4** [medium]🧠 | external-and-validation — Completed 2026-07-12.
+  - [x] **CORE-352.5** [medium]🧠 | ft-spec-dogfood — Completed 2026-07-12.
+  - [x] **CORE-352.N** [heavy]🧠 | audit — Completed 2026-07-12.
 - [x] **CORE-EPIC-351** [medium]🧠 | audit-repo-safety-net — Completed 2026-07-12.
   - [x] **CORE-351.2** [light]🔧 | viz-advisory-patches — Completed 2026-07-12.
   - [x] **CORE-351.3** [medium]🧠 | update-adopters-gitlink-state — Completed 2026-07-12.
