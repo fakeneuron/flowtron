@@ -65,8 +65,8 @@ Canonical policy:
 
 | Surface | Shipped inventory | Adopter-installed subset | Global-only utilities | Flowtron-self-only |
 |---|---|---|---|---|
-| **Claude Code** | Full `ft-*` command + skill inventory under `claude/commands/` and `claude/skills/`. | The tasknote execution family (`ft-task`, `ft-starter-task`, `ft-micro-task`, `ft-sidequest`, `ft-file-followup`, `ft-epic-discovery`, `ft-close-epic`, `ft-debug`, `ft-goal-task`), the worktree pair, and `ft-update`. Focused audit scaffolds are forked/overlaid locally under unprefixed names, not symlinked as upstream `ft-*` project skills. | `ft-new-project`, `ft-flowtron`, `ft-stats`, `ft-quality`, `ft-audit-context`, and `ft-audit-repo`; `ft-update` may also be installed globally for adopter bumps but remains adopter-only at runtime. | `ft-release`. |
-| **Codex CLI** | Full `ft-*` wrapper inventory under `codex/skills/`, kept in parity with Claude's shipped skill slugs. | Same policy as Claude, translated to `.agents/skills/`: tasknote execution family, worktree pair, and `ft-update`. Focused audits remain fork/overlay surfaces rather than verbatim upstream project symlinks. | Same utility set as Claude, installed in Codex's user skill directory when desired. | `ft-release`. |
+| **Claude Code** | Full `ft-*` command + skill inventory under `claude/commands/` and `claude/skills/`. | The tasknote execution family (`ft-task`, `ft-starter-task`, `ft-micro-task`, `ft-sidequest`, `ft-file-followup`, `ft-epic-discovery`, `ft-close-epic`, `ft-debug`, `ft-goal-task`, `ft-spec`), the worktree pair, and `ft-update`. Focused audit scaffolds are forked/overlaid locally under unprefixed names, not symlinked as upstream `ft-*` project skills. | `ft-new-project`, `ft-flowtron`, `ft-stats`, `ft-quality`, `ft-audit-context`, and `ft-audit-repo`; `ft-update` may also be installed globally for adopter bumps but remains adopter-only at runtime. | `ft-release`. |
+| **Codex CLI** | Full `ft-*` wrapper inventory under `codex/skills/`, kept in parity with Claude's shipped skill slugs. | Same policy as Claude, translated to `.agents/skills/`: tasknote execution family (including `ft-spec`), worktree pair, and `ft-update`. Focused audits remain fork/overlay surfaces rather than verbatim upstream project symlinks. | Same utility set as Claude, installed in Codex's user skill directory when desired. | `ft-release`. |
 
 The distinction is deliberate. Shipping a wrapper means flowtron can maintain,
 test, and dogfood a platform-equivalent recipe; it does not automatically mean
@@ -205,12 +205,12 @@ Concrete instantiation:
 
 - **Sibling dir**: `claude/` at the repo root
 - **Adopter-facing snippet**: `claude/AGENTS-snippet.md`
-- **`commands/`**: 25 `.md` slash-command stubs (`ft-task.md`,
+- **`commands/`**: 26 `.md` slash-command stubs (`ft-task.md`,
   `ft-starter-task.md`, `ft-micro-task.md`, `ft-sidequest.md`, `ft-file-followup.md`,
-  `ft-epic-discovery.md`, `ft-close-epic.md`, `ft-debug.md`, `ft-goal-task.md`, `ft-worktree-start.md`, `ft-worktree-end.md`, the seven `ft-audit`-family skills,
+  `ft-epic-discovery.md`, `ft-close-epic.md`, `ft-debug.md`, `ft-goal-task.md`, `ft-spec.md`, `ft-worktree-start.md`, `ft-worktree-end.md`, the seven `ft-audit`-family skills,
   plus `ft-new-project.md`, `ft-release.md`, `ft-flowtron.md`,
   `ft-stats.md`, `ft-quality.md`, `ft-audit-context.md`, `ft-update.md`)
-- **`skills/`**: 25 `SKILL.md` skill bodies (one per command), some with
+- **`skills/`**: 26 `SKILL.md` skill bodies (one per command), some with
   lazy-load fragments (`ft-task/step-*.md`); includes `ft-worktree-start/` and `ft-worktree-end/`
 - **Adopter install**: relative symlinks for the adopter-installed subset from
   `.claude/commands/*` and `.claude/skills/*` into the submodule, per
@@ -233,7 +233,7 @@ Concrete instantiation:
 
 - **Sibling dir**: `codex/` at the repo root
 - **Adopter-facing snippet**: `codex/AGENTS-snippet.md`
-- **`skills/`**: 25 `SKILL.md` wrappers, one per Claude `ft-*` skill slug.
+- **`skills/`**: 26 `SKILL.md` wrappers, one per Claude `ft-*` skill slug.
   The wrappers keep short Codex-native metadata, then route to the
   agent-neutral SOP (`ft-task`) or the canonical Claude skill body with
   Codex primitive translation.

@@ -22,6 +22,19 @@ paths: []
 - Documentation patches under ~10 lines
 - Trivial config edits with no logic impact
 
+**Draft a spec (`/ft-spec [brief] [--fast]`) when:**
+
+- A design has been worked out in conversation but isn't decomposed into tasks yet — capturing it in a fixed-section spec (Goal · Requirements · Design · Tasks · Risks/Open Q · Validation Approach) before filing prevents context loss
+- The brief spans an epic or multi-task-shaped body of work and you want one reviewable artifact to derive filing decisions from
+- You want operator review of the design before any PLAN.md line or tasknote artifact exists
+
+`/ft-spec` is a planning peer, not a filer — it never writes a PLAN.md line or scaffolds a tasknote. Review-first by default (`--fast` skips the review pause but still never auto-writes PLAN/tasknotes); on your go it optionally writes to `.flowtron/specs/<slug>.md`. Convert its Tasks section to real work via `/ft-epic-discovery`, `/ft-starter-task`, `/ft-task`, or a direct PLAN.md line.
+
+**Skip the spec (go straight to filing) when:**
+
+- A one-liner idea needs neither a spec nor a starter — write the PLAN.md line directly
+- The design is already clear and decomposed — file directly with `/ft-starter-task` or `/ft-epic-discovery`
+
 **File a starter (`/ft-starter-task [ID]`) when:**
 
 - The PLAN.md long description would exceed **~50 words (target) or 70 words (hard cap)** — richer context belongs in the starter body, not on the line

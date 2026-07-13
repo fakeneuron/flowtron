@@ -55,7 +55,7 @@ The `checkout` step is what pins the project to a specific flowtron commit. Skip
 
 Reference: `docs/MIGRATION.md` §1.1.
 
-## Step 3 — Wire /ft-task, /ft-starter-task, /ft-micro-task, /ft-sidequest, /ft-file-followup, /ft-epic-discovery, /ft-close-epic, /ft-debug, /ft-worktree-start, /ft-worktree-end, /ft-update, /ft-goal-task via symlinks
+## Step 3 — Wire /ft-task, /ft-starter-task, /ft-micro-task, /ft-sidequest, /ft-file-followup, /ft-epic-discovery, /ft-close-epic, /ft-debug, /ft-worktree-start, /ft-worktree-end, /ft-update, /ft-goal-task, /ft-spec via symlinks
 
 Read `.flowtron/core/claude/AGENTS-snippet.md` and run the bash block under the §"One-time symlink wiring" heading from the project root. Run it verbatim — relative paths are intentional (they survive `git clone` and pin to whichever flowtron commit the submodule is checked out at). Do not substitute absolute paths.
 
@@ -98,10 +98,12 @@ git add .gitmodules .flowtron/core .flowtron/PLAN.md .flowtron/tasknote/ \
         .claude/commands/ft-worktree-start.md .claude/commands/ft-worktree-end.md \
         .claude/commands/ft-update.md \
         .claude/commands/ft-goal-task.md \
+        .claude/commands/ft-spec.md \
         .claude/skills/ft-task .claude/skills/ft-starter-task .claude/skills/ft-micro-task .claude/skills/ft-sidequest .claude/skills/ft-file-followup .claude/skills/ft-epic-discovery .claude/skills/ft-close-epic .claude/skills/ft-debug \
         .claude/skills/ft-worktree-start .claude/skills/ft-worktree-end \
         .claude/skills/ft-update \
         .claude/skills/ft-goal-task \
+        .claude/skills/ft-spec \
         AGENTS.md
 ```
 
@@ -115,7 +117,7 @@ Reference: `docs/MIGRATION.md` §1.6.
 
 ## Step 8 — Verify and hand off
 
-Confirm all twenty-four symlinks resolve correctly:
+Confirm all twenty-six symlinks resolve correctly:
 
 ```sh
 readlink .claude/commands/ft-task.md            # → ../../.flowtron/core/claude/commands/ft-task.md
@@ -142,6 +144,8 @@ readlink .claude/commands/ft-update.md           # → ../../.flowtron/core/clau
 readlink .claude/skills/ft-update                # → ../../.flowtron/core/claude/skills/ft-update
 readlink .claude/commands/ft-goal-task.md        # → ../../.flowtron/core/claude/commands/ft-goal-task.md
 readlink .claude/skills/ft-goal-task             # → ../../.flowtron/core/claude/skills/ft-goal-task
+readlink .claude/commands/ft-spec.md             # → ../../.flowtron/core/claude/commands/ft-spec.md
+readlink .claude/skills/ft-spec                  # → ../../.flowtron/core/claude/skills/ft-spec
 ```
 
 If any resolves wrong, fix before reporting success.

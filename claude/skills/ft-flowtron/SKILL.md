@@ -44,6 +44,7 @@ A lightweight, project-agnostic tasknote system for solo AI-assisted coding. Kee
 | `/ft-task` | Drive a full 4-phase tasknote (Discovery → Execution → Testing & Linting → Closure). Primary workflow for normal-size tasks. |
 | `/ft-micro-task` | Single-section lightweight tasknote for tasks above the skip threshold but too small for full ceremony (~30 min or under). |
 | `/ft-starter-task` | File a rich-context starter tasknote discovered mid-flow — writes the artifact and PLAN entry, does not start it. |
+| `/ft-spec` | Draft a review-first design spec (fixed section order: Goal · Requirements · Design · Tasks · Risks/Open Q · Validation Approach) from a brief or conversation context — only on your go, optionally writes it to `.flowtron/specs/<slug>.md`. Planning peer; never files a PLAN entry or tasknote. |
 | `/ft-sidequest` | Park an idea or quick fix mid-session — tiny stub + PLAN line; `--low`/`--med`/`--fut` flags or one short priority question, then resume inline. Lightest persistent filing. |
 | `/ft-file-followup` | File a follow-up task from inside an active tasknote — one PLAN line + context paragraph only, no tasknote artifact. |
 | `/ft-epic-discovery` | Scaffold and drive a new epic: files parent + `.1` Discovery + audit placeholder, then drives Discovery inline. |
