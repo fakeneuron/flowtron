@@ -17,12 +17,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-357** [light]🔧 | dogfood-v5.12.0-followup — Post-v5.12.0 release follow-up: refresh Grok + Codex `docs/AGENT-COMPAT.md`/`docs/PLATFORMS.md` dogfood stamps from `skipped @ v5.12.0` → `dogfooded` after clean-tag sessions (Grok done); add `ft-spec` to `ft-release` SKILL §7.1 expected-slug list (12→13); patch `docs/DOGFOOD.md` Step 3 with an exhausted-PLAN fallback (codifies Grok's terminal-state Discovery reading after Grok/Codex diverged during the v5.12.0 dogfood). Codex stamp refresh pending its re-run against clean HEAD.
-
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-357** [light]🔧 | dogfood-v5.12.0-followup — Completed 2026-07-13. Grok + Codex dogfood stamps refreshed `skipped @ v5.12.0` → `dogfooded` (all three rows now current at v5.12.0); added `ft-spec` to `ft-release` §7.1 expected-slug list (12→13); patched `docs/DOGFOOD.md` Step 3 with an exhausted-PLAN fallback codifying the terminal-state Discovery reading.
 - [x] **CORE-356** [medium]🧩 | release v5.12.0 — Completed 2026-07-13.
 - [x] **CORE-355** [light]🔧 | glyph-propagation-tail — Fixed the two CORE-353 🧩 MEDIUM enumeration-mirror stragglers CORE-354's breadth sweep missed: `docs/DOGFOOD.md` Next-task cue-render list (added 🧩 MEDIUM + 👇 HERE — was 2 of 4 cues) and `SPEC/procedures/ft-task.md:50` operator-cue "full vocabulary" line (inserted 🧩; body already used it) plus a stale `last-verified` stamp bump (v5.10.0·2026-07-05 → v5.11.0·2026-07-13). Surfaced by audit-docs 2026-07-13 (Finding #1 Medium + #2 Medium), fixed inline.
 - [x] **CORE-354** [heavy]🧠 | repo-health-review — Completed 2026-07-13. Ran /ft-audit-repo: health 9/10, all gates green (lint/typecheck/230 tests), version-consistent (SPEC=viz=tag v5.11.0). Only two doc-drift defects found, both fixed here: `docs/PLATFORMS.md` "Nine tasknote skills"→"Ten" (+`/ft-spec`); README + PLATFORMS.md reframed grok/Codex from "future platforms" to shipped, and added `grok/` to the README repo-layout list. Code surface (viz/, tools/) clean — zero findings. Follow-up option noted: a full /ft-audit-docs pass over the 651-md doc surface (this was a breadth sweep).

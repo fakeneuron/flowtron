@@ -310,7 +310,7 @@ conversationally, updated the Codex matrix row, and completed the closure
 bookkeeping without a native `/ft-task` bundle. Operator cues rendered
 legibly in conversation; labels remained the durable fallback.
 
-**Last verified:** `v5.11.0 · 2026-07-07 (dogfooded; skipped @ v5.12.0)`
+**Last verified:** `v5.12.0 · 2026-07-13 (dogfooded)`
 
 ### Cursor (stub)
 
