@@ -115,7 +115,7 @@ A cue can hit three non-render failure modes on a given agent surface:
 - **Mojibake** — the glyph is mis-decoded into garbage bytes.
 
 In all three, the trailing label (`DB`, `RUN`, `ACTION`, `GO`, `CONFIRM`,
-`AUDIT`, `LIGHT`, `HEAVY`, `HERE`) is plain ASCII and survives intact, so the cue's meaning is recoverable
+`AUDIT`, `LIGHT`, `MEDIUM`, `HEAVY`, `HERE`) is plain ASCII and survives intact, so the cue's meaning is recoverable
 without the glyph. Banner cues carry their label inside the
 `AWAITING APPROVAL — <label>` line, so the same fallback holds for blocking
 gates. **Agents and operators should scan on the label as the authoritative

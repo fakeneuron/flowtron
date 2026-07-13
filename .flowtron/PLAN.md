@@ -15,14 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-353** [medium]🧠 | refresh-model-roster — Modernize flowtron's effort-gate model handling for the model×effort era: add an effort-axis note to SPEC/model.md's abstract tier ladder, add a third post-closure suggestion glyph for [medium] tasks (reversing CORE-254's two-glyph lock) and propagate it through skill emitters, and refresh stale version-pinned model strings across docs. Mostly Claude-tree + SPEC (codex is glyph/token-neutral; the new 🧩 glyph needs one viz parser-tolerance touch — CORE-353.6).
-  - [x] **CORE-353.1** [medium]🧠 | discovery — Completed 2026-07-13.
-  - [x] **CORE-353.2** [medium]🧠 | effort-axis-calibration — Completed 2026-07-13.
-  - [x] **CORE-353.3** [heavy]🧠 | third-glyph-contract — Completed 2026-07-13.
-  - [x] **CORE-353.4** [light]🔧 | glyph-emitter-propagation — Completed 2026-07-13.
-  - [x] **CORE-353.5** [light]🔧 | docs-example-currency — Completed 2026-07-13.
-  - [x] **CORE-353.6** [light]🔧 | viz-parser-glyph-tolerance — Completed 2026-07-13.
-  - [ ] **CORE-353.N** [medium]🔧 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
+(none)
 
 ## Low
 
@@ -30,6 +23,14 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-353** [medium]🧠 | refresh-model-roster — Completed 2026-07-13.
+  - [x] **CORE-353.1** [medium]🧠 | discovery — Completed 2026-07-13.
+  - [x] **CORE-353.2** [medium]🧠 | effort-axis-calibration — Completed 2026-07-13.
+  - [x] **CORE-353.3** [heavy]🧠 | third-glyph-contract — Completed 2026-07-13.
+  - [x] **CORE-353.4** [light]🔧 | glyph-emitter-propagation — Completed 2026-07-13.
+  - [x] **CORE-353.5** [light]🔧 | docs-example-currency — Completed 2026-07-13.
+  - [x] **CORE-353.6** [light]🔧 | viz-parser-glyph-tolerance — Completed 2026-07-13.
+  - [x] **CORE-353.N** [medium]🧩 | audit — Completed 2026-07-13.
 - [x] **CORE-EPIC-352** [heavy]🧠 | spec-agent-validation — Completed 2026-07-12.
   - [x] **CORE-352.1** [heavy]🧠 | discovery — Completed 2026-07-10.
   - [x] **CORE-352.2** [heavy]🧠 | ft-spec-skill — Completed 2026-07-12.
