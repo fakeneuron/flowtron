@@ -437,6 +437,15 @@ banner in §"Post-closure protocol".
 
 Run the full test suite only when changes are broad or cross-cutting.
 
+**Choosing a test strategy (guidance, not a gate).** Default to targeted
+tests on the changed behavior. Where the input space is wide — parsers,
+encoders, round-trips, invariants that must hold across many inputs — a
+property-based test earns its keep; reach for one when example tests would
+leave large gaps. Visual confirmation covers UI surfaces that assertions
+can't. This is engineering judgment folded into Phase 3, never a new
+lifecycle phase or a schema/validator — the same framing the `/ft-spec`
+spec template's "Validation Approach" section carries into planning.
+
 The visual-confirmation ask carries a `👁️` inline prefix on the
 conversational prompt (e.g., `👁️ Could you confirm the new outline at
 http://localhost:5120?`). Inline emoji prefix only — **no banner block,

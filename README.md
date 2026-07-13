@@ -41,6 +41,10 @@ maintain.
   epic children: the five locked decisions (location, branch naming, skill
   pair, tasknote handling, cleanup) behind `/ft-worktree-start` +
   `/ft-worktree-end`
+- [docs/EXTERNAL-AGENTS.md](docs/EXTERNAL-AGENTS.md) — handing a single
+  tasknote off to an external CLI agent (Kiro / Claude Code / Codex): the
+  one-agent-per-tasknote rule, the handoff contract, and worktree isolation
+  for parallel runs — convention only, no orchestration runtime
 - [CONTRIBUTING.md](CONTRIBUTING.md) — solo-maintenance model, how to file
   issues, when PRs make sense
 - [SECURITY.md](SECURITY.md) — threat model (prompt injection via
@@ -193,7 +197,7 @@ runtime lives in the runner; the contract lives in flowtron.
 - `templates/` — canonical tasknote, `PLAN.md`, and audit-overlay fork templates
 - `claude/` — Claude Code skills + slash commands (adopter-facing snippet plus the full shipped `ft-*` inventory; adopter projects wire the policy subset, while flowtron-self-only skills like `/ft-release` stay upstream-only)
 - `codex/` — Codex skill wrappers for the full `ft-*` inventory plus Codex-specific wiring notes; future platform wirings (e.g., `grok/`, `cursor/`) plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md)
-- `docs/` — philosophy, vision, glossary, migration, conventions, agent-neutrality, platforms, agent-compat, dogfood, and worktrees docs
+- `docs/` — philosophy, vision, glossary, migration, conventions, agent-neutrality, platforms, agent-compat, dogfood, worktrees, and external-agents docs
 - `.flowtron/` — flowtron's own roadmap and tasknotes (self-hosted)
 - `viz/` — Vite/React Kanban visualizer
 - `tools/` — operator-side fleet scripts (`update-adopters.mjs`, the singular CLI carve-out — see `SPEC.md` §"What flowtron does NOT provide")

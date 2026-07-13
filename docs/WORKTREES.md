@@ -55,6 +55,7 @@ Exact mechanics, safety checks, and edge cases (unmerged work, dirty state, viz 
 - **No SPEC contract change.** The 4-phase workflow, relevance gate, operator cues (🛠️ / 📦), conditional skip rule, and post-closure protocol are unchanged inside any tasknote that happens to run inside a worktree.
 - **Epic lifecycle unchanged.** The `.1` Discovery + children + `.N` Audit bracket (see [`SPEC/epic.md`](../SPEC/epic.md)) still governs multi-child work; worktrees are merely an execution accelerator for the independent subset of those children.
 - **Adopter wiring.** The two new skills install via the same per-project symlink bundle as the rest of the tasknote family (see `docs/MIGRATION.md` §1.2 and the AGENTS.md paste block). Full surface updates landed in [[CORE-215.5]].
+- **External CLI agents.** Worktrees are the isolation layer for running independent children in parallel; [`docs/EXTERNAL-AGENTS.md`](EXTERNAL-AGENTS.md) adds the "one external agent per tasknote" convention on top — hand each worktree-isolated child to a single external agent (Kiro / Claude Code / Codex).
 
 ## Open Questions (None)
 

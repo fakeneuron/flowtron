@@ -70,6 +70,14 @@ One-sentence goal of what this task accomplishes.
 
 - [ ] (frontend) Asked the user for visual confirmation (👁️ prefix on the prose ask)
 
+> **Choosing a test strategy (guidance, not a gate).** Default to targeted
+> tests on the changed behavior. Where the input space is wide — parsers,
+> encoders, round-trips, invariants that must hold across many inputs — a
+> property-based test earns its keep; reach for one when example tests would
+> leave large gaps. Visual confirmation covers UI surfaces that assertions
+> can't. This is engineering judgment folded into Phase 3, never a new
+> lifecycle phase or a schema/validator.
+
 **Testing Notes:**
 
 ## 🚀 Phase 4: Closure
