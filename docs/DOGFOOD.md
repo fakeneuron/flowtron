@@ -84,6 +84,17 @@ Pick one open task from `.flowtron/PLAN.md` (any unchecked line not
 under `## Completed`). Run **Phase 1: Discovery** on it as you would
 in a real session, following `SPEC.md` §"📝 Phase 1: Discovery":
 
+**Exhausted-PLAN fallback.** If `.flowtron/PLAN.md` has no open task
+(every line is under `## Completed` — the PLAN-exhausted terminal
+state), do **not** fabricate a task. Instead exercise Discovery on the
+terminal state itself: review the board, return a **De-scope** verdict
+with the rationale that no open task exists (the expected terminal
+state per `SPEC.md` §"Post-closure protocol"), run the archive `ls`/
+`grep` and drift check against the most recent `## Completed` entry,
+and emit the `default-skip` exit gate. This is a valid Phase-1 drive —
+correctly detecting and reporting the exhausted board is the contract
+behavior, and the dogfood passes on it.
+
 1. Review the task entry in PLAN.md.
 2. **Relevance Assessment** — state Verdict (Proceed / Re-scope /
    De-scope) and Rationale.

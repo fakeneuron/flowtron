@@ -17,6 +17,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
+- [ ] **CORE-357** [light]🔧 | dogfood-v5.12.0-followup — Post-v5.12.0 release follow-up: refresh Grok + Codex `docs/AGENT-COMPAT.md`/`docs/PLATFORMS.md` dogfood stamps from `skipped @ v5.12.0` → `dogfooded` after clean-tag sessions (Grok done); add `ft-spec` to `ft-release` SKILL §7.1 expected-slug list (12→13); patch `docs/DOGFOOD.md` Step 3 with an exhausted-PLAN fallback (codifies Grok's terminal-state Discovery reading after Grok/Codex diverged during the v5.12.0 dogfood). Codex stamp refresh pending its re-run against clean HEAD.
+
 ## Future Opportunities
 
 ## Completed
