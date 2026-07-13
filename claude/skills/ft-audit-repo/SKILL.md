@@ -70,7 +70,7 @@ Present, in order:
 **After** the user confirms, write the plan into `.flowtron/PLAN.md` using flowtron's task-line grammar:
 
 - One `- [ ] **<AREA>-EPIC-<N>**` parent per milestone, plus its implementation children and a closing `.N` audit placeholder. **Skip the `.1` Discovery child** — this run supplied the epic-level discovery; note it on the parent line (`Discovery supplied by audit-repo YYYY-MM-DD.`).
-- Tag effort per line: `[heavy]🧠` (design, ambiguity, cross-module) / `[light]🔧` (mechanical, clear-diff); `[medium]` where it genuinely fits.
+- Tag effort per line: `[heavy]🧠` (design, ambiguity, cross-module) / `[light]🔧` (mechanical, clear-diff); `[medium]🧩` where it genuinely fits.
 - Append `Surfaced by audit-repo YYYY-MM-DD (Theme: <name>)` to each parent so the origin's traceable.
 - Milestone-0 goes under `## High`; later milestones under `## Medium` / `## Future Opportunities` by urgency. Pick the next free `<N>` per area prefix (valid prefixes in `.flowtron/tasknote/README.md` §"Area prefixes").
 - User pushes back on a milestone or child → drop or reshape it before writing.

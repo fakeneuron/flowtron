@@ -195,19 +195,19 @@ Run the three-step protocol in
 2. **Mark landed + suggest next move.** After the commit lands, emit the 🏁
    state-marker carrying a 1-2 sentence accomplishment summary, then suggest
    the next task. Use the emoji primary label inline per candidate —
-   `[heavy]🧠` (design) or `[light]🔧` (mechanical), never the bare `[model]`
-   token. Prefix any `/ft-audit*` candidate with 🔍. **Terminal case:** if the
-   fresh PLAN.md re-read leaves no open task, **stop — do not invent a next
+   `[heavy]🧠` (design), `[medium]🧩` (moderate), or `[light]🔧` (mechanical),
+   never the bare `[model]` token. Prefix any `/ft-audit*` candidate with 🔍.
+   **Terminal case:** if the fresh PLAN.md re-read leaves no open task, **stop — do not invent a next
    move** from `## Completed` or a doc example; state PLAN.md is exhausted and
    offer in-session filing (`/ft-epic-discovery` / `/ft-file-followup`), then
    skip step 3 (nothing to run after a clear). See SPEC §"Post-closure
    protocol" step 2's **PLAN exhausted (terminal)** form.
 3. **Offer the copy-paste line.** The label-line glyph is copied from the
-   chosen candidate line just printed in step 2 — 🧠 when it showed 🧠, 🔧 when
-   it showed 🔧; never default to 🔧. A session-reset label line, then the next
-   invocation alone on its own line as inline code **with no trailing
-   punctuation** (a trailing `.` collides with the `.N` epic-subtask grammar).
-   Shape, where `<glyph>` is the candidate's 🔧/🧠:
+   chosen candidate line just printed in step 2 — 🧠 when it showed 🧠, 🧩 when
+   it showed 🧩, 🔧 when it showed 🔧; never default to 🔧. A session-reset
+   label line, then the next invocation alone on its own line as inline code
+   **with no trailing punctuation** (a trailing `.` collides with the `.N`
+   epic-subtask grammar). Shape, where `<glyph>` is the candidate's 🔧/🧩/🧠:
 
    ```markdown
    <glyph> Clear your session, then run:

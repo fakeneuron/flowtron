@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-353.1** [medium]🧠 | discovery — Completed 2026-07-13.
   - [x] **CORE-353.2** [medium]🧠 | effort-axis-calibration — Completed 2026-07-13.
   - [x] **CORE-353.3** [heavy]🧠 | third-glyph-contract — Completed 2026-07-13.
-  - [ ] **CORE-353.4** [light]🔧 | glyph-emitter-propagation — Roll the new [medium] glyph through every post-closure next-move + copy-paste cue emitter — the 13 claude/skills files plus SPEC/procedures/ft-task.md — per the .3 contract. The codex/ tree has no glyph emitters (inherits SPEC), so it needs none. Mechanical propagation.
+  - [x] **CORE-353.4** [light]🔧 | glyph-emitter-propagation — Completed 2026-07-13.
   - [ ] **CORE-353.5** [light]🔧 | docs-example-currency — Refresh remaining stale/version-pinned model strings and last-verified stamps in docs (PLATFORMS.md, AGENT-COMPAT.md, AGENT-NEUTRALITY.md, GLOSSARY.md, CAPABILITIES.md) plus skill example token lists not covered by .2, aligning all to the .2/.3 decisions.
   - [ ] **CORE-353.6** [light]🔧 | viz-parser-glyph-tolerance — Extend `viz/src/parser.ts`'s suggestion-glyph tolerance `🧠|🔧` → `🧠|🔧|🧩` so `[medium]🧩`-decorated PLAN rows parse instead of dropping as diagnostics; add a regression test and refresh the SPEC.md parser-tolerance note + parser header comment to the three-glyph set. Gap surfaced by CORE-353.3.
   - [ ] **CORE-353.N** [medium]🔧 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
