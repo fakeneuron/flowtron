@@ -1,7 +1,7 @@
 ---
 procedure: ft-task
 source: claude/skills/ft-task/SKILL.md
-last-verified: v5.10.0 · 2026-07-05
+last-verified: v5.11.0 · 2026-07-13
 ---
 
 # Procedure SOP — `ft-task`
@@ -47,7 +47,7 @@ equivalent where a step calls for one (full ledger:
 | **trigger** | The operator's conversational request to start the task — there is no slash dispatch to rely on. |
 | **autonomous mode** | The operator may ask you to run without stopping at the conditional gates (Claude Code exposes this as `--fast`). Honor it as described under each gate; the concept is platform-neutral, the flag syntax is not. |
 
-The **operator-cue vocabulary** (🛠️ 📦 🟢 👁️ 🏁 ✅ 🔧 🧠 👇 🗄️ ▶️ ✋ 🔍 and
+The **operator-cue vocabulary** (🛠️ 📦 🟢 👁️ 🏁 ✅ 🔧 🧩 🧠 👇 🗄️ ▶️ ✋ 🔍 and
 their UPPERCASE labels) is contract-layer, not Claude-specific — emit it
 **verbatim**. The glyph is the fast-scan signal; the UPPERCASE label is the
 fallback if your surface strips emoji. Full vocabulary:

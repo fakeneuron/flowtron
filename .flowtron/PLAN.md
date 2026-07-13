@@ -15,14 +15,14 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-354** [heavy]🧠 | repo-health-review — Holistic repo-health and consistency review of the recent implementation waves (CORE-EPIC-352/353 cohorts + surrounding work): audit docs, SPEC, skills, and viz for drift, naming/style parity, and stale cross-refs. Consider running via /ft-audit-repo or /ft-audit.
-
 ## Low
 
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-355** [light]🔧 | glyph-propagation-tail — Fixed the two CORE-353 🧩 MEDIUM enumeration-mirror stragglers CORE-354's breadth sweep missed: `docs/DOGFOOD.md` Next-task cue-render list (added 🧩 MEDIUM + 👇 HERE — was 2 of 4 cues) and `SPEC/procedures/ft-task.md:50` operator-cue "full vocabulary" line (inserted 🧩; body already used it) plus a stale `last-verified` stamp bump (v5.10.0·2026-07-05 → v5.11.0·2026-07-13). Surfaced by audit-docs 2026-07-13 (Finding #1 Medium + #2 Medium), fixed inline.
+- [x] **CORE-354** [heavy]🧠 | repo-health-review — Completed 2026-07-13. Ran /ft-audit-repo: health 9/10, all gates green (lint/typecheck/230 tests), version-consistent (SPEC=viz=tag v5.11.0). Only two doc-drift defects found, both fixed here: `docs/PLATFORMS.md` "Nine tasknote skills"→"Ten" (+`/ft-spec`); README + PLATFORMS.md reframed grok/Codex from "future platforms" to shipped, and added `grok/` to the README repo-layout list. Code surface (viz/, tools/) clean — zero findings. Follow-up option noted: a full /ft-audit-docs pass over the 651-md doc surface (this was a breadth sweep).
 - [x] **CORE-EPIC-353** [medium]🧠 | refresh-model-roster — Completed 2026-07-13.
   - [x] **CORE-353.1** [medium]🧠 | discovery — Completed 2026-07-13.
   - [x] **CORE-353.2** [medium]🧠 | effort-axis-calibration — Completed 2026-07-13.

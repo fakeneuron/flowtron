@@ -2,10 +2,10 @@
 
 Flowtron's contract is agent-neutral; its execution-surface wiring is
 per-platform. This doc explains the two-layer model that separates them
-and the symmetric plug-in pattern future platforms (grok, Cursor, …)
+and the symmetric plug-in pattern additional platforms (Cursor, …)
 follow if a contributor ships their wiring. Today Claude Code and Codex
-CLI have wiring shipped; other platforms drive the contract
-conversationally from `AGENTS.md`.
+CLI have full wiring shipped and grok a procedure pointer; other
+platforms drive the contract conversationally from `AGENTS.md`.
 
 Audience: rare. Read this when adding a new platform's wiring,
 auditing the wiring layer's structure, or writing a follow-up to
@@ -28,7 +28,7 @@ wiring but don't *depend* on it for contract semantics).
 
 | Platform | How it consumes flowtron | What ships in this repo |
 |---|---|---|
-| **Claude Code** | Wiring layer + contract layer. Nine tasknote skills (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-sidequest`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`, `/ft-goal-task`) plus two thin worktree utilities (`/ft-worktree-start`, `/ft-worktree-end`) drive the SPEC's 4-phase workflow inline (or accelerate independent epic children); the six focused `/ft-audit`-family skills run the 5-pass recipe and `/ft-audit-repo` runs the first-contact holistic recipe; standalone skills `/ft-new-project`, `/ft-release`, `/ft-flowtron`, `/ft-stats`, `/ft-quality`, `/ft-audit-context`, `/ft-update` follow their own recipes. | `claude/` — `AGENTS-snippet.md` + `commands/*.md` + `skills/*/SKILL.md` (+ lazy fragments). Adopter installs follow the subset policy below and the executable commands in `claude/AGENTS-snippet.md` §"One-time symlink wiring". |
+| **Claude Code** | Wiring layer + contract layer. Ten tasknote skills (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-sidequest`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`, `/ft-goal-task`, `/ft-spec`) plus two thin worktree utilities (`/ft-worktree-start`, `/ft-worktree-end`) drive the SPEC's 4-phase workflow inline (or accelerate independent epic children); the six focused `/ft-audit`-family skills run the 5-pass recipe and `/ft-audit-repo` runs the first-contact holistic recipe; standalone skills `/ft-new-project`, `/ft-release`, `/ft-flowtron`, `/ft-stats`, `/ft-quality`, `/ft-audit-context`, `/ft-update` follow their own recipes. | `claude/` — `AGENTS-snippet.md` + `commands/*.md` + `skills/*/SKILL.md` (+ lazy fragments). Adopter installs follow the subset policy below and the executable commands in `claude/AGENTS-snippet.md` §"One-time symlink wiring". |
 | **Codex CLI** | Wiring layer + contract layer. Codex consumes the same `AGENTS.md` paste-block, then exposes the adopter subset as repo-scoped skills. `ft-task` routes through the agent-neutral SOP; the other shipped wrappers route to the canonical skill bodies with Codex primitive translation. | `codex/` — `AGENTS-snippet.md` + `skills/*/SKILL.md` wrappers, plus the retained `procedures/ft-task.md` pointer. Adopter installs follow the subset policy below and the executable commands in `codex/AGENTS-snippet.md`; Codex invocation is via `/skills` or `$ft-task` / `$ft-update`, not arbitrary custom `/ft-*` CLI commands. |
 | **Cursor, Sourcegraph Amp, Aider, Gemini CLI, Grok Build** | Contract layer only. The platform reads `AGENTS.md`, sees flowtron's paste-block, and drives the contract conversationally — relevance gate, phase boundaries, post-closure protocol all live in `SPEC.md`. No platform-specific machinery required. | Procedure pointer wrapper shipped for Grok Build: `grok/procedures/ft-task.md` routes to `SPEC/procedures/ft-task.md`. No full wiring bundle for these contract-only agents. Adopters paste the `AGENTS.md` block from `claude/AGENTS-snippet.md` §"Block to paste into AGENTS.md"; that block is agent-neutral by design. For Grok Build adoption specifics (context-load semantics, AGENTS.md visibility, skill/command primitives), see §"Grok Build adoption notes" below. |
 

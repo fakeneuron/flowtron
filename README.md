@@ -29,8 +29,8 @@ maintain.
   (load-bearing locators for the Claude Code wiring layer) and why
 - [docs/PLATFORMS.md](docs/PLATFORMS.md) — multi-platform wiring pattern:
   the two-layer model (agent-neutral contract / per-platform wiring) and
-  the symmetric plug-in shape for future platforms (Codex CLI / grok /
-  Cursor)
+  the symmetric plug-in shape by which platforms plug in (Codex CLI and
+  grok shipped today; Cursor and others future)
 - [docs/AGENT-COMPAT.md](docs/AGENT-COMPAT.md) — living agent-compatibility
   matrix: which AI coding agents flowtron supports, their contract
   entry-points, skill primitives, and last-verified currency
@@ -196,7 +196,8 @@ runtime lives in the runner; the contract lives in flowtron.
 - `SPEC/` — lazy SPEC modules (epic, starter, blocked, model, versioning, gates, tasknote-selection, loop) plus `procedures/` (pasteable skill procedures); loaded on demand by skills
 - `templates/` — canonical tasknote, `PLAN.md`, and audit-overlay fork templates
 - `claude/` — Claude Code skills + slash commands (adopter-facing snippet plus the full shipped `ft-*` inventory; adopter projects wire the policy subset, while flowtron-self-only skills like `/ft-release` stay upstream-only)
-- `codex/` — Codex skill wrappers for the full `ft-*` inventory plus Codex-specific wiring notes; future platform wirings (e.g., `grok/`, `cursor/`) plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md)
+- `codex/` — Codex skill wrappers for the full `ft-*` inventory plus Codex-specific wiring notes
+- `grok/` — grok platform wiring (currently the `ft-task` procedure pointer); further platform wirings (e.g., `cursor/`) plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md)
 - `docs/` — philosophy, vision, glossary, migration, conventions, agent-neutrality, platforms, agent-compat, dogfood, worktrees, and external-agents docs
 - `.flowtron/` — flowtron's own roadmap and tasknotes (self-hosted)
 - `viz/` — Vite/React Kanban visualizer

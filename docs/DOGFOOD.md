@@ -71,7 +71,9 @@ authoritative cross-agent fallback; note any glyph that fails to render.
 
 **Next-task cues**
 - 🔧 LIGHT (mechanical)
+- 🧩 MEDIUM (moderate)
 - 🧠 HEAVY (design)
+- 👇 HERE (run here — do not clear)
 
 Log: `Cue-render check complete. [Note any non-rendering glyphs and
 confirm the UPPERCASE label fallback is legible.]`
