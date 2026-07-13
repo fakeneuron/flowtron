@@ -71,13 +71,16 @@ self-assess at gate time, not a frozen lookup table** — flowtron does not pin 
 cross-provider model→tier table that needs maintenance every release. Calibration
 baseline:
 
-- **`heavy`** — deep-reasoning, large/long-context models: `fable` (Anthropic's
-  tier above opus), `opus`, upper-tier GPT-5.5-class, and peers.
+- **`heavy`** — deep-reasoning, large/long-context models at their default
+  (unadjusted) effort setting: `fable` (Anthropic's tier above opus), `opus`,
+  and peers; a `medium`-tier model dialed up to its highest effort setting can
+  also earn a `heavy` verdict — see §"Effort axis" below.
 - **`medium`** — capable mid-tier models that handle multi-step, well-scoped work
   reliably without the deep-reasoning / large-context profile that defines
-  `heavy`: `sonnet`, `grok`, and peers. A medium-tier model comfortably covers
-  both `[light]` and `[medium]` task work; it gets the ⚠️ under-tier note only on
-  a `[heavy]` task.
+  `heavy`: `sonnet`, `grok`, `codex` (OpenAI's coding-focused reasoning line) at
+  its own recommended default effort, and peers. A medium-tier model comfortably
+  covers both `[light]` and `[medium]` task work; it gets the ⚠️ under-tier note
+  only on a `[heavy]` task.
 - **`light`** — fast, small implementation models for mechanical, clear-diff
   work: `haiku`-class and peers.
 
@@ -88,6 +91,25 @@ The match compares the active model's tier against the tag's tier:
 | equal (`[light]` on light-tier, `[heavy]` on heavy-tier) | proceed silently |
 | active **heavier** than tag (`[light]` on a heavy- or medium-tier model) | proceed — overkill is harmless, no flag |
 | active **lighter** than tag (`[heavy]` on a lower-tier model, e.g. `grok`) | ⚠️ inline advisory note, then proceed — operator decides whether to escalate; **not** a block |
+
+## Effort axis (orthogonal to model choice)
+
+Vendor APIs now commonly expose a second axis alongside the choice of named
+model: a reasoning-*effort* setting (Claude's `low` / `medium` / `high` /
+`max`, with `xhigh` on some models; Grok's `none` / `low` / `medium` /
+`high`; Codex's `none` / `low` / `medium` / `high` / `xhigh` / `max`, with
+`minimal` as an even lighter CLI-only rung). This is orthogonal to the tier
+ladder above: the *same* named model can be pushed toward `heavy`-band output
+by raising its effort setting, or throttled toward `light`-band output by
+lowering it.
+
+Flowtron's tier stays a **cognitive-load label for the task**, not a frozen
+model→tier lookup table — a `[heavy]` task is satisfied equally by a big
+model at low effort or a small model at high effort, whichever the operator's
+session is actually running. The Step 1.5 gate reads the *active model's*
+self-assessed tier at gate time (this section); it does not separately read
+or require an effort parameter — effort is session/agent configuration, not
+a PLAN.md field.
 
 The ⚠️ note is an inline advisory only (like the `👁️` Phase 3 prefix) — not an
 operator-gate banner and not an approval pause; the standing phase-gate count is
