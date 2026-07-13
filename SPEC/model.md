@@ -178,12 +178,18 @@ for a particular agent on a particular class of task.
 
 ## Tier ladder vs. the next-move suggestion glyph
 
-The three-rung tier ladder governs the **Step 1.5 gate**. It is *not* the same
-axis as the **next-move suggestion glyph** (🔧 `LIGHT` / 🧠 `HEAVY`), which is a
-deliberately **binary** design-vs-mechanical hint in the post-closure protocol
-(SPEC.md cue glossary + `SPEC/gates.md`). The glyph set stays two-valued — a
-`[medium]` next-move candidate takes the **nearer** glyph (🔧 when the work is
-build-it/mechanical-leaning, 🧠 when it leans design/ambiguity). No third glyph
-is added: the suggestion cue is a coarse fast-scan signal, not a mirror of the
-gate's tier ladder, and widening CORE-254's locked cue vocabulary for it isn't
-warranted.
+The three-rung tier ladder governs the **Step 1.5 gate**. The **next-move
+suggestion glyph** (🔧 `LIGHT` / 🧩 `MEDIUM` / 🧠 `HEAVY`) in the post-closure
+protocol (SPEC.md cue glossary + `SPEC/gates.md`) **mirrors that ladder 1:1**:
+`[light]`→🔧, `[medium]`→🧩, `[heavy]`→🧠. Concrete `[model]` tokens bucket to
+their inherent tier's glyph (e.g. `sonnet`/`grok`→🧩, `opus`/`fable`→🧠,
+`haiku`→🔧). The glyph stays a coarse design↔mechanical fast-scan hint — three
+values, not two.
+
+**History.** The glyph set was deliberately **binary** (🔧/🧠) through CORE-254,
+which locked the cue vocabulary at two next-task values; a `[medium]` candidate
+took the *nearer* glyph. CORE-353.3 reverses that lock and adds the third
+`[medium]` glyph — a one-glyph widening in the same spirit as CORE-308's 👇
+`HERE` addition — so the suggestion cue and the gate ladder share the same three
+rungs. Aligning the two just removes the medium-collapses-to-nearest special
+case; it does not turn the coarse hint into a second copy of the gate.

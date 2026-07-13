@@ -102,24 +102,37 @@ glyphs and label text.
 | Committed | 🏁 | `<TASK-ID> — committed <sha>` | Inline state-marker | **Carries the 1-2 sentence accomplishment summary** — the recap is anchored here, not a separate cue |
 | Phase/closure complete | ✅ | `Phase 1 … complete` / `Closure complete; committing autonomously …` | Inline marker | — |
 
-### Next-task cues (reaffirmed)
+### Next-task cues
 
 | Cue | Glyph | Label | Shape |
 |---|---|---|---|
 | Light next-task | 🔧 | `LIGHT` (mechanical) | Next-move suggestion + copy-paste line |
+| Medium next-task | 🧩 | `MEDIUM` (moderate) | Next-move suggestion + copy-paste line |
 | Heavy next-task | 🧠 | `HEAVY` (design) | Next-move suggestion + copy-paste line |
 | In-session next-task | 👇 | `HERE` (run here — do not clear) | Copy-paste label line, context-dependent skills only |
 
-The bare 🔧/🧠 glyphs are the emitted form in next-move suggestions; the
-optional `LIGHT`/`HEAVY` labels are available for non-render fallback. Making
-these fire dependably is CORE-254.4 wiring, not a vocabulary change.
+The bare 🔧/🧩/🧠 glyphs are the emitted form in next-move suggestions; the
+optional `LIGHT`/`MEDIUM`/`HEAVY` labels are available for non-render fallback.
+The three glyphs **mirror the model tier ladder 1:1** (`[light]`→🔧,
+`[medium]`→🧩, `[heavy]`→🧠; concrete tokens bucket to their inherent tier — see
+[`SPEC/model.md` §"Tier ladder vs. the next-move suggestion glyph"](model.md)).
+The 🧩 `MEDIUM` glyph was added by CORE-353.3, reversing CORE-254's two-glyph
+lock — a one-glyph widening in the same spirit as CORE-308's 👇 `HERE` addition.
+
+**🧩 dual role (not a table collision).** 🧩 also heads the `## 🧩 Subtasks`
+tasknote-body section (SPEC.md §"Tasknote body shape"). The §"Casing rule"
+uniqueness constraint is scoped to *this* operator-cue table — a body-section
+heading is not a cue, so 🧩 stays unique within the table. Context
+disambiguates: 🧩 on a next-move candidate / copy-paste label line is the
+`MEDIUM` cue; 🧩 as an H2 heading is the Subtasks section. The reuse is
+deliberate, not accidental.
 
 👇 (`HERE`) replaces the model glyph on the copy-paste **label line** when the
 next-skill is context-dependent (`/ft-sidequest` / `/ft-file-followup` / `/ft-epic-discovery` —
 clearing the session destroys the context they draw on). It signals *where* to
-run, not task weight — the 🔧/🧠 model signal stays on the candidate line just
-printed above. The next-move glyph set itself stays binary 🔧/🧠 (CORE-259);
-👇 is a deliberate one-glyph widening of the CORE-254 vocabulary (CORE-308).
+run, not task weight — the 🔧/🧩/🧠 model signal stays on the candidate line just
+printed above. 👇 is a separate one-glyph widening of the CORE-254 vocabulary
+(CORE-308), orthogonal to the 🔧/🧩/🧠 weight glyphs.
 
 ### Destructive-action escalation
 
@@ -163,7 +176,7 @@ narrow so cues stay inline by default:
   add a recurring checkpoint to the phase flow.
 - The two standing phase-gate banners (🛠️ / 📦) remain capped at two and are
   orthogonal to this escalation. All non-command cues (✋ / 🟢 / 👁️ / 🔍 /
-  🔧 / 🧠 / 👇) never escalate.
+  🔧 / 🧩 / 🧠 / 👇) never escalate.
 
 **`--fast` interaction.** `--fast` does not suppress a destructive-action
 banner — the escalation is a safety control on irreversible actions, not a
