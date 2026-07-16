@@ -11,7 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-(none)
+- [ ] **CORE-358** [!critical] [heavy]🧠 | paper-complete guard — Close paper-complete hole: require commit landing deliverables before PLAN/archive Completed; foreign-dirt gate at task start; ban collateral Completed flips; 🏁 only with deliverable-covering SHA. InvisiPaw FE-64 2026-07-15. SPEC+procedures+skills; no general git UX.
 
 ## Medium
 
