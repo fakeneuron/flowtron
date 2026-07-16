@@ -78,6 +78,8 @@ Alphabetized. ~57 entries. Maintained via epic children and audits.
 
 **Operator-gate cues** — The up-to-two conditional approval banners the 4-phase workflow can surface: 🛠️ (Phase 1→2) and 📦 (ready-to-commit). Both are conditional; many tasks run end-to-end with only inline state markers. See SPEC §"Operator-gate cues".
 
+**paper-complete** — Failure mode where PLAN.md / tasknote archive show Completed but the task's deliverables never landed in git. Prevented by the paper-complete guard: foreign-dirt hard stop at task entry, atomic single-commit closure (deliverables + PLAN + archive), ban on collateral Completed flips, and 🏁 only with a deliverable-covering SHA. See SPEC §"Paper-complete guard".
+
 **parent epic** — The `CORE-EPIC-N` row in PLAN.md that owns a group of subtasks; remains unchecked until its `.N` audit child completes. See SPEC/epic.md.
 
 **Pattern survey** — The mandatory first sub-step of Phase 2 Execution: examine sibling modules / parallel components / adjacent docs for an existing shape to extend before inventing a new one. See SPEC §"🛠️ Phase 2: Execution".
@@ -106,7 +108,7 @@ Alphabetized. ~57 entries. Maintained via epic children and audits.
 
 **starter promotion** — The Step 3a path in `/ft-task` that converts a `status: starter` tasknote into a normal in-progress one and continues at Phase 1.
 
-**state-marker (🏁)** — The inline accomplishment summary emitted after the commit lands in the post-closure protocol (1-2 plain-English sentences + optional verification ask).
+**state-marker (🏁)** — The inline accomplishment summary emitted after the commit lands in the post-closure protocol (1-2 plain-English sentences + optional verification ask). Requires a real deliverable-covering SHA per SPEC §"Paper-complete guard".
 
 **status (tasknote frontmatter)** — One of `not-started`, `in-progress`, `completed`, `starter`, or `blocked`. Drives the entire `/ft-task` dispatch logic (scaffold vs. promote vs. resume vs. error).
 

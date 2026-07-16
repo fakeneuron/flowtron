@@ -56,7 +56,7 @@ Gate on the `[model]` segment before scaffolding. Satisfied → proceed. Categor
 
 ## Step 2 — Pre-flight checks & file-state branch (identical to /ft-task)
 
-Resolve Area, epic-ID dispatch (read `SPEC/epic.md` for `<AREA>-EPIC-<N>` / `<AREA>-<N>.<sub>`), archive vs active tasknote checks, four-way status branch (starter / blocked / in-flight / fresh). Same routing to 3a / 3b / 3c. The goal-loop flavor changes *scaffold content* (Step 3b addendum below) and the Phase 2↔3 *drive* (Step 5), not the routing.
+Resolve Area, epic-ID dispatch (read `SPEC/epic.md` for `<AREA>-EPIC-<N>` / `<AREA>-<N>.<sub>`), **foreign-dirt gate** (`git status --porcelain` hard stop per SPEC §"Paper-complete guard"), archive vs active tasknote checks, four-way status branch (starter / blocked / in-flight / fresh). Same routing to 3a / 3b / 3c. The goal-loop flavor changes *scaffold content* (Step 3b addendum below) and the Phase 2↔3 *drive* (Step 5), not the routing.
 
 ## Step 3a / 3b / 3c — Promote, Scaffold, Resume
 
@@ -156,8 +156,8 @@ This is the heart of the skill. Instead of running Phase 2 then Phase 3 once, **
 Once the loop converges (all Acceptance verify commands green):
 
 1. **One-time taste checks.** If Phase 1 split any criteria into `### 👁️ One-time visual checks`, surface them now as a single `👁️` prose ask (suppressed only when `fast-mode = true`, where the operator owns visual confirmation). This is the *only* 👁️ ask in the whole run.
-2. **Phase 4 closure — identical to `/ft-task`.** Doc-drift sweep across the AI-referenced docs in `.flowtron/tasknote/README.md`; flip the PLAN.md line to the stub `Completed YYYY-MM-DD.` form; move the tasknote to `archive/<area>/`; draft the recap (1-2 sentence plain-English summary first — mention the loop converged in N iterations against which verify target — then technical detail).
-3. **Post-closure protocol — identical to `/ft-task`.** Because the loop ran under `--fast` semantics, the closure's own commit (PLAN flip + archive move) routes to the **Skip branch** behind an `✅ Closure complete; committing autonomously (…)` marker. Then the 🏁 state-marker (with accomplishment summary), suggest-next-move (re-read PLAN.md fresh), and the copy-paste line — all exactly as `/ft-task` Step 6.
+2. **Phase 4 closure — identical to `/ft-task`.** Doc-drift sweep across the AI-referenced docs in `.flowtron/tasknote/README.md`; flip **only this task's** PLAN.md line to the stub `Completed YYYY-MM-DD.` form and move the tasknote to `archive/<area>/` only when ready for the atomic closure commit (SPEC §"Paper-complete guard"); draft the recap (1-2 sentence plain-English summary first — mention the loop converged in N iterations against which verify target — then technical detail).
+3. **Post-closure protocol — identical to `/ft-task`.** Because the loop ran under `--fast` semantics, the closure's own commit (PLAN flip + archive move + any remaining deliverables) routes to the **Skip branch** behind an `✅ Closure complete; committing autonomously (…)` marker. Then verify deliverable-covering SHA and emit 🏁 (never invent a SHA), suggest-next-move (re-read PLAN.md fresh), and the copy-paste line — all exactly as `/ft-task` Step 6. Per-cycle commits during the loop are intermediate; the final closure commit still must land PLAN/archive under the paper-complete guard.
 
 The recap should state the convergence: how many iterations ran, which verify target closed the loop, and (if applicable) that `loop-max` was hit or a taste check remains for the operator.
 

@@ -25,6 +25,7 @@ After resolving, Read `<SPEC_DIR>/epic.md` for the canonical lifecycle before dr
 ## Step 1 — Pre-flight
 
 - `.flowtron/PLAN.md` must exist (cwd is a flowtron-adopting project or flowtron itself).
+- **Foreign-dirt gate (paper-complete guard).** Before scaffold writes, run `git status --porcelain`. If non-empty: **STOP**, surface the dirt list, ask the operator to commit / stash / discard themselves, then re-invoke. Do not auto-clean. See SPEC §"Paper-complete guard".
 - Parse `args` as `<AREA>-<NUMBER>.<SUB>` (where `.<SUB>` is a number or the reserved literal `.N` — both parse per SPEC §"Task ID convention"):
   - **Area** must resolve per SPEC §"Task ID convention" or via `.flowtron/tasknote/README.md`'s project-specific prefixes. Unknown prefix → stop and ask.
   - **`.<SUB>` segment is required** — `/ft-close-epic` only runs against epic subtasks, not standalone tasks. If the ID matches `<AREA>-<NUMBER>` (no `.<SUB>` suffix), stop and tell the user "`/ft-close-epic` runs against the audit `.N` subtask of an epic, not a standalone task. Use `/ft-task <ID>` for standalone tasks."
@@ -146,7 +147,7 @@ Markdown-prose verification only for most audits — no test surface. If the aud
 
 ## Step 7 — Drive Phase 4: Closure (audit subtask, auto-run)
 
-Walk the Phase 4 checklist for the audit subtask itself. **No banner here** — closure ops auto-run; the recap drafted at the end bundles into Step 9's 📦 gate (parent-flip prompt also bundles there per Step 8).
+Walk the Phase 4 checklist for the audit subtask itself under SPEC §"Paper-complete guard". **No banner here** — closure ops auto-run; the recap drafted at the end bundles into Step 9's 📦 gate (parent-flip prompt also bundles there per Step 8). Flip only when ready to proceed to the atomic commit in Step 9; flip **only the audit subtask line** here (parent flip is Step 8/9 only — not collateral).
 
 - **Doc-drift sweep (fixed line)** — for each entry in `<tasknote dir>/README.md` §"AI-referenced docs", state per-entry verdict ("no change" or the specific update). This is the contractually-required sweep per `SPEC/epic.md` §"Audit acceptance — fixed doc-drift line"; never skip.
 - **Flip the audit's PLAN.md line to stub form** — `- [x] **<AUDIT-SUBTASK-ID>** [<model>] | <shortname> audit — Completed YYYY-MM-DD.` per SPEC/tasknote-selection.md §"`## Completed` archive convention". Keep nested under `<AREA>-EPIC-<NUMBER>` in its current `## <Priority>` section (parent + cohort move only on Step 9 confirmation).
@@ -188,7 +189,7 @@ Run the protocol per SPEC §"Post-closure protocol", branching on SPEC/gates.md 
     ```
   - **Commit message** — `feat: <AUDIT-SUBTASK-ID> — audit <AREA>-EPIC-<NUMBER>` (or `chore: ...` if no code edits landed).
 
-On commit (either branch): if parent-flip Yes, apply the flip + atomic move per Step 8 before staging, so the commit captures the flip atomically.
+On commit (either branch): if parent-flip Yes, apply the flip + atomic move per Step 8 before staging, so the commit captures the flip atomically. Stage audit deliverables + PLAN/archive (and parent flip when Yes) together; emit 🏁 only after a real deliverable-covering SHA (SPEC §"Paper-complete guard") — never invent a SHA. Parent-flip under 📦 is the only multi-line Completed move; it is not a collateral flip.
 
 Skill-specific next-move shape:
 - Candidates: read the full PLAN.md task-line shape (including `[model]`) to know the recommended model. When *printing the list to the user*, emit only the emoji primary label (`[heavy]🧠` / `[medium]🧩` / `[light]🔧`) + "design / moderate / mechanical" prose + shortname — drop the bare bracketed token from the visible suggestion output. Branches:

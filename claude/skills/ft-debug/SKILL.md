@@ -49,6 +49,8 @@ Gate on the `[model]` segment before scaffolding. Read `SPEC/model.md` + `claude
 
 ## Step 2 — Pre-flight checks & file-state branch (identical to /ft-task)
 
+Includes the **foreign-dirt gate** (`git status --porcelain` hard stop) per SPEC §"Paper-complete guard" — same as `/ft-task` Step 2.
+
 Resolve Area, epic-ID dispatch (read `SPEC/epic.md` for `<AREA>-<N>.<sub>`), archive vs active tasknote checks, four-way status branch (starter / blocked / in-flight / fresh). Same routing to 3a/3b/3c.
 
 ## Step 3a / 3b / 3c — Promote, Scaffold, Resume (identical to /ft-task)
@@ -121,7 +123,7 @@ If a hard dependency surfaces mid-execution, read `SPEC/blocked.md` and park the
 
 ## Step 7 — Phase 4: Closure + Post-closure (identical to /ft-task)
 
-Doc-drift sweep across the AI-referenced docs in `.flowtron/tasknote/README.md`, flip the PLAN.md line to the stub `Completed YYYY-MM-DD.` form, move the tasknote to `archive/<area>/`, draft the recap (1-2 sentence plain-English summary first, then technical detail + verification request), then the conditional skip / 📦 gate logic, commit protocol, next-move suggestions, and copy-paste cue — all exactly as `/ft-task` Step 5 / Step 6.
+Doc-drift sweep across the AI-referenced docs in `.flowtron/tasknote/README.md`, flip **only this task's** PLAN.md line to the stub `Completed YYYY-MM-DD.` form and move the tasknote to `archive/<area>/` only when deliverables are ready for the same atomic commit (SPEC §"Paper-complete guard"), draft the recap (1-2 sentence plain-English summary first, then technical detail + verification request), then the conditional skip / 📦 gate logic, commit with deliverable-covering SHA check before 🏁, next-move suggestions, and copy-paste cue — all exactly as `/ft-task` Step 5 / Step 6.
 
 The recap should mention the top hypothesis that was ultimately addressed and whether the minimal repro now passes.
 

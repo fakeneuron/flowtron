@@ -99,7 +99,7 @@ glyphs and label text.
 |---|---|---|---|---|
 | Phase 1→2 exit | 🛠️ | `AWAITING APPROVAL — Phase 2: Execution ready` | Banner | §"Operator-gate cues" |
 | Ready-to-commit | 📦 | `AWAITING APPROVAL — Ready to commit` | Banner | §"Operator-gate cues" |
-| Committed | 🏁 | `<TASK-ID> — committed <sha>` | Inline state-marker | **Carries the 1-2 sentence accomplishment summary** — the recap is anchored here, not a separate cue |
+| Committed | 🏁 | `<TASK-ID> — committed <sha>` | Inline state-marker | **Carries the 1-2 sentence accomplishment summary** — the recap is anchored here, not a separate cue. Emit **only** after a real closure commit whose paths cover deliverables per [`SPEC.md` §"Paper-complete guard"](../SPEC.md) — never without a SHA, never on PLAN/archive-only when Acceptance required code/docs |
 | Phase/closure complete | ✅ | `Phase 1 … complete` / `Closure complete; committing autonomously …` | Inline marker | — |
 
 ### Next-task cues

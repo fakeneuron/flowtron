@@ -479,6 +479,11 @@ The tasknote is closed when archived. Approval-semantics on each branch
 live in [`SPEC/gates.md` §"Conditional skip rule"](SPEC/gates.md); commit
 itself is not part of the tasknote.
 
+**Paper-complete guard (Phase 4).** PLAN.md flip + archive move are
+working-tree prep for a **single atomic closure commit** that must also
+land the task's deliverables. Do not treat archive/Completed as "done"
+until that commit succeeds. Full rules: §"Paper-complete guard".
+
 ## Blocked tasks
 
 Canonical contract: see [`SPEC/blocked.md`](SPEC/blocked.md).
@@ -513,7 +518,7 @@ After a tasknote is archived, run the three-step protocol (commit / mark landed 
 
    **ft-micro-task carve-out.** `/ft-micro-task` carries no 📦 banner block on the fire branch — its commit-go is a plain prose ask in place of the banner; the 📦 cue and 🟢 prefix do not apply. The same conditional skip rule governs both forms. See `/ft-micro-task` SKILL.md Step 5.
 
-2. **Mark the commit landed and suggest the next move.** Once the commit lands, prefix the next-move tail with a 🏁 state-marker (parallels 🛠️ → 📦 → 🏁):
+2. **Mark the commit landed and suggest the next move.** Once the commit lands **and** the SHA passes the deliverable-covering check in §"Paper-complete guard", prefix the next-move tail with a 🏁 state-marker (parallels 🛠️ → 📦 → 🏁). **Never emit 🏁 without a real commit SHA** from the just-landed closure commit, and never invent or reuse an unrelated SHA.
 
    ```markdown
    🏁 **<TASK-ID> — committed `<sha>`** · archived to `<archive-path>`
@@ -546,6 +551,69 @@ After a tasknote is archived, run the three-step protocol (commit / mark landed 
    Never emit literal `/clear` or `/model` commands — the emoji on the label line carries the model signal; the cue carries the session-reset intent. The skill segment matches the appropriate flowtron skill for the next task — most commonly `/ft-task` (normal tasks), `/ft-micro-task` (micros), `/ft-starter-task` (filing-only), or `/ft-audit*` (audit follow-ups — adopters use the unprefixed local fork per §"Skill namespace"). `<args>` is the next task ID for tasknote-runner skills, or the skill's own argument shape otherwise.
 
    **Context-dependent skills flag.** When the next-skill is `/ft-sidequest`, `/ft-file-followup`, or `/ft-epic-discovery`, replace the label line with `👇 Run in this session:` — 👇 (`HERE`) replaces the model glyph and signals run-here-don't-clear; the 🔧/🧩/🧠 model signal stays on the candidate line just printed. These skills draw from current-conversation context to draft their output, so clearing the session destroys what they need. Keep the skill invocation line unchanged.
+
+## Paper-complete guard
+
+Closes the hole where PLAN.md / archive show **Completed** but deliverables
+never landed in git (motivated by external paper-completes such as InvisiPaw
+FE-64). Contract only — **not** a general git UX (no auto-stash, no clean
+automation, no multi-repo tooling). Skills and procedures implement the
+checks; this section is authoritative.
+
+### 1. Foreign-dirt gate (task entry)
+
+At **skill entry**, before scaffold / promote / execute writes (and before
+blocked-resume continues Phase 2), run `git status --porcelain` (or
+equivalent). If the working tree is **non-empty**:
+
+- **STOP.** Do not scaffold, promote, or resume.
+- Surface the dirt list and ask the operator to commit, stash, or discard
+  **themselves** — then re-invoke the skill.
+- No assistant-driven stash/clean/commit of foreign dirt.
+
+Same-conversation continue after a start-only skill already opened the
+tasknote is out of band (those skills refuse re-entry on in-flight notes).
+
+### 2. Atomic single-commit closure
+
+Phase 4 may write PLAN.md Completed + archive move in the working tree as
+**prep**, but "done" means one **atomic** commit that includes:
+
+1. The task's **deliverable paths** (code, docs, contract edits named by
+   Acceptance / Implementation — not only workflow files), **and**
+2. The PLAN.md flip + tasknote archive move for **this** task ID.
+
+Rules:
+
+- **Never** leave PLAN/archive as Completed without immediately proceeding
+  to the post-closure commit path in the same turn (skip or 📦 fire). If
+  commit cannot run, **do not** flip PLAN/archive yet — keep the tasknote
+  open until deliverables are ready to land with the flip.
+- **Never** commit PLAN/archive alone when Acceptance requires non-workflow
+  deliverables. Stage deliverable paths first; refuse a Completed-only
+  commit.
+- **Workflow-only carve-out:** pure filing / Discovery / audit-with-no-code
+  tasks may land PLAN + archive (and any PLAN child-line edits) alone when
+  Acceptance has no other deliverable surfaces.
+- **Ban collateral Completed flips.** Closure may flip only the current
+  task's PLAN line (plus epic-cohort moves under an explicit 📦 parent-flip
+  approval for `/ft-close-epic`). Do not mark other open tasks Completed as
+  a side effect.
+
+### 3. 🏁 only with a deliverable-covering SHA
+
+Emit 🏁 **only after** `git commit` succeeds and returns a real SHA, and
+only when `git show --name-only --pretty=format: <sha>` (or equivalent)
+covers:
+
+- the PLAN.md + archive paths for this task, **and**
+- every non-workflow deliverable surface implied by Acceptance (judgment:
+  paths edited for the goal — source modules, SPEC/skills, tests — not
+  incidental untracked noise).
+
+If the commit is missing required deliverable paths: **do not emit 🏁**;
+fix the staging set and commit again (or reopen the tasknote if the flip
+was premature). Never invent a SHA or claim a prior unrelated commit.
 
 ## When to use a tasknote (and when not to)
 

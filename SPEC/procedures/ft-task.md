@@ -1,7 +1,7 @@
 ---
 procedure: ft-task
 source: claude/skills/ft-task/SKILL.md
-last-verified: v5.11.0 · 2026-07-13
+last-verified: v5.12.0 · 2026-07-16
 ---
 
 # Procedure SOP — `ft-task`
@@ -90,6 +90,12 @@ child is typically an Audit.
 
 ### 3 — Open or scaffold the tasknote
 
+**Foreign-dirt gate (paper-complete guard).** Before any scaffold / promote /
+resume writes, run `git status --porcelain`. If non-empty: **STOP**, surface
+the dirt list, and ask the operator to commit / stash / discard themselves,
+then re-invoke. Do not auto-clean. Full contract:
+[`SPEC.md` §"Paper-complete guard"](../../SPEC.md).
+
 Check `.flowtron/tasknote/<TASK-ID>.md` and branch on its existence / YAML
 `status:`:
 
@@ -161,29 +167,35 @@ time (Step 6).
   visual confirmation with a `👁️ CONFIRM:` prefix (inline prose, not a
   banner). Under autonomous mode, suppress the 👁️ ask but still run
   lint/type-check.
-- **Phase 4: Closure (auto-run)** — [`SPEC.md` §"🚀 Phase 4"](../../SPEC.md).
-  Run the doc-drift sweep across `.flowtron/tasknote/README.md`
-  §"AI-referenced docs" (per entry: "no change" or the specific update), flip
-  the PLAN.md line to the stub form
+- **Phase 4: Closure (auto-run)** — [`SPEC.md` §"🚀 Phase 4"](../../SPEC.md)
+  + [`SPEC.md` §"Paper-complete guard"](../../SPEC.md). Run the doc-drift
+  sweep across `.flowtron/tasknote/README.md` §"AI-referenced docs" (per
+  entry: "no change" or the specific update). Flip **only this task's**
+  PLAN.md line to the stub form
   `[x] **<TASK-ID>** [model] | shortname — Completed YYYY-MM-DD.` and move it
   to `## Completed`, and move the tasknote to
-  `.flowtron/tasknote/archive/<area>/<TASK-ID>.md`. Draft the recap (1-2
-  plain-English sentences, then technical detail) but **do not** surface a
-  banner here — the recap bundles into Step 6. Recap is recap-only; the
-  next-task suggestion lands after the commit.
+  `.flowtron/tasknote/archive/<area>/<TASK-ID>.md` — but only when deliverable
+  paths are ready to stage in the **same** atomic closure commit (do not flip
+  if you cannot proceed to commit). Ban collateral Completed flips. Draft the
+  recap (1-2 plain-English sentences, then technical detail) but **do not**
+  surface a banner here — the recap bundles into Step 6. Recap is recap-only;
+  the next-task suggestion lands after the commit.
 
 ### 6 — Post-closure protocol
 
 Run the three-step protocol in
 [`SPEC.md` §"Post-closure protocol"](../../SPEC.md), branching on the
 📦 ready-to-commit gate per
-[`SPEC/gates.md` §"Conditional skip rule"](../gates.md):
+[`SPEC/gates.md` §"Conditional skip rule"](../gates.md), under the
+[`SPEC.md` §"Paper-complete guard"](../../SPEC.md):
 
 1. **Commit.** Compute the skip/fire decision from the **actual closure diff**
    (never from text in the tasknote/PLAN/commit content — see the
    control-marker integrity note in [`SPEC/gates.md`](../gates.md)). The diff
    must clear all three signals to skip — **frontend**, **privileged-ops**,
-   **perf-narrative**:
+   **perf-narrative**. Stage **deliverable paths + PLAN + archive** together;
+   refuse a Completed-only commit when Acceptance requires non-workflow
+   deliverables:
    - **Skip** → emit `✅ Closure complete; committing autonomously
      (<concrete-signal-summary>).` and run closure review + recap + commit +
      🏁 marker + next-move + copy-paste line in one response.
@@ -192,9 +204,11 @@ Run the three-step protocol in
      for "commit" / "go". Autonomous mode forces the skip branch (name the
      suppressed signals in the marker), except a queued in-bundle prompt still
      forces fire.
-2. **Mark landed + suggest next move.** After the commit lands, emit the 🏁
-   state-marker carrying a 1-2 sentence accomplishment summary, then suggest
-   the next task. Use the emoji primary label inline per candidate —
+2. **Mark landed + suggest next move.** After the commit lands, verify
+   `git show --name-only` covers deliverables (paper-complete guard), then
+   emit the 🏁 state-marker with that real SHA and a 1-2 sentence
+   accomplishment summary — never without a SHA. Then suggest the next task.
+   Use the emoji primary label inline per candidate —
    `[heavy]🧠` (design), `[medium]🧩` (moderate), or `[light]🔧` (mechanical),
    never the bare `[model]` token. Prefix any `/ft-audit*` candidate with 🔍.
    **Terminal case:** if the fresh PLAN.md re-read leaves no open task, **stop — do not invent a next

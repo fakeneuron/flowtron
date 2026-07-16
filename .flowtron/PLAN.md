@@ -11,7 +11,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-358** [!critical] [heavy]🧠 | paper-complete guard — Close paper-complete hole: require commit landing deliverables before PLAN/archive Completed; foreign-dirt gate at task start; ban collateral Completed flips; 🏁 only with deliverable-covering SHA. InvisiPaw FE-64 2026-07-15. SPEC+procedures+skills; no general git UX.
 
 ## Medium
 
@@ -21,6 +20,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-358** [heavy]🧠 | paper-complete guard — Completed 2026-07-16.
 - [x] **CORE-357** [light]🔧 | dogfood-v5.12.0-followup — Completed 2026-07-13. Grok + Codex dogfood stamps refreshed `skipped @ v5.12.0` → `dogfooded` (all three rows now current at v5.12.0); added `ft-spec` to `ft-release` §7.1 expected-slug list (12→13); patched `docs/DOGFOOD.md` Step 3 with an exhausted-PLAN fallback codifying the terminal-state Discovery reading.
 - [x] **CORE-356** [medium]🧩 | release v5.12.0 — Completed 2026-07-13.
 - [x] **CORE-355** [light]🔧 | glyph-propagation-tail — Fixed the two CORE-353 🧩 MEDIUM enumeration-mirror stragglers CORE-354's breadth sweep missed: `docs/DOGFOOD.md` Next-task cue-render list (added 🧩 MEDIUM + 👇 HERE — was 2 of 4 cues) and `SPEC/procedures/ft-task.md:50` operator-cue "full vocabulary" line (inserted 🧩; body already used it) plus a stale `last-verified` stamp bump (v5.10.0·2026-07-05 → v5.11.0·2026-07-13). Surfaced by audit-docs 2026-07-13 (Finding #1 Medium + #2 Medium), fixed inline.
