@@ -11,8 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-EPIC-359** [light]🔧 | workflow-state-hygiene — Consolidate mis-filed FE archives + remove orphan sidequest stub so archive skim and sidequest promotion match the contract. Discovery supplied by audit-repo 2026-07-16. Surfaced by audit-repo 2026-07-16 (Theme: Workflow-state hygiene drift).
-  - [ ] **CORE-359.N** [light]🔧 | audit — Doc-drift sweep: tasknote README archive-layout table vs on-disk folders; sidequest dir empty or only live parks; STATS currency if refreshed.
+(none)
 
 ## Medium
 
@@ -24,8 +23,10 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
-- [x] **CORE-359.3** [light]🔧 | orphan-sidequest-cleanup — Completed 2026-07-16.
-- [x] **CORE-359.2** [light]🔧 | consolidate-fe-archive — Completed 2026-07-16.
+- [x] **CORE-EPIC-359** [light]🔧 | workflow-state-hygiene — Completed 2026-07-16.
+  - [x] **CORE-359.2** [light]🔧 | consolidate-fe-archive — Completed 2026-07-16.
+  - [x] **CORE-359.3** [light]🔧 | orphan-sidequest-cleanup — Completed 2026-07-16.
+  - [x] **CORE-359.N** [light]🔧 | workflow-state-hygiene audit — Completed 2026-07-16.
 - [x] **CORE-358** [heavy]🧠 | paper-complete guard — Completed 2026-07-16.
 - [x] **CORE-357** [light]🔧 | dogfood-v5.12.0-followup — Completed 2026-07-13. Grok + Codex dogfood stamps refreshed `skipped @ v5.12.0` → `dogfooded` (all three rows now current at v5.12.0); added `ft-spec` to `ft-release` §7.1 expected-slug list (12→13); patched `docs/DOGFOOD.md` Step 3 with an exhausted-PLAN fallback codifying the terminal-state Discovery reading.
 - [x] **CORE-356** [medium]🧩 | release v5.12.0 — Completed 2026-07-13.
