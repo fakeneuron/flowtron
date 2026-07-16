@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-360** [medium]🧩 | update-adopters-tests — Add automated tests for `tools/update-adopters.mjs` dry-run / skip gates / gitlink-drift classification (and a sandboxed `--apply` path if cheap). Surfaced by audit-repo 2026-07-16 (Theme: Fleet-tool confidence gap).
+(none)
 
 ## Low
 
@@ -23,6 +23,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-360** [medium]🧩 | update-adopters-tests — Completed 2026-07-16.
 - [x] **CORE-EPIC-359** [light]🔧 | workflow-state-hygiene — Completed 2026-07-16.
   - [x] **CORE-359.2** [light]🔧 | consolidate-fe-archive — Completed 2026-07-16.
   - [x] **CORE-359.3** [light]🔧 | orphan-sidequest-cleanup — Completed 2026-07-16.

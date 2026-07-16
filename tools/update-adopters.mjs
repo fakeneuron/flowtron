@@ -75,12 +75,12 @@ const WIRING_SURFACES = [
   },
 ];
 
-async function git(cwd, ...args) {
+export async function git(cwd, ...args) {
   const { stdout } = await execFileAsync('git', args, { cwd });
   return stdout;
 }
 
-function parseArgs(argv) {
+export function parseArgs(argv, { exitOnError = true } = {}) {
   const args = { apply: false, root: null };
   for (let i = 0; i < argv.length; i += 1) {
     if (argv[i] === '--apply') args.apply = true;
@@ -88,39 +88,45 @@ function parseArgs(argv) {
       args.root = argv[i + 1];
       i += 1;
     } else {
-      console.error(`Unknown arg: ${argv[i]}`);
-      console.error('Usage: node tools/update-adopters.mjs [--apply] [--root <dir>]');
-      process.exit(2);
+      const msg = `Unknown arg: ${argv[i]}\nUsage: node tools/update-adopters.mjs [--apply] [--root <dir>]`;
+      if (exitOnError) {
+        console.error(`Unknown arg: ${argv[i]}`);
+        console.error('Usage: node tools/update-adopters.mjs [--apply] [--root <dir>]');
+        process.exit(2);
+      }
+      const err = new Error(msg);
+      err.code = 'USAGE';
+      throw err;
     }
   }
   return args;
 }
 
-function expandHome(path) {
+export function expandHome(path) {
   if (path === '~') return homedir();
   if (path.startsWith('~/')) return join(homedir(), path.slice(2));
   return path;
 }
 
-function workspaceRoot(rootArg) {
+export function workspaceRoot(rootArg) {
   const raw = rootArg ?? process.env.FLOWTRON_VIZ_WORKSPACE;
   return expandHome(raw && raw.length > 0 ? raw : '~/code');
 }
 
-function parseSemverTag(tag) {
+export function parseSemverTag(tag) {
   const m = /^v(\d+)\.(\d+)\.(\d+)$/.exec(tag);
   if (!m) return null;
   return [Number(m[1]), Number(m[2]), Number(m[3])];
 }
 
-function compareSemver(a, b) {
+export function compareSemver(a, b) {
   for (let i = 0; i < 3; i += 1) {
     if (a[i] !== b[i]) return a[i] - b[i];
   }
   return 0;
 }
 
-async function isFile(path) {
+export async function isFile(path) {
   try {
     return (await stat(path)).isFile();
   } catch {
@@ -128,7 +134,7 @@ async function isFile(path) {
   }
 }
 
-async function isDir(path) {
+export async function isDir(path) {
   try {
     return (await stat(path)).isDirectory();
   } catch {
@@ -137,7 +143,7 @@ async function isDir(path) {
 }
 
 // Same Version-line contract viz/src/workspace.ts reads.
-async function pinnedVersion(specPath) {
+export async function pinnedVersion(specPath) {
   try {
     const text = await readFile(specPath, 'utf8');
     const m = /^\*\*Version:\*\*\s*(v?\d+\.\d+\.\d+)/m.exec(text);
@@ -150,7 +156,7 @@ async function pinnedVersion(specPath) {
 
 // Resolve a committed gitlink SHA to a human-legible label: a release tag when
 // the commit is tagged, else a short SHA.
-async function describePin(sha) {
+export async function describePin(sha) {
   try {
     const tags = (await git(FLOWTRON_REPO, 'tag', '--points-at', sha))
       .split('\n')
@@ -167,7 +173,7 @@ async function describePin(sha) {
 // release commit. Returns a reason string when they diverge (drift), else null.
 // Commit SHAs are content-identical across clones, so FLOWTRON_REPO is the
 // canonical source for the latest-tag SHA — no adopter-side fetch needed.
-async function gitlinkDrift(repo, latest) {
+export async function gitlinkDrift(repo, latest) {
   let recorded;
   try {
     recorded = (await git(repo, 'rev-parse', `HEAD:${SUBMODULE_PATH}`)).trim();
@@ -184,13 +190,13 @@ async function gitlinkDrift(repo, latest) {
   return `committed gitlink at ${await describePin(recorded)}, worktree SPEC.md at ${latest} — commit the pin (git add ${SUBMODULE_PATH}) or run /ft-update`;
 }
 
-async function latestReleaseTag() {
+export async function latestReleaseTag() {
   const stdout = await git(FLOWTRON_REPO, 'tag', '--sort=-v:refname');
   return stdout.split('\n').map((l) => l.trim()).find((l) => parseSemverTag(l)) ?? null;
 }
 
 // Tags strictly after `fromTag` up to and including `toTag`, ascending.
-async function tagsInRange(fromTag, toTag) {
+export async function tagsInRange(fromTag, toTag) {
   const from = parseSemverTag(fromTag);
   const to = parseSemverTag(toTag);
   const stdout = await git(FLOWTRON_REPO, 'tag', '--sort=v:refname');
@@ -208,7 +214,7 @@ async function tagsInRange(fromTag, toTag) {
 // release convention's all-clear sentinel ("No required project-side edits",
 // checked case-insensitively). "Migration (BREAKING — ...)" headings are
 // always migration-bearing.
-async function migrationBearingTags(tags) {
+export async function migrationBearingTags(tags) {
   const bearing = [];
   for (const tag of tags) {
     const contents = await git(FLOWTRON_REPO, 'tag', '-l', '--format=%(contents)', tag);
@@ -233,7 +239,7 @@ async function migrationBearingTags(tags) {
 // The per-platform symlink-wiring set: paths named in the freshly-bumped
 // AGENTS-snippet ln -s block — the authority /ft-update Step 4 consults.
 // Read at toTag to match what the adopter bumps to.
-async function wiredSkillKeys(toTag, surface) {
+export async function wiredSkillKeys(toTag, surface) {
   let snippet;
   try {
     snippet = await git(FLOWTRON_REPO, 'show', `${toTag}:${surface.snippetPath}`);
@@ -249,7 +255,7 @@ async function wiredSkillKeys(toTag, surface) {
   return keys;
 }
 
-async function addedFilesForSurface(fromTag, toTag, surface) {
+export async function addedFilesForSurface(fromTag, toTag, surface) {
   const stdout = await git(
     FLOWTRON_REPO,
     'diff',
@@ -262,7 +268,7 @@ async function addedFilesForSurface(fromTag, toTag, surface) {
   return stdout.split('\n').filter((l) => l.trim().length > 0);
 }
 
-async function newSkillWiringSurfaces(fromTag, toTag) {
+export async function newSkillWiringSurfaces(fromTag, toTag) {
   const affected = [];
   for (const surface of WIRING_SURFACES) {
     const added = await addedFilesForSurface(fromTag, toTag, surface);
@@ -270,7 +276,7 @@ async function newSkillWiringSurfaces(fromTag, toTag) {
 
     const wired = await wiredSkillKeys(toTag, surface);
     // Snippet unreadable → fall back to the coarse platform signal (better to
-    // over-advise a no-op /ft-update than to silently miss a genuine new link).
+    // over-flag a no-op /ft-update than to silently miss a genuine new link).
     if (wired === null) {
       affected.push(surface.label);
       continue;
@@ -285,7 +291,7 @@ async function newSkillWiringSurfaces(fromTag, toTag) {
   return affected;
 }
 
-function formatSkillsNote(surfaces) {
+export function formatSkillsNote(surfaces) {
   if (surfaces.length === 0) return '';
   const surfaceText =
     surfaces.length === 1
@@ -294,7 +300,7 @@ function formatSkillsNote(surfaces) {
   return ` (new skills shipped in range — run /ft-update to wire ${surfaceText} symlinks)`;
 }
 
-async function discoverAdopters(root) {
+export async function discoverAdopters(root) {
   let entries;
   try {
     entries = await readdir(root, { withFileTypes: true });
@@ -318,7 +324,7 @@ async function discoverAdopters(root) {
   return { adopters, legacy };
 }
 
-async function checkAdopter(adopter, latest) {
+export async function checkAdopter(adopter, latest) {
   const { repo } = adopter;
   const sub = join(repo, SUBMODULE_PATH);
   const current = await pinnedVersion(join(sub, 'SPEC.md'));
@@ -354,7 +360,7 @@ async function checkAdopter(adopter, latest) {
   return { status: 'bump', current, skillsNote };
 }
 
-async function applyBump(adopter, latest) {
+export async function applyBump(adopter, latest) {
   const { repo } = adopter;
   const sub = join(repo, SUBMODULE_PATH);
   await git(sub, 'fetch', '--tags', '--quiet', 'origin');
@@ -369,8 +375,8 @@ async function applyBump(adopter, latest) {
   await git(repo, 'commit', '--quiet', '-m', `chore: bump flowtron ${current} → ${latest}`, '--', SUBMODULE_PATH);
 }
 
-async function main() {
-  const args = parseArgs(process.argv.slice(2));
+export async function main(argv = process.argv.slice(2)) {
+  const args = parseArgs(argv);
   const root = workspaceRoot(args.root);
   const latest = await latestReleaseTag();
   if (!latest) {
@@ -441,7 +447,14 @@ async function main() {
   }
 }
 
-main().catch((e) => {
-  console.error(e.message);
-  process.exit(1);
-});
+// CLI entrypoint only when executed directly (importable for tests).
+const isMain =
+  process.argv[1] != null && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (isMain) {
+  main().catch((e) => {
+    console.error(e.message);
+    process.exit(1);
+  });
+}
+
+export { FLOWTRON_REPO, SUBMODULE_PATH, WIRING_SURFACES };
