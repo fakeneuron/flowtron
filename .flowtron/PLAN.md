@@ -11,8 +11,14 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
+- [ ] **CORE-EPIC-359** [light]🔧 | workflow-state-hygiene — Consolidate mis-filed FE archives + remove orphan sidequest stub so archive skim and sidequest promotion match the contract. Discovery supplied by audit-repo 2026-07-16. Surfaced by audit-repo 2026-07-16 (Theme: Workflow-state hygiene drift).
+  - [ ] **CORE-359.2** [light]🔧 | consolidate-fe-archive — Move the 18 tasknotes under `.flowtron/tasknote/archive/FE/` into `archive/frontend/` (canonical per tasknote README); remove empty `FE/` folder; confirm no ID collisions.
+  - [ ] **CORE-359.3** [light]🔧 | orphan-sidequest-cleanup — Delete stale `.flowtron/sidequest/CORE-348.md` (PLAN already Completed 2026-07-08; skill requires delete after promotion). Optionally regenerate `.flowtron/STATS.md` via `/ft-stats --write` (stamp is 2026-06-02).
+  - [ ] **CORE-359.N** [light]🔧 | audit — Doc-drift sweep: tasknote README archive-layout table vs on-disk folders; sidequest dir empty or only live parks; STATS currency if refreshed.
 
 ## Medium
+
+- [ ] **CORE-360** [medium]🧩 | update-adopters-tests — Add automated tests for `tools/update-adopters.mjs` dry-run / skip gates / gitlink-drift classification (and a sandboxed `--apply` path if cheap). Surfaced by audit-repo 2026-07-16 (Theme: Fleet-tool confidence gap).
 
 ## Low
 
