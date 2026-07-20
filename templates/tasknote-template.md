@@ -42,6 +42,8 @@ One-sentence goal of what this task accomplishes.
 
 - [ ] Read relevant source files
 
+- [ ] **Best Practices Review** — for code or module-boundary work, identified touched responsibilities, dependency direction, existing abstractions, nearby duplication, and any required in-scope refactor or deferred cleanup (otherwise `N/A` with reason)
+
 - [ ] **Archive skim** — skim `.flowtron/tasknote/archive/<area>/` for prior tasknotes that touched the source paths in scope; log relevant findings in Discovery Notes before re-interpreting the task
 
 - [ ] **Drift check** — file paths, line numbers, function names, and root-cause hypotheses cited in the task description still match current code; flag any drift before re-interpreting the task
@@ -54,7 +56,9 @@ One-sentence goal of what this task accomplishes.
 
 ## 🛠️ Phase 2: Execution
 
-- [ ] **Pattern survey** — looked at neighboring code for an existing pattern to extend; justified the new shape if none fits
+- [ ] **Pattern survey** — extended an established pattern or justified a new shape; checked DRY and single-responsibility (SRP) boundaries; preferred composition when it reduced coupling
+
+- [ ] **Minimal refactor gate** — refactored only for Acceptance or to prevent duplication, obscured responsibility, or a dependency-boundary violation in the touched path; recorded the reason and deferred unrelated cleanup
 
 - [ ] Implemented the minimal solution
 
@@ -67,6 +71,8 @@ One-sentence goal of what this task accomplishes.
 - [ ] Ran targeted test suite for changed code
 
 - [ ] Ran lint/type-check on changed code
+
+- [ ] **Quality assertions** — for changed code, confirmed no avoidable duplication, dead code, unexplained complexity, unnecessary public-surface growth, or stale code-facing documentation (otherwise `N/A` with reason)
 
 - [ ] (frontend) Asked the user for visual confirmation (👁️ prefix on the prose ask)
 
@@ -86,7 +92,7 @@ One-sentence goal of what this task accomplishes.
 
 - [ ] Closed — PLAN.md line flipped to stub form `Completed YYYY-MM-DD.` (see SPEC/tasknote-selection.md §"`## Completed` archive convention") and tasknote moved to `.flowtron/tasknote/archive/<area>/`
 
-- [ ] Recap drafted (surfaces at the 📦 ready-to-commit gate, or inline on conditional skip)
+- [ ] **Evidence-based recap** drafted — changed files/LOC where meaningful, verification commands/results, refactors made or deferred with rationale, documentation verdict, and concrete maintainability effect (surfaces at the 📦 ready-to-commit gate, or inline on conditional skip)
 
 **Final Summary:**
 

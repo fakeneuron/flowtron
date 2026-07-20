@@ -395,6 +395,7 @@ Mandatory steps:
 - [ ] Reviewed the task entry in PLAN.md
 - [ ] **Relevance Assessment** — `Proceed` / `Re-scope` / `De-scope` with one-line rationale
 - [ ] Read relevant source files
+- [ ] **Best Practices Review** — when code or module boundaries are in scope, identify the touched responsibilities, established dependency direction and abstractions, and nearby duplication; record any required in-scope refactor or deferred cleanup (otherwise `N/A` with a one-line reason)
 - [ ] **Archive skim** — surface prior decisions on the same files / area by skimming `.flowtron/tasknote/archive/<area>/` for tasknotes that touched the source paths in scope; log relevant findings in Discovery Notes before re-interpreting the task
 - [ ] **Drift check** — verify file paths, line numbers, function names, and root-cause hypotheses cited in the task description still match current code; surface any drift to the user before re-interpreting the task
 - [ ] Asked clarifying questions OR logged "No clarifications needed" with explicit assumptions
@@ -403,6 +404,12 @@ Mandatory steps:
 The Relevance Assessment is non-negotiable. `Re-scope` updates the PLAN.md line and tasknote header before continuing (if blocked prerequisite, see §"Blocked tasks"). `De-scope` jumps to Phase 4 closure with the de-scope rationale as the final summary.
 
 Archive skim + drift check both exist because prior tasknotes record decisions (renames, regressions, rationales) and PLAN.md is a snapshot, not a spec. Surface findings before re-interpreting; don't silently "correct" the plan by executing a different task.
+
+The Best Practices Review is a focused pre-change check, not a repository
+audit. Use it to understand the changed path well enough to preserve clear
+responsibilities, existing dependency boundaries, and useful abstractions;
+carry only an Acceptance-relevant refactor need into Phase 2, and leave
+unrelated cleanup deferred.
 
 **Exit gate.** Once every Phase 1 box is ticked, the 🛠️ Phase 1→2 banner
 fires according to the skill's exit-gate flavor — `/ft-task` uses
@@ -414,14 +421,22 @@ flavors' judgment rules, the shared skip-path inline marker, and the
 
 ### 🛠️ Phase 2: Execution
 
-- [ ] **Pattern survey** — looked at how neighboring code (sibling modules, parallel components, adjacent services) solves the same shape of problem; chose to extend an existing pattern, or justified the new shape if none fits
+- [ ] **Pattern survey** — looked at how neighboring code (sibling modules, parallel components, adjacent services) solves the same shape of problem; chose to extend an existing pattern or justified a new shape, checked for avoidable duplication and blurred responsibilities, and preferred composition when it reduced coupling
+- [ ] **Minimal refactor gate** — refactored only when Acceptance required it or the touched implementation would otherwise introduce avoidable duplication, obscure a responsibility, or violate an established dependency direction; recorded the reason and deferred unrelated cleanup
 - [ ] Implemented the minimal solution
 - [ ] Updated/added tests for non-trivial behavior
 
 Keep edits tightly scoped. Resist refactoring adjacent code unless the task
 explicitly calls for it. The pattern survey exists to keep the codebase
 unified — prefer extending what already works over inventing a parallel
-solution.
+solution. DRY, single-responsibility (SRP), and composition are contextual prompts,
+not absolutes: a small local repetition can be clearer than a premature
+abstraction, and composition earns preference only when it actually reduces
+coupling.
+
+The Minimal Refactor Gate permits the smallest structural correction needed
+to satisfy Acceptance or keep the touched path coherent. It does not license
+general cleanup; log broader opportunities for later work instead.
 
 If a hard dependency surfaces mid-execution, **park the tasknote** per
 §"Blocked tasks" and resume by re-invoking `/ft-task <ID>`.
@@ -434,9 +449,14 @@ banner in §"Post-closure protocol".
 
 - [ ] Ran targeted test suite for changed code
 - [ ] Ran lint/type-check on changed code
+- [ ] **Quality assertions** — for changed code, confirmed no avoidable duplication, dead code, unexplained complexity, unnecessary public-surface growth, or stale code-facing documentation (`N/A` with a one-line reason when no code changed)
 - [ ] (frontend) Asked the user for visual confirmation (👁️ prefix on the prose ask)
 
 Run the full test suite only when changes are broad or cross-cutting.
+
+Record the Quality Assertions in Testing Notes as review evidence from the
+actual diff and changed path. They complement tests and static checks; they do
+not require a scorecard, arbitrary threshold, or new validation tool.
 
 **Choosing a test strategy (guidance, not a gate).** Default to targeted
 tests on the changed behavior. Where the input space is wide — parsers,
@@ -461,13 +481,16 @@ flag's full surface.
 
 - [ ] **Doc-drift sweep** — for each entry in `.flowtron/tasknote/README.md` §"AI-referenced docs", state "no change" or the update
 - [ ] Closed — PLAN.md line flipped to stub form `Completed YYYY-MM-DD.` (see [`SPEC/tasknote-selection.md` §"`## Completed` archive convention"](SPEC/tasknote-selection.md)) and tasknote moved to `.flowtron/tasknote/archive/<area>/`
-- [ ] Recap drafted (surfaces at the 📦 ready-to-commit gate, or inline on conditional skip)
+- [ ] **Evidence-based recap** drafted — changed files and LOC where meaningful, verification commands and results, refactors made or deferred with rationale, documentation verdict, and concrete maintainability effect (surfaces at the 📦 ready-to-commit gate, or inline on conditional skip)
 
 Phase 4 closure ops (doc-drift sweep, PLAN.md flip, archive move) auto-run
 without an intermediate gate. The recap drafts alongside — a two-pass
 summary leading with 1-2 plain-English sentences of *what the task
-accomplished*, then technical detail (file paths, LOC, key decisions,
-plus an optional verification ask). It bundles into the 📦
+accomplished*, then evidence from the work: changed files and LOC where
+meaningful, verification commands and results, refactors made or consciously
+deferred with rationale, the documentation verdict, and the concrete
+maintainability effect. This is evidence, not a scorecard; mark irrelevant
+items `N/A` rather than inventing metrics. It bundles into the 📦
 ready-to-commit motion (see §"Post-closure protocol") — fire branch:
 behind the 📦 banner for one bundled approval; skip branch: inline behind
 an `✅ Closure complete; …` marker followed by an autonomous commit.
