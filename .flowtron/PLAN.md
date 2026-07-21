@@ -15,10 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-362** [heavy] | clean-code-guidance — Strengthen existing task workflows with lightweight responsibility, duplication, pattern, refactor, structural-quality, and recap guidance while preserving Flowtron’s four phases, minimal tooling, and agent-neutral contract.
-  - [x] **CORE-362.1** [heavy] | clean-code discovery — Completed 2026-07-20.
-  - [x] **CORE-362.2** [heavy] | clean-code-contract — Completed 2026-07-20.
-  - [ ] **CORE-362.N** [heavy] | audit — Final-subtask coherence audit across the clean-code contract, runner projections, validation evidence, and fixed doc-drift sweep per SPEC/epic.md.
+(none)
 
 ## Low
 
@@ -26,8 +23,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
-- [x] **CORE-362.4** [medium] | dogfood-validation — Completed 2026-07-20.
-- [x] **CORE-362.3** [medium] | runner-propagation — Completed 2026-07-20.
+- [x] **CORE-EPIC-362** [heavy] | clean-code-guidance — Completed 2026-07-20.
+  - [x] **CORE-362.1** [heavy] | clean-code discovery — Completed 2026-07-20.
+  - [x] **CORE-362.2** [heavy] | clean-code-contract — Completed 2026-07-20.
+  - [x] **CORE-362.3** [medium] | runner-propagation — Completed 2026-07-20.
+  - [x] **CORE-362.4** [medium] | dogfood-validation — Completed 2026-07-20.
+  - [x] **CORE-362.N** [heavy] | clean-code-guidance audit — Completed 2026-07-20.
 - [x] **CORE-361** [medium]🧩 | release v5.13.0 — Completed 2026-07-16.
 - [x] **CORE-360** [medium]🧩 | update-adopters-tests — Completed 2026-07-16.
 - [x] **CORE-EPIC-359** [light]🔧 | workflow-state-hygiene — Completed 2026-07-16.
