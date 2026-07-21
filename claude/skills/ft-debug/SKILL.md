@@ -98,14 +98,14 @@ After the debug prompts, continue with the normal Phase 1 items (archive skim, d
 
 ## Step 5 — Phase 2: Execution (debug emphasis)
 
-Pattern survey first (neighboring code, similar bug fixes in the archive, recent changes to the suspect area).
+Pattern survey first (neighboring code, similar bug fixes in the archive, recent changes to the suspect area); check DRY and responsibility boundaries, and prefer composition when it reduces coupling.
 
 Then **minimal implementation**:
 - Target the *top surviving hypothesis* from Phase 1.
 - Make the smallest edit that would falsify or confirm it.
 - In **Implementation Notes**, explicitly state: "Addresses hypothesis #N: <one-line>. Rationale for minimal scope: <why this change is the smallest that tests the hypothesis>."
 
-If the change is larger than a one-line hypothesis test, justify it (cross-cutting concern, safety, etc.).
+If the change is larger than a one-line hypothesis test, justify it (cross-cutting concern, safety, etc.). Refactor only when the Acceptance or the touched path's duplication, responsibility, or dependency boundary requires it; record the reason and defer unrelated cleanup.
 
 If a hard dependency surfaces mid-execution, read `SPEC/blocked.md` and park the tasknote (status: blocked) exactly as `/ft-task` does.
 
@@ -113,6 +113,7 @@ If a hard dependency surfaces mid-execution, read `SPEC/blocked.md` and park the
 
 - Targeted tests for changed code.
 - Lint / type-check on changed files.
+- The canonical structural quality assertions for changed code (otherwise `N/A` with reason).
 - No automatic 👁️ visual confirmation ask (this skill is methodology-agnostic; the operator owns any UI / manual repro steps). When `fast-mode = true`, same suppression as ft-task.
 
 **Critical debug addition (always run, even under --fast):**
@@ -123,7 +124,7 @@ If a hard dependency surfaces mid-execution, read `SPEC/blocked.md` and park the
 
 ## Step 7 — Phase 4: Closure + Post-closure (identical to /ft-task)
 
-Doc-drift sweep across the AI-referenced docs in `.flowtron/tasknote/README.md`, flip **only this task's** PLAN.md line to the stub `Completed YYYY-MM-DD.` form and move the tasknote to `archive/<area>/` only when deliverables are ready for the same atomic commit (SPEC §"Paper-complete guard"), draft the recap (1-2 sentence plain-English summary first, then technical detail + verification request), then the conditional skip / 📦 gate logic, commit with deliverable-covering SHA check before 🏁, next-move suggestions, and copy-paste cue — all exactly as `/ft-task` Step 5 / Step 6.
+Doc-drift sweep across the AI-referenced docs in `.flowtron/tasknote/README.md`, flip **only this task's** PLAN.md line to the stub `Completed YYYY-MM-DD.` form and move the tasknote to `archive/<area>/` only when deliverables are ready for the same atomic commit (SPEC §"Paper-complete guard"), draft the evidence-based recap (1-2 sentence plain-English summary first, then paths/LOC where meaningful, verification results, refactors made or deferred with rationale, documentation verdict, maintainability effect, and a verification request), then the conditional skip / 📦 gate logic, commit with deliverable-covering SHA check before 🏁, next-move suggestions, and copy-paste cue — all exactly as `/ft-task` Step 5 / Step 6.
 
 The recap should mention the top hypothesis that was ultimately addressed and whether the minimal repro now passes.
 

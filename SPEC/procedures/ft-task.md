@@ -1,7 +1,7 @@
 ---
 procedure: ft-task
 source: claude/skills/ft-task/SKILL.md
-last-verified: v5.12.0 · 2026-07-16
+last-verified: v5.13.0 · 2026-07-20
 ---
 
 # Procedure SOP — `ft-task`
@@ -126,6 +126,10 @@ ticking each box in the tasknote as you go:
   per [`SPEC/blocked.md`](../blocked.md)); `De-scope` jumps to Phase 4 closure
   with the rationale as the final summary.
 - **Read** the relevant source files.
+- **Best Practices Review** — for code or module-boundary work, identify
+  touched responsibilities, dependency direction, existing abstractions, nearby
+  duplication, and any required in-scope refactor or deferred cleanup; otherwise
+  record `N/A` with reason.
 - **Archive skim** — list `.flowtron/tasknote/archive/<area>/` and look for
   prior tasknotes touching the files in scope; log load-bearing findings
   (renames, regressions, prior decisions) before re-interpreting the task.
@@ -157,16 +161,21 @@ time (Step 6).
 
 - **Phase 2: Execution** — [`SPEC.md` §"🛠️ Phase 2"](../../SPEC.md). Survey
   neighboring code for an existing pattern to extend (justify a new shape only
-  if none fits), implement the minimal solution, add targeted tests for
-  non-trivial behavior. Keep edits tightly scoped; resist refactoring adjacent
-  code. If a hard dependency surfaces mid-execution, **park** the tasknote per
-  [`SPEC/blocked.md`](../blocked.md) and stop.
+  if none fits), check DRY and single-responsibility boundaries, and prefer
+  composition when it reduces coupling. Implement the minimal solution; make a
+  refactor only when Acceptance requires it or the touched path would otherwise
+  introduce duplication, obscure responsibility, or violate a dependency
+  boundary; record the reason and defer unrelated cleanup. Add targeted tests
+  for non-trivial behavior. If a hard dependency surfaces mid-execution,
+  **park** the tasknote per [`SPEC/blocked.md`](../blocked.md) and stop.
 - **Phase 3: Testing & Linting** — [`SPEC.md` §"🧪 Phase 3"](../../SPEC.md).
   Run targeted tests + lint/type-check on changed code (full suite only for
-  broad/cross-cutting changes). For frontend changes, ask the operator for
-  visual confirmation with a `👁️ CONFIRM:` prefix (inline prose, not a
-  banner). Under autonomous mode, suppress the 👁️ ask but still run
-  lint/type-check.
+  broad/cross-cutting changes). For changed code, confirm no avoidable
+  duplication, dead code, unexplained complexity, unnecessary public-surface
+  growth, or stale code-facing documentation; otherwise record `N/A` with
+  reason. For frontend changes, ask the operator for visual confirmation with a
+  `👁️ CONFIRM:` prefix (inline prose, not a banner). Under autonomous mode,
+  suppress the 👁️ ask but still run lint/type-check.
 - **Phase 4: Closure (auto-run)** — [`SPEC.md` §"🚀 Phase 4"](../../SPEC.md)
   + [`SPEC.md` §"Paper-complete guard"](../../SPEC.md). Run the doc-drift
   sweep across `.flowtron/tasknote/README.md` §"AI-referenced docs" (per
@@ -176,10 +185,12 @@ time (Step 6).
   to `## Completed`, and move the tasknote to
   `.flowtron/tasknote/archive/<area>/<TASK-ID>.md` — but only when deliverable
   paths are ready to stage in the **same** atomic closure commit (do not flip
-  if you cannot proceed to commit). Ban collateral Completed flips. Draft the
-  recap (1-2 plain-English sentences, then technical detail) but **do not**
-  surface a banner here — the recap bundles into Step 6. Recap is recap-only;
-  the next-task suggestion lands after the commit.
+  if you cannot proceed to commit). Ban collateral Completed flips. Draft an
+  evidence-based recap: 1-2 plain-English sentences, then changed paths/LOC
+  where meaningful, verification commands/results, refactors made or deferred
+  with rationale, documentation verdict, and concrete maintainability effect.
+  **Do not** surface a banner here — the recap bundles into Step 6. Recap is
+  recap-only; the next-task suggestion lands after the commit.
 
 ### 6 — Post-closure protocol
 

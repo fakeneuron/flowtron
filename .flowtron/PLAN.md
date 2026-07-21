@@ -18,7 +18,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-EPIC-362** [heavy] | clean-code-guidance — Strengthen existing task workflows with lightweight responsibility, duplication, pattern, refactor, structural-quality, and recap guidance while preserving Flowtron’s four phases, minimal tooling, and agent-neutral contract.
   - [x] **CORE-362.1** [heavy] | clean-code discovery — Completed 2026-07-20.
   - [x] **CORE-362.2** [heavy] | clean-code-contract — Completed 2026-07-20.
-  - [ ] **CORE-362.3** [medium] | runner-propagation — Re-verify and update the neutral ft-task procedure plus only runner-specific skill deltas needed by ft-task, micro, goal, and debug; preserve specialized cadence, thin Codex/Grok pointers, and a single canonical contract.
   - [ ] **CORE-362.4** [medium] | dogfood-validation — Simulate the revised workflow on a representative sample tasknote, verify checklist clarity and cross-agent inheritance, run applicable repository quality gates, and update AI-referenced docs only where user-facing claims demonstrably drift.
   - [ ] **CORE-362.N** [heavy] | audit — Final-subtask coherence audit across the clean-code contract, runner projections, validation evidence, and fixed doc-drift sweep per SPEC/epic.md.
 
@@ -28,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-362.3** [medium] | runner-propagation — Completed 2026-07-20.
 - [x] **CORE-361** [medium]🧩 | release v5.13.0 — Completed 2026-07-16.
 - [x] **CORE-360** [medium]🧩 | update-adopters-tests — Completed 2026-07-16.
 - [x] **CORE-EPIC-359** [light]🔧 | workflow-state-hygiene — Completed 2026-07-16.
