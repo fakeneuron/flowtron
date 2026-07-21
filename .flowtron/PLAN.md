@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-363** [medium] | epic-child closure — Align epic-child Phase 4 placement across the canonical lifecycle, neutral ft-task procedure, and runner skills so completed children remain nested beneath active parents until ft-close-epic atomically moves the whole cohort into Completed.
+(none)
 
 ## Low
 
@@ -23,6 +23,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-363** [medium] | epic-child closure — Completed 2026-07-21.
 - [x] **CORE-EPIC-362** [heavy] | clean-code-guidance — Completed 2026-07-20.
   - [x] **CORE-362.1** [heavy] | clean-code discovery — Completed 2026-07-20.
   - [x] **CORE-362.2** [heavy] | clean-code-contract — Completed 2026-07-20.

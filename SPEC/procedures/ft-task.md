@@ -1,7 +1,7 @@
 ---
 procedure: ft-task
 source: claude/skills/ft-task/SKILL.md
-last-verified: v5.13.0 · 2026-07-20
+last-verified: v5.13.0 · 2026-07-21
 ---
 
 # Procedure SOP — `ft-task`
@@ -181,8 +181,10 @@ time (Step 6).
   sweep across `.flowtron/tasknote/README.md` §"AI-referenced docs" (per
   entry: "no change" or the specific update). Flip **only this task's**
   PLAN.md line to the stub form
-  `[x] **<TASK-ID>** [model] | shortname — Completed YYYY-MM-DD.` and move it
-  to `## Completed`, and move the tasknote to
+  `[x] **<TASK-ID>** [model] | shortname — Completed YYYY-MM-DD.`. For a
+  standalone task, move the row to the top of `## Completed`; for an epic
+  child, preserve its 2-space nesting beneath the active parent in the current
+  priority section until `/ft-close-epic` moves the whole cohort. Move the tasknote to
   `.flowtron/tasknote/archive/<area>/<TASK-ID>.md` — but only when deliverable
   paths are ready to stage in the **same** atomic closure commit (do not flip
   if you cannot proceed to commit). Ban collateral Completed flips. Draft an

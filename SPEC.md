@@ -480,11 +480,14 @@ flag's full surface.
 ### 🚀 Phase 4: Closure
 
 - [ ] **Doc-drift sweep** — for each entry in `.flowtron/tasknote/README.md` §"AI-referenced docs", state "no change" or the update
-- [ ] Closed — PLAN.md line flipped to stub form `Completed YYYY-MM-DD.` (see [`SPEC/tasknote-selection.md` §"`## Completed` archive convention"](SPEC/tasknote-selection.md)) and tasknote moved to `.flowtron/tasknote/archive/<area>/`
+- [ ] Closed — PLAN.md line flipped to stub form `Completed YYYY-MM-DD.` and placed per [`SPEC/tasknote-selection.md` §"`## Completed` archive convention"](SPEC/tasknote-selection.md) (standalone → top of `## Completed`; epic child → kept nested beneath its active parent), then tasknote moved to `.flowtron/tasknote/archive/<area>/`
 - [ ] **Evidence-based recap** drafted — changed files and LOC where meaningful, verification commands and results, refactors made or deferred with rationale, documentation verdict, and concrete maintainability effect (surfaces at the 📦 ready-to-commit gate, or inline on conditional skip)
 
-Phase 4 closure ops (doc-drift sweep, PLAN.md flip, archive move) auto-run
-without an intermediate gate. The recap drafts alongside — a two-pass
+Phase 4 closure ops (doc-drift sweep, PLAN.md flip/placement, archive move)
+auto-run without an intermediate gate. A standalone task moves to the top of
+`## Completed`; an epic child is checked and stubbed in place, preserving its
+2-space nesting beneath the active parent until `/ft-close-epic` atomically
+moves the parent and complete cohort. The recap drafts alongside — a two-pass
 summary leading with 1-2 plain-English sentences of *what the task
 accomplished*, then evidence from the work: changed files and LOC where
 meaningful, verification commands and results, refactors made or consciously

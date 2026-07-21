@@ -49,6 +49,13 @@ going forward.
    close the audit and execute them as normal children. For many, also file
    a fresh Audit subtask to cover the second wave.
 
+**Child placement invariant.** While the parent epic remains active, Phase 4
+closure checks each child and rewrites it to the standard stub form but keeps
+the row 2-space nested beneath the parent in its current priority section.
+Never move an individual numeric or `.N` child to top-level `## Completed`.
+Only `/ft-close-epic`, after the parent-flip approval, moves the checked parent
+and its complete nested cohort atomically into `## Completed`.
+
 **Audit acceptance — fixed doc-drift line.** Every audit subtask's
 `## ✅ Acceptance` includes a doc-drift sweep across
 `.flowtron/tasknote/README.md` §"AI-referenced docs": for each entry,

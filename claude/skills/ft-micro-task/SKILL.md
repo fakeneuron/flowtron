@@ -103,7 +103,7 @@ The single closure step. Per SPEC §"Paper-complete guard", flip PLAN/archive on
 
 1. **Fill ✅ Recap** — evidence-based final summary: changed paths/LOC where meaningful, verification results, refactors made or deferred with rationale, documentation verdict, and maintainability effect.
 2. **Set `Archived:`** — today's date (`YYYY-MM-DD`).
-3. **Update PLAN.md** — flip the line to the stub form per SPEC/tasknote-selection.md §"`## Completed` archive convention" and move it to the `## Completed` section.
+3. **Update PLAN.md** — flip the line to the stub form per SPEC/tasknote-selection.md §"`## Completed` archive convention". For a standalone task, move the row to the top of `## Completed`; for an epic child, preserve its 2-space nesting beneath the active parent until `/ft-close-epic` moves the whole cohort.
 4. **Move the tasknote** — `mv .flowtron/tasknote/<TASK-ID>.md .flowtron/tasknote/archive/<area>/<TASK-ID>.md`.
 5. **Recap to the user** per SPEC §"🚀 Phase 4: Closure" — brief summary + optional verification request. **Recap is recap-only**; the next-task suggestion belongs in Step 5, not the recap. Wait for confirmation.
 

@@ -140,7 +140,7 @@ for the mechanism. `/ft-file-followup` declines at >70w and routes to
 
 ## `## Completed` archive convention
 
-Closed task lines under `## Completed` collapse to a stub form:
+Closed task lines collapse to a stub form:
 
 ```markdown
 - [x] **TASK-ID** [model] | shortname — Completed YYYY-MM-DD.
@@ -153,6 +153,13 @@ checkbox + date); `| shortname` is required so visualizers have a row
 title, `[model]` stays optional. Adopting projects pick up the
 convention on their next bump (additive change; legacy paragraph-form
 entries continue to parse).
+
+**Placement rule.** A standalone closed task moves to the top of
+`## Completed`. An epic child uses the same checked stub form but remains
+2-space nested beneath its active parent in the parent's priority section;
+`/ft-close-epic` moves the parent and complete cohort to `## Completed`
+atomically after parent-flip approval. Never strand an individual child as a
+top-level Completed row.
 
 **Exception — inline audit fixes.** A trivial fix applied inline by an
 audit skill (the `/ft-audit*` §5 trivial-fix carve-out: skip-the-tasknote-sized
