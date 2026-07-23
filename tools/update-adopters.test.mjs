@@ -49,7 +49,7 @@ async function gitQuiet(cwd, ...args) {
   await execFileAsync('git', args, { cwd });
 }
 
-/** Shared local clone mirror — hardlink-friendly source for fixture cores. */
+/** Shared local clone mirror — object-copy source for portable fixture cores. */
 let mirrorDir;
 let latest;
 let previous;
@@ -65,7 +65,14 @@ before(async () => {
   assert.ok(previous, 'need a second release tag for behind/drift fixtures');
 
   mirrorDir = await mkdtemp(join(tmpdir(), 'ft-upd-mirror-'));
-  await execFileAsync('git', ['clone', '-q', '--local', FLOWTRON_REPO, join(mirrorDir, 'core')]);
+  await execFileAsync('git', [
+    'clone',
+    '-q',
+    '--local',
+    '--no-hardlinks',
+    FLOWTRON_REPO,
+    join(mirrorDir, 'core'),
+  ]);
 });
 
 after(async () => {
@@ -85,7 +92,14 @@ async function makeAdopter(root, name, pinTag) {
   await gitQuiet(repo, 'config', 'advice.addEmbeddedRepo', 'false');
 
   const sub = join(repo, SUBMODULE_PATH);
-  await execFileAsync('git', ['clone', '-q', '--local', join(mirrorDir, 'core'), sub]);
+  await execFileAsync('git', [
+    'clone',
+    '-q',
+    '--local',
+    '--no-hardlinks',
+    join(mirrorDir, 'core'),
+    sub,
+  ]);
   await gitQuiet(sub, 'checkout', '-q', pinTag);
   await gitQuiet(repo, 'add', SUBMODULE_PATH);
   await gitQuiet(repo, 'commit', '-q', '-m', `pin ${pinTag}`);
