@@ -187,9 +187,10 @@ The fourth and fifth edits (`viz/src/ui/constants.ts` and `viz/package.json`) ar
 
 ```sh
 npm --prefix viz run lint; npm --prefix viz run typecheck; npm --prefix viz run test
+node --test tools/update-adopters.test.mjs
 ```
 
-If a viz/code feature ships in this release, surface that the feature's own tasknote already ran its test pass — `/ft-release` does not re-run feature tests beyond this version-string lint/test gate.
+If a viz/code feature ships in this release, surface that the feature's own tasknote already ran its test pass — `/ft-release` does not re-run feature tests beyond these version-string and updater-suite gates.
 
 ## Step 7 — Drive Phase 4: Closure
 

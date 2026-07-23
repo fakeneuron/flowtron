@@ -14,7 +14,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **TEST-EPIC-002** [medium]🧩 | portable full-repo gates — Restore a complete, discoverable, unprivileged verification baseline across visualizer and updater tooling. Discovery supplied by audit-repo 2026-07-21. Surfaced by audit-repo 2026-07-21 (Theme: Split safety net).
   - [x] **TEST-002.2** [light]🔧 | dev-advisory refresh — Completed 2026-07-22.
   - [x] **TEST-002.3** [medium]🧩 | updater fixture portability — Completed 2026-07-22.
-  - [ ] **TEST-002.4** [light]🔧 | gate discoverability — Register the updater suite in AGENTS.md and the project quick-command surface, documenting its release-gate policy.
+  - [x] **TEST-002.4** [light]🔧 | gate discoverability — Completed 2026-07-23.
   - [ ] **TEST-002.N** [medium]🧩 | portable-gates audit — Re-run the complete repository baseline and verify the milestone introduces no workflow or documentation drift.
 
 ## Medium

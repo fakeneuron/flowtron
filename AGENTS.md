@@ -47,6 +47,18 @@ npm --prefix viz run lint
 If your shell is already inside `viz/` (common when iterating on the UI), drop
 the `--prefix viz` and run the bare forms (`npm test`, `npm run typecheck`, etc.).
 
+For the fleet updater, run its portable zero-dependency suite and syntax checks
+from the repository root:
+
+```sh
+node --test tools/update-adopters.test.mjs
+node --check tools/update-adopters.test.mjs
+node --check tools/update-adopters.mjs
+```
+
+The suite is a release gate; do not substitute a live adopter-fleet dry run or
+an `--apply` operation for it.
+
 ## Dev Server
 
 To preview the visualizer locally, start the dev server from the repository root:

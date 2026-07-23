@@ -57,6 +57,8 @@ These assume you are at the repository root (parent of `viz/`). Use
 - Viz typecheck: `npm --prefix viz run typecheck`
 - Viz lint: `npm --prefix viz run lint`
 - Viz dev server: `npm --prefix viz run dev`
+- Updater suite (release gate): `node --test tools/update-adopters.test.mjs`
+- Updater syntax checks: `node --check tools/update-adopters.test.mjs && node --check tools/update-adopters.mjs`
 
 If your shell is already inside `viz/`, drop the prefix:
 
