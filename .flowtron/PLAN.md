@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **TEST-002.2** [light]🔧 | dev-advisory refresh — Completed 2026-07-22.
   - [x] **TEST-002.3** [medium]🧩 | updater fixture portability — Completed 2026-07-22.
   - [x] **TEST-002.4** [light]🔧 | gate discoverability — Completed 2026-07-23.
-  - [ ] **TEST-002.N** [medium]🧩 | portable-gates audit — Re-run the complete repository baseline and verify the milestone introduces no workflow or documentation drift.
+  - [x] **TEST-002.N** [medium]🧩 | portable-gates audit — Completed 2026-07-23.
 
 ## Medium
 
