@@ -375,6 +375,48 @@ export async function applyBump(adopter, latest) {
   await git(repo, 'commit', '--quiet', '-m', `chore: bump flowtron ${current} → ${latest}`, '--', SUBMODULE_PATH);
 }
 
+// Print one adopter's check result and fold it into the running counts. The
+// apply branch performs the bump inline (awaiting applyBump); all other
+// branches are pure presentation over the already-computed result.
+export async function reportResult(adopter, result, latest, apply, counts) {
+  if (result.status === 'current') {
+    counts.current += 1;
+    console.log(`  ✓ ${adopter.name}: current (${result.current})`);
+  } else if (result.status === 'drift') {
+    counts.drifted += 1;
+    console.log(`  ⚠ ${adopter.name} (${result.current}): gitlink drift — ${result.reason}`);
+  } else if (result.status === 'skip') {
+    counts.skipped += 1;
+    const at = result.current ? ` (${result.current})` : '';
+    console.log(`  ⏭ ${adopter.name}${at}: skipped — ${result.reason}`);
+  } else if (apply) {
+    try {
+      await applyBump({ ...adopter, current: result.current }, latest);
+      counts.bumped += 1;
+      console.log(
+        `  ⬆ ${adopter.name}: bumped ${result.current} → ${latest}, committed${result.skillsNote}`,
+      );
+    } catch (e) {
+      counts.failed += 1;
+      console.log(`  ✗ ${adopter.name}: bump failed — ${e.message}`);
+    }
+  } else {
+    counts.planned += 1;
+    console.log(`  ⬆ ${adopter.name}: would bump ${result.current} → ${latest}${result.skillsNote}`);
+  }
+}
+
+// Print the closing summary line, plus the re-run hint on a dry-run with pending bumps.
+export function reportSummary(counts, apply) {
+  const planned = apply ? `bumped ${counts.bumped}` : `would bump ${counts.planned}`;
+  console.log(
+    `\nSummary: ${counts.current} current · ${counts.drifted} drift · ${planned} · ${counts.skipped} skipped · ${counts.failed} failed`,
+  );
+  if (!apply && counts.planned > 0) {
+    console.log('Re-run with --apply to perform the bumps. Commits are local only — review and push per repo.');
+  }
+}
+
 export async function main(argv = process.argv.slice(2)) {
   const args = parseArgs(argv);
   const root = workspaceRoot(args.root);
@@ -405,31 +447,7 @@ export async function main(argv = process.argv.slice(2)) {
       console.log(`  ✗ ${adopter.name}: check failed — ${e.message}`);
       continue;
     }
-    if (result.status === 'current') {
-      counts.current += 1;
-      console.log(`  ✓ ${adopter.name}: current (${result.current})`);
-    } else if (result.status === 'drift') {
-      counts.drifted += 1;
-      console.log(`  ⚠ ${adopter.name} (${result.current}): gitlink drift — ${result.reason}`);
-    } else if (result.status === 'skip') {
-      counts.skipped += 1;
-      const at = result.current ? ` (${result.current})` : '';
-      console.log(`  ⏭ ${adopter.name}${at}: skipped — ${result.reason}`);
-    } else if (args.apply) {
-      try {
-        await applyBump({ ...adopter, current: result.current }, latest);
-        counts.bumped += 1;
-        console.log(
-          `  ⬆ ${adopter.name}: bumped ${result.current} → ${latest}, committed${result.skillsNote}`,
-        );
-      } catch (e) {
-        counts.failed += 1;
-        console.log(`  ✗ ${adopter.name}: bump failed — ${e.message}`);
-      }
-    } else {
-      counts.planned += 1;
-      console.log(`  ⬆ ${adopter.name}: would bump ${result.current} → ${latest}${result.skillsNote}`);
-    }
+    await reportResult(adopter, result, latest, args.apply, counts);
   }
 
   if (legacy.length > 0) {
@@ -438,13 +456,7 @@ export async function main(argv = process.argv.slice(2)) {
     );
   }
 
-  const planned = args.apply ? `bumped ${counts.bumped}` : `would bump ${counts.planned}`;
-  console.log(
-    `\nSummary: ${counts.current} current · ${counts.drifted} drift · ${planned} · ${counts.skipped} skipped · ${counts.failed} failed`,
-  );
-  if (!args.apply && counts.planned > 0) {
-    console.log('Re-run with --apply to perform the bumps. Commits are local only — review and push per repo.');
-  }
+  reportSummary(counts, args.apply);
 }
 
 // CLI entrypoint only when executed directly (importable for tests).
