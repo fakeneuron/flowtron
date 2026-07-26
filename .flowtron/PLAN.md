@@ -21,10 +21,9 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Future Opportunities
 
-- [ ] **FE-069** [light]🔧 | viz-deexport-internal-types — drop `export` on five internal-only viz types (VersionCurrency, DensityTokens, PlanParseResult, ProjectInfo, ProjectsResponse); keep paired exported values. Surfaced by audit 2026-07-25 (Finding #3, Low)
-
 ## Completed
 
+- [x] **FE-069** [light]🔧 | viz-deexport-internal-types — dropped `export` on five internal-only viz types (VersionCurrency, DensityTokens, PlanParseResult, ProjectInfo, ProjectsResponse); paired exported values kept. Surfaced by audit 2026-07-25 (Finding #3, Low). Completed 2026-07-25.
 - [x] **CORE-364** [light]🔧 | updater-main-decompose — Completed 2026-07-25.
 - [x] **CORE-365** [light]🔧 | audit-citation-trio — repointed ft-starter-task's dangling SPEC citation to SPEC/tasknote-selection.md §"When to use a tasknote (and when not to)"; promoted SPEC/epic.md's "Audit acceptance — fixed doc-drift line" lead-in to a real `##` heading so its three citations resolve; extended ft-flowtron's templates/ parenthetical with spec, loop-heartbeat, and audit-overlay. Surfaced by audit 2026-07-25 (Findings #4 Medium, #5 Low, #6 Low), fixed inline.
 - [x] **FE-070** [light]🔧 | viz-watch-poll-const — named the chokidar poll interval WATCH_POLL_MS in viz/vite.config.ts alongside the SSE timing constants. Surfaced by audit 2026-07-25 (Finding #1, Low), fixed inline.

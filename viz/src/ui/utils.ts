@@ -28,7 +28,7 @@ export function effectiveStatus(task: Task, tn: Tasknote | undefined): TasknoteS
 // Version-currency of an adopter's pinned flowtron release vs the latest
 // released tag. 'unknown' (no pinned version readable, or no tag resolved —
 // e.g. the flowtron checkout itself) renders no dot: unknown ≠ stale.
-export type VersionCurrency = 'current' | 'behind' | 'unknown';
+type VersionCurrency = 'current' | 'behind' | 'unknown';
 
 export function versionCurrency(
   version: string | null,

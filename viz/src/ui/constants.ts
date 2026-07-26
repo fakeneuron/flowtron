@@ -210,7 +210,7 @@ export const PALETTES: Record<PaletteName, PaletteTokens> = {
  * Scope: row-surface only — TaskDetail and header chrome stay fixed.
  * Chip text size stays on `TYPOGRAPHY.caption`; density scales padding.
  */
-export interface DensityTokens {
+interface DensityTokens {
   rowPad: string;
   subtaskRowPad: string;
   subtaskContainerPad: string;

@@ -169,7 +169,7 @@ export interface UnparsedLine {
   text: string;
 }
 
-export interface PlanParseResult {
+interface PlanParseResult {
   tasks: Task[];
   unparsed: UnparsedLine[];
 }

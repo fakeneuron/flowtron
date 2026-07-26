@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { readStoredProject, writeStoredProject } from '../projectStorage';
 
-export interface ProjectInfo {
+interface ProjectInfo {
   name: string;
   flowtronVersion: string | null;
 }
 
-export interface ProjectsResponse {
+interface ProjectsResponse {
   latestRelease: string | null;
   projects: ProjectInfo[];
 }
