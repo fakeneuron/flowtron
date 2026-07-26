@@ -65,17 +65,36 @@ if (typeof window.matchMedia !== 'function') {
     }) as MediaQueryList;
 }
 
+// Real listener map + emit helper so tests can drive useProjectData's SSE
+// branches (change-refresh, drop→reconnect reconcile). `instances` lets a test
+// reach the EventSource a hook created; tests clear it in their own setup.
 class MockEventSource {
+  static instances: MockEventSource[] = [];
   url: string;
   readyState = 0;
   onopen: ((ev: Event) => void) | null = null;
   onmessage: ((ev: MessageEvent) => void) | null = null;
   onerror: ((ev: Event) => void) | null = null;
+  private listeners = new Map<string, Set<(ev: Event) => void>>();
   constructor(url: string) {
     this.url = url;
+    MockEventSource.instances.push(this);
   }
-  addEventListener(): void {}
-  removeEventListener(): void {}
+  addEventListener(type: string, cb: (ev: Event) => void): void {
+    let set = this.listeners.get(type);
+    if (!set) {
+      set = new Set();
+      this.listeners.set(type, set);
+    }
+    set.add(cb);
+  }
+  removeEventListener(type: string, cb: (ev: Event) => void): void {
+    this.listeners.get(type)?.delete(cb);
+  }
+  emit(type: string): void {
+    const ev = new Event(type);
+    for (const cb of this.listeners.get(type) ?? []) cb(ev);
+  }
   close(): void {}
 }
 

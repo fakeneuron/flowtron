@@ -18,8 +18,14 @@ export function useProjectData(activeProject: string | null): {
   const [error, setError] = useState<string | null>(null);
   const activeProjectRef = useRef<string | null>(null);
   activeProjectRef.current = activeProject;
+  // Monotonic load counter: two rapid refreshes on the same project each fire a
+  // load, and the older response can resolve last. The activeProjectRef guard
+  // can't catch that (same project), so a stale response would overwrite fresh
+  // data. Each load stamps a seq and only commits when it's still the latest.
+  const loadSeqRef = useRef(0);
 
   const load = useCallback(async (project: string, showSkeleton = true) => {
+    const seq = ++loadSeqRef.current;
     setError(null);
     if (showSkeleton) setLoading(true);
     try {
@@ -35,7 +41,7 @@ export function useProjectData(activeProject: string | null): {
       const md = await planRes.text();
       const active = (await activeRes.json()) as Tasknote[];
       const archived = (await archiveRes.json()) as Tasknote[];
-      if (activeProjectRef.current !== project) {
+      if (activeProjectRef.current !== project || loadSeqRef.current !== seq) {
         return;
       }
       const parsed = parsePlanWithDiagnostics(md);
@@ -45,9 +51,9 @@ export function useProjectData(activeProject: string | null): {
       for (const t of active) merged.set(t.id, t);
       setTasknotesById(merged);
     } catch (e) {
-      setError((e as Error).message);
+      if (loadSeqRef.current === seq) setError((e as Error).message);
     } finally {
-      if (activeProjectRef.current === project) setLoading(false);
+      if (activeProjectRef.current === project && loadSeqRef.current === seq) setLoading(false);
     }
   }, []);
 

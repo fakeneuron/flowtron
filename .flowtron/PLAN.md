@@ -18,7 +18,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **FE-072** [medium]🧩 | viz-refresh-race-and-sse-tests — monotonic loadSeq guard in useProjectData against same-project out-of-order commits; upgrade MockEventSource to a real listener map + emit helper; cover the change-refresh and droppedSinceOpen reconnect branches. Surfaced by audit 2026-07-26 (Findings #3, #4, both Low)
 - [ ] **FE-073** [light]🔧 | viz-ui-dedup — extract useDialog(open, onClose) hook for SettingsModal/ShortcutsModal; single STARTER_SUBSECTION_LABEL in ui/constants.ts; named HEAVY_MODELS set for ModelChip. Surfaced by audit 2026-07-26 (Findings #7, #8, #9, all Low)
 - [ ] **CORE-367** [light]🔧 | export-surface-sweep-2 — finish the FE-069 de-export class: drop export on 3 viz types (TasknoteFrontmatter, StarterSubsections, TaskRowInnerProps), 2 test-fixture exports (seedFetch, ProjectFetchOverride), and the 10 unimported tools/update-adopters.mjs exports. Surfaced by audit 2026-07-26 (Findings #11, #12, #13, all Low)
 - [ ] **CORE-368** [light]🔧 | contract-doc-sync — widen the `--fast` invoker list in SPEC/gates.md §"`--fast` operator override" + claude/CAPABILITIES.md (add /ft-debug, /ft-goal-task; note /ft-spec's review-pause-only variant); repoint the `## Completed` archive-convention citation in the 6 audit-family SKILL.md files to SPEC/tasknote-selection.md; mirror CORE-365's 9-template enumeration into SPEC.md §repo-layout + README.md §"Repo layout". Surfaced by audit 2026-07-26 (Findings #15 Medium, #16 Low, #17 Low)
@@ -27,6 +26,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-072** [medium]🧩 | viz-refresh-race-and-sse-tests — Completed 2026-07-26.
 - [x] **CORE-366** [light]🔧 | updater-hardening — Completed 2026-07-26.
 - [x] **FE-071** [light]🔧 | viz-frontmatter-eval-guard — Completed 2026-07-26.
 - [x] **FE-074** [light]🔧 | viz-theme-system-dark-default — readPreference() fallback now resolves prefers-color-scheme instead of hard `'light'`, matching theme-init.js so ThemeToggle's mount no longer strips the init script's dark class for system-dark users with no stored pref. Surfaced by audit 2026-07-26 (Finding #6, Medium), fixed inline.
