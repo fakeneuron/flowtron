@@ -347,7 +347,10 @@ export async function checkAdopter(adopter, latest) {
 
   try {
     await git(repo, 'diff', '--cached', '--quiet');
-  } catch {
+  } catch (e) {
+    // Exit 1 means real staged changes; any other code is a genuine git
+    // failure (bad repo, corrupted index) that shouldn't be mislabeled.
+    if (e.code !== 1) throw e;
     return { status: 'skip', current, reason: 'staged changes in index — commit or unstage first' };
   }
 
@@ -360,6 +363,18 @@ export async function checkAdopter(adopter, latest) {
   return { status: 'bump', current, skillsNote };
 }
 
+// Belt-and-suspenders for applyBump: SPEC.md's Version line can't distinguish
+// a tag from a wrong commit that happens to carry a matching version string.
+// Cross-check the checked-out SHA against the canonical tag SHA in
+// FLOWTRON_REPO — same source gitlinkDrift already trusts.
+export function verifyPinnedSha(checkedOutSha, canonicalSha, latest) {
+  if (checkedOutSha !== canonicalSha) {
+    throw new Error(
+      `checked-out submodule SHA ${checkedOutSha.slice(0, 12)} does not match canonical ${latest} SHA ${canonicalSha.slice(0, 12)}`,
+    );
+  }
+}
+
 export async function applyBump(adopter, latest) {
   const { repo } = adopter;
   const sub = join(repo, SUBMODULE_PATH);
@@ -369,6 +384,9 @@ export async function applyBump(adopter, latest) {
   if (confirmed !== latest) {
     throw new Error(`post-checkout SPEC.md reads ${confirmed}, expected ${latest}`);
   }
+  const checkedOutSha = (await git(sub, 'rev-parse', 'HEAD')).trim();
+  const canonicalSha = (await git(FLOWTRON_REPO, 'rev-parse', `${latest}^{commit}`)).trim();
+  verifyPinnedSha(checkedOutSha, canonicalSha, latest);
   await git(repo, 'add', SUBMODULE_PATH);
   // Pathspec commit: only the submodule gitlink lands, never unrelated work.
   const current = adopter.current;

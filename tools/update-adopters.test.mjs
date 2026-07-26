@@ -3,7 +3,7 @@
 
 import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
-import { mkdtemp, mkdir, rm, writeFile } from 'node:fs/promises';
+import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { after, before, describe, it } from 'node:test';
@@ -27,10 +27,12 @@ import {
   parseSemverTag,
   pinnedVersion,
   tagsInRange,
+  verifyPinnedSha,
 } from './update-adopters.mjs';
 
 const execFileAsync = promisify(execFile);
 const SCRIPT = fileURLToPath(new URL('./update-adopters.mjs', import.meta.url));
+const WORKSPACE_TS = fileURLToPath(new URL('../viz/src/workspace.ts', import.meta.url));
 
 async function runCli(args, { expectFail = false } = {}) {
   try {
@@ -147,6 +149,30 @@ describe('parseArgs / pure helpers', () => {
     assert.equal(await pinnedVersion(join(dir, 'missing.md')), null);
     await rm(dir, { recursive: true, force: true });
   });
+
+  it('verifyPinnedSha passes through on match, throws on mismatch (CORE-366)', () => {
+    assert.doesNotThrow(() => verifyPinnedSha('abc123', 'abc123', 'v5.12.0'));
+    assert.throws(
+      () => verifyPinnedSha('abc123def456', 'deadbeef0000', 'v5.12.0'),
+      /checked-out submodule SHA abc123def456 does not match canonical v5\.12\.0 SHA deadbeef0000/,
+    );
+  });
+});
+
+describe('Version regex parity (CORE-366)', () => {
+  it('pins the same **Version:** regex source in update-adopters.mjs and viz/src/workspace.ts', async () => {
+    const REGEX_SOURCE = String.raw`/^\*\*Version:\*\*\s*(v?\d+\.\d+\.\d+)/m`;
+    const toolSource = await readFile(SCRIPT, 'utf8');
+    const vizSource = await readFile(WORKSPACE_TS, 'utf8');
+    assert.ok(
+      toolSource.includes(REGEX_SOURCE),
+      'tools/update-adopters.mjs no longer contains the pinned Version regex',
+    );
+    assert.ok(
+      vizSource.includes(REGEX_SOURCE),
+      'viz/src/workspace.ts no longer contains the pinned Version regex',
+    );
+  });
 });
 
 describe('migrationBearingTags (real tags)', () => {
@@ -231,6 +257,18 @@ describe('checkAdopter classification (fixtures)', () => {
     const result = await checkAdopter(adopter, latest);
     assert.equal(result.status, 'skip');
     assert.match(result.reason, /unreadable/i);
+  });
+
+  it('rethrows (does not mask as staged changes) when the staged-diff check fails for a non-1 reason (CORE-366)', async () => {
+    const adopter = await makeAdopter(root, 'corrupt-repo', previous);
+    // Corrupt the adopter's own .git (not the submodule's) so `git diff
+    // --cached --quiet` fails outside the exit-1 "there are staged changes"
+    // case (git falls back to --no-index usage-error mode, exit 129).
+    await rm(join(adopter.repo, '.git'), { recursive: true, force: true });
+    await assert.rejects(() => checkAdopter(adopter, latest), (e) => {
+      assert.notEqual(e.code, 1);
+      return true;
+    });
   });
 });
 

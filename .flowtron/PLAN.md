@@ -18,7 +18,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-366** [light]🔧 | updater-hardening — verify checked-out tag SHA against the canonical FLOWTRON_REPO tag in applyBump; branch the staged-diff gate on `e.code === 1` vs rethrow; add a contract test pinning the `**Version:**` regex identical between tools/update-adopters.mjs and viz/src/workspace.ts. Surfaced by audit 2026-07-26 (Findings #2, #5, #10, all Low)
 - [ ] **FE-072** [medium]🧩 | viz-refresh-race-and-sse-tests — monotonic loadSeq guard in useProjectData against same-project out-of-order commits; upgrade MockEventSource to a real listener map + emit helper; cover the change-refresh and droppedSinceOpen reconnect branches. Surfaced by audit 2026-07-26 (Findings #3, #4, both Low)
 - [ ] **FE-073** [light]🔧 | viz-ui-dedup — extract useDialog(open, onClose) hook for SettingsModal/ShortcutsModal; single STARTER_SUBSECTION_LABEL in ui/constants.ts; named HEAVY_MODELS set for ModelChip. Surfaced by audit 2026-07-26 (Findings #7, #8, #9, all Low)
 - [ ] **CORE-367** [light]🔧 | export-surface-sweep-2 — finish the FE-069 de-export class: drop export on 3 viz types (TasknoteFrontmatter, StarterSubsections, TaskRowInnerProps), 2 test-fixture exports (seedFetch, ProjectFetchOverride), and the 10 unimported tools/update-adopters.mjs exports. Surfaced by audit 2026-07-26 (Findings #11, #12, #13, all Low)
@@ -28,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-366** [light]🔧 | updater-hardening — Completed 2026-07-26.
 - [x] **FE-071** [light]🔧 | viz-frontmatter-eval-guard — Completed 2026-07-26.
 - [x] **FE-074** [light]🔧 | viz-theme-system-dark-default — readPreference() fallback now resolves prefers-color-scheme instead of hard `'light'`, matching theme-init.js so ThemeToggle's mount no longer strips the init script's dark class for system-dark users with no stored pref. Surfaced by audit 2026-07-26 (Finding #6, Medium), fixed inline.
 - [x] **CORE-369** [light]🔧 | ft-release-sweep-scope — ft-release SKILL.md step 7.1 "over the 4-file set" → "over the declared doc set" (the AI-referenced docs set now declares 12 files). Surfaced by audit 2026-07-26 (Finding #14, Medium), fixed inline.
