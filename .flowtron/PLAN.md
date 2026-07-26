@@ -11,11 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **TEST-EPIC-002** [medium]🧩 | portable full-repo gates — Restore a complete, discoverable, unprivileged verification baseline across visualizer and updater tooling. Discovery supplied by audit-repo 2026-07-21. Surfaced by audit-repo 2026-07-21 (Theme: Split safety net).
-  - [x] **TEST-002.2** [light]🔧 | dev-advisory refresh — Completed 2026-07-22.
-  - [x] **TEST-002.3** [medium]🧩 | updater fixture portability — Completed 2026-07-22.
-  - [x] **TEST-002.4** [light]🔧 | gate discoverability — Completed 2026-07-23.
-  - [x] **TEST-002.N** [medium]🧩 | portable-gates audit — Completed 2026-07-23.
+(none)
 
 ## Medium
 
@@ -26,6 +22,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Future Opportunities
 
 ## Completed
+
+- [x] **TEST-EPIC-002** [medium] | portable full-repo gates — Completed 2026-07-25.
+  - [x] **TEST-002.2** [light]🔧 | dev-advisory refresh — Completed 2026-07-22.
+  - [x] **TEST-002.3** [medium]🧩 | updater fixture portability — Completed 2026-07-22.
+  - [x] **TEST-002.4** [light]🔧 | gate discoverability — Completed 2026-07-23.
+  - [x] **TEST-002.N** [medium]🧩 | portable-gates audit — Completed 2026-07-23.
 
 - [x] **CORE-363** [medium] | epic-child closure — Completed 2026-07-21.
 - [x] **CORE-EPIC-362** [heavy] | clean-code-guidance — Completed 2026-07-20.
