@@ -78,7 +78,7 @@ A lightweight, project-agnostic tasknote system for solo AI-assisted coding. Kee
 - `docs/PLATFORMS.md` — multi-platform wiring pattern: two-layer model (agent-neutral contract / per-platform wiring) and the symmetric plug-in shape for future platforms (Codex CLI / grok / Cursor)
 - `CONTRIBUTING.md` — solo-maintenance model; issue and PR guidance
 - `SECURITY.md` — threat model (prompt injection, submodule supply-chain trust, viz dev-server scope) and vulnerability reporting
-- `templates/` — tasknote templates (full, micro, starter, sidequest)
+- `templates/` — tasknote templates (full, micro, starter, sidequest) plus spec, loop-heartbeat, and audit-overlay templates
 
 ---
 

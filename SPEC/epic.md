@@ -56,7 +56,9 @@ Never move an individual numeric or `.N` child to top-level `## Completed`.
 Only `/ft-close-epic`, after the parent-flip approval, moves the checked parent
 and its complete nested cohort atomically into `## Completed`.
 
-**Audit acceptance — fixed doc-drift line.** Every audit subtask's
+## Audit acceptance — fixed doc-drift line
+
+Every audit subtask's
 `## ✅ Acceptance` includes a doc-drift sweep across
 `.flowtron/tasknote/README.md` §"AI-referenced docs": for each entry,
 "no change" or the update. Always present — ticks fast when nothing

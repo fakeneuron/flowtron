@@ -23,6 +23,7 @@ import {
 
 const SSE_DEBOUNCE_MS = 200;
 const SSE_HEARTBEAT_MS = 30_000;
+const WATCH_POLL_MS = 200;
 
 // Static nonce stamped onto every Vite-injected <script> (the React-refresh
 // preamble and @vite/client) via `html.cspNonce`, and echoed in the dev CSP's
@@ -89,7 +90,7 @@ function flowtronApi(): Plugin {
           // FSEvents does not reliably fire inside symlinked dirs, which occur
           // in git-submodule adopter workspaces. usePolling covers all platforms.
           usePolling: true,
-          interval: 200,
+          interval: WATCH_POLL_MS,
         });
         watcher.on('all', (_event, filepath) => {
           if (typeof filepath === 'string') archiveCache.invalidate(filepath, projects.values());

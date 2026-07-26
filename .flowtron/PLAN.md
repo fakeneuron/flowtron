@@ -21,8 +21,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Future Opportunities
 
+- [ ] **CORE-364** [light]🔧 | updater-main-decompose — extract a reportResult() helper from tools/update-adopters.mjs main() (five-branch print/count block + summary), leaving main() as orchestration. Surfaced by audit 2026-07-25 (Finding #2, Low)
+- [ ] **FE-069** [light]🔧 | viz-deexport-internal-types — drop `export` on five internal-only viz types (VersionCurrency, DensityTokens, PlanParseResult, ProjectInfo, ProjectsResponse); keep paired exported values. Surfaced by audit 2026-07-25 (Finding #3, Low)
+
 ## Completed
 
+- [x] **CORE-365** [light]🔧 | audit-citation-trio — repointed ft-starter-task's dangling SPEC citation to SPEC/tasknote-selection.md §"When to use a tasknote (and when not to)"; promoted SPEC/epic.md's "Audit acceptance — fixed doc-drift line" lead-in to a real `##` heading so its three citations resolve; extended ft-flowtron's templates/ parenthetical with spec, loop-heartbeat, and audit-overlay. Surfaced by audit 2026-07-25 (Findings #4 Medium, #5 Low, #6 Low), fixed inline.
+- [x] **FE-070** [light]🔧 | viz-watch-poll-const — named the chokidar poll interval WATCH_POLL_MS in viz/vite.config.ts alongside the SSE timing constants. Surfaced by audit 2026-07-25 (Finding #1, Low), fixed inline.
 - [x] **TEST-EPIC-002** [medium] | portable full-repo gates — Completed 2026-07-25.
   - [x] **TEST-002.2** [light]🔧 | dev-advisory refresh — Completed 2026-07-22.
   - [x] **TEST-002.3** [medium]🧩 | updater fixture portability — Completed 2026-07-22.
