@@ -27,9 +27,12 @@ small direct change.
 - `.flowtron/` — flowtron's own plan and tasknotes.
 - `claude/` — Claude Code wiring: commands, skills, and the historical
   source for the agent-neutral adopter snippet.
+- `codex/` — Codex CLI skill wrappers and wiring notes.
+- `grok/` — Grok procedure pointer (intentionally minimal mirror).
 - `docs/` — supporting docs, conventions, migration, platform compatibility,
   security, and design rationale.
 - `templates/` — canonical markdown templates.
+- `tools/` — operator-side fleet scripts (`update-adopters.mjs` + tests).
 - `viz/` — Vite/React/TypeScript visualizer.
 
 ## Validation

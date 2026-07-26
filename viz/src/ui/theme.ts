@@ -7,7 +7,9 @@ export function readPreference(): ThemePreference {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored === 'light' || stored === 'dark') return stored;
   } catch {}
-  return 'light';
+  // No stored pref: resolve the system preference, matching theme-init.js so
+  // the mount-time applyResolved() doesn't strip the init script's dark class.
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
 export function writePreference(pref: ThemePreference): void {

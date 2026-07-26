@@ -204,7 +204,7 @@ Invoke the flowtron-self `ft-audit-docs` skill in **subroutine mode** with the d
 Skill(ft-audit-docs)
 ```
 
-`ft-audit-docs` walks its 5 passes (Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content) over the 4-file set and returns the report inline. In subroutine mode it does **not** write tickets to `.flowtron/PLAN.md`; the release skill is the orchestrator and decides per finding whether to absorb the fix into the current cut.
+`ft-audit-docs` walks its 5 passes (Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content) over the declared doc set and returns the report inline. In subroutine mode it does **not** write tickets to `.flowtron/PLAN.md`; the release skill is the orchestrator and decides per finding whether to absorb the fix into the current cut.
 
 For each returned finding:
 - **Critical / High** — fix inline as part of the release cut (the 5 version edits in Phase 2 normally clear the routine SPEC + MIGRATION + SECURITY + constants.ts + package.json version-pin drift; anything else surfaced here gets the same treatment).
