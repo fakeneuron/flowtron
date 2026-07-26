@@ -453,4 +453,17 @@ Rich context that would otherwise bloat PLAN.md.
     expect(tn.starterSubsections.solutionShape).toBe('');
     expect(tn.starterSubsections.outOfScope).toBe('');
   });
+
+  it('never executes a --- js frontmatter block (gray-matter javascript engine disabled)', () => {
+    const marker = '__FE071_JS_ENGINE_EVAL_MARKER__' as const;
+    delete (globalThis as Record<string, unknown>)[marker];
+    const text = `---js
+(globalThis.${marker} = true, { title: 'pwned', status: 'in-progress', created: '2026-01-01' })
+---
+
+# EVIL-1 | Evil
+`;
+    expect(() => parseTasknote('EVIL-1', '/abs/EVIL-1.md', text)).toThrow();
+    expect((globalThis as Record<string, unknown>)[marker]).toBeUndefined();
+  });
 });

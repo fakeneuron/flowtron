@@ -15,7 +15,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **FE-071** [light]🔧 | viz-frontmatter-eval-guard — disable gray-matter's javascript/js frontmatter engine in viz/src/tasknote-parse.ts (engines override that throws) + regression test; closes the `---js` → dev-server eval path. Surfaced by audit 2026-07-26 (Finding #1, Medium)
 
 ## Low
 
@@ -29,6 +28,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-071** [light]🔧 | viz-frontmatter-eval-guard — Completed 2026-07-26.
 - [x] **FE-074** [light]🔧 | viz-theme-system-dark-default — readPreference() fallback now resolves prefers-color-scheme instead of hard `'light'`, matching theme-init.js so ThemeToggle's mount no longer strips the init script's dark class for system-dark users with no stored pref. Surfaced by audit 2026-07-26 (Finding #6, Medium), fixed inline.
 - [x] **CORE-369** [light]🔧 | ft-release-sweep-scope — ft-release SKILL.md step 7.1 "over the 4-file set" → "over the declared doc set" (the AI-referenced docs set now declares 12 files). Surfaced by audit 2026-07-26 (Finding #14, Medium), fixed inline.
 - [x] **CORE-370** [light]🔧 | agents-repo-layout — added codex/, grok/, and tools/ bullets to AGENTS.md §"Repo Layout". Surfaced by audit 2026-07-26 (Finding #18, Low), fixed inline.
