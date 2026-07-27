@@ -4,7 +4,7 @@ import { vi } from 'vitest';
 import { App } from '../ui/App';
 import { emptyStarterSubsections, type Tasknote } from '../tasknote';
 
-export interface ProjectFetchOverride {
+interface ProjectFetchOverride {
   plan?: string;
   active?: Tasknote[];
   archive?: Tasknote[];
@@ -48,7 +48,7 @@ export function makeTasknote(partial: Partial<Tasknote> & Pick<Tasknote, 'id'>):
   };
 }
 
-export function seedFetch(seed: FetchSeed): void {
+function seedFetch(seed: FetchSeed): void {
   const defaultActive = seed.active ?? [];
   const defaultArchive = seed.archive ?? [];
   const projects = (seed.projects ?? ['flowtron']).map((name) => ({

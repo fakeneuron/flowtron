@@ -102,13 +102,13 @@ export function parseArgs(argv, { exitOnError = true } = {}) {
   return args;
 }
 
-export function expandHome(path) {
+function expandHome(path) {
   if (path === '~') return homedir();
   if (path.startsWith('~/')) return join(homedir(), path.slice(2));
   return path;
 }
 
-export function workspaceRoot(rootArg) {
+function workspaceRoot(rootArg) {
   const raw = rootArg ?? process.env.FLOWTRON_VIZ_WORKSPACE;
   return expandHome(raw && raw.length > 0 ? raw : '~/code');
 }
@@ -126,7 +126,7 @@ export function compareSemver(a, b) {
   return 0;
 }
 
-export async function isFile(path) {
+async function isFile(path) {
   try {
     return (await stat(path)).isFile();
   } catch {
@@ -134,7 +134,7 @@ export async function isFile(path) {
   }
 }
 
-export async function isDir(path) {
+async function isDir(path) {
   try {
     return (await stat(path)).isDirectory();
   } catch {
@@ -239,7 +239,7 @@ export async function migrationBearingTags(tags) {
 // The per-platform symlink-wiring set: paths named in the freshly-bumped
 // AGENTS-snippet ln -s block — the authority /ft-update Step 4 consults.
 // Read at toTag to match what the adopter bumps to.
-export async function wiredSkillKeys(toTag, surface) {
+async function wiredSkillKeys(toTag, surface) {
   let snippet;
   try {
     snippet = await git(FLOWTRON_REPO, 'show', `${toTag}:${surface.snippetPath}`);
@@ -255,7 +255,7 @@ export async function wiredSkillKeys(toTag, surface) {
   return keys;
 }
 
-export async function addedFilesForSurface(fromTag, toTag, surface) {
+async function addedFilesForSurface(fromTag, toTag, surface) {
   const stdout = await git(
     FLOWTRON_REPO,
     'diff',
@@ -268,7 +268,7 @@ export async function addedFilesForSurface(fromTag, toTag, surface) {
   return stdout.split('\n').filter((l) => l.trim().length > 0);
 }
 
-export async function newSkillWiringSurfaces(fromTag, toTag) {
+async function newSkillWiringSurfaces(fromTag, toTag) {
   const affected = [];
   for (const surface of WIRING_SURFACES) {
     const added = await addedFilesForSurface(fromTag, toTag, surface);
@@ -396,7 +396,7 @@ export async function applyBump(adopter, latest) {
 // Print one adopter's check result and fold it into the running counts. The
 // apply branch performs the bump inline (awaiting applyBump); all other
 // branches are pure presentation over the already-computed result.
-export async function reportResult(adopter, result, latest, apply, counts) {
+async function reportResult(adopter, result, latest, apply, counts) {
   if (result.status === 'current') {
     counts.current += 1;
     console.log(`  ✓ ${adopter.name}: current (${result.current})`);
@@ -425,7 +425,7 @@ export async function reportResult(adopter, result, latest, apply, counts) {
 }
 
 // Print the closing summary line, plus the re-run hint on a dry-run with pending bumps.
-export function reportSummary(counts, apply) {
+function reportSummary(counts, apply) {
   const planned = apply ? `bumped ${counts.bumped}` : `would bump ${counts.planned}`;
   console.log(
     `\nSummary: ${counts.current} current · ${counts.drifted} drift · ${planned} · ${counts.skipped} skipped · ${counts.failed} failed`,
@@ -435,7 +435,7 @@ export function reportSummary(counts, apply) {
   }
 }
 
-export async function main(argv = process.argv.slice(2)) {
+async function main(argv = process.argv.slice(2)) {
   const args = parseArgs(argv);
   const root = workspaceRoot(args.root);
   const latest = await latestReleaseTag();
@@ -487,4 +487,4 @@ if (isMain) {
   });
 }
 
-export { FLOWTRON_REPO, SUBMODULE_PATH, WIRING_SURFACES };
+export { FLOWTRON_REPO, SUBMODULE_PATH };

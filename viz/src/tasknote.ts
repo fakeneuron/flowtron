@@ -1,6 +1,6 @@
 export type TasknoteStatus = 'starter' | 'not-started' | 'in-progress' | 'blocked' | 'completed';
 
-export interface TasknoteFrontmatter {
+interface TasknoteFrontmatter {
   title: string;
   status: TasknoteStatus;
   tags: string[];
@@ -16,7 +16,7 @@ export interface ChecklistCounts {
 
 export type StarterSubsectionKey = 'whyExists' | 'solutionShape' | 'filesToTouch' | 'outOfScope';
 
-export type StarterSubsections = Record<StarterSubsectionKey, string>;
+type StarterSubsections = Record<StarterSubsectionKey, string>;
 
 export interface Tasknote {
   id: string;

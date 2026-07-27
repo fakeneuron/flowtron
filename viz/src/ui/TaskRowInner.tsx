@@ -14,7 +14,7 @@ import { Chevron } from './Chevron';
 import { highlightMatch } from './highlight';
 import { useSearchQuery } from './SearchContext';
 
-export interface TaskRowInnerProps {
+interface TaskRowInnerProps {
   task: Task;
   tasknotesById: Map<string, Tasknote>;
   rowChips: VisibilityPrefs['rowChips'];
