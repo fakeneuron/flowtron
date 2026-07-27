@@ -18,8 +18,13 @@ describe('ModelChip — 🧠 heavy-model glyph', () => {
     expect(screen.getByText('🧠')).toBeInTheDocument();
   });
 
-  it('renders nothing for other tokens', () => {
-    render(<ModelChip model="sonnet" />);
+  it('renders 🧠 for mythos', () => {
+    render(<ModelChip model="mythos" />);
+    expect(screen.getByText('🧠')).toBeInTheDocument();
+  });
+
+  it.each(['sonnet', 'grok', 'haiku'])('renders nothing for %s', (model) => {
+    render(<ModelChip model={model} />);
     expect(screen.queryByText('🧠')).toBeNull();
   });
 });

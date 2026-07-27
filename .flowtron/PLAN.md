@@ -16,7 +16,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Medium
 
 - [ ] **CORE-372** [medium]🧩 | release v5.14.0 — Cut v5.14.0 minor release tagging CORE-362 (clean-code-contract epic), CORE-364/CORE-366 (updater decompose + hardening), TEST-002 (portable release gates), and CORE-371 (shared workspace helpers) since v5.13.0.
-- [ ] **CORE-373** [medium]🧩 | model-roster-refresh — Refresh the model roster for the current Claude 5 family (fable/opus/sonnet 5, haiku 4.5, 1M-context and effort variants) across SPEC/model.md tier calibration + effort axis, viz ModelChip HEAVY_MODELS, ft-stats named buckets, and step-1.5 edge guidance.
 
 ## Low
 
@@ -24,6 +23,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-373** [medium]🧩 | model-roster-refresh — Completed 2026-07-27.
 - [x] **FE-077** [light]🔧 | plan-parser-regex-tighten — bounded `TASK_LINE`'s two trailing capture groups to `[^\n]+?`. Surfaced by audit-repo 2026-07-26 (Finding #4, Low). Completed 2026-07-26.
 - [x] **FE-076** [light]🔧 | archive-watch-glob-depth — narrowed archive watcher glob to `*/*.md` to match `readArchive`'s one-level read. Surfaced by audit-repo 2026-07-26 (Finding #3, Low). Completed 2026-07-26.
 - [x] **CORE-371** [light]🔧 | shared-workspace-helpers — Completed 2026-07-26.

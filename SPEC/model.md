@@ -72,15 +72,20 @@ cross-provider model→tier table that needs maintenance every release. Calibrat
 baseline:
 
 - **`heavy`** — deep-reasoning, large/long-context models at their default
-  (unadjusted) effort setting: `fable` (Anthropic's tier above opus), `opus`,
-  and peers; a `medium`-tier model dialed up to its highest effort setting can
-  also earn a `heavy` verdict — see §"Effort axis" below.
+  (unadjusted) effort setting: Anthropic's current top tier (`fable`, with
+  `mythos` as its limited-access sibling), `opus`, and peers; a `medium`-tier
+  model dialed up to its highest effort setting can also earn a `heavy`
+  verdict — see §"Effort axis" below.
 - **`medium`** — capable mid-tier models that handle multi-step, well-scoped work
   reliably without the deep-reasoning / large-context profile that defines
   `heavy`: `sonnet`, `grok`, `codex` (OpenAI's coding-focused reasoning line) at
   its own recommended default effort, and peers. A medium-tier model comfortably
   covers both `[light]` and `[medium]` task work; it gets the ⚠️ under-tier note
-  only on a `[heavy]` task.
+  only on a `[heavy]` task. `sonnet` sits at the top of this rung — the Sonnet 5
+  generation narrowed the gap to `heavy` substantially on coding and agentic
+  work — but stays `medium` deliberately: the ladder labels the *task's*
+  cognitive load, not the model's benchmark position, so a `[heavy]` task on
+  `sonnet` still earns the advisory and the operator still makes the call.
 - **`light`** — fast, small implementation models for mechanical, clear-diff
   work: `haiku`-class and peers.
 
@@ -96,9 +101,11 @@ The match compares the active model's tier against the tag's tier:
 
 Vendor APIs now commonly expose a second axis alongside the choice of named
 model: a reasoning-*effort* setting (Claude's `low` / `medium` / `high` /
-`max`, with `xhigh` on some models; Grok's `none` / `low` / `medium` /
-`high`; Codex's `none` / `low` / `medium` / `high` / `xhigh` / `max`, with
-`minimal` as an even lighter CLI-only rung). This is orthogonal to the tier
+`xhigh` / `max` — the full ladder across the current Claude 5 family, with
+`xhigh` the recommended setting for coding and agentic work; Grok's `none` /
+`low` / `medium` / `high`; Codex's `none` / `low` / `medium` / `high` /
+`xhigh` / `max`, with `minimal` as an even lighter CLI-only rung). This is
+orthogonal to the tier
 ladder above: the *same* named model can be pushed toward `heavy`-band output
 by raising its effort setting, or throttled toward `light`-band output by
 lowering it.
@@ -108,8 +115,15 @@ model→tier lookup table — a `[heavy]` task is satisfied equally by a big
 model at low effort or a small model at high effort, whichever the operator's
 session is actually running. The Step 1.5 gate reads the *active model's*
 self-assessed tier at gate time (this section); it does not separately read
-or require an effort parameter — effort is session/agent configuration, not
-a PLAN.md field.
+or require an effort parameter.
+
+Effort level and context-window size are both **session/agent configuration,
+not PLAN.md fields**. The `[model]` token stays the bare family name whatever
+variant the session runs: a 1M-context Opus session filed against a `[heavy]`
+task is still `opus` — there is no `[opus-1m]` or `[opus-xhigh]` token, and a
+variant suffix would fragment the `/ft-stats` buckets for no signal gain.
+Variants shift where a model lands on the tier ladder (that is the point of
+this section); they do not multiply the vocabulary.
 
 The ⚠️ note is an inline advisory only (like the `👁️` Phase 3 prefix) — not an
 operator-gate banner and not an approval pause; the standing phase-gate count is
