@@ -56,7 +56,7 @@ const LEGACY_CRITICAL_HEADING = 'Critical';
 // Emoji are matched via alternation (not a char class) so astral-plane glyphs
 // match correctly without the `u` flag; an optional trailing VS16 is tolerated.
 const TASK_LINE =
-  /^\s*-\s+\[([ xX])\]\s+(?:(?:🟢|⏸|✅|⚪|🌱)\uFE0F?\s+)?\*\*([A-Z]+(?:-EPIC)?-\d+(?:\.(?:\d+|N))?)\*\*(?:\s+\[(!critical)\])?(?:\s+\[([a-z][\w.-]*)\])?(?:\s+\[[a-z][\w.-]*\])*(?:\s*(?:🧠|🔧|🧩)\uFE0F?)?(?:\s+\|\s+(.+?))?(?:\s+[—-]\s+(.+?))?\s*$/;
+  /^\s*-\s+\[([ xX])\]\s+(?:(?:🟢|⏸|✅|⚪|🌱)\uFE0F?\s+)?\*\*([A-Z]+(?:-EPIC)?-\d+(?:\.(?:\d+|N))?)\*\*(?:\s+\[(!critical)\])?(?:\s+\[([a-z][\w.-]*)\])?(?:\s+\[[a-z][\w.-]*\])*(?:\s*(?:🧠|🔧|🧩)\uFE0F?)?(?:\s+\|\s+([^\n]+?))?(?:\s+[—-]\s+([^\n]+?))?\s*$/;
 const COMPLETED_DATE = /\bCompleted\s+(\d{4}-\d{2}-\d{2})\.?/;
 const HEADING_LINE = /^##\s+(.+?)\s*$/;
 
