@@ -76,7 +76,7 @@ The deliverable is tickets in PLAN.md.
 - [x] **<AREA>-<N>** [light] | shortname — <what changed>. Surfaced by audit-security YYYY-MM-DD (Finding #N, <severity>), fixed inline.
 ```
 
-Keep the description (there is no tasknote/archive file to be the canonical record — see SPEC §"`## Completed` archive convention") and take the next free `<N>` like any ticket. This carve-out is for trivial hygiene only — never apply an actual security fix (auth, validation, crypto, secret rotation) inline; those are above the skip threshold and follow the §4 secret-leaked path or a normal `/ft-task` ticket. The single write-step confirmation covers both tickets and inline fixes; no separate gate.
+Keep the description (there is no tasknote/archive file to be the canonical record — see SPEC/tasknote-selection.md §"`## Completed` archive convention") and take the next free `<N>` like any ticket. This carve-out is for trivial hygiene only — never apply an actual security fix (auth, validation, crypto, secret rotation) inline; those are above the skip threshold and follow the §4 secret-leaked path or a normal `/ft-task` ticket. The single write-step confirmation covers both tickets and inline fixes; no separate gate.
 
 Zero findings across all passes → say so explicitly and skip the write.
 

@@ -194,7 +194,7 @@ runtime lives in the runner; the contract lives in flowtron.
 
 - `SPEC.md` — workflow contract (authoritative)
 - `SPEC/` — lazy SPEC modules (epic, starter, blocked, model, versioning, gates, tasknote-selection, loop) plus `procedures/` (pasteable skill procedures); loaded on demand by skills
-- `templates/` — canonical tasknote, `PLAN.md`, and audit-overlay fork templates
+- `templates/` — canonical tasknote templates (full, micro, starter, sidequest) plus spec, loop-heartbeat, and audit-overlay templates, and the `PLAN.md` / `tasknote-README.md` seed files
 - `claude/` — Claude Code skills + slash commands (adopter-facing snippet plus the full shipped `ft-*` inventory; adopter projects wire the policy subset, while flowtron-self-only skills like `/ft-release` stay upstream-only)
 - `codex/` — Codex skill wrappers for the full `ft-*` inventory plus Codex-specific wiring notes
 - `grok/` — grok platform wiring (currently the `ft-task` procedure pointer); further platform wirings (e.g., `cursor/`) plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md)

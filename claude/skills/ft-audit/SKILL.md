@@ -88,7 +88,7 @@ The deliverable is tickets in PLAN.md — a report that gets forgotten isn't use
 - [x] **<AREA>-<N>** [light] | shortname — <what changed>. Surfaced by audit YYYY-MM-DD (Finding #N, <severity>), fixed inline.
 ```
 
-Keep the description (there is no tasknote/archive file to be the canonical record — see SPEC §"`## Completed` archive convention") and take the next free `<N>` like any ticket. Anything above the skip threshold — multi-file, logic impact, or a design tradeoff worth recording — files a normal ticket; never apply a non-trivial fix under this carve-out. The single write-step confirmation covers both tickets and inline fixes; no separate gate.
+Keep the description (there is no tasknote/archive file to be the canonical record — see SPEC/tasknote-selection.md §"`## Completed` archive convention") and take the next free `<N>` like any ticket. Anything above the skip threshold — multi-file, logic impact, or a design tradeoff worth recording — files a normal ticket; never apply a non-trivial fix under this carve-out. The single write-step confirmation covers both tickets and inline fixes; no separate gate.
 
 Zero findings across all passes → say so explicitly and skip the write.
 

@@ -299,5 +299,9 @@ touches three surfaces:
   Re-scope/De-scope verdicts always fire 🛠️ regardless of `--fast`. The
   flag silences routine signal trips; it does not silence drift.
 
-`--fast` applies to `/ft-task` and `/ft-micro-task` only — the epic
-skills (`/ft-epic-discovery`, `/ft-close-epic`) do not accept it.
+`--fast` applies to `/ft-task`, `/ft-micro-task`, `/ft-debug`, and
+`/ft-goal-task` — the epic skills (`/ft-epic-discovery`,
+`/ft-close-epic`) do not accept it. `/ft-spec` has its own,
+unrelated `--fast`: it only skips the operator review pause before
+writing a spec and never touches the 👁️/📦/🛠️ gate surface described
+above.

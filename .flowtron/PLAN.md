@@ -18,12 +18,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-368** [light]🔧 | contract-doc-sync — widen the `--fast` invoker list in SPEC/gates.md §"`--fast` operator override" + claude/CAPABILITIES.md (add /ft-debug, /ft-goal-task; note /ft-spec's review-pause-only variant); repoint the `## Completed` archive-convention citation in the 6 audit-family SKILL.md files to SPEC/tasknote-selection.md; mirror CORE-365's 9-template enumeration into SPEC.md §repo-layout + README.md §"Repo layout". Surfaced by audit 2026-07-26 (Findings #15 Medium, #16 Low, #17 Low)
-
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-368** [light]🔧 | contract-doc-sync — Completed 2026-07-26.
 - [x] **CORE-367** [light]🔧 | export-surface-sweep-2 — Completed 2026-07-26.
 - [x] **FE-073** [light]🔧 | viz-ui-dedup — Completed 2026-07-26.
 - [x] **FE-072** [medium]🧩 | viz-refresh-race-and-sse-tests — Completed 2026-07-26.
