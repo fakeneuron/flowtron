@@ -102,6 +102,13 @@ export function parseArgs(argv, { exitOnError = true } = {}) {
   return args;
 }
 
+// expandHome/workspaceRoot/isFile mirror viz/src/workspace.ts verbatim (bar
+// workspaceRoot's arg shape — root string here, env object there). Left
+// duplicated rather than shared: this script has no package.json and runs
+// via plain `node`, so a shared module would either be plain JS imported
+// across the tools/↔viz/src boundary (new coupling between two currently
+// independent surfaces) or TS requiring a loader this script doesn't have —
+// either breaks the zero-dep standalone property it's built on.
 function expandHome(path) {
   if (path === '~') return homedir();
   if (path.startsWith('~/')) return join(homedir(), path.slice(2));
@@ -126,6 +133,7 @@ export function compareSemver(a, b) {
   return 0;
 }
 
+// See the expandHome comment above — same zero-dep tradeoff applies here.
 async function isFile(path) {
   try {
     return (await stat(path)).isFile();

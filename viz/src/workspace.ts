@@ -15,6 +15,9 @@ export interface ProjectDescriptor {
   flowtronVersion: string | null;
 }
 
+// expandHome/workspaceRoot/isFile mirror tools/update-adopters.mjs verbatim
+// (bar workspaceRoot's arg shape — env object here, root string there). Kept
+// duplicated rather than shared — see the comment there for why.
 function expandHome(path: string): string {
   if (path === '~') return homedir();
   if (path.startsWith('~/')) return join(homedir(), path.slice(2));
