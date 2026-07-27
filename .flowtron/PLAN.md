@@ -15,6 +15,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
+- [ ] **CORE-372** [medium]🧩 | release v5.14.0 — Cut v5.14.0 minor release tagging CORE-362 (clean-code-contract epic), CORE-364/CORE-366 (updater decompose + hardening), TEST-002 (portable release gates), and CORE-371 (shared workspace helpers) since v5.13.0.
+- [ ] **CORE-373** [medium]🧩 | model-roster-refresh — Refresh the model roster for the current Claude 5 family (fable/opus/sonnet 5, haiku 4.5, 1M-context and effort variants) across SPEC/model.md tier calibration + effort axis, viz ModelChip HEAVY_MODELS, ft-stats named buckets, and step-1.5 edge guidance.
 
 ## Low
 
