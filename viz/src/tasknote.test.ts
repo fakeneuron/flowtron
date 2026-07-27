@@ -150,6 +150,29 @@ Phase content goes here.
   it('returns empty string for missing sections', () => {
     expect(extractSection(body, 'DoesNotExist')).toBe('');
   });
+
+  it('does not match a heading substring across a word boundary', () => {
+    const ambiguousBody = `## 📝 Phase 1: Discovery
+
+Phase 1 content.
+
+## 📝 Phase 10: Extended Discovery
+
+Phase 10 content.
+
+## 🎯 Goal
+
+Singular goal text.
+
+## 🎯 Goals
+
+Plural goals text.
+`;
+    expect(extractSection(ambiguousBody, 'Phase 1')).toBe('Phase 1 content.');
+    expect(extractSection(ambiguousBody, 'Phase 10')).toBe('Phase 10 content.');
+    expect(extractSection(ambiguousBody, 'Goal')).toBe('Singular goal text.');
+    expect(extractSection(ambiguousBody, 'Goals')).toBe('Plural goals text.');
+  });
 });
 
 describe('extractStarterSubsections', () => {

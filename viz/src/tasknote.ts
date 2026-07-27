@@ -101,7 +101,12 @@ const SECTION_HEADING = /^##\s+(.+?)\s*$/;
 const SUBSECTION_HEADING = /^###\s+(.+?)\s*$/;
 const HORIZONTAL_RULE = /^---\s*$/;
 
+function escapeRegExp(str: string): string {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 export function extractSection(body: string, titleSubstring: string): string {
+  const titleBoundary = new RegExp(`\\b${escapeRegExp(titleSubstring)}\\b`);
   const lines = body.split(/\r?\n/);
   let inSection = false;
   const collected: string[] = [];
@@ -109,7 +114,7 @@ export function extractSection(body: string, titleSubstring: string): string {
     const heading = SECTION_HEADING.exec(line);
     if (heading) {
       if (inSection) break;
-      if (heading[1].includes(titleSubstring)) {
+      if (titleBoundary.test(heading[1])) {
         inSection = true;
         continue;
       }

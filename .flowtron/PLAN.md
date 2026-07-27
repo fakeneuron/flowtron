@@ -18,7 +18,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **FE-075** [light]🔧 | tasknote-section-anchor — anchor `extractSection`'s heading match in viz/src/tasknote.ts (currently loose `includes()`, so 'Phase 1' would match a 'Phase 10' heading, 'Goal' matches 'Goals') to the heading's leading token or a word boundary, with a regression test. Surfaced by audit-repo 2026-07-26 (Finding #1, Low; Theme: parser leniency)
 - [ ] **CORE-371** [light]🔧 | shared-workspace-helpers — dedupe `expandHome`/`workspaceRoot`/`isFile` duplicated verbatim between viz/src/workspace.ts and tools/update-adopters.mjs into one shared local module (or document the duplication as the price of keeping tools/ zero-dep standalone); the `**Version:**` regex half is already parity-pinned by the CORE-366 contract test. Surfaced by audit-repo 2026-07-26 (Finding #2, Low; Theme: two-runtime duplication)
 - [ ] **FE-076** [light]🔧 | archive-watch-glob-depth — align the archive watcher glob in viz/vite.config.ts (`**/*.md`, depth 2) with what archiveCache's `readArchive` actually reads (one level, `archive/<area>/<file>.md`): narrow the glob to `archive/*/*.md` or make the reader recurse. Surfaced by audit-repo 2026-07-26 (Finding #3, Low; Theme: parser leniency)
 - [ ] **FE-077** [light]🔧 | plan-parser-regex-tighten — tighten `TASK_LINE`'s two trailing adjacent lazy optional groups in viz/src/parser.ts (super-linear backtracking shape on long non-matching lines) by bounding the description groups to `[^\n]+?`; theoretical only — input is trusted local PLAN.md. Surfaced by audit-repo 2026-07-26 (Finding #4, Low; Theme: parser leniency)
@@ -27,6 +26,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-075** [light]🔧 | tasknote-section-anchor — Completed 2026-07-26.
 - [x] **CORE-368** [light]🔧 | contract-doc-sync — Completed 2026-07-26.
 - [x] **CORE-367** [light]🔧 | export-surface-sweep-2 — Completed 2026-07-26.
 - [x] **FE-073** [light]🔧 | viz-ui-dedup — Completed 2026-07-26.
