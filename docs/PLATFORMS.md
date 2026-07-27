@@ -91,7 +91,7 @@ flowtron/
 
 The structural decision is locked at [[CORE-154.3]]: no parent
 `wiring/` dir, no rename of `claude/`. Adopter symlinks already in
-production (InvisiPaw, fintown, photard) point at
+production (InvisiPaw, siteguy, marscharts, …) point at
 `../../.flowtron/core/claude/...` — that path stability is a
 non-negotiable per [[CORE-154.1]] Constitution.
 
@@ -217,8 +217,10 @@ Concrete instantiation:
   `claude/AGENTS-snippet.md` §"One-time symlink wiring". The relative
   paths survive `git clone` and pin to whichever flowtron commit the
   submodule is checked out at.
-- **Operator force-skip flag**: `--fast` / `-f` on `/ft-task` and
-  `/ft-micro-task`, per SPEC §"Operator-gate cues".
+- **Operator force-skip flag**: `--fast` / `-f` on `/ft-task`,
+  `/ft-micro-task`, `/ft-debug`, and `/ft-goal-task`, per SPEC
+  §"Operator-gate cues" (`/ft-spec` carries a separate, unrelated
+  `--fast` that never touches the gate surface)
 
 [`MIGRATION.md`](MIGRATION.md) is the full Claude Code adoption guide —
 fresh adoption (§1), heavy migration with full archive lift (§2), and
@@ -283,8 +285,8 @@ This mirrors the pre-adoption framing in §"Grok Build adoption notes" above._
 | **Force-skip (`--fast` equivalent)** | No equivalent without a shipped `grok/` bundle. A future `grok/` contributor could mirror the trailing-arg form (e.g., `--fast`) in a `SKILL.md` body — the concept is contract-neutral; only the syntax is wiring detail. | Would suppress the 👁️ visual-confirmation ask and 📦 signal trips, routing closure to autonomous commit — same as Claude Code's `--fast`. | N/A today. If a `grok/` bundle ships, follow the same operator-gate convention as Claude Code's `--fast`. |
 | **Model / session switch** | Restart a new Grok Build session with the target model. No in-session `/model` command equivalent is documented. | Ensures the task runs at its assigned `[heavy]` / `[medium]` / `[light]` depth. The post-closure copy-paste line from `/ft-task` emits a `/model` hint for Claude Code hand-offs; for Grok, the equivalent is the session-start model choice. | Before starting a task whose `[model]` differs from the previous session's model. |
 | **Context freshness** | Start a new Grok Build session. No in-session `/clear` equivalent is documented. | Resets the context window so the next task starts cold — "one task per context window" in practice. | Between tasks, before starting the next flowtron skill invocation, so each tasknote runs in a clean context. |
-| **Structured ask** | No equivalent to Claude Code's `AskUserQuestion` multi-option UI is documented for Grok Build. The contract falls back to a **prose ask** — the agent surfaces the question in free text and the operator replies. | Realizes Phase 1 clarification asks and other decision points. With no structured-ask primitive, the operator sees a prose question and replies conversationally rather than selecting a labeled option. | Grok Build will always use prose asks per launch docs. (2026-06-01 CORE-257 observation: AskUserQuestion tool rendered clean multi-option UI in this Grok 4.3 TUI; may be TUI enhancement vs. base CLI. Update on further runs.) Functionally equivalent to structured ask for single-decision clarifications; multi-option forks may require more care in phrasing. |
-| **Procedure pointer** | `grok/procedures/ft-task.md` ships in the flowtron repo, routing grok agents to `SPEC/procedures/ft-task.md` when asked to start a flowtron task (CORE-271.4). | Load `.flowtron/core/grok/procedures/ft-task.md` when starting a flowtron task — it routes to the agent-neutral `SPEC/procedures/ft-task.md` SOP in place of the Claude Code `/ft-task` skill. |
+| **Structured ask** | Observed to work: the 2026-06-01 CORE-257 dogfood rendered a clean multi-option UI under the Grok 4.3 interactive TUI. Undocumented by xAI — launch coverage described no `AskUserQuestion` equivalent, so a **prose ask** (free-text question, conversational reply) remains the guaranteed fallback. | Realizes Phase 1 clarification asks and other decision points. Where the structured primitive is present the operator selects a labeled option; where it isn't, the same ask degrades to prose without contract impact. | Reach for the structured ask by default and let it degrade to prose. Treat prose as the floor, not the ceiling — the earlier "always prose per launch docs" reading is superseded by the CORE-257 observation, though the multi-option render may be a TUI enhancement rather than base-CLI behavior. Multi-option forks phrased to read cleanly either way survive both surfaces. |
+| **Procedure pointer** | `grok/procedures/ft-task.md` ships in the flowtron repo, routing grok agents to `SPEC/procedures/ft-task.md` when asked to start a flowtron task (CORE-271.4). | Load `.flowtron/core/grok/procedures/ft-task.md` when starting a flowtron task — it routes to the agent-neutral `SPEC/procedures/ft-task.md` SOP in place of the Claude Code `/ft-task` skill. | Use when starting a flowtron task under Grok Build — there is no `grok/` skill bundle today, so the pointer is the standing entry path rather than a fallback. |
 
 First-use verification 2026-06-01 (CORE-257). /ft-task skill invocation, model gate (with retag), AskUserQuestion render, and cue emissions (✅ marker + post-closure expectations) exercised under Grok. Structured ask support observed (see trigger table note). Matrix currency lives in docs/AGENT-COMPAT.md.
 
