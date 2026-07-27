@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import type { TasknoteStatus } from '../tasknote';
 import { STATUS_LABEL, STATUS_CHIP_LABEL } from './constants';
+import { useDialog } from './useDialog';
 
 interface ShortcutsModalProps {
   open: boolean;
@@ -25,29 +26,7 @@ const STATUS_LEGEND: TasknoteStatus[] = [
 ];
 
 export const ShortcutsModal: React.FC<ShortcutsModalProps> = ({ open, onClose }) => {
-  const dialogRef = useRef<HTMLDialogElement>(null);
-
-  useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-    if (open && !dialog.open) dialog.showModal();
-    if (!open && dialog.open) dialog.close();
-  }, [open]);
-
-  useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-    const handleClose = () => onClose();
-    const handleClick = (e: MouseEvent) => {
-      if (e.target === dialog) dialog.close();
-    };
-    dialog.addEventListener('close', handleClose);
-    dialog.addEventListener('click', handleClick);
-    return () => {
-      dialog.removeEventListener('close', handleClose);
-      dialog.removeEventListener('click', handleClick);
-    };
-  }, [onClose]);
+  const dialogRef = useDialog(open, onClose);
 
   return (
     <dialog

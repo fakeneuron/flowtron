@@ -1,5 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { DEFAULT_PREFS, type DensityMode, type PaletteName, type VisibilityPrefs } from '../visibilityPrefs';
+import { STARTER_SUBSECTION_LABEL } from './constants';
+import { useDialog } from './useDialog';
 
 interface SettingsModalProps {
   open: boolean;
@@ -26,13 +28,6 @@ const DETAIL_SECTION_LABEL: Record<DetailSectionKey, string> = {
   subtasks: 'Subtasks',
 };
 
-const STARTER_SECTION_LABEL: Record<StarterSectionKey, string> = {
-  whyExists: 'Why this exists',
-  solutionShape: 'Solution shape',
-  filesToTouch: 'Files to touch',
-  outOfScope: 'Out of scope',
-};
-
 const DENSITY_LABEL: Record<DensityMode, string> = {
   comfortable: 'Comfortable',
   default: 'Default',
@@ -57,29 +52,7 @@ const DENSITY_KEYS: DensityMode[] = ['comfortable', 'default', 'compact'];
 const PALETTE_KEYS: PaletteName[] = ['default', 'linear', 'github'];
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose, prefs, onChange }) => {
-  const dialogRef = useRef<HTMLDialogElement>(null);
-
-  useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-    if (open && !dialog.open) dialog.showModal();
-    if (!open && dialog.open) dialog.close();
-  }, [open]);
-
-  useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-    const handleClose = () => onClose();
-    const handleClick = (e: MouseEvent) => {
-      if (e.target === dialog) dialog.close();
-    };
-    dialog.addEventListener('close', handleClose);
-    dialog.addEventListener('click', handleClick);
-    return () => {
-      dialog.removeEventListener('close', handleClose);
-      dialog.removeEventListener('click', handleClick);
-    };
-  }, [onClose]);
+  const dialogRef = useDialog(open, onClose);
 
   const setRowChip = (key: RowChipKey, value: boolean) => {
     onChange({ ...prefs, rowChips: { ...prefs.rowChips, [key]: value } });
@@ -191,7 +164,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose, pre
                   checked={prefs.starterSections[key]}
                   onChange={(e) => setStarterSection(key, e.target.checked)}
                 />
-                {STARTER_SECTION_LABEL[key]}
+                {STARTER_SUBSECTION_LABEL[key]}
               </label>
             ))}
           </div>

@@ -1,19 +1,13 @@
 import React from 'react';
 import type { Task } from '../parser';
-import { STARTER_SUBSECTION_KEYS, type StarterSubsectionKey, type Tasknote } from '../tasknote';
+import { STARTER_SUBSECTION_KEYS, type Tasknote } from '../tasknote';
 import type { VisibilityPrefs } from '../visibilityPrefs';
 import { WikilinkMarkdown } from './WikilinkMarkdown';
 import { DetailSection } from './DetailSection';
+import { STARTER_SUBSECTION_LABEL } from './constants';
 import { usePalette } from './VisibilityContext';
 import { StatusChip } from './StatusChip';
 import { effectiveStatus } from './utils';
-
-const STARTER_SUBSECTION_LABEL: Record<StarterSubsectionKey, string> = {
-  whyExists: 'Why this exists',
-  solutionShape: 'Solution shape',
-  filesToTouch: 'Files to touch',
-  outOfScope: 'Out of scope',
-};
 
 // Build a `vscode://file` href only for a well-formed absolute path, encoding
 // it so spaces / special characters don't break the URI. Returns null for a

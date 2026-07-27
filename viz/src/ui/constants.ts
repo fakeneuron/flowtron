@@ -1,5 +1,5 @@
 import type { Priority } from '../parser';
-import type { TasknoteStatus } from '../tasknote';
+import type { StarterSubsectionKey, TasknoteStatus } from '../tasknote';
 import type { DensityMode, PaletteName } from '../visibilityPrefs';
 
 /**
@@ -61,6 +61,13 @@ export const STATUS_CHIP_LABEL: Record<TasknoteStatus, string> = {
   'in-progress': '●',
   blocked: '⏸',
   completed: '✓',
+};
+
+export const STARTER_SUBSECTION_LABEL: Record<StarterSubsectionKey, string> = {
+  whyExists: 'Why this exists',
+  solutionShape: 'Solution shape',
+  filesToTouch: 'Files to touch',
+  outOfScope: 'Out of scope',
 };
 
 export interface PaletteTokens {
