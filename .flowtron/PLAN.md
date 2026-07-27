@@ -18,13 +18,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **FE-076** [light]🔧 | archive-watch-glob-depth — align the archive watcher glob in viz/vite.config.ts (`**/*.md`, depth 2) with what archiveCache's `readArchive` actually reads (one level, `archive/<area>/<file>.md`): narrow the glob to `archive/*/*.md` or make the reader recurse. Surfaced by audit-repo 2026-07-26 (Finding #3, Low; Theme: parser leniency)
 - [ ] **FE-077** [light]🔧 | plan-parser-regex-tighten — tighten `TASK_LINE`'s two trailing adjacent lazy optional groups in viz/src/parser.ts (super-linear backtracking shape on long non-matching lines) by bounding the description groups to `[^\n]+?`; theoretical only — input is trusted local PLAN.md. Surfaced by audit-repo 2026-07-26 (Finding #4, Low; Theme: parser leniency)
 
 ## Future Opportunities
 
 ## Completed
 
+- [x] **FE-076** [light]🔧 | archive-watch-glob-depth — narrowed archive watcher glob to `*/*.md` to match `readArchive`'s one-level read. Surfaced by audit-repo 2026-07-26 (Finding #3, Low). Completed 2026-07-26.
 - [x] **CORE-371** [light]🔧 | shared-workspace-helpers — Completed 2026-07-26.
 - [x] **FE-075** [light]🔧 | tasknote-section-anchor — Completed 2026-07-26.
 - [x] **CORE-368** [light]🔧 | contract-doc-sync — Completed 2026-07-26.

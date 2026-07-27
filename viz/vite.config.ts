@@ -82,7 +82,7 @@ function flowtronApi(): Plugin {
         const watchPaths = discovered.flatMap((p) => [
           p.planPath,
           join(p.tasknoteDir, '*.md'),
-          join(p.archiveDir, '**/*.md'),
+          join(p.archiveDir, '*/*.md'),
         ]);
         watcher = chokidar.watch(watchPaths, {
           ignoreInitial: true,
