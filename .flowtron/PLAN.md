@@ -15,14 +15,20 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-372** [medium]🧩 | release v5.14.0 — Cut v5.14.0 minor release tagging CORE-362 (clean-code-contract epic), CORE-364/CORE-366 (updater decompose + hardening), TEST-002 (portable release gates), and CORE-371 (shared workspace helpers) since v5.13.0.
+(none)
 
 ## Low
+
+- [ ] **CORE-374** [light]🔧 | conventions-declines-count — `README.md:25` and `CONTRIBUTING.md:35` both summarize `docs/CONVENTIONS.md`'s declines as four (CHANGELOG, ADR registry, release automation, pre-commit hooks); the doc declines five — §"CI / GitHub Actions" is missing from both. Surfaced by audit-docs 2026-07-27 (Pass 2 Finding #1 / Pass 5 Finding #4, Medium).
+- [ ] **CORE-375** [light]🔧 | neutrality-ledger-currency — `docs/AGENT-NEUTRALITY.md` ledger drift: the `--fast` row claims "3 sites in SPEC.md" but `--fast` now appears in five (adds §"Loop tasks", §"Post-closure protocol"); the `SPEC/tasknote-selection.md` row omits `/ft-spec` and `/ft-audit`; and three §-citations don't resolve to real headings (`:38` loop.md "Runtime vs. contract", `:40` epic.md "Skills"/"Optional deep pre-pass", `:50` SECURITY.md truncated ellipsis). Fold in `docs/PLATFORMS.md:127` citing PHILOSOPHY.md §"Zero scripts" (a bold label, not a heading). Surfaced by audit-docs 2026-07-27 (Pass 1 #2/#4, Pass 3 #1–#4, Medium/Low).
+- [ ] **CORE-376** [light]🔧 | spec-omissions-mirror — `SPEC.md:704-706` PR-rejection bullets cite "Runtime security scanners", "LLM knowledge-base", and "Loop runners" as entries "above" in §"What flowtron does NOT provide", but those three live in `docs/VISION.md` §"What we won't accept" — the mirror convention breaks for the majority of the list. Surfaced by audit-docs 2026-07-27 (Pass 1 Finding #3, Medium).
+- [ ] **CORE-377** [medium]🧩 | platforms-worked-example-currency — `docs/PLATFORMS.md` currency cluster: `:94` cites adopters fintown/photard that no longer exist (photard→siteguy 2026-06-13; fintown absent); `:220` lists `--fast` on 2 skills where the contract says 4; `:286` Grok structured-ask cell asserts "will always use prose asks" then records the dogfood observation refuting it; `:287` Grok procedure-pointer row has 3 cells against a 4-column table. Surfaced by audit-docs 2026-07-27 (Pass 2 #3, Pass 4 #3, Pass 5 #1/#2, Medium/Low).
 
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-372** [medium]🧩 | release v5.14.0 — Completed 2026-07-27.
 - [x] **CORE-373** [medium]🧩 | model-roster-refresh — Completed 2026-07-27.
 - [x] **FE-077** [light]🔧 | plan-parser-regex-tighten — bounded `TASK_LINE`'s two trailing capture groups to `[^\n]+?`. Surfaced by audit-repo 2026-07-26 (Finding #4, Low). Completed 2026-07-26.
 - [x] **FE-076** [light]🔧 | archive-watch-glob-depth — narrowed archive watcher glob to `*/*.md` to match `readArchive`'s one-level read. Surfaced by audit-repo 2026-07-26 (Finding #3, Low). Completed 2026-07-26.
