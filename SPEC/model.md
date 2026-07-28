@@ -13,7 +13,7 @@ identifier representing the cognitive load of the task.
 Flowtron's recommended primary labels are `[heavy]` (design, multi-file,
 high ambiguity, or exploratory work), `[medium]` (multi-step, well-scoped),
 and `[light]` (mechanical, well-scoped, clear-diff implementation). Adopters MAY use any short token they prefer
-(e.g. `opus`, `sonnet`, `haiku`, `gpt-5`, `gemini-pro`, project-specific names).
+(e.g. `fable`, `opus`, `sonnet`, `haiku`, `gpt-5`, `gemini-pro`, project-specific names).
 The visualizer parser accepts any short lowercase token (`[a-z][\w.-]*`), and
 `/ft-stats` buckets unknown tokens as `other`.
 
@@ -49,7 +49,7 @@ fully valid tokens.
 The `[model]` tag is matched against the active model by one of two rules,
 depending on whether the tag is a **category** label or a **concrete** name.
 
-**Concrete tag** (`opus`, `sonnet`, `grok`, `gpt-5`, `haiku`, …) — matched by
+**Concrete tag** (`fable`, `opus`, `sonnet`, `grok`, `gpt-5`, `haiku`, …) — matched by
 exact identity. The operator filed a specific assignment, so a different concrete
 active model is a hard mismatch (block + offer switch-or-retag). Unchanged from
 the original gate.
