@@ -22,6 +22,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-380** [light]🔧 | release v5.14.1 — Completed 2026-07-27.
 - [x] **CORE-379** [light]🔧 | model-example-fable — Completed 2026-07-27.
 - [x] **CORE-378** [light]🔧 | release-recipe-lockfile — Completed 2026-07-27.
 - [x] **CORE-376** [light]🔧 | spec-omissions-mirror — Completed 2026-07-27.
