@@ -19,12 +19,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-376** [light]🔧 | spec-omissions-mirror — `SPEC.md:704-706` PR-rejection bullets cite "Runtime security scanners", "LLM knowledge-base", and "Loop runners" as entries "above" in §"What flowtron does NOT provide", but those three live in `docs/VISION.md` §"What we won't accept" — the mirror convention breaks for the majority of the list. Surfaced by audit-docs 2026-07-27 (Pass 1 Finding #3, Medium).
-
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-376** [light]🔧 | spec-omissions-mirror — Completed 2026-07-27.
 - [x] **CORE-374** [light]🔧 | conventions-declines-count — Completed 2026-07-27.
 - [x] **CORE-375** [light]🔧 | neutrality-ledger-currency — Completed 2026-07-27.
 - [x] **CORE-377** [medium]🧩 | platforms-worked-example-currency — Completed 2026-07-27.
