@@ -15,6 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
+- [ ] **CORE-381** [medium]🧩 | phase4-status-flip — Phase 4 closure never flips tasknote YAML `status:` to `completed`, so archives keep `status: in-progress` indefinitely (one adopter: 369 of 697 archives, until a manual sweep). Decide whether SPEC §"🚀 Phase 4: Closure" + the `ft-task` / `ft-micro-task` / `ft-close-epic` skills should assert the flip, weighed against §"Tasknote frontmatter" write-once.
 
 ## Low
 
