@@ -15,7 +15,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **CORE-378** [light]🔧 | release-recipe-lockfile — resync viz/package-lock.json to 5.14.0; add lockfile step + verification grep to ft-release Step 5; fix SKILL.md:84 "4 doc-pin edits" → "5 version edits". Surfaced by audit-repo 2026-07-27 (Theme: Enumeration mirrors / Release recipe; Findings #1–#3).
+- [ ] **CORE-379** [light]🔧 | model-example-fable — add `fable` to SPEC/model.md concrete-token example lists (:16, ~:52) to match downstream mirrors. Surfaced by audit-repo 2026-07-27 (Theme: Enumeration mirrors; Finding #4).
 
 ## Low
 
