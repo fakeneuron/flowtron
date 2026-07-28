@@ -124,8 +124,8 @@ non-negotiable per [[CORE-154.1]] Constitution.
   in this doc; SPEC/, templates/, and the agent-neutral docs stay
   clean. The [`AGENT-NEUTRALITY.md`](AGENT-NEUTRALITY.md) ledger is the
   audit reference.
-- **Don't add a CLI / daemon / validator.** Per [`PHILOSOPHY.md`](PHILOSOPHY.md)
-  §"Zero scripts" — wiring is markdown + the platform's own primitives.
+- **Don't add a CLI / daemon / validator.** Per [`PHILOSOPHY.md`](PHILOSOPHY.md)'s
+  "Zero scripts" principle — wiring is markdown + the platform's own primitives.
 
 ## Minimal scaffold sketch
 
