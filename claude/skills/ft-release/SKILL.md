@@ -81,7 +81,7 @@ If the proposed bump and the PLAN-line target match, the user confirms in one sh
 
 ## Step 2.5 — Context-budget self-assessment (escape hatch)
 
-Before scaffolding the tasknote (Step 3), self-assess whether the **remaining context budget** is comfortable for a full release cut driven inline in this session. A full cut is a long, multi-file motion: the 4 doc-pin edits (Step 5), the dogfood-gate walk (per-agent `AskUserQuestion` + stamp edits), the `ft-audit-docs` subroutine (5 passes over the doc set, Step 7.1), tag-message drafting (Step 7.2), and the commit/tag/push sequence (Step 7.5). Driving all of that with little headroom risks a degraded cut.
+Before scaffolding the tasknote (Step 3), self-assess whether the **remaining context budget** is comfortable for a full release cut driven inline in this session. A full cut is a long, multi-file motion: the 5 version edits (Step 5), the dogfood-gate walk (per-agent `AskUserQuestion` + stamp edits), the `ft-audit-docs` subroutine (5 passes over the doc set, Step 7.1), tag-message drafting (Step 7.2), and the commit/tag/push sequence (Step 7.5). Driving all of that with little headroom risks a degraded cut.
 
 - **Comfortable** → proceed to Step 3 and drive the cut inline. This is the default — the skill drives the whole release in one session; the escape hatch never fires.
 - **Tight** → do **not** scaffold. Surface an **offer** and let the operator decide (self-assess + offer; the assistant flags, the human chooses):
@@ -115,7 +115,7 @@ Acceptance (parameterized):
 - [ ] docs/MIGRATION.md example pin bumped `vX.Y.Z` → `vA.B.C`
 - [ ] SECURITY.md release-tag example pin bumped `vX.Y.Z` → `vA.B.C`
 - [ ] `viz/src/ui/constants.ts` `VIZ_VERSION` bumped `vX.Y.Z` → `vA.B.C`
-- [ ] `viz/package.json` `"version"` bumped `"X.Y.Z"` → `"A.B.C"` (bare semver, no `v` prefix)
+- [ ] `viz/package.json` `"version"` bumped `"X.Y.Z"` → `"A.B.C"` (bare semver, no `v` prefix), `viz/package-lock.json` resynced to match
 - [ ] Dogfood gate resolved — every dogfooded row (Claude / Grok / Codex) refreshed from a real verification run at `vA.B.C`, or recorded `skipped @ vA.B.C` (per `docs/AGENT-COMPAT.md` §"Reading the cells")
 - [ ] Phase 4 doc-drift sweep run across all `.flowtron/tasknote/README.md` §"AI-referenced docs" entries
 - [ ] Single `feat: <TASK-ID> — flowtron vA.B.C (...)` commit lands
@@ -150,7 +150,7 @@ Apply the 5 version edits in order:
 2. **`docs/MIGRATION.md`** — locate the example pin (grep for `describe --tags`) and bump `(e.g., \`vX.Y.Z\`)` → `(e.g., \`vA.B.C\`)`. Historical references like `v1.0 additions` stay (write-once historical context, per CORE-046 precedent).
 3. **`SECURITY.md`** — locate the release-tag example pin (grep for `release tags (e.g.`) and bump `(e.g. \`vX.Y.Z\`)` → `(e.g. \`vA.B.C\`)`.
 4. **`viz/src/ui/constants.ts`** — `VIZ_VERSION = 'vX.Y.Z'` → `VIZ_VERSION = 'vA.B.C'`.
-5. **`viz/package.json`** — `"version": "X.Y.Z"` → `"version": "A.B.C"`. Bare semver (no `v` prefix); mirrors VIZ_VERSION so tooling stays consistent.
+5. **`viz/package.json`** — `"version": "X.Y.Z"` → `"version": "A.B.C"`. Bare semver (no `v` prefix); mirrors VIZ_VERSION so tooling stays consistent. Also resync **`viz/package-lock.json`** — run `npm install --package-lock-only` (from `viz/`) so its `version` fields (root + `packages[""]`) follow `package.json` without touching `node_modules` or dependency ranges.
 
 Verify the `v`-prefixed pins post-edit:
 
@@ -158,10 +158,11 @@ Verify the `v`-prefixed pins post-edit:
 grep -rn 'vX\.Y\.Z' SPEC.md SPEC/ docs/ README.md SECURITY.md templates/ claude/ viz/src/ui/constants.ts 2>/dev/null
 ```
 
-The four `v`-prefixed pins above should be clean. The `viz/package.json` version uses bare semver (`"X.Y.Z"`) and won't appear in this grep — verify it separately:
+The four `v`-prefixed pins above should be clean. The `viz/package.json` and `viz/package-lock.json` versions use bare semver (`"X.Y.Z"`) and won't appear in this grep — verify them separately:
 
 ```sh
 grep '"version"' viz/package.json
+grep -n '"version"' viz/package-lock.json | head -2
 ```
 
 **Dogfood gate — walk the dogfooded rows (dogfood-or-explicit-skip).** Since CORE-224 the doc set carries `last-verified` version stamps (`docs/AGENT-COMPAT.md` matrix, `claude/CAPABILITIES.md`, and per-agent `docs/PLATFORMS.md` stubs) formatted `vX.Y.Z · YYYY-MM[-DD] (context-tag)`. These are **not** release pins. Per the release-gate obligation (`docs/AGENT-COMPAT.md` §"Reading the cells"), **every row carrying a `dogfooded` history must be resolved at each release** — refreshed from a real verification run at the new version, or recorded as a deliberate skip. Leaving a stale stamp silently untouched is not a valid release state. Walk it now:
@@ -328,7 +329,7 @@ Move the tasknote file with a plain `mv` — it was copied fresh in Step 3 and n
 Stage explicitly (do NOT use `git add .` or `-A` — there may be unrelated unstaged work):
 
 ```sh
-git add SPEC.md docs/MIGRATION.md SECURITY.md viz/src/ui/constants.ts viz/package.json .flowtron/PLAN.md
+git add SPEC.md docs/MIGRATION.md SECURITY.md viz/src/ui/constants.ts viz/package.json viz/package-lock.json .flowtron/PLAN.md
 git add .flowtron/tasknote/archive/core/<TASK-ID>.md
 # If the §5 dogfood-gate walk landed any refresh/skip edits, also stage the touched stamp files
 # (a git add of an unchanged file is a no-op, so listing all three is safe):
