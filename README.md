@@ -1,5 +1,14 @@
 # flowtron
 
+<p align="center">
+  <img src="LOGO.png" alt="flowtron logo" width="200">
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/fakeneuron/flowtron?style=flat-square&color=blue" alt="License: MIT"></a>
+  <a href="https://github.com/fakeneuron/flowtron/tags"><img src="https://img.shields.io/github/v/tag/fakeneuron/flowtron?style=flat-square&label=version&color=brightgreen" alt="Latest version"></a>
+</p>
+
 A lightweight, project-agnostic tasknote system for solo AI-assisted coding.
 One source of truth, consumed by adopting projects via git submodule.
 
@@ -8,7 +17,45 @@ relevance gate, and the acceptance criteria are the checkpoints where you
 look — and one task per context window keeps each one small enough to
 actually review. No scripts, daemons, databases, or schemas to maintain.
 
-## Documents
+![The flowtron visualizer showing flowtron's own PLAN.md — open tasks by priority, phase-progress dots, and the completed archive](.flowtron/screenshots/viz-board.png)
+
+Flowtron is built with flowtron: **618 tasks** closed through this exact
+workflow between 2026-04-28 and 2026-07-31 (as of 2026-07-31) — each one with
+a tasknote preserved in [`.flowtron/tasknote/archive/`](.flowtron/tasknote/archive/).
+
+## Quickstart
+
+**Once per machine** — clone flowtron anywhere and wire the bootstrap skill:
+
+```sh
+git clone https://github.com/fakeneuron/flowtron.git ~/code/flowtron
+ln -s ~/code/flowtron/claude/skills/ft-new-project      ~/.claude/skills/ft-new-project
+ln -s ~/code/flowtron/claude/commands/ft-new-project.md ~/.claude/commands/ft-new-project.md
+```
+
+**Once per project** — from the project root (a git repo with a `CLAUDE.md`):
+
+```sh
+/ft-new-project
+```
+
+That adds the flowtron submodule, wires the ten tasknote skills (`/ft-task`,
+`/ft-starter-task`, `/ft-micro-task`, `/ft-sidequest`, `/ft-file-followup`,
+`/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`, `/ft-goal-task`,
+`/ft-spec`) plus the two worktree utilities (`/ft-worktree-start`,
+`/ft-worktree-end`) and `/ft-update`, and drops in the `.flowtron/` skeleton in
+one pass. Then file a task in `.flowtron/PLAN.md` and run it:
+
+```sh
+/ft-task CORE-001
+```
+
+Prefer to wire it by hand, or not using Claude Code?
+[docs/MIGRATION.md](docs/MIGRATION.md) carries the manual path (§1.1–1.6), the
+full one-time global-install table (§1.0), and the Codex / grok wiring.
+
+<details>
+<summary><b>All documentation</b></summary>
 
 - [SPEC.md](SPEC.md) — canonical workflow contract (4-phase tasknote
   lifecycle, relevance gate, post-closure protocol, versioning rules)
@@ -54,16 +101,7 @@ actually review. No scripts, daemons, databases, or schemas to maintain.
   user-authored markdown, submodule supply-chain trust, viz dev-server
   scope) and how to report a vulnerability
 
-## Bootstrapping a new project
-
-Run `/ft-new-project` in your project's root directory (git repo required;
-`/ft-new-project` additionally checks for `CLAUDE.md` as a project-validity
-heuristic) to add the flowtron submodule, wire the ten tasknote skills
-(`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-sidequest`, `/ft-file-followup`,
-`/ft-epic-discovery`, `/ft-close-epic`, `/ft-debug`, `/ft-goal-task`, `/ft-spec`) plus the two worktree
-utilities (`/ft-worktree-start`, `/ft-worktree-end`) and `/ft-update`, and drop in
-the `.flowtron/` skeleton in one pass. See [docs/MIGRATION.md](docs/MIGRATION.md)
-§1.0 for the one-time global install.
+</details>
 
 ## Visualizer
 

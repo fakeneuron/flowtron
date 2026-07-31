@@ -32,7 +32,7 @@ The cross-link is deliberate: `SPEC/versioning.md` is the operational doc (what 
 
 ### GitHub Flavored Markdown
 
-All flowtron markdown — `SPEC.md`, `SPEC/`, templates, tasknotes, `docs/`, `README.md`, and the bundled skills — targets [GitHub Flavored Markdown](https://github.github.com/gfm/) (a CommonMark superset). Features in use: fenced code blocks with language tags, tables, task lists, emoji shortcodes, and `[[wikilink]]` syntax for cross-task references in tasknotes.
+All flowtron markdown — `SPEC.md`, `SPEC/`, templates, tasknotes, `docs/`, `README.md`, and the bundled skills — targets [GitHub Flavored Markdown](https://github.github.com/gfm/) (a CommonMark superset). Features in use: fenced code blocks with language tags, tables, task lists, emoji shortcodes, `[[wikilink]]` syntax for cross-task references in tasknotes, and — in `README.md` only — inline raw HTML (`<p align="center">`, `<img>`, `<details>`/`<summary>`) for the landing-page layout GFM can't express natively.
 
 GFM renders cleanly on GitHub and in Obsidian-family vault tools (Obsidian, Foam, Logseq) — the wikilink and frontmatter choices in tasknotes are compatible with those tools without flowtron depending on them. See `README.md` §"Working in markdown vaults" for the opt-in vault-tool integration surface.
 
