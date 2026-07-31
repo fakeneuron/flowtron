@@ -92,3 +92,33 @@ Two reasons. First, the same logic that rules out pre-commit hooks applies here:
 Second, flowtron is a single-maintainer solo system. There are no external contributor pull requests that need automated gating — the maintainer is always in the loop and the workflow phase is the gate.
 
 Same backing principle as pre-commit hooks and release automation: [PHILOSOPHY.md](PHILOSOPHY.md) §"The decisions that fall out" (Zero scripts) — the assistant is the validator, and the workflow phase is the gate.
+
+### MCP servers
+
+Flowtron does not ship an [MCP](https://modelcontextprotocol.io/) server. The pattern declined is exposing the workflow to the assistant as a tool surface rather than as markdown it reads — the shape taken by [claude-task-master](https://github.com/eyaltoledano/claude-task-master) and [Backlog.md](https://github.com/MrLesk/Backlog.md).
+
+The objection is cost, not capability. An MCP server's tool definitions occupy the context window before any task work begins — task-master ships 36 tools totalling roughly 21k tokens, and added selective tool loading specifically to claw some of that back. That is a direct trade against [SPEC.md](../SPEC.md) §"Core principles" #3 (One task per context window), which sizes tasknotes so the assistant holds the whole scope in working memory. Flowtron spends its context budget on the task, not on the interface to the task.
+
+Nothing in the workflow needs a tool call. A tasknote is a file the assistant reads; closure is a `mv`. Wrapping `cp` and `mv` in a protocol adds a server to run and a schema to version without changing what happens.
+
+Backing principle: [PHILOSOPHY.md](PHILOSOPHY.md) §"The decisions that fall out" (Zero scripts) — "If a script feels needed, the answer is almost always 'no, that's the assistant's job.'"
+
+### Package-manager and marketplace distribution
+
+Flowtron is distributed as a git submodule only. The patterns declined are global package-manager install (`npm i -g backlog.md`, `uv tool install specify-cli`), agent plugin marketplaces (`/plugin marketplace add`), and skill-pack installers (`npx skills add …`).
+
+The submodule is not incidental packaging — it *is* the mechanism behind [SPEC.md](../SPEC.md) §"Core principles" #5 (Versioned and pinned). An adopting project pins a specific flowtron commit, sees no change until a deliberate `/ft-update` bump, and can read its own pinned contract at `.flowtron/core/SPEC.md`. A package manager resolving a version range, or a marketplace pushing the current release, replaces that deliberate bump with an implicit one.
+
+The skills also assume it. Every skill resolves its contract root to `.flowtron/core/` (see [`claude/skills/ft-task/SKILL.md`](../claude/skills/ft-task/SKILL.md) §"Step 0 — Resolve paths"). A marketplace install would deliver the skills without the contract they read, producing an inert install — or force a second bundled copy of SPEC.md, splitting the single source of truth the submodule exists to guarantee.
+
+The cost is acknowledged: adoption is a `git submodule add` plus symlink wiring rather than one install command, which is real friction for a first-time adopter. `/ft-new-project` absorbs it in one pass. The friction buys the pin.
+
+This is distinct from the CLI carve-out in [SPEC.md](../SPEC.md) §"What flowtron does NOT provide" — that entry rules out flowtron *being* a CLI; this one rules out flowtron being *delivered* by one. A package-manager-distributed flowtron would still be pure markdown, and is still declined.
+
+### Template override stacking
+
+Flowtron resolves each template from exactly one place: `templates/` in the pinned submodule. The pattern declined is layered template resolution — [spec-kit](https://github.com/github/spec-kit) stacks project overrides → presets → extensions → core defaults, four levels deep, with per-project override directories.
+
+Customization is a real need and flowtron already answers it once, at a single seam: the `ft-audit-*` skills ship as stack-neutral scaffolds that adopters **fork** into `.claude/skills/audit-*/` (see [MIGRATION.md](MIGRATION.md) §1.2.1). A fork is legible — the adopter owns a file and can diff it against the scaffold. A four-level priority chain is not: answering "which template actually rendered, and why" requires resolving the stack in your head.
+
+Backing principle: [SPEC.md](../SPEC.md) §"PR / suggestion archetypes flowtron does not accept" — "Abstractions without two-project precedent." No two adopters have yet needed the same override shape; until they do, forking a scaffold is cheaper than a resolution engine.
