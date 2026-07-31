@@ -1,6 +1,6 @@
 ---
 name: ft-stats
-description: Show flowtron stats — `[model]` distribution, completion velocity, per-area volume — aggregated from `.flowtron/PLAN.md` `## Completed` data. Read-only; with `--write`, also flushes the screen to `.flowtron/STATS.md`.
+description: Show flowtron stats — `[model]` distribution, completion velocity, per-area volume — aggregated from `.flowtron/PLAN.md` `## Completed` data. Use when the user asks to see flowtron stats, completion velocity, or model distribution. Read-only; with `--write`, also flushes the screen to `.flowtron/STATS.md`.
 ---
 
 # flowtron — stats screen

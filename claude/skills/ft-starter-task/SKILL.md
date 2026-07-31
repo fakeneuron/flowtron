@@ -1,6 +1,6 @@
 ---
 name: ft-starter-task
-description: File a starter tasknote for a task discovered mid-flow with rich AI-captured context that isn't ready to start. Invoke with an optional task ID as args (e.g., args="CORE-028"); when omitted, the skill suggests the next available ID for review. Writes .flowtron/tasknote/<ID>.md from templates/tasknote-starter-template.md, appends the PLAN.md entry, and hands off without committing. See SPEC/starter.md for when to file.
+description: File a starter tasknote for a task discovered mid-flow with rich AI-captured context that isn't ready to start. Use when the user asks to file a starter tasknote for a task that isn't ready to start yet. Invoke with an optional task ID as args (e.g., args="CORE-028"); when omitted, the skill suggests the next available ID for review. Writes .flowtron/tasknote/<ID>.md from templates/tasknote-starter-template.md, appends the PLAN.md entry, and hands off without committing. See SPEC/starter.md for when to file.
 ---
 
 # starter-task — flowtron starter filer

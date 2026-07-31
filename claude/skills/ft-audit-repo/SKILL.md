@@ -1,6 +1,6 @@
 ---
 name: ft-audit-repo
-description: First-contact holistic repo audit for freshly adopting projects — Repo Map discovery (read-before-judging), thin cross-cutting sweep, thematic synthesis (3–5 themes with won't-fix tradeoffs + done-signals), milestone-sequenced plan filed as flowtron epics in `.flowtron/PLAN.md`, and delegation recommendations for the focused `ft-audit-*` family. Stack-neutral, strictly read-only, no fork — run by reference from the submodule. See `docs/MIGRATION.md` §1.2.1.
+description: First-contact holistic repo audit for freshly adopting projects — Repo Map discovery (read-before-judging), thin cross-cutting sweep, thematic synthesis (3–5 themes with won't-fix tradeoffs + done-signals), milestone-sequenced plan filed as flowtron epics in `.flowtron/PLAN.md`, and delegation recommendations for the focused `ft-audit-*` family. Use when the user asks for a first-contact audit of a freshly adopted repo, with no specific domain named. Stack-neutral, strictly read-only, no fork — run by reference from the submodule. See `docs/MIGRATION.md` §1.2.1.
 ---
 
 # audit-repo — flowtron first-contact holistic audit skill

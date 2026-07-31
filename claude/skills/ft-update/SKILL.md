@@ -1,6 +1,6 @@
 ---
 name: ft-update
-description: Bump an adopter project's pinned flowtron submodule to the latest released tag — show current→target version + tag changelog, fetch + checkout the tag, record the new pin, re-wire per-project Claude/Codex symlinks for newly shipped skills, and run a lightweight smoke check. Adopter-only (bails in flowtron-self); thin procedural skill, no tasknote.
+description: Bump an adopter project's pinned flowtron submodule to the latest released tag — show current→target version + tag changelog, fetch + checkout the tag, record the new pin, re-wire per-project Claude/Codex symlinks for newly shipped skills, and run a lightweight smoke check. Use when the user asks to update or bump their project's flowtron submodule to the latest release. Adopter-only (bails in flowtron-self); thin procedural skill, no tasknote.
 ---
 
 # update — flowtron submodule bump (adopter-side)

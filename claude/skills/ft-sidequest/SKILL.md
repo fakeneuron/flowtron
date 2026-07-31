@@ -1,6 +1,6 @@
 ---
 name: ft-sidequest
-description: Park an idea or quick-fix mid-session with minimal disruption — tiny sidequest stub + one PLAN line, then resume current work. Priority via flags (--low, --med, --fut) or one short question when omitted. Lighter than `/ft-file-followup`. Promote via `/ft-micro-task` or `/ft-task`. See SPEC/tasknote-selection.md.
+description: Park an idea or quick-fix mid-session with minimal disruption — tiny sidequest stub + one PLAN line, then resume current work. Use when the user asks to park a quick idea or fix without disrupting current work. Priority via flags (--low, --med, --fut) or one short question when omitted. Lighter than `/ft-file-followup`. Promote via `/ft-micro-task` or `/ft-task`. See SPEC/tasknote-selection.md.
 ---
 
 # sidequest — flowtron ultra-light idea parker

@@ -1,6 +1,6 @@
 ---
 name: ft-flowtron
-description: Display a flowtron info screen — version, what it is, core principles, and the full bundled skill roster with one-liner descriptions. No args. Read-only; writes nothing.
+description: Display a flowtron info screen — version, what it is, core principles, and the full bundled skill roster with one-liner descriptions. Use when the user asks what flowtron is, its version, or wants to see the skill roster. No args. Read-only; writes nothing.
 ---
 
 # flowtron — info screen

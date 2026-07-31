@@ -1,6 +1,6 @@
 ---
 name: ft-spec
-description: Draft a lightweight, review-first design spec (fixed section order — Goal · Requirements · Design · Tasks · Risks/Open Q · Validation Approach) from a brief or conversation context, surface it for operator review, and optionally write it to .flowtron/specs/<slug>.md. Planning peer — never files PLAN entries or tasknotes. Invoke with an optional brief/topic as args (e.g., args="offline sync") plus optional --fast. Interactive by default; --fast skips the review pause but never auto-writes PLAN/tasknotes.
+description: Draft a lightweight, review-first design spec (fixed section order — Goal · Requirements · Design · Tasks · Risks/Open Q · Validation Approach) from a brief or conversation context, surface it for operator review, and optionally write it to .flowtron/specs/<slug>.md. Use when the user asks to draft a design spec before filing tasks. Planning peer — never files PLAN entries or tasknotes. Invoke with an optional brief/topic as args (e.g., args="offline sync") plus optional --fast. Interactive by default; --fast skips the review pause but never auto-writes PLAN/tasknotes.
 ---
 
 # ft-spec — flowtron spec drafter

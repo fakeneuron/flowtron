@@ -1,6 +1,6 @@
 ---
 name: ft-quality
-description: Run lint + typecheck + test in sequence against the project. Heuristic stack detection (Node / Python / Go / Rust); fail-fast on first failure. Independent of the tasknote flow.
+description: Run lint + typecheck + test in sequence against the project. Use when the user asks to run lint, typecheck, or the test suite against the project. Heuristic stack detection (Node / Python / Go / Rust); fail-fast on first failure. Independent of the tasknote flow.
 ---
 
 # flowtron — quality check

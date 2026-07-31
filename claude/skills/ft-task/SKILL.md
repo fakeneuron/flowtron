@@ -1,6 +1,6 @@
 ---
 name: ft-task
-description: Start a flowtron tasknote and drive it through the SPEC's 4-phase workflow. Invoke with the task ID as args (e.g., args="CORE-004"). Reads SPEC.md, scaffolds the tasknote from the template, runs Phase 1 Discovery, then continues conversationally through phases 2-4 and the post-closure protocol.
+description: Start a flowtron tasknote and drive it through the SPEC's 4-phase workflow. Use when the user asks to start a full tasknote for a normal-sized, multi-step, or design-tradeoff-bearing task. Invoke with the task ID as args (e.g., args="CORE-004"). Reads SPEC.md, scaffolds the tasknote from the template, runs Phase 1 Discovery, then continues conversationally through phases 2-4 and the post-closure protocol.
 ---
 
 # task — flowtron tasknote runner

@@ -1,6 +1,6 @@
 ---
 name: ft-file-followup
-description: File a mid-flow follow-up task from inside an active tasknote. Invoke with an optional task ID as args (e.g., args="CORE-058"); when omitted, the skill suggests the next available ID for review. Writes one PLAN.md line and delivers a short context paragraph conversationally only — no tasknote artifact. Lighter than `/ft-starter-task`. See SPEC/tasknote-selection.md §"When to use a tasknote" for the threshold.
+description: File a mid-flow follow-up task from inside an active tasknote. Use when the user asks to file a quick follow-up task discovered mid-flow without a full tasknote. Invoke with an optional task ID as args (e.g., args="CORE-058"); when omitted, the skill suggests the next available ID for review. Writes one PLAN.md line and delivers a short context paragraph conversationally only — no tasknote artifact. Lighter than `/ft-starter-task`. See SPEC/tasknote-selection.md §"When to use a tasknote" for the threshold.
 ---
 
 # file-followup — flowtron lightweight follow-up filer

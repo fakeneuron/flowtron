@@ -1,6 +1,6 @@
 ---
 name: ft-debug
-description: Start a hypothesis-first debugging tasknote for the given task ID and drive it through the SPEC's 4-phase workflow. The skill injects structured prompts for expected vs observed behavior, hypothesis generation, and minimal repro design inside the standard Phase 1 Discovery. Uses `templates/tasknote-template.md`. Soft pragmatic tone throughout. Invoke with the task ID as args (e.g., args="CORE-042" or "CORE-195.2 --fast").
+description: Start a hypothesis-first debugging tasknote for the given task ID and drive it through the SPEC's 4-phase workflow. Use when the user asks to debug a bug or issue with a structured hypothesis-first tasknote. The skill injects structured prompts for expected vs observed behavior, hypothesis generation, and minimal repro design inside the standard Phase 1 Discovery. Uses `templates/tasknote-template.md`. Soft pragmatic tone throughout. Invoke with the task ID as args (e.g., args="CORE-042" or "CORE-195.2 --fast").
 ---
 
 # debug — hypothesis-first debugging tasknote runner

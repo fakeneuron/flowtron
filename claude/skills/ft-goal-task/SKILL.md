@@ -1,6 +1,6 @@
 ---
 name: ft-goal-task
-description: Start a goal-loop tasknote for the given task ID and drive it through the SPEC's 4-phase workflow with the Phase 2↔3 execute→verify cycle run as an inline loop. Phase 1 additionally requires every Acceptance criterion to carry a machine-checkable verify command (taste criteria split to a one-time 👁️ ask); the loop iterates under the SPEC/loop.md budget + per-cycle relevance gate, commits per verified iteration, and logs to a 🔁 Iterations section. Sibling of /ft-debug; uses `templates/tasknote-template.md`. Invoke with the task ID as args (e.g., args="CORE-042", "CORE-195.2 --fast", or "CORE-042 --worktree").
+description: Start a goal-loop tasknote for the given task ID and drive it through the SPEC's 4-phase workflow with the Phase 2↔3 execute→verify cycle run as an inline loop. Use when the user asks to run a task as an iterative execute→verify loop against machine-checkable acceptance criteria. Phase 1 additionally requires every Acceptance criterion to carry a machine-checkable verify command (taste criteria split to a one-time 👁️ ask); the loop iterates under the SPEC/loop.md budget + per-cycle relevance gate, commits per verified iteration, and logs to a 🔁 Iterations section. Sibling of /ft-debug; uses `templates/tasknote-template.md`. Invoke with the task ID as args (e.g., args="CORE-042", "CORE-195.2 --fast", or "CORE-042 --worktree").
 ---
 
 # goal-task — goal-loop tasknote runner

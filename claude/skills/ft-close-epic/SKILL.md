@@ -1,6 +1,6 @@
 ---
 name: ft-close-epic
-description: Close a flowtron epic by scaffolding and driving its audit `.N` tasknote in one motion. Invoke with the audit subtask ID as args (e.g., args="CORE-057.N"; legacy numeric audit IDs like args="CORE-057.6" are also accepted). Pre-fills the audit tasknote with the fixed doc-drift sweep acceptance line per `SPEC/epic.md`, drives the full 4-phase audit inline, then prompts to flip the parent `<AREA>-EPIC-<N>` to `Completed` and move the cohort to `## Completed`. Auto-wired into adopters via `/ft-new-project` and `docs/MIGRATION.md` §1.2.
+description: Close a flowtron epic by scaffolding and driving its audit `.N` tasknote in one motion. Use when the user asks to close out an epic or run its final audit subtask. Invoke with the audit subtask ID as args (e.g., args="CORE-057.N"; legacy numeric audit IDs like args="CORE-057.6" are also accepted). Pre-fills the audit tasknote with the fixed doc-drift sweep acceptance line per `SPEC/epic.md`, drives the full 4-phase audit inline, then prompts to flip the parent `<AREA>-EPIC-<N>` to `Completed` and move the cohort to `## Completed`. Auto-wired into adopters via `/ft-new-project` and `docs/MIGRATION.md` §1.2.
 ---
 
 # close-epic — flowtron epic audit + close driver

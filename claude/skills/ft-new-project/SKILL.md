@@ -1,6 +1,6 @@
 ---
 name: ft-new-project
-description: Bootstrap a fresh ~/code/ project with flowtron — adds the submodule, wires /ft-task, drops in PLAN.md + tasknote README, creates/patches AGENTS.md, and stages the commit. Mirrors docs/MIGRATION.md §1 conversationally; for fresh adoption only.
+description: Bootstrap a fresh ~/code/ project with flowtron — adds the submodule, wires /ft-task, drops in PLAN.md + tasknote README, creates/patches AGENTS.md, and stages the commit. Use when the user asks to bootstrap or adopt flowtron into a new project. Mirrors docs/MIGRATION.md §1 conversationally; for fresh adoption only.
 ---
 
 # new-project — flowtron adoption skill

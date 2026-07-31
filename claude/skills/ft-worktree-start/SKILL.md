@@ -1,6 +1,6 @@
 ---
 name: ft-worktree-start
-description: Create an isolated git worktree for an independent epic child tasknote. Branches `wt-<TASK-ID>`, adds a worktree under ~/code/<project>-worktrees/wt-<TASK-ID>/, copies the active tasknote, and hands off for execution in a fresh session. Thin procedural skill; no tasknote driving. Pair with /ft-worktree-end. See docs/WORKTREES.md for the full convention.
+description: Create an isolated git worktree for an independent epic child tasknote. Use when the user asks to isolate an independent epic-child tasknote into its own worktree. Branches `wt-<TASK-ID>`, adds a worktree under ~/code/<project>-worktrees/wt-<TASK-ID>/, copies the active tasknote, and hands off for execution in a fresh session. Thin procedural skill; no tasknote driving. Pair with /ft-worktree-end. See docs/WORKTREES.md for the full convention.
 ---
 
 # worktree-start — isolated worktree for epic-child tasknotes

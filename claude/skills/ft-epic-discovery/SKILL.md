@@ -1,6 +1,6 @@
 ---
 name: ft-epic-discovery
-description: Scaffold and drive a new flowtron epic from filing through its `.1` Discovery tasknote in one motion — files parent `<AREA>-EPIC-<N>` + `.1` Discovery + `.N` audit placeholder lines into PLAN.md, scaffolds the `.1` tasknote with tailored pre-fill, then drives the full 4-phase Discovery (deliverable = filed `.2..(M+1)` children). Auto-wired into adopters via `/ft-new-project` and `docs/MIGRATION.md` §1.2.
+description: Scaffold and drive a new flowtron epic from filing through its `.1` Discovery tasknote in one motion — files parent `<AREA>-EPIC-<N>` + `.1` Discovery + `.N` audit placeholder lines into PLAN.md, scaffolds the `.1` tasknote with tailored pre-fill, then drives the full 4-phase Discovery (deliverable = filed `.2..(M+1)` children). Use when the user asks to kick off a new epic or scope it into child tasks. Auto-wired into adopters via `/ft-new-project` and `docs/MIGRATION.md` §1.2.
 ---
 
 # ft-epic-discovery — flowtron epic filing + Discovery driver
