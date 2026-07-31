@@ -1,6 +1,6 @@
 ---
 title: ft-task procedure SOP
-status: in-progress
+status: completed
 tags: []
 created: 2026-06-02
 due:

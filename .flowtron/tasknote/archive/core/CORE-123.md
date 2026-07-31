@@ -1,6 +1,6 @@
 ---
 title: audit-docs SKILL fork CORE-121 sync
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-20
 due:

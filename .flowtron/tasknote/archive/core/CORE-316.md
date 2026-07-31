@@ -1,6 +1,6 @@
 ---
 title: audit-repo-symlink-trailing-slash
-status: in-progress
+status: completed
 tags: []
 created: 2026-06-13
 due:

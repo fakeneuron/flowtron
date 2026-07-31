@@ -1,6 +1,6 @@
 ---
 title: skill-trigger-frontmatter
-status: in-progress
+status: completed
 tags: []
 created: 2026-07-31
 due:

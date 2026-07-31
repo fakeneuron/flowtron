@@ -1,6 +1,6 @@
 ---
 title: EPIC-097 final audit
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-18
 due:

@@ -1,6 +1,6 @@
 ---
 title: promote-audit-orphans
-status: in-progress
+status: completed
 tags: []
 created: 2026-06-05
 due:

@@ -1,6 +1,6 @@
 ---
 title: export-surface-sweep-2
-status: in-progress
+status: completed
 tags: []
 created: 2026-07-26
 due:

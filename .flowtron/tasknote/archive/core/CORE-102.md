@@ -1,6 +1,6 @@
 ---
 title: release v2.2.0
-status: done
+status: completed
 tags: []
 created: 2026-05-17
 due:

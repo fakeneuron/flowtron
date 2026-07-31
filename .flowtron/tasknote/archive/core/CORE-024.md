@@ -1,6 +1,6 @@
 ---
 title: PLAN.md signal extraction
-status: in-progress
+status: completed
 priority: Medium
 area: core
 tags: []

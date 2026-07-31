@@ -1,6 +1,6 @@
 ---
 title: starter-task SKILL cite-don't-restate
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-08
 related-tasks: [CORE-038, CORE-040, CORE-049, CORE-050]

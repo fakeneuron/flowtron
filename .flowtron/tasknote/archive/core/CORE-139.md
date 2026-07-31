@@ -1,6 +1,6 @@
 ---
 title: Generalize "Claude cannot run /clear" wording in SPEC + SKILL
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-22
 due:

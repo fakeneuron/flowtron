@@ -102,12 +102,12 @@ If a hard dependency surfaces, abandon the micro-tasknote and re-file as `/ft-ta
 The single closure step. Per SPEC §"Paper-complete guard", flip PLAN/archive only when deliverables are ready for the same atomic commit; flip **only this task's** line (no collateral Completed flips). In one motion:
 
 1. **Fill ✅ Recap** — evidence-based final summary: changed paths/LOC where meaningful, verification results, refactors made or deferred with rationale, documentation verdict, and maintainability effect.
-2. **Set `Archived:`** — today's date (`YYYY-MM-DD`).
+2. **Flip YAML `status:`** — `in-progress` → `completed`; set `Archived:` to today's date (`YYYY-MM-DD`).
 3. **Update PLAN.md** — flip the line to the stub form per SPEC/tasknote-selection.md §"`## Completed` archive convention". For a standalone task, move the row to the top of `## Completed`; for an epic child, preserve its 2-space nesting beneath the active parent until `/ft-close-epic` moves the whole cohort.
 4. **Move the tasknote** — `mv .flowtron/tasknote/<TASK-ID>.md .flowtron/tasknote/archive/<area>/<TASK-ID>.md`.
 5. **Recap to the user** per SPEC §"🚀 Phase 4: Closure" — brief summary + optional verification request. **Recap is recap-only**; the next-task suggestion belongs in Step 5, not the recap. Wait for confirmation.
 
-Closure flips PLAN.md line + tasknote location; YAML `status:` stays `in-progress` per SPEC §"Tasknote body shape". Do not treat archive/Completed as done until Step 5's commit lands with deliverables.
+Closure flips three things — YAML `status:`, the PLAN.md line, and the tasknote location — matching `/ft-task`'s Phase 4 per SPEC §"🚀 Phase 4: Closure". The `status:` write lands while the tasknote is still active, so SPEC §"Tasknote frontmatter" write-once does not reach it. Do not treat archive/Completed as done until Step 5's commit lands with deliverables.
 
 ## Step 5 — Post-closure protocol
 

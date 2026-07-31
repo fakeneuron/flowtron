@@ -1,6 +1,6 @@
 ---
 title: flowtron self-host skill wiring
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-22
 due:

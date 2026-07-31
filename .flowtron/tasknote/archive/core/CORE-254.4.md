@@ -1,6 +1,6 @@
 ---
 title: cue-skill-wiring
-status: in-progress
+status: completed
 tags: []
 created: 2026-06-01
 due:

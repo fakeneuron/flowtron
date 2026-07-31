@@ -1,6 +1,6 @@
 ---
 title: keyboard-shortcuts overlay
-status: in-progress
+status: completed
 tags: [viz, ui, keyboard]
 created: 2026-05-16
 due:

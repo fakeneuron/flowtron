@@ -1,6 +1,6 @@
 ---
 title: model-tier-third-rung
-status: in-progress
+status: completed
 tags: []
 created: 2026-06-01
 related-tasks: [CORE-256, CORE-206, CORE-240]

@@ -1,6 +1,6 @@
 ---
 title: doc-nit-sweep
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-30
 due:

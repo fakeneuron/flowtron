@@ -1,6 +1,6 @@
 ---
 title: settings-modal scaffold
-status: in-progress
+status: completed
 tags: [viz, ui, settings]
 created: 2026-05-15
 due:

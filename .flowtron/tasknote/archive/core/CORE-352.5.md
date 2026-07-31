@@ -1,6 +1,6 @@
 ---
 title: ft-spec-dogfood
-status: in-progress
+status: completed
 tags: []
 created: 2026-07-12
 related-tasks: [CORE-EPIC-352, CORE-352.1, CORE-352.2, CORE-352.3, CORE-352.4]

@@ -1,6 +1,6 @@
 ---
 title: epic-discovery-residue
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-18
 due:

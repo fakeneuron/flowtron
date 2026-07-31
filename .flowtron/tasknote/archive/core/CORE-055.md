@@ -1,6 +1,6 @@
 ---
 title: CLAUDE-snippet review against current Claude Code best-practices
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-09
 related-tasks: [CORE-047]

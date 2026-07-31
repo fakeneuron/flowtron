@@ -1,6 +1,6 @@
 ---
 title: worktree-doc
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-30
 due:

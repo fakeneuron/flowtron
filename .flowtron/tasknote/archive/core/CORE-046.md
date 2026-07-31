@@ -1,6 +1,6 @@
 ---
 title: flowtron v1.1.0 — post-closure /model + recap-only
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-07
 due:

@@ -1,6 +1,6 @@
 ---
 title: typography scale bump
-status: in-progress
+status: completed
 tags: [viz, ui, typography]
 created: 2026-05-15
 due:

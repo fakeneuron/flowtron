@@ -1,6 +1,6 @@
 ---
 title: epic-099 downstream refresh
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-18
 due:

@@ -1,6 +1,6 @@
 ---
 title: worktree-end-hardening
-status: in-progress
+status: completed
 tags: [worktree, dx]
 created: 2026-06-04
 due:

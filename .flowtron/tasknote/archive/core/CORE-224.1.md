@@ -1,6 +1,6 @@
 ---
 title: agent-compatibility-surface discovery
-status: done
+status: completed
 tags: []
 created: 2026-05-30
 due:

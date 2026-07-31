@@ -1,6 +1,6 @@
 ---
 title: epic-discovery-stale-cites
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-23
 due:

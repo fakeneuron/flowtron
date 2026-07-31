@@ -1,6 +1,6 @@
 ---
 title: post-closure copy-paste grammar widening
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-24
 due:

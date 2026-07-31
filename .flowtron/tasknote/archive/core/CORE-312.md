@@ -1,6 +1,6 @@
 ---
 title: adopter-version-status
-status: in-progress
+status: completed
 tags: []
 created: 2026-06-11
 due:

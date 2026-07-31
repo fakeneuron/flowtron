@@ -1,6 +1,6 @@
 ---
 title: epic-audit-emit-dotN
-status: in-progress
+status: completed
 tags: []
 created: 2026-07-03
 related-tasks: [CORE-333]

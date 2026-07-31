@@ -1,6 +1,6 @@
 ---
 title: Migrate natabula to flowtron
-status: de-scoped
+status: completed
 priority: High
 area: core
 model: opus

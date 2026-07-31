@@ -1,6 +1,6 @@
 ---
 title: audit doc-drift sweep
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-11
 due:

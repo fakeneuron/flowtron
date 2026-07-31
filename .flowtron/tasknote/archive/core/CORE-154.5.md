@@ -1,6 +1,6 @@
 ---
 title: portability-recomb
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-23
 due:

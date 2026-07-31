@@ -267,6 +267,15 @@ derivable from the PLAN.md section heading and the task ID prefix
 respectively) when parsing legacy archives. §"Tasknote body shape" and
 §"Model field" refer back here rather than restating.
 
+**Write-once does not cover lifecycle writes.** The policy scopes *retroactive*
+edits — reaching back into an already-archived note because the spec moved on.
+It does not reach the `status:` transitions the lifecycle itself performs
+(`starter` → `in-progress` at promotion, `in-progress` → `blocked` at a park,
+`blocked` → `in-progress` at a resume, `in-progress` → `completed` at Phase 4
+closure). Each of those writes happens while the tasknote is **active**, before
+any archive move. Do not cite write-once to justify leaving `status:` stale at
+closure — that reading is what produced the drift this carve-out closes.
+
 Every tasknote opens with a YAML frontmatter block carrying machine-parseable
 fields, followed by a Markdown body. The canonical schema lives in `templates/tasknote-template.md`. Valid `status:` values:
 `starter | not-started | in-progress | blocked | completed`.
@@ -480,11 +489,15 @@ flag's full surface.
 ### 🚀 Phase 4: Closure
 
 - [ ] **Doc-drift sweep** — for each entry in `.flowtron/tasknote/README.md` §"AI-referenced docs", state "no change" or the update
-- [ ] Closed — PLAN.md line flipped to stub form `Completed YYYY-MM-DD.` and placed per [`SPEC/tasknote-selection.md` §"`## Completed` archive convention"](SPEC/tasknote-selection.md) (standalone → top of `## Completed`; epic child → kept nested beneath its active parent), then tasknote moved to `.flowtron/tasknote/archive/<area>/`
+- [ ] Closed — tasknote YAML `status:` flipped to `completed`, PLAN.md line flipped to stub form `Completed YYYY-MM-DD.` and placed per [`SPEC/tasknote-selection.md` §"`## Completed` archive convention"](SPEC/tasknote-selection.md) (standalone → top of `## Completed`; epic child → kept nested beneath its active parent), then tasknote moved to `.flowtron/tasknote/archive/<area>/`
 - [ ] **Evidence-based recap** drafted — changed files and LOC where meaningful, verification commands and results, refactors made or deferred with rationale, documentation verdict, and concrete maintainability effect (surfaces at the 📦 ready-to-commit gate, or inline on conditional skip)
 
-Phase 4 closure ops (doc-drift sweep, PLAN.md flip/placement, archive move)
-auto-run without an intermediate gate. A standalone task moves to the top of
+Phase 4 closure ops (doc-drift sweep, YAML `status:` flip, PLAN.md
+flip/placement, archive move) auto-run without an intermediate gate. The
+`status:` flip is the **first** of the three writes and is what makes the YAML
+canonical claim in §"Tasknote body shape" true — it happens while the tasknote
+is still active, so it is a pre-archive closure write, **not** a retroactive
+edit of an archived record (see §"Tasknote frontmatter"). A standalone task moves to the top of
 `## Completed`; an epic child is checked and stubbed in place, preserving its
 2-space nesting beneath the active parent until `/ft-close-epic` atomically
 moves the parent and complete cohort. The recap drafts alongside — a two-pass

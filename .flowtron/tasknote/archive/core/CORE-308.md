@@ -1,6 +1,6 @@
 ---
 title: in-session cue glyph
-status: in-progress
+status: completed
 tags: []
 created: 2026-06-10
 due:

@@ -1,6 +1,6 @@
 ---
 title: security-md-ai-ref-decision
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-20
 due:

@@ -1,6 +1,6 @@
 ---
 title: doc-updates
-status: in-progress
+status: completed
 tags: []
 created: 2026-06-02
 due:

@@ -1,6 +1,6 @@
 ---
 title: ft-spec-skill
-status: in-progress
+status: completed
 tags: [enhancement, skill-add, spec-driven, planning-peer]
 created: 2026-07-12
 due:

@@ -18,8 +18,10 @@ export function groupBy<T, K extends string | number>(
 }
 
 // PLAN.md wins on completion: if the row is `[x]` in PLAN.md, the row is
-// authoritatively done regardless of frontmatter status (some archives still
-// say `in-progress` because of closure-protocol drift).
+// authoritatively done regardless of frontmatter status. Phase 4 closure now
+// asserts the `status: completed` flip (SPEC §"🚀 Phase 4: Closure"), but this
+// fallback stays: adopters pinned to a pre-fix flowtron keep producing
+// `in-progress` archives, and the oldest archives predate frontmatter entirely.
 export function effectiveStatus(task: Task, tn: Tasknote | undefined): TasknoteStatus | null {
   if (task.completed) return 'completed';
   return tn?.frontmatter?.status ?? null;

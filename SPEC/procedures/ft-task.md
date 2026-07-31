@@ -179,7 +179,9 @@ time (Step 6).
 - **Phase 4: Closure (auto-run)** — [`SPEC.md` §"🚀 Phase 4"](../../SPEC.md)
   + [`SPEC.md` §"Paper-complete guard"](../../SPEC.md). Run the doc-drift
   sweep across `.flowtron/tasknote/README.md` §"AI-referenced docs" (per
-  entry: "no change" or the specific update). Flip **only this task's**
+  entry: "no change" or the specific update). Flip the tasknote's YAML
+  `status:` to `completed` (a pre-archive lifecycle write — write-once does
+  not reach it). Flip **only this task's**
   PLAN.md line to the stub form
   `[x] **<TASK-ID>** [model] | shortname — Completed YYYY-MM-DD.`. For a
   standalone task, move the row to the top of `## Completed`; for an epic

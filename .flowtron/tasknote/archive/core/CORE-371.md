@@ -1,6 +1,6 @@
 ---
 title: shared-workspace-helpers
-status: in-progress
+status: completed
 tags: []
 created: 2026-07-26
 due:

@@ -1,6 +1,6 @@
 ---
 title: /epic-discovery skill
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-09
 related-tasks: [CORE-EPIC-057, CORE-057.1, CORE-054]

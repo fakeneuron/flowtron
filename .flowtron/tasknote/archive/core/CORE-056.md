@@ -1,6 +1,6 @@
 ---
 title: repo conventions + tech-debt audit
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-09
 related-tasks: [CORE-049, CORE-037]

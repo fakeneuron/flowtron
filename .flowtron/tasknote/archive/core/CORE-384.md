@@ -1,6 +1,6 @@
 ---
 title: conventions-declines-distribution
-status: in-progress
+status: completed
 tags: [docs, conventions, positioning]
 created: 2026-07-31
 due:

@@ -1,6 +1,6 @@
 ---
 title: ci-question
-status: in-progress
+status: completed
 tags: []
 created: 2026-06-14
 due:

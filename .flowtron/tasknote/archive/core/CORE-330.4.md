@@ -1,6 +1,6 @@
 ---
 title: ft-goal-task-skill
-status: in-progress
+status: completed
 tags: []
 created: 2026-07-02
 related-tasks: [CORE-EPIC-330, CORE-330.1, CORE-330.2, CORE-330.3]

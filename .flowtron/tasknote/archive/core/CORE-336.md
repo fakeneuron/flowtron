@@ -1,6 +1,6 @@
 ---
 title: parser-strip-html-comments
-status: in-progress
+status: completed
 tags: []
 created: 2026-07-03
 related-tasks: [CORE-335, CORE-333]

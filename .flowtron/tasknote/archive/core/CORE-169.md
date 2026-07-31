@@ -1,6 +1,6 @@
 ---
 title: spec/readme doc drift
-status: in-progress
+status: completed
 tags: [docs, audit-followup]
 created: 2026-05-24
 due:

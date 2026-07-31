@@ -1,6 +1,6 @@
 ---
 title: "nit: snippet cd form + README layout gap"
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-20
 due:

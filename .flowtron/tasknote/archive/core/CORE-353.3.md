@@ -1,6 +1,6 @@
 ---
 title: third-glyph-contract
-status: in-progress
+status: completed
 tags: []
 created: 2026-07-13
 due:

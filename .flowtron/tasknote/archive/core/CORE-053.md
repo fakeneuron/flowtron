@@ -1,6 +1,6 @@
 ---
 title: MIGRATION-variant-trim
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-09
 related-tasks: [CORE-052, CORE-049]

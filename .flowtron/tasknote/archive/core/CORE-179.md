@@ -1,6 +1,6 @@
 ---
 title: conventions-changelog-examples
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-24
 due:

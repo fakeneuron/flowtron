@@ -1,6 +1,6 @@
 ---
 title: release v5.7.1
-status: in-progress
+status: completed
 tags: []
 created: 2026-06-14
 related-tasks: [CORE-EPIC-324, CORE-319]

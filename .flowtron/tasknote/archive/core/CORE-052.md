@@ -1,6 +1,6 @@
 ---
 title: tasknote-README variant trim
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-08
 due:

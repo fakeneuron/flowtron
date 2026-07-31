@@ -1,6 +1,6 @@
 ---
 title: ft-release-viz-constant-rename
-status: in-progress
+status: completed
 tags: []
 created: 2026-06-02
 due:

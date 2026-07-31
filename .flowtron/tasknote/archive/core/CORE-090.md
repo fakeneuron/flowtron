@@ -1,6 +1,6 @@
 ---
 title: flowtron-info-skill adopter framing
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-14
 due:

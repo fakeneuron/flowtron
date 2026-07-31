@@ -1,6 +1,6 @@
 ---
 title: proactive-starter-on-handoff
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-24
 due:

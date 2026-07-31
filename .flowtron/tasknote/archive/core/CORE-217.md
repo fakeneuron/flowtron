@@ -1,6 +1,6 @@
 ---
 title: ft-audit-fork-shadow-in-dot-claude
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-29
 due:

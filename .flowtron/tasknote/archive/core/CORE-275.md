@@ -1,6 +1,6 @@
 ---
 title: grok-wiring-dir-claim
-status: in-progress
+status: completed
 tags: []
 created: 2026-06-02
 due:

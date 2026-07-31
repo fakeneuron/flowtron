@@ -1,6 +1,6 @@
 ---
 title: ft-flowtron template-list trim
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-17
 due:

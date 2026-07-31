@@ -1,6 +1,6 @@
 ---
 title: claude-triggers
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-30
 related-tasks: [CORE-EPIC-224, CORE-224.1, CORE-224.2, CORE-224.4, CORE-224.5]

@@ -1,6 +1,6 @@
 ---
 title: readme-skill-roster-drift
-status: in-progress
+status: completed
 tags: [docs]
 created: 2026-05-30
 due:

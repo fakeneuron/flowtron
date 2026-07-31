@@ -1,6 +1,6 @@
 ---
 title: audit scaffold §0 parity
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-24
 due:

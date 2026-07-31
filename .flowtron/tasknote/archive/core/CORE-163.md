@@ -1,6 +1,6 @@
 ---
 title: agents-snippet-micro-4phase-claim
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-23
 due:

@@ -1,6 +1,6 @@
 ---
 title: gate-clarity-agent-neutral audit
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-26
 due:

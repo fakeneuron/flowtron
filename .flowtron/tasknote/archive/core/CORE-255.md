@@ -1,6 +1,6 @@
 ---
 title: next-task-cue-emoji-hardcoded
-status: in-progress
+status: completed
 created: 2026-06-01
 related-tasks: ["CORE-EPIC-254"]
 ---

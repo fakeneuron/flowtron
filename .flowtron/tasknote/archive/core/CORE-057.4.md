@@ -1,6 +1,6 @@
 ---
 title: /close-epic skill
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-09
 related-tasks: [CORE-EPIC-057, CORE-057.1, CORE-057.3, CORE-054]

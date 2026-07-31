@@ -1,6 +1,6 @@
 ---
 title: updater-main-decompose
-status: in-progress
+status: completed
 tags: [tooling, refactor]
 created: 2026-07-25
 due:

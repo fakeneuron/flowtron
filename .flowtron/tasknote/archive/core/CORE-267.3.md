@@ -1,6 +1,6 @@
 ---
 title: ft-release-gate-wiring
-status: in-progress
+status: completed
 tags: []
 created: 2026-06-01
 related-tasks: [CORE-EPIC-267, CORE-267.2, CORE-267.4, CORE-265]

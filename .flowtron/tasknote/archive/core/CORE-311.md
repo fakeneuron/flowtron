@@ -1,6 +1,6 @@
 ---
 title: ft-release-pin-grep-drift
-status: in-progress
+status: completed
 tags: []
 created: 2026-06-11
 due:

@@ -1,6 +1,6 @@
 ---
 title: audit-family phrasing residuals
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-24
 related-tasks: [CORE-187, CORE-185, CORE-164, CORE-190]

@@ -1,6 +1,6 @@
 ---
 title: plan-none-placeholder
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-10
 due:

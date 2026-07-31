@@ -1,6 +1,6 @@
 ---
 title: cue-cross-agent
-status: in-progress
+status: completed
 tags: []
 created: 2026-06-01
 due:

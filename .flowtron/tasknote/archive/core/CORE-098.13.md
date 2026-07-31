@@ -1,6 +1,6 @@
 ---
 title: subtask-list wrapper density
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-16
 due:

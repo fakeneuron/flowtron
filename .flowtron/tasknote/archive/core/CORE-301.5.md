@@ -1,6 +1,6 @@
 ---
 title: adopter-doc-propagation
-status: in-progress
+status: completed
 tags: []
 created: 2026-06-07
 due:

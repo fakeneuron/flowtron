@@ -1,6 +1,6 @@
 ---
 title: autonomous-loop-guidance
-status: in-progress
+status: completed
 tags: []
 created: 2026-07-02
 due:

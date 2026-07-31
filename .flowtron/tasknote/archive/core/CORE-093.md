@@ -1,6 +1,6 @@
 ---
 title: SPEC tasknote-template claim trim
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-14
 due:

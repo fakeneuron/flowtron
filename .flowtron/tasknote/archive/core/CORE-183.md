@@ -1,6 +1,6 @@
 ---
 title: phase1-2-gate-default-skip
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-24
 due:

@@ -1,6 +1,6 @@
 ---
 title: release v5.9.0
-status: in-progress
+status: completed
 tags: []
 created: 2026-07-03
 due:

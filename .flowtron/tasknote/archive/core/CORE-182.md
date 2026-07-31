@@ -1,6 +1,6 @@
 ---
 title: migration-md §3.3 cross-walk fintown leak
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-24
 due:

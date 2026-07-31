@@ -1,6 +1,6 @@
 ---
 title: doc-xref-precision-sweep
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-31
 due:

@@ -1,6 +1,6 @@
 ---
 title: doc-count-and-layout-currency
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-31
 due:

@@ -1,6 +1,6 @@
 ---
 title: conventions-pre-v3-breaking-claim
-status: in-progress
+status: completed
 tags: []
 created: 2026-05-24
 due:
