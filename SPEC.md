@@ -9,9 +9,11 @@ Flowtron is a lightweight, project-agnostic tasknote system for solo
 AI-assisted coding. One source of truth, consumed by adopting projects via
 git submodule.
 
-The goal is simple: keep AI context windows small, make tasks self-contained,
-and prevent scope drift — without scripts, daemons, databases, or schemas to
-maintain.
+The goal is simple: catch the agent before it wastes a session. The four
+phases, the Relevance Assessment, and the Acceptance criteria are the
+checkpoints where you look — and one task per context window keeps each one
+small enough to actually review. No scripts, daemons, databases, or schemas
+to maintain.
 
 ## Core principles
 

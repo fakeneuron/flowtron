@@ -3,9 +3,10 @@
 A lightweight, project-agnostic tasknote system for solo AI-assisted coding.
 One source of truth, consumed by adopting projects via git submodule.
 
-The goal: keep AI context windows small, make tasks self-contained, and
-prevent scope drift — without scripts, daemons, databases, or schemas to
-maintain.
+The goal: catch the agent before it wastes a session. The four phases, the
+relevance gate, and the acceptance criteria are the checkpoints where you
+look — and one task per context window keeps each one small enough to
+actually review. No scripts, daemons, databases, or schemas to maintain.
 
 ## Documents
 

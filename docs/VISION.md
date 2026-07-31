@@ -1,6 +1,6 @@
 # Flowtron — Vision
 
-Flowtron is a workflow contract for one person managing a handful of solo AI-assisted coding projects. It keeps tasknotes self-contained, the assistant's context window small, and scope drift suppressed — without scripts, daemons, databases, or schemas to maintain.
+Flowtron is a workflow contract for one person managing a handful of solo AI-assisted coding projects. It exists to catch the agent before it wastes a session: the four phases, the Relevance Assessment, and the Acceptance criteria are the checkpoints where you look, and one task per context window is what keeps each one small enough to actually review — without scripts, daemons, databases, or schemas to maintain.
 
 See [SPEC.md](../SPEC.md) for the contract and [PHILOSOPHY.md](PHILOSOPHY.md) for the history of how the shape got here.
 
@@ -8,7 +8,7 @@ See [SPEC.md](../SPEC.md) for the contract and [PHILOSOPHY.md](PHILOSOPHY.md) fo
 
 Solo developers running 2-5 side projects in parallel with an AI coding assistant. The fit is sharpest when:
 
-- You work alone (or in pairs at most) — no team handoff, no PR review queue.
+- You are the only reviewer the agent gets — no team handoff, no second pair of eyes catching a bad session before it lands.
 - You context-switch across multiple projects week-to-week and want one source-of-truth workflow shape, not a snowflake per repo.
 - You use an AI assistant (Claude Code, Codex, or similar) for actual implementation, not just code review.
 

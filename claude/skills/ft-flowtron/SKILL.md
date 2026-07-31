@@ -24,7 +24,7 @@ Print the following block in the conversation (fill in `VERSION` from Step 0). D
 
 # flowtron `VERSION`
 
-A lightweight, project-agnostic tasknote system for solo AI-assisted coding. Keeps context windows small, tasks self-contained, and scope from drifting — with no scripts, daemons, or databases.
+A lightweight, project-agnostic tasknote system for solo AI-assisted coding. The four phases, the Relevance Assessment, and the Acceptance criteria are the checkpoints that catch the agent before it wastes a session — with no scripts, daemons, or databases.
 
 **Spec:** `SPEC.md` (adopters: `.flowtron/core/SPEC.md`)
 **Adoption guide:** `docs/MIGRATION.md`
