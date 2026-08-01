@@ -81,7 +81,7 @@ If the proposed bump and the PLAN-line target match, the user confirms in one sh
 
 ## Step 2.5 — Context-budget self-assessment (escape hatch)
 
-Before scaffolding the tasknote (Step 3), self-assess whether the **remaining context budget** is comfortable for a full release cut driven inline in this session. A full cut is a long, multi-file motion: the 5 version edits (Step 5), the dogfood-gate walk (per-agent `AskUserQuestion` + stamp edits), the `ft-audit-docs` subroutine (5 passes over the doc set, Step 7.1), tag-message drafting (Step 7.2), and the commit/tag/push sequence (Step 7.5). Driving all of that with little headroom risks a degraded cut.
+Before scaffolding the tasknote (Step 3), self-assess whether the **remaining context budget** is comfortable for a full release cut driven inline in this session. A full cut is a long, multi-file motion: the 5 version edits (Step 5), the dogfood-gate walk (per-agent `AskUserQuestion` + stamp edits), the `/ft-audit docs` subroutine (5 passes over the doc set, Step 7.1), tag-message drafting (Step 7.2), and the commit/tag/push sequence (Step 7.5). Driving all of that with little headroom risks a degraded cut.
 
 - **Comfortable** → proceed to Step 3 and drive the cut inline. This is the default — the skill drives the whole release in one session; the escape hatch never fires.
 - **Tight** → do **not** scaffold. Surface an **offer** and let the operator decide (self-assess + offer; the assistant flags, the human chooses):
@@ -197,21 +197,21 @@ If a viz/code feature ships in this release, surface that the feature's own task
 
 Walk the closure steps in order. Tag-message review (§7.2) and the bundled 📦 commit-go (§7.4) are explicit gates — wait for the user.
 
-### 7.1 — Doc-drift sweep (via `/ft-audit-docs` subroutine)
+### 7.1 — Doc-drift sweep (via `/ft-audit docs` subroutine)
 
-Invoke the flowtron-self `ft-audit-docs` skill in **subroutine mode** with the default scope (the AI-referenced docs set declared in `.flowtron/tasknote/README.md` §"AI-referenced docs"):
+Invoke the flowtron-self `ft-audit` skill in **subroutine mode** with the `docs` domain and the default scope (the AI-referenced docs set declared in `.flowtron/tasknote/README.md` §"AI-referenced docs"):
 
 ```text
-Skill(ft-audit-docs)
+Skill(ft-audit) with args "docs"
 ```
 
-`ft-audit-docs` walks its 5 passes (Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content) over the declared doc set and returns the report inline. In subroutine mode it does **not** write tickets to `.flowtron/PLAN.md`; the release skill is the orchestrator and decides per finding whether to absorb the fix into the current cut.
+The `docs` domain walks its 5 passes (Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content) over the declared doc set and returns the report inline. Per the dispatcher's Subroutine-safe hard rule it does **not** write tickets to `.flowtron/PLAN.md`; the release skill is the orchestrator and decides per finding whether to absorb the fix into the current cut.
 
 For each returned finding:
 - **Critical / High** — fix inline as part of the release cut (the 5 version edits in Phase 2 normally clear the routine SPEC + MIGRATION + SECURITY + constants.ts + package.json version-pin drift; anything else surfaced here gets the same treatment).
 - **Medium / Low** — surface to the user with a one-line summary; ask whether to absorb into the release cut or file a followup via `/ft-file-followup`. Default to file-followup if uncertain (release cuts should not balloon).
 
-If `ft-audit-docs` reports zero findings, state that explicitly and move on to §7.2.
+If the sweep reports zero findings, state that explicitly and move on to §7.2.
 
 **Standing Claude symlink-wiring count check.** Independently of the subroutine findings, compare the canonical Claude adopter-wiring block against its three consumers:
 
