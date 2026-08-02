@@ -95,25 +95,29 @@ For each file matching `.claude/skills/*/SKILL.md` that is a **regular file** (n
 
 1. Parse the file's YAML frontmatter to read:
    - `flowtron-reconciled:` — the version tag the fork was last reconciled against (e.g. `v5.2.0`).
-   - `flowtron-tracks:` — the bundled scaffold name (e.g. `ft-audit-backend`).
+   - `flowtron-tracks:` — the bundled scaffold name (e.g. `ft-audit`).
 
 2. If either field is missing or empty, skip this file and note it was skipped.
 
 3. Check whether the tracked scaffold changed between the reconciled version and `<target>`:
 
    ```sh
-   git -C <FT> log <reconciled>..<target> --oneline -- claude/skills/<flowtron-tracks>/SKILL.md
+   git -C <FT> log <reconciled>..<target> --oneline -- claude/skills/<flowtron-tracks>/
    ```
+
+   Scope the path to the scaffold **directory**, not just its `SKILL.md` — a
+   scaffold like `ft-audit` carries a sibling `passes/` library whose per-domain
+   pass bodies are exactly what a fork reconciles against.
 
 4. If the log is non-empty, emit a **non-blocking warning** for that fork:
 
    ```text
    ⚠️  Audit fork drift: .claude/skills/<dir>/SKILL.md
        Reconciled at: <reconciled>  →  bumping to: <target>
-       Scaffold `claude/skills/<flowtron-tracks>/SKILL.md` changed in N commit(s) since <reconciled>.
+       Scaffold `claude/skills/<flowtron-tracks>/` changed in N commit(s) since <reconciled>.
        Review the upstream diff, re-reconcile your fork, then update `flowtron-reconciled:` to <target>:
 
-         git -C <FT> diff <reconciled>..<target> -- claude/skills/<flowtron-tracks>/SKILL.md
+         git -C <FT> diff <reconciled>..<target> -- claude/skills/<flowtron-tracks>/
    ```
 
 5. If no `.claude/skills/*/SKILL.md` file carries `flowtron-reconciled:`, emit:

@@ -14,7 +14,7 @@ Alphabetized. ~57 entries. Maintained via epic children and audits.
 
 **area prefix** — The leading token of a TASK-ID (e.g. `CORE-`, `FE-`, `BE-`); declares the scope bucket per SPEC §"Task ID convention". Adopters declare extra domain prefixes in their `.flowtron/tasknote/README.md`.
 
-**audit-family** — The seven audit skills and command stubs `/ft-audit{,-repo,-docs,-backend,-frontend,-performance,-security}`: six forkable stack scaffolds plus `/ft-audit-repo`, the no-fork first-contact holistic audit run by reference from the submodule. `/ft-audit-context` is a standalone context-surface skill, not part of the family (it follows its own recipe — see SPEC §"Skill namespace"). Forking rules and naming (no `ft-` prefix on forks) in docs/MIGRATION.md §1.2.1.
+**audit-family** — The two audit skills and command stubs `/ft-audit{,-repo}`: the forkable stack scaffold `/ft-audit <domain>` — a parameterized dispatcher over a six-file `passes/` library (`general` · `backend` · `frontend` · `security` · `performance` · `docs`) — plus `/ft-audit-repo`, the no-fork first-contact holistic audit run by reference from the submodule. `/ft-audit-context` is a standalone context-surface skill, not part of the family (it follows its own recipe — see SPEC §"Skill namespace"). Forking rules and naming (no `ft-` prefix on forks) in docs/MIGRATION.md §1.2.1.
 
 **audit-family fork** — An adopter-owned audit skill created by forking an upstream one; must drop the `ft-` prefix so ownership is visible in resolution (e.g. `audit-payments`).
 

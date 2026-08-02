@@ -254,13 +254,8 @@ Forbidden repo-scoped upstream `ft-*` installs:
 
 ```text
 ft-audit
-ft-audit-backend
 ft-audit-context
-ft-audit-docs
-ft-audit-frontend
-ft-audit-performance
 ft-audit-repo
-ft-audit-security
 ft-flowtron
 ft-new-project
 ft-quality
@@ -279,9 +274,9 @@ diff -u <(printf '%s\n' ft-close-epic ft-debug ft-epic-discovery ft-file-followu
 Then run the explicit forbidden-install checks:
 
 ```sh
-grep "^ln -s ../../.flowtron/core/claude/skills/" claude/AGENTS-snippet.md | sed -E 's#.*claude/skills/(ft-[^ ]+).*#\1#' | grep -E '^(ft-audit|ft-audit-backend|ft-audit-context|ft-audit-docs|ft-audit-frontend|ft-audit-performance|ft-audit-repo|ft-audit-security|ft-flowtron|ft-new-project|ft-quality|ft-release|ft-stats)$'
-grep "^ln -s ../../.flowtron/core/claude/commands/" claude/AGENTS-snippet.md | sed -E 's#.*claude/commands/(ft-[^ ]+)\.md.*#\1#' | grep -E '^(ft-audit|ft-audit-backend|ft-audit-context|ft-audit-docs|ft-audit-frontend|ft-audit-performance|ft-audit-repo|ft-audit-security|ft-flowtron|ft-new-project|ft-quality|ft-release|ft-stats)$'
-grep "^ln -s ../../.flowtron/core/codex/skills/" codex/AGENTS-snippet.md | sed -E 's#.*codex/skills/(ft-[^ ]+).*#\1#' | grep -E '^(ft-audit|ft-audit-backend|ft-audit-context|ft-audit-docs|ft-audit-frontend|ft-audit-performance|ft-audit-repo|ft-audit-security|ft-flowtron|ft-new-project|ft-quality|ft-release|ft-stats)$'
+grep "^ln -s ../../.flowtron/core/claude/skills/" claude/AGENTS-snippet.md | sed -E 's#.*claude/skills/(ft-[^ ]+).*#\1#' | grep -E '^(ft-audit|ft-audit-context|ft-audit-repo|ft-flowtron|ft-new-project|ft-quality|ft-release|ft-stats)$'
+grep "^ln -s ../../.flowtron/core/claude/commands/" claude/AGENTS-snippet.md | sed -E 's#.*claude/commands/(ft-[^ ]+)\.md.*#\1#' | grep -E '^(ft-audit|ft-audit-context|ft-audit-repo|ft-flowtron|ft-new-project|ft-quality|ft-release|ft-stats)$'
+grep "^ln -s ../../.flowtron/core/codex/skills/" codex/AGENTS-snippet.md | sed -E 's#.*codex/skills/(ft-[^ ]+).*#\1#' | grep -E '^(ft-audit|ft-audit-context|ft-audit-repo|ft-flowtron|ft-new-project|ft-quality|ft-release|ft-stats)$'
 ```
 
 The `diff` commands must produce no output and exit 0. The forbidden-install `grep` commands must produce no output and exit 1. Any missing adopter-subset skill or any installed forbidden slug means the snippets contradict the installed-surface policy — fix inline as Critical/High before cutting the release.

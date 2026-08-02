@@ -1,13 +1,13 @@
 ---
 name: ft-audit-repo
-description: First-contact holistic repo audit for freshly adopting projects — Repo Map discovery (read-before-judging), thin cross-cutting sweep, thematic synthesis (3–5 themes with won't-fix tradeoffs + done-signals), milestone-sequenced plan filed as flowtron epics in `.flowtron/PLAN.md`, and delegation recommendations for the focused `ft-audit-*` family. Use when the user asks for a first-contact audit of a freshly adopted repo, with no specific domain named. Stack-neutral, strictly read-only, no fork — run by reference from the submodule. See `docs/MIGRATION.md` §1.2.1.
+description: First-contact holistic repo audit for freshly adopting projects — Repo Map discovery (read-before-judging), thin cross-cutting sweep, thematic synthesis (3–5 themes with won't-fix tradeoffs + done-signals), milestone-sequenced plan filed as flowtron epics in `.flowtron/PLAN.md`, and delegation recommendations for focused `/ft-audit <domain>` runs. Use when the user asks for a first-contact audit of a freshly adopted repo, with no specific domain named. Stack-neutral, strictly read-only, no fork — run by reference from the submodule. See `docs/MIGRATION.md` §1.2.1.
 ---
 
 # audit-repo — flowtron first-contact holistic audit skill
 
-Principal-engineer first look at an unfamiliar repo: map before judging, synthesize what the map reveals into themes, sequence the work into milestones filed as native flowtron epics, and delegate depth to the focused audit family. **Strictly read-only — the only file this skill ever writes is `.flowtron/PLAN.md` (§6), and only after explicit confirmation.**
+Principal-engineer first look at an unfamiliar repo: map before judging, synthesize what the map reveals into themes, sequence the work into milestones filed as native flowtron epics, and delegate depth to the parameterized audit skill's domains. **Strictly read-only — the only file this skill ever writes is `.flowtron/PLAN.md` (§6), and only after explicit confirmation.**
 
-**No fork.** Unlike the six focused `ft-audit-*` scaffolds, this skill is not forked: it runs at first contact, before any per-stack customization exists, and is stack-neutral by design — there is no §0 forker checklist. Invoke it by reference from the read-only submodule path (`.flowtron/core/claude/skills/ft-audit-repo/SKILL.md`), per `docs/MIGRATION.md` §1.2.1.
+**No fork.** Unlike the parameterized `ft-audit` scaffold, this skill is not forked: it runs at first contact, before any per-stack customization exists, and is stack-neutral by design — there is no §0 forker checklist. Invoke it by reference from the read-only submodule path (`.flowtron/core/claude/skills/ft-audit-repo/SKILL.md`), per `docs/MIGRATION.md` §1.2.1.
 
 ## 1. Scope & ground rules (do this first, always)
 
@@ -55,7 +55,7 @@ Cluster the map facts and sweep findings into **3–5 themes** — patterns, not
 
 ## 5. Delegation — recommend focused audits
 
-Based on what the map revealed, recommend which focused `ft-audit-*` skills deserve full runs — do **not** run them here. For each recommendation: skill, scope glob, and the map/sweep observation that triggers it. Skip skills the map gives no reason to run. (In adopter context the focused skills are forked under unprefixed local names per `docs/MIGRATION.md` §1.2.1 — recommend whichever name resolves locally.)
+Based on what the map revealed, recommend which `/ft-audit <domain>` runs deserve a full pass — do **not** run them here. Domains are `general` · `backend` · `frontend` · `security` · `performance` · `docs`. For each recommendation: domain, scope glob, and the map/sweep observation that triggers it. Skip domains the map gives no reason to run. (In adopter context the audit scaffold is forked under an unprefixed local name per `docs/MIGRATION.md` §1.2.1 — recommend whichever name resolves locally, e.g. `/audit backend src/api/**`.)
 
 ## 6. Required closing sections + PLAN.md write
 

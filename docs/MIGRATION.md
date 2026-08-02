@@ -31,7 +31,7 @@ The skill verifies preconditions (cwd is a git repo with `CLAUDE.md`, no existin
 | `/ft-stats` | Adopters | Stats from `.flowtron/PLAN.md` `## Completed` — `[model]` distribution, velocity, per-area volume; `--write` flushes to `.flowtron/STATS.md` |
 | `/ft-quality` | Adopters | Lint + typecheck + test sweep (heuristic Node/Python/Go/Rust detection, fail-fast); runs outside the tasknote flow |
 | `/ft-audit-context` | Adopters (+ flowtron-self) | Adopter-context audit — 4 conversational passes over `CLAUDE.md`, `AGENTS.md`, `.claude/{commands,skills}` for bloat / paste-block redundancy / `ft-*` namespace conflicts / lean-context drift; soft prose recommendations with an offer to file PLAN tickets (no auto-write) |
-| `/ft-audit-repo` | Adopters (+ flowtron-self) | First-contact holistic repo audit — Repo Map discovery, one thin capped sweep, 3–5 thematic synthesis, milestone-sequenced plan filed as flowtron epics, plus delegation hints for the focused `ft-audit-*` family; strictly read-only, no fork. Global install lets you run it on a repo before flowtron is wired in (see §1.2.1) |
+| `/ft-audit-repo` | Adopters (+ flowtron-self) | First-contact holistic repo audit — Repo Map discovery, one thin capped sweep, 3–5 thematic synthesis, milestone-sequenced plan filed as flowtron epics, plus delegation hints for focused `/ft-audit <domain>` runs; strictly read-only, no fork. Global install lets you run it on a repo before flowtron is wired in (see §1.2.1) |
 | `/ft-update` | Adopters only | Bump the pinned `.flowtron/core/` submodule to the latest tag — current→target + tag changelog, move pin, re-wire symlinks for newly shipped skills, smoke check; bails in flowtron's own checkout. Consumer-side counterpart to `/ft-release` |
 | `/ft-release` | Flowtron-self only | Cut a release; bails outside flowtron's checkout |
 
@@ -68,89 +68,127 @@ Global utilities (`/ft-new-project`, `/ft-flowtron`, `/ft-stats`, `/ft-quality`,
 
 **Codex install:** open `.flowtron/core/codex/AGENTS-snippet.md` §"One-time skill wiring" and run the commands from the project root. Codex discovers these repo-scoped subset skills under `.agents/skills/`; invoke them through `/skills` or `$ft-task` / `$ft-update`.
 
-### 1.2.1 Optional: fork the `/ft-audit` family per stack
+### 1.2.1 Optional: fork the `/ft-audit` scaffold per stack
 
-Flowtron ships six stack-neutral audit scaffolds at `.flowtron/core/claude/skills/ft-audit{,-docs,-security,-frontend,-backend,-performance}/` — each a 5-pass / capped-findings / writes-tickets skill. **Forked, not symlinked**: per-stack rubrics/commands/examples diverge.
+Flowtron ships one stack-neutral audit scaffold at `.flowtron/core/claude/skills/ft-audit/` — a parameterized `/ft-audit <domain> [scope]` dispatcher over a six-file `passes/` library. The shared procedure (scope resolution, 5-passes-in-order, capped findings, finding format, closing sections, write-tickets-to-PLAN) lives once in `SKILL.md`; each domain's pass definitions, severity guide, scope/rubric/gate hints, and specialist rules live in a sibling `passes/<domain>.md` loaded at run time. **Forked, not symlinked**: per-stack rubrics/commands/examples diverge.
 
-| Skill | Scope | 5 passes |
+| Domain | Scope | 5 passes |
 |---|---|---|
-| `/ft-audit` | Catch-all code audit; default when no specialist fits | Security · Idioms · Hygiene · Orphans · Doc drift |
-| `/ft-audit-docs` | Documentation surface | Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content |
-| `/ft-audit-security` | Security posture | Secrets · Input handling · Auth & authz · Network & boundaries · Dependencies |
-| `/ft-audit-frontend` | Frontend (framework-agnostic) | Bundle & payload · Accessibility · Render perf · Browser hygiene · Component health |
-| `/ft-audit-backend` | Backend (framework-agnostic) | Input & contracts · Error & lifecycle · Persistence · Async correctness · Observability |
-| `/ft-audit-performance` | Cross-cutting perf (measurements required) | Hot paths · Payload & bundle · Data access · Memory & resource · Caching |
+| `general` (default) | Catch-all code audit; used when no domain token is given | Security · Idioms · Hygiene · Orphans · Doc drift |
+| `docs` | Documentation surface | Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content |
+| `security` | Security posture | Secrets · Input handling · Auth & authz · Network & boundaries · Dependencies |
+| `frontend` | Frontend (framework-agnostic) | Bundle & payload · Accessibility · Render perf · Browser hygiene · Component health |
+| `backend` | Backend (framework-agnostic) | Input & contracts · Error & lifecycle · Persistence · Async correctness · Observability |
+| `performance` | Cross-cutting perf (measurements required) | Hot paths · Payload & bundle · Data access · Memory & resource · Caching |
 
-**First contact: `/ft-audit-repo` (seventh family member — no fork).** Before
-picking focused audits on a repo you (or your agent) don't know yet, run the
+Invoke as `/ft-audit backend src/api/**` or bare `/ft-audit` (→ `general`, default scope). A first token that isn't a domain name (a path, `last-commit`, `staged`) resolves to `general` with the whole argument string as scope.
+
+**First contact: `/ft-audit-repo` (the family's other member — no fork).** Before
+picking a focused domain on a repo you (or your agent) don't know yet, run the
 first-contact holistic audit: it builds a Repo Map before judging, runs one
 thin capped sweep, synthesizes 3–5 themes, files a milestone-sequenced plan
-as native flowtron epics in `.flowtron/PLAN.md`, and recommends which of the
-six focused skills below deserve full runs. It is stack-neutral, strictly
-read-only, and carries no §0 forker checklist — don't fork it; invoke it by
-reference from the read-only submodule path
-(`.flowtron/core/claude/skills/ft-audit-repo/SKILL.md`), the same
-by-reference pattern the thin overlay below uses.
+as native flowtron epics in `.flowtron/PLAN.md`, and recommends which domains
+deserve full runs. It is stack-neutral, strictly read-only, and carries no §0
+forker checklist — don't fork it; invoke it by reference from the read-only
+submodule path (`.flowtron/core/claude/skills/ft-audit-repo/SKILL.md`), the
+same by-reference pattern the thin overlay below uses.
 
-Pick the ones you'll use — `/ft-audit` is a sensible default if you don't need specialists yet. To install one (repeat per skill):
+To install the scaffold, fork the **whole directory** — `SKILL.md` plus the `passes/` library:
 
 ```sh
-SKILL=audit-docs   # or audit, audit-security, audit-frontend, audit-backend, audit-performance
+SKILL=audit   # your fork's local (unprefixed) name
 mkdir -p .claude/skills/$SKILL
-cp .flowtron/core/claude/skills/ft-$SKILL/SKILL.md  .claude/skills/$SKILL/SKILL.md
-cp .flowtron/core/claude/commands/ft-$SKILL.md      .claude/commands/$SKILL.md
+cp -R .flowtron/core/claude/skills/ft-audit/. .claude/skills/$SKILL/
+cp .flowtron/core/claude/commands/ft-audit.md   .claude/commands/$SKILL.md
 ```
 
-Upstream carries the `ft-` prefix (flowtron's owned namespace per SPEC §"Skill namespace"); the local fork drops it so ownership is clear in skill resolution. Open each fork's SKILL.md and walk the **§0 Forker checklist** — set glob, rubric files, verification commands, stack-specific pass examples, sacred-invariant callouts under Critical. Delete §0 when filled in.
+Upstream carries the `ft-` prefix (flowtron's owned namespace per SPEC §"Skill namespace"); the local fork drops it so ownership is clear in skill resolution. Open the fork's SKILL.md and walk the **§0 Forker checklist** — for each domain you keep, set glob, rubric files, verification commands, stack-specific pass examples, and sacred-invariant callouts under Critical *in that domain's `passes/<domain>.md`*. Delete pass files for surfaces your project doesn't have (no frontend → remove `passes/frontend.md`). Delete §0 when filled in.
 
-**Two ways to fork: full copy vs. thin overlay.** The `cp` above is the
-**full-copy** path — you own a complete ~100-line SKILL.md and customize it
-freely. Its cost is **drift**: when flowtron improves a scaffold's pass
-structure or finding format on a later version bump, your copy doesn't pick it
-up (re-copy manually to catch up). When your only divergence from a bundled
+**Two ways to fork: full copy vs. thin overlay.** The `cp -R` above is the
+**full-copy** path — you own a complete `SKILL.md` + `passes/` tree and
+customize it freely. Its cost is **drift**: when flowtron improves the shared
+procedure or a pass body on a later version bump, your copy doesn't pick it up
+(re-copy manually to catch up). When your only divergence from the bundled
 scaffold *is* the §0 checklist surface — glob, rubric, gates, sacred
 invariants, per-pass examples, extra hard rules — prefer the lighter **thin
-overlay** instead: a ~20-line SKILL.md that points at the bundled scaffold,
-runs its 5 passes *by reference*, and carries only a `## Deltas` block.
+overlay** instead: a ~25-line SKILL.md that points at the bundled scaffold,
+runs its passes *by reference*, and carries only a `## Deltas` block.
 
 ```sh
-SKILL=audit-backend   # your fork's local (unprefixed) name
+SKILL=audit   # your fork's local (unprefixed) name
 mkdir -p .claude/skills/$SKILL
 cp .flowtron/core/templates/audit-overlay-template.md .claude/skills/$SKILL/SKILL.md
-cp .flowtron/core/claude/commands/ft-audit-backend.md .claude/commands/$SKILL.md
-# then edit SKILL.md: set the referenced scaffold path + fill the ## Deltas block
+cp .flowtron/core/claude/commands/ft-audit.md         .claude/commands/$SKILL.md
+# then edit SKILL.md: confirm the referenced scaffold path + fill the ## Deltas block
 ```
 
 The overlay points at the **read-only submodule path**
-`.flowtron/core/claude/skills/ft-audit-<x>/SKILL.md` — clone-independent and
-stable across version bumps (the audit family is forked-not-symlinked, so it is
-*not* in the `.claude/` wiring; the submodule path is the only reliable
+`.flowtron/core/claude/skills/ft-audit/SKILL.md` — clone-independent and
+stable across version bumps (the audit scaffold is forked-not-symlinked, so it
+is *not* in the `.claude/` wiring; the submodule path is the only reliable
 reference). On every run the overlay's first action is to read that scaffold
-and run **its** passes, substituting the `## Deltas` values for the scaffold's
-`<placeholder>` slots — the same read-by-reference pattern `/ft-task` uses for
-its lazy SPEC modules. Because the body lives upstream, an overlay **inherits
-scaffold improvements automatically** on a version bump (it never copied them).
+and run **its** procedure, resolving `passes/<domain>.md` relative to the
+*scaffold's* directory (the overlay has no `passes/` sibling of its own) and
+substituting the `## Deltas` values for the scaffold's `<placeholder>` slots —
+the same read-by-reference pattern `/ft-task` uses for its lazy SPEC modules.
+Because the body lives upstream, an overlay **inherits scaffold improvements
+automatically** on a version bump (it never copied them). One overlay covers
+all six domains; per-domain deltas are keyed by domain inside the `## Deltas`
+block.
 
 Choose by how much you diverge: **overlay** when only the §0 surface changes
 (most stacks); **full copy** when you need to edit pass *bodies* — reorder or
 rewrite passes, change the finding format, or restructure the closing sections.
 The overlay's one limitation is that it relies on the agent loading the
-referenced scaffold at runtime; if your agent can't follow the pointer, full-copy
-instead. (Verbatim **symlinking** a scaffold is *not* an option — it carries no
-deltas, so the skill can't be customized for your stack at all.)
+referenced scaffold (and its pass files) at runtime; if your agent can't follow
+the pointer, full-copy instead. (Verbatim **symlinking** the scaffold is *not*
+an option — it carries no deltas, so the skill can't be customized for your
+stack at all.)
 
-Splitting one skill into per-area forks (e.g., `audit-backend` → `audit-backend-payments` + `audit-backend-ingest`): copy SKILL.md into multiple sibling dirs and customize each. Forks are yours — flowtron bumps don't touch them; re-copy upstream when you want scaffold improvements.
+Splitting into per-area forks (e.g., `audit-payments` + `audit-ingest`, each pinned to one domain's passes): copy the directory into multiple sibling dirs and customize each. Forks are yours — flowtron bumps don't touch them; re-copy upstream when you want scaffold improvements.
 
 **Fork-provenance markers.** Both full-copy and overlay forks support two optional frontmatter fields that let `/ft-update` detect when the upstream scaffold has changed since your fork was last reconciled:
 
 ```yaml
 flowtron-reconciled: v5.2.0   # version tag you installed or last reconciled from
-flowtron-tracks: ft-audit-backend  # bundled scaffold this fork mirrors
+flowtron-tracks: ft-audit     # bundled scaffold this fork mirrors
 ```
 
-Add these fields to your fork's `SKILL.md` frontmatter at install time (the overlay template already ships them as placeholders). On every `/ft-update` run, the bump step scans your `.claude/skills/*/SKILL.md` files for these markers and runs `git log <reconciled>..<target> -- claude/skills/<tracked>/SKILL.md` against the submodule — if the scaffold changed, it warns you with an upstream diff command so you can review and re-reconcile. After reconciling, update `flowtron-reconciled:` to the new version. Forks without these markers are silently skipped (pre-marker forks keep working; adding the fields is opt-in).
+Add these fields to your fork's `SKILL.md` frontmatter at install time (the overlay template already ships them as placeholders). On every `/ft-update` run, the bump step scans your `.claude/skills/*/SKILL.md` files for these markers and runs `git log <reconciled>..<target> -- claude/skills/<tracked>/` against the submodule — if the scaffold changed, it warns you with an upstream diff command so you can review and re-reconcile. After reconciling, update `flowtron-reconciled:` to the new version. Forks without these markers are silently skipped (pre-marker forks keep working; adding the fields is opt-in).
 
-**Surfaces not covered by the six bundled scaffolds.** For audit surfaces without a dedicated bundled skill — API contracts, database schema/migrations, E2E test quality — use the nearest bundled scaffold as the overlay base rather than starting from scratch: `ft-audit-backend` covers API and database surfaces well through its Input & contracts and Persistence passes (scope the glob to your API routes or migrations dir; point the rubric at your API contract and schema docs). There is no bundled `ft-audit-e2e` yet; if your project needs one, start from `ft-audit` (catch-all) and customize the pass bodies — at that point, full-copy rather than overlay.
+**Surfaces not covered by the six domains.** For audit surfaces without a dedicated pass file — API contracts, database schema/migrations, E2E test quality — use the nearest domain as the base rather than starting from scratch: `backend` covers API and database surfaces well through its Input & contracts and Persistence passes (scope the glob to your API routes or migrations dir; point the rubric at your API contract and schema docs). There is no `e2e` domain yet; if your project needs one, add a `passes/e2e.md` to your fork modeled on `general` — at that point, full-copy rather than overlay.
+
+#### Migrating a pre-consolidation audit fork
+
+Flowtron v5.x consolidated six separate audit scaffolds
+(`ft-audit{,-docs,-security,-frontend,-backend,-performance}`) into the single
+parameterized scaffold above. If you forked one of those before the bump, what
+you do next depends on which fork style you used:
+
+- **Full-copy forks — nothing breaks; act only when you want the new shape.**
+  Your `.claude/skills/audit-*/SKILL.md` is self-contained and references
+  nothing upstream, so it keeps running exactly as before across the bump. It
+  simply won't receive scaffold improvements (as was always true of full
+  copies), and it now diverges structurally from the bundled form. To adopt the
+  parameterized shape, re-fork per the `cp -R` above and port your §0 answers
+  into the matching `passes/<domain>.md`.
+
+- **Thin overlays — these break on bump; repoint them.** A pre-consolidation
+  overlay names a retired path in its "Referenced scaffold" line
+  (`.flowtron/core/claude/skills/ft-audit-<x>/SKILL.md`). That path no longer
+  exists after the bump, so the overlay's first action — read the scaffold —
+  fails and the skill has no procedure to run. Fix it in place:
+
+  1. Change the referenced scaffold to
+     `.flowtron/core/claude/skills/ft-audit/SKILL.md`.
+  2. Name the domain your overlay covers (the `<x>` from the old path;
+     the old bare `ft-audit` maps to `general`) so the dispatcher loads the
+     right `passes/<domain>.md` from the scaffold's directory.
+  3. Update `flowtron-tracks:` from `ft-audit-<x>` to `ft-audit`, and
+     `flowtron-reconciled:` to the version you just bumped to.
+
+  Re-copying `templates/audit-overlay-template.md` and re-filling your
+  `## Deltas` block achieves the same thing if you'd rather start clean.
 
 Optional section — skip entirely if you don't want structured audit skills.
 
@@ -168,7 +206,7 @@ ln -s ~/code/flowtron/claude/commands/*.md  ~/.claude/commands/
 
 Use the same global pattern shown in §1.0 for the thin utility skills. This is the supported way to get hot-reload behavior when you are the one modifying the `ft-*` family itself. The `ft-` prefix remains flowtron's reserved namespace.
 
-The canonical `claude/skills/ft-audit*` files are the **stack-neutral scaffolds** of §1.2.1 — they intentionally retain the §0 forker checklist and placeholder globs/rubrics so adopters (and flowtron's own release tooling) can fork them. They are **not** pre-filled flowtron-self specializations. Auditing flowtron itself therefore supplies scope at invocation time: `/ft-audit` with no baked-in default stops and asks for a target (e.g. `viz/src/**` for the React app, or a docs path), then runs the five passes against it — the verification gates are the `viz` `npm` scripts (`lint`, `typecheck`, `test`) plus the portable `node --test tools/update-adopters.test.mjs` suite. If you audit this tree often, keep a local-only fork under the gitignored `.claude/skills/audit/` (fill in the `viz` glob + those three gates); like everything under `.claude/`, it stays per-machine and never enters git history.
+The canonical `claude/skills/ft-audit/` directory (`SKILL.md` + `passes/`) is the **stack-neutral scaffold** of §1.2.1 — it intentionally retains the §0 forker checklist and placeholder globs/rubrics so adopters (and flowtron's own release tooling) can fork it. It is **not** a pre-filled flowtron-self specialization. Auditing flowtron itself therefore supplies scope at invocation time: `/ft-audit <domain>` with no baked-in default stops and asks for a target (e.g. `viz/src/**` for the React app, or a docs path), then runs that domain's five passes against it — the verification gates are the `viz` `npm` scripts (`lint`, `typecheck`, `test`) plus the portable `node --test tools/update-adopters.test.mjs` suite. If you audit this tree often, keep a local-only fork under the gitignored `.claude/skills/audit/` (fill in the `viz` glob + those three gates); like everything under `.claude/`, it stays per-machine and never enters git history.
 
 **Optional: local `.claude/` wiring when cwd is the flowtron checkout**
 

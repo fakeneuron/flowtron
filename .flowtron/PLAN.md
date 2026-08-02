@@ -21,7 +21,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-389.1** [heavy]🧠 | discovery — Completed 2026-07-31.
   - [x] **CORE-389.2** [heavy]🧠 | parameterized-survivor — Completed 2026-08-01.
   - [x] **CORE-389.3** [light]🔧 | sibling-retirement — Completed 2026-08-01.
-  - [ ] **CORE-389.4** [medium]🧩 | migration-and-docs — rewrite MIGRATION §1.2.1 with an adopter migration note covering both fork styles (full-copy forks keep working; thin overlays referencing retired submodule paths break on bump); update `templates/audit-overlay-template.md`; sweep remaining enumerating docs (PLATFORMS, GLOSSARY, CONVENTIONS, VISION, AGENT-NEUTRALITY, SECURITY, SPEC modules, ft-update / ft-new-project / ft-audit-repo).
+  - [x] **CORE-389.4** [medium]🧩 | migration-and-docs — Completed 2026-08-01.
   - [ ] **CORE-389.N** [medium]🧩 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed with the reserved terminal `.N` suffix (never renumbers as children are added).
 - [ ] **CORE-390** [medium]🧩 | debug-mode-fold — retire `/ft-debug` as a separate skill; add `--debug` to `/ft-task` loading the four debug prompts + repro re-verify as a lazy fragment. Verdict source: [[CORE-388]].
 - [ ] **CORE-391** [medium]🧩 | sidequest-fold — retire `/ft-sidequest`; add `--park` to `/ft-file-followup` porting flags, stub + resume anchor, and the no-gate reply; trim the selection doc's sidequest block. Verdict source: [[CORE-388]].
