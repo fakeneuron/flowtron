@@ -17,12 +17,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **CORE-386** [medium]🧩 | skill-rationalizations-redflags — adopt two sections from the agent-skills anatomy (Overview / When to Use / Process / **Rationalizations** / **Red Flags** / Verification): Rationalizations enumerates the excuses an agent makes to skip a step, Red Flags names the observable symptoms. Scope deliberately narrow — `SPEC/gates.md` plus the consolidated `/ft-audit` skill (post-[[CORE-EPIC-389]]), i.e. the surfaces whose whole job is resisting shortcut-taking. Explicitly **not** a retrofit across all 26 skills. CORE-388 coordination resolved: target one audit skill, not eight.
 - [ ] **CORE-387** [medium]🧩 | cross-artifact-consistency — no surface today checks whether an *active* tasknote's plan still matches `PLAN.md` and SPEC; `ft-audit-docs` covers shipped-doc drift only, and the Relevance Assessment tests staleness by judgment rather than by cross-reference. Peer precedent: spec-kit's `/speckit.analyze`. Extension-first per VISION §principles — fold into the consolidated audit skill's docs pass (post-[[CORE-EPIC-389]]), or into the Phase 2 gate, rather than adding a skill to the roster.
-- [ ] **CORE-EPIC-389** [heavy]🧠 | audit-family-consolidation — merge the six forked audit scaffolds into one parameterized `/ft-audit <domain>` + six-file pass library per the [[CORE-287]] overlay precedent; retire the five siblings (claude + codex + command wrappers); rewrite MIGRATION §1.2.1 with an adopter migration note for existing forks. Verdict source: [[CORE-388]]. Promoted from plain CORE-389 (refined at .1 closure).
-  - [x] **CORE-389.1** [heavy]🧠 | discovery — Completed 2026-07-31.
-  - [x] **CORE-389.2** [heavy]🧠 | parameterized-survivor — Completed 2026-08-01.
-  - [x] **CORE-389.3** [light]🔧 | sibling-retirement — Completed 2026-08-01.
-  - [x] **CORE-389.4** [medium]🧩 | migration-and-docs — Completed 2026-08-01.
-  - [ ] **CORE-389.N** [medium]🧩 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed with the reserved terminal `.N` suffix (never renumbers as children are added).
 - [ ] **CORE-390** [medium]🧩 | debug-mode-fold — retire `/ft-debug` as a separate skill; add `--debug` to `/ft-task` loading the four debug prompts + repro re-verify as a lazy fragment. Verdict source: [[CORE-388]].
 - [ ] **CORE-391** [medium]🧩 | sidequest-fold — retire `/ft-sidequest`; add `--park` to `/ft-file-followup` porting flags, stub + resume anchor, and the no-gate reply; trim the selection doc's sidequest block. Verdict source: [[CORE-388]].
 - [ ] **CORE-392** [light]🔧 | ft-quality-retire — confirm `/ft-quality` is unused, then retire the skill + global-install row, or veto and re-verdict to keep. Verdict source: [[CORE-388]].
@@ -33,6 +27,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-389** [heavy]🧠 | audit-family-consolidation — Completed 2026-08-01.
+  - [x] **CORE-389.1** [heavy]🧠 | discovery — Completed 2026-07-31.
+  - [x] **CORE-389.2** [heavy]🧠 | parameterized-survivor — Completed 2026-08-01.
+  - [x] **CORE-389.3** [light]🔧 | sibling-retirement — Completed 2026-08-01.
+  - [x] **CORE-389.4** [medium]🧩 | migration-and-docs — Completed 2026-08-01.
+  - [x] **CORE-389.N** [medium]🧩 | audit — Completed 2026-08-01.
 - [x] **CORE-388** [heavy]🧠 | skill-roster-utility-review — Completed 2026-07-31.
 - [x] **CORE-383** [medium]🧩 | readme-above-fold — Completed 2026-07-31.
 - [x] **CORE-382** [medium]🧩 | positioning-oversight-checkpoints — pitch reframed to agent-oversight checkpoints across all five surfaces (`docs/VISION.md` lede + audience line, `SPEC.md`, `README.md` lede, `ft-flowtron` blurb); context economy demoted to mechanism, Core Principle #3 untouched. `no PR review queue` replaced with the only-reviewer-the-agent-gets line. [[CORE-383]] narrowed to layout work. Completed 2026-07-31.

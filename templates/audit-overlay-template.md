@@ -35,11 +35,12 @@ invocation resolves to `general`.
 
 ## Deltas
 
-These fill the bundled scaffold's §0-forker-checklist surface. The scaffold's
-§1 slots and the pass files' §"Scope & rubric hints" / §"The 5 passes" /
+These fill the bundled scaffold's §0-forker-checklist surface. Every fillable
+slot lives in the pass files — the §"Scope & rubric hints" / §"The 5 passes" /
 §"Severity guide" / §"Specialist additions" placeholders resolve to the values
-here; everything else (pass order, capped findings, finding format, closing
-sections, write-to-PLAN step, hard rules) is inherited verbatim.
+here; everything else (the dispatcher's §1 resolution steps, pass order, capped
+findings, finding format, closing sections, write-to-PLAN step, hard rules) is
+inherited verbatim.
 
 Where a value differs per domain, key it by domain (`backend: …`); an unkeyed
 value applies to every domain this overlay covers.

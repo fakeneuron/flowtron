@@ -13,7 +13,7 @@ Stack-neutral scaffold — **fork**, don't symlink (per-stack rubrics/commands d
 
 ## 0. Forker checklist (fill in before first run)
 
-Walk this list once per fork. The placeholders live in this file's §5 and in each `passes/<domain>.md` you keep.
+Walk this list once per fork. Every fillable placeholder lives in the `passes/<domain>.md` files you keep; this file carries one confirm-only item (§5 step 2).
 
 - [ ] `name:` and `description:` frontmatter — set to your fork's slash-command name and a project-specific blurb.
 - [ ] Each kept `passes/<domain>.md` §"Scope & rubric hints" — set the default scope glob, your project's actual rubric paths (root `CLAUDE.md`, ADRs, contract docs, config files where invariants live), and your actual gate commands (lint / type-check / test, or scanner / profiler / doc tooling per domain).
