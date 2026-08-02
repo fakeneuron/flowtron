@@ -42,7 +42,7 @@ Alphabetized. ~57 entries. Maintained via epic children and audits.
 
 **Downstream-impact reconciliation** — The scan that keeps PLAN.md cohesive as it grows: when a new task is filed or a mid-flow decision changes direction, active PLAN entries are checked for stale / contradictory / redundant overlap and one reconcile action (merge / nest / edit / delete / leave) is proposed per impacted entry behind a user-confirm gate (the plan is never auto-rewritten). Wired into the filing skills and the `/ft-task` Phase 2 decision path. See SPEC/tasknote-selection.md §"Downstream-impact reconciliation".
 
-**Drift check** — Phase 1 step that verifies file paths, line numbers, function names, and root-cause hypotheses cited in the original PLAN description still match current HEAD before any re-interpretation.
+**Drift check** — Phase 1 step with two halves, both run before any re-interpretation: a *code* cross-reference (file paths, line numbers, function names, and root-cause hypotheses cited in the original PLAN description still match current HEAD) and a *cross-artifact* one (the plan the tasknote is forming neither contradicts a SPEC contract nor diverges from its PLAN.md line). Cross-reference, not judgment — the Relevance Assessment already covers judgment.
 
 **epic** — A parent planning artifact (`CORE-EPIC-N`) whose children are numbered subtasks (`.1` Discovery, implementation children, `.N` Audit). Parent stays open until the audit child closes. Full lifecycle in SPEC/epic.md.
 

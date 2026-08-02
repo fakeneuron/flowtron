@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-387** [medium]🧩 | cross-artifact-consistency — no surface today checks whether an *active* tasknote's plan still matches `PLAN.md` and SPEC; `ft-audit-docs` covers shipped-doc drift only, and the Relevance Assessment tests staleness by judgment rather than by cross-reference. Peer precedent: spec-kit's `/speckit.analyze`. Extension-first per VISION §principles — fold into the consolidated audit skill's docs pass (post-[[CORE-EPIC-389]]), or into the Phase 2 gate, rather than adding a skill to the roster.
+(none)
 
 ## Low
 
@@ -23,6 +23,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-387** [medium]🧩 | cross-artifact-consistency — Completed 2026-08-02.
 - [x] **CORE-391** [medium]🧩 | sidequest-fold — Completed 2026-08-02.
 - [x] **CORE-390** [medium]🧩 | debug-mode-fold — `/ft-debug` folded into `/ft-task --debug` via the `step-4-debug-mode.md` lazy fragment (149-line skill → 67-line fragment); 19 reference edits, roster 20→19. Added `docs/MIGRATION.md` §"Retired skills leave dangling symlinks". Completed 2026-08-02.
 - [x] **CORE-392** [light]🔧 | ft-quality-retire — Operator confirmed unused; no veto. Skill + command + Codex mirror deleted, 10 references stripped across 7 files, roster 21→20. Completed 2026-08-02.

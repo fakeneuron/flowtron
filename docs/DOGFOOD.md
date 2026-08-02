@@ -102,7 +102,9 @@ behavior, and the dogfood passes on it.
 4. **Archive skim** — run `ls .flowtron/tasknote/archive/<area>/`;
    grep for source paths in scope; log any load-bearing findings.
 5. **Drift check** — confirm file paths, function names, and
-   hypotheses in the task description still match current code.
+   hypotheses in the task description still match current code, and
+   that the plan you are forming neither contradicts a SPEC contract
+   nor diverges from its PLAN.md line.
 6. **Clarifying questions** — ask if anything is genuinely ambiguous;
    otherwise write `No clarifications needed` with explicit
    assumptions.

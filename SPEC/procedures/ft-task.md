@@ -134,7 +134,9 @@ ticking each box in the tasknote as you go:
   prior tasknotes touching the files in scope; log load-bearing findings
   (renames, regressions, prior decisions) before re-interpreting the task.
 - **Drift check** — verify cited paths, line numbers, function names, and
-  root-cause hypotheses still match the code; surface drift before acting.
+  root-cause hypotheses still match the code, **and** cross-reference the plan
+  you are forming against its `PLAN.md` line and the SPEC contracts it touches
+  (read them, don't recall them); surface drift before acting.
 - **Clarify** — use a **structured ask** for anything genuinely ambiguous; if
   nothing is ambiguous, write `No clarifications needed` with the explicit
   assumptions.

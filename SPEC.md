@@ -420,13 +420,26 @@ Mandatory steps:
 - [ ] Read relevant source files
 - [ ] **Best Practices Review** — when code or module boundaries are in scope, identify the touched responsibilities, established dependency direction and abstractions, and nearby duplication; record any required in-scope refactor or deferred cleanup (otherwise `N/A` with a one-line reason)
 - [ ] **Archive skim** — surface prior decisions on the same files / area by skimming `.flowtron/tasknote/archive/<area>/` for tasknotes that touched the source paths in scope; log relevant findings in Discovery Notes before re-interpreting the task
-- [ ] **Drift check** — verify file paths, line numbers, function names, and root-cause hypotheses cited in the task description still match current code; surface any drift to the user before re-interpreting the task
+- [ ] **Drift check** — verify file paths, line numbers, function names, and root-cause hypotheses cited in the task description still match current code, **and** cross-reference the plan this tasknote is forming against its `PLAN.md` line and the SPEC contracts it touches (read them, don't recall them); surface any drift to the user before re-interpreting the task
 - [ ] Asked clarifying questions OR logged "No clarifications needed" with explicit assumptions
 - [ ] Subtasks above populated with concrete, ordered steps
 
 The Relevance Assessment is non-negotiable. `Re-scope` updates the PLAN.md line and tasknote header before continuing (if blocked prerequisite, see §"Blocked tasks"). `De-scope` jumps to Phase 4 closure with the de-scope rationale as the final summary.
 
 Archive skim + drift check both exist because prior tasknotes record decisions (renames, regressions, rationales) and PLAN.md is a snapshot, not a spec. Surface findings before re-interpreting; don't silently "correct" the plan by executing a different task.
+
+The drift check's **cross-artifact half** catches a different failure than its
+code half: a plan that is fine against the code but contradicts a contract the
+SPEC already settled, or that has quietly drifted from the `PLAN.md` line it
+was filed as. Here is the cheapest place to catch either — Phase 4 collapses
+that line to a `Completed YYYY-MM-DD.` stub, discarding the description the
+tasknote could still have been compared against. It is a **cross-reference,
+not a judgment call**: open the `PLAN.md` line and the SPEC section and read
+them. The Relevance Assessment above already tests staleness by judgment; this
+step exists because judgment alone let CORE-393 — a ticket filed to undo a
+contract CORE-042.4 deliberately settled, and documented as settled in
+§"Tasknote body shape" — survive filing and reach a full tasknote before anyone
+reread the clause.
 
 The Best Practices Review is a focused pre-change check, not a repository
 audit. Use it to understand the changed path well enough to preserve clear
