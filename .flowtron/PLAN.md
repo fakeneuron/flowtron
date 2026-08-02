@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-397** [medium]🧩 | sop-currency-gate — Nothing surfaces `SPEC/procedures/*.md` drift from `source:`; [[CORE-390]] missed the SOP, [[CORE-395]] caught it by hand. Add a flag-don't-bump check to `/ft-release`'s doc-currency walk. Bumping the stamp stays a real re-check ([[CORE-361]] precedent).
+(none)
 
 ## Low
 
@@ -25,6 +25,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-397** [medium]🧩 | sop-currency-gate — Completed 2026-08-02.
 - [x] **CORE-395** [medium]🧩 | sop-currency-recheck — Completed 2026-08-02.
 - [x] **CORE-394** [light]🔧 | self-symlink-sweep — Completed 2026-08-02.
 - [x] **CORE-387** [medium]🧩 | cross-artifact-consistency — Completed 2026-08-02.

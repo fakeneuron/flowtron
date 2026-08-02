@@ -117,6 +117,7 @@ Acceptance (parameterized):
 - [ ] `viz/src/ui/constants.ts` `VIZ_VERSION` bumped `vX.Y.Z` → `vA.B.C`
 - [ ] `viz/package.json` `"version"` bumped `"X.Y.Z"` → `"A.B.C"` (bare semver, no `v` prefix), `viz/package-lock.json` resynced to match
 - [ ] Dogfood gate resolved — every dogfooded row (Claude / Grok / Codex) refreshed from a real verification run at `vA.B.C`, or recorded `skipped @ vA.B.C` (per `docs/AGENT-COMPAT.md` §"Reading the cells")
+- [ ] SOP-currency check run — `SPEC/procedures/*.md` reported clean, or drift candidates adjudicated and a follow-up filed (stamps left un-bumped either way)
 - [ ] Phase 4 doc-drift sweep run across all `.flowtron/tasknote/README.md` §"AI-referenced docs" entries
 - [ ] Single `feat: <TASK-ID> — flowtron vA.B.C (...)` commit lands
 - [ ] Annotated `vA.B.C` tag created with adopter-facing release notes
@@ -173,9 +174,34 @@ grep -n '"version"' viz/package-lock.json | head -2
    - **Skipped** — keep the prefix pinned to the last *real* verification (do **not** bump it), and set/bump the suffix to `; skipped @ vA.B.C`. Result shape: `v4.4.0 · 2026-06-01 (dogfooded; skipped @ vA.B.C)`.
 3. **Apply each agent's resolution across all its stamp locations together** (so the matrix and the footers never drift): Claude → `docs/AGENT-COMPAT.md` matrix row + `claude/CAPABILITIES.md` §"Last verified"; Grok + Codex → `docs/AGENT-COMPAT.md` matrix rows + their `docs/PLATFORMS.md` per-agent footers.
 
-**Grep residue is expected for skipped rows.** A skipped stamp keeps its old prefix on purpose, so the grep above will still surface the pre-release `vX.Y.Z` inside it — that is a *recorded skip*, not drift. Confirm every remaining `vX.Y.Z` hit is either (a) a stamp on a row you just resolved as skipped, or (b) a write-once archived tasknote under `.flowtron/tasknote/archive/` (these keep their historical version refs). Any other hit is real drift — fix it before continuing.
+**Grep residue is expected for skipped rows.** A skipped stamp keeps its old prefix on purpose, so the grep above will still surface the pre-release `vX.Y.Z` inside it — that is a *recorded skip*, not drift. Confirm every remaining `vX.Y.Z` hit is either (a) a stamp on a row you just resolved as skipped, (b) a write-once archived tasknote under `.flowtron/tasknote/archive/` (these keep their historical version refs), or (c) a `last-verified:` stamp in `SPEC/procedures/*.md` (a SOP↔source sync stamp, **never** a release pin — see the SOP-currency check below). Any other hit is real drift — fix it before continuing.
 
-Tick boxes; populate Implementation Notes with the diff shape (the 5 version edits, plus any dogfood-gate stamp refreshes/skips landed by the walk above).
+**Standing SOP-currency check (flag-don't-bump).** `SPEC/procedures/*.md` carries a third kind of currency stamp: `last-verified: <version> · <YYYY-MM-DD>`, tracking when the agent-neutral SOP was last re-checked against its `source:` Claude skill (schema: `SPEC/procedures/README.md` §"Frontmatter schema"). Unlike the dogfood rows above, **a release cut never bumps this stamp** — it records a SOP↔source sync event, not a release pin (CORE-361 / CORE-356 precedent). But nothing else surfaces its drift either, which is how CORE-390's fold sat un-mirrored in the SOP for two weeks until CORE-395 caught it by hand. Walk it now — **flag only**:
+
+For each `SPEC/procedures/<procedure>.md`, read its `source:` and the **date** half of `last-verified:`, then list `source:` commits since that date that did *not* also touch the SOP:
+
+```sh
+for sop in SPEC/procedures/*.md; do
+  [ "$(basename "$sop")" = "README.md" ] && continue
+  src=$(sed -n 's/^source: *//p' "$sop"); stamp=$(sed -n 's/^last-verified: *//p' "$sop" | sed 's/.*· *//')
+  echo "== $sop  (source: $src, verified: $stamp)"
+  for c in $(git log --format=%H --since="$stamp" -- "$src"); do
+    git show --name-only --pretty=format: "$c" | grep -qx "$sop" \
+      || git log -1 --format='   DRIFT CANDIDATE  %h %s' "$c"
+  done
+done
+```
+
+Anchor on the **date**, not the stamp's version and not the SOP's last-touched commit. The version decouples from the date whenever a SOP is re-checked mid-cycle (CORE-395 stamped `v5.14.1` on 2026-08-02; the tag itself is dated 2026-07-27), so a version anchor reports every post-tag commit as false drift. A last-touched-commit anchor is worse: a *touch* is not a *verification* — CORE-387 touched the SOP after CORE-390 touched `source:`, so anchoring there hides the older drift entirely. Commits that changed both files in one commit are in-sync mirrors, which is why the loop filters them.
+
+Resolution — this check **flags, it does not fix and it does not bump**:
+
+- **No candidates** — state "SOP currency: clean" and continue.
+- **Candidates found** — surface them, then adjudicate each with the user: a commit with no neutral-layer surface (e.g. a change to a Claude-only skill-dispatch field) is dismissed with a one-line reason; anything else means the SOP has genuinely fallen behind. For a real finding, **file a follow-up** via `/ft-file-followup` (a SOP re-check is a full tasknote — CORE-395 was +73/−3 across five insertion points — and does not belong inside a release cut). Then continue the cut.
+
+**This is advisory, not a gate.** Unlike the dogfood gate above it never blocks commit-go: a stale SOP is a filed follow-up, not a reason to hold a release. Record the verdict (clean, or candidates + their adjudication + the follow-up ID) in Implementation Notes, and carry the one-line summary into the §7.4 closure review.
+
+Tick boxes; populate Implementation Notes with the diff shape (the 5 version edits, plus any dogfood-gate stamp refreshes/skips landed by the walk above, plus the SOP-currency verdict).
 
 ## Step 6 — Drive Phase 3: Testing & Linting
 
@@ -342,6 +368,8 @@ Surface the bundled 📦 ready-to-commit gate per SPEC/gates.md §"Operator-gate
   ```
 
   This is a hard gate: **do not surface commit-go while any dogfooded row is unresolved** (stale prefix carrying no `; skipped @ vA.B.C` suffix for this release). An unresolved row sends you back to §5 to refresh-or-skip it before the cut continues — the gate blocks tagging until the summary shows every dogfooded row resolved.
+
+- **SOP-currency verdict (advisory)** — carry the §5 flag-don't-bump result into the closure review as one line, e.g. `SOP currency: clean` or `SOP currency: ft-task behind source (2 candidates) → filed CORE-NNN`. Unlike the dogfood gate this **does not block commit-go**, and the `last-verified:` stamps are not among the files this cut edits.
 
 - **Push-go prompt** — AskUserQuestion with default Yes, a bundled in-📦 prompt parallel to /ft-close-epic's parent-flip (per SPEC/gates.md §"Conditional skip rule" bundled-prompt override):
 

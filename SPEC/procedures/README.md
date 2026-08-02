@@ -44,6 +44,17 @@ block carrying three fields:
 | `source:` | yes | The canonical Claude skill this SOP is derived from and kept in sync with — the drift-tracking anchor (e.g. `claude/skills/ft-task/SKILL.md`). |
 | `last-verified:` | yes | Currency stamp, mirroring the [`docs/PLATFORMS.md`](../../docs/PLATFORMS.md) / [`claude/CAPABILITIES.md`](../../claude/CAPABILITIES.md) convention — `<version> · <YYYY-MM-DD>`. Bumped when the SOP is re-checked against `source:`. |
 
+**Flagged at release, never bumped by it.** `last-verified:` records a SOP↔source
+sync event, not a release pin — a release cut leaves it untouched even though it
+carries a version prefix ([[CORE-361]] / [[CORE-356]] precedent). But a stamp
+nothing ever reads is a stamp that goes stale silently, which is how
+[[CORE-390]]'s fold sat un-mirrored in the `ft-task` SOP until [[CORE-395]]
+caught it by hand. `/ft-release` Step 5 therefore runs a **flag-don't-bump**
+check: it lists `source:` commits since the stamp's **date** that did not also
+touch the SOP, and routes a real finding to a follow-up tasknote. The date is
+the anchor because the version half decouples from it whenever a SOP is
+re-checked mid-cycle. Advisory only — a stale SOP never blocks a release.
+
 Example:
 
 ```yaml
