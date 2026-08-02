@@ -19,13 +19,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-394** [light]🔧 | self-symlink-sweep — 7 dangling symlinks in flowtron-self's `.claude/skills/` point at dirs deleted by [[CORE-389.3]] / [[CORE-390]] / [[CORE-392]]. Adopter fix shipped in `docs/MIGRATION.md`; flowtron's own tree was never swept.
 - [ ] **CORE-395** [medium]🧩 | sop-currency-recheck — `SPEC/procedures/ft-task.md` stamped `v5.13.0 · 2026-07-21` vs SPEC `v5.14.1`; re-check the SOP against `source:` and bump `last-verified:`. Drift spans [[CORE-386]], [[CORE-390]], [[CORE-391]], [[CORE-393]], [[CORE-387]].
 
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-394** [light]🔧 | self-symlink-sweep — Completed 2026-08-02.
 - [x] **CORE-387** [medium]🧩 | cross-artifact-consistency — Completed 2026-08-02.
 - [x] **CORE-391** [medium]🧩 | sidequest-fold — Completed 2026-08-02.
 - [x] **CORE-390** [medium]🧩 | debug-mode-fold — `/ft-debug` folded into `/ft-task --debug` via the `step-4-debug-mode.md` lazy fragment (149-line skill → 67-line fragment); 19 reference edits, roster 20→19. Added `docs/MIGRATION.md` §"Retired skills leave dangling symlinks". Completed 2026-08-02.
