@@ -55,7 +55,7 @@ The `checkout` step is what pins the project to a specific flowtron commit. Skip
 
 Reference: `docs/MIGRATION.md` §1.1.
 
-## Step 3 — Wire /ft-task, /ft-starter-task, /ft-micro-task, /ft-sidequest, /ft-file-followup, /ft-epic-discovery, /ft-close-epic, /ft-worktree-start, /ft-worktree-end, /ft-update, /ft-goal-task, /ft-spec via symlinks
+## Step 3 — Wire /ft-task, /ft-starter-task, /ft-micro-task, /ft-file-followup, /ft-epic-discovery, /ft-close-epic, /ft-worktree-start, /ft-worktree-end, /ft-update, /ft-goal-task, /ft-spec via symlinks
 
 Read `.flowtron/core/claude/AGENTS-snippet.md` and run the bash block under the §"One-time symlink wiring" heading from the project root. Run it verbatim — relative paths are intentional (they survive `git clone` and pin to whichever flowtron commit the submodule is checked out at). Do not substitute absolute paths.
 
@@ -94,12 +94,12 @@ Stage the bootstrap files explicitly. Do **not** use `git add .` or `git add -A`
 
 ```sh
 git add .gitmodules .flowtron/core .flowtron/PLAN.md .flowtron/tasknote/ \
-        .claude/commands/ft-task.md .claude/commands/ft-starter-task.md .claude/commands/ft-micro-task.md .claude/commands/ft-sidequest.md .claude/commands/ft-file-followup.md .claude/commands/ft-epic-discovery.md .claude/commands/ft-close-epic.md \
+        .claude/commands/ft-task.md .claude/commands/ft-starter-task.md .claude/commands/ft-micro-task.md .claude/commands/ft-file-followup.md .claude/commands/ft-epic-discovery.md .claude/commands/ft-close-epic.md \
         .claude/commands/ft-worktree-start.md .claude/commands/ft-worktree-end.md \
         .claude/commands/ft-update.md \
         .claude/commands/ft-goal-task.md \
         .claude/commands/ft-spec.md \
-        .claude/skills/ft-task .claude/skills/ft-starter-task .claude/skills/ft-micro-task .claude/skills/ft-sidequest .claude/skills/ft-file-followup .claude/skills/ft-epic-discovery .claude/skills/ft-close-epic \
+        .claude/skills/ft-task .claude/skills/ft-starter-task .claude/skills/ft-micro-task .claude/skills/ft-file-followup .claude/skills/ft-epic-discovery .claude/skills/ft-close-epic \
         .claude/skills/ft-worktree-start .claude/skills/ft-worktree-end \
         .claude/skills/ft-update \
         .claude/skills/ft-goal-task \
@@ -123,14 +123,12 @@ Confirm all twenty-six symlinks resolve correctly:
 readlink .claude/commands/ft-task.md            # → ../../.flowtron/core/claude/commands/ft-task.md
 readlink .claude/commands/ft-starter-task.md    # → ../../.flowtron/core/claude/commands/ft-starter-task.md
 readlink .claude/commands/ft-micro-task.md      # → ../../.flowtron/core/claude/commands/ft-micro-task.md
-readlink .claude/commands/ft-sidequest.md       # → ../../.flowtron/core/claude/commands/ft-sidequest.md
 readlink .claude/commands/ft-file-followup.md   # → ../../.flowtron/core/claude/commands/ft-file-followup.md
 readlink .claude/commands/ft-epic-discovery.md  # → ../../.flowtron/core/claude/commands/ft-epic-discovery.md
 readlink .claude/commands/ft-close-epic.md      # → ../../.flowtron/core/claude/commands/ft-close-epic.md
 readlink .claude/skills/ft-task                 # → ../../.flowtron/core/claude/skills/ft-task
 readlink .claude/skills/ft-starter-task         # → ../../.flowtron/core/claude/skills/ft-starter-task
 readlink .claude/skills/ft-micro-task           # → ../../.flowtron/core/claude/skills/ft-micro-task
-readlink .claude/skills/ft-sidequest            # → ../../.flowtron/core/claude/skills/ft-sidequest
 readlink .claude/skills/ft-file-followup        # → ../../.flowtron/core/claude/skills/ft-file-followup
 readlink .claude/skills/ft-epic-discovery       # → ../../.flowtron/core/claude/skills/ft-epic-discovery
 readlink .claude/skills/ft-close-epic           # → ../../.flowtron/core/claude/skills/ft-close-epic

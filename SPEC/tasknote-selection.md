@@ -4,7 +4,7 @@ paths: []
 
 # Tasknote selection
 
-> Lazy-loaded SPEC module. Loaded by the filing/runner skills (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-sidequest`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release`, `/ft-worktree-{start,end}`) when they need the use/skip thresholds, filing-discipline word budget, or `## Completed` archive convention. See `SPEC.md` for the always-loaded core spec.
+> Lazy-loaded SPEC module. Loaded by the filing/runner skills (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release`, `/ft-worktree-{start,end}`) when they need the use/skip thresholds, filing-discipline word budget, or `## Completed` archive convention. See `SPEC.md` for the always-loaded core spec.
 
 ## When to use a tasknote (and when not to)
 
@@ -53,22 +53,6 @@ before writing the starter.
 - No design decisions or file survey work has been done yet
 - The next available `/ft-task <ID>` slot is the natural next move (file, then start; no sitting time)
 
-**Park a sidequest (`/ft-sidequest [flags] [ID] [idea]`) when:**
-
-- An idea or **quick fix** surfaces mid-session (while coding a feature, auditing a file, etc.) and you do not want to lose it, but you are **not** switching context now
-- The note fits in ≤80 words and a ≤30w PLAN one-liner — enough to reopen in the next chat, not enough for starter sections or a review gate
-- You want the lightest **persistent** filing motion: tiny stub at `.flowtron/sidequest/<ID>.md` + one PLAN line at the right priority, then straight back to the interrupted work
-
-**Priority flags** (skip the question): `--low` → `## Low` (`pickup: next-chat`); `--med` / `--medium` → `## Medium`; `--fut` / `--future` → `## Future Opportunities`; `--high` → `## High`. **No flag** → one short question (`Low · Medium · Future?`) before any disk write; the AI may parenthesize its best read but does not auto-file.
-
-A `/ft-sidequest` filing skips review gates and downstream-impact reconciliation. With a flag (or after you answer), the reply is ≤70 words (park confirmation + priority + resume anchor) and **must** continue the main session inline.
-
-**Skip the sidequest (use `/ft-file-followup` or `/ft-starter-task`) when:**
-
-- You want a review gate, downstream reconciliation, or a conversational rationale paragraph at filing time → `/ft-file-followup`
-- The idea needs a file survey, open questions, or design decisions preserved beyond a stub → `/ft-starter-task`
-- You're ready to execute now → `/ft-micro-task` or `/ft-task`
-
 **File a follow-up (`/ft-file-followup [ID]`) when:**
 
 - A new task surfaces mid-flow (typically inside an active `/ft-task`) and the long description fits in ≤50 words, but the surrounding conversation context (why this came up, suspected files, recommended priority/model) is worth surfacing once at filing time without persisting it to disk
@@ -84,6 +68,16 @@ before writing the PLAN.md line.
 - The description would breach 50 words — use `/ft-starter-task`; rich context belongs in the starter body
 - Persistent context (file survey, open questions, design decisions) is worth preserving to disk — same call
 - You're outside any active conversation that produced the rationale — write the PLAN.md line directly
+
+**Park an idea instead (`/ft-file-followup --park [--low|--med|--fut] [ID] [idea]`) when:**
+
+- An idea or **quick fix** surfaces mid-session (while coding a feature, auditing a file, etc.) and you do not want to lose it, but you are **not** switching context now
+- The note fits in ≤80 words and a ≤30w PLAN one-liner — enough to reopen in the next chat, not enough for a review gate
+- You want the lightest **persistent** filing motion: tiny stub at `.flowtron/sidequest/<ID>.md` + one PLAN line at the right priority, then straight back to the interrupted work
+
+**Priority flags** (skip the question): `--low` → `## Low` (`pickup: next-chat`); `--med` / `--medium` → `## Medium`; `--fut` / `--future` → `## Future Opportunities`; `--high` → `## High`. **No flag** → one short question (`Low · Medium · Future?`) before any disk write; the AI may parenthesize its best read but does not auto-file.
+
+Park mode skips the review gate and the downstream-impact reconciliation scan, auto-allocates an ID rather than surfacing one for confirmation, and replies in ≤70 words (park confirmation + priority + resume anchor) before **continuing the main session inline**. Where it conflicts with the default follow-up contract, park mode wins; the cadence lives in the `park-mode.md` lazy fragment the flag loads. Drop the flag when you want the review gate, the reconciliation scan, or a conversational rationale paragraph; escalate to `/ft-starter-task` when a file survey, open questions, or design decisions need to persist beyond a stub; and use `/ft-micro-task` or `/ft-task` when you're ready to execute now.
 
 **File a micro-tasknote (`/ft-micro-task <ID>`) when:**
 

@@ -101,7 +101,7 @@ wrappers (`<platform>/procedures/<procedure>.md`) rather than by the
 
 Bundled flowtron skills carry the `ft-` prefix in their slug (`/ft-task`,
 `/ft-release`, `/ft-new-project`, `/ft-starter-task`,
-`/ft-micro-task`, `/ft-file-followup`, `/ft-sidequest`, `/ft-epic-discovery`,
+`/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`,
 `/ft-close-epic`, `/ft-goal-task`, `/ft-spec`, `/ft-worktree-start`, `/ft-worktree-end`,
 `/ft-flowtron`, `/ft-stats`,
 `/ft-audit-context`, `/ft-update`, and the audit family
@@ -622,7 +622,7 @@ After a tasknote is archived, run the three-step protocol (commit / mark landed 
 
    Never emit literal `/clear` or `/model` commands — the emoji on the label line carries the model signal; the cue carries the session-reset intent. The skill segment matches the appropriate flowtron skill for the next task — most commonly `/ft-task` (normal tasks), `/ft-micro-task` (micros), `/ft-starter-task` (filing-only), or `/ft-audit*` (audit follow-ups — adopters use the unprefixed local fork per §"Skill namespace"). `<args>` is the next task ID for tasknote-runner skills, or the skill's own argument shape otherwise.
 
-   **Context-dependent skills flag.** When the next-skill is `/ft-sidequest`, `/ft-file-followup`, or `/ft-epic-discovery`, replace the label line with `👇 Run in this session:` — 👇 (`HERE`) replaces the model glyph and signals run-here-don't-clear; the 🔧/🧩/🧠 model signal stays on the candidate line just printed. These skills draw from current-conversation context to draft their output, so clearing the session destroys what they need. Keep the skill invocation line unchanged.
+   **Context-dependent skills flag.** When the next-skill is `/ft-file-followup` (in either mode) or `/ft-epic-discovery`, replace the label line with `👇 Run in this session:` — 👇 (`HERE`) replaces the model glyph and signals run-here-don't-clear; the 🔧/🧩/🧠 model signal stays on the candidate line just printed. These skills draw from current-conversation context to draft their output, so clearing the session destroys what they need. Keep the skill invocation line unchanged.
 
 ## Paper-complete guard
 

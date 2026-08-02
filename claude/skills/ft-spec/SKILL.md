@@ -121,7 +121,7 @@ In one short message:
 - Point at the **🧩 Tasks** section as the actionable next step, and name the
   conversion skills the operator runs to file that work: `/ft-epic-discovery`
   (epics), `/ft-starter-task` (rich-context filings), `/ft-task` /
-  `/ft-micro-task` (single tasks), `/ft-sidequest` (park an idea). `/ft-spec`
+  `/ft-micro-task` (single tasks), `/ft-file-followup --park` (park an idea). `/ft-spec`
   files none of these — the operator drives the conversion.
 - Note the spec is living markdown: edit `.flowtron/specs/<slug>.md` in place
   as the design evolves; there's no version machine to maintain.

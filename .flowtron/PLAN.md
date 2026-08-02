@@ -16,7 +16,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Medium
 
 - [ ] **CORE-387** [medium]🧩 | cross-artifact-consistency — no surface today checks whether an *active* tasknote's plan still matches `PLAN.md` and SPEC; `ft-audit-docs` covers shipped-doc drift only, and the Relevance Assessment tests staleness by judgment rather than by cross-reference. Peer precedent: spec-kit's `/speckit.analyze`. Extension-first per VISION §principles — fold into the consolidated audit skill's docs pass (post-[[CORE-EPIC-389]]), or into the Phase 2 gate, rather than adding a skill to the roster.
-- [ ] **CORE-391** [medium]🧩 | sidequest-fold — retire `/ft-sidequest`; add `--park` to `/ft-file-followup` porting flags, stub + resume anchor, and the no-gate reply; trim the selection doc's sidequest block. Verdict source: [[CORE-388]].
 
 ## Low
 
@@ -24,6 +23,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-391** [medium]🧩 | sidequest-fold — Completed 2026-08-02.
 - [x] **CORE-390** [medium]🧩 | debug-mode-fold — `/ft-debug` folded into `/ft-task --debug` via the `step-4-debug-mode.md` lazy fragment (149-line skill → 67-line fragment); 19 reference edits, roster 20→19. Added `docs/MIGRATION.md` §"Retired skills leave dangling symlinks". Completed 2026-08-02.
 - [x] **CORE-392** [light]🔧 | ft-quality-retire — Operator confirmed unused; no veto. Skill + command + Codex mirror deleted, 10 references stripped across 7 files, roster 21→20. Completed 2026-08-02.
 - [x] **CORE-393** [medium]🧩 | phase4-closure-hygiene — Re-scoped: nav-chip flip was not a gap ([[CORE-042.4]] retired it deliberately) — hardened `SPEC.md` instead; folded an Acceptance tick-through into the Phase 4 `Closed —` box; no backfill. Completed 2026-08-01.

@@ -28,7 +28,7 @@ wiring but don't *depend* on it for contract semantics).
 
 | Platform | How it consumes flowtron | What ships in this repo |
 |---|---|---|
-| **Claude Code** | Wiring layer + contract layer. Nine tasknote skills (`/ft-task` — which carries debug mode behind `--debug` — `/ft-starter-task`, `/ft-micro-task`, `/ft-sidequest`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-goal-task`, `/ft-spec`) plus two thin worktree utilities (`/ft-worktree-start`, `/ft-worktree-end`) drive the SPEC's 4-phase workflow inline (or accelerate independent epic children); the parameterized `/ft-audit <domain>` skill runs the 5-pass recipe over six domains and `/ft-audit-repo` runs the first-contact holistic recipe; standalone skills `/ft-new-project`, `/ft-release`, `/ft-flowtron`, `/ft-stats`, `/ft-audit-context`, `/ft-update` follow their own recipes. | `claude/` — `AGENTS-snippet.md` + `commands/*.md` + `skills/*/SKILL.md` (+ lazy fragments). Adopter installs follow the subset policy below and the executable commands in `claude/AGENTS-snippet.md` §"One-time symlink wiring". |
+| **Claude Code** | Wiring layer + contract layer. Eight tasknote skills (`/ft-task` — which carries debug mode behind `--debug` — `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup` (which carries park mode behind `--park`), `/ft-epic-discovery`, `/ft-close-epic`, `/ft-goal-task`, `/ft-spec`) plus two thin worktree utilities (`/ft-worktree-start`, `/ft-worktree-end`) drive the SPEC's 4-phase workflow inline (or accelerate independent epic children); the parameterized `/ft-audit <domain>` skill runs the 5-pass recipe over six domains and `/ft-audit-repo` runs the first-contact holistic recipe; standalone skills `/ft-new-project`, `/ft-release`, `/ft-flowtron`, `/ft-stats`, `/ft-audit-context`, `/ft-update` follow their own recipes. | `claude/` — `AGENTS-snippet.md` + `commands/*.md` + `skills/*/SKILL.md` (+ lazy fragments). Adopter installs follow the subset policy below and the executable commands in `claude/AGENTS-snippet.md` §"One-time symlink wiring". |
 | **Codex CLI** | Wiring layer + contract layer. Codex consumes the same `AGENTS.md` paste-block, then exposes the adopter subset as repo-scoped skills. `ft-task` routes through the agent-neutral SOP; the other shipped wrappers route to the canonical skill bodies with Codex primitive translation. | `codex/` — `AGENTS-snippet.md` + `skills/*/SKILL.md` wrappers, plus the retained `procedures/ft-task.md` pointer. Adopter installs follow the subset policy below and the executable commands in `codex/AGENTS-snippet.md`; Codex invocation is via `/skills` or `$ft-task` / `$ft-update`, not arbitrary custom `/ft-*` CLI commands. |
 | **Cursor, Sourcegraph Amp, Aider, Gemini CLI, Grok Build** | Contract layer only. The platform reads `AGENTS.md`, sees flowtron's paste-block, and drives the contract conversationally — relevance gate, phase boundaries, post-closure protocol all live in `SPEC.md`. No platform-specific machinery required. | Procedure pointer wrapper shipped for Grok Build: `grok/procedures/ft-task.md` routes to `SPEC/procedures/ft-task.md`. No full wiring bundle for these contract-only agents. Adopters paste the `AGENTS.md` block from `claude/AGENTS-snippet.md` §"Block to paste into AGENTS.md"; that block is agent-neutral by design. For Grok Build adoption specifics (context-load semantics, AGENTS.md visibility, skill/command primitives), see §"Grok Build adoption notes" below. |
 
@@ -65,7 +65,7 @@ Canonical policy:
 
 | Surface | Shipped inventory | Adopter-installed subset | Global-only utilities | Flowtron-self-only |
 |---|---|---|---|---|
-| **Claude Code** | Full `ft-*` command + skill inventory under `claude/commands/` and `claude/skills/`. | The tasknote execution family (`ft-task`, `ft-starter-task`, `ft-micro-task`, `ft-sidequest`, `ft-file-followup`, `ft-epic-discovery`, `ft-close-epic`, `ft-goal-task`, `ft-spec`), the worktree pair, and `ft-update`. The `ft-audit` scaffold is forked/overlaid locally under an unprefixed name, not symlinked as an upstream `ft-*` project skill. | `ft-new-project`, `ft-flowtron`, `ft-stats`, `ft-audit-context`, and `ft-audit-repo`; `ft-update` may also be installed globally for adopter bumps but remains adopter-only at runtime. | `ft-release`. |
+| **Claude Code** | Full `ft-*` command + skill inventory under `claude/commands/` and `claude/skills/`. | The tasknote execution family (`ft-task`, `ft-starter-task`, `ft-micro-task`, `ft-file-followup`, `ft-epic-discovery`, `ft-close-epic`, `ft-goal-task`, `ft-spec`), the worktree pair, and `ft-update`. The `ft-audit` scaffold is forked/overlaid locally under an unprefixed name, not symlinked as an upstream `ft-*` project skill. | `ft-new-project`, `ft-flowtron`, `ft-stats`, `ft-audit-context`, and `ft-audit-repo`; `ft-update` may also be installed globally for adopter bumps but remains adopter-only at runtime. | `ft-release`. |
 | **Codex CLI** | Full `ft-*` wrapper inventory under `codex/skills/`, kept in parity with Claude's shipped skill slugs. | Same policy as Claude, translated to `.agents/skills/`: tasknote execution family (including `ft-spec`), worktree pair, and `ft-update`. Focused audits remain fork/overlay surfaces rather than verbatim upstream project symlinks. | Same utility set as Claude, installed in Codex's user skill directory when desired. | `ft-release`. |
 
 The distinction is deliberate. Shipping a wrapper means flowtron can maintain,
@@ -141,7 +141,6 @@ template files would have to guess. The shape below is the contract.
 │   ├── ft-task.<ext>
 │   ├── ft-starter-task.<ext>
 │   ├── ft-micro-task.<ext>
-│   ├── ft-sidequest.<ext>
 │   ├── ft-file-followup.<ext>
 │   ├── ft-epic-discovery.<ext>
 │   └── ft-close-epic.<ext>
@@ -205,13 +204,13 @@ Concrete instantiation:
 
 - **Sibling dir**: `claude/` at the repo root
 - **Adopter-facing snippet**: `claude/AGENTS-snippet.md`
-- **`commands/`**: 19 `.md` slash-command stubs (`ft-task.md`,
-  `ft-starter-task.md`, `ft-micro-task.md`, `ft-sidequest.md`, `ft-file-followup.md`,
+- **`commands/`**: 18 `.md` slash-command stubs (`ft-task.md`,
+  `ft-starter-task.md`, `ft-micro-task.md`, `ft-file-followup.md`,
   `ft-epic-discovery.md`, `ft-close-epic.md`, `ft-goal-task.md`, `ft-spec.md`, `ft-worktree-start.md`, `ft-worktree-end.md`, the two `ft-audit`-family skills (`ft-audit.md`, `ft-audit-repo.md`),
   plus `ft-new-project.md`, `ft-release.md`, `ft-flowtron.md`,
   `ft-stats.md`, `ft-audit-context.md`, `ft-update.md`)
-- **`skills/`**: 19 `SKILL.md` skill bodies (one per command), some with
-  lazy-load fragments (`ft-task/step-*.md`, including `step-4-debug-mode.md`) or sibling libraries (`ft-audit/passes/*.md`); includes `ft-worktree-start/` and `ft-worktree-end/`
+- **`skills/`**: 18 `SKILL.md` skill bodies (one per command), some with
+  lazy-load fragments (`ft-task/step-*.md`, including `step-4-debug-mode.md`; `ft-file-followup/park-mode.md`) or sibling libraries (`ft-audit/passes/*.md`); includes `ft-worktree-start/` and `ft-worktree-end/`
 - **Adopter install**: relative symlinks for the adopter-installed subset from
   `.claude/commands/*` and `.claude/skills/*` into the submodule, per
   `claude/AGENTS-snippet.md` §"One-time symlink wiring". The relative
@@ -223,7 +222,10 @@ Concrete instantiation:
   `--fast` that never touches the gate surface)
 - **Operator mode flag**: `--debug` / `-d` on `/ft-task`, loading the
   `step-4-debug-mode.md` lazy fragment (hypothesis-first Phase 1 prompts +
-  Phase 3 repro re-verify); composes with `--fast` in either order
+  Phase 3 repro re-verify); composes with `--fast` in either order.
+  `--park` / `-p` on `/ft-file-followup`, loading the `park-mode.md` lazy
+  fragment (priority flags, `.flowtron/sidequest/` stub + resume anchor,
+  no review gate, ≤70w reply, resume inline)
 
 [`MIGRATION.md`](MIGRATION.md) is the full Claude Code adoption guide —
 fresh adoption (§1), heavy migration with full archive lift (§2), and
@@ -238,7 +240,7 @@ Concrete instantiation:
 
 - **Sibling dir**: `codex/` at the repo root
 - **Adopter-facing snippet**: `codex/AGENTS-snippet.md`
-- **`skills/`**: 19 `SKILL.md` wrappers, one per Claude `ft-*` skill slug.
+- **`skills/`**: 18 `SKILL.md` wrappers, one per Claude `ft-*` skill slug.
   The wrappers keep short Codex-native metadata, then route to the
   agent-neutral SOP (`ft-task`) or the canonical Claude skill body with
   Codex primitive translation.

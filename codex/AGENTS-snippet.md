@@ -23,7 +23,6 @@ ln -s ../../.flowtron/core/codex/skills/ft-epic-discovery .agents/skills/ft-epic
 ln -s ../../.flowtron/core/codex/skills/ft-file-followup .agents/skills/ft-file-followup
 ln -s ../../.flowtron/core/codex/skills/ft-goal-task .agents/skills/ft-goal-task
 ln -s ../../.flowtron/core/codex/skills/ft-micro-task .agents/skills/ft-micro-task
-ln -s ../../.flowtron/core/codex/skills/ft-sidequest .agents/skills/ft-sidequest
 ln -s ../../.flowtron/core/codex/skills/ft-spec .agents/skills/ft-spec
 ln -s ../../.flowtron/core/codex/skills/ft-starter-task .agents/skills/ft-starter-task
 ln -s ../../.flowtron/core/codex/skills/ft-task .agents/skills/ft-task

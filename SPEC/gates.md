@@ -130,7 +130,7 @@ disambiguates: 🧩 on a next-move candidate / copy-paste label line is the
 deliberate, not accidental.
 
 👇 (`HERE`) replaces the model glyph on the copy-paste **label line** when the
-next-skill is context-dependent (`/ft-sidequest` / `/ft-file-followup` / `/ft-epic-discovery` —
+next-skill is context-dependent (`/ft-file-followup` in either mode / `/ft-epic-discovery` —
 clearing the session destroys the context they draw on). It signals *where* to
 run, not task weight — the 🔧/🧩/🧠 model signal stays on the candidate line just
 printed above. 👇 is a separate one-glyph widening of the CORE-254 vocabulary

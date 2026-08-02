@@ -1,6 +1,6 @@
 ---
 name: ft-file-followup
-description: File a mid-flow follow-up task from inside an active tasknote. Use when the user asks to file a quick follow-up task discovered mid-flow without a full tasknote. Invoke with an optional task ID as args (e.g., args="CORE-058"); when omitted, the skill suggests the next available ID for review. Writes one PLAN.md line and delivers a short context paragraph conversationally only — no tasknote artifact. Lighter than `/ft-starter-task`. See SPEC/tasknote-selection.md §"When to use a tasknote" for the threshold.
+description: File a mid-flow follow-up task from inside an active tasknote — and, with `--park`, park an idea or quick fix mid-session without losing it (tiny stub + PLAN line, priority flags, resume inline). Use when the user asks to file a quick follow-up task discovered mid-flow without a full tasknote, or to park a tangential idea, quick fix, or "don't lose this" thought while staying on the current work. Invoke with an optional task ID as args (e.g., args="CORE-058", "CORE-058 --park", or "--park --low fix null guard"); when omitted, the default flow suggests the next available ID for review and park mode auto-allocates one. Default flow writes one PLAN.md line and delivers a short context paragraph conversationally only — no tasknote artifact. Lighter than `/ft-starter-task`. See SPEC/tasknote-selection.md §"When to use a tasknote" for the threshold.
 ---
 
 # file-followup — flowtron lightweight follow-up filer
@@ -12,28 +12,52 @@ tasknote (and when not to)" — this skill is the executable interpretation, not
 a replacement. Treat SPEC.md as authoritative when this file is silent or in
 tension.
 
-A `/ft-file-followup` filing produces **zero artifacts on disk beyond a single PLAN.md task line**. The "short context paragraph" — rationale + suspected scope + recommended priority/model — is delivered conversationally only, in the same response as the filing confirmation. There is no tasknote file. Active tasknotes (if `/ft-file-followup` runs mid-flow inside `/ft-task`) are **not** edited — no breadcrumb, no log entry. The active tasknote stays a record of what it was for, not a coordination ledger.
+A default `/ft-file-followup` filing produces **zero artifacts on disk beyond a single PLAN.md task line**. The "short context paragraph" — rationale + suspected scope + recommended priority/model — is delivered conversationally only, in the same response as the filing confirmation. There is no tasknote file. Active tasknotes (if `/ft-file-followup` runs mid-flow inside `/ft-task`) are **not** edited — no breadcrumb, no log entry. The active tasknote stays a record of what it was for, not a coordination ledger.
 
 This skill is **filing-only and lighter than `/ft-starter-task`**: use it when the description fits in ≤50 words and no rich context (file survey / open questions / design decisions) needs to persist. If the description would breach 70 words or rich context warrants preserving, escalate to `/ft-starter-task` instead — the SKILL surfaces this gate at Step 2.
 
-If `args` is missing, suggest a task ID during input collection instead of
-requiring one up front. If `args` is present but doesn't match
+**Park mode (`--park`)** is the one deviation from both paragraphs above: it writes a tiny stub at `.flowtron/sidequest/<ID>.md` in addition to the PLAN.md line, skips the review gate and the reconciliation scan, and resumes the interrupted work inline instead of handing off. Full flow: `park-mode.md` (Step 0 loads it when the flag is present).
+
+If the task ID is missing, suggest one during input collection instead of
+requiring it up front. If a non-flag token is present but doesn't match
 `<AREA>-<NUMBER>` (or `<AREA>-<NUMBER>.<SUB>` for epic subtasks), stop and ask
 the user for a valid task ID.
 
-## Step 0 — Resolve paths
+## Step 0 — Resolve paths and parse args
 
 Two layouts. Pick by which file exists:
 
-- **Adopter project:** `.flowtron/core/SPEC.md` exists → SPEC=`.flowtron/core/SPEC.md`.
-- **Flowtron self-host:** repo-root `SPEC.md` with heading `# Flowtron — Workflow Specification` → SPEC=`SPEC.md`.
+- **Adopter project:** `.flowtron/core/SPEC.md` exists → SPEC=`.flowtron/core/SPEC.md`, SKILL_DIR=`.flowtron/core/claude/skills/ft-file-followup/`, template=`.flowtron/core/templates/sidequest-template.md`.
+- **Flowtron self-host:** repo-root `SPEC.md` with heading `# Flowtron — Workflow Specification` → SPEC=`SPEC.md`, SKILL_DIR=`claude/skills/ft-file-followup/`, template=`templates/sidequest-template.md`.
 
-If neither matches, bail. PLAN=`.flowtron/PLAN.md`, tasknote dir=`.flowtron/tasknote/` either way.
+If neither matches, bail. PLAN=`.flowtron/PLAN.md`, tasknote dir=`.flowtron/tasknote/`, sidequest dir=`.flowtron/sidequest/` either way.
+
+**Parse `args`.** Treat `args` as an **unordered flag set** plus free text —
+recognize each token independently; order never matters. Initialize
+`park-mode = false`, then walk the tokens:
+
+- **`--park` or `-p`** → set `park-mode = true`.
+- **`--low` / `--med` / `--medium` / `--fut` / `--future` / `--high`** → a park-mode priority flag; strip and carry. Outside park mode these are meaningless — surface the usage notice below rather than silently ignoring them.
+- **A `<AREA>-<NUMBER>` token** → the proposed task ID.
+- **Any other `--`-prefixed token** → surface a one-line usage notice (``Unknown arg `<arg>`. Usage: `/ft-file-followup [TASK-ID] [--park [--low|--med|--fut|--high]]`.``) and ask whether the user meant `--park`, a priority flag, or the default flow. Do not proceed silently.
+- **Remaining free text** → the idea text (park mode) or drafting context (default flow).
+
+**When `park-mode = true`, Read `<SKILL_DIR>park-mode.md` now and follow it
+instead of Steps 2–5 below.** Park mode is a distinct filing contract — it keeps
+Step 1a's pre-flight checks and this step's path resolution, then bypasses the
+AskUserQuestion collection, the review gate, the downstream-impact reconciliation
+scan, the conversational paragraph, and the Step 5 hand-off. It writes a stub at
+`.flowtron/sidequest/<ID>.md` alongside the PLAN.md line, replies in ≤70 words,
+and continues the interrupted work inline. Emit the inline marker
+`📌 --park active — no review gate, no reconcile scan; stub + PLAN line, then resume inline.`
+
+Default flow (`park-mode = false`) is byte-identical to the pre-flag skill.
 
 ## Step 1 — Resolve or suggest the task ID
 
-If `args` is missing, propose a **Suggested ID** before collecting the rest of
-the fields:
+If no task ID token was parsed in Step 0, propose a **Suggested ID** before
+collecting the rest of the fields (park mode auto-allocates instead — see
+`park-mode.md` Step P1):
 
 1. Choose the likely **Area** from conversation context (`CORE`, `FE`, `BE`,
    `DB`, `DEPLOY`, `TEST`, or a project-specific prefix declared in
@@ -50,7 +74,7 @@ the fields:
 4. Carry the suggested ID into Step 2 as a user-reviewable field. The user can
    accept it or provide a different valid ID before anything is written.
 
-If `args` is present, use it as the proposed task ID.
+If a task ID token was parsed in Step 0, use it as the proposed task ID.
 
 ## Step 1a — Pre-flight checks
 
@@ -58,6 +82,7 @@ If `args` is present, use it as the proposed task ID.
 - The task ID must NOT already exist in PLAN.md. If it does, stop and ask whether the user meant a different ID — `/ft-file-followup` files NEW tasks; reusing an existing entry is out of scope.
 - `.flowtron/tasknote/<TASK-ID>.md` must NOT already exist. If it does, stop. Surface the conflict (could be in-flight, blocked, completed, starter, or already a follow-up that was promoted).
 - `.flowtron/tasknote/archive/<area>/<TASK-ID>.md` must NOT already exist. If it does, stop — the ID has been used and archived; pick a fresh ID.
+- **Park mode only:** `.flowtron/sidequest/<TASK-ID>.md` must NOT already exist either. On conflict, stop and ask for a different ID.
 
 ## Step 2 — Collect inputs
 
@@ -132,5 +157,5 @@ Do **not** commit unprompted. The new PLAN.md line is typically bundled into wha
 ## Notes
 
 - **Filing-only — no design decisions in the skill flow itself.** All context (rationale, suspected files, recommended priority/model) comes from the prior conversation; the skill just records the line and surfaces the paragraph.
-- **Routing across the filing cohort:** see SPEC/tasknote-selection.md §"When to use a tasknote (and when not to)" for the full decision tree. `/ft-file-followup`'s niche: ≤50w + ephemeral context only. Tangential idea + resume inline + no review gate → `/ft-sidequest` (lighter). Above 50w → `/ft-starter-task`. Filing+executing in one shot → `/ft-micro-task`. Starting an existing PLAN.md entry → `/ft-task`.
+- **Routing across the filing cohort:** see SPEC/tasknote-selection.md §"When to use a tasknote (and when not to)" for the full decision tree. The default flow's niche: ≤50w + ephemeral context only. Tangential idea + resume inline + no review gate → add `--park` (lighter; see `park-mode.md`). Above 50w → `/ft-starter-task`. Filing+executing in one shot → `/ft-micro-task`. Starting an existing PLAN.md entry → `/ft-task`.
 - **No active-tasknote breadcrumb.** When invoked from inside `/ft-task`, `/ft-file-followup` does not write into the active tasknote — keeps the active tasknote a record of what it was for, not a coordination ledger. This is the strict reading of "only one PLAN.md line on disk."

@@ -56,7 +56,7 @@ Alphabetized. ~57 entries. Maintained via epic children and audits.
 
 **follow-up** — A lightweight mid-flow task filed via `/ft-file-followup`; produces a one-line PLAN.md entry plus a short context paragraph delivered conversationally. Below the normal tasknote threshold.
 
-**sidequest** — The lightest persistent mid-flow park, filed via `/ft-sidequest`; writes a tiny stub at `.flowtron/sidequest/<ID>.md` plus one PLAN line. Priority via flags (`--low`, `--med`, `--fut`) or one short question when omitted. Replies with priority + resume anchor, then continues the main session inline. Promote via `/ft-micro-task`, `/ft-task`, or `/ft-starter-task`.
+**sidequest** — The lightest persistent mid-flow park, filed via `/ft-file-followup --park`; writes a tiny stub at `.flowtron/sidequest/<ID>.md` plus one PLAN line. Priority via flags (`--low`, `--med`, `--fut`) or one short question when omitted. Skips the review gate and the reconciliation scan; replies with priority + resume anchor, then continues the main session inline. Promote via `/ft-micro-task`, `/ft-task`, or `/ft-starter-task`, deleting the stub on promotion. (Filed via the retired `/ft-sidequest` skill before v5.15.0 — the artifact is unchanged, only the invocation moved.)
 
 **`/ft-update`** — The adopter-side command that bumps a project's pinned flowtron submodule to the latest released tag: shows current→target + changelog, moves the pin, re-wires newly shipped symlinks, runs a smoke check. Consumer-side counterpart to `/ft-release`. Adopter-only (bails in flowtron-self); takes no arguments. See docs/MIGRATION.md.
 
