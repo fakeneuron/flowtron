@@ -1,6 +1,6 @@
 ---
 name: ft-audit
-description: Run the Flowtron general code audit workflow from Codex. Use for broad audit/review requests when no focused audit skill is named.
+description: Run the Flowtron parameterized audit workflow from Codex — `ft-audit <domain> [scope]` (general/backend/frontend/security/performance/docs). Use for any audit/review/harden request matching one of these domains.
 ---
 
 # ft-audit - Codex wrapper

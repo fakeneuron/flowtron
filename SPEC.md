@@ -105,7 +105,7 @@ Bundled flowtron skills carry the `ft-` prefix in their slug (`/ft-task`,
 `/ft-close-epic`, `/ft-debug`, `/ft-goal-task`, `/ft-spec`, `/ft-worktree-start`, `/ft-worktree-end`,
 `/ft-flowtron`, `/ft-stats`, `/ft-quality`,
 `/ft-audit-context`, `/ft-update`, and the audit family
-`/ft-audit{,-repo,-docs,-security,-frontend,-backend,-performance}`). The prefix
+`/ft-audit{,-repo}`). The prefix
 reserves the `ft-` slug namespace for flowtron-owned skills so adopter
 projects can drop the bundle into `.claude/` without shadowing their own
 skill names.
@@ -580,7 +580,7 @@ After a tasknote is archived, run the three-step protocol (commit / mark landed 
    - **Open menu:** 2-3 candidates from PLAN.md mixing priority and readiness; user picks.
    - **PLAN exhausted (terminal):** the fresh re-read leaves no surviving candidate — every open-section task is checked, or the only entries live under `## Completed`. **Stop. Do not invent a next move.** Naming a task from the `## Completed` archive, a doc example, or the cached Step-1 parse is exactly the confabulation this branch prevents — the two forms above both presuppose ≥1 open task and do not apply. State plainly that PLAN.md holds no open work, then — *in this session, before any clear* — offer to file new work: `/ft-epic-discovery` for a new epic, `/ft-file-followup` for a standalone follow-up. Skip step 3's copy-paste session-reset line: there is no queued task to run after a clear. (This canonizes `/ft-close-epic`'s long-standing empty-PLAN handling.)
 
-   **Audit-family flag.** When a next-move candidate is an `/ft-audit*` slash command, prefix the candidate line (this step) and the copy-paste line (step 3) with 🔍. Audit-family skills are forked per project per `docs/MIGRATION.md` §1.2.1 — in adopter context the local fork is unprefixed (e.g., `/audit-docs`), not `/ft-audit-docs`. The 🔍 marker doubles as a self-check for any AI about to emit `/ft-audit*` as next move.
+   **Audit-family flag.** When a next-move candidate is an `/ft-audit*` slash command, prefix the candidate line (this step) and the copy-paste line (step 3) with 🔍. Audit-family skills are forked per project per `docs/MIGRATION.md` §1.2.1 — in adopter context the local fork is unprefixed (e.g., `/audit`), not `/ft-audit`. The 🔍 marker doubles as a self-check for any AI about to emit `/ft-audit*` as next move.
 
 3. **Offer the copy-paste line.** The label-line glyph is **copied from the chosen candidate line just printed in step 2** — 🧠 when the candidate showed 🧠, 🧩 when it showed 🧩, 🔧 when it showed 🔧; never default to 🔧. Emit the session-reset **label line**, then put the skill invocation **on its own line as inline-code with no trailing punctuation** — a trailing `.` after the ID collides with the `.N` epic-subtask grammar (`FE-132.3.`) and breaks copy/paste. Shape, where `<glyph>` is the candidate's 🔧/🧩/🧠:
 
@@ -716,6 +716,6 @@ For future-AI mid-task discipline. Outward-facing prose version with full justif
 - **Abstractions without two-project precedent.** Promote a helper into flowtron only when ≥2 projects need the same shape. Three similar lines is cheaper than premature abstraction.
 - **Cross-project query layers beyond the read-only visualizer.** PR-rejection mirror of "Cross-project query API" above — viz is the singular exception; anything richer is out of scope.
 - **Multi-user / team features.** Solo system; teams use a different tool.
-- **Runtime security scanners / audit daemons.** PR-rejection mirror of "Runtime security scanners" in `docs/VISION.md` §"What we won't accept" — the control is the human at the gate, not a scorer; deterministic enforcement lives in per-project permission hooks. `ft-audit-security` + `SECURITY.md` already cover the markdown-native need.
+- **Runtime security scanners / audit daemons.** PR-rejection mirror of "Runtime security scanners" in `docs/VISION.md` §"What we won't accept" — the control is the human at the gate, not a scorer; deterministic enforcement lives in per-project permission hooks. `ft-audit security` + `SECURITY.md` already cover the markdown-native need.
 - **LLM knowledge-base / "wiki layer" subsystems.** PR-rejection mirror of "LLM knowledge-base" in `docs/VISION.md` §"What we won't accept" — tasknotes + `PLAN.md` + `archive/` already are the clean LLM-maintained markdown layer; a parallel `raw/`+`wiki/` tree duplicates the SSOT. "Knowledge Gate" phase, `/ft-wiki-*` skills, and link-linters are rejected like schema validators.
 - **Loop runtime — runners, schedulers, session daemons.** PR-rejection mirror of "Loop runners" in `docs/VISION.md` §"What we won't accept" — the loop *runtime* (cadence, re-invocation, session lifetime) is Claude Code's `/loop` or any equivalent, not flowtron. Flowtron ships only the markdown *contract* the loop reports to (§"Loop tasks" → [`SPEC/loop.md`](SPEC/loop.md)); a scheduler, a session daemon, or a `loop-interval` tasknote field is rejected like a cross-project query layer.
