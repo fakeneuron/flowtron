@@ -236,7 +236,6 @@ Expected adopter-installed skill slugs:
 
 ```text
 ft-close-epic
-ft-debug
 ft-epic-discovery
 ft-file-followup
 ft-goal-task
@@ -265,9 +264,9 @@ ft-stats
 Run the exact-set checks:
 
 ```sh
-diff -u <(printf '%s\n' ft-close-epic ft-debug ft-epic-discovery ft-file-followup ft-goal-task ft-micro-task ft-sidequest ft-spec ft-starter-task ft-task ft-update ft-worktree-end ft-worktree-start | sort) <(grep "^ln -s ../../.flowtron/core/claude/skills/" claude/AGENTS-snippet.md | sed -E 's#.*claude/skills/(ft-[^ ]+).*#\1#' | sort)
-diff -u <(printf '%s\n' ft-close-epic ft-debug ft-epic-discovery ft-file-followup ft-goal-task ft-micro-task ft-sidequest ft-spec ft-starter-task ft-task ft-update ft-worktree-end ft-worktree-start | sort) <(grep "^ln -s ../../.flowtron/core/claude/commands/" claude/AGENTS-snippet.md | sed -E 's#.*claude/commands/(ft-[^ ]+)\.md.*#\1#' | sort)
-diff -u <(printf '%s\n' ft-close-epic ft-debug ft-epic-discovery ft-file-followup ft-goal-task ft-micro-task ft-sidequest ft-spec ft-starter-task ft-task ft-update ft-worktree-end ft-worktree-start | sort) <(grep "^ln -s ../../.flowtron/core/codex/skills/" codex/AGENTS-snippet.md | sed -E 's#.*codex/skills/(ft-[^ ]+).*#\1#' | sort)
+diff -u <(printf '%s\n' ft-close-epic ft-epic-discovery ft-file-followup ft-goal-task ft-micro-task ft-sidequest ft-spec ft-starter-task ft-task ft-update ft-worktree-end ft-worktree-start | sort) <(grep "^ln -s ../../.flowtron/core/claude/skills/" claude/AGENTS-snippet.md | sed -E 's#.*claude/skills/(ft-[^ ]+).*#\1#' | sort)
+diff -u <(printf '%s\n' ft-close-epic ft-epic-discovery ft-file-followup ft-goal-task ft-micro-task ft-sidequest ft-spec ft-starter-task ft-task ft-update ft-worktree-end ft-worktree-start | sort) <(grep "^ln -s ../../.flowtron/core/claude/commands/" claude/AGENTS-snippet.md | sed -E 's#.*claude/commands/(ft-[^ ]+)\.md.*#\1#' | sort)
+diff -u <(printf '%s\n' ft-close-epic ft-epic-discovery ft-file-followup ft-goal-task ft-micro-task ft-sidequest ft-spec ft-starter-task ft-task ft-update ft-worktree-end ft-worktree-start | sort) <(grep "^ln -s ../../.flowtron/core/codex/skills/" codex/AGENTS-snippet.md | sed -E 's#.*codex/skills/(ft-[^ ]+).*#\1#' | sort)
 ```
 
 Then run the explicit forbidden-install checks:

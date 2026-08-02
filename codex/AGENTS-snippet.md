@@ -19,7 +19,6 @@ subset (tasknote execution family, worktree pair, and `ft-update`):
 ```sh
 mkdir -p .agents/skills
 ln -s ../../.flowtron/core/codex/skills/ft-close-epic .agents/skills/ft-close-epic
-ln -s ../../.flowtron/core/codex/skills/ft-debug .agents/skills/ft-debug
 ln -s ../../.flowtron/core/codex/skills/ft-epic-discovery .agents/skills/ft-epic-discovery
 ln -s ../../.flowtron/core/codex/skills/ft-file-followup .agents/skills/ft-file-followup
 ln -s ../../.flowtron/core/codex/skills/ft-goal-task .agents/skills/ft-goal-task

@@ -4,7 +4,7 @@ paths: []
 
 # Tasknote selection
 
-> Lazy-loaded SPEC module. Loaded by the filing/runner skills (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-sidequest`, `/ft-debug`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release`, `/ft-worktree-{start,end}`) when they need the use/skip thresholds, filing-discipline word budget, or `## Completed` archive convention. See `SPEC.md` for the always-loaded core spec.
+> Lazy-loaded SPEC module. Loaded by the filing/runner skills (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-sidequest`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release`, `/ft-worktree-{start,end}`) when they need the use/skip thresholds, filing-discipline word budget, or `## Completed` archive convention. See `SPEC.md` for the always-loaded core spec.
 
 ## When to use a tasknote (and when not to)
 
@@ -101,15 +101,15 @@ A micro-tasknote uses a single `## ⚡ Notes` section (bold-prefix prompts for r
 - The 4-phase log would carry useful state for downstream tasknotes or audits
 - You're unsure — default to `/ft-task`. The Discovery phase pays for itself.
 
-**Run a debug tasknote (`/ft-debug <ID>`) when:**
+**Run a tasknote in debug mode (`/ft-task <ID> --debug`) when:**
 
 - The work is investigating a bug, regression, or other unexpected behavior where the root cause is not yet known
 - Hypothesis-first cadence pays off: capturing expected vs. observed first, ranking hypotheses, and designing a minimal repro before code edits prevents shotgun-debugging
 - The fix lives behind the investigation — Phase 1 produces the hypothesis, Phase 2 targets it, and Phase 3 re-verifies the same minimal repro to confirm the root cause (not just the symptom) is fixed
 
-A `/ft-debug` tasknote uses the same standard 4-phase template as `/ft-task`; the debug cadence (expected/observed → ranked hypotheses → minimal repro → re-verify) lives inside the skill's Phase 1 and Phase 3 drive, not in the template itself.
+Debug mode uses the same standard 4-phase template as a plain `/ft-task` run; the debug cadence (expected/observed → ranked hypotheses → minimal repro → re-verify) lives in the `step-4-debug-mode.md` lazy fragment the flag loads, not in the template itself. It adds content, never mechanics — no extra phase, banner, or gate — and composes with `--fast` in either order (the Phase 3 repro re-verify still runs). Debug mode is **explicit opt-in only**: never infer it from a task description that sounds bug-shaped, per the CORE-042.5 rule that the operator picks the entry point at invocation time.
 
-**Skip the debug tasknote (use `/ft-task` instead) when:**
+**Skip debug mode (use a plain `/ft-task` run) when:**
 
 - The work is feature-shaped, not bug-shaped — the goal is to *add* behavior, not to explain *unexpected* behavior
 - The root cause is already known at filing time and the work is just landing the fix — `/ft-task`'s standard Phase 1 is enough

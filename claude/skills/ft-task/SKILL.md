@@ -1,13 +1,13 @@
 ---
 name: ft-task
-description: Start a flowtron tasknote and drive it through the SPEC's 4-phase workflow. Use when the user asks to start a full tasknote for a normal-sized, multi-step, or design-tradeoff-bearing task. Invoke with the task ID as args (e.g., args="CORE-004"). Reads SPEC.md, scaffolds the tasknote from the template, runs Phase 1 Discovery, then continues conversationally through phases 2-4 and the post-closure protocol.
+description: Start a flowtron tasknote and drive it through the SPEC's 4-phase workflow. Use when the user asks to start a full tasknote for a normal-sized, multi-step, or design-tradeoff-bearing task — and, with `--debug`, when the user asks to debug a bug, regression, flaky behavior, or other unexpected behavior whose root cause is not yet known (hypothesis-first cadence: expected vs observed → ranked hypotheses → minimal repro → re-verify). Invoke with the task ID as args (e.g., args="CORE-004", "CORE-004 --debug", or "CORE-195.2 --debug --fast"). Reads SPEC.md, scaffolds the tasknote from the template, runs Phase 1 Discovery, then continues conversationally through phases 2-4 and the post-closure protocol.
 ---
 
 # task — flowtron tasknote runner
 
 You are starting a tasknote for the task ID provided in `args` (e.g., `CORE-004`). The full workflow contract lives in flowtron's `SPEC.md` — this skill is the executable interpretation, not a replacement. Treat SPEC.md as authoritative when this file is silent or in tension.
 
-If `args` is missing or its first token doesn't match `<AREA>-<NUMBER>` (or `<AREA>-<NUMBER>.<SUB>` for epic subtasks), stop and ask the user for a valid task ID. Do not guess. A trailing `--fast` / `-f` flag is the only other accepted token — see Step 0.
+If `args` is missing or its first token doesn't match `<AREA>-<NUMBER>` (or `<AREA>-<NUMBER>.<SUB>` for epic subtasks), stop and ask the user for a valid task ID. Do not guess. Trailing `--fast` / `-f` and `--debug` / `-d` flags are the only other accepted tokens — see Step 0.
 
 ## Step 0 — Resolve paths
 
@@ -21,19 +21,30 @@ If neither matches, bail.
 Paths this skill uses:
 - SPEC: `<root>SPEC.md` (always loaded core)
 - SPEC_DIR (lazy modules `epic.md` · `starter.md` · `blocked.md` · `model.md` · `versioning.md`): `<root>SPEC/`
-- SKILL_DIR (lazy fragments `step-1.5-model-edge.md` · `step-3a-promote-starter.md` · `step-3c-resume-blocked.md`): `<root>claude/skills/ft-task/`
+- SKILL_DIR (lazy fragments `step-1.5-model-edge.md` · `step-3a-promote-starter.md` · `step-3c-resume-blocked.md` · `step-4-debug-mode.md`): `<root>claude/skills/ft-task/`
 - Template: `<root>templates/tasknote-template.md`
 - PLAN: `.flowtron/PLAN.md`, tasknote dir: `.flowtron/tasknote/` (always)
 
 Subsequent steps name what to Read; the SPEC contract + matching SKILL fragment typically load in parallel.
 
-**Parse `args`.** Split on whitespace into `(TASK-ID, rest...)`. Branch on `rest`:
+**Parse `args`.** Split on whitespace into `(TASK-ID, rest...)`. `rest` is an **unordered flag set** — recognize each token independently; order never matters, and both flags may appear together. Initialize `fast-mode = false` and `debug-mode = false`, then walk the tokens:
 
-- **Empty** → set internal flag `fast-mode = false` and continue to Step 1.
-- **`--fast` or `-f`** → set `fast-mode = true`. Emit exactly one inline marker after path resolution: `⚡ --fast active — 👁️ frontend ask and 📦 signal trips suppressed; Re-scope/De-scope still fires 🛠️ (🛠️ banner is no-op for routine trips under default-skip flavor).` Continue to Step 1.
-- **Any other trailing arg** → surface a one-line usage notice (``Unknown arg `<arg>`. Usage: `/ft-task <TASK-ID>` or `/ft-task <TASK-ID> --fast`.``) and ask via AskUserQuestion whether the user meant `--fast`, the default flow, or to abort. Do not proceed silently.
+- **`--fast` or `-f`** → set `fast-mode = true`.
+- **`--debug` or `-d`** → set `debug-mode = true`.
+- **Any unrecognized token** → surface a one-line usage notice (``Unknown arg `<arg>`. Usage: `/ft-task <TASK-ID> [--debug] [--fast]`.``) and ask via AskUserQuestion whether the user meant `--fast`, `--debug`, the default flow, or to abort. Do not proceed silently.
+
+After path resolution, emit one inline marker per active flag (both, when both are set):
+
+- `fast-mode` → `⚡ --fast active — 👁️ frontend ask and 📦 signal trips suppressed; Re-scope/De-scope still fires 🛠️ (🛠️ banner is no-op for routine trips under default-skip flavor).`
+- `debug-mode` → `🔬 --debug active — hypothesis-first Phase 1 scaffolding + Phase 3 repro re-verify. Guidance, not a gate; no new banners.`
+
+Then continue to Step 1.
 
 `fast-mode` is operator-side opt-in for routine runs where the conditional gates would fire but the operator wants autonomous execution; behavioral branches reference it at Step 4 (Phase 1 exit gate), Step 5 (Phase 3 👁️ ask), and Step 6 (Conditional skip rule). Default flow (`fast-mode = false`) is byte-identical to the pre-flag skill — see SPEC/gates.md §"Operator-gate cues" for the contract.
+
+`debug-mode` is operator-side opt-in for bug / regression / unexpected-behavior work where the root cause is not yet known. **When `debug-mode = true`, Read `<SKILL_DIR>/step-4-debug-mode.md` now** — it carries the whole mode (four Phase 1 prompts, Phase 2 emphasis, Phase 3 repro re-verify) and is referenced at Step 4 and Step 5. The mode adds *content* only: scaffolding, gates, epic children, blocked handling, and closure are unchanged, and it creates no new banner. Per SPEC/tasknote-selection.md §"When to use a tasknote (and when not to)", debug mode is **explicit-opt-in only** — never infer it from a task description that sounds bug-shaped (CORE-042.5: the user picks the entry point at invocation time).
+
+The two flags are orthogonal and compose: `--debug --fast` runs the hypothesis scaffolding without AskUserQuestion pauses, and the Phase 3 repro re-verify still runs (it is not a signal trip `--fast` may suppress).
 
 ## Step 1 — Locate the task in PLAN.md
 
@@ -111,6 +122,8 @@ Read `<SPEC_DIR>/blocked.md` (lifecycle contract) and `<SKILL_DIR>/step-3c-resum
 
 Work through the Phase 1 checklist per SPEC §"📝 Phase 1: Discovery". Re-scope and De-scope behavior is canonical there; the Re-scope-to-blocked path defers to `<SPEC_DIR>/blocked.md` (Read it if Discovery surfaces a real-but-blocked prerequisite).
 
+**When `debug-mode = true`** (from Step 0): run the four hypothesis-first prompts from `<SKILL_DIR>/step-4-debug-mode.md` §"Phase 1" after the Relevance Assessment, recording answers in Discovery Notes. They sit *inside* this checklist — they add no box and no gate, and the exit-gate judgment below is unchanged.
+
 Skill-specific imperatives on top of the SPEC contract:
 
 - Tick boxes in the tasknote as you complete them.
@@ -136,7 +149,7 @@ flow continuously without an intermediate gate. The next operator-gate
 cue is the 📦 ready-to-commit banner in Step 6.
 
 - **Phase 2: Execution** — pattern survey first (look at sibling modules / parallel components for an existing shape to extend; justify a new shape if none fits), check DRY and single-responsibility boundaries, and prefer composition when it reduces coupling. Implement minimally; refactor only for Acceptance or to prevent duplication, obscured responsibility, or a dependency-boundary violation, recording the reason and deferring unrelated cleanup. Then run targeted tests on changed files. Tick boxes as you go. **If a hard dependency surfaces mid-execution**, Read `<SPEC_DIR>/blocked.md` and park the tasknote per its contract — flip `status: blocked`, update the nav header to `⏸ Blocked`, and stop. The next `/ft-task <ID>` invocation enters the resume path (Step 3c) automatically. **If a direction-changing decision surfaces mid-execution** — a choice that changes the approach, contract, data model, or sequencing in a way that reaches *beyond* the current task — run the **downstream-impact reconciliation scan** (per SPEC/tasknote-selection.md §"Downstream-impact reconciliation" — authoritative for triggers, scan steps, and vocabulary) before continuing: enumerate active PLAN entries (`High` / `Medium` / `Low` / `Future Opportunities`; `## Completed` out of scope) that share a surface with the decision, classify each (stale / contradictory / redundant / unaffected), and propose one reconcile action per impacted entry (merge / nest / edit / delete / leave). Surface the impacted-entry list for explicit user confirmation, apply only the confirmed edits, then resume execution. A decision whose effect stays inside the current task skips the scan (judgment). This user-confirm is an inline review prompt, **not** a new banner — the two-banner cap (🛠️ + 📦) holds; and like the Re-scope/De-scope drift carve-out it guards plan correctness, so it fires regardless of `fast-mode` (it proposes; the user owns the confirm).
-- **Phase 3: Testing & Linting** — targeted tests, lint/type-check, and the canonical structural quality assertions for changed code; visual confirmation for frontend changes (`👁️` prefix on the prose ask, per SPEC §"🧪 Phase 3: Testing & Linting" — inline emoji only, not a banner block). Run the full suite only for broad/cross-cutting changes. Flows directly into Phase 4 closure ops; no gate between them. **When `fast-mode = true`** (from Step 0), suppress the 👁️ CONFIRM prose ask — lint/type-check on changed code still runs, but the operator owns the visual-confirmation responsibility.
+- **Phase 3: Testing & Linting** — targeted tests, lint/type-check, and the canonical structural quality assertions for changed code; visual confirmation for frontend changes (`👁️` prefix on the prose ask, per SPEC §"🧪 Phase 3: Testing & Linting" — inline emoji only, not a banner block). Run the full suite only for broad/cross-cutting changes. Flows directly into Phase 4 closure ops; no gate between them. **When `fast-mode = true`** (from Step 0), suppress the 👁️ CONFIRM prose ask — lint/type-check on changed code still runs, but the operator owns the visual-confirmation responsibility. **When `debug-mode = true`**, apply the Phase 2 emphasis and run the Phase 3 repro re-verify from `<SKILL_DIR>/step-4-debug-mode.md` — re-execute the exact minimal repro from Phase 1 and record the outcome in Testing Notes. The re-verify runs **even under `--fast`**; a still-failing repro sends you back to Phase 2 with updated hypotheses, not to closure.
 - **Phase 4: Closure (auto-run)** — run the doc-drift sweep across `.flowtron/tasknote/README.md` §"AI-referenced docs" (per-entry verdict: "no change" or the specific update). Tick every `## ✅ Acceptance` criterion the work satisfied and annotate any it did not (`N/A` / not-met with a one-line reason) — never leave a box silently unticked. Do **not** flip the markdown nav chip to `✅ Completed` (retired by CORE-042.4; the chip is render-derived from YAML — see SPEC §"🚀 Phase 4: Closure"). Flip the tasknote's YAML `status:` to `completed` **before** the archive move — a pre-archive lifecycle write that SPEC §"Tasknote frontmatter" write-once explicitly does not reach. Per SPEC §"Paper-complete guard": flip **only this task's** PLAN.md line to the stub form `[x] **<TASK-ID>** [model] | shortname — Completed YYYY-MM-DD.` (SPEC/tasknote-selection.md §"`## Completed` archive convention"). For a standalone task, move the row to the top of `## Completed`; for an epic child, preserve its 2-space nesting beneath the active parent in the current priority section until `/ft-close-epic` moves the whole cohort. Move the tasknote to `.flowtron/tasknote/archive/<area>/<TASK-ID>.md` **only when** deliverable paths are ready to stage in the same atomic closure commit — do not flip if you cannot proceed to commit in this turn; ban collateral Completed flips. Draft the evidence-based recap: 1-2 sentence plain-English summary first, then paths/LOC where meaningful, verification results, refactors made or deferred with rationale, documentation verdict, and maintainability effect. **Do not surface a banner here** — the recap bundles into Step 6's 📦 gate. **Recap is recap-only — do not include the next-task suggestion in the recap; that lands after the commit (Step 6); see SPEC §"🚀 Phase 4: Closure" callout.**
 
 ## Step 6 — Post-closure protocol

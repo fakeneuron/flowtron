@@ -1,6 +1,6 @@
 ---
 name: ft-goal-task
-description: Start a goal-loop tasknote for the given task ID and drive it through the SPEC's 4-phase workflow with the Phase 2↔3 execute→verify cycle run as an inline loop. Use when the user asks to run a task as an iterative execute→verify loop against machine-checkable acceptance criteria. Phase 1 additionally requires every Acceptance criterion to carry a machine-checkable verify command (taste criteria split to a one-time 👁️ ask); the loop iterates under the SPEC/loop.md budget + per-cycle relevance gate, commits per verified iteration, and logs to a 🔁 Iterations section. Sibling of /ft-debug; uses `templates/tasknote-template.md`. Invoke with the task ID as args (e.g., args="CORE-042", "CORE-195.2 --fast", or "CORE-042 --worktree").
+description: Start a goal-loop tasknote for the given task ID and drive it through the SPEC's 4-phase workflow with the Phase 2↔3 execute→verify cycle run as an inline loop. Use when the user asks to run a task as an iterative execute→verify loop against machine-checkable acceptance criteria. Phase 1 additionally requires every Acceptance criterion to carry a machine-checkable verify command (taste criteria split to a one-time 👁️ ask); the loop iterates under the SPEC/loop.md budget + per-cycle relevance gate, commits per verified iteration, and logs to a 🔁 Iterations section. Sibling of /ft-task; uses `templates/tasknote-template.md`. Invoke with the task ID as args (e.g., args="CORE-042", "CORE-195.2 --fast", or "CORE-042 --worktree").
 ---
 
 # goal-task — goal-loop tasknote runner
@@ -9,7 +9,7 @@ You are starting a **goal-loop tasknote** for the task ID provided in `args`. Th
 
 The value prop: some work is *converge-until-a-check-passes* rather than *do-it-once*. A goal loop repeats execute→verify against a fixed, **machine-checkable** Acceptance target until every check passes, a budget (`loop-max`) is exhausted, or a per-cycle relevance check says stop. All of it lives in a normal tasknote using `templates/tasknote-template.md` — plus three additive loop frontmatter keys and a `## 🔁 Iterations` log. No custom template, no replacement phases, no new gate banners (the loop *collapses* gates rather than adding them — see Step 5).
 
-This skill is a **specialized driver, not a fork** — the same relationship `/ft-debug` has to `/ft-task`. ~90% of the flow (path resolution, locate, model gate, pre-flight, scaffold/promote/resume, Phase 4 closure, post-closure protocol) is byte-identical to `/ft-task`; the goal-loop additions are localized to Phase 1 (the verify-command rule) and Phase 2↔3 (the loop body).
+This skill is a **specialized driver, not a fork** — the same relationship `/ft-task --debug` has to a plain `/ft-task` run. ~90% of the flow (path resolution, locate, model gate, pre-flight, scaffold/promote/resume, Phase 4 closure, post-closure protocol) is byte-identical to `/ft-task`; the goal-loop additions are localized to Phase 1 (the verify-command rule) and Phase 2↔3 (the loop body).
 
 Supported invocations:
 - `/ft-goal-task <TASK-ID>`
@@ -90,7 +90,7 @@ Base mechanics identical to `/ft-task`:
 
 ## Step 4 — Phase 1: Discovery (standard checklist + the verify-command rule)
 
-Work through the Phase 1 checklist in the scaffolded tasknote **exactly as `/ft-task` does** (tick boxes, archive skim via `ls` + `grep -l`, drift check, AskUserQuestion for genuine ambiguity, populate 🧩 Subtasks, Relevance Assessment). The 🛠️ Phase 1→2 exit gate uses the `default-skip` flavor (same as `/ft-task`/`/ft-debug`): skip on routine clarifications, fire only on significant scope deviation (Re-scope/De-scope always fire). This gate is a **one-time pre-loop event** — it is not re-run each cycle.
+Work through the Phase 1 checklist in the scaffolded tasknote **exactly as `/ft-task` does** (tick boxes, archive skim via `ls` + `grep -l`, drift check, AskUserQuestion for genuine ambiguity, populate 🧩 Subtasks, Relevance Assessment). The 🛠️ Phase 1→2 exit gate uses the `default-skip` flavor (same as `/ft-task`): skip on routine clarifications, fire only on significant scope deviation (Re-scope/De-scope always fire). This gate is a **one-time pre-loop event** — it is not re-run each cycle.
 
 **Goal-loop-specific Phase 1 obligation — the verify-command rule (do this while populating `## ✅ Acceptance`):**
 
@@ -163,12 +163,12 @@ The recap should state the convergence: how many iterations ran, which verify ta
 
 ## Notes
 
-- **Relationship to /ft-task and /ft-debug.** All three share the same skeleton (scaffolding, model gate, gates, fast-mode, epic children, blocked handling, closure, post-closure). `/ft-debug` adds hypothesis-first Phase 1 scaffolding + a Phase 3 re-verify obligation; `/ft-goal-task` adds the verify-command-per-criterion Phase 1 rule + the inline Phase 2↔3 loop body. Operators who know `/ft-task` will feel at home; the only genuinely new surface is the loop drive in Step 5.
+- **Relationship to /ft-task.** Both share the same skeleton (scaffolding, model gate, gates, fast-mode, epic children, blocked handling, closure, post-closure). `/ft-task --debug` adds hypothesis-first Phase 1 scaffolding + a Phase 3 re-verify obligation as a lazy fragment; `/ft-goal-task` adds the verify-command-per-criterion Phase 1 rule + the inline Phase 2↔3 loop body, which is a large enough execution-model change to stay a separate skill rather than a third flag. Operators who know `/ft-task` will feel at home; the only genuinely new surface is the loop drive in Step 5.
 
-- **When to reach for /ft-goal-task vs /ft-task vs /ft-debug:**
+- **When to reach for /ft-goal-task vs /ft-task vs /ft-task --debug:**
   - Use **/ft-goal-task** when the work is *converge-until-a-check-passes* and the "done" signal is one or more **machine-checkable** commands: drive a flaky suite to green, iterate a perf number under a threshold, satisfy a linter/type-checker across many sites, make a fuzzer/property test stop finding cases.
   - Use **/ft-task** (or micro) for straightforward one-pass feature work / refactors with a clear diff, or when there is no repeatable verify command to loop on.
-  - Use **/ft-debug** for investigating *unexpected* behavior where the root cause is unknown (hypothesis-first). A goal loop assumes the target is known and verifiable; debug assumes it must be discovered first.
+  - Use **/ft-task --debug** for investigating *unexpected* behavior where the root cause is unknown (hypothesis-first). A goal loop assumes the target is known and verifiable; debug mode assumes it must be discovered first.
 
 - **Gate collapse recap (no new banners).** A goal loop *removes* operator pauses rather than adding them: 📦 → commit-per-verified-iteration, 👁️ → one-time post-loop ask, 🛠️ → one-time pre-loop event. The only thing that stops an autonomous loop for the operator is a destructive/irreversible step, which **parks via `status: blocked`** — never a banner fired into an unattended session. See `SPEC/loop.md` §"Gate collapse".
 
