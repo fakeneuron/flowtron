@@ -11,11 +11,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-(none)
+- [ ] **CORE-396** [medium]🧩 | release-v5.15.0 — 23 commits unreleased since `v5.14.1`, incl. roster 21→18 ([[CORE-390]] debug fold, [[CORE-391]] sidequest fold, [[CORE-392]] ft-quality retire). Adopters inherit dangling symlinks — verify `docs/MIGRATION.md` retired-skills note covers all three.
 
 ## Medium
 
-(none)
+- [ ] **CORE-397** [medium]🧩 | sop-currency-gate — Nothing surfaces `SPEC/procedures/*.md` drift from `source:`; [[CORE-390]] missed the SOP, [[CORE-395]] caught it by hand. Add a flag-don't-bump check to `/ft-release`'s doc-currency walk. Bumping the stamp stays a real re-check ([[CORE-361]] precedent).
 
 ## Low
 
