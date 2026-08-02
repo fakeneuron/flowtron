@@ -19,6 +19,9 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
+- [ ] **CORE-394** [light]🔧 | self-symlink-sweep — 7 dangling symlinks in flowtron-self's `.claude/skills/` point at dirs deleted by [[CORE-389.3]] / [[CORE-390]] / [[CORE-392]]. Adopter fix shipped in `docs/MIGRATION.md`; flowtron's own tree was never swept.
+- [ ] **CORE-395** [medium]🧩 | sop-currency-recheck — `SPEC/procedures/ft-task.md` stamped `v5.13.0 · 2026-07-21` vs SPEC `v5.14.1`; re-check the SOP against `source:` and bump `last-verified:`. Drift spans [[CORE-386]], [[CORE-390]], [[CORE-391]], [[CORE-393]], [[CORE-387]].
+
 ## Future Opportunities
 
 ## Completed
