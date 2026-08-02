@@ -19,12 +19,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-395** [medium]🧩 | sop-currency-recheck — `SPEC/procedures/ft-task.md` stamped `v5.13.0 · 2026-07-21` vs SPEC `v5.14.1`; re-check the SOP against `source:` and bump `last-verified:`. Drift spans [[CORE-386]], [[CORE-390]], [[CORE-391]], [[CORE-393]], [[CORE-387]].
+(none)
 
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-395** [medium]🧩 | sop-currency-recheck — Completed 2026-08-02.
 - [x] **CORE-394** [light]🔧 | self-symlink-sweep — Completed 2026-08-02.
 - [x] **CORE-387** [medium]🧩 | cross-artifact-consistency — Completed 2026-08-02.
 - [x] **CORE-391** [medium]🧩 | sidequest-fold — Completed 2026-08-02.

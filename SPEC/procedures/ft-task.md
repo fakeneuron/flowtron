@@ -1,7 +1,7 @@
 ---
 procedure: ft-task
 source: claude/skills/ft-task/SKILL.md
-last-verified: v5.13.0 · 2026-07-21
+last-verified: v5.14.1 · 2026-08-02
 ---
 
 # Procedure SOP — `ft-task`
@@ -34,6 +34,11 @@ ceremony — make the edit directly. See
 [`SPEC/tasknote-selection.md`](../tasknote-selection.md) for the use/skip
 threshold and the lighter-weight forms (micro / starter / follow-up).
 
+If the operator additionally asks you to work a bug, regression, or other
+unexpected behavior whose root cause is unknown, they may request **debug
+mode** — see the primitives table below. It is a full tasknote either way; the
+mode only changes what Phases 1–4 record.
+
 ## Agent-neutral primitives
 
 This SOP names operations, not Claude Code tools. Substitute your platform's
@@ -46,12 +51,24 @@ equivalent where a step calls for one (full ledger:
 | **prose ask** | A free-text question to the operator. |
 | **trigger** | The operator's conversational request to start the task — there is no slash dispatch to rely on. |
 | **autonomous mode** | The operator may ask you to run without stopping at the conditional gates (Claude Code exposes this as `--fast`). Honor it as described under each gate; the concept is platform-neutral, the flag syntax is not. |
+| **debug mode** | The operator may ask you to drive the task hypothesis-first because the root cause is not yet known (Claude Code exposes this as `--debug`). **Explicit opt-in only** — never infer it from a bug-shaped task description. It adds *content* to Phases 1–4 and no mechanics: no new phase, template, banner, or gate. See Step 4 and Step 5. |
+
+Autonomous mode and debug mode are **orthogonal and compose**: a run can be
+both, in which case the hypothesis scaffolding is written without stopping to
+ask, and the Phase 3 repro re-verify still runs (it is not a gate autonomous
+mode may suppress).
 
 The **operator-cue vocabulary** (🛠️ 📦 🟢 👁️ 🏁 ✅ 🔧 🧩 🧠 👇 🗄️ ▶️ ✋ 🔍 and
 their UPPERCASE labels) is contract-layer, not Claude-specific — emit it
 **verbatim**. The glyph is the fast-scan signal; the UPPERCASE label is the
 fallback if your surface strips emoji. Full vocabulary:
 [`SPEC/gates.md` §"Operator-cue vocabulary"](../gates.md).
+
+Before skipping a gate, read [`SPEC/gates.md` §"Rationalizations"](../gates.md)
+and [§"Red Flags"](../gates.md) — the excuses that precede a skipped gate and
+the observable symptoms that one already happened. They are advisory prose, not
+a checklist, and they are aimed at exactly this layer: an agent driving the
+gates conversationally rather than through enforced skill machinery.
 
 ## Steps
 
@@ -142,6 +159,30 @@ ticking each box in the tasknote as you go:
   assumptions.
 - **Populate 🧩 Subtasks** with concrete, ordered steps.
 
+**Under debug mode**, work four extra prompts *inside* this checklist —
+after the Relevance Assessment, alongside the archive skim and drift check.
+They add no box and no gate, and they leave the exit-gate judgment below
+unchanged. Record the answers in **Discovery Notes**:
+
+1. **Expected vs observed** — what the behavior should be (per spec, prior
+   run, user report) and the *exact* observed behavior, with concrete evidence
+   quoted or linked. "It crashes" is not enough.
+2. **Hypotheses** — 2–5 plausible root causes, each with a one-line rationale,
+   rough confidence, and what would falsify it. Rank them; the top one is the
+   target.
+3. **Minimal repro** — the smallest sequence of actions, inputs, or state that
+   reliably triggers the symptom. Runnable in under two minutes, isolating one
+   variable, written out as numbered steps.
+4. **Run it and update beliefs** — execute the repro, record the outcome, and
+   revise the ranking. Only a hypothesis that survives a clean minimal repro is
+   a stable target for code changes.
+
+These are guidance, not a gate — the operator may skip or shorthand any of
+them; the value is the written record. Under autonomous mode, write the prompts
+and answers straight into Discovery Notes without pausing to ask. Full detail:
+[`claude/skills/ft-task/step-4-debug-mode.md`](../../claude/skills/ft-task/step-4-debug-mode.md)
+(the mode's canonical text — the Claude wiring reads the same file).
+
 **Exit gate (🛠️ Phase 1→2).** `ft-task` uses the `default-skip` flavor: when
 Discovery surfaced only routine clarifications (or none), emit the inline
 marker `✅ Phase 1 Discovery complete; entering Phase 2 Execution.` and start
@@ -170,6 +211,26 @@ time (Step 6).
   boundary; record the reason and defer unrelated cleanup. Add targeted tests
   for non-trivial behavior. If a hard dependency surfaces mid-execution,
   **park** the tasknote per [`SPEC/blocked.md`](../blocked.md) and stop.
+  If a **direction-changing decision** surfaces mid-execution — one that
+  changes the approach, contract, data model, or sequencing in a way reaching
+  *beyond* this task — run the **downstream-impact reconciliation scan** before
+  continuing: enumerate active `PLAN.md` entries (`High` / `Medium` / `Low` /
+  `Future Opportunities`; `## Completed` is out of scope) sharing a surface
+  with the decision, classify each (stale / contradictory / redundant /
+  unaffected), and propose one reconcile action per impacted entry (merge /
+  nest / edit / delete / leave). Surface the list for explicit operator
+  confirmation, apply only what is confirmed, then resume. A decision whose
+  effect stays inside this task skips the scan (judgment). This is an inline
+  review prompt, **not** a third banner — and like the Re-scope/De-scope
+  carve-out it guards plan correctness, so it runs even under autonomous mode
+  (it proposes; the operator owns the confirm). Triggers, scan steps, and
+  vocabulary:
+  [`SPEC/tasknote-selection.md` §"Downstream-impact reconciliation"](../tasknote-selection.md).
+  **Under debug mode**, weight the pattern survey toward similar bug fixes in
+  the archive and recent changes to the suspect area, target the top surviving
+  hypothesis with the smallest edit that would confirm or falsify it, and state
+  in Implementation Notes which hypothesis the change addresses and why the
+  scope is minimal.
 - **Phase 3: Testing & Linting** — [`SPEC.md` §"🧪 Phase 3"](../../SPEC.md).
   Run targeted tests + lint/type-check on changed code (full suite only for
   broad/cross-cutting changes). For changed code, confirm no avoidable
@@ -177,7 +238,12 @@ time (Step 6).
   growth, or stale code-facing documentation; otherwise record `N/A` with
   reason. For frontend changes, ask the operator for visual confirmation with a
   `👁️ CONFIRM:` prefix (inline prose, not a banner). Under autonomous mode,
-  suppress the 👁️ ask but still run lint/type-check.
+  suppress the 👁️ ask but still run lint/type-check. **Under debug mode**, also
+  re-execute the *exact* minimal repro from Phase 1 and record the outcome in
+  Testing Notes. This is debug mode's one non-negotiable addition and it runs
+  **even under autonomous mode** — a fast debug run still has to prove the
+  symptom is gone. If the repro still fails, that is new evidence: return to
+  Phase 2 with updated hypotheses rather than proceeding to closure.
 - **Phase 4: Closure (auto-run)** — [`SPEC.md` §"🚀 Phase 4"](../../SPEC.md)
   + [`SPEC.md` §"Paper-complete guard"](../../SPEC.md). Run the doc-drift
   sweep across `.flowtron/tasknote/README.md` §"AI-referenced docs" (per
@@ -200,7 +266,10 @@ time (Step 6).
   where meaningful, verification commands/results, refactors made or deferred
   with rationale, documentation verdict, and concrete maintainability effect.
   **Do not** surface a banner here — the recap bundles into Step 6. Recap is
-  recap-only; the next-task suggestion lands after the commit.
+  recap-only; the next-task suggestion lands after the commit. **Under debug
+  mode**, the recap also names the top hypothesis the fix ultimately addressed
+  and states whether the minimal repro now passes; everything else in closure
+  is unchanged.
 
 ### 6 — Post-closure protocol
 
