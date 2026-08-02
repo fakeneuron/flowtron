@@ -322,15 +322,26 @@ section until promotion.
 **Top sections (the "spec"):**
 
 - **Nav header** — single line under the H1: a `← PLAN.md` back-link, a status
-  chip (🟢 In progress / ✅ Completed / ⏸ Blocked / ⚪ Not started / 🌱 Starter)
-  that mirrors the YAML `status:`, and `[[TASK-ID]]` wikilink chips that
-  mirror `related-tasks:`. The chip in the markdown body is hand-authored at
-  state transitions (scaffold, promotion, park, resume) for editor parity but
-  is **not** flipped at Phase 4 closure — visualizers compute the canonical
-  chip from YAML `status:` at render time, so archived tasknotes may show a
+  chip mirroring the YAML `status:`, and `[[TASK-ID]]` wikilink chips
+  mirroring `related-tasks:`.
+
+  **The chip is hand-authored at exactly four transitions — scaffold,
+  promotion, park, resume — and is deliberately NOT flipped at Phase 4
+  closure.** CORE-042.4 (SPEC v0.8.0) retired that flip on purpose, cutting
+  closure from three status writes to two. Visualizers compute the canonical
+  chip from YAML `status:` at render time, so archived tasknotes may show
   chip text that lags the YAML state. This is intentional: YAML stays
   canonical for tasknote-bearing rows, the PLAN.md checkbox stays canonical
   for the roadmap binary, and the chip is render-derived.
+
+  **Chip vocabulary** — `🟢 In progress` / `✅ Completed` / `⏸ Blocked` /
+  `⚪ Not started` / `🌱 Starter`. This enumerates the values a *renderer* may
+  produce; it is **not** a list of writes closure should perform. `✅ Completed`
+  appears here because visualizers render it from YAML, not because Phase 4
+  writes it into the markdown. Reading this list as license for a closure-time
+  chip flip is the specific misreading that produced the CORE-042.5
+  contradiction and, three months later, CORE-393 — a ticket filed to undo
+  CORE-042.4 on the strength of this list alone.
 - **🎯 Goal** — one-sentence description of what this task accomplishes.
 - **✅ Acceptance** — checklist of concrete, testable criteria for "done."
   Populated during Phase 1 Discovery.
@@ -492,12 +503,14 @@ flag's full surface.
 ### 🚀 Phase 4: Closure
 
 - [ ] **Doc-drift sweep** — for each entry in `.flowtron/tasknote/README.md` §"AI-referenced docs", state "no change" or the update
-- [ ] Closed — tasknote YAML `status:` flipped to `completed`, PLAN.md line flipped to stub form `Completed YYYY-MM-DD.` and placed per [`SPEC/tasknote-selection.md` §"`## Completed` archive convention"](SPEC/tasknote-selection.md) (standalone → top of `## Completed`; epic child → kept nested beneath its active parent), then tasknote moved to `.flowtron/tasknote/archive/<area>/`
+- [ ] Closed — every `## ✅ Acceptance` criterion ticked or explicitly annotated (`N/A` / not-met with a one-line reason), tasknote YAML `status:` flipped to `completed`, PLAN.md line flipped to stub form `Completed YYYY-MM-DD.` and placed per [`SPEC/tasknote-selection.md` §"`## Completed` archive convention"](SPEC/tasknote-selection.md) (standalone → top of `## Completed`; epic child → kept nested beneath its active parent), then tasknote moved to `.flowtron/tasknote/archive/<area>/`
 - [ ] **Evidence-based recap** drafted — changed files and LOC where meaningful, verification commands and results, refactors made or deferred with rationale, documentation verdict, and concrete maintainability effect (surfaces at the 📦 ready-to-commit gate, or inline on conditional skip)
 
-Phase 4 closure ops (doc-drift sweep, YAML `status:` flip, PLAN.md
-flip/placement, archive move) auto-run without an intermediate gate. The
-`status:` flip is the **first** of the three writes and is what makes the YAML
+Phase 4 closure ops (Acceptance tick-through, doc-drift sweep, YAML `status:`
+flip, PLAN.md flip/placement, archive move) auto-run without an intermediate
+gate. The
+`status:` flip is the **first** of the three closure writes (`status:`, PLAN.md
+line, archive move) and is what makes the YAML
 canonical claim in §"Tasknote body shape" true — it happens while the tasknote
 is still active, so it is a pre-archive closure write, **not** a retroactive
 edit of an archived record (see §"Tasknote frontmatter"). A standalone task moves to the top of
@@ -516,6 +529,23 @@ an `✅ Closure complete; …` marker followed by an autonomous commit.
 
 > **Recap is recap-only.** The next-task suggestion belongs in the
 > post-closure protocol, after the commit lands — not inside the recap.
+
+**Acceptance tick-through.** Closure asserts the task against its own stated
+criteria, not against the agent's sense of being finished. Tick each
+`## ✅ Acceptance` box the work satisfied; for any box it did not, annotate the
+box in place (`N/A — <reason>` or `not met — <reason>`) rather than leaving it
+silently unticked or deleting it. An unticked, unannotated box at archive time
+is indistinguishable from an unnoticed one — which is what the checklist exists
+to prevent. The annotation escape hatch is deliberate: criteria written in
+Discovery sometimes stop applying by Phase 4, and forcing a tick would make the
+box a rubber stamp.
+
+> **No nav-header chip flip here.** Phase 4 does **not** flip the markdown nav
+> chip to `✅ Completed`. CORE-042.4 retired that write deliberately (three
+> status writes → two), and visualizers derive the chip from YAML `status:` at
+> render time — so an archived tasknote reading `🟢 In progress` in the raw
+> markdown is correct, not stale. See §"Tasknote body shape" → Nav header
+> before proposing to re-add it.
 
 The tasknote is closed when archived. Approval-semantics on each branch
 live in [`SPEC/gates.md` §"Conditional skip rule"](SPEC/gates.md); commit

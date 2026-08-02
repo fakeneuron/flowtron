@@ -19,7 +19,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-390** [medium]🧩 | debug-mode-fold — retire `/ft-debug` as a separate skill; add `--debug` to `/ft-task` loading the four debug prompts + repro re-verify as a lazy fragment. Verdict source: [[CORE-388]].
 - [ ] **CORE-391** [medium]🧩 | sidequest-fold — retire `/ft-sidequest`; add `--park` to `/ft-file-followup` porting flags, stub + resume anchor, and the no-gate reply; trim the selection doc's sidequest block. Verdict source: [[CORE-388]].
 - [ ] **CORE-392** [light]🔧 | ft-quality-retire — confirm `/ft-quality` is unused, then retire the skill + global-install row, or veto and re-verdict to keep. Verdict source: [[CORE-388]].
-- [ ] **CORE-393** [medium]🧩 | phase4-closure-hygiene — Phase 4 asserts the YAML `status:` flip ([[CORE-381]]) but not the nav-chip flip to `✅ Completed` or an Acceptance tick-through, so archived tasknotes split ~50/50 on both. Add both to the Phase 4 checklist + `templates/tasknote-template.md`; decide whether to backfill. Surfaced by [[CORE-389.N]] audit.
 
 ## Low
 
@@ -27,6 +26,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-393** [medium]🧩 | phase4-closure-hygiene — Re-scoped: nav-chip flip was not a gap ([[CORE-042.4]] retired it deliberately) — hardened `SPEC.md` instead; folded an Acceptance tick-through into the Phase 4 `Closed —` box; no backfill. Completed 2026-08-01.
 - [x] **CORE-386** [medium]🧩 | skill-rationalizations-redflags — Completed 2026-08-01.
 - [x] **CORE-EPIC-389** [heavy]🧠 | audit-family-consolidation — Completed 2026-08-01.
   - [x] **CORE-389.1** [heavy]🧠 | discovery — Completed 2026-07-31.
