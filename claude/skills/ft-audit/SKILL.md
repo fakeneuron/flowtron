@@ -85,3 +85,51 @@ Zero findings across all passes → say so explicitly and skip the write.
 - **Subroutine-safe.** Any domain may be invoked from another skill (notably `/ft-release` §7.1 → `/ft-audit docs`). When invoked as a subroutine with an explicit scope: skip §0 forker prompts, surface the report inline rather than blocking on `AskUserQuestion` for non-blocker items, and do **not** write PLAN.md tickets — the invoking skill is the orchestrator and owns per-finding decisions.
 - **No final summary of what you just did.** The report + the `.flowtron/PLAN.md` diff *are* the deliverable.
 - The pass file's **specialist hard rules** are part of this contract — apply them as written.
+
+## 7. Rationalizations
+
+§6 states the rules; this section names the sentences an auditor uses to
+get around them. Every rule above is skippable by an auditor that first
+talks itself into skipping it — and an audit is exactly the run where
+that happens, because you are already deep in someone else's code with
+opinions about how to fix it.
+
+Advisory prose, not a gate: nothing here is ticked or scored. Recognizing
+your own draft sentence in the left column is the whole mechanism.
+
+| The excuse | Why it's wrong | Refuted by |
+|---|---|---|
+| "This fix is one line — filing a ticket costs more than fixing it." | "Cheaper than filing" is not the test; the **skip-the-tasknote threshold** is. The trivial-fix carve-out is the one inline path and it has conditions (threshold met, presented under *Proposed inline fixes*, landed on the same write-step confirmation, recorded self-contained under `## Completed`). Meet them or file the ticket. | §5 trivial-fix carve-out |
+| "I'm already in the file — fixing it now is obviously more efficient." | This is the "fix while I'm in here" the hard rule names verbatim. Efficiency is not the objection; **unrequested diffs in an audit the operator asked to be read-only** is. | §6 "Write tickets, not fixes" |
+| "This pass found 8 genuine Critical issues — the cap would bury three of them." | The cap is not a gag. Keep the top 5 by severity and **state the tail** (`+3 more Critical omitted`) — the tail count is the disclosure mechanism, and a pass reporting five Criticals plus a tail is a louder signal than nine flat entries. | §2 |
+| "It's technically outside the resolved scope, but it's clearly related." | Scope was resolved in §1 — and if it was ambiguous, the instruction was to **stop and ask**, not to widen silently. An audit whose footprint exceeds what was requested stops being reviewable. | §6 "Don't audit adjacent code"; §1 step 2 |
+| "The report is thorough and the operator read it — writing PLAN tickets is bookkeeping." | §5 is titled *required, not optional* for this reason: **a report that gets forgotten isn't useful.** The tickets are the deliverable; the prose is the argument for them. | §5 |
+| "Every pass returning findings looks more thorough than a pass returning none." | Five per pass is a **ceiling, not a target**. A clean pass gets zero and moves on. Padding to look thorough corrupts the severity scale for every real finding in the same report. | §6 "Targeted, not exhaustive" |
+| "The linter flagged 30 of these, and each one is a real issue." | They are — collectively, once. Enumerating gate output as individual findings crowds out the analysis only a human-shaped read produces. Surface the aggregate and move on. | §6 "Don't repeat the gates" |
+| "I was invoked as a subroutine, but these tickets are too valuable to drop." | Under subroutine invocation the **calling skill owns per-finding decisions**. Writing PLAN tickets from inside another skill's run puts filings on the board that its operator never approved. | §6 "Subroutine-safe" |
+| "No project rubric turned up, so I'll audit against general best practices." | The rubric slot exists specifically to prevent that substitution — the job is auditing against **this project's** contracts. Missing rubric is a §1 step 5 *stop and ask*, not a licence to grade against generic style. | §1 steps 3, 5 |
+
+## 8. Red Flags
+
+Symptoms an observer would notice, phrased from the outside because the
+auditor exhibiting them is already convinced. A hit means re-read the
+governing rule — it is not itself a finding, and it never goes in the
+report.
+
+- A file is open in edit mode and the change is neither the §5 trivial-fix
+  carve-out nor a domain exception the pass file declares.
+- A pass landed on exactly 5 findings and you either stopped looking or
+  padded to get there.
+- A finding's `Location:` sits outside the scope resolved in §1.
+- The run is ending with no `.flowtron/PLAN.md` diff **and** without an
+  explicit "zero findings across all passes" statement.
+- A "Why it matters" line would read identically in any codebase — a sign
+  the project rubric was never loaded.
+- A severity was assigned by feel and doesn't trace to the pass file's
+  severity guide.
+- You are running as a subroutine and drafting `AskUserQuestion` blockers or
+  PLAN.md writes.
+- A finding restates one row of linter/type-checker output you already
+  surfaced in aggregate.
+- You are composing a closing paragraph about what you just did, after the
+  report and the PLAN.md diff are already written.

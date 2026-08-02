@@ -15,7 +15,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-386** [medium]🧩 | skill-rationalizations-redflags — adopt two sections from the agent-skills anatomy (Overview / When to Use / Process / **Rationalizations** / **Red Flags** / Verification): Rationalizations enumerates the excuses an agent makes to skip a step, Red Flags names the observable symptoms. Scope deliberately narrow — `SPEC/gates.md` plus the consolidated `/ft-audit` skill (post-[[CORE-EPIC-389]]), i.e. the surfaces whose whole job is resisting shortcut-taking. Explicitly **not** a retrofit across all 26 skills. CORE-388 coordination resolved: target one audit skill, not eight.
 - [ ] **CORE-387** [medium]🧩 | cross-artifact-consistency — no surface today checks whether an *active* tasknote's plan still matches `PLAN.md` and SPEC; `ft-audit-docs` covers shipped-doc drift only, and the Relevance Assessment tests staleness by judgment rather than by cross-reference. Peer precedent: spec-kit's `/speckit.analyze`. Extension-first per VISION §principles — fold into the consolidated audit skill's docs pass (post-[[CORE-EPIC-389]]), or into the Phase 2 gate, rather than adding a skill to the roster.
 - [ ] **CORE-390** [medium]🧩 | debug-mode-fold — retire `/ft-debug` as a separate skill; add `--debug` to `/ft-task` loading the four debug prompts + repro re-verify as a lazy fragment. Verdict source: [[CORE-388]].
 - [ ] **CORE-391** [medium]🧩 | sidequest-fold — retire `/ft-sidequest`; add `--park` to `/ft-file-followup` porting flags, stub + resume anchor, and the no-gate reply; trim the selection doc's sidequest block. Verdict source: [[CORE-388]].
@@ -28,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-386** [medium]🧩 | skill-rationalizations-redflags — Completed 2026-08-01.
 - [x] **CORE-EPIC-389** [heavy]🧠 | audit-family-consolidation — Completed 2026-08-01.
   - [x] **CORE-389.1** [heavy]🧠 | discovery — Completed 2026-07-31.
   - [x] **CORE-389.2** [heavy]🧠 | parameterized-survivor — Completed 2026-08-01.

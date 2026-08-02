@@ -370,8 +370,9 @@ standing gate (see the glossary below).
 
 Canonical gate contract — banner format, the trigger table, the Phase
 1→2 exit-gate flavors, the conditional skip rule, the `--fast`
-operator override, and the full operator-cue vocabulary: see
-[`SPEC/gates.md`](SPEC/gates.md).
+operator override, the full operator-cue vocabulary, and the
+§"Rationalizations" / §"Red Flags" pair naming the excuses and symptoms
+that precede a skipped gate: see [`SPEC/gates.md`](SPEC/gates.md).
 
 ### Operator-cue glossary
 
