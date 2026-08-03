@@ -431,7 +431,7 @@ After §3.2–§3.7 land and `/ft-task` shows in the slash menu, sweep for resid
 - **CI / pre-commit hook check.** `grep -rn "<retired-helper-script-name>" .git/hooks/ .github/ docker/ scripts/` (project root) — confirm nothing depends on retired scripts. Resolve before next CI run.
 - **`/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-goal-task`, `/ft-spec`, `/ft-worktree-start`, `/ft-worktree-end` smoke.** Invoke each in a fresh session with your coding agent's wired entry point — `/ft-*` for Claude Code, `/skills` or `$ft-*` for Codex, or a conversational prompt for contract-only agents. Confirm the tasknote family + worktree pair (nine total) appear alongside `/ft-task` / `$ft-task` (v1.0+ additions; symlinks added in §1.2; worktree pair added in CORE-215.5; `/ft-goal-task` added in CORE-EPIC-330; `/ft-spec` added in CORE-352.3).
 - **Context-surface audit.** If you've installed `/ft-audit-context` globally (see §1.0), run it now — migrations frequently carry over context bloat from the legacy era (stale `CLAUDE.md` workflow tutorials, project-local skills that now shadow `ft-*` namespace, AGENTS.md content redundant with the freshly-pasted block). Soft prose; ticket-filing is opt-in.
-- **Final pin verification.** `git -C .flowtron/core describe --tags` shows the pinned version recorded at the start (e.g., `v5.14.1`). A mismatch means the submodule drifted off the pin during migration.
+- **Final pin verification.** `git -C .flowtron/core describe --tags` shows the pinned version recorded at the start (e.g., `v5.15.0`). A mismatch means the submodule drifted off the pin during migration.
 - **Cleanup commit.** Bundle the decisions above into a single follow-up commit (`chore: <ID> post-migration cleanup`) OR fold into the §3.9 closure commit if scope is small.
 
 ### 3.9 Commit the migration
@@ -476,7 +476,7 @@ Remove each hit with `rm`. The commands are safe: these are symlinks into the su
 | `ft-debug` | v5.15.0 | `/ft-task <ID> --debug` — same hypothesis-first cadence, now a flag on the core runner |
 | `ft-sidequest` | v5.15.0 | `/ft-file-followup --park [--low\|--med\|--fut] [ID]` — same stub, priority flags, and resume-inline contract, now a flag on the follow-up filer. The `.flowtron/sidequest/` stubs and their template are unchanged; only the invocation moved, so existing parked stubs keep working |
 | `ft-quality` | v5.15.0 | None; ask your agent to run lint/typecheck/tests directly, or use the project's own commands |
-| `ft-audit-{backend,frontend,security,performance,docs}` | v5.14.0 | `/ft-audit <domain>` — see §1.2.1 "Migrating a pre-consolidation audit fork" |
+| `ft-audit-{backend,frontend,security,performance,docs}` | v5.15.0 | `/ft-audit <domain>` — see §1.2.1 "Migrating a pre-consolidation audit fork" |
 
 A bump is itself a project-side task (e.g., `CORE-XXX: Bump flowtron to vX.Y.Z`), with a tasknote and the usual 4-phase flow. Don't bump in passing.
 
