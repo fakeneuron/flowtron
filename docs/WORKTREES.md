@@ -42,6 +42,8 @@ The convention is deliberately narrow so the two thin skills stay thin and the m
 3. Copy the currently active tasknote (`.flowtron/tasknote/<TASK-ID>.md`) into the worktree's `.flowtron/tasknote/` (so the agent there sees the identical Phase 1 record).
 4. Hand off: the operator opens a fresh session in the worktree directory and invokes `/ft-task <TASK-ID>` (or the next appropriate command).
 
+`/ft-goal-task <TASK-ID> --worktree` is an alternate entry point: it runs Phase 1 Discovery inline, then drives this same Start flow itself instead of requiring the operator to invoke `/ft-worktree-start` separately. The operator still opens the fresh worktree session and re-invokes `/ft-goal-task <TASK-ID>` (dropping `--worktree`) to drive the loop.
+
 **End** (`/ft-worktree-end <TASK-ID>`):
 1. In the main checkout, verify the worktree branch was merged into the expected target (or the operator explicitly confirms discard).
 2. `git worktree remove` the isolated checkout (this also cleans `.git/worktrees/` metadata).

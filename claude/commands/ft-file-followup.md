@@ -1,6 +1,6 @@
 ---
 description: File a mid-flow follow-up task — one PLAN.md line + a short conversational context paragraph (no tasknote artifact). Add --park to park an idea or quick fix instead (tiny stub, no review gate, resume inline). Lighter than /ft-starter-task.
-argument-hint: [TASK-ID] [--park [--low|--med|--fut]]
+argument-hint: [TASK-ID] [--park [--low|--med|--fut|--high]]
 ---
 
 Invoke the `ft-file-followup` skill with `args="$ARGUMENTS"`. The skill validates the task ID against PLAN.md when provided, or suggests the next available task ID for review when omitted. It collects task ID / priority / model / title / long-description via AskUserQuestion, enforces the SPEC/tasknote-selection.md §"PLAN.md filing-discipline thresholds" cap (>70w → suggests `/ft-starter-task` instead), drafts a short conversational context paragraph, surfaces both for review, then appends the PLAN.md entry and delivers the paragraph in chat. Does not commit unprompted; produces zero artifacts on disk beyond the one new PLAN.md line.

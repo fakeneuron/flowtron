@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-399** [light]🔧 | flag-surface-sync — Surface skill flags on their reference mirrors: `--deep` + "Invoke with … args" sentence in `ft-epic-discovery` frontmatter description; `--high` in `ft-file-followup` argument-hint + `claude/AGENTS-snippet.md`; `--worktree` row/mention in `claude/CAPABILITIES.md`, `docs/PLATFORMS.md`, `docs/WORKTREES.md`. Surfaced by audit 2026-08-02 (Findings #2 Medium, #3 Low, #9 Low).
+(none)
 
 ## Future Opportunities
 
@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-399** [light]🔧 | flag-surface-sync — Completed 2026-08-02.
 - [x] **CORE-398** [light]🔧 | wrapper-invoke-name-sweep — Completed 2026-08-02.
 - [x] **CORE-401** [light]🔧 | new-project-symlink-count — `ft-new-project` Step 8 said "Confirm all twenty-six symlinks" over a 22-link block; corrected to twenty-two. Surfaced by audit 2026-08-02 (Finding #4, Medium), fixed inline.
 - [x] **CORE-402** [light]🔧 | platforms-model-hint-drift — `docs/PLATFORMS.md` Grok "Model / session switch" cell claimed the post-closure line "emits a `/model` hint", contradicting SPEC.md's ban on emitting literal `/clear`/`/model`; reworded to the emoji-label signal. Surfaced by audit 2026-08-02 (Finding #7, Medium), fixed inline.
