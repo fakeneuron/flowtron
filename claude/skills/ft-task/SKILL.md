@@ -21,7 +21,7 @@ If neither matches, bail.
 Paths this skill uses:
 - SPEC: `<root>SPEC.md` (always loaded core)
 - SPEC_DIR (lazy modules `epic.md` · `starter.md` · `blocked.md` · `model.md` · `versioning.md`): `<root>SPEC/`
-- SKILL_DIR (lazy fragments `step-1.5-model-edge.md` · `step-3a-promote-starter.md` · `step-3c-resume-blocked.md` · `step-4-debug-mode.md`): `<root>claude/skills/ft-task/`
+- SKILL_DIR (lazy fragments `step-1.5-model-edge.md` — shared, also loaded by `/ft-micro-task` + `/ft-goal-task` — · `step-3a-promote-starter.md` · `step-3c-resume-blocked.md` · `step-4-debug-mode.md`): `<root>claude/skills/ft-task/`
 - Template: `<root>templates/tasknote-template.md`
 - PLAN: `.flowtron/PLAN.md`, tasknote dir: `.flowtron/tasknote/` (always)
 

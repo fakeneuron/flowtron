@@ -23,10 +23,10 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Future Opportunities
 
-- [ ] **CORE-400** [light]🔧 | model-edge-fragment-strategy — Unify the `step-1.5-model-edge.md` sharing strategy: ft-micro-task carries a near-verbatim fork while ft-goal-task cross-references ft-task's copy — either point ft-micro-task at the shared fragment or fork consistently and note the sync obligation. Surfaced by audit 2026-08-02 (Finding #6, Low).
 
 ## Completed
 
+- [x] **CORE-400** [light]🔧 | model-edge-fragment-strategy — Completed 2026-08-03.
 - [x] **CORE-406** [light]🔧 | parallel-dogfood-stamp-ownership — Completed 2026-08-03.
 - [x] **CORE-405** [medium]🧩 | release v5.15.0 — Completed 2026-08-03.
 - [x] **CORE-396** [medium]🧩 | release-v5.15.0 — Completed 2026-08-02. De-scoped: re-filed as [[CORE-405]] for `/ft-release`.

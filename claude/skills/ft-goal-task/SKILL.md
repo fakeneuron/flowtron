@@ -31,6 +31,7 @@ Paths this skill uses:
 - SPEC: `<root>SPEC.md` (always loaded core)
 - SPEC_DIR (lazy modules `loop.md` · `epic.md` · `starter.md` · `blocked.md` · `model.md` · `versioning.md`): `<root>SPEC/`
 - SKILL_DIR: `<root>claude/skills/ft-goal-task/` (no private fragments in v1; falls back to the same mental model as ft-task)
+- MODEL_EDGE (shared Step 1.5 fragment, owned by `/ft-task`): `<root>claude/skills/ft-task/step-1.5-model-edge.md`
 - Template: `<root>templates/tasknote-template.md`
 - PLAN: `.flowtron/PLAN.md`, tasknote dir: `.flowtron/tasknote/` (always)
 
@@ -44,7 +45,7 @@ Paths this skill uses:
 - **Both `--worktree` and `--fast`/`-f`** → set both flags; the worktree handoff (Step 4) takes precedence — the operator carries `--fast` onto the in-worktree re-run if desired.
 - **Any other trailing arg** → surface a one-line usage notice (``Unknown arg `<arg>`. Usage: `/ft-goal-task <TASK-ID> [--fast|-f] [--worktree]`.``) and ask via AskUserQuestion whether they meant `--fast`, `--worktree`, the default flow, or to abort. Do not proceed silently.
 
-`fast-mode` semantics are identical to `/ft-task`. See `claude/skills/ft-task/SKILL.md` Step 0 for the full contract and operator-gate cue details.
+`fast-mode` semantics are identical to `/ft-task`. See `<root>claude/skills/ft-task/SKILL.md` Step 0 for the full contract and operator-gate cue details.
 
 ## Step 1 — Locate the task in PLAN.md (identical to /ft-task)
 
@@ -52,7 +53,7 @@ Read PLAN.md. Find the line containing `**<TASK-ID>**`. Status gate (already-clo
 
 ## Step 1.5 — Model gate (identical to /ft-task)
 
-Gate on the `[model]` segment before scaffolding. Satisfied → proceed. Category under-tier / concrete mismatch / legacy-absent → read `SPEC/model.md` + `claude/skills/ft-task/step-1.5-model-edge.md` and follow the matching branch. Same two-path AskUserQuestion; no silent overrides.
+Gate on the `[model]` segment before scaffolding. Satisfied → proceed. Category under-tier / concrete mismatch / legacy-absent → read `<SPEC_DIR>/model.md` + `<MODEL_EDGE>` in parallel and follow the matching branch. Same two-path AskUserQuestion; no silent overrides. `<MODEL_EDGE>` is shared across the three model-gate skills — substitute `/ft-goal-task` for its `<SKILL>` placeholder when surfacing a branch, so a re-invoke suggestion preserves the loop shape rather than sending the operator to `/ft-task`.
 
 ## Step 2 — Pre-flight checks & file-state branch (identical to /ft-task)
 
