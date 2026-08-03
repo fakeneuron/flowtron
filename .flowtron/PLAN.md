@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **TEST-003** [medium]🧩 | updater-fixture-tag-coupling — 6 of 24 `tools/update-adopters.test.mjs` tests fail: fixtures derive `latest` from live `git tag`, so migration-bearing v5.15.0 short-circuits classification before the assertions under test. Decouple fixtures from live tag data. Registered release gate — red since 2026-08-03.
 
 ## Low
 
