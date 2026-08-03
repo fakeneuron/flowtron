@@ -117,7 +117,7 @@ Reference: `docs/MIGRATION.md` §1.6.
 
 ## Step 8 — Verify and hand off
 
-Confirm all twenty-six symlinks resolve correctly:
+Confirm all twenty-two symlinks resolve correctly:
 
 ```sh
 readlink .claude/commands/ft-task.md            # → ../../.flowtron/core/claude/commands/ft-task.md

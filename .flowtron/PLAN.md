@@ -11,19 +11,26 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-396** [medium]🧩 | release-v5.15.0 — 23 commits unreleased since `v5.14.1`, incl. roster 21→18 ([[CORE-390]] debug fold, [[CORE-391]] sidequest fold, [[CORE-392]] ft-quality retire). Adopters inherit dangling symlinks — verify `docs/MIGRATION.md` retired-skills note covers all three.
+- [ ] **CORE-396** [medium]🧩 | release-v5.15.0 — 23 commits unreleased since `v5.14.1`, incl. roster 21→18 ([[CORE-390]] debug fold, [[CORE-391]] sidequest fold, [[CORE-392]] ft-quality retire). Adopters inherit dangling symlinks — verify `docs/MIGRATION.md` retired-skills note covers all three. Also refresh/skip-mark the `v5.14.1` last-verified stamps in `claude/CAPABILITIES.md` + `docs/AGENT-COMPAT.md` that predate the CORE-390/391 fragments (audit 2026-08-02, Finding #8, Low).
 
 ## Medium
 
-(none)
+- [ ] **CORE-398** [light]🔧 | wrapper-invoke-name-sweep — Sweep the 16 pre-CORE-104 "Invoke the `X` skill" sentences in `claude/commands/*.md` to the real `ft-*` skill names (only ft-audit-repo + ft-spec are correct today); decide the ft-audit fork-case wording explicitly (local forks drop the prefix per `docs/MIGRATION.md` §1.2.1); optionally add a grep-able invariant (wrapper must contain its own basename in the invoke sentence). Land before [[CORE-396]] so adopters inherit clean wrappers. Surfaced by audit 2026-08-02 (Finding #1, Medium).
 
 ## Low
 
-(none)
+- [ ] **CORE-399** [light]🔧 | flag-surface-sync — Surface skill flags on their reference mirrors: `--deep` + "Invoke with … args" sentence in `ft-epic-discovery` frontmatter description; `--high` in `ft-file-followup` argument-hint + `claude/AGENTS-snippet.md`; `--worktree` row/mention in `claude/CAPABILITIES.md`, `docs/PLATFORMS.md`, `docs/WORKTREES.md`. Surfaced by audit 2026-08-02 (Findings #2 Medium, #3 Low, #9 Low).
 
 ## Future Opportunities
 
+- [ ] **CORE-400** [light]🔧 | model-edge-fragment-strategy — Unify the `step-1.5-model-edge.md` sharing strategy: ft-micro-task carries a near-verbatim fork while ft-goal-task cross-references ft-task's copy — either point ft-micro-task at the shared fragment or fork consistently and note the sync obligation. Surfaced by audit 2026-08-02 (Finding #6, Low).
+
 ## Completed
+
+- [x] **CORE-401** [light]🔧 | new-project-symlink-count — `ft-new-project` Step 8 said "Confirm all twenty-six symlinks" over a 22-link block; corrected to twenty-two. Surfaced by audit 2026-08-02 (Finding #4, Medium), fixed inline.
+- [x] **CORE-402** [light]🔧 | platforms-model-hint-drift — `docs/PLATFORMS.md` Grok "Model / session switch" cell claimed the post-closure line "emits a `/model` hint", contradicting SPEC.md's ban on emitting literal `/clear`/`/model`; reworded to the emoji-label signal. Surfaced by audit 2026-08-02 (Finding #7, Medium), fixed inline.
+- [x] **CORE-403** [light]🔧 | worktree-start-wrapper-typo — Fixed doubled `).)` + trailing whitespace in `claude/commands/ft-worktree-start.md` invoke sentence. Surfaced by audit 2026-08-02 (Finding #5, Low), fixed inline.
+- [x] **CORE-404** [light]🔧 | glossary-entry-count — `docs/GLOSSARY.md` header said "~57 entries" over 60 actual (README says ~60); corrected to ~60. Surfaced by audit 2026-08-02 (Finding #10, Low), fixed inline.
 
 - [x] **CORE-397** [medium]🧩 | sop-currency-gate — Completed 2026-08-02.
 - [x] **CORE-395** [medium]🧩 | sop-currency-recheck — Completed 2026-08-02.
