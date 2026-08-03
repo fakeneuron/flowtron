@@ -89,6 +89,18 @@ for its Grok Build notes. The agent-neutral workflow contract itself
   For the agent-side session procedure that drives a dogfood run, see
   [`docs/DOGFOOD.md`](DOGFOOD.md).
 
+  Stamp-write ownership under parallel dogfooding — when more than one agent
+  session dogfoods toward the same release concurrently, only the
+  **release-driving session** (the one carrying the cut through to tag/push)
+  writes these stamp files. Any other concurrent session reports its
+  refreshed/skipped verdict and evidence conversationally instead of editing
+  `docs/AGENT-COMPAT.md`, `claude/CAPABILITIES.md`, or `docs/PLATFORMS.md`
+  itself — the release-driving session's own `ft-release` §5 walk is what
+  applies the resolution. This closes a race where a parallel session's
+  interim write (a row it couldn't yet confirm, correct when written) beat
+  the real result and had to be reconciled by hand before tagging (CORE-406,
+  surfaced during the v5.15.0 cut).
+
 ## Pre-adoption verification
 
 Claude Code is verified by continuous dogfooding; Codex and Grok carry

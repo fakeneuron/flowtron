@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-406** [light]🔧 | parallel-dogfood-stamp-ownership — Define who writes `last-verified` stamps when agents are dogfooded in parallel. `docs/AGENT-COMPAT.md` §"Reading the cells" specifies the refresh-or-skip obligation but not stamp-write ownership, so concurrent dogfood sessions race on `docs/AGENT-COMPAT.md` / `docs/PLATFORMS.md` / `claude/CAPABILITIES.md`. During [[CORE-405]] a parallel Grok session wrote Claude and Codex as `skipped @ v5.15.0` (correct when written — neither result existed yet), which the release chat had to reconcile to `refreshed` before tagging; unreconciled, the annotated tag would have permanently understated its own verification coverage. Codex modelled the right behavior (reported conversationally, changed no files). Add the rule to `claude/skills/ft-release/SKILL.md` §5 + the AGENT-COMPAT obligation: parallel dogfood sessions report results conversationally; only the release-driving session writes stamps. Surfaced by the [[CORE-405]] dogfood gate.
+(none)
 
 ## Low
 
@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-406** [light]🔧 | parallel-dogfood-stamp-ownership — Completed 2026-08-03.
 - [x] **CORE-405** [medium]🧩 | release v5.15.0 — Completed 2026-08-03.
 - [x] **CORE-396** [medium]🧩 | release-v5.15.0 — Completed 2026-08-02. De-scoped: re-filed as [[CORE-405]] for `/ft-release`.
 - [x] **CORE-399** [light]🔧 | flag-surface-sync — Completed 2026-08-02.
