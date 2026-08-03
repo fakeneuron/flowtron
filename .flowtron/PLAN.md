@@ -11,7 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-396** [medium]🧩 | release-v5.15.0 — 23 commits unreleased since `v5.14.1`, incl. roster 21→18 ([[CORE-390]] debug fold, [[CORE-391]] sidequest fold, [[CORE-392]] ft-quality retire). Adopters inherit dangling symlinks — verify `docs/MIGRATION.md` retired-skills note covers all three. Also refresh/skip-mark the `v5.14.1` last-verified stamps in `claude/CAPABILITIES.md` + `docs/AGENT-COMPAT.md` that predate the CORE-390/391 fragments (audit 2026-08-02, Finding #8, Low).
+- [ ] **CORE-405** [medium]🧩 | release v5.15.0 — Cut v5.15.0 minor release: 28 commits since `v5.14.1` (16 `feat:`, no breaking), incl. roster 21→18 ([[CORE-390]]/[[CORE-391]]/[[CORE-392]] folds). Run via `/ft-release`. Pre-verified by [[CORE-396]]: version state clean, `docs/MIGRATION.md` retired-skills table complete, skill parity 18/18; dogfood stamps resolve via the cut's Step 5 gate.
 
 ## Medium
 
@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-396** [medium]🧩 | release-v5.15.0 — Completed 2026-08-02. De-scoped: re-filed as [[CORE-405]] for `/ft-release`.
 - [x] **CORE-399** [light]🔧 | flag-surface-sync — Completed 2026-08-02.
 - [x] **CORE-398** [light]🔧 | wrapper-invoke-name-sweep — Completed 2026-08-02.
 - [x] **CORE-401** [light]🔧 | new-project-symlink-count — `ft-new-project` Step 8 said "Confirm all twenty-six symlinks" over a 22-link block; corrected to twenty-two. Surfaced by audit 2026-08-02 (Finding #4, Medium), fixed inline.
