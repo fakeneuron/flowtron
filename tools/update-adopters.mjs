@@ -446,7 +446,11 @@ function reportSummary(counts, apply) {
 async function main(argv = process.argv.slice(2)) {
   const args = parseArgs(argv);
   const root = workspaceRoot(args.root);
-  const latest = await latestReleaseTag();
+  // Test seam (TEST-003): the suite's CLI fixtures pin a fixed non-migration
+  // tag pair so they don't track the moving head of the tag list. Every other
+  // entry point takes `latest` as a parameter; this is the only place the
+  // choice is made internally.
+  const latest = process.env.FLOWTRON_UPDATE_LATEST ?? (await latestReleaseTag());
   if (!latest) {
     console.error(`No release tag found in ${FLOWTRON_REPO} — nothing to compare against.`);
     process.exit(1);

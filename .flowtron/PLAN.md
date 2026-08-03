@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **TEST-003** [medium]🧩 | updater-fixture-tag-coupling — 6 of 24 `tools/update-adopters.test.mjs` tests fail: fixtures derive `latest` from live `git tag`, so migration-bearing v5.15.0 short-circuits classification before the assertions under test. Decouple fixtures from live tag data. Registered release gate — red since 2026-08-03.
+(none)
 
 ## Low
 
@@ -26,6 +26,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **TEST-003** [medium]🧩 | updater-fixture-tag-coupling — Completed 2026-08-03.
 - [x] **CORE-400** [light]🔧 | model-edge-fragment-strategy — Completed 2026-08-03.
 - [x] **CORE-406** [light]🔧 | parallel-dogfood-stamp-ownership — Completed 2026-08-03.
 - [x] **CORE-405** [medium]🧩 | release v5.15.0 — Completed 2026-08-03.

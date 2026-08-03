@@ -34,11 +34,11 @@ const execFileAsync = promisify(execFile);
 const SCRIPT = fileURLToPath(new URL('./update-adopters.mjs', import.meta.url));
 const WORKSPACE_TS = fileURLToPath(new URL('../viz/src/workspace.ts', import.meta.url));
 
-async function runCli(args, { expectFail = false } = {}) {
+async function runCli(args, { expectFail = false, env = {} } = {}) {
   try {
     const { stdout, stderr } = await execFileAsync(process.execPath, [SCRIPT, ...args], {
       cwd: FLOWTRON_REPO,
-      env: { ...process.env },
+      env: { ...process.env, ...env },
     });
     return { code: 0, stdout, stderr };
   } catch (e) {
@@ -53,18 +53,38 @@ async function gitQuiet(cwd, ...args) {
 
 /** Shared local clone mirror — object-copy source for portable fixture cores. */
 let mirrorDir;
+/**
+ * Fixture release pair (TEST-003). Deliberately NOT the newest tag: fixtures
+ * that need a bumpable range must sit on a range the migration gate lets
+ * through, and `checkAdopter` runs that gate before the staged-changes,
+ * dirty-worktree, and bump paths. Tracking the moving head of the tag list
+ * meant the first release shipping a real Migration block (v5.15.0) silently
+ * converted four reachability fixtures into migration-gate skips.
+ *
+ * So: scan tags newest-first for the newest ADJACENT pair whose range carries
+ * no required project-side edits. Adjacent means `tagsInRange(previous,
+ * latest)` is exactly `[latest]`, so classifying that one tag settles the
+ * range. Computed rather than hardcoded so the pair self-heals as releases
+ * accumulate.
+ */
 let latest;
 let previous;
 
 before(async () => {
-  latest = await latestReleaseTag();
-  assert.ok(latest, 'flowtron checkout must have at least one semver release tag');
   const tags = (await git(FLOWTRON_REPO, 'tag', '--sort=-v:refname'))
     .split('\n')
     .map((l) => l.trim())
     .filter((t) => parseSemverTag(t));
-  previous = tags.find((t) => t !== latest);
-  assert.ok(previous, 'need a second release tag for behind/drift fixtures');
+  assert.ok(tags.length >= 2, 'need two release tags for behind/drift fixtures');
+
+  for (let i = 0; i + 1 < tags.length; i += 1) {
+    if ((await migrationBearingTags([tags[i]])).length === 0) {
+      latest = tags[i];
+      previous = tags[i + 1];
+      break;
+    }
+  }
+  assert.ok(latest, 'need an adjacent non-migration-bearing tag pair for bump fixtures');
 
   mirrorDir = await mkdtemp(join(tmpdir(), 'ft-upd-mirror-'));
   await execFileAsync('git', [
@@ -184,6 +204,19 @@ describe('migrationBearingTags (real tags)', () => {
   it('classifies all-clear Migration blocks as non-bearing', async () => {
     const bearing = await migrationBearingTags(['v5.10.1', 'v5.11.0']);
     assert.deepEqual(bearing, []);
+  });
+});
+
+describe('latestReleaseTag (real tags)', () => {
+  // The fixture pair above deliberately skips migration-bearing releases, so
+  // it no longer exercises this export incidentally (TEST-003).
+  it('returns the newest semver tag in the checkout', async () => {
+    const newest = await latestReleaseTag();
+    const tags = (await git(FLOWTRON_REPO, 'tag', '--sort=-v:refname'))
+      .split('\n')
+      .map((l) => l.trim())
+      .filter((t) => parseSemverTag(t));
+    assert.equal(newest, tags[0]);
   });
 });
 
@@ -313,7 +346,9 @@ describe('dry-run CLI (--root fixture)', () => {
     await writeFile(join(staged.repo, 'x.txt'), 'x\n');
     await gitQuiet(staged.repo, 'add', 'x.txt');
 
-    const { stdout } = await runCli(['--root', root]);
+    const { stdout } = await runCli(['--root', root], {
+      env: { FLOWTRON_UPDATE_LATEST: latest },
+    });
     assert.match(stdout, /DRY-RUN/);
     assert.match(stdout, /✓ cli-current: current/);
     assert.match(stdout, /⚠ cli-drift .*gitlink drift/);
@@ -360,7 +395,9 @@ describe('sandboxed --apply', () => {
 
     // CLI apply path also works end-to-end on a second behind adopter.
     await makeAdopter(root, 'apply-cli', previous);
-    const { stdout } = await runCli(['--apply', '--root', root]);
+    const { stdout } = await runCli(['--apply', '--root', root], {
+      env: { FLOWTRON_UPDATE_LATEST: latest },
+    });
     assert.match(stdout, /APPLY/);
     // apply-me is already current after applyBump; apply-cli should bump.
     assert.match(stdout, /⬆ apply-cli: bumped/);
