@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-398** [light]🔧 | wrapper-invoke-name-sweep — Sweep the 16 pre-CORE-104 "Invoke the `X` skill" sentences in `claude/commands/*.md` to the real `ft-*` skill names (only ft-audit-repo + ft-spec are correct today); decide the ft-audit fork-case wording explicitly (local forks drop the prefix per `docs/MIGRATION.md` §1.2.1); optionally add a grep-able invariant (wrapper must contain its own basename in the invoke sentence). Land before [[CORE-396]] so adopters inherit clean wrappers. Surfaced by audit 2026-08-02 (Finding #1, Medium).
+(none)
 
 ## Low
 
@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-398** [light]🔧 | wrapper-invoke-name-sweep — Completed 2026-08-02.
 - [x] **CORE-401** [light]🔧 | new-project-symlink-count — `ft-new-project` Step 8 said "Confirm all twenty-six symlinks" over a 22-link block; corrected to twenty-two. Surfaced by audit 2026-08-02 (Finding #4, Medium), fixed inline.
 - [x] **CORE-402** [light]🔧 | platforms-model-hint-drift — `docs/PLATFORMS.md` Grok "Model / session switch" cell claimed the post-closure line "emits a `/model` hint", contradicting SPEC.md's ban on emitting literal `/clear`/`/model`; reworded to the emoji-label signal. Surfaced by audit 2026-08-02 (Finding #7, Medium), fixed inline.
 - [x] **CORE-403** [light]🔧 | worktree-start-wrapper-typo — Fixed doubled `).)` + trailing whitespace in `claude/commands/ft-worktree-start.md` invoke sentence. Surfaced by audit 2026-08-02 (Finding #5, Low), fixed inline.

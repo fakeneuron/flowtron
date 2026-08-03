@@ -3,7 +3,7 @@ description: Start a goal-loop tasknote for the given task ID and drive it throu
 argument-hint: <TASK-ID> [--fast | -f] [--worktree]
 ---
 
-Invoke the `goal-task` skill with `args="$ARGUMENTS"`. The skill scaffolds `.flowtron/tasknote/$ARGUMENTS.md` from the standard flowtron template (plus the additive `loop:` / `loop-max:` / `loop-last-run:` frontmatter keys and a `## 🔁 Iterations` log), runs Phase 1 Discovery with the verify-command-per-Acceptance-criterion rule, then drives Phase 2↔3 as an inline execute→verify loop (per-cycle relevance gate → execute → run verify commands → commit-per-verified-iteration) until every Acceptance criterion passes, `loop-max` is hit, or the relevance gate says stop. Phase 4 closure + the post-closure protocol are unchanged.
+Invoke the `ft-goal-task` skill with `args="$ARGUMENTS"`. The skill scaffolds `.flowtron/tasknote/$ARGUMENTS.md` from the standard flowtron template (plus the additive `loop:` / `loop-max:` / `loop-last-run:` frontmatter keys and a `## 🔁 Iterations` log), runs Phase 1 Discovery with the verify-command-per-Acceptance-criterion rule, then drives Phase 2↔3 as an inline execute→verify loop (per-cycle relevance gate → execute → run verify commands → commit-per-verified-iteration) until every Acceptance criterion passes, `loop-max` is hit, or the relevance gate says stop. Phase 4 closure + the post-closure protocol are unchanged.
 
 The loop runs with `--fast` semantics by construction (`SPEC/loop.md` §"Gate collapse"): 📦 collapses to commit-per-verified-iteration, the 👁️ ask is deferred to a one-time post-loop check, and a destructive/irreversible step parks the tasknote via `status: blocked` rather than firing a banner into an unattended session.
 

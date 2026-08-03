@@ -3,7 +3,7 @@ description: Start and complete a flowtron micro-tasknote in one shot for tasks 
 argument-hint: <TASK-ID>
 ---
 
-Invoke the `micro-task` skill with `args="$ARGUMENTS"`. The skill validates the task ID against PLAN.md, scaffolds `.flowtron/tasknote/$ARGUMENTS.md` from `templates/tasknote-micro-template.md`, drives execution inline (relevance · drift · archive skim · pattern survey · implementation), recaps, flips PLAN.md, and archives the tasknote — single conversation flow. See SPEC/tasknote-selection.md §"When to use a tasknote (and when not to)" for the micro carve-out threshold.
+Invoke the `ft-micro-task` skill with `args="$ARGUMENTS"`. The skill validates the task ID against PLAN.md, scaffolds `.flowtron/tasknote/$ARGUMENTS.md` from `templates/tasknote-micro-template.md`, drives execution inline (relevance · drift · archive skim · pattern survey · implementation), recaps, flips PLAN.md, and archives the tasknote — single conversation flow. See SPEC/tasknote-selection.md §"When to use a tasknote (and when not to)" for the micro carve-out threshold.
 
 If `$ARGUMENTS` is empty, ask the user for a task ID before invoking the skill.
 

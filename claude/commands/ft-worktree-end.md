@@ -3,7 +3,7 @@ description: Clean up an isolated git worktree for an independent epic child tas
 argument-hint: <TASK-ID>
 ---
 
-Invoke the `worktree-end` skill with `args="$ARGUMENTS"`. The skill performs the cleanup sequence from the convention (verify merged-or-explicit-discard from the main checkout, `git worktree remove`, explicit "archive the copied tasknote" copy from the worktree's `.flowtron/tasknote/` tree into the main's canonical archive location, optional confirmed branch prune, and a concise success block).
+Invoke the `ft-worktree-end` skill with `args="$ARGUMENTS"`. The skill performs the cleanup sequence from the convention (verify merged-or-explicit-discard from the main checkout, `git worktree remove`, explicit "archive the copied tasknote" copy from the worktree's `.flowtron/tasknote/` tree into the main's canonical archive location, optional confirmed branch prune, and a concise success block).
 
 The skill enforces preconditions (main checkout only, TASK_ID must have a corresponding `wt-` worktree or branch) and the critical safety gate (unmerged branch requires explicit discard confirmation before any deletion). It never mutates the source tasknote or PLAN.md in the main checkout — those updates arrive via the operator's preceding `git merge` of the worktree branch (or are left open on explicit discard).
 

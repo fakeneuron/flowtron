@@ -117,6 +117,18 @@ the prefix (e.g., `audit-payments`, not `ft-audit-payments`) — the fork is
 adopter-owned and the unprefixed name makes ownership clear in skill
 resolution.
 
+**Wrapper-name invariant (grep-able).** Every command wrapper
+`claude/commands/<name>.md` names its own basename in its invoke sentence
+(`` Invoke the `<name>` skill ``) — skill resolution must never depend on
+the model inferring a prefixed name from an unprefixed one. Check (prints
+nothing when clean):
+
+```sh
+for f in claude/commands/ft-*.md; do
+  grep -q "\`$(basename "$f" .md)\`" "$f" || echo "$f"
+done
+```
+
 ## Task ID convention
 
 Format: `<AREA>-<NUMBER>` for tasks, `<AREA>-EPIC-<NUMBER>` for epics with
