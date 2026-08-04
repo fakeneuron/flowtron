@@ -458,9 +458,9 @@ Existing symlinks in `.claude/` and `.agents/skills/` don't need to be touched �
 
 #### Retired skills leave dangling symlinks
 
-When a release removes a skill from the adopter subset, the symlinks you created for it still exist in your project and now point at a path that no longer exists in the submodule. Nothing breaks elsewhere — the dead symlink just surfaces a slash command that fails when invoked. `/ft-update` wires symlinks for *newly shipped* skills; it does not prune retired ones, so this cleanup is manual.
+When a release removes a skill from the adopter subset, the symlinks you created for it still exist in your project and now point at a path that no longer exists in the submodule. Nothing breaks elsewhere — the dead symlink just surfaces a slash command that fails when invoked. `/ft-update` wires symlinks for *newly shipped* skills and, as of its Step 4.6, also reports any dangling ones left by a retired skill — but it never prunes them, so removal is still manual.
 
-Check and clean after any bump whose changelog mentions a retired or folded skill:
+Running `/ft-update` surfaces dangling hits automatically; to check outside of a bump (or on a project that ran an older `/ft-update`), run the same command it uses:
 
 ```sh
 # From the project root — lists symlinks whose target no longer resolves

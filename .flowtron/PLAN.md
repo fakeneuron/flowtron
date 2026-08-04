@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-407** [light]🔧 | ft-update-prune-check — `/ft-update` wires newly shipped skill symlinks but never surfaces dangling ones left by retired skills, so adopters only find the cleanup if they read `docs/MIGRATION.md` §"Retired skills leave dangling symlinks". Add a report-only dangling-symlink check to the bump flow; the adopter prunes.
+(none)
 
 ## Low
 
@@ -26,6 +26,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-407** [light]🔧 | ft-update-prune-check — Completed 2026-08-03.
 - [x] **TEST-003** [medium]🧩 | updater-fixture-tag-coupling — Completed 2026-08-03.
 - [x] **CORE-400** [light]🔧 | model-edge-fragment-strategy — Completed 2026-08-03.
 - [x] **CORE-406** [light]🔧 | parallel-dogfood-stamp-ownership — Completed 2026-08-03.

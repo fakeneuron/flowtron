@@ -1,6 +1,6 @@
 ---
 name: ft-update
-description: Bump an adopter project's pinned flowtron submodule to the latest released tag — show current→target version + tag changelog, fetch + checkout the tag, record the new pin, re-wire per-project Claude/Codex symlinks for newly shipped skills, and run a lightweight smoke check. Use when the user asks to update or bump their project's flowtron submodule to the latest release. Adopter-only (bails in flowtron-self); thin procedural skill, no tasknote.
+description: Bump an adopter project's pinned flowtron submodule to the latest released tag — show current→target version + tag changelog, fetch + checkout the tag, record the new pin, re-wire per-project Claude/Codex symlinks for newly shipped skills, report any dangling symlinks left by retired skills, and run a lightweight smoke check. Use when the user asks to update or bump their project's flowtron submodule to the latest release. Adopter-only (bails in flowtron-self); thin procedural skill, no tasknote.
 ---
 
 # update — flowtron submodule bump (adopter-side)
@@ -124,6 +124,28 @@ For each file matching `.claude/skills/*/SKILL.md` that is a **regular file** (n
    `No provenance-marked audit forks found; skipping drift scan.`
 
 Drift warnings are **informational only** — the bump proceeds regardless. After the adopter reviews and re-reconciles, they manually update `flowtron-reconciled:` to `<target>`. Report all warnings (if any) before continuing to Step 5.
+
+## Step 4.6 — Dangling symlink check
+
+A release can retire or fold a skill (see `docs/MIGRATION.md` §"Retired skills leave dangling symlinks"). Step 4 wires symlinks for *newly shipped* skills; it does not prune ones left behind by a retired skill — check for those here, report-only.
+
+For each wiring surface confirmed present in Step 4:
+
+```sh
+find .claude -type l ! -exec test -e {} \; -print          # if .claude/ is present
+find .agents/skills -type l ! -exec test -e {} \; -print   # if .agents/skills/ is present
+```
+
+If either command prints hits, surface them:
+
+```text
+⚠️  Dangling symlink(s) found — target no longer resolves in the bumped submodule:
+    <path>
+    <path>
+Likely a retired/folded skill (see docs/MIGRATION.md §"Retired skills leave dangling symlinks" for what replaced it). Safe to `rm` — these are symlinks into the submodule, never real files. Not pruned automatically; remove them yourself.
+```
+
+If both commands (for the surfaces present) print nothing, report "No dangling symlinks found." This check is informational only — the bump proceeds regardless, and `/ft-update` never runs `rm` on the adopter's behalf.
 
 ## Step 5 — Smoke check, stage, hand off
 
