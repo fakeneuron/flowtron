@@ -15,17 +15,19 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **FE-078** [light] | model-chip-category-tokens — Align viz model rendering with the SPEC's primary-label vocabulary: ModelChip adds the `heavy` category token to its 🧠 set (keeping FE-037's asymmetric design — `[medium]`/`[light]` stay glyph-free), and the `TaskModel` comment in `viz/src/parser.ts` states category labels as the recommended set with concrete tokens as precision tokens. Surfaced by audit 2026-08-04 (Findings #1 Medium, #4 Medium).
 
 ## Low
 
-(none)
+- [ ] **FE-079** [light] | selector-menu-aria — Fix the ProjectSelector overflow dropdown ARIA: either add `role="menuitem"` (+ arrow-key support) to chips inside the `role="menu"` container, or drop the menu role for a labeled group. Surfaced by audit 2026-08-04 (Finding #2, Low).
 
 ## Future Opportunities
 
 
 ## Completed
 
+- [x] **FE-080** [light] | theme-toggle-wording — ThemeToggle `aria-label`/`title` said "click to cycle" for a binary light↔dark toggle; reworded to "click to switch". Surfaced by audit 2026-08-04 (Finding #3, Low), fixed inline. Completed 2026-08-04.
+- [x] **FE-081** [light] | readme-kanban-wording — README described viz as a "Kanban view"/"Kanban visualizer"; the default has been the priority-grouped list since FE-005 with board mode opt-in. Reworded both mentions (§Visualizer + repo-layout list). Surfaced by audit 2026-08-04 (Finding #5, Low), fixed inline. Completed 2026-08-04.
 - [x] **CORE-407** [light]🔧 | ft-update-prune-check — Completed 2026-08-03.
 - [x] **TEST-003** [medium]🧩 | updater-fixture-tag-coupling — Completed 2026-08-03.
 - [x] **CORE-400** [light]🔧 | model-edge-fragment-strategy — Completed 2026-08-03.

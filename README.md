@@ -105,8 +105,9 @@ full one-time global-install table (§1.0), and the Codex / grok wiring.
 
 ## Visualizer
 
-`viz/` is a read-only Kanban view of every flowtron-adopting project under
-your workspace, grouped by priority. Open tasks with an active tasknote in
+`viz/` is a read-only view of every flowtron-adopting project under
+your workspace — a priority-grouped list by default, with an optional
+board mode. Open tasks with an active tasknote in
 each project's `.flowtron/tasknote/` are flagged **In progress**. The
 header-rail project selector swaps the active project;
 the header subhead shows task counts, in-progress count, and the flowtron
@@ -241,7 +242,7 @@ runtime lives in the runner; the contract lives in flowtron.
 - `grok/` — grok platform wiring (currently the `ft-task` procedure pointer); further platform wirings (e.g., `cursor/`) plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md)
 - `docs/` — philosophy, vision, glossary, migration, conventions, agent-neutrality, platforms, agent-compat, dogfood, worktrees, and external-agents docs
 - `.flowtron/` — flowtron's own roadmap and tasknotes (self-hosted)
-- `viz/` — Vite/React Kanban visualizer
+- `viz/` — Vite/React visualizer (priority-grouped list + optional board mode)
 - `tools/` — operator-side fleet scripts (`update-adopters.mjs`, the singular CLI carve-out — see `SPEC.md` §"What flowtron does NOT provide" — plus its portable `update-adopters.test.mjs` suite)
 - `CONTRIBUTING.md` — solo-maintenance model; issue and PR guidance
 - `SECURITY.md` — threat model and vulnerability reporting
