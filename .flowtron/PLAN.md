@@ -15,11 +15,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **FE-082** [medium] | wikilink-flake-fix — The App.test.tsx "clicking a wikilink in TaskDetail auto-expands the parent epic" test is flaky under parallel jsdom contention (measured 2026-08-04: 1/245 full-suite fail, 34/34 in isolation; the file's own comment admits residual flakiness). The suite is the `/ft-release` gate (`viz/vite.config.ts:152-157`) — an intermittently red gate trains the operator to ignore red. Fix the race or serialize the file. Surfaced by the 2026-08-04 design review (completing the 2026-07-29 fleet sweep); verified at `053bc81`.
 
 ## Low
 
-(none)
+- [ ] **FE-083** [light] | row-props-context — The 13-prop row-interaction bundle (`tasknotesById`, `visibility`, `expandedId`, `expandedEpicIds`, `highlightId`, `selectedId`, `navigateToTask`, …) is hand-written 4× (`viz/src/ui/App.tsx:256-271`, `:419-433`, `viz/src/ui/BoardView.tsx:7-21`, `:44-58`, drilling on into PrioritySection/EpicRow/TaskRow); adding one row-level interaction touches 4–5 files. Collapse into a context or single object — contexts already exist for visibility and search (`App.tsx:294-295`), so this completes an existing migration. Surfaced by the 2026-08-04 design review (completing the 2026-07-29 fleet sweep); verified at `053bc81`.
+- [ ] **FE-084** [light] | task-line-regex-compose — `TASK_LINE` (`viz/src/parser.ts:59-60`) is a ~380-char single-line regex with 6 capture groups plus three non-capturing tolerances; only the 18-line comment above it keeps it maintainable, and the file is under active edit. Compose it from named fragments (`GLYPH`, `MODEL_TOKEN`, …) joined via `new RegExp` so each FE-066 tolerance is independently readable/diffable. Surfaced by the 2026-08-04 design review (completing the 2026-07-29 fleet sweep); verified at `053bc81`.
 
 ## Future Opportunities
 
