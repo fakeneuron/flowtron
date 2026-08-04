@@ -5,11 +5,11 @@ export type Priority =
   | 'Future Opportunities'
   | 'Completed';
 
-// Recommended set: 'fable' | 'opus' | 'sonnet' | 'haiku' (flowtron convention;
-// current Anthropic tiering — 'fable' and 'opus' are heavy, 'sonnet' medium,
-// 'haiku' light). Adopters MAY substitute project-specific tokens (e.g.,
-// 'grok', 'gpt-5', 'gemini-pro'); the
-// TASK_LINE regex accepts any short lowercase token matching [a-z][\w.-]*.
+// Recommended set: 'heavy' | 'medium' | 'light' (flowtron's primary category
+// labels — see SPEC §"Task-line format"). Concrete model names (e.g. 'fable',
+// 'opus', 'sonnet', 'haiku', 'grok', 'gpt-5', 'gemini-pro') are valid
+// precision tokens; the TASK_LINE regex accepts any short lowercase token
+// matching [a-z][\w.-]*.
 // See SPEC §"Task-line format" + SPEC/model.md.
 export type TaskModel = string;
 

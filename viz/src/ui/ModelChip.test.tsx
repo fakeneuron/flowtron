@@ -23,8 +23,16 @@ describe('ModelChip — 🧠 heavy-model glyph', () => {
     expect(screen.getByText('🧠')).toBeInTheDocument();
   });
 
-  it.each(['sonnet', 'grok', 'haiku'])('renders nothing for %s', (model) => {
-    render(<ModelChip model={model} />);
-    expect(screen.queryByText('🧠')).toBeNull();
+  it('renders 🧠 for the heavy category token', () => {
+    render(<ModelChip model="heavy" />);
+    expect(screen.getByText('🧠')).toBeInTheDocument();
   });
+
+  it.each(['sonnet', 'grok', 'haiku', 'medium', 'light'])(
+    'renders nothing for %s',
+    (model) => {
+      render(<ModelChip model={model} />);
+      expect(screen.queryByText('🧠')).toBeNull();
+    }
+  );
 });
