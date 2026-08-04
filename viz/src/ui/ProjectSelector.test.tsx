@@ -149,12 +149,12 @@ describe('ProjectSelector', () => {
     );
 
     await user.click(screen.getByRole('button', { name: '2 more projects' }));
-    const menu = screen.getByRole('menu', { name: 'More projects' });
+    const menu = screen.getByRole('group', { name: 'More projects' });
     const p6 = within(menu).getByRole('button', { name: 'Project: p6' });
     await user.click(p6);
 
     expect(onSelect).toHaveBeenCalledWith('p6');
-    expect(screen.queryByRole('menu')).toBeNull();
+    expect(screen.queryByRole('group', { name: 'More projects' })).toBeNull();
   });
 
   it('closes the overflow dropdown on Escape', async () => {
@@ -168,10 +168,10 @@ describe('ProjectSelector', () => {
     );
 
     await user.click(screen.getByRole('button', { name: '2 more projects' }));
-    expect(screen.getByRole('menu')).toBeTruthy();
+    expect(screen.getByRole('group', { name: 'More projects' })).toBeTruthy();
 
     await user.keyboard('{Escape}');
-    expect(screen.queryByRole('menu')).toBeNull();
+    expect(screen.queryByRole('group', { name: 'More projects' })).toBeNull();
   });
 
   it('closes the overflow dropdown on outside click', async () => {
@@ -189,9 +189,9 @@ describe('ProjectSelector', () => {
     );
 
     await user.click(screen.getByRole('button', { name: '2 more projects' }));
-    expect(screen.getByRole('menu')).toBeTruthy();
+    expect(screen.getByRole('group', { name: 'More projects' })).toBeTruthy();
 
     await user.click(screen.getByRole('button', { name: 'outside' }));
-    expect(screen.queryByRole('menu')).toBeNull();
+    expect(screen.queryByRole('group', { name: 'More projects' })).toBeNull();
   });
 });

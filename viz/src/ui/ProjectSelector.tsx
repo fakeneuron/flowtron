@@ -126,7 +126,7 @@ export const ProjectSelector: React.FC<Props> = ({
         </div>
         {open && hasOverflow && (
           <div
-            role="menu"
+            role="group"
             aria-label="More projects"
             className="absolute right-0 top-full z-10 mt-1 flex min-w-max flex-col overflow-hidden rounded border border-slate-300 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900"
           >

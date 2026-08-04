@@ -19,13 +19,14 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **FE-079** [light] | selector-menu-aria — Fix the ProjectSelector overflow dropdown ARIA: either add `role="menuitem"` (+ arrow-key support) to chips inside the `role="menu"` container, or drop the menu role for a labeled group. Surfaced by audit 2026-08-04 (Finding #2, Low).
+(none)
 
 ## Future Opportunities
 
 
 ## Completed
 
+- [x] **FE-079** [light] | selector-menu-aria — `ProjectSelector` overflow dropdown's `role="menu"` (no `menuitem` children, no arrow-key nav) changed to `role="group"`, matching the sibling inline chip-group's existing pattern. Surfaced by audit 2026-08-04 (Finding #2, Low), fixed inline. Completed 2026-08-04.
 - [x] **FE-078** [light] | model-chip-category-tokens — Completed 2026-08-04.
 - [x] **FE-080** [light] | theme-toggle-wording — ThemeToggle `aria-label`/`title` said "click to cycle" for a binary light↔dark toggle; reworded to "click to switch". Surfaced by audit 2026-08-04 (Finding #3, Low), fixed inline. Completed 2026-08-04.
 - [x] **FE-081** [light] | readme-kanban-wording — README described viz as a "Kanban view"/"Kanban visualizer"; the default has been the priority-grouped list since FE-005 with board mode opt-in. Reworded both mentions (§Visualizer + repo-layout list). Surfaced by audit 2026-08-04 (Finding #5, Low), fixed inline. Completed 2026-08-04.
