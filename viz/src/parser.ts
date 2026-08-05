@@ -45,19 +45,43 @@ const LEGACY_CRITICAL_HEADING = 'Critical';
 // ordering: `[!critical]` BEFORE `[model]`. The legacy minimal form
 // `- [ ] **TASK-ID** — desc` keeps parsing.
 //
-// Three tolerances (FE-066) accept real PLAN.md decorations without capturing
-// them — none add a capture group, so the destructure below is unchanged:
-//   1. Leading status glyph between the checkbox and the ID
+// TASK_LINE is composed from named fragments (FE-084) so each piece of the
+// grammar — including the three FE-066 tolerances below — is independently
+// readable and diffable. Fragment order below is left-to-right match order;
+// concatenation order in the `new RegExp(...)` call must match it exactly.
+// Capture groups, in order: mark, id, criticalRaw, modelRaw, shortnameRaw,
+// longRaw. The three FE-066 tolerances are all non-capturing, so they add no
+// group and the destructure at the call site is unaffected:
+//   1. STATUS_GLYPH — leading status glyph between the checkbox and the ID
 //      (`- [ ] ⏸ **ID**`) — the nav-header chip set 🟢/⏸/✅/⚪/🌱.
-//   2. Stacked `[model]` tokens (`[fable] [light]`) — the FIRST is captured as
-//      `model`; trailing bracket tokens are tolerated and dropped.
-//   3. A model-suggestion glyph after `[model]` (`[medium]🧠` / `[medium] 🔧`
-//      / `[medium]🧩`, space-optional) — decorative, redundant with the model
-//      tier, dropped.
+//   2. STACKED_MODEL_TOKENS — stacked `[model]` tokens (`[fable] [light]`) —
+//      the FIRST is captured as `model`; trailing bracket tokens are
+//      tolerated and dropped.
+//   3. SUGGESTION_GLYPH — a model-suggestion glyph after `[model]`
+//      (`[medium]🧠` / `[medium] 🔧` / `[medium]🧩`, space-optional) —
+//      decorative, redundant with the model tier, dropped.
 // Emoji are matched via alternation (not a char class) so astral-plane glyphs
 // match correctly without the `u` flag; an optional trailing VS16 is tolerated.
-const TASK_LINE =
-  /^\s*-\s+\[([ xX])\]\s+(?:(?:🟢|⏸|✅|⚪|🌱)\uFE0F?\s+)?\*\*([A-Z]+(?:-EPIC)?-\d+(?:\.(?:\d+|N))?)\*\*(?:\s+\[(!critical)\])?(?:\s+\[([a-z][\w.-]*)\])?(?:\s+\[[a-z][\w.-]*\])*(?:\s*(?:🧠|🔧|🧩)\uFE0F?)?(?:\s+\|\s+([^\n]+?))?(?:\s+[—-]\s+([^\n]+?))?\s*$/;
+const BULLET_CHECKBOX = String.raw`^\s*-\s+\[([ xX])\]\s+`;
+const STATUS_GLYPH = String.raw`(?:(?:🟢|⏸|✅|⚪|🌱)\uFE0F?\s+)?`;
+const TASK_ID = String.raw`\*\*([A-Z]+(?:-EPIC)?-\d+(?:\.(?:\d+|N))?)\*\*`;
+const CRITICAL_FLAG = String.raw`(?:\s+\[(!critical)\])?`;
+const MODEL_TOKEN = String.raw`(?:\s+\[([a-z][\w.-]*)\])?`;
+const STACKED_MODEL_TOKENS = String.raw`(?:\s+\[[a-z][\w.-]*\])*`;
+const SUGGESTION_GLYPH = String.raw`(?:\s*(?:🧠|🔧|🧩)\uFE0F?)?`;
+const SHORTNAME = String.raw`(?:\s+\|\s+([^\n]+?))?`;
+const LONG_DESCRIPTION = String.raw`(?:\s+[—-]\s+([^\n]+?))?\s*$`;
+const TASK_LINE = new RegExp(
+  BULLET_CHECKBOX +
+    STATUS_GLYPH +
+    TASK_ID +
+    CRITICAL_FLAG +
+    MODEL_TOKEN +
+    STACKED_MODEL_TOKENS +
+    SUGGESTION_GLYPH +
+    SHORTNAME +
+    LONG_DESCRIPTION
+);
 const COMPLETED_DATE = /\bCompleted\s+(\d{4}-\d{2}-\d{2})\.?/;
 const HEADING_LINE = /^##\s+(.+?)\s*$/;
 
