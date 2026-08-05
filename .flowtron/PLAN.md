@@ -19,7 +19,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **FE-083** [light] | row-props-context — The 13-prop row-interaction bundle (`tasknotesById`, `visibility`, `expandedId`, `expandedEpicIds`, `highlightId`, `selectedId`, `navigateToTask`, …) is hand-written 4× (`viz/src/ui/App.tsx:256-271`, `:419-433`, `viz/src/ui/BoardView.tsx:7-21`, `:44-58`, drilling on into PrioritySection/EpicRow/TaskRow); adding one row-level interaction touches 4–5 files. Collapse into a context or single object — contexts already exist for visibility and search (`App.tsx:294-295`), so this completes an existing migration. Surfaced by the 2026-08-04 design review (completing the 2026-07-29 fleet sweep); verified at `053bc81`.
 - [ ] **FE-084** [light] | task-line-regex-compose — `TASK_LINE` (`viz/src/parser.ts:59-60`) is a ~380-char single-line regex with 6 capture groups plus three non-capturing tolerances; only the 18-line comment above it keeps it maintainable, and the file is under active edit. Compose it from named fragments (`GLYPH`, `MODEL_TOKEN`, …) joined via `new RegExp` so each FE-066 tolerance is independently readable/diffable. Surfaced by the 2026-08-04 design review (completing the 2026-07-29 fleet sweep); verified at `053bc81`.
 
 ## Future Opportunities
@@ -27,6 +26,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-083** [light] | row-props-context — Completed 2026-08-04.
 - [x] **FE-082** [medium] | wikilink-flake-fix — Completed 2026-08-04.
 - [x] **FE-079** [light] | selector-menu-aria — `ProjectSelector` overflow dropdown's `role="menu"` (no `menuitem` children, no arrow-key nav) changed to `role="group"`, matching the sibling inline chip-group's existing pattern. Surfaced by audit 2026-08-04 (Finding #2, Low), fixed inline. Completed 2026-08-04.
 - [x] **FE-078** [light] | model-chip-category-tokens — Completed 2026-08-04.

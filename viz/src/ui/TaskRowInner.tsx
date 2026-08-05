@@ -1,9 +1,9 @@
 import React from 'react';
 import type { Task } from '../parser';
-import type { Tasknote } from '../tasknote';
-import type { DensityMode, VisibilityPrefs } from '../visibilityPrefs';
 import { effectiveStatus } from './utils';
 import { DENSITY_TOKENS } from './constants';
+import { useVisibilityPrefs } from './VisibilityContext';
+import { useRowInteraction } from './RowInteractionContext';
 import { PhaseDots } from './PhaseDots';
 import { SubtaskProgress } from './SubtaskProgress';
 import { StatusChip } from './StatusChip';
@@ -16,9 +16,6 @@ import { useSearchQuery } from './SearchContext';
 
 interface TaskRowInnerProps {
   task: Task;
-  tasknotesById: Map<string, Tasknote>;
-  rowChips: VisibilityPrefs['rowChips'];
-  density: DensityMode;
   isExpandedDetail: boolean;
   onToggleDetail: () => void;
   extraRightSlot?: React.ReactNode;
@@ -26,13 +23,12 @@ interface TaskRowInnerProps {
 
 export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
   task,
-  tasknotesById,
-  rowChips,
-  density,
   isExpandedDetail,
   onToggleDetail,
   extraRightSlot,
 }) => {
+  const { tasknotesById } = useRowInteraction();
+  const { rowChips, density } = useVisibilityPrefs();
   const query = useSearchQuery();
   const tn = tasknotesById.get(task.id);
   const status = effectiveStatus(task, tn);

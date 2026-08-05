@@ -11,6 +11,7 @@ import { type TasknoteStatus } from '../tasknote';
 import { DENSITY_TOKENS, VIZ_VERSION, TYPOGRAPHY } from './constants';
 import { VisibilityProvider } from './VisibilityContext';
 import { SearchProvider } from './SearchContext';
+import { RowInteractionProvider } from './RowInteractionContext';
 import { LoadingSkeleton } from './LoadingSkeleton';
 import { PrioritySection } from './PrioritySection';
 import { ProjectSelector } from './ProjectSelector';
@@ -249,6 +250,29 @@ export const App: React.FC = () => {
     [tasks, setCollapsedSections, setExpandedEpicIds],
   );
 
+  const rowInteraction = useMemo(
+    () => ({
+      tasknotesById,
+      expandedId,
+      setExpandedId,
+      expandedEpicIds,
+      toggleEpic,
+      highlightId,
+      selectedId,
+      navigateToTask,
+    }),
+    [
+      tasknotesById,
+      expandedId,
+      setExpandedId,
+      expandedEpicIds,
+      toggleEpic,
+      highlightId,
+      selectedId,
+      navigateToTask,
+    ],
+  );
+
   const renderSection = (p: Priority) => {
     const nodes = bySection[p] ?? [];
     const collapsed = collapsedSections.has(p);
@@ -259,15 +283,6 @@ export const App: React.FC = () => {
         nodes={nodes}
         collapsed={collapsed}
         onToggle={() => toggleSection(p)}
-        tasknotesById={tasknotesById}
-        visibility={visibilityPrefs}
-        expandedId={expandedId}
-        setExpandedId={setExpandedId}
-        expandedEpicIds={expandedEpicIds}
-        toggleEpic={toggleEpic}
-        highlightId={highlightId}
-        selectedId={selectedId}
-        navigateToTask={navigateToTask}
       />
     );
   };
@@ -293,6 +308,7 @@ export const App: React.FC = () => {
   return (
     <VisibilityProvider value={visibilityPrefs}>
     <SearchProvider value={query}>
+    <RowInteractionProvider value={rowInteraction}>
     <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
       <header className="border-b border-slate-200 bg-white px-4 py-3 dark:border-slate-800 dark:bg-slate-900">
         <div className="mx-auto flex max-w-screen-xl flex-col gap-2">
@@ -421,15 +437,6 @@ export const App: React.FC = () => {
               bySection={bySection}
               collapsedSections={collapsedSections}
               toggleSection={toggleSection}
-              tasknotesById={tasknotesById}
-              visibility={visibilityPrefs}
-              expandedId={expandedId}
-              setExpandedId={setExpandedId}
-              expandedEpicIds={expandedEpicIds}
-              toggleEpic={toggleEpic}
-              highlightId={highlightId}
-              selectedId={selectedId}
-              navigateToTask={navigateToTask}
             />
             {BELOW_BOARD_SECTIONS.map(renderSection)}
           </div>
@@ -456,6 +463,7 @@ export const App: React.FC = () => {
       />
       <ShortcutsModal open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
     </div>
+    </RowInteractionProvider>
     </SearchProvider>
     </VisibilityProvider>
   );

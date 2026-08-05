@@ -1,9 +1,8 @@
 import React, { Suspense, lazy } from 'react';
 import type { Task } from '../parser';
-import type { Tasknote } from '../tasknote';
-import type { VisibilityPrefs } from '../visibilityPrefs';
 import { DENSITY_TOKENS } from './constants';
-import { usePalette } from './VisibilityContext';
+import { usePalette, useVisibilityPrefs } from './VisibilityContext';
+import { useRowInteraction } from './RowInteractionContext';
 import { highlightMatch } from './highlight';
 import { useSearchQuery } from './SearchContext';
 import { ErrorBoundary } from './ErrorBoundary';
@@ -12,26 +11,14 @@ const TaskDetail = lazy(() => import('./TaskDetail'));
 
 interface SubtaskRowProps {
   task: Task;
-  tasknotesById: Map<string, Tasknote>;
-  visibility: VisibilityPrefs;
-  expandedId: string | null;
-  setExpandedId: (id: string | null) => void;
-  highlightId: string | null;
-  isSelected: boolean;
-  navigateToTask: (id: string) => void;
 }
 
-export const SubtaskRow: React.FC<SubtaskRowProps> = ({
-  task,
-  tasknotesById,
-  visibility,
-  expandedId,
-  setExpandedId,
-  highlightId,
-  isSelected,
-  navigateToTask,
-}) => {
+export const SubtaskRow: React.FC<SubtaskRowProps> = ({ task }) => {
+  const { tasknotesById, expandedId, setExpandedId, highlightId, selectedId, navigateToTask } =
+    useRowInteraction();
+  const isSelected = selectedId === task.id;
   const query = useSearchQuery();
+  const visibility = useVisibilityPrefs();
   const density = visibility.density;
   const palette = usePalette();
   const isExpandedDetail = expandedId === task.id;

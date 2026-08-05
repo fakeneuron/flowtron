@@ -1,10 +1,9 @@
 import React from 'react';
 import { isEpic, type Priority, type TaskNode } from '../parser';
-import type { Tasknote } from '../tasknote';
-import type { VisibilityPrefs } from '../visibilityPrefs';
 import { Chevron } from './Chevron';
 import { DENSITY_TOKENS } from './constants';
-import { usePalette } from './VisibilityContext';
+import { usePalette, useVisibilityPrefs } from './VisibilityContext';
+import { useRowInteraction } from './RowInteractionContext';
 import { EpicRow } from './EpicRow';
 import { TaskRow } from './TaskRow';
 
@@ -13,15 +12,6 @@ interface PrioritySectionProps {
   nodes: TaskNode[];
   collapsed: boolean;
   onToggle: () => void;
-  tasknotesById: Map<string, Tasknote>;
-  visibility: VisibilityPrefs;
-  expandedId: string | null;
-  setExpandedId: (id: string | null) => void;
-  expandedEpicIds: Set<string>;
-  toggleEpic: (id: string) => void;
-  highlightId: string | null;
-  selectedId: string | null;
-  navigateToTask: (id: string) => void;
 }
 
 export const PrioritySection: React.FC<PrioritySectionProps> = ({
@@ -29,18 +19,10 @@ export const PrioritySection: React.FC<PrioritySectionProps> = ({
   nodes,
   collapsed,
   onToggle,
-  tasknotesById,
-  visibility,
-  expandedId,
-  setExpandedId,
-  expandedEpicIds,
-  toggleEpic,
-  highlightId,
-  selectedId,
-  navigateToTask,
 }) => {
+  const { expandedEpicIds, toggleEpic } = useRowInteraction();
   const totalCount = nodes.reduce((s, n) => s + 1 + n.children.length, 0);
-  const tokens = DENSITY_TOKENS[visibility.density];
+  const tokens = DENSITY_TOKENS[useVisibilityPrefs().density];
   const palette = usePalette();
   return (
     <section className={`rounded-lg border ${palette.SECTION_TINT[priority]}`}>
@@ -72,32 +54,12 @@ export const PrioritySection: React.FC<PrioritySectionProps> = ({
                   <EpicRow
                     key={node.task.id}
                     node={node}
-                    tasknotesById={tasknotesById}
-                    visibility={visibility}
-                    expandedId={expandedId}
-                    setExpandedId={setExpandedId}
                     expanded={expandedEpicIds.has(node.task.id)}
                     toggleExpanded={() => toggleEpic(node.task.id)}
-                    highlightId={highlightId}
-                    isSelected={selectedId === node.task.id}
-                    selectedId={selectedId}
-                    navigateToTask={navigateToTask}
                   />
                 );
               }
-              return (
-                <TaskRow
-                  key={node.task.id}
-                  task={node.task}
-                  tasknotesById={tasknotesById}
-                  visibility={visibility}
-                  expandedId={expandedId}
-                  setExpandedId={setExpandedId}
-                  highlightId={highlightId}
-                  isSelected={selectedId === node.task.id}
-                  navigateToTask={navigateToTask}
-                />
-              );
+              return <TaskRow key={node.task.id} task={node.task} />;
             })}
           </div>
         </div>

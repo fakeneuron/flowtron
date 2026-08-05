@@ -6,5 +6,6 @@ const VisibilityContext = createContext<VisibilityPrefs>(DEFAULT_PREFS);
 
 export const VisibilityProvider = VisibilityContext.Provider;
 
-export const usePalette = (): PaletteTokens =>
-  PALETTES[useContext(VisibilityContext).palette];
+export const useVisibilityPrefs = (): VisibilityPrefs => useContext(VisibilityContext);
+
+export const usePalette = (): PaletteTokens => PALETTES[useVisibilityPrefs().palette];

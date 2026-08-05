@@ -1,10 +1,9 @@
 import React, { Suspense, lazy } from 'react';
 import type { TaskNode } from '../parser';
-import type { Tasknote } from '../tasknote';
-import type { VisibilityPrefs } from '../visibilityPrefs';
 import { Chevron } from './Chevron';
 import { DENSITY_TOKENS } from './constants';
-import { usePalette } from './VisibilityContext';
+import { usePalette, useVisibilityPrefs } from './VisibilityContext';
+import { useRowInteraction } from './RowInteractionContext';
 import { TaskRowInner } from './TaskRowInner';
 import { SubtaskRow } from './SubtaskRow';
 import { ErrorBoundary } from './ErrorBoundary';
@@ -14,34 +13,18 @@ const TaskDetail = lazy(() => import('./TaskDetail'));
 
 interface EpicRowProps {
   node: TaskNode;
-  tasknotesById: Map<string, Tasknote>;
-  visibility: VisibilityPrefs;
-  expandedId: string | null;
-  setExpandedId: (id: string | null) => void;
   expanded: boolean;
   toggleExpanded: () => void;
-  highlightId: string | null;
-  isSelected: boolean;
-  selectedId: string | null;
-  navigateToTask: (id: string) => void;
 }
 
-export const EpicRow: React.FC<EpicRowProps> = ({
-  node,
-  tasknotesById,
-  visibility,
-  expandedId,
-  setExpandedId,
-  expanded,
-  toggleExpanded,
-  highlightId,
-  isSelected,
-  selectedId,
-  navigateToTask,
-}) => {
+export const EpicRow: React.FC<EpicRowProps> = ({ node, expanded, toggleExpanded }) => {
+  const { tasknotesById, expandedId, setExpandedId, highlightId, selectedId, navigateToTask } =
+    useRowInteraction();
   const { task, children } = node;
+  const isSelected = selectedId === task.id;
   const done = children.filter((c) => c.completed).length;
   const total = children.length;
+  const visibility = useVisibilityPrefs();
   const density = visibility.density;
   const tokens = DENSITY_TOKENS[density];
   const palette = usePalette();
@@ -67,9 +50,6 @@ export const EpicRow: React.FC<EpicRowProps> = ({
         </button>
         <TaskRowInner
           task={task}
-          tasknotesById={tasknotesById}
-          rowChips={visibility.rowChips}
-          density={density}
           isExpandedDetail={expandedId === task.id}
           onToggleDetail={() => setExpandedId(expandedId === task.id ? null : task.id)}
           extraRightSlot={
@@ -94,17 +74,7 @@ export const EpicRow: React.FC<EpicRowProps> = ({
               className={`flex flex-col ${tokens.subtaskInterRowGap} ${tokens.subtaskContainerPad} border-t border-slate-100 bg-slate-50/50 dark:border-slate-800 dark:bg-slate-950/50`}
             >
               {children.map((c) => (
-                <SubtaskRow
-                  key={c.id}
-                  task={c}
-                  tasknotesById={tasknotesById}
-                  visibility={visibility}
-                  expandedId={expandedId}
-                  setExpandedId={setExpandedId}
-                  highlightId={highlightId}
-                  isSelected={selectedId === c.id}
-                  navigateToTask={navigateToTask}
-                />
+                <SubtaskRow key={c.id} task={c} />
               ))}
             </div>
           </div>
