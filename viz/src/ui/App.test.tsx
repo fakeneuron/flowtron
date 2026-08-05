@@ -53,7 +53,7 @@ describe('App — navigateToTask', () => {
     );
 
     const targetRow = document.getElementById('row-CORE-1.1')!;
-    expect(targetRow.className).toMatch(/ring-indigo/);
+    await waitFor(() => expect(targetRow.className).toMatch(/ring-indigo/));
 
     // Highlight clears HIGHLIGHT_MS (1500ms) after navigation; allow margin.
     await waitFor(() => expect(targetRow.className).not.toMatch(/ring-indigo/), {

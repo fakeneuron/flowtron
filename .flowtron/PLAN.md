@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **FE-082** [medium] | wikilink-flake-fix — The App.test.tsx "clicking a wikilink in TaskDetail auto-expands the parent epic" test is flaky under parallel jsdom contention (measured 2026-08-04: 1/245 full-suite fail, 34/34 in isolation; the file's own comment admits residual flakiness). The suite is the `/ft-release` gate (`viz/vite.config.ts:152-157`) — an intermittently red gate trains the operator to ignore red. Fix the race or serialize the file. Surfaced by the 2026-08-04 design review (completing the 2026-07-29 fleet sweep); verified at `053bc81`.
+(none)
 
 ## Low
 
@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-082** [medium] | wikilink-flake-fix — Completed 2026-08-04.
 - [x] **FE-079** [light] | selector-menu-aria — `ProjectSelector` overflow dropdown's `role="menu"` (no `menuitem` children, no arrow-key nav) changed to `role="group"`, matching the sibling inline chip-group's existing pattern. Surfaced by audit 2026-08-04 (Finding #2, Low), fixed inline. Completed 2026-08-04.
 - [x] **FE-078** [light] | model-chip-category-tokens — Completed 2026-08-04.
 - [x] **FE-080** [light] | theme-toggle-wording — ThemeToggle `aria-label`/`title` said "click to cycle" for a binary light↔dark toggle; reworded to "click to switch". Surfaced by audit 2026-08-04 (Finding #3, Low), fixed inline. Completed 2026-08-04.
