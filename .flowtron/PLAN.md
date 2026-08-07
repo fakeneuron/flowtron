@@ -14,7 +14,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-EPIC-410** [heavy]🧠 | wiring-parity-check — Nothing verifies flowtron's own installed skill/command surface against its shipped inventory, in either direction: `/ft-spec` shipped 2026-07-12 (CORE-352.2) and is still unwired in this checkout, while nine `~/.claude/` symlinks dangle at skills retired into `/ft-audit <domain>` and `/ft-task --debug`. `/ft-release` greps the *adopter* wiring list in `claude/AGENTS-snippet.md`; nothing covers flowtron's own. Discovery supplied by audit-repo 2026-08-06. Surfaced by audit-repo 2026-08-06 (Theme: The wiring seam is the one surface nothing verifies).
   - [x] **CORE-410.2** [heavy]🧠 | parity-check — Completed 2026-08-07.
   - [x] **CORE-410.3** [light]🔧 | wire-ft-spec — Completed 2026-08-07.
-  - [ ] **CORE-410.4** [light]🔧 | prune-stale-globals — Remove the nine dangling `~/.claude/` links (`ft-audit-{backend,docs,frontend,performance,security}`, `ft-debug`, `ft-quality`, `ft-sidequest`, `ft-quality.md`); normalize every remaining target to one path casing (`~/code/` vs `~/Code/` currently mixed).
+  - [x] **CORE-410.4** [light]🔧 | prune-stale-globals — Completed 2026-08-07.
   - [ ] **CORE-410.N** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
 
 ## Medium
