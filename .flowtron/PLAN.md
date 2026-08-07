@@ -11,12 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-EPIC-408** [heavy]🧠 | subagent-isolation — Formalize isolated exploration (noisy multi-file search delegated out, only distilled findings landing in the parent tasknote) plus an optional portable handoff convention for cross-session / cross-tool resume. Guidance and templates only — no runner, no orchestration, no mandatory fields (filed via /ft-epic-discovery; refined at .1 closure).
-  - [x] **CORE-408.1** [heavy]🧠 | subagent-isolation discovery — Completed 2026-08-06.
-  - [x] **CORE-408.2** [heavy]🧠 | isolation-contract — Completed 2026-08-06.
-  - [x] **CORE-408.3** [heavy]🧠 | portable-handoff — Completed 2026-08-06.
-  - [x] **CORE-408.4** [heavy]🧠 | wiring-and-doc-sync — Completed 2026-08-06.
-  - [ ] **CORE-408.N** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
+(none)
 
 ## Medium
 
@@ -28,6 +23,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 
 ## Completed
+
+- [x] **CORE-EPIC-408** [heavy]🧠 | subagent-isolation — Completed 2026-08-06.
+  - [x] **CORE-408.1** [heavy]🧠 | subagent-isolation discovery — Completed 2026-08-06.
+  - [x] **CORE-408.2** [heavy]🧠 | isolation-contract — Completed 2026-08-06.
+  - [x] **CORE-408.3** [heavy]🧠 | portable-handoff — Completed 2026-08-06.
+  - [x] **CORE-408.4** [heavy]🧠 | wiring-and-doc-sync — Completed 2026-08-06.
+  - [x] **CORE-408.N** [heavy]🧠 | subagent-isolation audit — Completed 2026-08-06.
 
 - [x] **FE-084** [light] | task-line-regex-compose — Completed 2026-08-04.
 - [x] **FE-083** [light] | row-props-context — Completed 2026-08-04.

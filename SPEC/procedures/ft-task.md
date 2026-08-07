@@ -142,7 +142,15 @@ ticking each box in the tasknote as you go:
   tasknote header before continuing (if the blocker is a hard dependency, park
   per [`SPEC/blocked.md`](../blocked.md)); `De-scope` jumps to Phase 4 closure
   with the rationale as the final summary.
-- **Read** the relevant source files.
+- **Read** the relevant source files — when the read set is broad or its shape
+  is unknown, consider isolating the search in a **probe**
+  ([`templates/subagent-probe-template.md`](../../templates/subagent-probe-template.md))
+  and recording only its distilled return in Discovery Notes. A probe owns no
+  tasknote, never runs Phase 1, and never trips a gate; it answers one stated
+  question and ends. Judgment prompt, not a gate — skipping it is always
+  correct for a narrow read set. If your platform exposes no sub-agent
+  primitive, see [`docs/PLATFORMS.md`](../../docs/PLATFORMS.md)
+  §"Non-Claude capability triggers" for the second-session approximation.
 - **Best Practices Review** — for code or module-boundary work, identify
   touched responsibilities, dependency direction, existing abstractions, nearby
   duplication, and any required in-scope refactor or deferred cleanup; otherwise
