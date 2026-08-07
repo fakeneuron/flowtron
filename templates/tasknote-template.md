@@ -40,7 +40,7 @@ One-sentence goal of what this task accomplishes.
   **Verdict:** Proceed | Re-scope | De-scope
   **Rationale:**
 
-- [ ] Read relevant source files
+- [ ] Read relevant source files — when the read set is broad or its shape is unknown, consider isolating the search in a **probe** (`templates/subagent-probe-template.md`) and recording only its distilled return in Discovery Notes
 
 - [ ] **Best Practices Review** — for code or module-boundary work, identified touched responsibilities, dependency direction, existing abstractions, nearby duplication, and any required in-scope refactor or deferred cleanup (otherwise `N/A` with reason)
 

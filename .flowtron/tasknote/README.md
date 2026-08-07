@@ -8,7 +8,7 @@ at the repo root; canonical tasknote templates ship at `templates/`.
 
 - `<TASK-ID>.md` — active tasknote (one per task in flight)
 - `archive/<area>/<TASK-ID>.md` — completed tasknotes, one folder per area
-- `templates/` (at repo root) — `tasknote-template.md`, `tasknote-starter-template.md`, `tasknote-micro-template.md`, `tasknote-README.md`, `PLAN.md`, `audit-overlay-template.md`, `loop-heartbeat-template.md`
+- `templates/` (at repo root) — `tasknote-template.md`, `tasknote-starter-template.md`, `tasknote-micro-template.md`, `sidequest-template.md`, `tasknote-README.md`, `PLAN.md`, `spec-template.md`, `audit-overlay-template.md`, `loop-heartbeat-template.md`, `subagent-probe-template.md`
 
 ## Area prefixes
 

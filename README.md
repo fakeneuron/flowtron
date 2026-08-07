@@ -204,8 +204,9 @@ layer as a side effect of doing the work.
 an operator-side half: the reset *between* tasks. The assistant cannot
 clear its own context — the post-closure cue ("Clear your session, then
 run: …") hands that step to the operator. An agent that chains tasks
-autonomously in one session skips the reset and accretes context; a
-free-roaming sub-agent starts a fresh context outside the workflow's
+autonomously in one session skips the reset and accretes context; an
+*unbounded* sub-agent — one turned loose without a stated scope or a
+defined thing to return — starts a fresh context outside the workflow's
 gates and archive trail. Neither breaks flowtron — but both quietly drop
 the discipline the sizing principle depends on. The safe patterns:
 
@@ -219,9 +220,19 @@ the discipline the sizing principle depends on. The safe patterns:
   suppresses the routine operator gates on a single run — the sanctioned
   hands-off mode. It makes one task autonomous; it is not a license to
   chain tasks in one window.
-- **Sub-agents get exactly one tasknote.** A delegated context that
+- **A delegate gets exactly one tasknote.** A delegated context that
   reads one `tasknote/<ID>.md` and works its scope inherits the full
-  Phase 1 record; anything broader belongs to the operator's session.
+  Phase 1 record and runs the 4-phase workflow to closure. Anything
+  broader belongs to the operator's session.
+- **A probe owns no tasknote.** The other safe delegation: a bounded,
+  read-only sub-agent that answers one question for the session holding
+  the tasknote — "which files define X", "does this pattern exist
+  anywhere else". It reads and searches, returns a distilled summary,
+  and ends. It never runs Phase 1, never trips a gate, never closes or
+  archives anything. The point is that the *noise* stays in the probe:
+  the parent's Discovery Notes get the findings, not fifty tool calls.
+  Brief and return shape:
+  [templates/subagent-probe-template.md](templates/subagent-probe-template.md).
 
 This is guidance, not machinery — but the loop case has a contract.
 Flowtron ships no loop *runtime*: the runner, scheduler, and session

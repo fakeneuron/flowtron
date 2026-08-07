@@ -52,7 +52,7 @@ Flowtron does not submodule itself. When working in `~/code/flowtron/`:
 - `SPEC/` — lazy SPEC modules loaded on demand by skills.
 - `SPEC/procedures/` — agent-neutral procedure SOPs: the source-of-truth projection of execution procedures (e.g. the `/ft-task` 4-phase workflow) for non-Claude wiring and contract-only agents. Format + loading convention: [`SPEC/procedures/README.md`](SPEC/procedures/README.md).
 - The flowtron `.flowtron/PLAN.md` tracks flowtron's own development.
-- The `templates/` folder holds the canonical tasknote templates (full, micro, starter, sidequest) plus spec, loop-heartbeat, and audit-overlay templates, and the `PLAN.md` / `tasknote-README.md` seed files (see [`docs/MIGRATION.md`](docs/MIGRATION.md) §1.2.1).
+- The `templates/` folder holds the canonical tasknote templates (full, micro, starter, sidequest) plus spec, loop-heartbeat, audit-overlay, and subagent-probe templates, and the `PLAN.md` / `tasknote-README.md` seed files (see [`docs/MIGRATION.md`](docs/MIGRATION.md) §1.2.1).
 - `claude/` — Claude Code commands + skills (`/ft-task`, `/ft-release`, `/ft-new-project`, ...); the adopter snippet lives at `claude/AGENTS-snippet.md`.
 - `codex/` — Codex skill wrappers for the full `ft-*` inventory plus Codex-specific wiring notes; `grok/` currently carries the `ft-task` procedure pointer. Future platform wirings plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md) for the plug-in pattern.
 - `tools/` — operator-side fleet scripts. Currently `update-adopters.mjs`, the singular CLI carve-out documented in §"What flowtron does NOT provide", plus its portable `update-adopters.test.mjs` suite (a registered release gate).
@@ -429,7 +429,7 @@ Mandatory steps:
 
 - [ ] Reviewed the task entry in PLAN.md
 - [ ] **Relevance Assessment** — `Proceed` / `Re-scope` / `De-scope` with one-line rationale
-- [ ] Read relevant source files
+- [ ] Read relevant source files — when the read set is broad or its shape is unknown, consider isolating the search in a **probe** (see below) and recording only its distilled return in Discovery Notes
 - [ ] **Best Practices Review** — when code or module boundaries are in scope, identify the touched responsibilities, established dependency direction and abstractions, and nearby duplication; record any required in-scope refactor or deferred cleanup (otherwise `N/A` with a one-line reason)
 - [ ] **Archive skim** — surface prior decisions on the same files / area by skimming `.flowtron/tasknote/archive/<area>/` for tasknotes that touched the source paths in scope; log relevant findings in Discovery Notes before re-interpreting the task
 - [ ] **Drift check** — verify file paths, line numbers, function names, and root-cause hypotheses cited in the task description still match current code, **and** cross-reference the plan this tasknote is forming against its `PLAN.md` line and the SPEC contracts it touches (read them, don't recall them); surface any drift to the user before re-interpreting the task
@@ -437,6 +437,22 @@ Mandatory steps:
 - [ ] Subtasks above populated with concrete, ordered steps
 
 The Relevance Assessment is non-negotiable. `Re-scope` updates the PLAN.md line and tasknote header before continuing (if blocked prerequisite, see §"Blocked tasks"). `De-scope` jumps to Phase 4 closure with the de-scope rationale as the final summary.
+
+The read step's **probe clause** exists because broad search is the one part
+of Discovery whose cost is mostly noise. Locating five relevant files can take
+fifty tool calls, and every one of them lands in the same context window that
+has to hold the task's entire scope (Core Principle #3) through Phase 4. A
+**probe** is the release valve: a bounded, read-only sub-agent that owns no
+tasknote, answers one stated question, returns a distilled summary, and ends —
+so the parent keeps the findings and discards the search. It never runs Phase
+1, never trips a gate, and never closes or archives anything; a delegated
+context that *does* own a tasknote is a **delegate**, and the distinction is
+drawn in [README.md](README.md) §"Sessions, loops, and sub-agents". The brief
+and the fixed return shape ship as
+[`templates/subagent-probe-template.md`](templates/subagent-probe-template.md).
+This is a judgment prompt, not a gate: it adds no checklist box, no phase, and
+no machinery — spawning the probe is the operator's or the session's call, and
+skipping it is always correct for a narrow read set.
 
 Archive skim + drift check both exist because prior tasknotes record decisions (renames, regressions, rationales) and PLAN.md is a snapshot, not a spec. Surface findings before re-interpreting; don't silently "correct" the plan by executing a different task.
 

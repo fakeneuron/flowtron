@@ -12,6 +12,8 @@ The tasknote already exists to hold one task's entire scope in one context windo
 
 Do **not** split one tasknote across two agents, and do **not** have two agents share a working tree on the same task. If work is genuinely parallelizable, it is *already* two tasknotes — file it as an epic with independent children (SPEC/epic.md) and hand each child to its own agent in its own worktree (below).
 
+A **probe** is not a second owner: it owns no tasknote, never enters the 4-phase lifecycle, and returns a distilled summary to the agent that does own the tasknote — see README.md §"Sessions, loops, and sub-agents" for the probe/delegate split. This rule bounds *ownership*, not every context an owner may consult.
+
 ## The Handoff Contract
 
 An external agent needs three things to run a flowtron tasknote, and nothing more:
