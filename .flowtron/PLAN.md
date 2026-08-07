@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-409** [medium]🧩 | sop-drift-detector-gap — /ft-release Step 5's SOP-currency check lists only `source:` commits, so a SPEC.md change a procedure SOP restates goes unflagged — and `SPEC/procedures/*.md` sits outside the AI-referenced-docs sweep. Widen the watch set or add a second anchor field. Surfaced by CORE-408.N Finding #2.
+(none)
 
 ## Low
 
@@ -23,6 +23,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 
 ## Completed
+
+- [x] **CORE-409** [medium]🧩 | sop-drift-detector-gap — Completed 2026-08-06.
 
 - [x] **CORE-EPIC-408** [heavy]🧠 | subagent-isolation — Completed 2026-08-06.
   - [x] **CORE-408.1** [heavy]🧠 | subagent-isolation discovery — Completed 2026-08-06.

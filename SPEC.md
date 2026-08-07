@@ -92,7 +92,7 @@ frontmatter to drive dispatch dynamically.
 modules above: agent-neutral **procedure SOPs** that project an execution
 procedure (e.g. the `/ft-task` 4-phase workflow) for contract-only agents.
 They carry a different frontmatter shape — `procedure:` / `source:` /
-`last-verified:`, not `paths:` — and are loaded by thin per-agent pointer
+`restates:` / `last-verified:`, not `paths:` — and are loaded by thin per-agent pointer
 wrappers (`<platform>/procedures/<procedure>.md`) rather than by the
 `/ft-task` SKILL dispatch. Canonical schema + loading convention:
 [`SPEC/procedures/README.md`](SPEC/procedures/README.md).

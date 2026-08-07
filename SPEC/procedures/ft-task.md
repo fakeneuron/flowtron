@@ -1,6 +1,7 @@
 ---
 procedure: ft-task
-source: claude/skills/ft-task/SKILL.md
+source: claude/skills/ft-task/ templates/tasknote-template.md
+restates: SPEC.md
 last-verified: v5.14.1 · 2026-08-02
 ---
 
