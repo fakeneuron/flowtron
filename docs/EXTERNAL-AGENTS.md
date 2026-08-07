@@ -24,6 +24,8 @@ An external agent needs three things to run a flowtron tasknote, and nothing mor
 
 All three are in the repo already. The "handoff" is therefore just: point the external agent at the repo and tell it which `<TASK-ID>` to run. No export step, no serialization, no shared state beyond the files git already tracks.
 
+This is distinct from the optional `## 🔄 Handoff` tasknote section (SPEC.md §"Tasknote body shape"), which captures mid-task resume state for the *same* task's next session rather than transferring ownership to another agent.
+
 ## Isolating Parallel Agents: Use Worktrees
 
 Running two external agents at once on the same checkout means two agents stepping on each other's working tree. The isolation convention already exists — see [WORKTREES.md](WORKTREES.md).

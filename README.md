@@ -186,7 +186,9 @@ model already is that layer:
 - `tasknote/<ID>.md` — working state for the active task: goal,
   acceptance criteria, subtasks, and the phase log. A fresh session (or a
   sub-agent handed the task) reads one file and picks up where the last
-  context window stopped.
+  context window stopped — and a session ending mid-task can leave an
+  optional `## 🔄 Handoff` brief ([SPEC.md](SPEC.md) §"Tasknote body
+  shape") to make that read cheaper still.
 - `archive/<area>/` — long-term memory: one file per completed task,
   preserving decisions, regressions, and rationale. The Phase 1 archive
   skim ([SPEC.md](SPEC.md) §"📝 Phase 1: Discovery") is the recall step —

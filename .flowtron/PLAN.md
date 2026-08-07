@@ -14,7 +14,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-EPIC-408** [heavy]🧠 | subagent-isolation — Formalize isolated exploration (noisy multi-file search delegated out, only distilled findings landing in the parent tasknote) plus an optional portable handoff convention for cross-session / cross-tool resume. Guidance and templates only — no runner, no orchestration, no mandatory fields (filed via /ft-epic-discovery; refined at .1 closure).
   - [x] **CORE-408.1** [heavy]🧠 | subagent-isolation discovery — Completed 2026-08-06.
   - [x] **CORE-408.2** [heavy]🧠 | isolation-contract — Completed 2026-08-06.
-  - [ ] **CORE-408.3** [heavy]🧠 | portable-handoff — Optional `## 🔄 Handoff` section documented in SPEC.md §Tasknote body shape — Goal + Acceptance status, key decisions, open questions, relevant paths, next step. Template unchanged; tasknote stays the primary resume point. Cross-references docs/EXTERNAL-AGENTS.md (whole-tasknote transfer) rather than restating it.
+  - [x] **CORE-408.3** [heavy]🧠 | portable-handoff — Completed 2026-08-06.
   - [ ] **CORE-408.4** [heavy]🧠 | wiring-and-doc-sync — Sub-agent row added to claude/CAPABILITIES.md's trigger table; Codex/Grok isolation approximations filed under docs/PLATFORMS.md §Non-Claude capability triggers; AGENT-NEUTRALITY ledger, GLOSSARY (probe/delegate/Handoff), and the AI-referenced-docs ledger gap on docs/EXTERNAL-AGENTS.md. No new skill — no symlink fan-out.
   - [ ] **CORE-408.N** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
 
