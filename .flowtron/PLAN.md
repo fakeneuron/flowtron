@@ -11,13 +11,19 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-(none)
+- [ ] **CORE-EPIC-410** [heavy]🧠 | wiring-parity-check — Nothing verifies flowtron's own installed skill/command surface against its shipped inventory, in either direction: `/ft-spec` shipped 2026-07-12 (CORE-352.2) and is still unwired in this checkout, while nine `~/.claude/` symlinks dangle at skills retired into `/ft-audit <domain>` and `/ft-task --debug`. `/ft-release` greps the *adopter* wiring list in `claude/AGENTS-snippet.md`; nothing covers flowtron's own. Discovery supplied by audit-repo 2026-08-06. Surfaced by audit-repo 2026-08-06 (Theme: The wiring seam is the one surface nothing verifies).
+  - [ ] **CORE-410.2** [heavy]🧠 | parity-check — Bidirectional diff of `claude/skills/` + `claude/commands/` against the resolved local `.claude/` and global `~/.claude/` wiring, reporting both missing and dangling entries. Wired into `/ft-release` as a gate step alongside the existing AGENTS-snippet greps. Done-signal: the check prints an empty diff.
+  - [ ] **CORE-410.3** [light]🔧 | wire-ft-spec — Add the two missing symlinks (`.claude/skills/ft-spec`, `.claude/commands/ft-spec.md`) so flowtron can run the skill it ships to adopters via `/ft-new-project` Step 3.
+  - [ ] **CORE-410.4** [light]🔧 | prune-stale-globals — Remove the nine dangling `~/.claude/` links (`ft-audit-{backend,docs,frontend,performance,security}`, `ft-debug`, `ft-quality`, `ft-sidequest`, `ft-quality.md`); normalize every remaining target to one path casing (`~/code/` vs `~/Code/` currently mixed).
+  - [ ] **CORE-410.N** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
 
 ## Medium
 
-(none)
+- [ ] **CORE-411** [light]🔧 | readme-task-counter-currency — `README.md:22-23` claims "**618 tasks** closed ... (as of 2026-07-31)", six days and 20 commits stale, and reconciling with neither the 601 archived tasknotes nor the 490 `- [x]` PLAN lines. Give it a reproducible derivation and an owner in `/ft-release`'s doc-currency step (SKILL.md:159 greps README for version strings only), or drop the precision. Surfaced by audit-repo 2026-08-06 (Theme: Instrumented currency stops at hand-written numbers).
 
 ## Low
+
+- [ ] **CORE-412** [light]🔧 | archive-folder-naming-rule — `.flowtron/tasknote/README.md` §"Archive layout" maps only `CORE-*`→`archive/core/` and `FE-*`→`archive/frontend/`; the mapping is non-derivable and the rule for a new prefix is undefined, so `archive/TEST/` already diverged into raw-uppercase style. State the rule for an arbitrary prefix and reconcile the existing three folders with it. Surfaced by audit-repo 2026-08-06 (Theme: Convention definition outruns convention completeness).
 
 ## Future Opportunities
 
