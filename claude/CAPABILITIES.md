@@ -34,6 +34,7 @@ Claude Code *syntax* that realizes them.
 | **`/model <name>`** | Claude Code UI command, between sessions (e.g. `/model opus`) | Switches the active model so a task runs on its PLAN-line `[model]`. The post-closure candidate list signals the target model via emoji (`[heavy]🧠` / `[medium]🧩` / `[light]🔧`); `/model` is the operator's tool to act on that signal and pre-empt the Step 1.5 mismatch gate on the next hand-off. | On a hand-off whose next task's `[model]` isn't satisfied by the current model — a concrete mismatch, or a `[heavy]` task on a lighter-tier model — paste it before the next `/ft-*` invocation. |
 | **`/clear`** | Claude Code UI command (operator-only; the assistant cannot run it) | Resets the context window so the next task starts cold with a small, task-scoped context — the "one task per context window" principle in practice. The post-closure session-reset cue ("Clear your session, then run:…") is the prose expression of this trigger. | Between tasks, before starting the next `/ft-*` skill, so each tasknote runs in a clean context. |
 | **Structured ask** | Claude Code's multi-option question primitive (`AskUserQuestion`) | Realizes the contract's **structured ask** (vs **prose ask**) — the multi-option operator question used at Phase 1 clarifications and other decision points. The contract names the *operation*; this is Claude Code's delivery of it. | When a genuine decision needs the operator to pick among discrete options (Phase 1 scoping, branch choices) rather than a free-prose reply. |
+| **Sub-agent / isolated exploration** | Claude Code's sub-agent primitive — the Task tool with a `subagent_type` (read-only types such as `Explore` suit probes), agent definitions under `.claude/agents/*.md`, and the `/agents` command to manage them | Realizes the contract's **probe** / **delegate** split ([`../README.md`](../README.md) §"Sessions, loops, and sub-agents"). A **probe** is a read-only sub-agent that owns no tasknote, never runs Phase 1, never trips a gate, and returns a distilled summary into the parent's Discovery Notes — brief + fixed return shape at [`../templates/subagent-probe-template.md`](../templates/subagent-probe-template.md). A **delegate** owns exactly one tasknote and runs the 4-phase workflow to closure. The contract-side trigger is the conditional probe clause on `SPEC.md` §"📝 Phase 1: Discovery"'s "Read relevant source files" bullet. | Phase 1 Discovery when the read set is broad or its shape is unknown — locating five relevant files can cost fifty tool calls in the same window that must hold the task's whole scope through Phase 4. Skip it for a narrow, known read set: reading the files directly is cheaper than briefing a probe and parsing its return. |
 
 ## Agent-neutrality cross-check
 
@@ -41,13 +42,17 @@ Every trigger above is **wiring-layer** content under `claude/` —
 Claude-Code-specific by design per
 [`../docs/AGENT-NEUTRALITY.md`](../docs/AGENT-NEUTRALITY.md). The ledger
 there tracks intentional Claude-specific references that live in the
-**contract layer**; each of these five triggers already carries its
-contract-layer ledger coverage:
+**contract layer**. Contract-layer coverage for the triggers above stands
+as follows — stated per-trigger rather than as a blanket claim, because
+it is not uniform:
 
 - `--fast` / `-f` — ledger row (`SPEC.md` + `SPEC/gates.md`).
+- `--debug` / `-d` — ledger row (`SPEC/procedures/ft-task.md` §"Agent-neutral primitives", which names the flag as the Claude Code spelling of a neutral primitive).
 - `/clear` + `/model <X>` — ledger row (`SPEC.md` §"Post-closure protocol" + `SPEC/model.md`).
 - Structured ask — ledger §"Tool-call-specific terminology" (`structured ask` / `prose ask`).
 - Effort / thinking ↔ `[heavy]` / `[medium]` / `[light]` — ledger rows on `SPEC/model.md` (neutral vocabulary; specific models as examples).
+- Sub-agent / isolated exploration — **no contract-layer primitive to cover.** The probe/delegate contract deliberately names no spawn mechanism (`templates/subagent-probe-template.md`: "Which sub-agent primitive spawns the probe is the operator's and the platform's business"). The `README.md` section hosting that split does carry a ledger row, for its *other* Claude references (`--fast` on `/ft-task`, Claude Code's `/loop`, "Claude Code sessions") — added by [[CORE-408.4]].
+- `--worktree` + `--park` — flag syntax reaches the contract layer only inside skill-invocation examples. `--park`'s site (`SPEC/tasknote-selection.md`) falls under that file's skill-name ledger row; `--worktree`'s (`docs/WORKTREES.md`) is **not** ledgered today. Recorded here rather than silently counted as covered.
 
 This reference introduces **no new contract-layer surface** — it consolidates
 the *wiring-side syntax* in the wiring layer where it belongs — so it takes

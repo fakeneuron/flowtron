@@ -4,7 +4,7 @@
 
 Adopted from the GSD-Pi `CONTEXT.md` glossary pattern (the "mega-doc" slice that survived the one-task-per-window filter during CORE-EPIC-194 Discovery). See [CORE-194.1](../.flowtron/tasknote/archive/core/CORE-194.1.md) for the extraction rationale and term-cohort decisions.
 
-Alphabetized. ~60 entries. Maintained via epic children and audits.
+Alphabetized. ~63 entries. Maintained via epic children and audits.
 
 ---
 
@@ -36,6 +36,8 @@ Alphabetized. ~60 entries. Maintained via epic children and audits.
 
 **deep pre-pass** — Optional three-stage upfront staging (Constitution → specify → clarify) for high-uncertainty epics before normal Phase 1 Discovery; invoked with `/ft-epic-discovery --deep`. See SPEC/epic.md.
 
+**delegate** — A delegated context that owns exactly one `tasknote/<ID>.md`: it inherits that tasknote's full Phase 1 record and runs the 4-phase workflow through to closure like any session. The bounded counterpart to a probe (which owns nothing); anything broader than one tasknote belongs to the operator's own session. See README.md §"Sessions, loops, and sub-agents".
+
 **Discovery (Phase 1)** — The mandatory opening phase of every tasknote: Reviewed PLAN, Relevance Assessment (Proceed/Re-scope/De-scope), read sources, archive skim, drift check, clarifying questions (or logged assumptions), populate subtasks. Exit gate may emit 🛠️. See SPEC §"📝 Phase 1: Discovery".
 
 **Doc-drift sweep** — The mandatory Phase 4 (and epic-audit) step that walks every entry in the AI-referenced docs list and records "no change" or the precise update performed.
@@ -63,6 +65,8 @@ Alphabetized. ~60 entries. Maintained via epic children and audits.
 **goal loop** — The loop-task shape that repeats Phase 2→3 (execute→verify) against a fixed, machine-checkable `## ✅ Acceptance` target until every check passes, `loop-max` is exhausted, or the per-cycle relevance gate says stop. Driven by `/ft-goal-task`; contrast heartbeat. See SPEC/loop.md.
 
 **grammar elements** — The syntactic pieces of the PLAN.md task-line and tasknote body: `[!critical]`, `[model]`, `| shortname`, `[[TASK-ID]]` wikilink, `Blocked by [[ID]]`, `Completed YYYY-MM-DD.` stub form, etc. See SPEC §"Task-line format".
+
+**Handoff (🔄)** — Optional tasknote body section a session ending mid-task may write so the next reader resumes without reconstructing state: Goal + Acceptance status, key decisions, open questions, relevant paths, next step. Sits in the top block after `## 🔗 Related`; ships in no template, so the single-session happy path pays nothing. Distinct from a park (`status: blocked`), a sidequest's resume anchor, and docs/EXTERNAL-AGENTS.md §"The Handoff Contract" (whole-tasknote transfer to another agent). See SPEC §"Tasknote body shape".
 
 **heartbeat** — The recurring-maintenance loop-task shape: each cycle runs a cheap pre-check then does at most one bounded duty, filing findings as PLAN lines rather than converging on a single target. Ships as `templates/loop-heartbeat-template.md` (copied to `.claude/loop.md`); a stale `loop-last-run:` is its death signal. See SPEC/loop.md.
 
@@ -96,6 +100,8 @@ Alphabetized. ~60 entries. Maintained via epic children and audits.
 
 **privileged-ops** — One of the three Conditional skip signals: any changed path under migrations/, auth/, security/secrets/, credentials/, or external integrations/, plus any diff containing uppercase credential keywords (`API_KEY`, `SECRET`, `TOKEN`, `PASSWORD`). See SPEC/gates.md §"Conditional skip rule".
 
+**probe** — A bounded, read-only sub-agent that answers one stated question for the session holding the tasknote. It owns no tasknote, never runs Phase 1, never trips a gate, and never closes or archives anything — it reads, searches, returns a distilled summary, and ends, so the parent's Discovery Notes get the findings instead of fifty tool calls. Judgment prompt, not a gate: skipping is always correct for a narrow read set. Brief + fixed return shape at `templates/subagent-probe-template.md`; contrast delegate. See SPEC §"📝 Phase 1: Discovery" and README.md §"Sessions, loops, and sub-agents".
+
 **ready-to-commit (📦)** — The second (and final) operator-gate cue; bundles closure review, recap, and proposed commit message. Fires when any Conditional skip signal is hit or a bundled prompt is queued. See SPEC §"Operator-gate cues".
 
 **Relevance Assessment** — The non-negotiable first substantive step of Phase 1 Discovery: explicit `Proceed` / `Re-scope` / `De-scope` verdict with one-line rationale. Re-scope or De-scope change the plan before any execution. See SPEC §"📝 Phase 1: Discovery".
@@ -126,6 +132,6 @@ Alphabetized. ~60 entries. Maintained via epic children and audits.
 
 ---
 
-**Maintenance.** This file is the survivor slice of the GSD-Pi `CONTEXT.md` pattern (see CORE-194.1). It is deliberately lazy-loaded and must never be added to the AI-referenced docs list. New terms are introduced only by epic children or audit follow-ups that also update the authoritative SPEC anchors. Last significant update: CORE-301.5 (2026-06-07).
+**Maintenance.** This file is the survivor slice of the GSD-Pi `CONTEXT.md` pattern (see CORE-194.1). It is deliberately lazy-loaded and must never be added to the AI-referenced docs list. New terms are introduced only by epic children or audit follow-ups that also update the authoritative SPEC anchors. Last significant update: CORE-408.4 (2026-08-06) — added `probe`, `delegate`, and `Handoff (🔄)` for the CORE-EPIC-408 vocabulary.
 
 See [SPEC.md](../SPEC.md) for the contract and [.flowtron/PLAN.md](../.flowtron/PLAN.md) for the current epic context.

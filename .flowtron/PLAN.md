@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-408.1** [heavy]🧠 | subagent-isolation discovery — Completed 2026-08-06.
   - [x] **CORE-408.2** [heavy]🧠 | isolation-contract — Completed 2026-08-06.
   - [x] **CORE-408.3** [heavy]🧠 | portable-handoff — Completed 2026-08-06.
-  - [ ] **CORE-408.4** [heavy]🧠 | wiring-and-doc-sync — Sub-agent row added to claude/CAPABILITIES.md's trigger table; Codex/Grok isolation approximations filed under docs/PLATFORMS.md §Non-Claude capability triggers; AGENT-NEUTRALITY ledger, GLOSSARY (probe/delegate/Handoff), and the AI-referenced-docs ledger gap on docs/EXTERNAL-AGENTS.md. No new skill — no symlink fan-out.
+  - [x] **CORE-408.4** [heavy]🧠 | wiring-and-doc-sync — Completed 2026-08-06.
   - [ ] **CORE-408.N** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
 
 ## Medium
