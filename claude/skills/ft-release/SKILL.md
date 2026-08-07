@@ -325,6 +325,34 @@ grep "^ln -s ../../.flowtron/core/codex/skills/" codex/AGENTS-snippet.md | sed -
 
 The `diff` commands must produce no output and exit 0. The forbidden-install `grep` commands must produce no output and exit 1. Any missing adopter-subset skill or any installed forbidden slug means the snippets contradict the installed-surface policy — fix inline as Critical/High before cutting the release.
 
+**Standing self-wiring parity check.** The three checks above all compare one *declaration* to another — `claude/AGENTS-snippet.md`, `docs/MIGRATION.md`, `ft-new-project/SKILL.md`, `codex/AGENTS-snippet.md`. None resolves a symlink, so a slug correctly declared everywhere can still be unwired and unrunnable in flowtron's own checkout: `/ft-spec` shipped at CORE-352.2, passed all three, and sat missing from `.claude/` for a month. This check reads the filesystem instead.
+
+**Local repo-scoped wiring — blocking.** Flowtron is not an adopter; its `.claude/` mirrors the full shipped inventory (`docs/PLATFORMS.md` §"Installed-surface policy" → "Flowtron's own checkout is not an adopter"). Diff both directions:
+
+```sh
+diff -u <(ls claude/skills   | grep '^ft-' | sort) <(ls .claude/skills   | grep '^ft-' | sort)
+diff -u <(ls claude/commands | grep '^ft-' | sort) <(ls .claude/commands | grep '^ft-' | sort)
+find .claude/skills .claude/commands -maxdepth 1 -name 'ft-*' -type l ! -exec test -e {} \; \
+     -exec sh -c 'echo "DANGLING  $1 -> $(readlink "$1")"' _ {} \; | sort
+```
+
+All three must produce no output. A `-` line is a shipped skill with no local symlink; a `+` line or a `DANGLING` line is wiring pointing at a slug that no longer ships. `.claude/` is committed repo state, so the fix lands in this cut — treat any finding as Critical/High and fix inline before cutting the release.
+
+**Machine-global wiring — advisory.** Global installs are discretionary (`docs/MIGRATION.md` §1.0 — "install each you want"), so **missing is deliberately not checked**: an uninstalled global utility is an operator choice, not drift. Only broken links and path-casing drift are reported:
+
+```sh
+find ~/.claude/skills ~/.claude/commands -maxdepth 1 -name 'ft-*' -type l ! -exec test -e {} \; \
+     -exec sh -c 'echo "DANGLING  $1 -> $(readlink "$1")"' _ {} \; 2>/dev/null | sort
+find ~/.claude/skills ~/.claude/commands -maxdepth 1 -name 'ft-*' -type l \
+     -exec readlink {} \; 2>/dev/null | sed -E 's#(.*[Ff]lowtron)/.*#\1#' | sort | uniq -c
+```
+
+The first command should print nothing — each hit is a link left behind by a retired skill (the `/ft-audit <domain>`, `/ft-task --debug`, and `/ft-file-followup --park` folds each stranded one). The second should print exactly **one** line; two or more means the global links point at the same checkout through different path casings, which resolves on a case-insensitive volume and silently stops resolving on a case-sensitive one.
+
+`~/.claude/` is machine state — no commit in this cut can carry the fix — so this half **never blocks commit-go**. Fix it out of band (`rm` the dangling links, re-`ln -s` the mis-cased ones) and carry the verdict into the §7.4 closure review as one line, the same flag-don't-block posture as the SOP-currency check above.
+
+**Glob-free by design.** The scans use `find … -name 'ft-*'` rather than a `for l in ~/.claude/skills/ft-*` loop because zsh — the common interactive shell — *errors* on an unmatched glob (`no matches found`) and aborts the loop before its body runs. A machine with no global installs would abort the check rather than report clean. Do not "simplify" these to globs; the same silent-false-negative class is why the SOP-currency block above keeps its `$(echo …)` wrappers.
+
 ### 7.2 — Auto-draft annotated tag message
 
 Use CORE-048's structure as the template:
@@ -391,6 +419,8 @@ Surface the bundled 📦 ready-to-commit gate per SPEC/gates.md §"Operator-gate
   This is a hard gate: **do not surface commit-go while any dogfooded row is unresolved** (stale prefix carrying no `; skipped @ vA.B.C` suffix for this release). An unresolved row sends you back to §5 to refresh-or-skip it before the cut continues — the gate blocks tagging until the summary shows every dogfooded row resolved.
 
 - **SOP-currency verdict (advisory)** — carry the §5 flag-don't-bump result into the closure review as one line, e.g. `SOP currency: clean` or `SOP currency: ft-task behind source (2 candidates) → filed CORE-NNN`. Unlike the dogfood gate this **does not block commit-go**, and the `last-verified:` stamps are not among the files this cut edits.
+
+- **Global self-wiring verdict (advisory)** — carry the §7.1 machine-global half into the closure review as one line, e.g. `Global wiring: clean` or `Global wiring: 9 dangling links, 2 path casings — fix out of band`. Like the SOP-currency verdict this **does not block commit-go**: `~/.claude/` is machine state and no file in this cut can carry the fix. The §7.1 *local* half is not reported here — it blocks upstream and is already resolved by the time this gate is reached.
 
 - **Push-go prompt** — AskUserQuestion with default Yes, a bundled in-📦 prompt parallel to /ft-close-epic's parent-flip (per SPEC/gates.md §"Conditional skip rule" bundled-prompt override):
 

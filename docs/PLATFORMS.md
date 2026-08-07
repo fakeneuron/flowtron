@@ -75,6 +75,17 @@ per-platform `AGENTS-snippet.md` files are the executable install source and
 must be kept aligned to this policy. Release guardrails that verify these
 surfaces stay aligned are tracked by [[CORE-349.5]].
 
+**Flowtron's own checkout is not an adopter.** The adopter-installed subset
+above governs projects that consume flowtron through `.flowtron/core/`. Flowtron
+itself dogfoods everything it ships, so its repo-scoped `.claude/skills/` and
+`.claude/commands/` mirror the **full** shipped inventory one-for-one —
+including the global-only utilities and `ft-release`. A shipped `ft-*` slug with
+no `.claude/` symlink is a wiring miss, not a policy choice; that is the exact
+gap that left `/ft-spec` unrunnable in flowtron's own checkout for a month after
+it shipped. Machine-global `~/.claude/` installs stay discretionary per
+[`MIGRATION.md`](MIGRATION.md) §1.0 — only *broken* links there are drift.
+`/ft-release` §7.1 verifies both surfaces.
+
 ## The symmetric plug-in pattern
 
 When a contributor ships wiring for a new platform (`codex`, `grok`,
