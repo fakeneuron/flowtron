@@ -17,7 +17,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-415.1** [heavy]🧠 | cue-emoji-legibility discovery — Completed 2026-08-08.
   - [x] **CORE-415.2** [heavy]🧠 | emoji-surface-contract — Completed 2026-08-08.
   - [x] **CORE-415.3** [medium]🧩 | emitter-propagation — Completed 2026-08-08.
-  - [ ] **CORE-415.4** [light]🔧 | viz-glyph-tolerance — Conditional: parser/render tolerance for any glyph or shape change .2 lands (archives keep old forms, per CORE-353.6); closes as a verification pass if nothing viz-parsed changed.
+  - [x] **CORE-415.4** [light]🔧 | viz-glyph-tolerance — Completed 2026-08-08.
   - [ ] **CORE-415.N** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line).
 
 ## Low
