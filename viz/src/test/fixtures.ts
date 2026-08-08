@@ -45,6 +45,7 @@ export function makeTasknote(partial: Partial<Tasknote> & Pick<Tasknote, 'id'>):
       { total: 0, done: 0 },
       { total: 0, done: 0 },
     ],
+    closureDrift: partial.closureDrift ?? null,
   };
 }
 

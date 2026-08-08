@@ -1,6 +1,8 @@
 import matter from 'gray-matter';
 import {
+  closureDrift,
   countChecklist,
+  extractArchivedDate,
   extractSection,
   extractStarterSubsections,
   parseFrontmatter,
@@ -18,6 +20,7 @@ export function parseTasknote(id: string, path: string, text: string): Tasknote 
   const parsed = matter(text, { engines: { javascript: DISABLED_JS_ENGINE } });
   const body = parsed.content.trimStart();
   const subtasks = extractSection(body, 'Subtasks');
+  const acceptance = extractSection(body, 'Acceptance');
   const phases = [1, 2, 3, 4].map((n) => countChecklist(extractSection(body, `Phase ${n}`)));
   const starterContext = extractSection(body, 'Starter context');
   return {
@@ -26,11 +29,12 @@ export function parseTasknote(id: string, path: string, text: string): Tasknote 
     frontmatter: parseFrontmatter(parsed.data),
     body,
     goal: extractSection(body, 'Goal'),
-    acceptance: extractSection(body, 'Acceptance'),
+    acceptance,
     subtasks,
     starterContext,
     starterSubsections: extractStarterSubsections(starterContext),
     subtasksProgress: countChecklist(subtasks),
     phases,
+    closureDrift: closureDrift(acceptance, extractArchivedDate(body)),
   };
 }

@@ -1,7 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import {
   activePhaseIndex,
+  closureDrift,
   countChecklist,
+  extractArchivedDate,
   extractSection,
   extractStarterSubsections,
   parseFrontmatter,
@@ -274,6 +276,67 @@ plain prose line`;
   });
 });
 
+describe('extractArchivedDate', () => {
+  it('reads the Archived stamp', () => {
+    expect(extractArchivedDate('**Final Summary:**\n\nDone.\n\n**Archived:** 2026-08-03\n')).toBe(
+      '2026-08-03',
+    );
+  });
+
+  it('returns undefined for an unfilled placeholder stamp', () => {
+    expect(extractArchivedDate('**Archived:** YYYY-MM-DD\n')).toBeUndefined();
+  });
+
+  it('returns undefined when there is no stamp at all', () => {
+    expect(extractArchivedDate('# ACTIVE-1 | still in flight\n')).toBeUndefined();
+  });
+});
+
+describe('closureDrift', () => {
+  const DIRTY = `- [x] one
+- [ ] two
+- [ ] three`;
+
+  it('counts unticked criteria on a note archived under the rule', () => {
+    expect(closureDrift(DIRTY, '2026-08-03')).toEqual({ unticked: 2, total: 3 });
+  });
+
+  it('excludes the rule landing day itself (date-only stamps cannot resolve 23:32)', () => {
+    expect(closureDrift(DIRTY, '2026-08-01')).toBeNull();
+  });
+
+  it('returns null for a note archived before the rule existed', () => {
+    expect(closureDrift(DIRTY, '2026-07-31')).toBeNull();
+  });
+
+  it('returns null when there is no archive date (active note or unfilled stamp)', () => {
+    expect(closureDrift(DIRTY, undefined)).toBeNull();
+  });
+
+  it('returns null for a fully ticked Acceptance block', () => {
+    expect(closureDrift('- [x] one\n- [X] two', '2026-08-03')).toBeNull();
+  });
+
+  it('treats an annotated unticked box as compliant', () => {
+    const md = `- [x] one
+- [ ] N/A — no frontend surface touched
+- [ ] not met — deferred to CORE-420
+- [ ] not-met — superseded`;
+    expect(closureDrift(md, '2026-08-03')).toBeNull();
+  });
+
+  it('counts only the unannotated boxes when a block mixes both', () => {
+    const md = `- [x] one
+- [ ] N/A — nothing to do here
+- [ ] Tag pushed to origin`;
+    expect(closureDrift(md, '2026-08-03')).toEqual({ unticked: 1, total: 3 });
+  });
+
+  it('returns null for an empty Acceptance block', () => {
+    expect(closureDrift('', '2026-08-03')).toBeNull();
+  });
+});
+
 describe('activePhaseIndex', () => {
   it('returns 0 when no phases have been started', () => {
     expect(
@@ -475,6 +538,55 @@ Rich context that would otherwise bloat PLAN.md.
     expect(tn.starterSubsections.filesToTouch).toBe('- `viz/src/tasknote.ts` — add starter status');
     expect(tn.starterSubsections.solutionShape).toBe('');
     expect(tn.starterSubsections.outOfScope).toBe('');
+  });
+
+  it('computes closureDrift from the Acceptance block and the Archived stamp', () => {
+    const text = `---
+title: Demo
+status: completed
+tags: []
+created: 2026-08-02
+due:
+related-tasks: []
+---
+
+# DEMO-3 | Demo
+
+## ✅ Acceptance
+
+- [x] Shipped
+- [ ] N/A — no frontend surface
+- [ ] Tag pushed to origin
+
+---
+
+## 🚀 Phase 4: Closure
+
+**Archived:** 2026-08-03
+`;
+    expect(parseTasknote('DEMO-3', '/abs/DEMO-3.md', text).closureDrift).toEqual({
+      unticked: 1,
+      total: 3,
+    });
+  });
+
+  it('leaves closureDrift null on an active tasknote with unticked Acceptance', () => {
+    const text = `---
+title: Demo
+status: in-progress
+tags: []
+created: 2026-08-02
+due:
+related-tasks: []
+---
+
+# DEMO-4 | Demo
+
+## ✅ Acceptance
+
+- [ ] Not done yet
+`;
+    expect(parseTasknote('DEMO-4', '/abs/DEMO-4.md', text).closureDrift).toBeNull();
   });
 
   it('never executes a --- js frontmatter block (gray-matter javascript engine disabled)', () => {

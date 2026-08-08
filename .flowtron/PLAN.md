@@ -16,7 +16,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-EPIC-416** [heavy]🧠 | closure-artifact-fidelity — Do archived tasknotes disagree with their own closure narratives? Re-measured in CORE-416.2 against the rule's effective date (CORE-393, 2026-08-01): 43 of 45 post-rule notes comply; the headline 322 predate the obligation. Remaining scope is contract clarity plus a narrow detection surface.
   - [x] **CORE-416.1** [heavy]🧠 | closure-artifact-fidelity discovery — Completed 2026-08-08.
   - [x] **CORE-416.2** [heavy]🧠 | tick-through-contract — Completed 2026-08-08.
-  - [ ] **CORE-416.3** [medium]🧩 | viz-closure-drift-surface — Add a viz indicator flagging archived tasknotes whose `## ✅ Acceptance` carries unticked criteria, scoped to notes archived on/after 2026-08-01 (when CORE-393 created the obligation) so pre-rule notes aren't false-flagged. Lives in the tasknote-render path, not the PLAN parser.
+  - [x] **CORE-416.3** [medium]🧩 | viz-closure-drift-surface — Completed 2026-08-08.
   - [ ] **CORE-416.N** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line).
 
 ## Low

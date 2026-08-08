@@ -14,6 +14,11 @@ export interface ChecklistCounts {
   done: number;
 }
 
+export interface ClosureDrift {
+  unticked: number;
+  total: number;
+}
+
 export type StarterSubsectionKey = 'whyExists' | 'solutionShape' | 'filesToTouch' | 'outOfScope';
 
 type StarterSubsections = Record<StarterSubsectionKey, string>;
@@ -30,6 +35,7 @@ export interface Tasknote {
   starterSubsections: StarterSubsections;
   subtasksProgress: ChecklistCounts;
   phases: ChecklistCounts[];
+  closureDrift: ClosureDrift | null;
 }
 
 export const STARTER_SUBSECTION_KEYS: StarterSubsectionKey[] = [
@@ -169,6 +175,47 @@ export function activePhaseIndex(phases: ChecklistCounts[]): number {
     if (p.done < p.total) return i;
   }
   return Math.max(0, phases.length - 1);
+}
+
+// The Phase 4 Acceptance tick-through obligation (SPEC.md §"🚀 Phase 4: Closure")
+// did not exist before CORE-393 landed on this date. Notes archived earlier were
+// never governed by it, so flagging them would be false drift, not detection.
+// The comparison below is strict: CORE-393 landed at 23:32, and the `**Archived:**
+// stamp is date-only, so a note stamped 2026-08-01 most likely closed before the
+// rule existed (CORE-389.3 did, at 21:24). Excluding the landing day trades a
+// few unflagged hours for no false flags — the same "unknown is not drift" stance
+// the missing-stamp case takes.
+export const TICK_THROUGH_EFFECTIVE = '2026-08-01';
+
+const ARCHIVED_STAMP = /^\*\*Archived:\*\*\s+(\d{4}-\d{2}-\d{2})\s*$/m;
+
+// Closure may annotate a criterion in place instead of ticking it
+// (`N/A — reason` / `not met — reason`, SPEC.md §"Acceptance tick-through").
+// An annotated box is a satisfied obligation, so it is not drift.
+const ANNOTATED = /\b(?:N\/A|not[ -]met)\b/i;
+
+export function extractArchivedDate(body: string): string | undefined {
+  return ARCHIVED_STAMP.exec(body)?.[1];
+}
+
+// Unticked, unannotated `## ✅ Acceptance` criteria on a note archived under the
+// tick-through rule. Returns null when there is nothing to report — no archive
+// stamp (an active note, or an unfilled `YYYY-MM-DD` placeholder), a note closed
+// before the rule existed, or a clean Acceptance block. Unknown is not drift.
+export function closureDrift(
+  acceptance: string,
+  archivedDate: string | undefined,
+): ClosureDrift | null {
+  if (!archivedDate || archivedDate <= TICK_THROUGH_EFFECTIVE) return null;
+  let total = 0;
+  let unticked = 0;
+  for (const line of acceptance.split(/\r?\n/)) {
+    const m = CHECKLIST_LINE.exec(line);
+    if (!m) continue;
+    total += 1;
+    if (m[1] === ' ' && !ANNOTATED.test(line)) unticked += 1;
+  }
+  return unticked > 0 ? { unticked, total } : null;
 }
 
 export function countChecklist(markdown: string): ChecklistCounts {

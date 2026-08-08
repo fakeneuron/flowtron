@@ -9,6 +9,7 @@ import { SubtaskProgress } from './SubtaskProgress';
 import { StatusChip } from './StatusChip';
 import { ModelChip } from './ModelChip';
 import { CriticalChip } from './CriticalChip';
+import { ClosureDriftChip } from './ClosureDriftChip';
 import { RelatedChip } from './RelatedChip';
 import { Chevron } from './Chevron';
 import { highlightMatch } from './highlight';
@@ -90,6 +91,7 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
         <div className="flex items-center justify-end gap-1.5 text-xs">
           {task.critical && <CriticalChip density={density} />}
           {status && <StatusChip status={status} density={density} />}
+          {tn?.closureDrift && <ClosureDriftChip drift={tn.closureDrift} />}
           {showModel && task.model && <ModelChip model={task.model} />}
           {extraRightSlot}
         </div>

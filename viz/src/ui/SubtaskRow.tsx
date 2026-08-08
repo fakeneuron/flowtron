@@ -6,6 +6,7 @@ import { useRowInteraction } from './RowInteractionContext';
 import { highlightMatch } from './highlight';
 import { useSearchQuery } from './SearchContext';
 import { ErrorBoundary } from './ErrorBoundary';
+import { ClosureDriftChip } from './ClosureDriftChip';
 
 const TaskDetail = lazy(() => import('./TaskDetail'));
 
@@ -22,6 +23,7 @@ export const SubtaskRow: React.FC<SubtaskRowProps> = ({ task }) => {
   const density = visibility.density;
   const palette = usePalette();
   const isExpandedDetail = expandedId === task.id;
+  const tn = tasknotesById.get(task.id);
   return (
     <div>
       <div
@@ -58,6 +60,7 @@ export const SubtaskRow: React.FC<SubtaskRowProps> = ({ task }) => {
             {highlightMatch(task.description, query)}
           </span>
         </button>
+        {tn?.closureDrift && <ClosureDriftChip drift={tn.closureDrift} />}
         {task.completed && task.completedDate && (
           <span className="text-xs text-slate-500 dark:text-slate-400">{task.completedDate}</span>
         )}
@@ -67,7 +70,7 @@ export const SubtaskRow: React.FC<SubtaskRowProps> = ({ task }) => {
           <Suspense fallback={null}>
             <TaskDetail
               task={task}
-              tasknote={tasknotesById.get(task.id)}
+              tasknote={tn}
               detailSections={visibility.detailSections}
               starterSections={visibility.starterSections}
               navigateToTask={navigateToTask}
