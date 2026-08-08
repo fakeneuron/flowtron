@@ -334,9 +334,10 @@ diff -u <(ls claude/skills   | grep '^ft-' | sort) <(ls .claude/skills   | grep 
 diff -u <(ls claude/commands | grep '^ft-' | sort) <(ls .claude/commands | grep '^ft-' | sort)
 find .claude/skills .claude/commands -maxdepth 1 -name 'ft-*' -type l ! -exec test -e {} \; \
      -exec sh -c 'echo "DANGLING  $1 -> $(readlink "$1")"' _ {} \; | sort
+find .claude/skills .claude/commands -maxdepth 1 -name 'ft-*' ! -type l -print | sort
 ```
 
-All three must produce no output. A `-` line is a shipped skill with no local symlink; a `+` line or a `DANGLING` line is wiring pointing at a slug that no longer ships. `.claude/` is committed repo state, so the fix lands in this cut — treat any finding as Critical/High and fix inline before cutting the release.
+All four must produce no output. A `-` line is a shipped skill with no local symlink; a `+` line or a `DANGLING` line is wiring pointing at a slug that no longer ships. The fourth command catches what the `diff` compares miss: they match on name only, so a skill directory *copied* into `.claude/` instead of symlinked passes both `diff`s and the `-type l`-filtered dangling scan, then silently diverges from source — any output here is a non-symlink entry, the same failure mode one layer in. `.claude/` is committed repo state, so the fix lands in this cut — treat any finding as Critical/High and fix inline before cutting the release.
 
 **Machine-global wiring — advisory.** Global installs are discretionary (`docs/MIGRATION.md` §1.0 — "install each you want"), so **missing is deliberately not checked**: an uninstalled global utility is an operator choice, not drift. Only broken links and path-casing drift are reported:
 
