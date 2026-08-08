@@ -19,6 +19,10 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **CORE-412** [light]🔧 | archive-folder-naming-rule — `.flowtron/tasknote/README.md` §"Archive layout" maps only `CORE-*`→`archive/core/` and `FE-*`→`archive/frontend/`; the mapping is non-derivable and the rule for a new prefix is undefined, so `archive/TEST/` already diverged into raw-uppercase style. State the rule for an arbitrary prefix and reconcile the existing three folders with it. Surfaced by audit-repo 2026-08-06 (Theme: Convention definition outruns convention completeness).
 
+- [ ] **CORE-413** [light]🔧 | copied-dir-wiring-gap — `/ft-release` §7.1's local half diffs `ls` names and its dangling scan filters `-type l`, so a skill directory copied into `.claude/` instead of symlinked passes all three commands and silently diverges from source. Add a `! -type l` assertion. Latent today — all 36 entries verified as symlinks (CORE-410.N audit).
+
+- [ ] **CORE-414** [light]🔧 | lowercase-path-rationale — CORE-410.4 deliberately left `~/code/flowtron` lowercase in `README.md:32-33`, `docs/MIGRATION.md:202-203`, and `codex/AGENTS-snippet.md:57` — generic clone destinations, not this machine's path — but the rationale lives only in its archived tasknote. Add a sentence to `/ft-release` §7.1's casing paragraph so the next operator doesn't "fix" them.
+
 ## Future Opportunities
 
 
