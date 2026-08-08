@@ -40,17 +40,20 @@ Project-specific prefixes (declare yours here, or delete this section if none):
 
 ## Archive layout
 
+**Rule:** the archive folder for a prefix is the prefix lowercased, with the
+trailing `-` dropped — e.g. `<AREA>-*` → `archive/<area>/`. Applies uniformly
+to the canonical prefixes and any project-specific prefix declared above.
+
 | Prefix | Folder |
 |--------|--------|
 | `CORE-*` | `archive/core/` |
-| `BE-*` | `archive/backend/` |
-| `FE-*` | `archive/frontend/` |
-| `DB-*` | `archive/database/` |
-| `DEPLOY-*` | `archive/deployment/` |
-| `TEST-*` | `archive/testing/` |
+| `BE-*` | `archive/be/` |
+| `FE-*` | `archive/fe/` |
+| `DB-*` | `archive/db/` |
+| `DEPLOY-*` | `archive/deploy/` |
+| `TEST-*` | `archive/test/` |
 
-Project-specific prefixes archive under their own subfolder named for the area
-(e.g., `OCR-*` → `archive/ocr/`).
+Project-specific prefixes archive the same way (e.g., `OCR-*` → `archive/ocr/`).
 
 ## AI-referenced docs
 

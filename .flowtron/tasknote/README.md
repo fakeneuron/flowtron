@@ -16,10 +16,18 @@ Flowtron uses only the canonical prefixes defined in [`SPEC.md` §"Task ID conve
 
 ## Archive layout
 
+**Rule:** the archive folder for a prefix is the prefix lowercased, with the
+trailing `-` dropped — e.g. `<AREA>-*` → `archive/<area>/`. Applies uniformly
+to the canonical prefixes and any adopter-declared domain prefix.
+
 | Prefix | Folder |
 |--------|--------|
 | `CORE-*` | `archive/core/` |
-| `FE-*` | `archive/frontend/` |
+| `BE-*` | `archive/be/` |
+| `FE-*` | `archive/fe/` |
+| `DB-*` | `archive/db/` |
+| `DEPLOY-*` | `archive/deploy/` |
+| `TEST-*` | `archive/test/` |
 
 Other area folders are created when the first tasknote in that area lands.
 

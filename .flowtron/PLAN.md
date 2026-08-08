@@ -15,14 +15,14 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-412** [light]🔧 | archive-folder-naming-rule — `.flowtron/tasknote/README.md` §"Archive layout" maps only `CORE-*`→`archive/core/` and `FE-*`→`archive/frontend/`; the mapping is non-derivable and the rule for a new prefix is undefined, so `archive/TEST/` already diverged into raw-uppercase style. State the rule for an arbitrary prefix and reconcile the existing three folders with it. Surfaced by audit-repo 2026-08-06 (Theme: Convention definition outruns convention completeness).
-
 - [ ] **CORE-414** [light]🔧 | lowercase-path-rationale — CORE-410.4 deliberately left `~/code/flowtron` lowercase in `README.md:32-33`, `docs/MIGRATION.md:202-203`, and `codex/AGENTS-snippet.md:57` — generic clone destinations, not this machine's path — but the rationale lives only in its archived tasknote. Add a sentence to `/ft-release` §7.1's casing paragraph so the next operator doesn't "fix" them.
 
 ## Future Opportunities
 
 
 ## Completed
+
+- [x] **CORE-412** [light]🔧 | archive-folder-naming-rule — Completed 2026-08-08.
 
 - [x] **CORE-411** [light]🔧 | readme-task-counter-currency — Completed 2026-08-08.
 
