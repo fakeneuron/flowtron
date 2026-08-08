@@ -13,11 +13,10 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-416** [heavy]🧠 | closure-artifact-fidelity — Archived tasknotes disagree with their own closure narratives: 57 of 154 notes archived since 2026-07-01 carry unticked boxes, and CORE-412 missed its status flip. Establish the true violation count vs. legitimate N/A, decide a detection mechanism within flowtron's no-validators stance, and scope the backfill.
+- [ ] **CORE-EPIC-416** [heavy]🧠 | closure-artifact-fidelity — Do archived tasknotes disagree with their own closure narratives? Re-measured in CORE-416.2 against the rule's effective date (CORE-393, 2026-08-01): 43 of 45 post-rule notes comply; the headline 322 predate the obligation. Remaining scope is contract clarity plus a narrow detection surface.
   - [x] **CORE-416.1** [heavy]🧠 | closure-artifact-fidelity discovery — Completed 2026-08-08.
-  - [ ] **CORE-416.2** [heavy]🧠 | tick-through-contract — Declare `## 🧩 Subtasks` explicitly exempt from tick-through in SPEC.md:610 (a contract silence today), close the propagation gap at SPEC/procedures/ft-task.md so contract-only agents see the obligation, and confirm whether /ft-micro-task's omission is legitimate.
-  - [ ] **CORE-416.3** [medium]🧩 | viz-closure-drift-surface — Add a viz indicator flagging archived tasknotes whose `## ✅ Acceptance` carries unticked criteria. Lives in the tasknote-render path, not the PLAN parser — reading tasknote-body checkbox state is a separate responsibility.
-  - [ ] **CORE-416.4** [light]🔧 | acceptance-backfill — Backfill the 322 archived tasknotes with unticked Acceptance criteria, ticking each the note's own narrative shows was met and annotating the rest. Sequenced last so it applies the contract .2 settles; CORE-381 is the 359-file precedent.
+  - [x] **CORE-416.2** [heavy]🧠 | tick-through-contract — Completed 2026-08-08.
+  - [ ] **CORE-416.3** [medium]🧩 | viz-closure-drift-surface — Add a viz indicator flagging archived tasknotes whose `## ✅ Acceptance` carries unticked criteria, scoped to notes archived on/after 2026-08-01 (when CORE-393 created the obligation) so pre-rule notes aren't false-flagged. Lives in the tasknote-render path, not the PLAN parser.
   - [ ] **CORE-416.N** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line).
 
 ## Low

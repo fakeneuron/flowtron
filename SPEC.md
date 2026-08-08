@@ -360,7 +360,8 @@ section until promotion.
   Populated during Phase 1 Discovery.
 - **🧩 Subtasks** — checklist of the ordered, concrete steps to complete the
   task. Populated during Phase 1 Discovery (replaces the legacy Phase-1-internal
-  "Execution Steps" block).
+  "Execution Steps" block). A working plan, not a contract — **exempt from the
+  Phase 4 Acceptance tick-through** (see §"🚀 Phase 4: Closure").
 - **🔗 Related** — bullet list of related tasks with one-line context per ID,
   mirroring `related-tasks:` from the YAML in human-readable form.
 
@@ -643,6 +644,16 @@ is indistinguishable from an unnoticed one — which is what the checklist exist
 to prevent. The annotation escape hatch is deliberate: criteria written in
 Discovery sometimes stop applying by Phase 4, and forcing a tick would make the
 box a rubber stamp.
+
+**`## 🧩 Subtasks` is exempt.** Tick-through governs `## ✅ Acceptance` and
+nothing else. Subtasks are a working plan, not a contract: the ordered steps
+drafted in Discovery legitimately churn as execution finds a better route, and
+a step abandoned for a reason recorded in Implementation Notes is a normal
+outcome rather than an unnoticed miss. Unticked Subtasks boxes at archive time
+are therefore **correct, not drift** — an archived tasknote is judged on its
+Acceptance block alone. This is stated here so the silence cannot be re-read as
+an implied obligation; it is a scope clarification, not a new rule, and the
+surfaces that restate tick-through already name `## ✅ Acceptance` explicitly.
 
 > **No nav-header chip flip here.** Phase 4 does **not** flip the markdown nav
 > chip to `✅ Completed`. CORE-042.4 retired that write deliberately (three
