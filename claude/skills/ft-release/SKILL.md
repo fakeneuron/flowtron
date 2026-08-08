@@ -354,6 +354,15 @@ The first command should print nothing — each hit is a link left behind by a r
 
 **Glob-free by design.** The scans use `find … -name 'ft-*'` rather than a `for l in ~/.claude/skills/ft-*` loop because zsh — the common interactive shell — *errors* on an unmatched glob (`no matches found`) and aborts the loop before its body runs. A machine with no global installs would abort the check rather than report clean. Do not "simplify" these to globs; the same silent-false-negative class is why the SOP-currency block above keeps its `$(echo …)` wrappers.
 
+**Standing README task-counter check.** `README.md:22-23` cites a closed-task count and date range that §5's version-string grep (line 159) never covers — it greps for `vX\.Y\.Z`, not a task count, so this line drifts silently between cuts (CORE-411). Recompute both from the same archive the sentence already points readers to:
+
+```sh
+find .flowtron/tasknote/archive -name "*.md" | wc -l
+grep -rhoE '\*\*Archived:\*\* [0-9]{4}-[0-9]{2}-[0-9]{2}' .flowtron/tasknote/archive/*/*.md | awk '{print $2}' | sort | sed -n '1p;$p'
+```
+
+The first command is the closed-task count — one archived tasknote per closed task, standalone or epic child. The second prints the earliest and latest `**Archived:**` date; the earliest is stable (2026-04-28) and only the latest moves. Update `README.md:22-23`'s count and "as of" date to match. A handful of archived tasknotes carry an unfilled `**Archived:** YYYY-MM-DD` placeholder or omit the field (archive-hygiene misses, e.g. CORE-255), so the second command undercounts by that many; if the gap looks material, file a follow-up via `/ft-file-followup` rather than fixing archive hygiene mid-cut. This is a mechanical text substitution, same footing as the 5 version edits in Step 5 — fix inline as Critical/High before cutting the release.
+
 ### 7.2 — Auto-draft annotated tag message
 
 Use CORE-048's structure as the template:
