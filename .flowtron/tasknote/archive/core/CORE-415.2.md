@@ -17,26 +17,26 @@ Audit flowtron's three emoji layers (operator cues, tasknote section headings, m
 
 ## ✅ Acceptance
 
-- [ ] All three emoji layers audited with an explicit per-layer verdict recorded in Discovery Notes — layer 1 (operator cues) changes; layers 2 (tasknote headings/chips) and 3 (model-tier glyphs) carry an explicit **no-change** verdict with rationale, so `CORE-415.3` has nothing to churn
-- [ ] 👁️ CONFIRM emission shape upgraded to the **emphasized inline ask** (own line, blank-line isolated, bold `**CONFIRM**` label) — glyph unchanged, no banner promotion, standing two-banner cap unaffected — canonical in `SPEC/gates.md` §"Inline asks"
-- [ ] Cross-layer glyph-reuse rule generalized in `SPEC/gates.md`, replacing the one-off "🧩 dual role" note and covering 🛠️ / ✅ / 🟢 / 🌱 / 🔧🧩🧠 under one clause
-- [ ] Non-cue glyph residual (⚡ ⚠️ 🔬 🧭 🌳 🔁 🔄 📌 📋) named in `SPEC/gates.md` as a legitimate bounded class outside the cue contract
-- [ ] `SPEC.md` mirrors updated — §"Operator-cue glossary" 👁️ row + §"🧪 Phase 3" shape paragraph — so the SPEC.md/gates.md pair carries no internal drift
-- [ ] **Zero glyph changes** — no glyph added, removed, or reassigned across all 31 active semantic glyphs (verified by re-running the inventory)
-- [ ] Scope boundary held: only `SPEC/gates.md` + `SPEC.md` edited; every other emission site (skills, procedures, templates, docs mirrors) left to `CORE-415.3`
-- [ ] `CORE-415.4` premise recorded from evidence — `viz/src/parser.ts` `STATUS_GLYPH`/`SUGGESTION_GLYPH` untouched → `.4` closes as a verification pass
-- [ ] Phase 4 doc-drift sweep across all 13 `.flowtron/tasknote/README.md` §"AI-referenced docs" entries
+- [x] All three emoji layers audited with an explicit per-layer verdict recorded in Discovery Notes — layer 1 (operator cues) changes; layers 2 (tasknote headings/chips) and 3 (model-tier glyphs) carry an explicit **no-change** verdict with rationale, so `CORE-415.3` has nothing to churn
+- [x] 👁️ CONFIRM emission shape upgraded to the **emphasized inline ask** (own line, blank-line isolated, bold `**CONFIRM**` label) — glyph unchanged, no banner promotion, standing two-banner cap unaffected — canonical in `SPEC/gates.md` §"Inline asks"
+- [x] Cross-layer glyph-reuse rule generalized in `SPEC/gates.md`, replacing the one-off "🧩 dual role" note and covering 🛠️ / ✅ / 🟢 / 🌱 / 🔧🧩🧠 under one clause
+- [x] Non-cue glyph residual (⚡ ⚠️ 🔬 🧭 🌳 🔁 🔄 📌 📋) named in `SPEC/gates.md` as a legitimate bounded class outside the cue contract
+- [x] `SPEC.md` mirrors updated — §"Operator-cue glossary" 👁️ row + §"🧪 Phase 3" shape paragraph — so the SPEC.md/gates.md pair carries no internal drift
+- [x] **Zero glyph changes** — no glyph added, removed, or reassigned across all 31 active semantic glyphs (verified by re-running the inventory)
+- [x] Scope boundary held: only `SPEC/gates.md` + `SPEC.md` edited; every other emission site (skills, procedures, templates, docs mirrors) left to `CORE-415.3`
+- [x] `CORE-415.4` premise recorded from evidence — `viz/src/parser.ts` `STATUS_GLYPH`/`SUGGESTION_GLYPH` untouched → `.4` closes as a verification pass
+- [x] Phase 4 doc-drift sweep across all 13 `.flowtron/tasknote/README.md` §"AI-referenced docs" entries
 
 ## 🧩 Subtasks
 
-- [ ] Edit `SPEC/gates.md` §"Inline asks" — retype the 👁️ row's Shape cell to `emphasized inline ask`, update its inline example to the new shape
-- [ ] Add the **Emphasized inline ask shape** contract block under that table (what it is, why 👁️ gets it, explicit not-a-banner bound, 🟢 inheritance when emitted standalone)
-- [ ] Add a `### Glyph layers and reuse` subsection after the Casing rule — the cross-layer reuse rule + the non-cue residual class
-- [ ] Replace the standalone "🧩 dual role (not a table collision)" block in §"Next-task cues" with a one-line pointer to the new subsection
-- [ ] Update `SPEC.md` §"Operator-cue glossary" 👁️ row to reflect the emphasized shape
-- [ ] Update `SPEC.md` §"🧪 Phase 3: Testing & Linting" shape paragraph (lines ~589-592) to the new shape, keeping the no-banner/no-gate assertion
-- [ ] Re-run the emoji inventory and diff against the Phase 1 baseline to prove zero glyph changes
-- [ ] Verify scope boundary — `git diff --name-only` shows exactly `SPEC/gates.md` + `SPEC.md` (plus tasknote/PLAN)
+- [x] Edit `SPEC/gates.md` §"Inline asks" — retype the 👁️ row's Shape cell to `emphasized inline ask`, update its inline example to the new shape
+- [x] Add the **Emphasized inline ask shape** contract block under that table (what it is, why 👁️ gets it, explicit not-a-banner bound, 🟢 inheritance when emitted standalone)
+- [x] Add a `### Glyph layers and reuse` subsection after the Casing rule — the cross-layer reuse rule + the non-cue residual class
+- [x] Replace the standalone "🧩 dual role (not a table collision)" block in §"Next-task cues" with a one-line pointer to the new subsection
+- [x] Update `SPEC.md` §"Operator-cue glossary" 👁️ row to reflect the emphasized shape
+- [x] Update `SPEC.md` §"🧪 Phase 3: Testing & Linting" shape paragraph (lines ~589-592) to the new shape, keeping the no-banner/no-gate assertion
+- [x] Re-run the emoji inventory and diff against the Phase 1 baseline to prove zero glyph changes
+- [x] Verify scope boundary — `git diff --name-only` shows exactly `SPEC/gates.md` + `SPEC.md` (plus tasknote/PLAN)
 
 ## 🔗 Related
 

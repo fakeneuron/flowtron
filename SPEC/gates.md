@@ -134,7 +134,7 @@ CORE-254.4 — this contract fixes the canonical label.
 
 | Cue | Glyph | Label | Shape | Notes |
 |---|---|---|---|---|
-| Commit-go | 🟢 | `GO` | inline ask prefix | The single commit-go approval (`Reply commit / go to land`). Normally bundled inside the 📦 banner, inheriting its salience; when emitted standalone it takes the emphasized shape below |
+| Commit-go | 🟢 | `GO` | inline ask prefix (**emphasized** when standalone) | The single commit-go approval (`Reply commit / go to land`). Normally bundled inside the 📦 banner, inheriting its salience; when emitted standalone it takes the emphasized shape below |
 | Visual-confirm | 👁️ | `CONFIRM` | **emphasized** inline ask | Visual-confirmation ask; see "Emphasized inline ask shape" below. **Covers "visit / open a URL to confirm"** (e.g. `👁️ **CONFIRM** — does the new outline look right at http://localhost:5120?`) — there is no separate visit-URL cue |
 | Audit-family flag | 🔍 | `AUDIT` | inline next-move flag | Prefixes `/ft-audit*` next-move + copy-paste lines |
 

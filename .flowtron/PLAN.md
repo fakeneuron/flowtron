@@ -13,12 +13,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-415** [heavy]🧠 | cue-emoji-legibility — Lean full-surface review of flowtron's emoji vocabulary (operator cues, tasknote section headings, model-tier glyphs) for orientation value and clutter, minimal-change bias. Keep the 👁️ CONFIRM glyph but strengthen its emission shape — it blends into monochrome terminal text despite requiring clear operator attention. Propagate contract changes across emitters; viz tolerance conditional.
-  - [x] **CORE-415.1** [heavy]🧠 | cue-emoji-legibility discovery — Completed 2026-08-08.
-  - [x] **CORE-415.2** [heavy]🧠 | emoji-surface-contract — Completed 2026-08-08.
-  - [x] **CORE-415.3** [medium]🧩 | emitter-propagation — Completed 2026-08-08.
-  - [x] **CORE-415.4** [light]🔧 | viz-glyph-tolerance — Completed 2026-08-08.
-  - [ ] **CORE-415.N** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line).
+(none)
 
 ## Low
 
@@ -26,6 +21,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 
 ## Completed
+
+- [x] **CORE-EPIC-415** [heavy]🧠 | cue-emoji-legibility — Completed 2026-08-08.
+  - [x] **CORE-415.1** [heavy]🧠 | cue-emoji-legibility discovery — Completed 2026-08-08.
+  - [x] **CORE-415.2** [heavy]🧠 | emoji-surface-contract — Completed 2026-08-08.
+  - [x] **CORE-415.3** [medium]🧩 | emitter-propagation — Completed 2026-08-08.
+  - [x] **CORE-415.4** [light]🔧 | viz-glyph-tolerance — Completed 2026-08-08.
+  - [x] **CORE-415.N** [heavy]🧠 | cue-emoji-legibility audit — Completed 2026-08-08.
 
 - [x] **CORE-414** [light]🔧 | lowercase-path-rationale — Completed 2026-08-08.
 - [x] **CORE-412** [light]🔧 | archive-folder-naming-rule — Completed 2026-08-08.

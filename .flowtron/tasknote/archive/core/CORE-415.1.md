@@ -32,7 +32,7 @@ Scope the `CORE-EPIC-415` epic (`cue-emoji-legibility`) before any implementatio
 - [x] Draft refined long descriptions for CORE-415.2 .. CORE-415.4; word-count each (≤50w target / 70w hard cap)
 - [x] Phase 2: write the drafted child lines into .flowtron/PLAN.md under CORE-EPIC-415 with 2-space indent
 - [x] Phase 3: markdown mental-pass on the PLAN.md edits (grammar / indent / cross-refs)
-- [ ] Phase 4: doc-drift sweep + flip .1 PLAN line to stub form + archive tasknote
+- [x] Phase 4: doc-drift sweep + flip .1 PLAN line to stub form + archive tasknote
 
 ## 🔗 Related
 

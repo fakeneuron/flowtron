@@ -1,6 +1,6 @@
 ---
 title: viz-glyph-tolerance
-status: in-progress
+status: completed
 tags: []
 created: 2026-08-08
 due:
