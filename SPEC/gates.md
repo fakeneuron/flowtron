@@ -64,10 +64,56 @@ glyphs are single code points (a trailing VS16 for emoji presentation is part
 of the glyph, not a second symbol). Each glyph is unique across the table — no
 glyph carries two meanings.
 
+### Glyph layers and reuse
+
+Flowtron emits glyphs on three layers, and the uniqueness rule above is scoped
+to the **first** one:
+
+1. **Operator cues** — this vocabulary (the tables below). Uniqueness
+   enforced here.
+2. **Tasknote structure** — body-section headings and nav-header status chips
+   ([`SPEC.md`](../SPEC.md) §"Tasknote body shape").
+3. **Model tier** — 🔧 / 🧩 / 🧠 ([`SPEC/model.md`](model.md)).
+
+**Cross-layer reuse is permitted when the two meanings are semantically
+coherent, and is not a collision.** A heading is not a cue and a chip is not a
+cue, so a glyph appearing on two layers still carries one meaning per layer.
+Context disambiguates: position (H2 heading vs. nav chip vs. conversational
+line) resolves which layer is speaking. The reuses in service today are
+deliberate:
+
+| Glyph | Layer 1 (cue) | Layer 2 / 3 |
+|---|---|---|
+| 🧩 | `MEDIUM` next-task | `## 🧩 Subtasks` heading · `[medium]` tier |
+| 🛠️ | Phase 1→2 banner | `## 🛠️ Phase 2` heading |
+| ✅ | phase / closure-complete marker | `## ✅ Acceptance` heading · `✅ Completed` chip |
+| 🟢 | `GO` commit-ask | `🟢 In progress` chip |
+| 🌱 | — | `## 🌱 Starter context` heading · `🌱 Starter` chip |
+| 🔧 / 🧠 | `LIGHT` / `HEAVY` next-task | `[light]` / `[heavy]` tier |
+
+Every row above is *coherent* reuse — the cue and the structure name the same
+underlying concept. The 🛠️ banner approves entry into the phase the 🛠️
+heading names; the 🟢 ask lands the work the 🟢 chip marks as in progress.
+Reuse across *unrelated* concepts is not permitted; that would be a genuine
+collision.
+
+**Non-cue glyphs.** A small residual sits outside all three layers — ⚡
+(`--fast` active), 🔬 (`--debug` active), 🧭 (deep pre-pass), 🌳 (worktree),
+🔁 (`## 🔁 Iterations` log), 🔄 (`## 🔄 Handoff`), 📌 (sidequest), 📋 (spec
+template), ⚠️ (inline advisory). These are **legitimate and bounded**: each is
+scoped to one skill or template, none collides with a cue, and none carries
+operator-gate meaning. They are not governed by this table and do not need to
+be. Adding to this residual is a local decision for the owning skill; adding to
+the **cue table** is a vocabulary change and needs the deliberation CORE-254.2
+/ CORE-308 / CORE-353.3 each gave it.
+
 ### Event cues (inline operator prompts)
 
 Default emission shape is an **inline prefix** on the conversational line —
-the 👁️/🟢 shape, never a banner by default.
+never a banner by default. Event cues take the plain prefix shown in the
+Example column below; the obligation-bearing inline *asks* (👁️, and 🟢 when
+standalone) take the emphasized variant instead — see §"Emphasized inline ask
+shape".
 
 | Cue | Glyph | Label | Fires when | Example |
 |---|---|---|---|---|
@@ -88,9 +134,52 @@ CORE-254.4 — this contract fixes the canonical label.
 
 | Cue | Glyph | Label | Shape | Notes |
 |---|---|---|---|---|
-| Commit-go | 🟢 | `GO` | inline ask prefix | The single commit-go approval (`Reply commit / go to land`) |
-| Visual-confirm | 👁️ | `CONFIRM` | inline ask prefix | Visual-confirmation ask. **Covers "visit / open a URL to confirm"** (e.g. `👁️ CONFIRM: does the new outline look right at http://localhost:5120?`) — there is no separate visit-URL cue |
+| Commit-go | 🟢 | `GO` | inline ask prefix | The single commit-go approval (`Reply commit / go to land`). Normally bundled inside the 📦 banner, inheriting its salience; when emitted standalone it takes the emphasized shape below |
+| Visual-confirm | 👁️ | `CONFIRM` | **emphasized** inline ask | Visual-confirmation ask; see "Emphasized inline ask shape" below. **Covers "visit / open a URL to confirm"** (e.g. `👁️ **CONFIRM** — does the new outline look right at http://localhost:5120?`) — there is no separate visit-URL cue |
 | Audit-family flag | 🔍 | `AUDIT` | inline next-move flag | Prefixes `/ft-audit*` next-move + copy-paste lines |
+
+#### Emphasized inline ask shape
+
+👁️ `CONFIRM` is the only cue that **gates task completion** — the work cannot
+be called done until the operator answers — while carrying no structural
+emphasis. 🛠️/📦 get banner rules; a destructive 🗄️/▶️ escalates to a banner;
+🏁/✅ are state markers that need no answer; ✋ `ACTION` is out-of-band and
+does not block the assistant; 🟢 `GO` normally rides inside 📦. That left 👁️
+alone: an obligation-bearing ask with the emission shape of an aside.
+
+The fix is **structural, not chromatic** — the ask blends in because it has no
+line of its own, not because it lacks color (a terminal may render neither).
+Emit it on **its own line, blank-line isolated, with the label bolded**:
+
+```markdown
+👁️ **CONFIRM** — <the question>
+```
+
+Concretely:
+
+```text
+Ran lint and the targeted suite on the changed files; all clean.
+
+👁️ **CONFIRM** — does the new outline render correctly at http://localhost:5120?
+```
+
+Three properties, each doing work: the **blank lines** lift the ask out of the
+surrounding prose, the **bold label** survives monochrome as weight rather than
+hue, and the **UPPERCASE label** survives non-render per §"Labeling convention".
+
+**Bound — this is not a banner.** No `---` rules, no `AWAITING APPROVAL`
+label, no preview line. The standing phase-gate count is **unaffected** and the
+CORE-065 two-banner cap holds: emphasis was raised *within* the inline-ask
+shape precisely so 👁️ would not need promoting. Reading this section as
+license to render 👁️ as a banner block inverts its purpose.
+
+**Applies to 🟢 `GO` when standalone.** A commit-go emitted outside the 📦
+bundle is an obligation-bearing ask with no banner to inherit from, so it takes
+the same shape. Inside 📦, the banner already carries it.
+
+**`--fast` is unchanged.** The flag still suppresses the 👁️ ask entirely
+(§"`--fast` operator override"). A suppressed ask has no shape; this section
+governs only the asks that are actually emitted.
 
 ### Landmark cues (reaffirmed — unchanged glyphs)
 
@@ -121,13 +210,9 @@ The three glyphs **mirror the model tier ladder 1:1** (`[light]`→🔧,
 The 🧩 `MEDIUM` glyph was added by CORE-353.3, reversing CORE-254's two-glyph
 lock — a one-glyph widening in the same spirit as CORE-308's 👇 `HERE` addition.
 
-**🧩 dual role (not a table collision).** 🧩 also heads the `## 🧩 Subtasks`
-tasknote-body section (SPEC.md §"Tasknote body shape"). The §"Casing rule"
-uniqueness constraint is scoped to *this* operator-cue table — a body-section
-heading is not a cue, so 🧩 stays unique within the table. Context
-disambiguates: 🧩 on a next-move candidate / copy-paste label line is the
-`MEDIUM` cue; 🧩 as an H2 heading is the Subtasks section. The reuse is
-deliberate, not accidental.
+All three also serve as tier glyphs, and 🧩 additionally heads the
+`## 🧩 Subtasks` section — coherent cross-layer reuse, not a table collision.
+See §"Glyph layers and reuse".
 
 👇 (`HERE`) replaces the model glyph on the copy-paste **label line** when the
 next-skill is context-dependent (`/ft-file-followup` in either mode / `/ft-epic-discovery` —

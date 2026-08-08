@@ -466,7 +466,7 @@ reliability. Full contract (emission shapes, escalation, conventions):
 | ▶️ | `RUN` | run a build / script / server step (inline) |
 | ✋ | `ACTION` | perform a manual, non-command action (inline) |
 | 🟢 | `GO` | commit-go approval ask |
-| 👁️ | `CONFIRM` | visual-confirmation ask (covers "visit a URL") |
+| 👁️ | `CONFIRM` | visual-confirmation ask (covers "visit a URL") — **emphasized** inline shape: own line, bold label |
 | 🔍 | `AUDIT` | `/ft-audit*` next-move flag |
 | 🛠️ | — | Phase 1→2 approval banner |
 | 📦 | — | ready-to-commit approval banner |
@@ -569,7 +569,7 @@ banner in §"Post-closure protocol".
 - [ ] Ran targeted test suite for changed code
 - [ ] Ran lint/type-check on changed code
 - [ ] **Quality assertions** — for changed code, confirmed no avoidable duplication, dead code, unexplained complexity, unnecessary public-surface growth, or stale code-facing documentation (`N/A` with a one-line reason when no code changed)
-- [ ] (frontend) Asked the user for visual confirmation (👁️ prefix on the prose ask)
+- [ ] (frontend) Asked the user for visual confirmation (emphasized `👁️ **CONFIRM**` ask on its own line)
 
 Run the full test suite only when changes are broad or cross-cutting.
 
@@ -586,10 +586,18 @@ can't. This is engineering judgment folded into Phase 3, never a new
 lifecycle phase or a schema/validator — the same framing the `/ft-spec`
 spec template's "Validation Approach" section carries into planning.
 
-The visual-confirmation ask carries a `👁️` inline prefix on the
-conversational prompt (e.g., `👁️ Could you confirm the new outline at
-http://localhost:5120?`). Inline emoji prefix only — **no banner block,
-no operator-gate**; the standing phase-gate count is unaffected.
+The visual-confirmation ask uses the **emphasized inline ask** shape — its own
+line, blank-line isolated, with the label bolded:
+
+```text
+👁️ **CONFIRM** — does the new outline render correctly at http://localhost:5120?
+```
+
+👁️ is the only cue that gates task completion, so it carries more emphasis
+than a bare prefix. Emphasis is raised *within* the inline shape — **no banner
+block, no operator-gate**; the standing phase-gate count is unaffected. Full
+contract, including why the fix is structural rather than chromatic:
+[`SPEC/gates.md` §"Emphasized inline ask shape"](SPEC/gates.md).
 
 When `/ft-task` is invoked with `--fast`, the 👁️ ask is suppressed
 (lint/type-check on changed code still runs). See

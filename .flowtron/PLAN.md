@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **CORE-EPIC-415** [heavy]🧠 | cue-emoji-legibility — Lean full-surface review of flowtron's emoji vocabulary (operator cues, tasknote section headings, model-tier glyphs) for orientation value and clutter, minimal-change bias. Keep the 👁️ CONFIRM glyph but strengthen its emission shape — it blends into monochrome terminal text despite requiring clear operator attention. Propagate contract changes across emitters; viz tolerance conditional.
   - [x] **CORE-415.1** [heavy]🧠 | cue-emoji-legibility discovery — Completed 2026-08-08.
-  - [ ] **CORE-415.2** [heavy]🧠 | emoji-surface-contract — Audit all three emoji layers (operator cues, tasknote section headings, model-tier glyphs) for salience and clutter with a minimal-change bias; design a higher-visibility emission shape for 👁️ CONFIRM (glyph kept); land contract edits in SPEC/gates.md + SPEC.md glossary.
+  - [x] **CORE-415.2** [heavy]🧠 | emoji-surface-contract — Completed 2026-08-08.
   - [ ] **CORE-415.3** [medium]🧩 | emitter-propagation — Propagate the .2 contract across every emission site: skills, SPEC/procedures, templates, docs mirrors (AGENT-COMPAT, DOGFOOD, GLOSSARY, PLATFORMS), sweeping enumeration mirrors per the CORE-355 straggler lesson.
   - [ ] **CORE-415.4** [light]🔧 | viz-glyph-tolerance — Conditional: parser/render tolerance for any glyph or shape change .2 lands (archives keep old forms, per CORE-353.6); closes as a verification pass if nothing viz-parsed changed.
   - [ ] **CORE-415.N** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line).
