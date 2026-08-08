@@ -347,7 +347,7 @@ find ~/.claude/skills ~/.claude/commands -maxdepth 1 -name 'ft-*' -type l \
      -exec readlink {} \; 2>/dev/null | sed -E 's#(.*[Ff]lowtron)/.*#\1#' | sort | uniq -c
 ```
 
-The first command should print nothing — each hit is a link left behind by a retired skill (the `/ft-audit <domain>`, `/ft-task --debug`, and `/ft-file-followup --park` folds each stranded one). The second should print exactly **one** line; two or more means the global links point at the same checkout through different path casings, which resolves on a case-insensitive volume and silently stops resolving on a case-sensitive one.
+The first command should print nothing — each hit is a link left behind by a retired skill. The v5.15.0 retirements stranded nine between them: five from the `/ft-audit <domain>` fold, one each from `/ft-task --debug` and `/ft-file-followup --park`, and a skill + command pair from `/ft-quality`'s outright retirement. `docs/MIGRATION.md` §"Skills retired so far" is the authoritative table. The second should print exactly **one** line; two or more means the global links point at the same checkout through different path casings, which resolves on a case-insensitive volume and silently stops resolving on a case-sensitive one.
 
 `~/.claude/` is machine state — no commit in this cut can carry the fix — so this half **never blocks commit-go**. Fix it out of band (`rm` the dangling links, re-`ln -s` the mis-cased ones) and carry the verdict into the §7.4 closure review as one line, the same flag-don't-block posture as the SOP-currency check above.
 

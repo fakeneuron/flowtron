@@ -11,12 +11,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-EPIC-410** [heavy]🧠 | wiring-parity-check — Nothing verifies flowtron's own installed skill/command surface against its shipped inventory, in either direction: `/ft-spec` shipped 2026-07-12 (CORE-352.2) and is still unwired in this checkout, while nine `~/.claude/` symlinks dangle at skills retired into `/ft-audit <domain>` and `/ft-task --debug`. `/ft-release` greps the *adopter* wiring list in `claude/AGENTS-snippet.md`; nothing covers flowtron's own. Discovery supplied by audit-repo 2026-08-06. Surfaced by audit-repo 2026-08-06 (Theme: The wiring seam is the one surface nothing verifies).
-  - [x] **CORE-410.2** [heavy]🧠 | parity-check — Completed 2026-08-07.
-  - [x] **CORE-410.3** [light]🔧 | wire-ft-spec — Completed 2026-08-07.
-  - [x] **CORE-410.4** [light]🔧 | prune-stale-globals — Completed 2026-08-07.
-  - [ ] **CORE-410.N** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
-
 ## Medium
 
 - [ ] **CORE-411** [light]🔧 | readme-task-counter-currency — `README.md:22-23` claims "**618 tasks** closed ... (as of 2026-07-31)", six days and 20 commits stale, and reconciling with neither the 601 archived tasknotes nor the 490 `- [x]` PLAN lines. Give it a reproducible derivation and an owner in `/ft-release`'s doc-currency step (SKILL.md:159 greps README for version strings only), or drop the precision. Surfaced by audit-repo 2026-08-06 (Theme: Instrumented currency stops at hand-written numbers).
@@ -29,6 +23,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 
 ## Completed
+
+- [x] **CORE-EPIC-410** [heavy]🧠 | wiring-parity-check — Completed 2026-08-08.
+  - [x] **CORE-410.2** [heavy]🧠 | parity-check — Completed 2026-08-07.
+  - [x] **CORE-410.3** [light]🔧 | wire-ft-spec — Completed 2026-08-07.
+  - [x] **CORE-410.4** [light]🔧 | prune-stale-globals — Completed 2026-08-07.
+  - [x] **CORE-410.N** [heavy]🧠 | wiring-parity-check audit — Completed 2026-08-08.
 
 - [x] **CORE-409** [medium]🧩 | sop-drift-detector-gap — Completed 2026-08-06.
 
