@@ -13,18 +13,18 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-416** [heavy]🧠 | closure-artifact-fidelity — Do archived tasknotes disagree with their own closure narratives? Re-measured in CORE-416.2 against the rule's effective date (CORE-393, 2026-08-01): 43 of 45 post-rule notes comply; the headline 322 predate the obligation. Remaining scope is contract clarity plus a narrow detection surface.
-  - [x] **CORE-416.1** [heavy]🧠 | closure-artifact-fidelity discovery — Completed 2026-08-08.
-  - [x] **CORE-416.2** [heavy]🧠 | tick-through-contract — Completed 2026-08-08.
-  - [x] **CORE-416.3** [medium]🧩 | viz-closure-drift-surface — Completed 2026-08-08.
-  - [ ] **CORE-416.N** [heavy]🧠 | audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line).
-
 ## Low
 
 ## Future Opportunities
 
 
 ## Completed
+
+- [x] **CORE-EPIC-416** [heavy]🧠 | closure-artifact-fidelity — Completed 2026-08-08.
+  - [x] **CORE-416.1** [heavy]🧠 | closure-artifact-fidelity discovery — Completed 2026-08-08.
+  - [x] **CORE-416.2** [heavy]🧠 | tick-through-contract — Completed 2026-08-08.
+  - [x] **CORE-416.3** [medium]🧩 | viz-closure-drift-surface — Completed 2026-08-08.
+  - [x] **CORE-416.N** [heavy]🧠 | closure-artifact-fidelity audit — Completed 2026-08-08.
 
 - [x] **CORE-EPIC-415** [heavy]🧠 | cue-emoji-legibility — Completed 2026-08-08.
   - [x] **CORE-415.1** [heavy]🧠 | cue-emoji-legibility discovery — Completed 2026-08-08.
