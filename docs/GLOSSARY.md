@@ -90,7 +90,7 @@ Alphabetized. ~63 entries. Maintained via epic children and audits.
 
 **Phase 1→2 (🛠️)** — The operator-gate cue emitted after Phase 1 Discovery when a significant scope deviation (Re-scope/De-scope always; certain clarifications) was surfaced. `/ft-task` uses the `default-skip` flavor. See SPEC §"Operator-gate cues".
 
-**Phase 3: Testing & Linting** — Targeted tests + lint/type-check on changed files; frontend changes add an 👁️ visual-confirmation prose ask (inline emoji prefix only). See SPEC §"🧪 Phase 3: Testing & Linting".
+**Phase 3: Testing & Linting** — Targeted tests + lint/type-check on changed files; frontend changes add an 👁️ visual-confirmation prose ask in the **emphasized inline shape** — its own line, blank-line isolated, bold `**CONFIRM**` label — never a banner. See SPEC §"🧪 Phase 3: Testing & Linting" and SPEC/gates.md §"Emphasized inline ask shape".
 
 **post-closure protocol** — The three steps that run after a tasknote is archived: commit decision (per Conditional skip rule), suggest-next-move (model-aware), copy-paste line. See SPEC §"Post-closure protocol".
 

@@ -60,7 +60,7 @@ authoritative cross-agent fallback; note any glyph that fails to render.
 
 **Inline asks**
 - 🟢 GO
-- 👁️ CONFIRM
+- 👁️ **CONFIRM** — emitted in the emphasized shape (own line, bold label); note whether the bold renders, shows literal asterisks, or is stripped
 - 🔍 AUDIT
 
 **Landmark cues**

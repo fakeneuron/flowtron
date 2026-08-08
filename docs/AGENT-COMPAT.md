@@ -133,6 +133,16 @@ without the glyph. Banner cues carry their label inside the
 gates. **Agents and operators should scan on the label as the authoritative
 token; the glyph never carries meaning alone.**
 
+A fourth, milder degradation applies to the one cue carrying markdown emphasis:
+the 👁️ `CONFIRM` ask is emitted in the **emphasized inline shape** (own line,
+blank-line isolated, `**CONFIRM**` bolded — see
+[`SPEC/gates.md` §"Emphasized inline ask shape"](../SPEC/gates.md)), and a
+surface that renders no markdown will show literal asterisks or strip them
+entirely. Neither loses the cue: the line break and blank-line isolation are
+plain text and survive, and the UPPERCASE label still names it. The emphasis was
+deliberately made **structural rather than chromatic** for exactly this reason —
+it degrades to a still-isolated line rather than to nothing.
+
 This is why a row can sit at `docs-only` or `unverified` (§"The matrix") and the
 cues still convey reliably: legibility degrades gracefully to plain text, so
 per-agent emoji-render dogfooding is a currency nicety, not a correctness

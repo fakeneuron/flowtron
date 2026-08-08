@@ -2,7 +2,7 @@
 procedure: ft-task
 source: claude/skills/ft-task/ templates/tasknote-template.md
 restates: SPEC.md
-last-verified: v5.14.1 · 2026-08-02
+last-verified: v5.15.0 · 2026-08-08
 ---
 
 # Procedure SOP — `ft-task`
@@ -246,7 +246,11 @@ time (Step 6).
   duplication, dead code, unexplained complexity, unnecessary public-surface
   growth, or stale code-facing documentation; otherwise record `N/A` with
   reason. For frontend changes, ask the operator for visual confirmation with a
-  `👁️ CONFIRM:` prefix (inline prose, not a banner). Under autonomous mode,
+  `👁️ **CONFIRM**` ask in the **emphasized inline shape** — its own line,
+  blank-line isolated, label bolded
+  ([`SPEC/gates.md` §"Emphasized inline ask shape"](../gates.md)). Still inline
+  prose, **not** a banner: the emphasis is raised within the ask, not promoted
+  out of it. Under autonomous mode,
   suppress the 👁️ ask but still run lint/type-check. **Under debug mode**, also
   re-execute the *exact* minimal repro from Phase 1 and record the outcome in
   Testing Notes. This is debug mode's one non-negotiable addition and it runs

@@ -125,9 +125,14 @@ variant suffix would fragment the `/ft-stats` buckets for no signal gain.
 Variants shift where a model lands on the tier ladder (that is the point of
 this section); they do not multiply the vocabulary.
 
-The ⚠️ note is an inline advisory only (like the `👁️` Phase 3 prefix) — not an
-operator-gate banner and not an approval pause; the standing phase-gate count is
-unaffected.
+The ⚠️ note is an inline advisory only — not an operator-gate banner and not an
+approval pause; the standing phase-gate count is unaffected. ⚠️ is not an
+operator cue at all: it sits in the **non-cue residual** class
+([`SPEC/gates.md` §"Glyph layers and reuse"](gates.md)), so nothing in the cue
+vocabulary's emission contract governs it. In particular it is *not* the
+emphasized shape 👁️ `CONFIRM` carries — 👁️ is an obligation-bearing ask that
+gates task completion, while ⚠️ requires no operator response and stays a plain
+inline note.
 
 **No auto-retag.** A satisfied category tag is **never** rewritten to the concrete
 running model. `[heavy]` stays `[heavy]` even when it runs on opus — the category

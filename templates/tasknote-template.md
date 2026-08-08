@@ -74,7 +74,7 @@ One-sentence goal of what this task accomplishes.
 
 - [ ] **Quality assertions** — for changed code, confirmed no avoidable duplication, dead code, unexplained complexity, unnecessary public-surface growth, or stale code-facing documentation (otherwise `N/A` with reason)
 
-- [ ] (frontend) Asked the user for visual confirmation (👁️ prefix on the prose ask)
+- [ ] (frontend) Asked the user for visual confirmation (emphasized `👁️ **CONFIRM**` ask on its own line)
 
 > **Choosing a test strategy (guidance, not a gate).** Default to targeted
 > tests on the changed behavior. Where the input space is wide — parsers,
