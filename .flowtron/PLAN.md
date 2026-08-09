@@ -13,6 +13,9 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
+- [ ] **CORE-417** [heavy]🧠 | superseded-claim-pointer — Write-once forbids retroactively editing archived tasknotes but is silent on factual corrections, so a falsified claim stays uncorrected in place. CORE-416.2 overturned CORE-416.1's headline and relied on the parent PLAN description — which the epic close then deleted. Decide whether a superseded-by pointer is warranted.
+- [ ] **CORE-418** [light]🔧 | audit-shortname-flip — `/ft-epic-discovery` files audit children as `| audit` and nothing tells the closer to replace the placeholder, so six archived `.N` rows render untitled in `## Completed` — against SPEC/tasknote-selection.md's `| shortname` requirement. Teach `/ft-close-epic` Phase 4 to substitute `| <shortname> audit` at the flip.
+
 ## Low
 
 ## Future Opportunities
