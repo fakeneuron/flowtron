@@ -107,6 +107,39 @@ const SECTION_HEADING = /^##\s+(.+?)\s*$/;
 const SUBSECTION_HEADING = /^###\s+(.+?)\s*$/;
 const HORIZONTAL_RULE = /^---\s*$/;
 
+// A fenced code block is content the note is *showing*, not structure it *has*:
+// tasknotes routinely quote example PLAN.md rows, template bodies, and YAML
+// frontmatter, so a heading, checkbox, or `---` rule inside a fence must not end
+// a section, switch a sub-section, or count as a criterion. Every line-scanner
+// below consults this one mask so they agree on which lines are real structure.
+// CommonMark fence rules: up to 3 spaces of indent, the closing run is the same
+// character and at least as long as the opening one, and a backtick info string
+// may not itself contain a backtick. An unclosed fence runs to end-of-input,
+// also per CommonMark.
+const FENCE_DELIMITER = /^ {0,3}(`{3,}|~{3,})(.*)$/;
+
+function fenceMask(lines: string[]): boolean[] {
+  const mask: boolean[] = [];
+  let open: string | null = null;
+  for (const line of lines) {
+    const m = FENCE_DELIMITER.exec(line);
+    if (open === null) {
+      if (m !== null && !(m[1][0] === '`' && m[2].includes('`'))) {
+        open = m[1];
+        mask.push(true);
+      } else {
+        mask.push(false);
+      }
+      continue;
+    }
+    mask.push(true);
+    const closes =
+      m !== null && m[1][0] === open[0] && m[1].length >= open.length && m[2].trim() === '';
+    if (closes) open = null;
+  }
+  return mask;
+}
+
 function escapeRegExp(str: string): string {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
@@ -114,20 +147,24 @@ function escapeRegExp(str: string): string {
 export function extractSection(body: string, titleSubstring: string): string {
   const titleBoundary = new RegExp(`\\b${escapeRegExp(titleSubstring)}\\b`);
   const lines = body.split(/\r?\n/);
+  const inFence = fenceMask(lines);
   let inSection = false;
   const collected: string[] = [];
-  for (const line of lines) {
-    const heading = SECTION_HEADING.exec(line);
-    if (heading) {
-      if (inSection) break;
-      if (titleBoundary.test(heading[1])) {
-        inSection = true;
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (!inFence[i]) {
+      const heading = SECTION_HEADING.exec(line);
+      if (heading) {
+        if (inSection) break;
+        if (titleBoundary.test(heading[1])) {
+          inSection = true;
+          continue;
+        }
         continue;
       }
-      continue;
+      if (inSection && HORIZONTAL_RULE.test(line)) break;
     }
     if (!inSection) continue;
-    if (HORIZONTAL_RULE.test(line)) break;
     collected.push(line);
   }
   return collected.join('\n').trim();
@@ -137,6 +174,7 @@ export function extractStarterSubsections(starterContext: string): StarterSubsec
   const result = emptyStarterSubsections();
   if (!starterContext) return result;
   const lines = starterContext.split(/\r?\n/);
+  const inFence = fenceMask(lines);
   let activeKey: StarterSubsectionKey | null = null;
   const buffers: Record<StarterSubsectionKey, string[]> = {
     whyExists: [],
@@ -144,20 +182,23 @@ export function extractStarterSubsections(starterContext: string): StarterSubsec
     filesToTouch: [],
     outOfScope: [],
   };
-  for (const line of lines) {
-    const heading = SUBSECTION_HEADING.exec(line);
-    if (heading) {
-      const title = heading[1];
-      const matchedKey =
-        STARTER_SUBSECTION_KEYS.find((k) => title.includes(STARTER_SUBSECTION_TITLES[k])) ?? null;
-      activeKey = matchedKey;
-      continue;
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (!inFence[i]) {
+      const heading = SUBSECTION_HEADING.exec(line);
+      if (heading) {
+        const title = heading[1];
+        const matchedKey =
+          STARTER_SUBSECTION_KEYS.find((k) => title.includes(STARTER_SUBSECTION_TITLES[k])) ?? null;
+        activeKey = matchedKey;
+        continue;
+      }
+      if (activeKey && HORIZONTAL_RULE.test(line)) {
+        activeKey = null;
+        continue;
+      }
     }
     if (!activeKey) continue;
-    if (HORIZONTAL_RULE.test(line)) {
-      activeKey = null;
-      continue;
-    }
     buffers[activeKey].push(line);
   }
   for (const key of STARTER_SUBSECTION_KEYS) {
@@ -167,6 +208,21 @@ export function extractStarterSubsections(starterContext: string): StarterSubsec
 }
 
 const CHECKLIST_LINE = /^\s*-\s+\[([ xX])\]/;
+
+// Checklist lines that are document structure, not fenced sample content. Both
+// checklist scanners below walk this rather than the raw lines, so a fenced
+// example row can never inflate a phase count or a drift count.
+function structuralChecklistLines(markdown: string): { line: string; checked: boolean }[] {
+  const lines = markdown.split(/\r?\n/);
+  const inFence = fenceMask(lines);
+  const items: { line: string; checked: boolean }[] = [];
+  for (let i = 0; i < lines.length; i++) {
+    if (inFence[i]) continue;
+    const m = CHECKLIST_LINE.exec(lines[i]);
+    if (m) items.push({ line: lines[i], checked: m[1] === 'x' || m[1] === 'X' });
+  }
+  return items;
+}
 
 export function activePhaseIndex(phases: ChecklistCounts[]): number {
   for (let i = 0; i < phases.length; i++) {
@@ -207,27 +263,14 @@ export function closureDrift(
   archivedDate: string | undefined,
 ): ClosureDrift | null {
   if (!archivedDate || archivedDate <= TICK_THROUGH_EFFECTIVE) return null;
-  let total = 0;
-  let unticked = 0;
-  for (const line of acceptance.split(/\r?\n/)) {
-    const m = CHECKLIST_LINE.exec(line);
-    if (!m) continue;
-    total += 1;
-    if (m[1] === ' ' && !ANNOTATED.test(line)) unticked += 1;
-  }
-  return unticked > 0 ? { unticked, total } : null;
+  const items = structuralChecklistLines(acceptance);
+  const unticked = items.filter((i) => !i.checked && !ANNOTATED.test(i.line)).length;
+  return unticked > 0 ? { unticked, total: items.length } : null;
 }
 
 export function countChecklist(markdown: string): ChecklistCounts {
   if (!markdown) return { total: 0, done: 0 };
-  let total = 0;
-  let done = 0;
-  for (const line of markdown.split(/\r?\n/)) {
-    const m = CHECKLIST_LINE.exec(line);
-    if (!m) continue;
-    total += 1;
-    if (m[1] === 'x' || m[1] === 'X') done += 1;
-  }
-  return { total, done };
+  const items = structuralChecklistLines(markdown);
+  return { total: items.length, done: items.filter((i) => i.checked).length };
 }
 

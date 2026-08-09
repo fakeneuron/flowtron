@@ -175,6 +175,76 @@ Plural goals text.
     expect(extractSection(ambiguousBody, 'Goal')).toBe('Singular goal text.');
     expect(extractSection(ambiguousBody, 'Goals')).toBe('Plural goals text.');
   });
+
+  it('does not end a section on a heading or rule inside a fenced code block', () => {
+    const fencedBody = `## 🎯 Goal
+
+The PLAN.md shape this task targets:
+
+\`\`\`markdown
+## High
+
+- [ ] **FE-001** — an example row
+
+---
+\`\`\`
+
+Trailing goal prose.
+
+## ✅ Acceptance
+
+- [ ] Real criterion
+`;
+    const goal = extractSection(fencedBody, 'Goal');
+    expect(goal).toContain('## High');
+    expect(goal).toContain('---');
+    expect(goal).toContain('Trailing goal prose.');
+    expect(extractSection(fencedBody, 'High')).toBe('');
+    expect(extractSection(fencedBody, 'Acceptance')).toBe('- [ ] Real criterion');
+  });
+
+  it('recognises tilde fences and up to 3 spaces of fence indent', () => {
+    const body = `## 🎯 Goal
+
+   ~~~
+## Not a heading
+   ~~~
+
+## ✅ Acceptance
+
+- [ ] Real criterion
+`;
+    expect(extractSection(body, 'Goal')).toContain('## Not a heading');
+    expect(extractSection(body, 'Acceptance')).toBe('- [ ] Real criterion');
+  });
+
+  it('closes a fence only on a run at least as long as the opening one', () => {
+    const body = `## 🎯 Goal
+
+\`\`\`\`
+\`\`\`
+## Not a heading
+\`\`\`
+\`\`\`\`
+
+## ✅ Acceptance
+
+- [ ] Real criterion
+`;
+    expect(extractSection(body, 'Goal')).toContain('## Not a heading');
+    expect(extractSection(body, 'Acceptance')).toBe('- [ ] Real criterion');
+  });
+
+  it('runs an unclosed fence to end of input (CommonMark)', () => {
+    const body = `## 🎯 Goal
+
+\`\`\`markdown
+## ✅ Acceptance
+
+- [ ] Never reached
+`;
+    expect(extractSection(body, 'Acceptance')).toBe('');
+  });
 });
 
 describe('extractStarterSubsections', () => {
@@ -250,6 +320,28 @@ Just this one.
     expect(joined).not.toContain('TASK-001');
     expect(joined).not.toContain('| X | Y | Z |');
   });
+
+  it('does not switch sub-section on a heading or rule inside a fenced code block', () => {
+    const subs = extractStarterSubsections(`### Why this exists
+
+The starter template looks like:
+
+\`\`\`markdown
+### Solution shape
+
+---
+\`\`\`
+
+Still the why.
+
+### Explicitly out of scope
+
+Nothing.`);
+    expect(subs.whyExists).toContain('### Solution shape');
+    expect(subs.whyExists).toContain('Still the why.');
+    expect(subs.solutionShape).toBe('');
+    expect(subs.outOfScope).toBe('Nothing.');
+  });
 });
 
 describe('countChecklist', () => {
@@ -272,6 +364,17 @@ describe('countChecklist', () => {
 
 - [ ] another item
 plain prose line`;
+    expect(countChecklist(md)).toEqual({ total: 2, done: 1 });
+  });
+
+  it('does not count checklist lines inside a fenced code block', () => {
+    const md = `- [x] Real done
+- [ ] Real open
+
+\`\`\`markdown
+  - [ ] **CORE-098.2** [opus] | typography — example child row
+  - [ ] **CORE-098.3** [opus] | settings-modal — example child row
+\`\`\``;
     expect(countChecklist(md)).toEqual({ total: 2, done: 1 });
   });
 });
@@ -330,6 +433,15 @@ describe('closureDrift', () => {
 - [ ] N/A — nothing to do here
 - [ ] Tag pushed to origin`;
     expect(closureDrift(md, '2026-08-03')).toEqual({ unticked: 1, total: 3 });
+  });
+
+  it('does not count fenced example checkboxes as unticked criteria', () => {
+    const acceptance = `- [x] Children filed in the shape below
+
+\`\`\`markdown
+- [ ] **CORE-098.2** — example row quoted by the criterion above
+\`\`\``;
+    expect(closureDrift(acceptance, '2026-08-05')).toBeNull();
   });
 
   it('returns null for an empty Acceptance block', () => {
@@ -486,6 +598,31 @@ Body
     expect(tn.phases[1]).toEqual({ total: 4, done: 0 }); // Phase 2 not started
     expect(tn.phases[2]).toEqual({ total: 4, done: 0 });
     expect(tn.phases[3]).toEqual({ total: 6, done: 0 });
+  });
+
+  it('reads a phase whose notes quote example rows in a fence (CORE-098.1 shape)', () => {
+    const text = `# CORE-098.1 | Discovery
+
+## 🛠️ Phase 2: Execution
+
+- [x] pattern survey
+- [x] implemented the minimal solution
+- [x] tests — N/A
+
+**Implementation Notes:**
+
+\`\`\`markdown
+  - [ ] **CORE-098.2** [opus] | typography — example child row
+  - [ ] **CORE-098.3** [opus] | settings-modal — example child row
+\`\`\`
+
+## 🧪 Phase 3: Testing & Linting
+
+- [x] targeted suite — N/A
+`;
+    const tn = parseTasknote('CORE-098.1', '/abs/CORE-098.1.md', text);
+    expect(tn.phases[1]).toEqual({ total: 3, done: 3 });
+    expect(tn.phases[2]).toEqual({ total: 1, done: 1 });
   });
 
   it('returns zero phase counts for archived tasknotes with no phase headings', () => {
