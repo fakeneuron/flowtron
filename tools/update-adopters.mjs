@@ -26,6 +26,9 @@
 //     downgrade it (usually a stale tag list in this checkout)
 //   - release range carries a real Migration block (BREAKING or required
 //     project-side edits) → manual /ft-update required
+//   - release range carries a tag whose notes can't be classified at all
+//     (lightweight tag, or annotated with an empty message) → fail closed
+//     rather than assume non-breaking; see migrationBearingTags
 //   - staged changes in the adopter's index → a commit here would surprise
 //   - dirty .flowtron/core submodule worktree
 //

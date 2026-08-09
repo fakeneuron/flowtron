@@ -480,7 +480,7 @@ Remove each hit with `rm`. The commands are safe: these are symlinks into the su
 
 A bump is itself a project-side task (e.g., `CORE-XXX: Bump flowtron to vX.Y.Z`), with a tasknote and the usual 4-phase flow. Don't bump in passing.
 
-For sweeping **non-breaking** releases across the whole workspace at once, flowtron's checkout ships `tools/update-adopters.mjs` (dry-run by default; see `SPEC.md` §"What flowtron does NOT provide" for the carve-out). It skips any repo whose release range carries real migration steps and flags ranges that shipped new Claude or Codex skill symlinks — those still go through the per-project flow above (or `/ft-update`).
+For sweeping **non-breaking** releases across the whole workspace at once, flowtron's checkout ships `tools/update-adopters.mjs` (dry-run by default; see `SPEC.md` §"What flowtron does NOT provide" for the carve-out). It skips any repo whose release range carries real migration steps — or a tag whose notes it can't classify, which it treats as migration-bearing rather than assume safe — and flags ranges that shipped new Claude or Codex skill symlinks — those still go through the per-project flow above (or `/ft-update`).
 
 ### Upgrading an existing adopter from v4.x (`_project/` → `.flowtron/`)
 
