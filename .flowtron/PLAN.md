@@ -15,9 +15,21 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **CORE-EPIC-424** [medium]🧩 | fleet-updater failure signals — Make failure the loud path in tools/update-adopters.mjs: non-zero exit + stderr on failed bumps, fail-closed migration gate, mid-fleet failure test coverage. Discovery supplied by audit-repo 2026-08-09. Surfaced by audit-repo 2026-08-09 (Theme: failure paths lag happy paths).
+  - [ ] **CORE-424.2** [light]🔧 | exit-code + stderr — set process.exitCode=1 when counts.failed>0 after reportSummary; route the two ✗ lines through console.error.
+  - [ ] **CORE-424.3** [light]🔧 | fail-closed migration gate — in migrationBearingTags, treat an empty tag annotation (lightweight/hand-made tag) as migration-bearing instead of non-breaking.
+  - [ ] **CORE-424.4** [medium]🧩 | mid-fleet failure test — extend the sandboxed --apply fixture with a guaranteed-failing adopter; assert the loop continues past it, the summary counts 1 failed, and the exit code is 1.
+  - [ ] **CORE-424.N** [medium]🧩 | audit CORE-EPIC-424.
+
+- [ ] **CORE-EPIC-425** [medium]🧩 | viz near-miss diagnostics — Close the silent-no-op gaps in the visualizer: Escape vs filtered-out expandedId, typo'd priority-heading diagnostic, devApi error-body typing, dedicated keyboard-nav coverage. Discovery supplied by audit-repo 2026-08-09. Surfaced by audit-repo 2026-08-09 (Theme: the near-miss blind spot).
+  - [ ] **CORE-425.2** [medium]🧩 | Escape precedence fix — collapse branch only when the expanded row is visible (or clear expanded/selected when hidden from visibleIds); add a dedicated useKeyboardNav test pinning the Escape precedence chain.
+  - [ ] **CORE-425.3** [light]🔧 | near-miss heading diagnostic — unrecognized heading that case-insensitively matches a priority name emits a diagnostic instead of silently dropping its tasks.
+  - [ ] **CORE-425.4** [light]🔧 | devApi error hygiene — Content-Type: text/plain; charset=utf-8 on error paths; stop echoing the ?project= value in the 400 body.
+  - [ ] **CORE-425.N** [medium]🧩 | audit CORE-EPIC-425.
 
 ## Low
+
+- [ ] **CORE-426** [light]🔧 | SPEC templates cross-ref — SPEC.md:55 points the templates-roster clause at MIGRATION §1.2.1 (audit-scaffold forking); drop or narrow the parenthetical. Surfaced by audit-repo 2026-08-09 (Finding #8, Low).
 
 ## Future Opportunities
 
