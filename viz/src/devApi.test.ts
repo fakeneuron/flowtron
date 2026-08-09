@@ -26,11 +26,13 @@ interface FakeRes {
 
 function makeReq(opts: {
   url?: string;
+  method?: string;
   headers?: Record<string, string | undefined>;
 }): IncomingMessage & { _close: () => void } {
   const closeListeners: Array<() => void> = [];
   const req = {
     url: opts.url ?? '/',
+    method: opts.method ?? 'GET',
     headers: opts.headers ?? {},
     on(event: string, cb: () => void) {
       if (event === 'close') closeListeners.push(cb);
@@ -159,6 +161,18 @@ describe('createProjectsHandler', () => {
     expect(state.body).toBe('Forbidden: cross-origin request');
   });
 
+  it('rejects a non-GET/HEAD request with 405', () => {
+    const handler = createProjectsHandler(new Map(), null);
+    const req = makeReq({ method: 'POST', headers: { origin: ALLOWED_ORIGIN } });
+    const { res, state } = makeRes();
+
+    handler(req, res);
+
+    expect(state.statusCode).toBe(405);
+    expect(state.headers['allow']).toBe('GET, HEAD');
+    expect(state.body).toBe('Method Not Allowed');
+  });
+
   it('returns the latest release + project list as JSON on the allowed origin', async () => {
     const alpha = await makeProject('alpha');
     const beta = await makeProject('beta');
@@ -173,6 +187,8 @@ describe('createProjectsHandler', () => {
     handler(req, res);
 
     expect(state.headers['content-type']).toBe('application/json');
+    expect(state.headers['x-content-type-options']).toBe('nosniff');
+    expect(state.headers['content-security-policy']).toBe("default-src 'none'");
     expect(JSON.parse(state.body)).toEqual({
       latestRelease: 'v5.6.0',
       projects: [
@@ -211,6 +227,21 @@ describe('createPlanHandler', () => {
     expect(state.statusCode).toBe(403);
   });
 
+  it('rejects a non-GET/HEAD request with 405', async () => {
+    const handler = createPlanHandler(new Map());
+    const req = makeReq({
+      url: '/api/plan?project=alpha',
+      method: 'POST',
+      headers: { origin: ALLOWED_ORIGIN },
+    });
+    const { res, state } = makeRes();
+
+    await handler(req, res);
+
+    expect(state.statusCode).toBe(405);
+    expect(state.headers['allow']).toBe('GET, HEAD');
+  });
+
   it('returns the PLAN.md text on the allowed origin', async () => {
     const planText = '## High\n\n- [ ] **ALPHA-001** — hello\n';
     const alpha = await makeProject('alpha', { planText });
@@ -224,6 +255,8 @@ describe('createPlanHandler', () => {
     await handler(req, res);
 
     expect(state.headers['content-type']).toBe('text/plain; charset=utf-8');
+    expect(state.headers['x-content-type-options']).toBe('nosniff');
+    expect(state.headers['content-security-policy']).toBe("default-src 'none'");
     expect(state.body).toBe(planText);
   });
 
@@ -256,6 +289,21 @@ describe('createActiveHandler', () => {
     expect(state.statusCode).toBe(403);
   });
 
+  it('rejects a non-GET/HEAD request with 405', async () => {
+    const handler = createActiveHandler(new Map());
+    const req = makeReq({
+      url: '/api/active?project=alpha',
+      method: 'POST',
+      headers: { origin: ALLOWED_ORIGIN },
+    });
+    const { res, state } = makeRes();
+
+    await handler(req, res);
+
+    expect(state.statusCode).toBe(405);
+    expect(state.headers['allow']).toBe('GET, HEAD');
+  });
+
   it('lists active tasknote files as JSON on the allowed origin', async () => {
     const tasknote = `---
 title: hi
@@ -276,6 +324,8 @@ created: 2026-05-18
     await handler(req, res);
 
     expect(state.headers['content-type']).toBe('application/json');
+    expect(state.headers['x-content-type-options']).toBe('nosniff');
+    expect(state.headers['content-security-policy']).toBe("default-src 'none'");
     const parsed = JSON.parse(state.body) as Array<{ id: string }>;
     expect(parsed.map((t) => t.id)).toEqual(['CORE-999']);
   });
@@ -322,6 +372,21 @@ describe('createArchiveHandler', () => {
     expect(state.statusCode).toBe(403);
   });
 
+  it('rejects a non-GET/HEAD request with 405', async () => {
+    const handler = createArchiveHandler(new Map(), createArchiveCache());
+    const req = makeReq({
+      url: '/api/archive?project=alpha',
+      method: 'POST',
+      headers: { origin: ALLOWED_ORIGIN },
+    });
+    const { res, state } = makeRes();
+
+    await handler(req, res);
+
+    expect(state.statusCode).toBe(405);
+    expect(state.headers['allow']).toBe('GET, HEAD');
+  });
+
   it('serves archived tasknotes from the cache on the allowed origin', async () => {
     const alpha = await makeProject('alpha');
     await mkdir(join(alpha.archiveDir, 'core'), { recursive: true });
@@ -346,6 +411,8 @@ created: 2026-05-01
     await handler(req, res);
 
     expect(state.headers['content-type']).toBe('application/json');
+    expect(state.headers['x-content-type-options']).toBe('nosniff');
+    expect(state.headers['content-security-policy']).toBe("default-src 'none'");
     const parsed = JSON.parse(state.body) as Array<{ id: string }>;
     expect(parsed.map((t) => t.id)).toEqual(['CORE-001']);
   });
@@ -364,6 +431,19 @@ describe('createEventsHandler', () => {
     expect(sseClients.size).toBe(0);
   });
 
+  it('rejects a non-GET/HEAD request with 405 and does not register the client', () => {
+    const sseClients = new Set<ServerResponse>();
+    const handler = createEventsHandler(sseClients);
+    const req = makeReq({ method: 'POST', headers: { origin: ALLOWED_ORIGIN } });
+    const { res, state } = makeRes();
+
+    handler(req, res);
+
+    expect(state.statusCode).toBe(405);
+    expect(state.headers['allow']).toBe('GET, HEAD');
+    expect(sseClients.size).toBe(0);
+  });
+
   it('registers the response, writes the SSE preamble, and unregisters on close', () => {
     const sseClients = new Set<ServerResponse>();
     const handler = createEventsHandler(sseClients);
@@ -372,6 +452,8 @@ describe('createEventsHandler', () => {
 
     handler(req, res);
 
+    expect(state.headers['x-content-type-options']).toBe('nosniff');
+    expect(state.headers['content-security-policy']).toBe("default-src 'none'");
     expect(state.headers['content-type']).toBe('text/event-stream');
     expect(state.headers['cache-control']).toBe('no-cache, no-transform');
     expect(state.headers['connection']).toBe('keep-alive');

@@ -131,6 +131,8 @@ dev server:
   header. Same-origin requests from the visualizer's own UI, and
   origin-less requests from the local terminal (e.g. `curl`), are
   allowed.
+- Rejects non-GET/HEAD `/api/*` requests with 405, ahead of origin
+  validation and business logic (`viz/src/devApi.ts`).
 - Reads files only from projects discovered under
   `${FLOWTRON_VIZ_WORKSPACE:-~/code}/*/.flowtron/`. There is no
   user-controlled path input on any endpoint.
@@ -142,6 +144,12 @@ dev server:
   inject `<style>` at runtime in dev and those injections cannot carry a
   build-time nonce. `img-src 'self' data:` permits data-URI images.
   `connect-src` is limited to same-origin plus the local HMR websocket.
+  Every `/api/*` response additionally carries its own locked-down
+  `Content-Security-Policy: default-src 'none'` and
+  `X-Content-Type-Options: nosniff` (`viz/src/devApi.ts`), set ahead of
+  any guard clause so even 403/400/405/500 error bodies carry them — these
+  responses are JSON/text/SSE, never HTML, so they don't share the page
+  CSP's script/style tolerances.
 
 Do not expose port 5120 over a network or through a tunnel. If you need a
 shared read-only view of project state, build a separate artifact (e.g.,
