@@ -11,11 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-EPIC-419** [heavy]🧠 | fleet-updater-safety — Harden `tools/update-adopters.mjs` failure paths: pinned-ahead downgrade guard, mid-bump rollback, `--root` arg validation. Discovery supplied by audit-repo 2026-08-08. Surfaced by audit-repo 2026-08-08 (Theme: The one mutating tool is the least defended).
-  - [x] **CORE-419.2** [medium]🧩 | pinned-ahead guard — Completed 2026-08-08.
-  - [x] **CORE-419.3** [medium]🧩 | applyBump rollback — Completed 2026-08-08.
-  - [x] **CORE-419.4** [light]🔧 | root-arg validation — Completed 2026-08-08.
-  - [ ] **CORE-419.N** [heavy]🧠 | fleet-updater-safety audit — Epic-closing audit sweep.
+(none)
 
 ## Medium
 
@@ -39,6 +35,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 
 ## Completed
+
+- [x] **CORE-EPIC-419** [heavy]🧠 | fleet-updater-safety — Completed 2026-08-09.
+  - [x] **CORE-419.2** [medium]🧩 | pinned-ahead guard — Completed 2026-08-08.
+  - [x] **CORE-419.3** [medium]🧩 | applyBump rollback — Completed 2026-08-08.
+  - [x] **CORE-419.4** [light]🔧 | root-arg validation — Completed 2026-08-08.
+  - [x] **CORE-419.N** [heavy]🧠 | fleet-updater-safety audit — Completed 2026-08-09.
 
 - [x] **CORE-417** [heavy]🧠 | superseded-claim-pointer — Completed 2026-08-08.
 

@@ -14,6 +14,8 @@
 //                                             # (default $FLOWTRON_VIZ_WORKSPACE or ~/code)
 //
 // Per-adopter safety gates (any hit → skip that repo, report why):
+//   - .flowtron/core/SPEC.md's Version line is unreadable → the current pin
+//     can't be established, so no range can be reasoned about
 //   - adopter pinned NEWER than the latest known release → bumping would
 //     downgrade it (usually a stale tag list in this checkout)
 //   - release range carries a real Migration block (BREAKING or required
