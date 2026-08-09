@@ -136,6 +136,11 @@ export interface TaskNode {
   children: Task[];
 }
 
+export interface DuplicateEpic {
+  /** The epic ID that appeared under more than one heading. */
+  id: string;
+}
+
 const EPIC_ID = /^([A-Z]+)-EPIC-(\d+)$/;
 const SUBTASK_ID = /^([A-Z]+)-(\d+)\.(?:\d+|N)$/;
 
@@ -158,22 +163,41 @@ export function getSubtaskParentEpicId(id: string): string | null {
   return m ? `${m[1]}-EPIC-${m[2]}` : null;
 }
 
-export function groupTasks(tasks: Task[]): TaskNode[] {
+export interface GroupTasksResult {
+  nodes: TaskNode[];
+  duplicateEpics: DuplicateEpic[];
+}
+
+export function groupTasks(tasks: Task[]): GroupTasksResult {
   const epicByKey = new Map<string, TaskNode>();
+  const seenEpicKeys = new Set<string>();
+  const duplicateEpics: DuplicateEpic[] = [];
 
   // Pass 1: index every epic first so a subtask listed before its epic in
-  // the input array still finds its parent in pass 2.
+  // the input array still finds its parent in pass 2. Only the first
+  // occurrence of a given epic ID is kept — an epic ID hand-authored under
+  // two headings would otherwise let the second `.set()` silently overwrite
+  // the first (last write wins), stranding it out of its original section.
   for (const task of tasks) {
     const eKey = epicKey(task.id);
-    if (eKey) {
-      epicByKey.set(eKey, { task, children: [] });
+    if (!eKey) continue;
+    if (seenEpicKeys.has(eKey)) {
+      duplicateEpics.push({ id: task.id });
+      continue;
     }
+    seenEpicKeys.add(eKey);
+    epicByKey.set(eKey, { task, children: [] });
   }
 
+  const pushedEpicKeys = new Set<string>();
   const nodes: TaskNode[] = [];
   for (const task of tasks) {
     const eKey = epicKey(task.id);
     if (eKey) {
+      // Guard mirrors pass 1: a duplicate epic line must not push its
+      // shared TaskNode into `nodes` a second time.
+      if (pushedEpicKeys.has(eKey)) continue;
+      pushedEpicKeys.add(eKey);
       nodes.push(epicByKey.get(eKey)!);
       continue;
     }
@@ -185,7 +209,7 @@ export function groupTasks(tasks: Task[]): TaskNode[] {
     nodes.push({ task, children: [] });
   }
 
-  return nodes;
+  return { nodes, duplicateEpics };
 }
 
 export interface UnparsedLine {

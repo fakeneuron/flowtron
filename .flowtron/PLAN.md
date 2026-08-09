@@ -17,7 +17,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **CORE-EPIC-421** [heavy]🧠 | viz-robustness — Make viz line-scanners fence-aware and duplicate-tolerant, close the devApi XSSI gap, and gate keyboard nav on open modals. Discovery supplied by audit-repo 2026-08-08. Surfaced by audit-repo 2026-08-08 (Theme: Viz line-scanners trust well-formed markdown).
   - [x] **CORE-421.2** [medium]🧩 | fence-aware scanners — Completed 2026-08-09.
-  - [ ] **CORE-421.3** [light]🔧 | duplicate-epic guard — `parser.ts` groupTasks pushes the same TaskNode twice when an epic ID appears under two headings (last write wins, epic vanishes from its section); guard first-write, emit a diagnostic.
+  - [x] **CORE-421.3** [light]🔧 | duplicate-epic guard — Completed 2026-08-09.
   - [ ] **CORE-421.4** [light]🔧 | devApi response hardening — Add `X-Content-Type-Options: nosniff` + restrictive CSP per handler and 405 non-GET/HEAD (originGuard allows origin-less requests, so plan content is XSSI-readable today).
   - [ ] **CORE-421.5** [light]🔧 | modal-gated keyboard nav — Early-return in useKeyboardNav while a `dialog[open]` exists (Escape currently closes Settings and wipes search/filters in one press); add a test.
   - [ ] **CORE-421.N** [heavy]🧠 | viz-robustness audit — Epic-closing audit sweep.

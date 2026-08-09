@@ -534,10 +534,10 @@ All segments optional.
 });
 
 describe('groupTasks', () => {
-  const t = (id: string, completed = false): Task => ({
+  const t = (id: string, completed = false, priority: Task['priority'] = 'Low'): Task => ({
     id,
     description: id,
-    priority: 'Low',
+    priority,
     critical: false,
     completed,
     relatedTasks: [],
@@ -545,14 +545,14 @@ describe('groupTasks', () => {
   });
 
   it('returns standalone tasks as flat top-level nodes', () => {
-    const nodes = groupTasks([t('FE-001'), t('CORE-002')]);
+    const { nodes } = groupTasks([t('FE-001'), t('CORE-002')]);
     expect(nodes).toHaveLength(2);
     expect(nodes.every((n) => n.children.length === 0)).toBe(true);
     expect(nodes.map((n) => n.task.id)).toEqual(['FE-001', 'CORE-002']);
   });
 
   it('attaches subtasks to their epic parent by ID convention', () => {
-    const nodes = groupTasks([
+    const { nodes } = groupTasks([
       t('CORE-EPIC-009'),
       t('CORE-009.1', true),
       t('CORE-009.2'),
@@ -568,7 +568,7 @@ describe('groupTasks', () => {
   });
 
   it('preserves original order across mixed standalone + epic + standalone', () => {
-    const nodes = groupTasks([
+    const { nodes } = groupTasks([
       t('FE-001'),
       t('CORE-EPIC-009'),
       t('CORE-009.1'),
@@ -583,7 +583,7 @@ describe('groupTasks', () => {
   });
 
   it('attaches a subtask to its epic even when listed above the epic', () => {
-    const nodes = groupTasks([
+    const { nodes } = groupTasks([
       t('CORE-009.1'),
       t('CORE-EPIC-009'),
       t('CORE-009.2'),
@@ -598,7 +598,7 @@ describe('groupTasks', () => {
 
   // CORE-333: a `.N` audit child groups under its epic like any numeric child.
   it('attaches a `.N` audit subtask to its epic parent', () => {
-    const nodes = groupTasks([
+    const { nodes } = groupTasks([
       t('CORE-EPIC-005'),
       t('CORE-005.1'),
       t('CORE-005.N'),
@@ -609,15 +609,47 @@ describe('groupTasks', () => {
   });
 
   it('treats orphan subtasks (no matching epic) as top-level rows', () => {
-    const nodes = groupTasks([t('CORE-009.1'), t('FE-001')]);
+    const { nodes } = groupTasks([t('CORE-009.1'), t('FE-001')]);
     expect(nodes.map((n) => n.task.id)).toEqual(['CORE-009.1', 'FE-001']);
     expect(nodes.every((n) => n.children.length === 0)).toBe(true);
   });
 
   it('handles an epic with no children', () => {
-    const nodes = groupTasks([t('CORE-EPIC-009')]);
+    const { nodes } = groupTasks([t('CORE-EPIC-009')]);
     expect(nodes).toHaveLength(1);
     expect(nodes[0].task.id).toBe('CORE-EPIC-009');
     expect(nodes[0].children).toEqual([]);
+  });
+
+  it('returns no duplicate diagnostics when every epic ID is unique', () => {
+    const { duplicateEpics } = groupTasks([t('CORE-EPIC-009'), t('CORE-009.1')]);
+    expect(duplicateEpics).toEqual([]);
+  });
+
+  // CORE-421.3: a hand-authoring mistake filing the same epic ID under two
+  // headings must not silently overwrite the first occurrence.
+  it('keeps the first occurrence when an epic ID appears under two headings', () => {
+    const first = t('CORE-EPIC-421', false, 'Medium');
+    const second = t('CORE-EPIC-421', false, 'Low');
+    const { nodes, duplicateEpics } = groupTasks([first, second]);
+    expect(nodes).toHaveLength(1);
+    expect(nodes[0].task.priority).toBe('Medium');
+    expect(duplicateEpics).toEqual([{ id: 'CORE-EPIC-421' }]);
+  });
+
+  it('does not push the duplicated epic node into `nodes` twice', () => {
+    const { nodes } = groupTasks([t('CORE-EPIC-421'), t('CORE-EPIC-421')]);
+    expect(nodes).toHaveLength(1);
+  });
+
+  it('still attaches subtasks to the first-occurrence epic node when duplicated', () => {
+    const { nodes, duplicateEpics } = groupTasks([
+      t('CORE-EPIC-421'),
+      t('CORE-421.1'),
+      t('CORE-EPIC-421'),
+    ]);
+    expect(nodes).toHaveLength(1);
+    expect(nodes[0].children.map((c) => c.id)).toEqual(['CORE-421.1']);
+    expect(duplicateEpics).toEqual([{ id: 'CORE-EPIC-421' }]);
   });
 });

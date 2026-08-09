@@ -132,7 +132,7 @@ export const App: React.FC = () => {
     [tasknotesById, query, statusFilter],
   );
 
-  const allNodes = useMemo(() => groupTasks(tasks), [tasks]);
+  const { nodes: allNodes, duplicateEpics } = useMemo(() => groupTasks(tasks), [tasks]);
 
   const filteredNodes = useMemo(
     () => allNodes.filter((n) => matchesFilter(n.task) || n.children.some(matchesFilter)),
@@ -328,6 +328,11 @@ export const App: React.FC = () => {
                     ⚠ {unparsed.length} unparsed
                   </span>
                 )}
+                {duplicateEpics.length > 0 && (
+                  <span className="ml-2 inline-flex items-center rounded bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-200">
+                    ⚠ {duplicateEpics.length} duplicate epic{duplicateEpics.length === 1 ? '' : 's'}
+                  </span>
+                )}
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -416,6 +421,21 @@ export const App: React.FC = () => {
               <li key={u.line}>
                 L{u.line}: {u.text}
               </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {!loading && duplicateEpics.length > 0 && (
+        <div className="mx-4 mt-3 rounded border border-amber-300 bg-amber-50 p-3 text-base text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200">
+          <p>
+            ⚠ {duplicateEpics.length === 1
+              ? '1 epic ID appears under more than one PLAN.md heading; only its first occurrence is shown:'
+              : `${duplicateEpics.length} epic IDs appear under more than one PLAN.md heading; only each first occurrence is shown:`}
+          </p>
+          <ul className="mt-1 font-mono text-sm">
+            {duplicateEpics.map((d, i) => (
+              <li key={`${d.id}-${i}`}>{d.id}</li>
             ))}
           </ul>
         </div>

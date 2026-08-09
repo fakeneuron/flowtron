@@ -862,3 +862,43 @@ describe('App — unparsed-line diagnostics (FE-063.2)', () => {
     expect(screen.queryByText(/failed to parse/)).not.toBeInTheDocument();
   });
 });
+
+describe('App — duplicate-epic diagnostics (CORE-421.3)', () => {
+  const plan = `## Medium
+
+- [ ] **CORE-EPIC-421** | dup epic — Filed once under Medium.
+
+## Low
+
+- [ ] **CORE-EPIC-421** | dup epic — Same ID re-filed under Low.
+`;
+
+  it('shows the "N duplicate epics" badge and the duplicated ID', async () => {
+    renderApp({ plan });
+
+    await waitFor(() => expect(screen.getAllByText('CORE-EPIC-421').length).toBeGreaterThan(0));
+
+    expect(screen.getByText(/1 duplicate epic/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/1 epic ID appears under more than one PLAN\.md heading/),
+    ).toBeInTheDocument();
+  });
+
+  it('keeps the epic under its first heading, not duplicated in both', async () => {
+    renderApp({ plan });
+
+    await waitFor(() => expect(screen.getAllByText('CORE-EPIC-421').length).toBeGreaterThan(0));
+
+    // One row instance (`row-CORE-EPIC-421`) plus one mention in the
+    // diagnostic strip's list — never a second row for the dropped duplicate.
+    expect(document.querySelectorAll('#row-CORE-EPIC-421')).toHaveLength(1);
+  });
+
+  it('renders no badge or strip when no epic ID is duplicated', async () => {
+    renderApp({ plan: '## High\n\n- [ ] **CORE-EPIC-421** | fine — Filed once.\n' });
+
+    await waitFor(() => expect(screen.getByText('CORE-EPIC-421')).toBeInTheDocument());
+
+    expect(screen.queryByText(/duplicate epic/)).not.toBeInTheDocument();
+  });
+});
