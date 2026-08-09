@@ -11,6 +11,8 @@ related-tasks: [CORE-EPIC-416, CORE-415.N, CORE-381, CORE-393]
 
 [← PLAN.md](../PLAN.md) · 🟢 In progress · 🔗 [[CORE-EPIC-416]]
 
+> **⚠️ Superseded by [[CORE-416.2]]** — the 322-of-615 (52%) headline and its "live drift" framing were measured against a 2026-07-01 cutoff, but the obligation dates to 2026-08-01; post-rule compliance is 43/45. The `SPEC/procedures/ft-task.md` propagation gap never existed — `git blame` puts that text at the commit that created the rule.
+
 ## 🎯 Goal
 
 Scope the `CORE-EPIC-416` epic (`closure-artifact-fidelity`) before any implementation child fires; deliverable = filed concrete child scopes for `CORE-416.2..4` in `.flowtron/PLAN.md`.

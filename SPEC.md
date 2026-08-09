@@ -290,6 +290,46 @@ closure). Each of those writes happens while the tasknote is **active**, before
 any archive move. Do not cite write-once to justify leaving `status:` stale at
 closure — that reading is what produced the drift this carve-out closes.
 
+**Write-once does not cover factual corrections.** The policy protects the
+record of what was *believed*, not the accuracy of the claim. When a later task
+proves a **factual** claim in an archived tasknote false — something untrue
+about the repo at the time that note was written — the falsifying task appends
+a single pointer directly under the corrected note's nav header:
+
+```markdown
+> **⚠️ Superseded by [[<TASK-ID>]]** — <one line naming what was falsified>
+```
+
+**Append-only.** Never rewrite, delete, or soften the original text. The
+falsified claim stays readable, because a historical record that quietly agrees
+with the present is not a record. One blockquote, written by the *falsifying*
+task at its own Phase 4 closure (§"🚀 Phase 4: Closure") and staged in the same
+atomic commit — never by a third party tidying the archive later. The corrected
+note's `related-tasks:` is deliberately left alone; the wikilink already carries
+the edge.
+
+**Scope is narrow, and deliberately so.** Three neighbouring cases are *not*
+covered:
+
+- **A superseded decision.** CORE-159 overturned CORE-157's exclusion of
+  `docs/PLATFORMS.md`; CORE-157 remains an accurate record of what was decided
+  then. Decisions changing is the system working, not a defect.
+- **Spec evolution.** The case the policy opens with — conventions move, legacy
+  archives stay as-is.
+- **Bulk backfill.** Reaching across many archived notes to normalize them
+  against a later rule remains an explicit operator decision, not something this
+  carve-out permits. CORE-381's 359-file `status:` backfill is the precedent,
+  and its own note records it as an operator override rather than a policy
+  allowance.
+
+**Never park a durable correction in a PLAN.md long description.** Phase 4
+collapses that line to a `Completed YYYY-MM-DD.` stub and the description drops
+([`SPEC/tasknote-selection.md`](SPEC/tasknote-selection.md) §"`## Completed`
+archive convention"), so a correction left there is deleted on a schedule. This
+is why the carve-out exists: CORE-416.2 falsified CORE-416.1's headline,
+honoured write-once, and recorded that "this note and the parent line carry the
+correction" — the epic close deleted the parent line two commits later.
+
 Every tasknote opens with a YAML frontmatter block carrying machine-parseable
 fields, followed by a Markdown body. The canonical schema lives in `templates/tasknote-template.md`. Valid `status:` values:
 `starter | not-started | in-progress | blocked | completed`.
@@ -654,6 +694,15 @@ are therefore **correct, not drift** — an archived tasknote is judged on its
 Acceptance block alone. This is stated here so the silence cannot be re-read as
 an implied obligation; it is a scope clarification, not a new rule, and the
 surfaces that restate tick-through already name `## ✅ Acceptance` explicitly.
+
+**Superseded-claim pointer (conditional).** If this task falsified a factual
+claim in an archived tasknote — the Phase 1 drift check is where that usually
+surfaces — append the one-line `> **⚠️ Superseded by [[<TASK-ID>]]**` pointer to
+that note as part of closure, and stage it in the same atomic commit. Most
+closures falsify nothing and write no pointer. The shape, the append-only rule,
+and the three cases it does *not* cover are canonical in §"Tasknote
+frontmatter"; this is the trigger, not a second copy of the contract. No new
+checkbox — the pointer rides the existing `Closed —` box.
 
 > **No nav-header chip flip here.** Phase 4 does **not** flip the markdown nav
 > chip to `✅ Completed`. CORE-042.4 retired that write deliberately (three

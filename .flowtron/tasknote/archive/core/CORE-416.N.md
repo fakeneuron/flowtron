@@ -10,6 +10,8 @@ related-tasks: [CORE-EPIC-416, CORE-416.1, CORE-416.2, CORE-416.3]
 
 [← PLAN.md](../PLAN.md) · 🟢 In progress · 🔗 [[CORE-EPIC-416]]
 
+> **⚠️ Superseded by [[CORE-418]]** — Finding 1's premise is false: `/ft-close-epic:154` has specified `| <shortname> audit` since 2026-05-17, two months before the earliest bare row, so the instruction was never missing (it was ambiguous). The defect also spans ~28 rows across both `.1` and `.N`, not the six `.N` rows reported.
+
 ## 🎯 Goal
 
 Verify the completed `CORE-EPIC-416` (`closure-artifact-fidelity`) cohort sits coherently in the codebase: cumulative doc-drift sweep across `.flowtron/tasknote/README.md` §"AI-referenced docs", naming/style consistency across the cohort's deliverables, and follow-up filings for any miss.

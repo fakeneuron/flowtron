@@ -266,7 +266,13 @@ time (Step 6).
   flip the markdown nav chip to `✅ Completed`; that write was retired
   deliberately and the chip is render-derived from YAML. Flip the tasknote's
   YAML `status:` to `completed` (a pre-archive lifecycle write — write-once
-  does not reach it). Flip **only this task's**
+  does not reach it). If this task falsified a **factual** claim in an already
+  archived tasknote, append the one-line
+  `> **⚠️ Superseded by [[<TASK-ID>]]** — <what was falsified>` pointer under
+  that note's nav header and stage it in the same commit — append-only, never
+  rewriting the original text (`SPEC.md` §"Tasknote frontmatter" carries the
+  contract and the three cases it excludes). Conditional: most closures write
+  no pointer. Flip **only this task's**
   PLAN.md line to the stub form
   `[x] **<TASK-ID>** [model] | shortname — Completed YYYY-MM-DD.`. For a
   standalone task, move the row to the top of `## Completed`; for an epic

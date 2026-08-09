@@ -141,8 +141,10 @@ Closed task lines collapse to a stub form:
 ```
 
 The long description drops — the archived tasknote at
-`.flowtron/tasknote/archive/<area>/<TASK-ID>.md` is the canonical record.
-Phase 4 closure rewrites the line to the stub form (not just the
+`.flowtron/tasknote/archive/<area>/<TASK-ID>.md` is the canonical record. So
+never park anything durable there: a correction, caveat, or decision left in a
+long description is deleted on a schedule (`SPEC.md` §"Tasknote frontmatter" →
+factual corrections). Phase 4 closure rewrites the line to the stub form (not just the
 checkbox + date); `| shortname` is required so visualizers have a row
 title, `[model]` stays optional. Adopting projects pick up the
 convention on their next bump (additive change; legacy paragraph-form

@@ -13,14 +13,14 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-417** [heavy]🧠 | superseded-claim-pointer — Write-once forbids retroactively editing archived tasknotes but is silent on factual corrections, so a falsified claim stays uncorrected in place. CORE-416.2 overturned CORE-416.1's headline and relied on the parent PLAN description — which the epic close then deleted. Decide whether a superseded-by pointer is warranted.
-
 ## Low
 
 ## Future Opportunities
 
 
 ## Completed
+
+- [x] **CORE-417** [heavy]🧠 | superseded-claim-pointer — Completed 2026-08-08.
 
 - [x] **CORE-418** [light]🔧 | audit-shortname-flip — Completed 2026-08-08.
 
