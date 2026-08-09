@@ -420,6 +420,69 @@ describe('sandboxed --apply', () => {
   });
 });
 
+describe('applyBump rollback (CORE-419.3)', () => {
+  it('restores the prior submodule SHA when a post-checkout verify fails', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'ft-upd-rb-verify-'));
+
+    // Forge a non-canonical `latest`: a content-identical commit (amend keeps the
+    // tree, so SPEC.md still reads `latest`) carrying a fresh SHA, with the tag
+    // moved onto it. A natural clone of the same tag always resolves to the same
+    // commit (CORE-366), so verifyPinnedSha's mismatch branch is otherwise
+    // unreachable through the real code path. The forgery lives in a *separate
+    // origin* rather than in the adopter's own submodule because applyBump opens
+    // with `git fetch --tags`, which exits 1 rather than clobbering a diverged
+    // local tag — that would abort before the rollback window and pass vacuously.
+    const forged = join(root, 'forged-core');
+    await execFileAsync('git', [
+      'clone', '-q', '--local', '--no-hardlinks', join(mirrorDir, 'core'), forged,
+    ]);
+    await gitQuiet(forged, 'config', 'user.email', 'core-419-3@test.local');
+    await gitQuiet(forged, 'config', 'user.name', 'CORE-419.3');
+    await gitQuiet(forged, 'checkout', '-q', latest);
+    await gitQuiet(forged, 'commit', '-q', '--amend', '--no-edit', '--allow-empty');
+    await gitQuiet(forged, 'tag', '-f', latest);
+
+    const adopter = await makeAdopter(root, 'verify-fail', previous);
+    const priorSha = (await git(adopter.sub, 'rev-parse', 'HEAD')).trim();
+    await gitQuiet(adopter.sub, 'tag', '-d', latest);
+    await gitQuiet(adopter.sub, 'remote', 'set-url', 'origin', forged);
+
+    await assert.rejects(
+      () => applyBump({ ...adopter, current: previous }, latest),
+      /does not match canonical/,
+    );
+
+    // Failure landed before `git add`, so only the checkout needed undoing.
+    assert.equal((await git(adopter.sub, 'rev-parse', 'HEAD')).trim(), priorSha);
+    assert.equal((await git(adopter.repo, 'diff', '--cached', '--name-only')).trim(), '');
+
+    await rm(root, { recursive: true, force: true });
+  });
+
+  it('unstages the gitlink and restores the submodule when the commit fails', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'ft-upd-rb-commit-'));
+    const adopter = await makeAdopter(root, 'commit-fail', previous);
+    const priorSha = (await git(adopter.sub, 'rev-parse', 'HEAD')).trim();
+    const headBefore = (await git(adopter.repo, 'rev-parse', 'HEAD')).trim();
+
+    // Fail at the last step — after `git add` staged the gitlink — so both halves
+    // of the rollback have to run. core.hooksPath is pinned explicitly so a global
+    // override on the host cannot silently disarm the injection.
+    const hooks = join(adopter.repo, '.git', 'hooks');
+    await mkdir(hooks, { recursive: true });
+    await writeFile(join(hooks, 'pre-commit'), '#!/bin/sh\nexit 1\n', { mode: 0o755 });
+    await gitQuiet(adopter.repo, 'config', 'core.hooksPath', hooks);
+
+    await assert.rejects(() => applyBump({ ...adopter, current: previous }, latest));
+
+    assert.equal((await git(adopter.sub, 'rev-parse', 'HEAD')).trim(), priorSha);
+    assert.equal((await git(adopter.repo, 'diff', '--cached', '--name-only')).trim(), '');
+    assert.equal((await git(adopter.repo, 'rev-parse', 'HEAD')).trim(), headBefore);
+
+    await rm(root, { recursive: true, force: true });
+  });
+});
+
 describe('tagsInRange', () => {
   it('returns tags strictly after from up to to', async () => {
     const range = await tagsInRange(previous, latest);

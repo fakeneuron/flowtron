@@ -29,6 +29,17 @@
 // as `drift` (not `current`); the fix is `git add .flowtron/core` + commit, or
 // /ft-update. Report-only — never auto-committed.
 //
+// Mid-bump rollback: applyBump mutates the adopter (submodule checkout, then a
+// staged gitlink) before it commits, and every step after the checkout can fail.
+// Without recovery a failed bump leaves the repo half-updated — submodule at the
+// new tag, gitlink possibly staged, nothing committed — and the residue is
+// self-concealing: the worktree now reads the new version, so a re-run classifies
+// the repo as current/drift rather than bump and the failure never resurfaces. So
+// the prior submodule SHA is captured before the checkout and restored (plus the
+// gitlink unstaged, when it got that far) on any later failure. The original error
+// still propagates to the ✗ report line; a rollback that itself fails is appended
+// to it rather than swallowed.
+//
 // Not covered (by design — run /ft-update in the repo for these): per-project
 // symlink wiring for newly shipped skills, and audit-fork drift scans. When a
 // bumped range ships a new *per-project-wired* skill (one named in a platform
@@ -399,22 +410,58 @@ export function verifyPinnedSha(checkedOutSha, canonicalSha, latest) {
   }
 }
 
+// Undo applyBump's mutations: put the submodule worktree back on `priorSha` and,
+// when the gitlink was already staged, drop it from the index (checkAdopter
+// verified the index was otherwise clean, so a pathspec reset restores it exactly).
+// Best-effort by construction — the caller is already unwinding a failure, so this
+// reports what it could not undo rather than throwing over the original error.
+// Returns null when the repo is fully restored, else a note naming the residue.
+export async function rollbackBump(repo, sub, priorSha, staged) {
+  const residue = [];
+  try {
+    await git(sub, 'checkout', '--quiet', priorSha);
+  } catch (e) {
+    residue.push(`submodule left at the new tag (${e.message})`);
+  }
+  if (staged) {
+    try {
+      await git(repo, 'reset', '--quiet', '--', SUBMODULE_PATH);
+    } catch (e) {
+      residue.push(`gitlink left staged (${e.message})`);
+    }
+  }
+  return residue.length > 0 ? residue.join('; ') : null;
+}
+
 export async function applyBump(adopter, latest) {
   const { repo } = adopter;
   const sub = join(repo, SUBMODULE_PATH);
+  // Fetch adds refs only — no worktree or index mutation, so it sits outside the
+  // rollback window and the prior SHA is captured immediately before the checkout.
   await git(sub, 'fetch', '--tags', '--quiet', 'origin');
-  await git(sub, 'checkout', '--quiet', latest);
-  const confirmed = await pinnedVersion(join(sub, 'SPEC.md'));
-  if (confirmed !== latest) {
-    throw new Error(`post-checkout SPEC.md reads ${confirmed}, expected ${latest}`);
+  const priorSha = (await git(sub, 'rev-parse', 'HEAD')).trim();
+  let staged = false;
+  try {
+    await git(sub, 'checkout', '--quiet', latest);
+    const confirmed = await pinnedVersion(join(sub, 'SPEC.md'));
+    if (confirmed !== latest) {
+      throw new Error(`post-checkout SPEC.md reads ${confirmed}, expected ${latest}`);
+    }
+    const checkedOutSha = (await git(sub, 'rev-parse', 'HEAD')).trim();
+    const canonicalSha = (await git(FLOWTRON_REPO, 'rev-parse', `${latest}^{commit}`)).trim();
+    verifyPinnedSha(checkedOutSha, canonicalSha, latest);
+    await git(repo, 'add', SUBMODULE_PATH);
+    staged = true;
+    // Pathspec commit: only the submodule gitlink lands, never unrelated work.
+    const current = adopter.current;
+    await git(repo, 'commit', '--quiet', '-m', `chore: bump flowtron ${current} → ${latest}`, '--', SUBMODULE_PATH);
+  } catch (e) {
+    const residue = await rollbackBump(repo, sub, priorSha, staged);
+    // Rethrow the original failure — reportResult renders it as the ✗ line — with
+    // the un-undone residue appended when the repo could not be fully restored.
+    if (residue) e.message = `${e.message} (rollback incomplete: ${residue})`;
+    throw e;
   }
-  const checkedOutSha = (await git(sub, 'rev-parse', 'HEAD')).trim();
-  const canonicalSha = (await git(FLOWTRON_REPO, 'rev-parse', `${latest}^{commit}`)).trim();
-  verifyPinnedSha(checkedOutSha, canonicalSha, latest);
-  await git(repo, 'add', SUBMODULE_PATH);
-  // Pathspec commit: only the submodule gitlink lands, never unrelated work.
-  const current = adopter.current;
-  await git(repo, 'commit', '--quiet', '-m', `chore: bump flowtron ${current} → ${latest}`, '--', SUBMODULE_PATH);
 }
 
 // Print one adopter's check result and fold it into the running counts. The
