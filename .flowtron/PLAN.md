@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-422** [medium]🧩 | roster mirror-pair gate — Encode the `ft-flowtron` roster ↔ skill-flag mirror as `/ft-release` §7.1 Pair E (or extend Pair B to scan the table body). CORE-420.N fixed three missing flag clauses by hand; no encoded pair covers body-level restatement, so the next fold re-drifts it.
+(none)
 
 ## Low
 
@@ -25,6 +25,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 
 ## Completed
+
+- [x] **CORE-422** [medium]🧩 | roster mirror-pair gate — Completed 2026-08-09.
 
 - [x] **CORE-EPIC-421** [heavy]🧠 | viz-robustness — Completed 2026-08-09.
   - [x] **CORE-421.2** [medium]🧩 | fence-aware scanners — Completed 2026-08-09.

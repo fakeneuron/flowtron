@@ -367,14 +367,16 @@ The first command is the closed-task count — one archived tasknote per closed 
 
 **Standing mirror-pair check.** Some surfaces restate a fact that is *derived* from another surface — a roster that must list what a directory holds, a Codex description that must name the flags its Claude twin documents, a template's back-link that must resolve from the directory a skill writes it to. Nothing binds the two halves, so an edit to the source silently strands the mirror, and the gap only surfaces when a reader trips over it (CORE-EPIC-420 found four such pairs drifted at once). Each pair below is repo state — a commit in this cut can carry every fix — so all of them **block**: fix inline as Critical/High before cutting the release.
 
-**Pair A — templates roster ↔ `templates/` directory.** `README.md`'s repo-layout `templates/` bullet and `SPEC.md:55` carry a byte-identical roster clause naming every shipped template. Adding or removing a file in `templates/` without editing both lines strands one or both:
+**Pair A — templates roster ↔ `templates/` directory.** Three surfaces restate what `templates/` holds: `README.md`'s repo-layout bullet, `SPEC.md:55`, and `claude/skills/ft-flowtron/SKILL.md`'s "Key docs" list. Adding or removing a file in `templates/` without editing all three strands the ones left behind:
 
 ```sh
 ls templates/
-grep -n 'canonical tasknote templates' README.md SPEC.md
+grep -n 'tasknote templates (full' README.md SPEC.md claude/skills/ft-flowtron/SKILL.md
 ```
 
-The two `grep` hits must quote the same roster clause, and every file `ls` prints must be named in it (the seed files appear as `PLAN.md` / `tasknote-README.md`, the tasknote templates by their qualifier — `full`, `micro`, `starter`). A file in the directory with no name in the clause, or a name in the clause with no file, is the drift.
+Three hits, one per file. **README + SPEC** carry a byte-identical roster clause: every file `ls` prints must be named in it (the seed files appear as `PLAN.md` / `tasknote-README.md`, the tasknote templates by their qualifier — `full`, `micro`, `starter`, `sidequest`). The **`ft-flowtron` hit is a deliberately compressed variant** — it is a one-line screen entry about templates, so the two seed files are exempt there; every *template* file must still be named. A file in the directory named by no clause, or a name in a clause with no file, is the drift.
+
+The pattern is `tasknote templates (full`, not the narrower `canonical tasknote templates` this pair originally used: the `ft-flowtron` variant drops the word "canonical" and was outside the file list besides, so the pair missed that site from the day it shipped (CORE-422).
 
 **Pair B — Claude skill flags ↔ Codex wrapper descriptions.** The shipped-skill parity check above compares slugs only and explicitly does not compare bodies, so a capability flag added to a Claude `description:` never reaches its Codex mirror. Codex dispatches by natural-language description match, so an unnamed flag is wired but undiscoverable — the CORE-420.3 drift class, minted every time a standalone skill folds into a flag on a survivor:
 
@@ -407,6 +409,36 @@ The first lists the templates carrying a back-link; the second must print nothin
 | `spec-template.md` | `/ft-spec` | `.flowtron/specs/<slug>.md` (no back-link today) |
 
 **Pair D — README counter ↔ archive count.** Already owned by the Standing README task-counter check above; not restated here. Two derivations of one number in the same section is the drift class this block exists to catch.
+
+**Pair E — `ft-flowtron` roster ↔ shipped skills and their flags.** `claude/skills/ft-flowtron/SKILL.md`'s "Bundled skills" table restates every skill's slug and capability one-liner, and the skill's own `description:` promises "the **full** bundled skill roster." Nothing binds the table to the skills it describes, and it falls through every other net: `claude/skills/*/SKILL.md` is excluded from `.flowtron/tasknote/README.md`'s cold-start doc sweep as lazily-loaded, and Pair B compares `description:` frontmatter to `description:` frontmatter — correctly blind to body text. So a skill added, retired, or given a new flag strands the info screen silently, and the screen is where an operator goes to find out what flowtron can do (CORE-420.N found three flags missing at once and fixed them by hand; this is that class encoded).
+
+Row coverage — bidirectional, because the roster claims to be full:
+
+```sh
+diff -u <(ls claude/skills | grep '^ft-' | sort) \
+        <(grep -oE '^\| `/ft-[a-z-]+`' claude/skills/ft-flowtron/SKILL.md | sed -E 's#^\| `/##; s#`$##' | sort)
+```
+
+Flag coverage — one-directional, each skill's `description:` → its roster row:
+
+```sh
+r=claude/skills/ft-flowtron/SKILL.md
+for d in claude/skills/ft-*/SKILL.md; do
+  s=$(basename "$(dirname "$d")")
+  row=$(grep -m1 "^| \`/$s\` |" "$r") || { echo "MISSING ROW  $s"; continue; }
+  for f in $(grep -m1 '^description:' "$d" | sed -E 's/"[^"]*"//g' | grep -oE '\-\-[a-z][a-z-]+' | sort -u); do
+    case "$row" in *"$f"*) ;; *) echo "MISSING FLAG $s $f" ;; esac
+  done
+done
+```
+
+Both must produce no output, and the `diff` must exit 0. A `-` line is a shipped skill with no roster row; a `+` line is a row for a slug that no longer ships. `MISSING FLAG` is a flag the skill documents in its own `description:` that the roster never names — fix by appending a clause to that row in the table's established shape (backticked flag, active verb, trailing clause on the existing one-liner), written from the source skill's `description:` and compressed to roster length rather than paraphrased from memory.
+
+Three properties of this pair are deliberate, and a future edit should preserve them:
+
+- **The flag extraction is Pair B's pipeline verbatim** — same quote-strip, so `args="CORE-004 --debug --fast"`-style illustrations are excluded here for the same load-bearing reason `CORE-420.5` measured. Keep the two in sync: a change to what counts as a *documented* flag belongs in both, or the checks start disagreeing.
+- **The flag half is one-directional on purpose.** The roster may legitimately name flags a `description:` does not — `/ft-file-followup`'s row carries `--low`/`--med`/`--fut`, which appear upstream only inside a quoted illustration and are therefore stripped. Checking the reverse would report those three as drift.
+- **A deleted row reports from both halves.** The loop's `MISSING ROW` guard exists so an absent row degrades to one clear line instead of every flag on that skill reporting missing and misattributing the cause.
 
 ### 7.2 — Auto-draft annotated tag message
 
