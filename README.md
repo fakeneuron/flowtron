@@ -19,8 +19,8 @@ actually review. No scripts, daemons, databases, or schemas to maintain.
 
 ![The flowtron visualizer showing flowtron's own PLAN.md — open tasks by priority, phase-progress dots, and the completed archive](.flowtron/screenshots/viz-board.png)
 
-Flowtron is built with flowtron: **606 tasks** closed through this exact
-workflow between 2026-04-28 and 2026-08-08 (as of 2026-08-08) — each one with
+Flowtron is built with flowtron: **625 tasks** closed through this exact
+workflow between 2026-04-28 and 2026-08-09 (as of 2026-08-09) — each one with
 a tasknote preserved in [`.flowtron/tasknote/archive/`](.flowtron/tasknote/archive/).
 Count and date range are recomputed each release by `/ft-release` §7.1's
 "Standing README task-counter check" (one archived tasknote per closed task,
@@ -54,7 +54,7 @@ one pass. Then file a task in `.flowtron/PLAN.md` and run it:
 ```
 
 Prefer to wire it by hand, or not using Claude Code?
-[docs/MIGRATION.md](docs/MIGRATION.md) carries the manual path (§1.1–1.6), the
+[docs/MIGRATION.md](docs/MIGRATION.md) carries the manual path (§1.1–1.7), the
 full one-time global-install table (§1.0), and the Codex / grok wiring.
 
 <details>
@@ -252,7 +252,7 @@ runtime lives in the runner; the contract lives in flowtron.
 
 - `SPEC.md` — workflow contract (authoritative)
 - `SPEC/` — lazy SPEC modules (epic, starter, blocked, model, versioning, gates, tasknote-selection, loop) plus `procedures/` (pasteable skill procedures); loaded on demand by skills
-- `templates/` — canonical tasknote templates (full, micro, starter, sidequest) plus spec, loop-heartbeat, and audit-overlay templates, and the `PLAN.md` / `tasknote-README.md` seed files
+- `templates/` — canonical tasknote templates (full, micro, starter, sidequest) plus spec, loop-heartbeat, audit-overlay, and subagent-probe templates, and the `PLAN.md` / `tasknote-README.md` seed files
 - `claude/` — Claude Code skills + slash commands (adopter-facing snippet plus the full shipped `ft-*` inventory; adopter projects wire the policy subset, while flowtron-self-only skills like `/ft-release` stay upstream-only)
 - `codex/` — Codex skill wrappers for the full `ft-*` inventory plus Codex-specific wiring notes
 - `grok/` — grok platform wiring (currently the `ft-task` procedure pointer); further platform wirings (e.g., `cursor/`) plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md)
