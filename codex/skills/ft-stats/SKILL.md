@@ -1,6 +1,6 @@
 ---
 name: ft-stats
-description: Show Flowtron PLAN stats from Codex, including model distribution, completion velocity, and per-area volume.
+description: Show Flowtron PLAN stats from Codex, including model distribution, completion velocity, and per-area volume. Read-only; with `--write`, also flush the screen to `.flowtron/STATS.md`.
 ---
 
 # ft-stats - Codex wrapper

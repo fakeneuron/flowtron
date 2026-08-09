@@ -365,6 +365,49 @@ grep -rhoE '\*\*Archived:\*\* [0-9]{4}-[0-9]{2}-[0-9]{2}' .flowtron/tasknote/arc
 
 The first command is the closed-task count — one archived tasknote per closed task, standalone or epic child. The second prints the earliest and latest `**Archived:**` date; the earliest is stable (2026-04-28) and only the latest moves. Update `README.md:22-23`'s count and "as of" date to match. A handful of archived tasknotes carry an unfilled `**Archived:** YYYY-MM-DD` placeholder or omit the field (archive-hygiene misses, e.g. CORE-255), so the second command undercounts by that many; if the gap looks material, file a follow-up via `/ft-file-followup` rather than fixing archive hygiene mid-cut. This is a mechanical text substitution, same footing as the 5 version edits in Step 5 — fix inline as Critical/High before cutting the release.
 
+**Standing mirror-pair check.** Some surfaces restate a fact that is *derived* from another surface — a roster that must list what a directory holds, a Codex description that must name the flags its Claude twin documents, a template's back-link that must resolve from the directory a skill writes it to. Nothing binds the two halves, so an edit to the source silently strands the mirror, and the gap only surfaces when a reader trips over it (CORE-EPIC-420 found four such pairs drifted at once). Each pair below is repo state — a commit in this cut can carry every fix — so all of them **block**: fix inline as Critical/High before cutting the release.
+
+**Pair A — templates roster ↔ `templates/` directory.** `README.md`'s repo-layout `templates/` bullet and `SPEC.md:55` carry a byte-identical roster clause naming every shipped template. Adding or removing a file in `templates/` without editing both lines strands one or both:
+
+```sh
+ls templates/
+grep -n 'canonical tasknote templates' README.md SPEC.md
+```
+
+The two `grep` hits must quote the same roster clause, and every file `ls` prints must be named in it (the seed files appear as `PLAN.md` / `tasknote-README.md`, the tasknote templates by their qualifier — `full`, `micro`, `starter`). A file in the directory with no name in the clause, or a name in the clause with no file, is the drift.
+
+**Pair B — Claude skill flags ↔ Codex wrapper descriptions.** The shipped-skill parity check above compares slugs only and explicitly does not compare bodies, so a capability flag added to a Claude `description:` never reaches its Codex mirror. Codex dispatches by natural-language description match, so an unnamed flag is wired but undiscoverable — the CORE-420.3 drift class, minted every time a standalone skill folds into a flag on a survivor:
+
+```sh
+for d in claude/skills/ft-*/SKILL.md; do
+  s=$(basename "$(dirname "$d")"); c="codex/skills/$s/SKILL.md"; [ -f "$c" ] || continue
+  cf=$(grep -m1 '^description:' "$d" | sed -E 's/"[^"]*"//g' | grep -oE '\-\-[a-z][a-z-]+' | sort -u | tr '\n' ' ')
+  xf=$(grep -m1 '^description:' "$c" | sed -E 's/"[^"]*"//g' | grep -oE '\-\-[a-z][a-z-]+' | sort -u | tr '\n' ' ')
+  [ "$cf" = "$xf" ] || echo "MISMATCH $s | claude:[$cf] codex:[$xf]"
+done
+```
+
+Must print nothing. The `sed` that strips double-quoted segments is load-bearing, not incidental: descriptions carry `args="CORE-004 --debug --fast"`-style illustrations, and counting those inflates the Claude set with flags the description never *documents* — dropping the strip takes this check from three real findings to six, half of them noise (CORE-420.5 measured both). Fix a mismatch by appending the capability to the Codex `description:` in that skill's own voice (`` With `--park`, … ``), not by copying the Claude sentence.
+
+**Pair C — template back-link ↔ skill write target.** Every template whose nav header carries a `← PLAN.md` back-link is written by some skill into a directory one level under `.flowtron/`, so the link is always `../PLAN.md`. A template authored at the wrong depth mints a dead link on every invocation until someone follows it (CORE-420.4):
+
+```sh
+grep -rn '](\.\./PLAN\.md)' templates/
+grep -rn '](\.\./\.\./PLAN\.md)' templates/
+```
+
+The first lists the templates carrying a back-link; the second must print nothing. Current write targets — a new template must land in a directory at this same depth, or the check needs a new row rather than a pass:
+
+| Template | Written by | Write target |
+|---|---|---|
+| `tasknote-template.md` | `/ft-task`, `/ft-goal-task`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release` | `.flowtron/tasknote/<ID>.md` |
+| `tasknote-micro-template.md` | `/ft-micro-task` | `.flowtron/tasknote/<ID>.md` |
+| `tasknote-starter-template.md` | `/ft-starter-task` | `.flowtron/tasknote/<ID>.md` |
+| `sidequest-template.md` | `/ft-file-followup --park` | `.flowtron/sidequest/<ID>.md` |
+| `spec-template.md` | `/ft-spec` | `.flowtron/specs/<slug>.md` (no back-link today) |
+
+**Pair D — README counter ↔ archive count.** Already owned by the Standing README task-counter check above; not restated here. Two derivations of one number in the same section is the drift class this block exists to catch.
+
 ### 7.2 — Auto-draft annotated tag message
 
 Use CORE-048's structure as the template:

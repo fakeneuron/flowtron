@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-420.2** [light]🔧 | README mirror fixes — Completed 2026-08-09.
   - [x] **CORE-420.3** [light]🔧 | codex wrapper folds — Completed 2026-08-09.
   - [x] **CORE-420.4** [light]🔧 | sidequest back-link depth — Completed 2026-08-09.
-  - [ ] **CORE-420.5** [heavy]🧠 | release mirror-pair checklist — Enumerate the mirrored surfaces (README counter↔archive count, README roster↔SPEC template list, claude skill flags↔codex descriptions, template paths↔skill write targets) in /ft-release §7.1's drift sweep.
+  - [x] **CORE-420.5** [heavy]🧠 | release mirror-pair checklist — Completed 2026-08-09.
   - [ ] **CORE-420.N** [heavy]🧠 | release-surface-sync audit — Epic-closing audit sweep.
 
 - [ ] **CORE-EPIC-421** [heavy]🧠 | viz-robustness — Make viz line-scanners fence-aware and duplicate-tolerant, close the devApi XSSI gap, and gate keyboard nav on open modals. Discovery supplied by audit-repo 2026-08-08. Surfaced by audit-repo 2026-08-08 (Theme: Viz line-scanners trust well-formed markdown).
