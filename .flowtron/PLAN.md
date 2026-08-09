@@ -15,13 +15,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-421** [heavy]🧠 | viz-robustness — Make viz line-scanners fence-aware and duplicate-tolerant, close the devApi XSSI gap, and gate keyboard nav on open modals. Discovery supplied by audit-repo 2026-08-08. Surfaced by audit-repo 2026-08-08 (Theme: Viz line-scanners trust well-formed markdown).
-  - [x] **CORE-421.2** [medium]🧩 | fence-aware scanners — Completed 2026-08-09.
-  - [x] **CORE-421.3** [light]🔧 | duplicate-epic guard — Completed 2026-08-09.
-  - [x] **CORE-421.4** [light]🔧 | devApi response hardening — Completed 2026-08-09.
-  - [x] **CORE-421.5** [light]🔧 | modal-gated keyboard nav — Completed 2026-08-09.
-  - [ ] **CORE-421.N** [heavy]🧠 | viz-robustness audit — Epic-closing audit sweep.
-
 - [ ] **CORE-422** [medium]🧩 | roster mirror-pair gate — Encode the `ft-flowtron` roster ↔ skill-flag mirror as `/ft-release` §7.1 Pair E (or extend Pair B to scan the table body). CORE-420.N fixed three missing flag clauses by hand; no encoded pair covers body-level restatement, so the next fold re-drifts it.
 
 ## Low
@@ -30,6 +23,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 
 ## Completed
+
+- [x] **CORE-EPIC-421** [heavy]🧠 | viz-robustness — Completed 2026-08-09.
+  - [x] **CORE-421.2** [medium]🧩 | fence-aware scanners — Completed 2026-08-09.
+  - [x] **CORE-421.3** [light]🔧 | duplicate-epic guard — Completed 2026-08-09.
+  - [x] **CORE-421.4** [light]🔧 | devApi response hardening — Completed 2026-08-09.
+  - [x] **CORE-421.5** [light]🔧 | modal-gated keyboard nav — Completed 2026-08-09.
+  - [x] **CORE-421.N** [heavy]🧠 | viz-robustness audit — Completed 2026-08-09.
 
 - [x] **CORE-EPIC-420** [heavy]🧠 | release-surface-sync — Completed 2026-08-09.
   - [x] **CORE-420.2** [light]🔧 | README mirror fixes — Completed 2026-08-09.

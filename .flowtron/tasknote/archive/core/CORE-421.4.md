@@ -130,5 +130,3 @@ Hardened all five `viz/src/devApi.ts` `/api/*` handlers: every response now carr
 - **Maintainability:** the two helpers are single points of change for future API-wide header or method-policy adjustments, rather than per-handler duplication.
 
 **Archived:** 2026-08-09
-
-**Archived:** YYYY-MM-DD
