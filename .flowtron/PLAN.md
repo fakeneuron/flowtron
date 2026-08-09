@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-421.2** [medium]🧩 | fence-aware scanners — Completed 2026-08-09.
   - [x] **CORE-421.3** [light]🔧 | duplicate-epic guard — Completed 2026-08-09.
   - [x] **CORE-421.4** [light]🔧 | devApi response hardening — Completed 2026-08-09.
-  - [ ] **CORE-421.5** [light]🔧 | modal-gated keyboard nav — Early-return in useKeyboardNav while a `dialog[open]` exists (Escape currently closes Settings and wipes search/filters in one press); add a test.
+  - [x] **CORE-421.5** [light]🔧 | modal-gated keyboard nav — Completed 2026-08-09.
   - [ ] **CORE-421.N** [heavy]🧠 | viz-robustness audit — Epic-closing audit sweep.
 
 - [ ] **CORE-422** [medium]🧩 | roster mirror-pair gate — Encode the `ft-flowtron` roster ↔ skill-flag mirror as `/ft-release` §7.1 Pair E (or extend Pair B to scan the table body). CORE-420.N fixed three missing flag clauses by hand; no encoded pair covers body-level restatement, so the next fold re-drifts it.

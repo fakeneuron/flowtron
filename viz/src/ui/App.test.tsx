@@ -394,6 +394,25 @@ describe('App — settings modal', () => {
     await waitFor(() => expect(dialog.open).toBe(false));
   });
 
+  it('Escape while the settings modal is open does not clear the search query', async () => {
+    const user = userEvent.setup();
+    renderApp({ plan, active });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+
+    const searchInput = screen.getByRole('searchbox', { name: 'Search tasks' });
+    await user.type(searchInput, 'CORE-100');
+    expect(searchInput).toHaveValue('CORE-100');
+
+    const dialog = document.querySelector('dialog') as HTMLDialogElement;
+    await user.click(screen.getByRole('button', { name: 'Open settings' }));
+    await waitFor(() => expect(dialog.open).toBe(true));
+
+    await user.keyboard('{Escape}');
+
+    expect(searchInput).toHaveValue('CORE-100');
+  });
+
   it('toggling row-chip prefs surfaces hidden chips and hides shown ones', async () => {
     const user = userEvent.setup();
     renderApp({ plan, active });

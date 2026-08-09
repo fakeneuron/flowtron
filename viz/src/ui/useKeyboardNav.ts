@@ -45,6 +45,7 @@ export function useKeyboardNav(params: UseKeyboardNavParams) {
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
+      if (document.querySelector('dialog[open]')) return;
       if (e.metaKey || e.ctrlKey || e.altKey) return;
 
       const target = e.target as HTMLElement | null;
