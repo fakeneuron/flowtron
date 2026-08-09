@@ -11,7 +11,27 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
+- [ ] **CORE-EPIC-419** [heavy]🧠 | fleet-updater-safety — Harden `tools/update-adopters.mjs` failure paths: pinned-ahead downgrade guard, mid-bump rollback, `--root` arg validation. Discovery supplied by audit-repo 2026-08-08. Surfaced by audit-repo 2026-08-08 (Theme: The one mutating tool is the least defended).
+  - [ ] **CORE-419.2** [medium]🧩 | pinned-ahead guard — Bail with a skip status when the adopter's pin is newer than `latest` (tagsInRange returns [] and the migration gate passes vacuously, so `--apply` silently downgrades); add a pinned-ahead fixture.
+  - [ ] **CORE-419.3** [medium]🧩 | applyBump rollback — Capture prior submodule SHA before checkout; on any later failure (SHA verify, add, commit) restore it and unstage the gitlink instead of leaving the repo half-updated; add a failure-injection test.
+  - [ ] **CORE-419.4** [light]🔧 | root-arg validation — Error when `--root` is missing its value or the value starts with `--` (currently `--apply --root` silently runs against real ~/code); add tests.
+  - [ ] **CORE-419.N** [heavy]🧠 | fleet-updater-safety audit — Epic-closing audit sweep.
+
 ## Medium
+
+- [ ] **CORE-EPIC-420** [heavy]🧠 | release-surface-sync — Fix drifted mirror pairs (README counters/roster/§range, codex wrapper descriptions, sidequest template link) and encode the mirror-pair checklist into /ft-release so the class can't recur. Discovery supplied by audit-repo 2026-08-08. Surfaced by audit-repo 2026-08-08 (Theme: Mirrored surfaces drift between releases).
+  - [ ] **CORE-420.2** [light]🔧 | README mirror fixes — Recompute the task counter (620 at audit time) with matching as-of date, add subagent-probe to the templates roster line (match SPEC.md:55), and widen the manual-path range to §1.1–1.7.
+  - [ ] **CORE-420.3** [light]🔧 | codex wrapper folds — Absorb the v5.15.0 skill folds into codex frontmatter descriptions: `--debug` on ft-task, `--park` on ft-file-followup.
+  - [ ] **CORE-420.4** [light]🔧 | sidequest back-link depth — `templates/sidequest-template.md` back-link is `../../PLAN.md` but park mode writes to `.flowtron/sidequest/`, so every parked stub ships a dead link; change to `../PLAN.md`.
+  - [ ] **CORE-420.5** [heavy]🧠 | release mirror-pair checklist — Enumerate the mirrored surfaces (README counter↔archive count, README roster↔SPEC template list, claude skill flags↔codex descriptions, template paths↔skill write targets) in /ft-release §7.1's drift sweep.
+  - [ ] **CORE-420.N** [heavy]🧠 | release-surface-sync audit — Epic-closing audit sweep.
+
+- [ ] **CORE-EPIC-421** [heavy]🧠 | viz-robustness — Make viz line-scanners fence-aware and duplicate-tolerant, close the devApi XSSI gap, and gate keyboard nav on open modals. Discovery supplied by audit-repo 2026-08-08. Surfaced by audit-repo 2026-08-08 (Theme: Viz line-scanners trust well-formed markdown).
+  - [ ] **CORE-421.2** [medium]🧩 | fence-aware scanners — Track fenced-code state in `tasknote.ts` extractSection/countChecklist so ``` blocks containing headings or checkboxes don't truncate sections or pollute counts; regression fixture from archived CORE-008.md (renders a false closure-drift chip today).
+  - [ ] **CORE-421.3** [light]🔧 | duplicate-epic guard — `parser.ts` groupTasks pushes the same TaskNode twice when an epic ID appears under two headings (last write wins, epic vanishes from its section); guard first-write, emit a diagnostic.
+  - [ ] **CORE-421.4** [light]🔧 | devApi response hardening — Add `X-Content-Type-Options: nosniff` + restrictive CSP per handler and 405 non-GET/HEAD (originGuard allows origin-less requests, so plan content is XSSI-readable today).
+  - [ ] **CORE-421.5** [light]🔧 | modal-gated keyboard nav — Early-return in useKeyboardNav while a `dialog[open]` exists (Escape currently closes Settings and wipes search/filters in one press); add a test.
+  - [ ] **CORE-421.N** [heavy]🧠 | viz-robustness audit — Epic-closing audit sweep.
 
 ## Low
 
