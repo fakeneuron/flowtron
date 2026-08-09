@@ -531,6 +531,63 @@ All segments optional.
       { line: 3, text: '- [x] **P1** [medium] — a model segment means this isn\'t the bare legacy shape' },
     ]);
   });
+
+  // CORE-423: a task row quoted inside a fenced code block (e.g. a grammar
+  // reference example) is content the note is showing, not a real entry.
+  it('does not parse a task row quoted inside a fenced code block', () => {
+    const md = `## High
+
+\`\`\`markdown
+- [ ] **FE-001** — an example row, not a real task
+\`\`\`
+
+- [ ] **CORE-001** — a real task
+`;
+    const { tasks, unparsed } = parsePlanWithDiagnostics(md);
+    expect(tasks.map((t) => t.id)).toEqual(['CORE-001']);
+    expect(unparsed).toEqual([]);
+  });
+
+  it('does not switch section on a heading inside a fenced code block', () => {
+    const md = `## Low
+
+\`\`\`
+## High
+- [ ] **FE-002** — fenced example under a fenced High heading
+\`\`\`
+
+- [ ] **CORE-002** — real task, still under Low
+`;
+    const { tasks } = parsePlanWithDiagnostics(md);
+    expect(tasks).toEqual([
+      expect.objectContaining({ id: 'CORE-002', priority: 'Low' }),
+    ]);
+  });
+
+  it('flags a malformed line inside a fence as inert rather than unparsed', () => {
+    const md = `## High
+
+\`\`\`markdown
+- [ ] *FE-064* [medium] | bad-bold — malformed, but only an example
+\`\`\`
+`;
+    const { tasks, unparsed } = parsePlanWithDiagnostics(md);
+    expect(tasks).toEqual([]);
+    expect(unparsed).toEqual([]);
+  });
+
+  it('resumes normal parsing after a closed fence', () => {
+    const md = `## Medium
+
+\`\`\`
+- [ ] **FE-003** — fenced, ignored
+\`\`\`
+
+- [ ] **CORE-003** — real task after the fence closes
+`;
+    const { tasks } = parsePlanWithDiagnostics(md);
+    expect(tasks.map((t) => t.id)).toEqual(['CORE-003']);
+  });
 });
 
 describe('groupTasks', () => {

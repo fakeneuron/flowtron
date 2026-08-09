@@ -19,12 +19,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-423** [light]🔧 | parser fence-awareness — Port `tasknote.ts`'s `fenceMask` to `parser.ts` so `parsePlanWithDiagnostics` skips fenced PLAN.md lines; a task row quoted inside a fence parses as real today. Dormant fleet-wide (zero fenced blocks in any adopter PLAN.md). Flagged by CORE-421.2 and .3, confirmed by CORE-421.N.
-
 ## Future Opportunities
 
 
 ## Completed
+
+- [x] **CORE-423** [light]🔧 | parser fence-awareness — Completed 2026-08-09.
 
 - [x] **CORE-422** [medium]🧩 | roster mirror-pair gate — Completed 2026-08-09.
 

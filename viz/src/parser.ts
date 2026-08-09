@@ -85,6 +85,39 @@ const TASK_LINE = new RegExp(
 const COMPLETED_DATE = /\bCompleted\s+(\d{4}-\d{2}-\d{2})\.?/;
 const HEADING_LINE = /^##\s+(.+?)\s*$/;
 
+// A fenced code block is content the note is *showing*, not structure it
+// *has*: a PLAN.md task-line grammar reference or an example row quoted
+// inside a fence must not switch the current section or parse as a real
+// task. Ported from `tasknote.ts`'s `fenceMask` (CORE-421.2) — kept private
+// and per-module rather than shared, mirroring that note's no-export
+// precedent. CommonMark fence rules: up to 3 spaces of indent, the closing
+// run is the same character and at least as long as the opening one, and a
+// backtick info string may not itself contain a backtick. An unclosed fence
+// runs to end-of-input, also per CommonMark.
+const FENCE_DELIMITER = /^ {0,3}(`{3,}|~{3,})(.*)$/;
+
+function fenceMask(lines: string[]): boolean[] {
+  const mask: boolean[] = [];
+  let open: string | null = null;
+  for (const line of lines) {
+    const m = FENCE_DELIMITER.exec(line);
+    if (open === null) {
+      if (m !== null && !(m[1][0] === '`' && m[2].includes('`'))) {
+        open = m[1];
+        mask.push(true);
+      } else {
+        mask.push(false);
+      }
+      continue;
+    }
+    mask.push(true);
+    const closes =
+      m !== null && m[1][0] === open[0] && m[1].length >= open.length && m[2].trim() === '';
+    if (closes) open = null;
+  }
+  return mask;
+}
+
 function cleanDescription(raw: string): string {
   return raw
     .replace(COMPLETED_DATE, '')
@@ -258,6 +291,7 @@ function blankHtmlComments(markdown: string): string {
 
 export function parsePlanWithDiagnostics(markdown: string): PlanParseResult {
   const lines = blankHtmlComments(markdown).split(/\r?\n/);
+  const inFence = fenceMask(lines);
   const tasks: Task[] = [];
   const unparsed: UnparsedLine[] = [];
   let currentPriority: Priority | null = null;
@@ -265,6 +299,7 @@ export function parsePlanWithDiagnostics(markdown: string): PlanParseResult {
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
+    if (inFence[i]) continue;
     const headingMatch = HEADING_LINE.exec(line);
     if (headingMatch) {
       const heading = headingMatch[1];
