@@ -12,7 +12,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## High
 
 - [ ] **CORE-EPIC-419** [heavy]🧠 | fleet-updater-safety — Harden `tools/update-adopters.mjs` failure paths: pinned-ahead downgrade guard, mid-bump rollback, `--root` arg validation. Discovery supplied by audit-repo 2026-08-08. Surfaced by audit-repo 2026-08-08 (Theme: The one mutating tool is the least defended).
-  - [ ] **CORE-419.2** [medium]🧩 | pinned-ahead guard — Bail with a skip status when the adopter's pin is newer than `latest` (tagsInRange returns [] and the migration gate passes vacuously, so `--apply` silently downgrades); add a pinned-ahead fixture.
+  - [x] **CORE-419.2** [medium]🧩 | pinned-ahead guard — Completed 2026-08-08.
   - [ ] **CORE-419.3** [medium]🧩 | applyBump rollback — Capture prior submodule SHA before checkout; on any later failure (SHA verify, add, commit) restore it and unstage the gitlink instead of leaving the repo half-updated; add a failure-injection test.
   - [ ] **CORE-419.4** [light]🔧 | root-arg validation — Error when `--root` is missing its value or the value starts with `--` (currently `--apply --root` silently runs against real ~/code); add tests.
   - [ ] **CORE-419.N** [heavy]🧠 | fleet-updater-safety audit — Epic-closing audit sweep.

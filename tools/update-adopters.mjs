@@ -14,6 +14,8 @@
 //                                             # (default $FLOWTRON_VIZ_WORKSPACE or ~/code)
 //
 // Per-adopter safety gates (any hit → skip that repo, report why):
+//   - adopter pinned NEWER than the latest known release → bumping would
+//     downgrade it (usually a stale tag list in this checkout)
 //   - release range carries a real Migration block (BREAKING or required
 //     project-side edits) → manual /ft-update required
 //   - staged changes in the adopter's index → a commit here would surprise
@@ -341,6 +343,20 @@ export async function checkAdopter(adopter, latest) {
     const drift = await gitlinkDrift(repo, latest);
     if (drift) return { status: 'drift', current, reason: drift };
     return { status: 'current', current };
+  }
+
+  // Pinned-ahead guard: `tagsInRange` is empty when the pin is newer than
+  // `latest`, so the migration gate below would pass vacuously and `--apply`
+  // would check out the OLDER tag — a silent downgrade. Almost always a stale
+  // tag list in this checkout rather than a genuinely ahead adopter.
+  const currentVersion = parseSemverTag(current);
+  const latestVersion = parseSemverTag(latest);
+  if (currentVersion && latestVersion && compareSemver(currentVersion, latestVersion) > 0) {
+    return {
+      status: 'skip',
+      current,
+      reason: `pinned ahead of latest release ${latest} — bumping would downgrade; run git fetch --tags in ${FLOWTRON_REPO} and re-run`,
+    };
   }
 
   const range = await tagsInRange(current, latest);

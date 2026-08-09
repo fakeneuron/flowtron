@@ -276,6 +276,19 @@ describe('checkAdopter classification (fixtures)', () => {
     assert.match(result.reason, /v5\.0\.0/);
   });
 
+  it('skip: pin newer than latest must not downgrade (CORE-419.2)', async () => {
+    // Pin at `latest` but ask the tool to reconcile against the OLDER
+    // `previous` — the shape a stale tag list produces. Uses the self-healing
+    // fixture pair rather than hardcoding a tag or assuming one exists above it.
+    const adopter = await makeAdopter(root, 'ahead-repo', latest);
+    const result = await checkAdopter(adopter, previous);
+    assert.equal(result.status, 'skip');
+    assert.equal(result.current, latest);
+    assert.match(result.reason, /pinned ahead/i);
+    assert.match(result.reason, /downgrade/i);
+    assert.match(result.reason, new RegExp(previous.replace(/\./g, '\\.')));
+  });
+
   it('bump: non-migration range from previous → latest', async () => {
     const adopter = await makeAdopter(root, 'bump-repo', previous);
     const result = await checkAdopter(adopter, latest);
