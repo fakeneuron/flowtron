@@ -98,7 +98,19 @@ export function parseArgs(argv, { exitOnError = true } = {}) {
   for (let i = 0; i < argv.length; i += 1) {
     if (argv[i] === '--apply') args.apply = true;
     else if (argv[i] === '--root') {
-      args.root = argv[i + 1];
+      const value = argv[i + 1];
+      if (value === undefined || value.startsWith('--')) {
+        const msg = `--root requires a value\nUsage: node tools/update-adopters.mjs [--apply] [--root <dir>]`;
+        if (exitOnError) {
+          console.error('--root requires a value');
+          console.error('Usage: node tools/update-adopters.mjs [--apply] [--root <dir>]');
+          process.exit(2);
+        }
+        const err = new Error(msg);
+        err.code = 'USAGE';
+        throw err;
+      }
+      args.root = value;
       i += 1;
     } else {
       const msg = `Unknown arg: ${argv[i]}\nUsage: node tools/update-adopters.mjs [--apply] [--root <dir>]`;

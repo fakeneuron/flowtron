@@ -143,6 +143,20 @@ describe('parseArgs / pure helpers', () => {
     assert.throws(() => parseArgs(['--nope'], { exitOnError: false }), /Unknown arg/);
   });
 
+  it('throws when --root is missing its value (CORE-419.4)', () => {
+    assert.throws(
+      () => parseArgs(['--apply', '--root'], { exitOnError: false }),
+      /--root requires a value/,
+    );
+  });
+
+  it('throws when --root\'s value starts with -- (CORE-419.4)', () => {
+    assert.throws(
+      () => parseArgs(['--root', '--apply'], { exitOnError: false }),
+      /--root requires a value/,
+    );
+  });
+
   it('parseSemverTag / compareSemver', () => {
     assert.deepEqual(parseSemverTag('v5.12.0'), [5, 12, 0]);
     assert.equal(parseSemverTag('nope'), null);
