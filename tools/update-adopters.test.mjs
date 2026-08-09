@@ -448,6 +448,34 @@ describe('sandboxed --apply', () => {
 
     await rm(root, { recursive: true, force: true });
   });
+
+  // CORE-424.4 — mid-fleet apply failure must not abort the sweep or exit 0.
+  it('continues past a mid-fleet bump failure, counts 1 failed, exits 1', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'ft-upd-midfail-'));
+    // Alphabetical discover order: a-ok → b-fail → c-ok so failure is mid-fleet.
+    await makeAdopter(root, 'a-ok', previous);
+    const failing = await makeAdopter(root, 'b-fail', previous);
+    await makeAdopter(root, 'c-ok', previous);
+
+    // Guaranteed apply-path failure (same pre-commit injection as CORE-419.3).
+    const hooks = join(failing.repo, '.git', 'hooks');
+    await mkdir(hooks, { recursive: true });
+    await writeFile(join(hooks, 'pre-commit'), '#!/bin/sh\nexit 1\n', { mode: 0o755 });
+    await gitQuiet(failing.repo, 'config', 'core.hooksPath', hooks);
+
+    const { code, stdout, stderr } = await runCli(['--apply', '--root', root], {
+      expectFail: true,
+      env: { FLOWTRON_UPDATE_LATEST: latest },
+    });
+
+    assert.equal(code, 1);
+    assert.match(stdout, /⬆ a-ok: bumped/);
+    assert.match(stderr, /✗ b-fail: bump failed/);
+    assert.match(stdout, /⬆ c-ok: bumped/);
+    assert.match(stdout, /Summary:.*bumped 2 · 0 skipped · 1 failed/);
+
+    await rm(root, { recursive: true, force: true });
+  });
 });
 
 describe('applyBump rollback (CORE-419.3)', () => {
