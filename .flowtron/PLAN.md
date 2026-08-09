@@ -15,13 +15,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-420** [heavy]🧠 | release-surface-sync — Fix drifted mirror pairs (README counters/roster/§range, codex wrapper descriptions, sidequest template link) and encode the mirror-pair checklist into /ft-release so the class can't recur. Discovery supplied by audit-repo 2026-08-08. Surfaced by audit-repo 2026-08-08 (Theme: Mirrored surfaces drift between releases).
-  - [x] **CORE-420.2** [light]🔧 | README mirror fixes — Completed 2026-08-09.
-  - [x] **CORE-420.3** [light]🔧 | codex wrapper folds — Completed 2026-08-09.
-  - [x] **CORE-420.4** [light]🔧 | sidequest back-link depth — Completed 2026-08-09.
-  - [x] **CORE-420.5** [heavy]🧠 | release mirror-pair checklist — Completed 2026-08-09.
-  - [ ] **CORE-420.N** [heavy]🧠 | release-surface-sync audit — Epic-closing audit sweep.
-
 - [ ] **CORE-EPIC-421** [heavy]🧠 | viz-robustness — Make viz line-scanners fence-aware and duplicate-tolerant, close the devApi XSSI gap, and gate keyboard nav on open modals. Discovery supplied by audit-repo 2026-08-08. Surfaced by audit-repo 2026-08-08 (Theme: Viz line-scanners trust well-formed markdown).
   - [ ] **CORE-421.2** [medium]🧩 | fence-aware scanners — Track fenced-code state in `tasknote.ts` extractSection/countChecklist so ``` blocks containing headings or checkboxes don't truncate sections or pollute counts; regression fixture from archived CORE-008.md (renders a false closure-drift chip today).
   - [ ] **CORE-421.3** [light]🔧 | duplicate-epic guard — `parser.ts` groupTasks pushes the same TaskNode twice when an epic ID appears under two headings (last write wins, epic vanishes from its section); guard first-write, emit a diagnostic.
@@ -35,6 +28,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 
 ## Completed
+
+- [x] **CORE-EPIC-420** [heavy]🧠 | release-surface-sync — Completed 2026-08-09.
+  - [x] **CORE-420.2** [light]🔧 | README mirror fixes — Completed 2026-08-09.
+  - [x] **CORE-420.3** [light]🔧 | codex wrapper folds — Completed 2026-08-09.
+  - [x] **CORE-420.4** [light]🔧 | sidequest back-link depth — Completed 2026-08-09.
+  - [x] **CORE-420.5** [heavy]🧠 | release mirror-pair checklist — Completed 2026-08-09.
+  - [x] **CORE-420.N** [heavy]🧠 | release-surface-sync audit — Completed 2026-08-09.
 
 - [x] **CORE-EPIC-419** [heavy]🧠 | fleet-updater-safety — Completed 2026-08-09.
   - [x] **CORE-419.2** [medium]🧩 | pinned-ahead guard — Completed 2026-08-08.
