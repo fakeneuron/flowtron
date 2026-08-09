@@ -13,6 +13,12 @@
 //   node tools/update-adopters.mjs --root <dir>   # workspace override
 //                                             # (default $FLOWTRON_VIZ_WORKSPACE or ~/code)
 //
+// Exit codes: 0 = every adopter checked (or bumped) cleanly — skips and drift
+// are reported outcomes, not failures; 1 = at least one adopter failed its
+// check or bump (the ✗ lines, which go to stderr), or a pre-flight guard
+// aborted; 2 = usage error. A failure never aborts the sweep, so the exit
+// status is what a wrapper script has to read.
+//
 // Per-adopter safety gates (any hit → skip that repo, report why):
 //   - .flowtron/core/SPEC.md's Version line is unreadable → the current pin
 //     can't be established, so no range can be reasoned about
@@ -501,7 +507,7 @@ async function reportResult(adopter, result, latest, apply, counts) {
       );
     } catch (e) {
       counts.failed += 1;
-      console.log(`  ✗ ${adopter.name}: bump failed — ${e.message}`);
+      console.error(`  ✗ ${adopter.name}: bump failed — ${e.message}`);
     }
   } else {
     counts.planned += 1;
@@ -551,7 +557,7 @@ async function main(argv = process.argv.slice(2)) {
       result = await checkAdopter(adopter, latest);
     } catch (e) {
       counts.failed += 1;
-      console.log(`  ✗ ${adopter.name}: check failed — ${e.message}`);
+      console.error(`  ✗ ${adopter.name}: check failed — ${e.message}`);
       continue;
     }
     await reportResult(adopter, result, latest, args.apply, counts);
@@ -564,6 +570,10 @@ async function main(argv = process.argv.slice(2)) {
   }
 
   reportSummary(counts, args.apply);
+  // A per-adopter failure never aborts the sweep, so the only place the run as a
+  // whole can report it is the exit status. `exitCode` (not `exit()`) so the
+  // summary above still flushes.
+  if (counts.failed > 0) process.exitCode = 1;
 }
 
 // CLI entrypoint only when executed directly (importable for tests).
