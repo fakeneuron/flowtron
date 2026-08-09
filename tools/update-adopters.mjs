@@ -254,14 +254,28 @@ export async function tagsInRange(fromTag, toTag) {
 // A tag is migration-bearing unless its Migration block opens with the
 // release convention's all-clear sentinel ("No required project-side edits",
 // checked case-insensitively). "Migration (BREAKING — ...)" headings are
-// always migration-bearing.
+// always migration-bearing. Lightweight tags (and annotated tags with an
+// empty message) are migration-bearing too — fail closed so the fleet never
+// auto-bumps across a release whose notes cannot be read. Note: for
+// lightweight tags `%(contents)` returns the *commit* message, not an empty
+// string, so emptiness alone is not enough; objecttype must be checked.
 export async function migrationBearingTags(tags) {
   const bearing = [];
   for (const tag of tags) {
+    // %(objecttype) is "tag" for annotated tags, "commit" for lightweight.
+    const objecttype = (
+      await git(FLOWTRON_REPO, 'tag', '-l', '--format=%(objecttype)', tag)
+    ).trim();
     const contents = await git(FLOWTRON_REPO, 'tag', '-l', '--format=%(contents)', tag);
+    // Lightweight / missing / empty-message tags have no release Migration
+    // block to trust — treat as bearing rather than silently non-breaking.
+    if (objecttype !== 'tag' || !contents.trim()) {
+      bearing.push(tag);
+      continue;
+    }
     const lines = contents.split('\n');
     const headingIdx = lines.findIndex((l) => /^Migration\b/.test(l.trim()));
-    if (headingIdx === -1) continue; // no Migration block at all → non-breaking
+    if (headingIdx === -1) continue; // annotated but no Migration block → non-breaking
     if (/BREAKING/.test(lines[headingIdx])) {
       bearing.push(tag);
       continue;

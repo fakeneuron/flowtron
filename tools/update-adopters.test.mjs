@@ -219,6 +219,22 @@ describe('migrationBearingTags (real tags)', () => {
     const bearing = await migrationBearingTags(['v5.10.1', 'v5.11.0']);
     assert.deepEqual(bearing, []);
   });
+
+  // Lightweight tags carry empty %(contents); fail-closed (CORE-424.3).
+  it('classifies empty annotation (lightweight tag) as migration-bearing', async () => {
+    const tag = `v0.0.0-core-424-3-empty-${process.pid}`;
+    try {
+      await git(FLOWTRON_REPO, 'tag', tag); // lightweight — no -a/-m
+      const bearing = await migrationBearingTags([tag]);
+      assert.deepEqual(bearing, [tag]);
+    } finally {
+      try {
+        await git(FLOWTRON_REPO, 'tag', '-d', tag);
+      } catch {
+        // already gone
+      }
+    }
+  });
 });
 
 describe('latestReleaseTag (real tags)', () => {
