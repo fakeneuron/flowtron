@@ -18,7 +18,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-EPIC-420** [heavy]🧠 | release-surface-sync — Fix drifted mirror pairs (README counters/roster/§range, codex wrapper descriptions, sidequest template link) and encode the mirror-pair checklist into /ft-release so the class can't recur. Discovery supplied by audit-repo 2026-08-08. Surfaced by audit-repo 2026-08-08 (Theme: Mirrored surfaces drift between releases).
   - [x] **CORE-420.2** [light]🔧 | README mirror fixes — Completed 2026-08-09.
   - [x] **CORE-420.3** [light]🔧 | codex wrapper folds — Completed 2026-08-09.
-  - [ ] **CORE-420.4** [light]🔧 | sidequest back-link depth — `templates/sidequest-template.md` back-link is `../../PLAN.md` but park mode writes to `.flowtron/sidequest/`, so every parked stub ships a dead link; change to `../PLAN.md`.
+  - [x] **CORE-420.4** [light]🔧 | sidequest back-link depth — Completed 2026-08-09.
   - [ ] **CORE-420.5** [heavy]🧠 | release mirror-pair checklist — Enumerate the mirrored surfaces (README counter↔archive count, README roster↔SPEC template list, claude skill flags↔codex descriptions, template paths↔skill write targets) in /ft-release §7.1's drift sweep.
   - [ ] **CORE-420.N** [heavy]🧠 | release-surface-sync audit — Epic-closing audit sweep.
 

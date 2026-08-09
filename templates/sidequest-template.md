@@ -9,7 +9,7 @@ parent:
 
 # TASK-ID | One-line title
 
-[← PLAN.md](../../PLAN.md) · 📌 Sidequest (filed YYYY-MM-DD)
+[← PLAN.md](../PLAN.md) · 📌 Sidequest (filed YYYY-MM-DD)
 
 ## Idea
 
