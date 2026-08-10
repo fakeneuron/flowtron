@@ -11,11 +11,28 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-(none)
+- [ ] **CORE-EPIC-430** [medium]🧩 | CI gate on push — wire the four existing gate commands (viz test/typecheck/lint + fleet-updater `node --test`) into one GitHub Actions workflow on push/PR to main. Discovery supplied by audit-repo 2026-08-10. Surfaced by audit-repo 2026-08-10 (Theme: Gates only fire when a human runs them)
+  - [ ] **CORE-430.2** [light]🔧 | Actions workflow: reuse AGENTS.md §Validation commands verbatim; Node 20; cache npm
+  - [ ] **CORE-430.N** [light]🔧 | CI gate audit
 
 ## Medium
 
-(none)
+- [ ] **CORE-EPIC-431** [heavy]🧠 | viz fleet-scale watcher + scoped events — stop polling ~4.9k archive files at 200ms (`viz/vite.config.ts:82`); attribute SSE change events to a project so sibling-repo writes don't refetch the viewed board. Discovery supplied by audit-repo 2026-08-10. Surfaced by audit-repo 2026-08-10 (Theme: Dev server outgrew the single-repo assumption)
+  - [ ] **CORE-431.2** [heavy]🧠 | split watch set — poll PLAN.md + active tasknotes only; archives coarse/native or active-project-only
+  - [ ] **CORE-431.3** [medium]🧩 | project-attributed SSE change events; client ignores non-active projects
+  - [ ] **CORE-431.4** [light]🔧 | tests pinning both behaviors
+  - [ ] **CORE-431.N** [medium]🧩 | fleet-scale audit
+
+- [ ] **CORE-EPIC-432** [medium]🧩 | honest edge states — version-unknown display (`App.tsx:326`), filtered-tree pruning (`App.tsx:138-188`), `FLOWTRON_UPDATE_LATEST` seam validation (`tools/update-adopters.mjs:553`). Discovery supplied by audit-repo 2026-08-10. Surfaced by audit-repo 2026-08-10 (Theme: Edge states misreport instead of admitting unknown)
+  - [ ] **CORE-432.2** [light]🔧 | header version — drop `?? VIZ_VERSION` fallback, render unknown/omit
+  - [ ] **CORE-432.3** [medium]🧩 | prune epic children under filter; unify count/render/keyboard-nav from one derived tree
+  - [ ] **CORE-432.4** [light]🔧 | validate FLOWTRON_UPDATE_LATEST at the seam; exit 2 naming the env var
+  - [ ] **CORE-432.N** [light]🔧 | honest-edge-states audit
+
+- [ ] **CORE-EPIC-433** [medium]🧩 | drift blind spots — fix 4 doc-drift findings and close the gate gaps that let them survive. Discovery supplied by audit-repo 2026-08-10. Surfaced by audit-repo 2026-08-10 (Theme: Drift survives where the gates can't see)
+  - [ ] **CORE-433.2** [light]🔧 | add `--high` at 5 sites (SPEC/tasknote-selection.md:72, AGENTS.md:14, GLOSSARY.md:61, ft-flowtron/SKILL.md:48, MIGRATION.md:477); `--worktree` at 2 (ft-flowtron/SKILL.md:51, PLATFORMS.md:235); SPEC.md layout tree +3 paths (specs/, sidequest/, STATS.md); AGENTS.md:32 drop "security" from docs/ bullet
+  - [ ] **CORE-433.3** [medium]🧩 | widen gates — add AGENTS.md to AI-referenced docs walk; bring flag rosters under a check (Pair E extension or new pair)
+  - [ ] **CORE-433.N** [light]🔧 | drift-blind-spots audit
 
 ## Low
 
