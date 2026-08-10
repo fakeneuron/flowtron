@@ -37,7 +37,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-(none)
+- [ ] **CORE-435** [light]🔧 | duplication rationale — `docs/CONVENTIONS.md` §Pre-commit hooks declines hooks for duplicating Phase 3 checks, while §GitHub Actions CI accepts CI for doing exactly that; state the distinction (CI runs off the machine that skipped the gate) or re-argue the decline. Surfaced by CORE-430.N audit.
 
 
 ## Future Opportunities
