@@ -33,6 +33,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [ ] **CORE-433.4** [medium]🧩 | validation roster sync — `claude/skills/ft-release/SKILL.md:238-239` omits both `node --check` commands, so the release gate is narrower than CI; sync it, then add a mirror pair covering the roster's 5 sites. Surfaced by CORE-430.N audit.
   - [ ] **CORE-433.N** [light]🔧 | drift-blind-spots audit
 
+- [ ] **CORE-434** [medium]🧩 | CI workflow hardening — add `permissions: contents: read` to `.github/workflows/ci.yml`, pin `actions/checkout`/`setup-node` to commit SHAs, and give `SECURITY.md` a threat-model entry for the CI surface — the doc reasons about contributor PRs but never covers the workflow. Surfaced by CORE-430.N audit.
+
 ## Low
 
 (none)
