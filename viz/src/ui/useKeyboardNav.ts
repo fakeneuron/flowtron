@@ -53,7 +53,10 @@ export function useKeyboardNav(params: UseKeyboardNavParams) {
       const isTyping = tag === 'INPUT' || tag === 'TEXTAREA' || !!target?.isContentEditable;
 
       if (e.key === 'Escape') {
-        if (expandedId !== null) {
+        // Only collapse when the expanded row is actually on screen — a stale
+        // expandedId (filtered out, section collapsed, parent epic collapsed)
+        // would otherwise swallow the keypress with no visible change.
+        if (expandedId !== null && visibleIds.includes(expandedId)) {
           setExpandedId(null);
         } else if (query || statusFilter.size > 0) {
           setQuery('');
