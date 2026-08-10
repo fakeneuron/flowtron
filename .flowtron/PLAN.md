@@ -18,7 +18,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-EPIC-425** [medium]🧩 | viz near-miss diagnostics — Close the silent-no-op gaps in the visualizer: Escape vs filtered-out expandedId, typo'd priority-heading diagnostic, devApi error-body typing, dedicated keyboard-nav coverage. Discovery supplied by audit-repo 2026-08-09. Surfaced by audit-repo 2026-08-09 (Theme: the near-miss blind spot).
   - [x] **CORE-425.2** [medium]🧩 | Escape precedence fix — Completed 2026-08-09.
   - [x] **CORE-425.3** [light]🔧 | near-miss heading diagnostic — Completed 2026-08-09.
-  - [ ] **CORE-425.4** [light]🔧 | devApi error hygiene — Content-Type: text/plain; charset=utf-8 on error paths; stop echoing the ?project= value in the 400 body.
+  - [x] **CORE-425.4** [light]🔧 | devApi error hygiene — Completed 2026-08-09.
   - [ ] **CORE-425.N** [medium]🧩 | audit CORE-EPIC-425.
 
 ## Low

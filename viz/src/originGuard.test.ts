@@ -4,6 +4,7 @@ import { ALLOWED_ORIGINS, DEV_PORT, originGuard } from './originGuard';
 
 interface FakeRes {
   statusCode: number;
+  headers: Record<string, string>;
   body: string;
   ended: boolean;
 }
@@ -13,13 +14,16 @@ function makeReq(headers: Record<string, string | undefined>): IncomingMessage {
 }
 
 function makeRes(): { res: ServerResponse; state: FakeRes } {
-  const state: FakeRes = { statusCode: 200, body: '', ended: false };
+  const state: FakeRes = { statusCode: 200, headers: {}, body: '', ended: false };
   const res = {
     get statusCode() {
       return state.statusCode;
     },
     set statusCode(code: number) {
       state.statusCode = code;
+    },
+    setHeader(name: string, value: string) {
+      state.headers[name.toLowerCase()] = value;
     },
     end(body?: string) {
       if (typeof body === 'string') state.body = body;
@@ -54,6 +58,7 @@ describe('originGuard', () => {
     expect(originGuard(req, res)).toBe(false);
     expect(state.statusCode).toBe(403);
     expect(state.body).toBe('Forbidden: cross-origin request');
+    expect(state.headers['content-type']).toBe('text/plain; charset=utf-8');
     expect(state.ended).toBe(true);
   });
 
@@ -73,6 +78,7 @@ describe('originGuard', () => {
     expect(originGuard(req, res)).toBe(false);
     expect(state.statusCode).toBe(403);
     expect(state.body).toBe('Forbidden: cross-origin referer');
+    expect(state.headers['content-type']).toBe('text/plain; charset=utf-8');
     expect(state.ended).toBe(true);
   });
 
@@ -83,6 +89,7 @@ describe('originGuard', () => {
     expect(originGuard(req, res)).toBe(false);
     expect(state.statusCode).toBe(403);
     expect(state.body).toBe('Forbidden: cross-origin referer');
+    expect(state.headers['content-type']).toBe('text/plain; charset=utf-8');
     expect(state.ended).toBe(true);
   });
 
@@ -102,6 +109,7 @@ describe('originGuard', () => {
     expect(originGuard(req, res)).toBe(false);
     expect(state.statusCode).toBe(403);
     expect(state.body).toBe('Forbidden: malformed referer');
+    expect(state.headers['content-type']).toBe('text/plain; charset=utf-8');
     expect(state.ended).toBe(true);
   });
 

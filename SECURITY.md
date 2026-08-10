@@ -150,6 +150,16 @@ dev server:
   any guard clause so even 403/400/405/500 error bodies carry them — these
   responses are JSON/text/SSE, never HTML, so they don't share the page
   CSP's script/style tolerances.
+- Declares `Content-Type: text/plain; charset=utf-8` on every `/api/*`
+  error body — 400, 403, 405, 500, and the 503 SSE-capacity reject
+  (`endPlain` in `viz/src/apiResponse.ts`, shared by `devApi.ts` and
+  `originGuard.ts`). A typeless response leaves both the MIME type and the
+  charset to client guesswork, which is what the `nosniff` header above
+  needs pinned down to mean anything.
+- Never reflects request input in an error body. A request for an unknown
+  `?project=` returns a fixed `unknown project`; the requested name is
+  written to server stderr instead — the same log-detail/return-generic
+  split applied to the 500 paths' filesystem error messages.
 
 Do not expose port 5120 over a network or through a tunnel. If you need a
 shared read-only view of project state, build a separate artifact (e.g.,

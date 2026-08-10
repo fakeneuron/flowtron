@@ -1,4 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
+import { endPlain } from './apiResponse';
 
 export const DEV_PORT = 5120;
 
@@ -18,8 +19,7 @@ export function originGuard(req: IncomingMessage, res: ServerResponse): boolean 
   const origin = req.headers.origin;
   if (typeof origin === 'string' && origin.length > 0) {
     if (!ALLOWED_ORIGINS.has(origin)) {
-      res.statusCode = 403;
-      res.end('Forbidden: cross-origin request');
+      endPlain(res, 403, 'Forbidden: cross-origin request');
       return false;
     }
     return true;
@@ -29,13 +29,11 @@ export function originGuard(req: IncomingMessage, res: ServerResponse): boolean 
     try {
       const refOrigin = new URL(referer).origin;
       if (!ALLOWED_ORIGINS.has(refOrigin)) {
-        res.statusCode = 403;
-        res.end('Forbidden: cross-origin referer');
+        endPlain(res, 403, 'Forbidden: cross-origin referer');
         return false;
       }
     } catch {
-      res.statusCode = 403;
-      res.end('Forbidden: malformed referer');
+      endPlain(res, 403, 'Forbidden: malformed referer');
       return false;
     }
   }

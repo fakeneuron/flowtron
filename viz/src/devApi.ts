@@ -1,6 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { endPlain } from './apiResponse';
 import { originGuard } from './originGuard';
 import { parseTasknote } from './tasknote-parse';
 import { safeReaddir } from './fsSafe';
@@ -33,9 +34,8 @@ function applyApiHeaders(res: ServerResponse): void {
 function methodGuard(req: IncomingMessage, res: ServerResponse): boolean {
   const method = req.method ?? 'GET';
   if (method === 'GET' || method === 'HEAD') return true;
-  res.statusCode = 405;
   res.setHeader('Allow', 'GET, HEAD');
-  res.end('Method Not Allowed');
+  endPlain(res, 405, 'Method Not Allowed');
   return false;
 }
 
@@ -47,7 +47,14 @@ export function projectFromQuery(
   const name = url.searchParams.get('project');
   if (!name) return { error: 'missing ?project=<name>' };
   const project = projects.get(name);
-  if (!project) return { error: `unknown project: ${name}` };
+  if (!project) {
+    // Keep the caller's ?project= value off the wire — an error body is not the
+    // place to reflect request input back. The name still reaches the operator
+    // on server stderr, matching the log-detail/return-generic split FE-047
+    // established for these handlers' 500 paths.
+    console.error(`[devApi] unknown project: ${name}`);
+    return { error: 'unknown project' };
+  }
   return project;
 }
 
@@ -77,8 +84,7 @@ export function createPlanHandler(
     if (!originGuard(req, res)) return;
     const project = projectFromQuery(req, projects);
     if ('error' in project) {
-      res.statusCode = 400;
-      res.end(project.error);
+      endPlain(res, 400, project.error);
       return;
     }
     try {
@@ -87,8 +93,7 @@ export function createPlanHandler(
       res.end(text);
     } catch (e) {
       console.error(`[devApi] Failed to read PLAN.md: ${(e as Error).message}`);
-      res.statusCode = 500;
-      res.end('Failed to read PLAN.md');
+      endPlain(res, 500, 'Failed to read PLAN.md');
     }
   };
 }
@@ -102,8 +107,7 @@ export function createActiveHandler(
     if (!originGuard(req, res)) return;
     const project = projectFromQuery(req, projects);
     if ('error' in project) {
-      res.statusCode = 400;
-      res.end(project.error);
+      endPlain(res, 400, project.error);
       return;
     }
     try {
@@ -130,8 +134,7 @@ export function createActiveHandler(
       res.end(JSON.stringify(tasknotes));
     } catch (e) {
       console.error(`[devApi] Failed to list tasknotes: ${(e as Error).message}`);
-      res.statusCode = 500;
-      res.end('Failed to list tasknotes');
+      endPlain(res, 500, 'Failed to list tasknotes');
     }
   };
 }
@@ -146,8 +149,7 @@ export function createArchiveHandler(
     if (!originGuard(req, res)) return;
     const project = projectFromQuery(req, projects);
     if ('error' in project) {
-      res.statusCode = 400;
-      res.end(project.error);
+      endPlain(res, 400, project.error);
       return;
     }
     try {
@@ -156,8 +158,7 @@ export function createArchiveHandler(
       res.end(JSON.stringify(tasknotes));
     } catch (e) {
       console.error(`[devApi] Failed to list archived tasknotes: ${(e as Error).message}`);
-      res.statusCode = 500;
-      res.end('Failed to list archived tasknotes');
+      endPlain(res, 500, 'Failed to list archived tasknotes');
     }
   };
 }
@@ -170,8 +171,7 @@ export function createEventsHandler(sseClients: Set<ServerResponse>): Handler {
     if (!methodGuard(req, res)) return;
     if (!originGuard(req, res)) return;
     if (sseClients.size >= MAX_SSE_CLIENTS) {
-      res.statusCode = 503;
-      res.end('SSE capacity full');
+      endPlain(res, 503, 'SSE capacity full');
       return;
     }
     res.setHeader('Content-Type', 'text/event-stream');

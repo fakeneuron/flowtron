@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { tmpdir } from 'node:os';
@@ -86,6 +86,7 @@ function makeRes(): { res: ServerResponse & { _error: () => void }; state: FakeR
 
 const ALLOWED_ORIGIN = `http://localhost:${DEV_PORT}`;
 const BLOCKED_ORIGIN = 'https://evil.example.com';
+const PLAIN_TEXT = 'text/plain; charset=utf-8';
 
 let root: string;
 
@@ -140,12 +141,16 @@ describe('projectFromQuery', () => {
     expect(result).toEqual({ error: 'missing ?project=<name>' });
   });
 
-  it('returns an error for an unknown project name', () => {
+  it('returns a generic error for an unknown project and logs the name to stderr', () => {
     const req = makeReq({ url: '/api/plan?project=ghost' });
+    const logged = vi.spyOn(console, 'error').mockImplementation(() => {});
 
     const result = projectFromQuery(req, new Map());
 
-    expect(result).toEqual({ error: 'unknown project: ghost' });
+    // The caller-supplied name is operator-facing diagnostics, not wire content.
+    expect(result).toEqual({ error: 'unknown project' });
+    expect(logged).toHaveBeenCalledWith('[devApi] unknown project: ghost');
+    logged.mockRestore();
   });
 });
 
@@ -159,6 +164,7 @@ describe('createProjectsHandler', () => {
 
     expect(state.statusCode).toBe(403);
     expect(state.body).toBe('Forbidden: cross-origin request');
+    expect(state.headers['content-type']).toBe(PLAIN_TEXT);
   });
 
   it('rejects a non-GET/HEAD request with 405', () => {
@@ -170,6 +176,7 @@ describe('createProjectsHandler', () => {
 
     expect(state.statusCode).toBe(405);
     expect(state.headers['allow']).toBe('GET, HEAD');
+    expect(state.headers['content-type']).toBe(PLAIN_TEXT);
     expect(state.body).toBe('Method Not Allowed');
   });
 
@@ -225,6 +232,7 @@ describe('createPlanHandler', () => {
     await handler(req, res);
 
     expect(state.statusCode).toBe(403);
+    expect(state.headers['content-type']).toBe(PLAIN_TEXT);
   });
 
   it('rejects a non-GET/HEAD request with 405', async () => {
@@ -240,6 +248,7 @@ describe('createPlanHandler', () => {
 
     expect(state.statusCode).toBe(405);
     expect(state.headers['allow']).toBe('GET, HEAD');
+    expect(state.headers['content-type']).toBe(PLAIN_TEXT);
   });
 
   it('returns the PLAN.md text on the allowed origin', async () => {
@@ -260,18 +269,53 @@ describe('createPlanHandler', () => {
     expect(state.body).toBe(planText);
   });
 
-  it('returns 400 for an unknown project', async () => {
+  it('returns a typed 400 that does not echo the requested project name', async () => {
     const handler = createPlanHandler(new Map());
     const req = makeReq({
       url: '/api/plan?project=ghost',
       headers: { origin: ALLOWED_ORIGIN },
     });
     const { res, state } = makeRes();
+    const logged = vi.spyOn(console, 'error').mockImplementation(() => {});
 
     await handler(req, res);
 
     expect(state.statusCode).toBe(400);
-    expect(state.body).toBe('unknown project: ghost');
+    expect(state.body).toBe('unknown project');
+    expect(state.body).not.toContain('ghost');
+    expect(state.headers['content-type']).toBe(PLAIN_TEXT);
+    logged.mockRestore();
+  });
+
+  it('returns a typed 400 when ?project= is missing entirely', async () => {
+    const handler = createPlanHandler(new Map());
+    const req = makeReq({ url: '/api/plan', headers: { origin: ALLOWED_ORIGIN } });
+    const { res, state } = makeRes();
+
+    await handler(req, res);
+
+    expect(state.statusCode).toBe(400);
+    expect(state.body).toBe('missing ?project=<name>');
+    expect(state.headers['content-type']).toBe(PLAIN_TEXT);
+  });
+
+  it('returns a typed 500 when PLAN.md cannot be read', async () => {
+    const alpha = await makeProject('alpha');
+    const broken = { ...alpha, planPath: join(root, 'alpha', '.flowtron', 'nope.md') };
+    const handler = createPlanHandler(new Map([['alpha', broken]]));
+    const req = makeReq({
+      url: '/api/plan?project=alpha',
+      headers: { origin: ALLOWED_ORIGIN },
+    });
+    const { res, state } = makeRes();
+    const logged = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    await handler(req, res);
+
+    expect(state.statusCode).toBe(500);
+    expect(state.body).toBe('Failed to read PLAN.md');
+    expect(state.headers['content-type']).toBe(PLAIN_TEXT);
+    logged.mockRestore();
   });
 });
 
@@ -287,6 +331,7 @@ describe('createActiveHandler', () => {
     await handler(req, res);
 
     expect(state.statusCode).toBe(403);
+    expect(state.headers['content-type']).toBe(PLAIN_TEXT);
   });
 
   it('rejects a non-GET/HEAD request with 405', async () => {
@@ -302,6 +347,7 @@ describe('createActiveHandler', () => {
 
     expect(state.statusCode).toBe(405);
     expect(state.headers['allow']).toBe('GET, HEAD');
+    expect(state.headers['content-type']).toBe(PLAIN_TEXT);
   });
 
   it('lists active tasknote files as JSON on the allowed origin', async () => {
@@ -370,6 +416,7 @@ describe('createArchiveHandler', () => {
     await handler(req, res);
 
     expect(state.statusCode).toBe(403);
+    expect(state.headers['content-type']).toBe(PLAIN_TEXT);
   });
 
   it('rejects a non-GET/HEAD request with 405', async () => {
@@ -385,6 +432,7 @@ describe('createArchiveHandler', () => {
 
     expect(state.statusCode).toBe(405);
     expect(state.headers['allow']).toBe('GET, HEAD');
+    expect(state.headers['content-type']).toBe(PLAIN_TEXT);
   });
 
   it('serves archived tasknotes from the cache on the allowed origin', async () => {
@@ -428,6 +476,7 @@ describe('createEventsHandler', () => {
     handler(req, res);
 
     expect(state.statusCode).toBe(403);
+    expect(state.headers['content-type']).toBe(PLAIN_TEXT);
     expect(sseClients.size).toBe(0);
   });
 
@@ -441,6 +490,7 @@ describe('createEventsHandler', () => {
 
     expect(state.statusCode).toBe(405);
     expect(state.headers['allow']).toBe('GET, HEAD');
+    expect(state.headers['content-type']).toBe(PLAIN_TEXT);
     expect(sseClients.size).toBe(0);
   });
 
@@ -463,6 +513,23 @@ describe('createEventsHandler', () => {
 
     req._close();
     expect(sseClients.has(res)).toBe(false);
+  });
+
+  it('returns a typed 503 once the client cap is reached', () => {
+    const sseClients = new Set<ServerResponse>();
+    const handler = createEventsHandler(sseClients);
+    for (let i = 0; i < 10; i++) {
+      const { res } = makeRes();
+      handler(makeReq({ headers: { origin: ALLOWED_ORIGIN } }), res);
+    }
+    const { res, state } = makeRes();
+
+    handler(makeReq({ headers: { origin: ALLOWED_ORIGIN } }), res);
+
+    expect(state.statusCode).toBe(503);
+    expect(state.body).toBe('SSE capacity full');
+    expect(state.headers['content-type']).toBe(PLAIN_TEXT);
+    expect(sseClients.size).toBe(10);
   });
 
   it('unregisters the client when the response emits an error (dropped socket)', () => {
