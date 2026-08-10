@@ -38,6 +38,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Low
 
 - [ ] **CORE-435** [light]🔧 | duplication rationale — `docs/CONVENTIONS.md` §Pre-commit hooks declines hooks for duplicating Phase 3 checks, while §GitHub Actions CI accepts CI for doing exactly that; state the distinction (CI runs off the machine that skipped the gate) or re-argue the decline. Surfaced by CORE-430.N audit.
+- [ ] **CORE-436** [light]🔧 | CI build badge — add a build-status badge to `README.md`'s badge row (shields.io `github/actions/workflow/status`, flat-square, linked to the Actions tab) — `CORE-383` omitted one only because no CI existed to make it honest. Surfaced by CORE-430.N audit.
 
 
 ## Future Opportunities
