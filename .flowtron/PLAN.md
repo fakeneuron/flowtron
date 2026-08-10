@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **CORE-429** [medium]🧩 | auto-commit filed tasks — Filing-only skills leave PLAN.md dirty: ft-file-followup, park-mode, and ft-starter-task all say "do not commit unprompted", so filed tasks carry into the next session. Treat filing approval as commit authorization — auto-commit `chore: file <ID> …` at hand-off. Execution skills keep their commit-go gate.
 
 ## Low
 
