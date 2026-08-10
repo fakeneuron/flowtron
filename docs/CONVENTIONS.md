@@ -53,11 +53,11 @@ The tutorial quadrant is intentionally absent. The `/ft-new-project` skill boots
 
 ### CHANGELOG.md
 
-Flowtron does not maintain a separate `CHANGELOG.md`. The pattern declined is [Keep a Changelog 1.1](https://keepachangelog.com/en/1.1.0/).
+Flowtron does not maintain a separate `CHANGELOG.md`. The pattern declined is [Keep a Changelog 1.1](https://keepachangelog.com/en/1.1.0/) — no `[Unreleased]` section, no exhaustive Added/Changed/Fixed taxonomy, no parallel hand-maintained dump of every commit.
 
-Each release tag's annotated message carries the per-release summary and migration steps. From the `README.md` §"Version": _"Each release tag's annotated message lists migration steps for major bumps (no separate `CHANGELOG.md`)."_ A duplicate CHANGELOG.md would have to be hand-maintained alongside the tag messages without adding information.
+Each release tag's annotated message carries the per-release summary and migration steps. From the `README.md` §"Version": full notes live in the tags; adopters read them with `git show vX.Y.Z`. A Keep-a-Changelog file would have to be hand-maintained alongside those messages without adding information.
 
-The annotated-tag-as-CHANGELOG pattern is visible in the release tasknotes archived at `.flowtron/tasknote/archive/core/` — each records the tag-message structure: subject + summary + changes + adopter migration block.
+**Scannable highlights (not a CHANGELOG).** [`docs/VERSION-HISTORY.md`](VERSION-HISTORY.md) is a curated, moderately-coarse highlight reel (main themes + optional secondary wins; patches as one-liners). It is deliberately coarser than the tag bodies and is prepended by `/ft-release` when a cut lands — tags remain the SSOT for full notes and migration steps. The annotated-tag message structure (subject + summary + changes + adopter migration block) is also visible in the release tasknotes archived at `.flowtron/tasknote/archive/core/`.
 
 ### ADRs as a separate registry
 

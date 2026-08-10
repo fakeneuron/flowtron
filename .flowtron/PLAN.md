@@ -19,13 +19,15 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-428** [medium]🧩 | version-history highlights — Curated moderately-coarse release history (main highlights + secondary wins) as a docs surface from annotated tags; no CHANGELOG.md; FE out of scope for this cut.
+(none)
 
 
 ## Future Opportunities
 
 
 ## Completed
+
+- [x] **CORE-428** [medium]🧩 | version-history highlights — Completed 2026-08-09.
 
 - [x] **CORE-427** [medium]🧩 | release v5.16.0 — Completed 2026-08-09.
 

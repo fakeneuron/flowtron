@@ -1,11 +1,11 @@
 ---
 name: ft-release
-description: Cut a flowtron release — version bump, doc-currency shifts, doc-drift sweep, single feat: commit, annotated tag, push. Use when the user asks to cut or ship a flowtron release. Flowtron-self only (global symlink); never installed in adopter projects. Encodes the CORE-048 / CORE-046 / CORE-043 release recipe.
+description: Cut a flowtron release — version bump, doc-currency shifts, doc-drift sweep, single feat: commit, annotated tag, VERSION-HISTORY prepend, push. Use when the user asks to cut or ship a flowtron release. Flowtron-self only (global symlink); never installed in adopter projects. Encodes the CORE-048 / CORE-046 / CORE-043 release recipe.
 ---
 
 # release — flowtron self-host release skill
 
-You are cutting a flowtron release. The recipe is canonical (CORE-048 / CORE-046 / CORE-043 precedents): SPEC.md version bump · docs/MIGRATION.md pin bump · doc-drift sweep · single `feat:` commit · annotated tag · push. This skill scaffolds and drives a release tasknote through the full 4-phase flow.
+You are cutting a flowtron release. The recipe is canonical (CORE-048 / CORE-046 / CORE-043 precedents): SPEC.md version bump · docs/MIGRATION.md pin bump · doc-drift sweep · single `feat:` commit · annotated tag · curated `docs/VERSION-HISTORY.md` prepend · push. This skill scaffolds and drives a release tasknote through the full 4-phase flow.
 
 This skill is **flowtron-self only**. It is symlinked under `~/.claude/skills/ft-release` and `~/.claude/commands/ft-release.md` for global invocation, but it never runs in adopter projects. Step 0 enforces this.
 
@@ -121,6 +121,7 @@ Acceptance (parameterized):
 - [ ] Phase 4 doc-drift sweep run across all `.flowtron/tasknote/README.md` §"AI-referenced docs" entries
 - [ ] Single `feat: <TASK-ID> — flowtron vA.B.C (...)` commit lands
 - [ ] Annotated `vA.B.C` tag created with adopter-facing release notes
+- [ ] `docs/VERSION-HISTORY.md` prepended with a curated entry for `vA.B.C` (minor/major: headline + 2–4 main bullets + optional secondary; patch: one-line subject)
 - [ ] Tag pushed to origin
 - [ ] PLAN.md line flipped to stub form under `## Completed`
 - [ ] Tasknote archived to `.flowtron/tasknote/archive/core/<TASK-ID>.md`
@@ -467,6 +468,31 @@ Group commits by area where natural (e.g., `viz/`, `SPEC contract`, `Doc currenc
 
 Lock the tag message when the user approves. Save it for use in step 7.5.
 
+**VERSION-HISTORY entry (same lock).** Immediately after the tag message is locked, draft a curated entry for `docs/VERSION-HISTORY.md` distilled from that message — do **not** dump the full Changes block. Shape:
+
+- **Minor / major** (`Z = 0`):
+
+  ```markdown
+  ## vA.B.C — <one-clause headline from tag subject>
+
+  - <2–4 main theme bullets>
+  - …
+
+  Also: <optional short secondary wins, one clause or short list>.
+  ```
+
+  Drop the “Also:” line when there is nothing secondary worth naming.
+
+- **Patch** (`Z ≠ 0`):
+
+  ```markdown
+  ### vA.B.C — <tag subject after the em-dash, or the full short subject>
+  ```
+
+  One line only — no main/secondary bullets.
+
+Prepend the entry **immediately below** the horizontal rule that follows the intro in `docs/VERSION-HISTORY.md` (newest first). Do not rewrite historical entries. Surface the drafted entry with the locked tag message so the user can tweak density before commit-go; lock both together.
+
 ### 7.3 — Final Summary + flip PLAN line + move tasknote
 
 Write the tasknote's `**Final Summary:**` block (one paragraph: what shipped + adopter-impact summary) and set `**Archived:** YYYY-MM-DD`.
@@ -483,7 +509,7 @@ Move the tasknote file with a plain `mv` — it was copied fresh in Step 3 and n
 Stage explicitly (do NOT use `git add .` or `-A` — there may be unrelated unstaged work):
 
 ```sh
-git add SPEC.md docs/MIGRATION.md SECURITY.md viz/src/ui/constants.ts viz/package.json viz/package-lock.json .flowtron/PLAN.md
+git add SPEC.md docs/MIGRATION.md SECURITY.md docs/VERSION-HISTORY.md viz/src/ui/constants.ts viz/package.json viz/package-lock.json .flowtron/PLAN.md
 git add .flowtron/tasknote/archive/core/<TASK-ID>.md
 # If the §5 dogfood-gate walk landed any refresh/skip edits, also stage the touched stamp files
 # (a git add of an unchanged file is a no-op, so listing all three is safe):

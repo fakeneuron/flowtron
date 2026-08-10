@@ -56,7 +56,7 @@ A lightweight, project-agnostic tasknote system for solo AI-assisted coding. The
 | `/ft-audit-context` | Adopter-context audit — 4 conversational passes (Bloat · Redundancy · Namespace · Drift) over `CLAUDE.md`, `AGENTS.md`, `.claude/{commands,skills}`. Soft prose with an offer to file PLAN tickets (no auto-write). Global install per `docs/MIGRATION.md` §1.0. |
 | `/ft-stats` | Show flowtron stats — `[model]` distribution, completion velocity, per-area volume — aggregated from PLAN.md `## Completed`. Read-only screen; `--write` also flushes to `.flowtron/STATS.md`. |
 | `/ft-new-project` | Bootstrap a fresh repo with flowtron — submodule, PLAN.md, tasknote README, AGENTS.md patch, staged commit. |
-| `/ft-release` | Cut a flowtron release — version bump, doc shifts, drift sweep (via `/ft-audit docs`), single feat: commit, annotated tag, push. (Flowtron-self only.) |
+| `/ft-release` | Cut a flowtron release — version bump, doc shifts, drift sweep (via `/ft-audit docs`), single feat: commit, annotated tag, VERSION-HISTORY prepend, push. (Flowtron-self only.) |
 | `/ft-update` | Bump an adopter project's pinned `.flowtron/core/` submodule to the latest tag — current→target + tag changelog, move pin, re-wire symlinks for newly shipped skills, smoke check, staged commit. Consumer-side counterpart to `/ft-release`. (Adopters only.) |
 | `/ft-flowtron` | Display this info screen — version, core principles, and the full bundled-skill roster. No args; read-only. |
 
@@ -66,6 +66,7 @@ A lightweight, project-agnostic tasknote system for solo AI-assisted coding. The
 - `docs/PHILOSOPHY.md` — design rationale and the problems flowtron solves
 - `docs/MIGRATION.md` — adoption guide, global skill install recipe, migration from legacy systems
 - `docs/CONVENTIONS.md` — conventions flowtron adheres to and declines (commits, versioning, formatting) with rationale
+- `docs/VERSION-HISTORY.md` — curated, moderately-coarse release highlights (tags remain full SSOT)
 - `docs/AGENT-NEUTRALITY.md` — agent-neutrality contract: which contract-layer Claude-specific surfaces are intentional (load-bearing locators for the Claude Code wiring layer) and why
 - `docs/PLATFORMS.md` — multi-platform wiring pattern: two-layer model (agent-neutral contract / per-platform wiring) and the symmetric plug-in shape for future platforms (Codex CLI / grok / Cursor)
 - `CONTRIBUTING.md` — solo-maintenance model; issue and PR guidance

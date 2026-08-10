@@ -77,6 +77,8 @@ full one-time global-install table (§1.0), and the Codex / grok wiring.
   registry, release automation, pre-commit hooks, CI / GitHub Actions, MCP
   servers, package-manager / marketplace distribution, template override
   stacking) with rationale
+- [docs/VERSION-HISTORY.md](docs/VERSION-HISTORY.md) — curated, moderately-coarse
+  release highlights (not a CHANGELOG); full notes live in annotated tags
 - [docs/AGENT-NEUTRALITY.md](docs/AGENT-NEUTRALITY.md) — agent-neutrality
   contract: which contract-layer Claude-specific surfaces are intentional
   (load-bearing locators for the Claude Code wiring layer) and why
@@ -256,7 +258,7 @@ runtime lives in the runner; the contract lives in flowtron.
 - `claude/` — Claude Code skills + slash commands (adopter-facing snippet plus the full shipped `ft-*` inventory; adopter projects wire the policy subset, while flowtron-self-only skills like `/ft-release` stay upstream-only)
 - `codex/` — Codex skill wrappers for the full `ft-*` inventory plus Codex-specific wiring notes
 - `grok/` — grok platform wiring (currently the `ft-task` procedure pointer); further platform wirings (e.g., `cursor/`) plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md)
-- `docs/` — philosophy, vision, glossary, migration, conventions, agent-neutrality, platforms, agent-compat, dogfood, worktrees, and external-agents docs
+- `docs/` — philosophy, vision, glossary, migration, conventions, version history, agent-neutrality, platforms, agent-compat, dogfood, worktrees, and external-agents docs
 - `.flowtron/` — flowtron's own roadmap and tasknotes (self-hosted)
 - `viz/` — Vite/React visualizer (priority-grouped list + optional board mode)
 - `tools/` — operator-side fleet scripts (`update-adopters.mjs`, the singular CLI carve-out — see `SPEC.md` §"What flowtron does NOT provide" — plus its portable `update-adopters.test.mjs` suite)
@@ -267,8 +269,9 @@ runtime lives in the runner; the contract lives in flowtron.
 
 ## Version
 
-See [SPEC.md](SPEC.md) for the current contract version, and the repo's git
-tags for releases.
+See [SPEC.md](SPEC.md) for the current contract version, the repo's git tags
+for full release notes, and [docs/VERSION-HISTORY.md](docs/VERSION-HISTORY.md)
+for a curated, moderately-coarse highlight reel.
 
 Adopting projects pin a specific flowtron commit via git submodule and bump
 deliberately. Each release tag's annotated message lists migration steps for
