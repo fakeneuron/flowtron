@@ -25,12 +25,12 @@ An unrecognized PLAN.md heading that case-insensitively matches a known priority
 
 ## 🧩 Subtasks
 
-- [ ] Add `NearMissHeading` type + case-insensitive match check in `parsePlanWithDiagnostics`'s unrecognized-heading branch; collect into a new `nearMissHeadings` array on the parse result
-- [ ] Thread `nearMissHeadings` through `useProjectData.ts` (state + reset + return shape)
-- [ ] Add badge + warning-strip in `App.tsx` mirroring the `unparsed`/`duplicateEpics` pattern
-- [ ] Add regression tests to `parser.test.ts` (near-miss detected, exact match → no diagnostic, unrelated heading → no diagnostic, tasks under near-miss still dropped)
-- [ ] Add rendering tests to `App.test.tsx` mirroring the existing diagnostic-block tests
-- [ ] Run targeted tests (parser, App) + lint/typecheck; visual confirmation in dev server
+- [x] Add `NearMissHeading` type + case-insensitive match check in `parsePlanWithDiagnostics`'s unrecognized-heading branch; collect into a new `nearMissHeadings` array on the parse result
+- [x] Thread `nearMissHeadings` through `useProjectData.ts` (state + reset + return shape)
+- [x] Add badge + warning-strip in `App.tsx` mirroring the `unparsed`/`duplicateEpics` pattern
+- [x] Add regression tests to `parser.test.ts` (near-miss detected, exact match → no diagnostic, unrelated heading → no diagnostic, tasks under near-miss still dropped)
+- [x] Add rendering tests to `App.test.tsx` mirroring the existing diagnostic-block tests
+- [x] Run targeted tests (parser, App) + lint/typecheck; visual confirmation in dev server
 
 ## 🔗 Related
 

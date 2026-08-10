@@ -15,11 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-425** [medium]🧩 | viz near-miss diagnostics — Close the silent-no-op gaps in the visualizer: Escape vs filtered-out expandedId, typo'd priority-heading diagnostic, devApi error-body typing, dedicated keyboard-nav coverage. Discovery supplied by audit-repo 2026-08-09. Surfaced by audit-repo 2026-08-09 (Theme: the near-miss blind spot).
-  - [x] **CORE-425.2** [medium]🧩 | Escape precedence fix — Completed 2026-08-09.
-  - [x] **CORE-425.3** [light]🔧 | near-miss heading diagnostic — Completed 2026-08-09.
-  - [x] **CORE-425.4** [light]🔧 | devApi error hygiene — Completed 2026-08-09.
-  - [ ] **CORE-425.N** [medium]🧩 | audit CORE-EPIC-425.
+(none)
 
 ## Low
 
@@ -29,6 +25,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 
 ## Completed
+
+- [x] **CORE-EPIC-425** [medium]🧩 | viz near-miss diagnostics — Completed 2026-08-09.
+  - [x] **CORE-425.2** [medium]🧩 | Escape precedence fix — Completed 2026-08-09.
+  - [x] **CORE-425.3** [light]🔧 | near-miss heading diagnostic — Completed 2026-08-09.
+  - [x] **CORE-425.4** [light]🔧 | devApi error hygiene — Completed 2026-08-09.
+  - [x] **CORE-425.N** [medium]🧩 | viz near-miss diagnostics audit — Completed 2026-08-09.
 
 - [x] **CORE-EPIC-424** [medium]🧩 | fleet-updater failure signals — Completed 2026-08-09.
   - [x] **CORE-424.2** [light]🔧 | exit-code + stderr — Completed 2026-08-09.
