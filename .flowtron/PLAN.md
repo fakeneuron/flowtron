@@ -26,6 +26,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-427** [medium]🧩 | release v5.16.0 — Completed 2026-08-09.
+
 - [x] **CORE-426** [light]🔧 | SPEC templates cross-ref — Completed 2026-08-09.
 
 - [x] **CORE-EPIC-425** [medium]🧩 | viz near-miss diagnostics — Completed 2026-08-09.
