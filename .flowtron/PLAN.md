@@ -12,7 +12,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## High
 
 - [ ] **CORE-EPIC-430** [medium]🧩 | CI gate on push — wire the four existing gate commands (viz test/typecheck/lint + fleet-updater `node --test`) into one GitHub Actions workflow on push/PR to main. Discovery supplied by audit-repo 2026-08-10. Surfaced by audit-repo 2026-08-10 (Theme: Gates only fire when a human runs them)
-  - [ ] **CORE-430.2** [light]🔧 | Actions workflow: reuse AGENTS.md §Validation commands verbatim; Node 20; cache npm
+  - [x] **CORE-430.2** [light]🔧 | Actions workflow — Completed 2026-08-10.
   - [ ] **CORE-430.N** [light]🔧 | CI gate audit
 
 ## Medium

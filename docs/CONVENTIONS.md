@@ -49,6 +49,12 @@ The `docs/` and root-level documentation roughly follow [Diátaxis](https://diat
 
 The tutorial quadrant is intentionally absent. The `/ft-new-project` skill bootstraps a working flowtron-adopting repo in one pass; the tutorial substitute is "run the skill, then read MIGRATION.md if anything surprises you." A standalone tutorial would duplicate the skill's existing wiring and drift away from it.
 
+### GitHub Actions CI
+
+Flowtron ships a `.github/workflows/ci.yml` CI pipeline that runs on push and pull request to `main`. The workflow reuses [AGENTS.md](../AGENTS.md) §"Validation" verbatim — `npm --prefix viz test`, `npm --prefix viz run typecheck`, `npm --prefix viz run lint`, and the fleet-updater's `node --test tools/update-adopters.test.mjs` plus its two `node --check` syntax checks — on Node 20 with npm caching.
+
+This reverses an earlier decision (`CORE-099.1`, `CORE-115`, `CORE-321`): CI was previously declined because Phase 3 and `/ft-release` already gate every change inline, and flowtron had no external contributor pull requests to gate automatically. That reasoning still holds for *enforcement* — the workflow doesn't replace Phase 3 or `/ft-release`, it duplicates their exact commands as a free, automatic check on every push, catching the case where a change lands without the assistant running the gate (e.g., a manual edit, or a Phase 3 step skipped under `--fast`). The commands are identical by design (see AGENTS.md §"Validation") so there is exactly one place that defines what "passing" means.
+
 ## Declines
 
 ### CHANGELOG.md
@@ -82,16 +88,6 @@ Flowtron does not ship pre-commit hooks. The pattern declined is [pre-commit](ht
 Validation runs inline as Phase 3 of every tasknote — targeted tests, lint and type-check on changed code, optional visual confirmation for frontend changes. Phase 3 is part of the workflow contract (see [SPEC.md](../SPEC.md)) and runs in the same context where the change was authored; hooks would duplicate the check at commit time.
 
 Same backing principle as release automation: [PHILOSOPHY.md](PHILOSOPHY.md) §"The decisions that fall out" (Zero scripts) — the assistant is the validator, and the workflow phase is the gate.
-
-### CI / GitHub Actions
-
-Flowtron does not ship a `.github/workflows/` CI pipeline. The pattern declined is automated test / lint / typecheck runs on push or pull request.
-
-Two reasons. First, the same logic that rules out pre-commit hooks applies here: validation already runs inline as Phase 3 of every tasknote (targeted tests, lint, and type-check on changed code), and the `/ft-release` skill gates every release on `npm test`, `npm run typecheck`, and `npm run lint` (run via `npm --prefix viz`) plus the portable `node --test tools/update-adopters.test.mjs` suite before the version tag lands. A CI run would duplicate those checks without adding enforcement surface.
-
-Second, flowtron is a single-maintainer solo system. There are no external contributor pull requests that need automated gating — the maintainer is always in the loop and the workflow phase is the gate.
-
-Same backing principle as pre-commit hooks and release automation: [PHILOSOPHY.md](PHILOSOPHY.md) §"The decisions that fall out" (Zero scripts) — the assistant is the validator, and the workflow phase is the gate.
 
 ### MCP servers
 

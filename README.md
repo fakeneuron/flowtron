@@ -73,8 +73,8 @@ full one-time global-install table (§1.0), and the Codex / grok wiring.
 - [docs/MIGRATION.md](docs/MIGRATION.md) — adoption guide for fresh projects
   and migration from a prior workflow system
 - [docs/CONVENTIONS.md](docs/CONVENTIONS.md) — conventions flowtron adheres to
-  (Conventional Commits, SemVer, GFM, Diátaxis) and declines (CHANGELOG, ADR
-  registry, release automation, pre-commit hooks, CI / GitHub Actions, MCP
+  (Conventional Commits, SemVer, GFM, Diátaxis, GitHub Actions CI) and
+  declines (CHANGELOG, ADR registry, release automation, pre-commit hooks, MCP
   servers, package-manager / marketplace distribution, template override
   stacking) with rationale
 - [docs/VERSION-HISTORY.md](docs/VERSION-HISTORY.md) — curated, moderately-coarse

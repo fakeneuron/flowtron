@@ -32,7 +32,7 @@ A PR that lands without prior discussion may be closed without merge even if the
 ## Where conventions live
 
 - **[SPEC.md](SPEC.md)** — workflow contract; canonical surface for the tasknote lifecycle, the relevance gate, gate cues, post-closure protocol, and versioning rules.
-- **[docs/CONVENTIONS.md](docs/CONVENTIONS.md)** — external conventions flowtron adheres to (Conventional Commits, SemVer, GFM, Diátaxis) and declines (CHANGELOG, separate ADRs, release automation, pre-commit hooks, CI / GitHub Actions, MCP servers, package-manager / marketplace distribution, template override stacking), each with rationale.
+- **[docs/CONVENTIONS.md](docs/CONVENTIONS.md)** — external conventions flowtron adheres to (Conventional Commits, SemVer, GFM, Diátaxis, GitHub Actions CI) and declines (CHANGELOG, separate ADRs, release automation, pre-commit hooks, MCP servers, package-manager / marketplace distribution, template override stacking), each with rationale.
 - **[docs/MIGRATION.md](docs/MIGRATION.md)** — adoption and bump procedure for projects pulling flowtron in as a submodule.
 - **[docs/PHILOSOPHY.md](docs/PHILOSOPHY.md)** — design rationale; the "why" behind the choices.
 
