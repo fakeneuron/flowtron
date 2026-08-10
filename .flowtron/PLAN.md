@@ -19,7 +19,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-(none)
+- [ ] **CORE-428** [medium]🧩 | version-history highlights — Curated moderately-coarse release history (main highlights + secondary wins) as a docs surface from annotated tags; no CHANGELOG.md; FE out of scope for this cut.
+
 
 ## Future Opportunities
 
