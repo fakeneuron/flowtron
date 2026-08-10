@@ -19,12 +19,14 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-426** [light]🔧 | SPEC templates cross-ref — SPEC.md:55 points the templates-roster clause at MIGRATION §1.2.1 (audit-scaffold forking); drop or narrow the parenthetical. Surfaced by audit-repo 2026-08-09 (Finding #8, Low).
+(none)
 
 ## Future Opportunities
 
 
 ## Completed
+
+- [x] **CORE-426** [light]🔧 | SPEC templates cross-ref — Completed 2026-08-09.
 
 - [x] **CORE-EPIC-425** [medium]🧩 | viz near-miss diagnostics — Completed 2026-08-09.
   - [x] **CORE-425.2** [medium]🧩 | Escape precedence fix — Completed 2026-08-09.

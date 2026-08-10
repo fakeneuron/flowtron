@@ -52,7 +52,7 @@ Flowtron does not submodule itself. When working in `~/code/flowtron/`:
 - `SPEC/` — lazy SPEC modules loaded on demand by skills.
 - `SPEC/procedures/` — agent-neutral procedure SOPs: the source-of-truth projection of execution procedures (e.g. the `/ft-task` 4-phase workflow) for non-Claude wiring and contract-only agents. Format + loading convention: [`SPEC/procedures/README.md`](SPEC/procedures/README.md).
 - The flowtron `.flowtron/PLAN.md` tracks flowtron's own development.
-- The `templates/` folder holds the canonical tasknote templates (full, micro, starter, sidequest) plus spec, loop-heartbeat, audit-overlay, and subagent-probe templates, and the `PLAN.md` / `tasknote-README.md` seed files (see [`docs/MIGRATION.md`](docs/MIGRATION.md) §1.2.1).
+- The `templates/` folder holds the canonical tasknote templates (full, micro, starter, sidequest) plus spec, loop-heartbeat, audit-overlay (usage: [`docs/MIGRATION.md`](docs/MIGRATION.md) §1.2.1), and subagent-probe templates, and the `PLAN.md` / `tasknote-README.md` seed files.
 - `claude/` — Claude Code commands + skills (`/ft-task`, `/ft-release`, `/ft-new-project`, ...); the adopter snippet lives at `claude/AGENTS-snippet.md`.
 - `codex/` — Codex skill wrappers for the full `ft-*` inventory plus Codex-specific wiring notes; `grok/` currently carries the `ft-task` procedure pointer. Future platform wirings plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md) for the plug-in pattern.
 - `tools/` — operator-side fleet scripts. Currently `update-adopters.mjs`, the singular CLI carve-out documented in §"What flowtron does NOT provide", plus its portable `update-adopters.test.mjs` suite (a registered release gate).
