@@ -921,3 +921,35 @@ describe('App — duplicate-epic diagnostics (CORE-421.3)', () => {
     expect(screen.queryByText(/duplicate epic/)).not.toBeInTheDocument();
   });
 });
+
+describe('App — near-miss heading diagnostics (CORE-425.3)', () => {
+  const plan = `## medium
+
+- [ ] **CORE-100** | dropped — Under a typo'd heading.
+
+## High
+
+- [ ] **CORE-101** | fine — Parses normally.
+`;
+
+  it('shows the "N near-miss headings" badge and the offending heading', async () => {
+    renderApp({ plan });
+
+    await waitFor(() => expect(screen.getByText('CORE-101')).toBeInTheDocument());
+
+    expect(screen.getByText(/1 near-miss heading/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/1 PLAN\.md heading looks like a typo'd priority section/),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/L1: "medium" \(did you mean "Medium"\?\)/)).toBeInTheDocument();
+    expect(screen.queryByText('CORE-100')).not.toBeInTheDocument();
+  });
+
+  it('renders no badge or strip when every heading matches exactly', async () => {
+    renderApp({ plan: '## High\n\n- [ ] **CORE-100** | fine — Parses fine.\n' });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+
+    expect(screen.queryByText(/near-miss heading/)).not.toBeInTheDocument();
+  });
+});

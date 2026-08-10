@@ -1,10 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { parsePlanWithDiagnostics, type Task, type UnparsedLine } from '../parser';
+import {
+  parsePlanWithDiagnostics,
+  type Task,
+  type UnparsedLine,
+  type NearMissHeading,
+} from '../parser';
 import { type Tasknote } from '../tasknote';
 
 export function useProjectData(activeProject: string | null): {
   tasks: Task[];
   unparsed: UnparsedLine[];
+  nearMissHeadings: NearMissHeading[];
   tasknotesById: Map<string, Tasknote>;
   loading: boolean;
   error: string | null;
@@ -13,6 +19,7 @@ export function useProjectData(activeProject: string | null): {
 } {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [unparsed, setUnparsed] = useState<UnparsedLine[]>([]);
+  const [nearMissHeadings, setNearMissHeadings] = useState<NearMissHeading[]>([]);
   const [tasknotesById, setTasknotesById] = useState<Map<string, Tasknote>>(new Map());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -47,6 +54,7 @@ export function useProjectData(activeProject: string | null): {
       const parsed = parsePlanWithDiagnostics(md);
       setTasks(parsed.tasks);
       setUnparsed(parsed.unparsed);
+      setNearMissHeadings(parsed.nearMissHeadings);
       const merged = new Map<string, Tasknote>(archived.map((t) => [t.id, t]));
       for (const t of active) merged.set(t.id, t);
       setTasknotesById(merged);
@@ -91,9 +99,10 @@ export function useProjectData(activeProject: string | null): {
   const reset = useCallback(() => {
     setTasks([]);
     setUnparsed([]);
+    setNearMissHeadings([]);
     setTasknotesById(new Map());
     setLoading(true);
   }, []);
 
-  return { tasks, unparsed, tasknotesById, loading, error, refresh, reset };
+  return { tasks, unparsed, nearMissHeadings, tasknotesById, loading, error, refresh, reset };
 }

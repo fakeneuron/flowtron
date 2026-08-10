@@ -251,10 +251,25 @@ export interface UnparsedLine {
   text: string;
 }
 
+export interface NearMissHeading {
+  /** 1-based line number in PLAN.md */
+  line: number;
+  /** The heading text as written (e.g. "medium") */
+  heading: string;
+  /** The canonical Priority it case-insensitively matches (e.g. "Medium") */
+  matched: Priority;
+}
+
 interface PlanParseResult {
   tasks: Task[];
   unparsed: UnparsedLine[];
+  nearMissHeadings: NearMissHeading[];
 }
+
+// Lowercased priority name -> canonical Priority, for the near-miss check below.
+const LOWERCASE_TO_PRIORITY = new Map<string, Priority>(
+  Array.from(SECTION_HEADINGS, (p) => [p.toLowerCase(), p])
+);
 
 // Loose checkbox-bullet prefix: a line that *looks like* a task entry. Lines
 // matching this inside a recognized section but failing TASK_LINE are
@@ -294,6 +309,7 @@ export function parsePlanWithDiagnostics(markdown: string): PlanParseResult {
   const inFence = fenceMask(lines);
   const tasks: Task[] = [];
   const unparsed: UnparsedLine[] = [];
+  const nearMissHeadings: NearMissHeading[] = [];
   let currentPriority: Priority | null = null;
   let legacyCriticalSection = false;
 
@@ -312,6 +328,10 @@ export function parsePlanWithDiagnostics(markdown: string): PlanParseResult {
       } else {
         currentPriority = null;
         legacyCriticalSection = false;
+        const matched = LOWERCASE_TO_PRIORITY.get(heading.toLowerCase());
+        if (matched) {
+          nearMissHeadings.push({ line: i + 1, heading, matched });
+        }
       }
       continue;
     }
@@ -353,5 +373,5 @@ export function parsePlanWithDiagnostics(markdown: string): PlanParseResult {
     });
   }
 
-  return { tasks, unparsed };
+  return { tasks, unparsed, nearMissHeadings };
 }

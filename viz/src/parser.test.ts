@@ -588,6 +588,55 @@ All segments optional.
     const { tasks } = parsePlanWithDiagnostics(md);
     expect(tasks.map((t) => t.id)).toEqual(['CORE-003']);
   });
+
+  // CORE-425.3: a heading that case-insensitively matches a Priority name is a
+  // likely typo — flag it instead of silently dropping every task under it.
+  it('flags a near-miss heading (case difference) and still drops its tasks', () => {
+    const md = `## medium
+
+- [ ] **CORE-001** — should not appear
+`;
+    const { tasks, nearMissHeadings } = parsePlanWithDiagnostics(md);
+    expect(tasks).toEqual([]);
+    expect(nearMissHeadings).toEqual([
+      { line: 1, heading: 'medium', matched: 'Medium' },
+    ]);
+  });
+
+  it('does not flag an exact-match heading as a near miss', () => {
+    const md = `## Medium
+
+- [ ] **CORE-001** — appears normally
+`;
+    const { tasks, nearMissHeadings } = parsePlanWithDiagnostics(md);
+    expect(tasks.map((t) => t.id)).toEqual(['CORE-001']);
+    expect(nearMissHeadings).toEqual([]);
+  });
+
+  it('does not flag an unrelated heading as a near miss', () => {
+    const md = `## Vision
+
+- [ ] **CORE-999** — should not appear
+`;
+    const { nearMissHeadings } = parsePlanWithDiagnostics(md);
+    expect(nearMissHeadings).toEqual([]);
+  });
+
+  it('collects multiple near-miss headings with 1-based line numbers', () => {
+    const md = `## medium
+
+- [ ] **CORE-001** — dropped
+
+## LOW
+
+- [ ] **CORE-002** — also dropped
+`;
+    const { nearMissHeadings } = parsePlanWithDiagnostics(md);
+    expect(nearMissHeadings).toEqual([
+      { line: 1, heading: 'medium', matched: 'Medium' },
+      { line: 5, heading: 'LOW', matched: 'Low' },
+    ]);
+  });
 });
 
 describe('groupTasks', () => {
