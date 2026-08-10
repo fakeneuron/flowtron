@@ -856,7 +856,10 @@ was premature). Never invent a SHA or claim a prior unrelated commit.
 Canonical contract: see [`SPEC/tasknote-selection.md`](SPEC/tasknote-selection.md).
 The module carries the full use/skip thresholds (tasknote · starter ·
 follow-up · micro-tasknote · debug), the PLAN.md filing-discipline word
-budget (≤50w target / 70w hard cap), the `## Completed` archive
+budget (≤50w target / 70w hard cap), the filing-commit contract (the three
+filing-only skills auto-commit `chore: file <ID> …` at hand-off, since filing
+approval *is* commit authorization; execution skills keep their commit-go
+gate), the `## Completed` archive
 stub-form convention, and the downstream-impact reconciliation scan (a new
 filing or a mid-flow direction change triggers a cohesion check against
 active PLAN entries, behind a user-confirm gate).

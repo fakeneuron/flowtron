@@ -1,6 +1,6 @@
 ---
 name: ft-starter-task
-description: File a starter tasknote for a task discovered mid-flow with rich AI-captured context that isn't ready to start. Use when the user asks to file a starter tasknote for a task that isn't ready to start yet. Invoke with an optional task ID as args (e.g., args="CORE-028"); when omitted, the skill suggests the next available ID for review. Writes .flowtron/tasknote/<ID>.md from templates/tasknote-starter-template.md, appends the PLAN.md entry, and hands off without committing. See SPEC/starter.md for when to file.
+description: File a starter tasknote for a task discovered mid-flow with rich AI-captured context that isn't ready to start. Use when the user asks to file a starter tasknote for a task that isn't ready to start yet. Invoke with an optional task ID as args (e.g., args="CORE-028"); when omitted, the skill suggests the next available ID for review. Writes .flowtron/tasknote/<ID>.md from templates/tasknote-starter-template.md, appends the PLAN.md entry, and auto-commits the filing at hand-off. See SPEC/starter.md for when to file.
 ---
 
 # starter-task — flowtron starter filer
@@ -86,7 +86,9 @@ Compose the `## 🌱 Starter context` body from conversation context using the c
 
 ## Step 4 — Write the starter file
 
-Copy the starter template (path resolved in Step 0), then fill it:
+**Filing-commit pre-check first.** Run `git status --porcelain -- .flowtron/PLAN.md` **before any write** and record the result as `auto-commit`: clean output → `auto-commit = true`; any output → `auto-commit = false` (PLAN.md already carries foreign edits, so the filing rides along in the surrounding commit instead). It must run here, immediately before the first write — Steps 2-3 span operator turns, so a reading taken at pre-flight can go stale. Not a gate: nothing stops either way; it only decides whether Step 5's commit runs. Contract: SPEC/tasknote-selection.md §"Filing commits".
+
+Then copy the starter template (path resolved in Step 0) and fill it:
 
 ```sh
 cp <starter template path> .flowtron/tasknote/<TASK-ID>.md
@@ -116,6 +118,15 @@ Placement:
 
 **Apply confirmed reconcile edits.** If the Step 3 scan surfaced impacted entries and the user accepted (or amended) any proposed actions, apply those PLAN.md edits in the same motion as the append — merge / nest / edit / delete the affected lines per the confirmed action. Apply nothing the user rejected or didn't see. No impact (or scan skipped) → no-op.
 
+**Commit the filing** (when `auto-commit = true` from the Step 4 pre-check). The filing's **last** write, so the starter file, the PLAN entry, and any confirmed reconcile edits land together. Stage the two paths by name — never `git commit -a` / `git add .` / `git add -A`, since a mid-flow filing sits in a working tree that may carry other unfinished edits:
+
+```sh
+git add .flowtron/PLAN.md .flowtron/tasknote/<TASK-ID>.md
+git commit -m "chore: file <TASK-ID> starter — <shortname>"
+```
+
+Commit only — never push. The Step 3 review approval **is** the commit authorization; there is no separate commit-go ask. `auto-commit = false` → skip and note it at Step 6. Full contract: SPEC/tasknote-selection.md §"Filing commits".
+
 The starter body is the canonical home for rationale, file surveys, and decisions — moving content there is the point of `/ft-starter-task`.
 
 ## Step 6 — Hand off
@@ -123,10 +134,10 @@ The starter body is the canonical home for rationale, file surveys, and decision
 Surface to the user, in one short message:
 
 - Starter filed at `.flowtron/tasknote/<TASK-ID>.md`.
-- PLAN.md entry appended under `## <Priority>` with model `<model>`.
+- PLAN.md entry appended under `## <Priority>` with model `<model>`, `committed <sha>` — or, when Step 5's commit was skipped, `left uncommitted (PLAN.md already carried other edits)`.
 - The starter sits until `/ft-task <TASK-ID>` is invoked — that promotion will drift-check the captured context against current code and scaffold the rest of the tasknote (see `<SPEC_DIR>/starter.md` lifecycle).
 
-Do **not** commit unprompted. The new starter file + PLAN.md flip are typically bundled into whatever commit the conversation produces (if any) or left for the user to handle. If the user asks for a commit, the message format is `chore: file <TASK-ID> starter — <shortname>`.
+The filing is committed at Step 5. Report the SHA as plain text; emit **no 🏁 marker** (reserved for a closure commit covering Acceptance deliverables — SPEC.md §"Paper-complete guard" §3). Never push. When the pre-check set `auto-commit = false`, the starter file + PLAN.md entry are instead bundled into whatever commit the conversation produces, exactly as before.
 
 ## Notes
 

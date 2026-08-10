@@ -4,7 +4,7 @@ paths: []
 
 # Tasknote selection
 
-> Lazy-loaded SPEC module. Loaded by the filing/runner skills (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release`, `/ft-worktree-{start,end}`) when they need the use/skip thresholds, filing-discipline word budget, or `## Completed` archive convention. See `SPEC.md` for the always-loaded core spec.
+> Lazy-loaded SPEC module. Loaded by the filing/runner skills (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release`, `/ft-worktree-{start,end}`) when they need the use/skip thresholds, filing-discipline word budget, filing-commit contract, or `## Completed` archive convention. See `SPEC.md` for the always-loaded core spec.
 
 ## When to use a tasknote (and when not to)
 
@@ -131,6 +131,69 @@ are governed by §"`## Completed` archive convention" below.
 breach the cap at filing/scaffold time — see the respective skill files
 for the mechanism. `/ft-file-followup` declines at >70w and routes to
 `/ft-starter-task`.
+
+## Filing commits
+
+The filing-only skills — `/ft-file-followup` (default flow), its `--park`
+mode, and `/ft-starter-task` — **commit their own filing** at hand-off.
+Filing approval *is* commit authorization: the operator already confirmed the
+PLAN line at the review gate (or, in park mode, by passing the flag and
+answering the priority question), and a second commit-go ask on a one-line
+filing buys nothing. Left uncommitted, a filing carries into the next session
+as working-tree dirt — which `SPEC.md` §"Paper-complete guard" then converts
+into a hard stop at the next `/ft-task` entry, so the filing's cost lands on a
+later, unrelated task.
+
+Message shape, one per filing motion:
+
+| Motion | Commit message |
+|---|---|
+| `/ft-file-followup` (default) | `chore: file <ID> follow-up — <shortname>` |
+| `/ft-file-followup --park` | `chore: file <ID> park — <shortname>` |
+| `/ft-starter-task` | `chore: file <ID> starter — <shortname>` |
+
+Rules:
+
+- **Explicit pathspecs only.** Stage the filing's own paths by name —
+  `.flowtron/PLAN.md`, plus `.flowtron/tasknote/<ID>.md` (starter) or
+  `.flowtron/sidequest/<ID>.md` (park). **Never** `git commit -a`, `git add .`,
+  or `git add -A`. A follow-up is routinely filed from *inside* an active
+  `/ft-task`, where the working tree legitimately carries the parent task's
+  unfinished edits; a greedy stage would commit them under a `chore: file`
+  message.
+- **Pre-check, then skip on dirt.** Check whether `.flowtron/PLAN.md` already
+  carries uncommitted changes (`git status --porcelain -- .flowtron/PLAN.md`).
+  Clean → after the append the only PLAN delta is the filing's own, so commit.
+  **Already dirty → do not commit:** say so in one line and leave the filing for
+  the surrounding commit (the pre-CORE-429 behavior). Never resolve foreign PLAN
+  dirt on the operator's behalf, and never fold it into the filing commit.
+  **Placement is load-bearing:** run it immediately before the filing's *first
+  write*, not at ID pre-flight. Every filing motion pauses for the operator
+  between those two points (the AskUserQuestion collection and review gate, or
+  park mode's priority question), and the tree can gain PLAN.md edits while it
+  waits — a reading taken before the pause can be stale by the time it is used.
+- **Commit, never push.** Pushing stays the operator's call in their own
+  session.
+- **Confirmed reconcile edits ride along.** Where the operator confirmed edits
+  from §"Downstream-impact reconciliation", they are part of the same filing
+  and land in the same commit — so the commit is the filing's **last** write.
+- **Not a closure commit.** A filing commit closes nothing: no PLAN.md
+  checkbox flip, no archive move, no tasknote `status:` change. It therefore
+  carries **no 🏁 marker** — `SPEC.md` §"Paper-complete guard" §3 reserves 🏁
+  for a closure SHA covering Acceptance deliverables, which a filing has none
+  of. Report the result as plain text instead (`committed <sha>`), the same
+  shape `SPEC/loop.md`'s `## 🔁 Iterations` log uses for its per-cycle commits.
+- **No new gate.** Filing skills surface neither standing phase-gate banner,
+  and this adds none — the two-banner cap in `SPEC/gates.md` §"Operator-gate
+  cues" is unaffected.
+
+**Execution skills keep their commit-go gate.** This section governs the three
+filing-only motions above and nothing else. `/ft-task`, `/ft-micro-task`,
+`/ft-goal-task`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release`,
+`/ft-new-project`, `/ft-update`, and `/ft-spec` are unchanged: their commits
+land deliverables or cut releases, and it is the 📦 conditional skip rule
+(`SPEC/gates.md`) — not this section — that decides when they commit
+autonomously.
 
 ## `## Completed` archive convention
 

@@ -128,7 +128,9 @@ Edit per their feedback before writing anything. Do not skip the review. The rec
 
 In one continuous motion, after the user has confirmed the Step 3 review (including any reconcile proposals):
 
-1. **Append the PLAN.md entry.** Append a new entry under the appropriate `## <Priority>` heading using the canonical task-line grammar (SPEC §"Task-line format"):
+1. **Filing-commit pre-check.** Run `git status --porcelain -- .flowtron/PLAN.md` **before any write** and record the result as `auto-commit`: clean output → `auto-commit = true`; any output → `auto-commit = false` (PLAN.md already carries foreign edits, so the filing rides along in the surrounding commit instead). It must run here, immediately before the append — Steps 2-3 span operator turns, so a reading taken at pre-flight can go stale. Not a gate: nothing stops either way; it only decides whether item 4 below runs. Contract: SPEC/tasknote-selection.md §"Filing commits".
+
+2. **Append the PLAN.md entry.** Append a new entry under the appropriate `## <Priority>` heading using the canonical task-line grammar (SPEC §"Task-line format"):
 
    ```
    - [ ] **<TASK-ID>** [<model>] | <shortname> — <one-line long description>
@@ -140,19 +142,28 @@ In one continuous motion, after the user has confirmed the Step 3 review (includ
 
    No `Filed with starter at ...` pointer (that suffix is `/ft-starter-task`'s contract). The new line carries only the long description — no breadcrumb to a tasknote that doesn't exist.
 
-2. **Apply confirmed reconcile edits.** If the Step 3 scan surfaced impacted entries and the user accepted (or amended) any proposed actions, apply those PLAN.md edits in the same motion — merge / nest / edit / delete the affected lines per the confirmed action. Apply nothing the user rejected or didn't see. No impact (or scan skipped) → no-op.
+3. **Apply confirmed reconcile edits.** If the Step 3 scan surfaced impacted entries and the user accepted (or amended) any proposed actions, apply those PLAN.md edits in the same motion — merge / nest / edit / delete the affected lines per the confirmed action. Apply nothing the user rejected or didn't see. No impact (or scan skipped) → no-op.
 
-3. **Deliver the conversational paragraph.** Surface the reviewed paragraph from Step 3 in the same response as the filing confirmation. The paragraph is **chat-only** — never persisted to disk, never written into the active tasknote.
+4. **Commit the filing** (when `auto-commit = true` from step 1 above). The filing's **last** write, so confirmed reconcile edits land with it. Stage the one path by name — never `git commit -a` / `git add .` / `git add -A`, since a mid-flow filing sits in a working tree carrying the parent `/ft-task`'s unfinished edits:
+
+   ```sh
+   git add .flowtron/PLAN.md
+   git commit -m "chore: file <TASK-ID> follow-up — <shortname>"
+   ```
+
+   Commit only — never push. `auto-commit = false` → skip this step entirely and note it in Step 5. Full contract: SPEC/tasknote-selection.md §"Filing commits".
+
+5. **Deliver the conversational paragraph.** Surface the reviewed paragraph from Step 3 in the same response as the filing confirmation. The paragraph is **chat-only** — never persisted to disk, never written into the active tasknote.
 
 ## Step 5 — Hand off
 
 Surface to the user, in one short message:
 
-- `<TASK-ID>` filed at `.flowtron/PLAN.md` under `## <Priority>` with model `<model>`.
+- `<TASK-ID>` filed at `.flowtron/PLAN.md` under `## <Priority>` with model `<model>`, `committed <sha>` — or, when Step 4.4 was skipped, `left uncommitted (PLAN.md already carried other edits)`.
 - The follow-up sits as a one-line PLAN.md entry until `/ft-task <TASK-ID>` (or `/ft-micro-task` / `/ft-starter-task` for promotion) fires.
-- (Conversational paragraph from Step 4.3 is included in this response.)
+- (Conversational paragraph from Step 4.5 is included in this response.)
 
-Do **not** commit unprompted. The new PLAN.md line is typically bundled into whatever commit the surrounding conversation produces (if any) or left for the user to handle. If the user asks for a commit, the message format is `chore: file <TASK-ID> follow-up — <shortname>`.
+The filing is committed by Step 4.4 — the Step 3 review approval **is** the commit authorization, so there is no separate commit-go ask. Report the SHA as plain text; emit **no 🏁 marker** (that glyph is reserved for a closure commit covering Acceptance deliverables — SPEC.md §"Paper-complete guard" §3). Never push. When the pre-check set `auto-commit = false`, the new PLAN.md line is instead bundled into whatever commit the surrounding conversation produces, exactly as before.
 
 ## Notes
 

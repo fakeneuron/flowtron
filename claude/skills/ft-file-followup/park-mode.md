@@ -88,10 +88,18 @@ Template path (resolved by the host SKILL's Step 0 layout branch):
 
 Then:
 
-1. `mkdir -p .flowtron/sidequest/`
-2. Copy the template → `.flowtron/sidequest/<TASK-ID>.md`; fill frontmatter, H1,
+1. **Filing-commit pre-check.** Run `git status --porcelain -- .flowtron/PLAN.md`
+   **before any write** and record the result as `auto-commit`: clean → `true`;
+   any output → `false` (PLAN.md already carries foreign edits, so the filing
+   rides along in the surrounding commit instead). It must run here, not at
+   Step P1 — the no-flag priority question at Step P2 waits for the operator,
+   and the tree can gain PLAN.md edits while it waits. Not a gate: it only
+   decides whether item 5 below runs. Contract:
+   `SPEC/tasknote-selection.md` §"Filing commits".
+2. `mkdir -p .flowtron/sidequest/`
+3. Copy the template → `.flowtron/sidequest/<TASK-ID>.md`; fill frontmatter, H1,
    nav date, `## Idea`, `## Resume anchor`, `parent:`.
-3. Append under `## <Priority>`:
+4. Append under `## <Priority>`:
 
    ```text
    - [ ] **<TASK-ID>** [light] | <shortname> — <long description>
@@ -99,8 +107,24 @@ Then:
 
    Replace the `(none)` placeholder if present; else append to section bottom.
 
-Do **not** commit unprompted. Do **not** run the downstream-impact
-reconciliation scan — park mode is explicitly outside it.
+5. **Commit the filing** (when item 1 set `auto-commit = true`).
+   Stage both paths by name — never `git commit -a` / `git add .` / `git add -A`,
+   since a park fires mid-session in a working tree carrying the interrupted
+   work's edits:
+
+   ```sh
+   git add .flowtron/PLAN.md .flowtron/sidequest/<TASK-ID>.md
+   git commit -m "chore: file <TASK-ID> park — <shortname>"
+   ```
+
+   Commit only — never push. Park mode has no review gate, so the **invocation
+   itself** (flag + priority flag, or the Step P2 priority answer) is the
+   commit authorization; there is no separate commit-go ask. `auto-commit = false`
+   → skip, and say so in the Step P5 reply. Full contract:
+   `SPEC/tasknote-selection.md` §"Filing commits".
+
+Do **not** run the downstream-impact reconciliation scan — park mode is
+explicitly outside it.
 
 ## Step P5 — Resume (mandatory handoff)
 
@@ -108,13 +132,19 @@ Reply in **≤70 words total** using this exact shape — no extra sections, no
 reconcile notes, no promotion lecture:
 
 ```text
-📌 **<TASK-ID>** parked **<Priority>** → `.flowtron/sidequest/<TASK-ID>.md`
+📌 **<TASK-ID>** parked **<Priority>** → `.flowtron/sidequest/<TASK-ID>.md` · committed `<sha>`
 
 **Resuming:** <resume anchor, one sentence>
 ```
 
+The SHA rides the first line as plain text — it is **not** a third section, and
+it is **not** a 🏁 marker (reserved for closure commits; `SPEC.md`
+§"Paper-complete guard" §3). When Step P4's commit was skipped, the tail reads
+`· uncommitted` instead.
+
 If the user immediately corrects priority in chat, move the PLAN line to the
-right section in the same turn (no re-file).
+right section in the same turn (no re-file). When the park was already
+committed, that correction is a follow-up commit, not a re-file.
 
 Then **continue the interrupted work inline** in the same response (pick up
 code/edits/questions exactly where the session left off before the park). The
