@@ -185,6 +185,55 @@ describe('App — search reaches subtasks', () => {
   });
 });
 
+describe('App — prune epic children under filter (CORE-432.3)', () => {
+  const plan = `## High
+
+- [ ] **CORE-EPIC-1** | epic — Parent epic
+- [ ] **CORE-1.1** | match me — Matching subtask
+- [ ] **CORE-1.2** | other child — Non-matching subtask
+- [ ] **CORE-200** | alone — Unrelated standalone
+`;
+
+  it('hides non-matching siblings when an epic is kept for a matching child', async () => {
+    const user = userEvent.setup();
+    renderApp({ plan });
+
+    await waitFor(() => expect(screen.getByText('CORE-EPIC-1')).toBeInTheDocument());
+
+    await user.type(screen.getByRole('searchbox'), 'match me');
+    await user.click(screen.getByRole('button', { name: 'Expand subtasks' }));
+
+    await waitFor(() => expect(screen.getByText('CORE-1.1')).toBeInTheDocument());
+    expect(screen.queryByText('CORE-1.2')).not.toBeInTheDocument();
+    expect(screen.queryByText('CORE-200')).not.toBeInTheDocument();
+  });
+
+  it('reports matching count from the pruned tree (parent + matching children only)', async () => {
+    const user = userEvent.setup();
+    renderApp({ plan });
+
+    await waitFor(() => expect(screen.getByText('CORE-EPIC-1')).toBeInTheDocument());
+    // 4 tasks total unfiltered (epic + 2 children + standalone)
+    expect(screen.getByText(/4 tasks/)).toBeInTheDocument();
+
+    await user.type(screen.getByRole('searchbox'), 'match me');
+
+    // Pruned set: epic + CORE-1.1 only → "2 of 4 matching"
+    await waitFor(() => expect(screen.getByText(/2 of 4 matching/)).toBeInTheDocument());
+  });
+
+  it('still shows every child when no filter is active', async () => {
+    const user = userEvent.setup();
+    renderApp({ plan });
+
+    await waitFor(() => expect(screen.getByText('CORE-EPIC-1')).toBeInTheDocument());
+    await user.click(screen.getByRole('button', { name: 'Expand subtasks' }));
+
+    await waitFor(() => expect(screen.getByText('CORE-1.1')).toBeInTheDocument());
+    expect(screen.getByText('CORE-1.2')).toBeInTheDocument();
+  });
+});
+
 describe('App — row StatusChip', () => {
   const plan = `## High
 

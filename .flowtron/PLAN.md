@@ -23,7 +23,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **CORE-EPIC-432** [medium]🧩 | honest edge states — version-unknown display (`App.tsx:326`), filtered-tree pruning (`App.tsx:138-188`), `FLOWTRON_UPDATE_LATEST` seam validation (`tools/update-adopters.mjs:553`). Discovery supplied by audit-repo 2026-08-10. Surfaced by audit-repo 2026-08-10 (Theme: Edge states misreport instead of admitting unknown)
   - [x] **CORE-432.2** [light]🔧 | header version — Completed 2026-08-10.
-  - [ ] **CORE-432.3** [medium]🧩 | prune epic children under filter; unify count/render/keyboard-nav from one derived tree
+  - [x] **CORE-432.3** [medium]🧩 | prune epic children under filter — Completed 2026-08-10.
   - [ ] **CORE-432.4** [light]🔧 | validate FLOWTRON_UPDATE_LATEST at the seam; exit 2 naming the env var
   - [ ] **CORE-432.N** [light]🔧 | honest-edge-states audit
 

@@ -135,8 +135,16 @@ export const App: React.FC = () => {
 
   const { nodes: allNodes, duplicateEpics } = useMemo(() => groupTasks(tasks), [tasks]);
 
+  // Single derived tree for count, render, and keyboard-nav: keep a parent
+  // when it or any child matches, but prune non-matching children so "N of M
+  // matching" and j/k stops never include hidden rows (CORE-432.3).
   const filteredNodes = useMemo(
-    () => allNodes.filter((n) => matchesFilter(n.task) || n.children.some(matchesFilter)),
+    () =>
+      allNodes.flatMap((n) => {
+        const children = n.children.filter(matchesFilter);
+        if (!matchesFilter(n.task) && children.length === 0) return [];
+        return [{ task: n.task, children }];
+      }),
     [allNodes, matchesFilter],
   );
 
