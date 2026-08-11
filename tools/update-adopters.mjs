@@ -16,8 +16,9 @@
 // Exit codes: 0 = every adopter checked (or bumped) cleanly — skips and drift
 // are reported outcomes, not failures; 1 = at least one adopter failed its
 // check or bump (the ✗ lines, which go to stderr), or a pre-flight guard
-// aborted; 2 = usage error. A failure never aborts the sweep, so the exit
-// status is what a wrapper script has to read.
+// aborted; 2 = usage error (bad CLI args, or FLOWTRON_UPDATE_LATEST set to a
+// non-semver value). A failure never aborts the sweep, so the exit status is
+// what a wrapper script has to read.
 //
 // Per-adopter safety gates (any hit → skip that repo, report why):
 //   - .flowtron/core/SPEC.md's Version line is unreadable → the current pin
@@ -549,8 +550,21 @@ async function main(argv = process.argv.slice(2)) {
   // Test seam (TEST-003): the suite's CLI fixtures pin a fixed non-migration
   // tag pair so they don't track the moving head of the tag list. Every other
   // entry point takes `latest` as a parameter; this is the only place the
-  // choice is made internally.
-  const latest = process.env.FLOWTRON_UPDATE_LATEST ?? (await latestReleaseTag());
+  // choice is made internally. When the env is set, require a semver tag
+  // (CORE-432.4) — empty/garbage must not be misreported as "no release tags".
+  const override = process.env.FLOWTRON_UPDATE_LATEST;
+  let latest;
+  if (override !== undefined) {
+    if (!parseSemverTag(override)) {
+      console.error(
+        `FLOWTRON_UPDATE_LATEST is set but invalid (got ${JSON.stringify(override)}); expected a semver release tag like v1.2.3`,
+      );
+      process.exit(2);
+    }
+    latest = override;
+  } else {
+    latest = await latestReleaseTag();
+  }
   if (!latest) {
     console.error(`No release tag found in ${FLOWTRON_REPO} — nothing to compare against.`);
     process.exit(1);

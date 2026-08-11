@@ -375,6 +375,32 @@ describe('gitlinkDrift / describePin', () => {
   });
 });
 
+describe('FLOWTRON_UPDATE_LATEST seam validation (CORE-432.4)', () => {
+  it('exits 2 naming the env var when set to empty', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'ft-upd-env-empty-'));
+    const { code, stderr } = await runCli(['--root', root], {
+      expectFail: true,
+      env: { FLOWTRON_UPDATE_LATEST: '' },
+    });
+    assert.equal(code, 2);
+    assert.match(stderr, /FLOWTRON_UPDATE_LATEST/);
+    assert.match(stderr, /invalid/);
+    await rm(root, { recursive: true, force: true });
+  });
+
+  it('exits 2 naming the env var when set to non-semver', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'ft-upd-env-bad-'));
+    const { code, stderr } = await runCli(['--root', root], {
+      expectFail: true,
+      env: { FLOWTRON_UPDATE_LATEST: 'not-a-tag' },
+    });
+    assert.equal(code, 2);
+    assert.match(stderr, /FLOWTRON_UPDATE_LATEST/);
+    assert.match(stderr, /not-a-tag/);
+    await rm(root, { recursive: true, force: true });
+  });
+});
+
 describe('dry-run CLI (--root fixture)', () => {
   it('reports current / drift / would-bump / skipped in one workspace', async () => {
     const root = await mkdtemp(join(tmpdir(), 'ft-upd-cli-'));
