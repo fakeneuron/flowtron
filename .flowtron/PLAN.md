@@ -21,12 +21,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [ ] **CORE-431.4** [light]🔧 | tests pinning both behaviors
   - [ ] **CORE-431.N** [medium]🧩 | fleet-scale audit
 
-- [ ] **CORE-EPIC-432** [medium]🧩 | honest edge states — version-unknown display (`App.tsx:326`), filtered-tree pruning (`App.tsx:138-188`), `FLOWTRON_UPDATE_LATEST` seam validation (`tools/update-adopters.mjs:553`). Discovery supplied by audit-repo 2026-08-10. Surfaced by audit-repo 2026-08-10 (Theme: Edge states misreport instead of admitting unknown)
-  - [x] **CORE-432.2** [light]🔧 | header version — Completed 2026-08-10.
-  - [x] **CORE-432.3** [medium]🧩 | prune epic children under filter — Completed 2026-08-10.
-  - [x] **CORE-432.4** [light]🔧 | validate FLOWTRON_UPDATE_LATEST at the seam — Completed 2026-08-10.
-  - [ ] **CORE-432.N** [light]🔧 | honest-edge-states audit
-
 - [ ] **CORE-EPIC-433** [medium]🧩 | drift blind spots — fix 4 doc-drift findings and close the gate gaps that let them survive. Discovery supplied by audit-repo 2026-08-10. Surfaced by audit-repo 2026-08-10 (Theme: Drift survives where the gates can't see)
   - [x] **CORE-433.2** [light]🔧 | fix remaining flag + layout drift — Completed 2026-08-10.
   - [ ] **CORE-433.3** [medium]🧩 | widen gates — add AGENTS.md to AI-referenced docs walk; bring flag rosters under a check (Pair E extension or new pair)
@@ -46,6 +40,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 
 ## Completed
+
+- [x] **CORE-EPIC-432** [medium]🧩 | honest edge states — Completed 2026-08-10.
+  - [x] **CORE-432.2** [light]🔧 | header version — Completed 2026-08-10.
+  - [x] **CORE-432.3** [medium]🧩 | prune epic children under filter — Completed 2026-08-10.
+  - [x] **CORE-432.4** [light]🔧 | validate FLOWTRON_UPDATE_LATEST at the seam — Completed 2026-08-10.
+  - [x] **CORE-432.N** [light]🔧 | honest edge states audit — Completed 2026-08-10.
 
 - [x] **CORE-EPIC-430** [medium]🧩 | CI gate on push — Completed 2026-08-10.
   - [x] **CORE-430.2** [light]🔧 | Actions workflow — Completed 2026-08-10.
