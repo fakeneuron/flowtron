@@ -236,7 +236,10 @@ Concrete instantiation:
   Phase 3 repro re-verify); composes with `--fast` in either order.
   `--park` / `-p` on `/ft-file-followup`, loading the `park-mode.md` lazy
   fragment (priority flags, `.flowtron/sidequest/` stub + resume anchor,
-  no review gate, ≤70w reply, resume inline)
+  no review gate, ≤70w reply, resume inline).
+  `--worktree` on `/ft-goal-task` runs Phase 1 in-session then hands off to
+  `/ft-worktree-start` so the execute→verify loop runs in an isolated worktree
+  (see `docs/WORKTREES.md`)
 
 [`MIGRATION.md`](MIGRATION.md) is the full Claude Code adoption guide —
 fresh adoption (§1), heavy migration with full archive lift (§2), and

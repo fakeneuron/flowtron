@@ -474,7 +474,7 @@ Remove each hit with `rm`. The commands are safe: these are symlinks into the su
 | Retired | Released in | Replacement |
 |---|---|---|
 | `ft-debug` | v5.15.0 | `/ft-task <ID> --debug` — same hypothesis-first cadence, now a flag on the core runner |
-| `ft-sidequest` | v5.15.0 | `/ft-file-followup --park [--low\|--med\|--fut] [ID]` — same stub, priority flags, and resume-inline contract, now a flag on the follow-up filer. The `.flowtron/sidequest/` stubs and their template are unchanged; only the invocation moved, so existing parked stubs keep working |
+| `ft-sidequest` | v5.15.0 | `/ft-file-followup --park [--low\|--med\|--fut\|--high] [ID]` — same stub, priority flags, and resume-inline contract, now a flag on the follow-up filer. The `.flowtron/sidequest/` stubs and their template are unchanged; only the invocation moved, so existing parked stubs keep working |
 | `ft-quality` | v5.15.0 | None; ask your agent to run lint/typecheck/tests directly, or use the project's own commands |
 | `ft-audit-{backend,frontend,security,performance,docs}` | v5.15.0 | `/ft-audit <domain>` — see §1.2.1 "Migrating a pre-consolidation audit fork" |
 

@@ -36,6 +36,9 @@ After adopting flowtron, a project looks like:
 │   │   ├── README.md               # one-line pointer + project-specific notes
 │   │   ├── BE-014.md               # active tasknotes
 │   │   └── archive/<area>/         # completed tasknotes by area
+│   ├── specs/                      # optional; /ft-spec writes (created lazily)
+│   ├── sidequest/                  # optional; /ft-file-followup --park stubs
+│   ├── STATS.md                    # optional; /ft-stats --write regeneratable
 │   └── core/                       # git submodule pinned to a flowtron version
 └── ...
 ```

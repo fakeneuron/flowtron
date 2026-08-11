@@ -69,7 +69,7 @@ before writing the PLAN.md line.
 - Persistent context (file survey, open questions, design decisions) is worth preserving to disk — same call
 - You're outside any active conversation that produced the rationale — write the PLAN.md line directly
 
-**Park an idea instead (`/ft-file-followup --park [--low|--med|--fut] [ID] [idea]`) when:**
+**Park an idea instead (`/ft-file-followup --park [--low|--med|--fut|--high] [ID] [idea]`) when:**
 
 - An idea or **quick fix** surfaces mid-session (while coding a feature, auditing a file, etc.) and you do not want to lose it, but you are **not** switching context now
 - The note fits in ≤80 words and a ≤30w PLAN one-liner — enough to reopen in the next chat, not enough for a review gate

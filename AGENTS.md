@@ -11,7 +11,7 @@ in `SPEC.md`; read it before starting non-trivial work.
 - Tasknote templates live in `templates/`.
 - Lazy workflow modules live in `SPEC/` and are loaded when the task shape
   calls for them.
-- Start a task with `/ft-task <TASK-ID>`; peer skills: `/ft-spec` (design capture before filing), `/ft-micro-task` (small tasks), `/ft-starter-task` (filing-only), `/ft-file-followup` (brief notes; `--park [--low|--med|--fut]` parks an idea or quick fix — stub + PLAN line, no review gate, resume inline), `/ft-epic-discovery`/`/ft-close-epic` (epics), `/ft-task --debug` (bugs), `/ft-goal-task` (converge-until-verified loops), `/ft-worktree-start`/`/ft-worktree-end` (parallel branches), `/ft-update` (version bump). <!-- KEEP IN SYNC: this peer-skill roster is mirrored (richer, adopter-pathed) in claude/AGENTS-snippet.md's paste-block; adding/removing a tasknote-family skill requires editing both. -->
+- Start a task with `/ft-task <TASK-ID>`; peer skills: `/ft-spec` (design capture before filing), `/ft-micro-task` (small tasks), `/ft-starter-task` (filing-only), `/ft-file-followup` (brief notes; `--park [--low|--med|--fut|--high]` parks an idea or quick fix — stub + PLAN line, no review gate, resume inline), `/ft-epic-discovery`/`/ft-close-epic` (epics), `/ft-task --debug` (bugs), `/ft-goal-task` (converge-until-verified loops), `/ft-worktree-start`/`/ft-worktree-end` (parallel branches), `/ft-update` (version bump). <!-- KEEP IN SYNC: this peer-skill roster is mirrored (richer, adopter-pathed) in claude/AGENTS-snippet.md's paste-block; adding/removing a tasknote-family skill requires editing both. -->
 - Each PLAN.md task line carries a `[model]` segment (see `SPEC/model.md` §"Model field" for practical/agent-aware guidance and the model-mismatch surface cue). The task runs end-to-end on the tagged model.
 
 Flowtron self-hosts its own roadmap. For non-trivial edits, follow the
@@ -30,7 +30,7 @@ small direct change.
 - `codex/` — Codex CLI skill wrappers and wiring notes.
 - `grok/` — Grok procedure pointer (intentionally minimal mirror).
 - `docs/` — supporting docs, conventions, migration, platform compatibility,
-  security, and design rationale.
+  and design rationale.
 - `templates/` — canonical markdown templates.
 - `tools/` — operator-side fleet scripts (`update-adopters.mjs` + tests).
 - `viz/` — Vite/React/TypeScript visualizer.
