@@ -8,7 +8,7 @@ import {
   type Task,
 } from '../parser';
 import { type TasknoteStatus } from '../tasknote';
-import { DENSITY_TOKENS, VIZ_VERSION, TYPOGRAPHY } from './constants';
+import { DENSITY_TOKENS, TYPOGRAPHY } from './constants';
 import { VisibilityProvider } from './VisibilityContext';
 import { SearchProvider } from './SearchContext';
 import { RowInteractionProvider } from './RowInteractionContext';
@@ -323,7 +323,9 @@ export const App: React.FC = () => {
                 {filteredCount === total
                   ? `${total} tasks · ${inProgress} in progress${starterSuffix}`
                   : `${filteredCount} of ${total} matching · ${inProgress} in progress${starterSuffix}`}
-                {` · flowtron ${projectVersions[activeProject ?? ''] ?? VIZ_VERSION}`}
+                {projectVersions[activeProject ?? '']
+                  ? ` · flowtron ${projectVersions[activeProject ?? '']}`
+                  : null}
                 {unparsed.length > 0 && (
                   <span className="ml-2 inline-flex items-center rounded bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-200">
                     ⚠ {unparsed.length} unparsed

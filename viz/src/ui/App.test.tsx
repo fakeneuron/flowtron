@@ -249,6 +249,30 @@ describe('App — project switching', () => {
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Flowtron — fintown');
   });
 
+  it('shows the pinned flowtron version in the header when known', async () => {
+    renderApp({
+      plan,
+      active,
+      projects: ['flowtron'],
+      projectVersions: { flowtron: 'v5.16.0' },
+    });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+    expect(screen.getByText(/flowtron v5\.16\.0/)).toBeInTheDocument();
+  });
+
+  it('omits the header version segment when the project pin is unknown', async () => {
+    renderApp({
+      plan,
+      active,
+      projects: ['flowtron'],
+      projectVersions: { flowtron: null },
+    });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+    expect(screen.queryByText(/· flowtron/)).not.toBeInTheDocument();
+  });
+
   it('falls back to the first project when stored value is unknown', async () => {
     window.localStorage.setItem('flowtron-viz-active-project', 'gone-project');
     renderApp({ plan, active, projects: ['alpha', 'beta'] });
