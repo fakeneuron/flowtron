@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **FE-085** [medium]🧩 | yaml-engine-override — Override gray-matter's YAML engine so parseTasknote cannot hang on crafted !!omap frontmatter (js-yaml 3.15 / CVE-2026-59870). Surfaced by audit-repo 2026-08-12.
 
 ## Low
 
