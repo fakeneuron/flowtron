@@ -26,6 +26,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-443** [medium]🧩 | release v5.17.0 — Completed 2026-08-12.
+
 - [x] **CORE-442** [light]🔧 | local-stale-audit-docs — Completed 2026-08-12.
 
 - [x] **CORE-441** [light]🔧 | agents-roster-terse — Completed 2026-08-12.

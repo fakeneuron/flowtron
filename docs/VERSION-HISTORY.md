@@ -22,6 +22,18 @@ unless correcting a factual error.
 
 ---
 
+## v5.17.0 — Cursor wiring, viz fleet-scale watcher, CI + filing auto-commit
+
+- Cursor first-class thin wiring (snippet + procedure pointer); fourth
+  dogfood-gated row; Claude-wired projects already work via compat load
+- viz fleet-scale watcher: split watch set + project-attributed SSE
+- GitHub Actions CI; filing-skill auto-commit; 📦 fire set shrunk to
+  privileged-ops + bundled prompts
+- Curated VERSION-HISTORY prepended by `/ft-release`
+
+Also: honest viz edge states; release-gate pairs F–H; canonical install-path
+rule; YAML `!!omap` reject.
+
 ## v5.16.0 — release-gate hardening, fleet-updater fail-closed, viz correctness
 
 - Standing release checks: mirror pairs, skill parity, self-wiring, README
