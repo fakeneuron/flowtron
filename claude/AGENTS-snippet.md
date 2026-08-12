@@ -6,7 +6,7 @@ Paste the block below into your project's `AGENTS.md`, then run the symlink comm
 
 ## Block to paste into AGENTS.md
 
-<!-- KEEP IN SYNC: the peer-skill roster in the block below is also kept (terse) in AGENTS.md §Workflow; adding/removing a tasknote-family skill requires editing both. This comment sits outside the fence so adopters never paste it. Version-bump skills are checkout-specific: this adopter paste-block names `/ft-update`; the self-host AGENTS.md names `/ft-release`. -->
+<!-- KEEP IN SYNC: the peer-skill roster in the block below is also kept as a names-only list in AGENTS.md §Workflow; adding/removing a tasknote-family skill requires editing both. This comment sits outside the fence so adopters never paste it. Richer detail (flags, stubs, gates) stays in this paste-block and SPEC/tasknote-selection.md only. Version-bump skills are checkout-specific: this adopter paste-block names `/ft-update`; the self-host AGENTS.md names `/ft-release`. -->
 
 ```markdown
 ## Workflow

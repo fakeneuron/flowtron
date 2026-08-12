@@ -19,13 +19,14 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-441** [light]🔧 | agents-roster-terse — Shorten AGENTS.md §Workflow peer-skill bullet to names-only; leave flag-level detail (`--park` flags, stub/gate prose) to the paste-block and `SPEC/tasknote-selection.md` so KEEP IN SYNC is a name list, not a second flag surface. Surfaced by audit-context 2026-08-12 (Pass d, Low).
 - [ ] **CORE-442** [light]🔧 | local-stale-audit-docs — Drop `Skill(ft-audit-docs)` from gitignored `.claude/settings.local.json` (retired in CORE-EPIC-389). Checkout-local; no tracked file. Surfaced by audit-context 2026-08-12 (Pass d, Low).
 
 ## Future Opportunities
 
 
 ## Completed
+
+- [x] **CORE-441** [light]🔧 | agents-roster-terse — Completed 2026-08-12.
 
 - [x] **CORE-440** [medium]🧩 | agents-release-skill — Completed 2026-08-12.
 
