@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-440** [medium]🧩 | agents-release-skill — AGENTS.md peer roster lists `/ft-update` as the version-bump skill and never names `/ft-release`; in this checkout `/ft-update` has no submodule to bump. Point the self-host guide at `/ft-release` (keep `/ft-update` only if the KEEP IN SYNC roster must name the adopter skill). Surfaced by audit-context 2026-08-12 (Pass d, Medium).
+(none)
 
 ## Low
 
@@ -26,6 +26,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 
 ## Completed
+
+- [x] **CORE-440** [medium]🧩 | agents-release-skill — Completed 2026-08-12.
 
 - [x] **FE-085** [medium]🧩 | yaml-engine-override — Completed 2026-08-12.
 
