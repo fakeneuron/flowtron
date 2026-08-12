@@ -137,7 +137,7 @@ After all three steps pass, update the agent's `last-verified` stamp:
    `docs/AGENT-COMPAT.md` §"Reading the cells"):
    - **Claude Code** → `docs/AGENT-COMPAT.md` matrix row +
      `claude/CAPABILITIES.md` §"Last verified"
-   - **Grok Build / Codex CLI** → `docs/AGENT-COMPAT.md` matrix row
+   - **Grok Build / Codex CLI / Cursor** → `docs/AGENT-COMPAT.md` matrix row
      + their `docs/PLATFORMS.md` per-agent footers
    - **Other agents** → `docs/AGENT-COMPAT.md` matrix row only (no
      separate trigger-reference file yet)
@@ -156,5 +156,5 @@ resolution; this procedure is the content a dogfood session runs.
 - [`SPEC/gates.md`](../SPEC/gates.md) §"Operator-cue vocabulary" —
   the authoritative source for the Step 2 cue vocabulary
 - [`docs/PLATFORMS.md`](PLATFORMS.md) — per-agent structural notes;
-  per-agent footers receive stamp updates from Step 3 for Grok/Codex
+  per-agent footers receive stamp updates from Step 3 for Grok/Codex/Cursor
 - [[CORE-269]] — the task that produced this document

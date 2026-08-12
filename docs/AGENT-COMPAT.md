@@ -36,7 +36,7 @@ for its Grok Build notes. The agent-neutral workflow contract itself
 | **Claude Code** | Wiring + contract | `AGENTS.md` (+ optional `CLAUDE.md`) | `.claude/skills/` + `.claude/commands/` slash commands — full `ft-*` bundle shipped; adopter repos wire the policy subset | `v5.16.0 · 2026-08-09 (dogfooded)` |
 | **Grok Build** | Contract only | `AGENTS.md` | `.grok/skills/` markdown skills, auto-wired as `/<name>` — no full flowtron bundle; `grok/procedures/ft-task.md` pointer wrapper shipped | `v5.16.0 · 2026-08-09 (dogfooded)` |
 | **Codex CLI** | Wiring + contract | `AGENTS.md` | `.agents/skills/` repo-scoped skills — full `ft-*` bundle shipped under `codex/skills/`, adopter repos wire the policy subset; `codex/procedures/ft-task.md` pointer wrapper retained | `v5.15.0 · 2026-08-02 (dogfooded; skipped @ v5.16.0)` |
-| **Cursor** | Wiring + contract (thin) | `AGENTS.md` | Thin `cursor/` bundle — `AGENTS-snippet.md` + `procedures/ft-task.md`; no skill wrappers. Adopters wire canonical `claude/skills/` bodies (reuse `.claude/` when already present, or `.cursor/skills/` for Cursor-only) | unverified |
+| **Cursor** | Wiring + contract (thin) | `AGENTS.md` | Thin `cursor/` bundle — `AGENTS-snippet.md` + `procedures/ft-task.md`; no skill wrappers. Adopters wire canonical `claude/skills/` bodies (reuse `.claude/` when already present, or `.cursor/skills/` for Cursor-only) | `v5.16.0 · 2026-08-12 (dogfooded)` |
 | **Gemini CLI** | Contract only | `AGENTS.md` | Native primitive exists; no flowtron bundle | unverified |
 | **Aider** | Contract only | `AGENTS.md` | Native primitive exists; no flowtron bundle | unverified |
 | **Sourcegraph Amp** | Contract only | `AGENTS.md` | Native primitive exists; no flowtron bundle | unverified |
@@ -78,7 +78,7 @@ for its Grok Build notes. The agent-neutral workflow contract itself
   release the row is skipped again.
 
   Update obligation — **release gate (dogfood-or-explicit-skip).** Each row that
-  carries a `dogfooded` history (today: Claude / Grok / Codex) must be *resolved*
+  carries a `dogfooded` history (today: Claude / Grok / Codex / Cursor) must be *resolved*
   at every release — either refreshed from a real verification run at the new
   version, or recorded as `skipped @ vX.Y.Z`. Leaving a stale stamp silently
   untouched is not a valid release state: the skip must be a deliberate, recorded
@@ -105,15 +105,16 @@ for its Grok Build notes. The agent-neutral workflow contract itself
 
 ## Pre-adoption verification
 
-Claude Code is verified by continuous dogfooding; Codex and Grok carry
+Claude Code is verified by continuous dogfooding; Grok, Codex, and Cursor carry
 dogfooded history but are refreshed or explicitly skipped per release.
 Contract-only rows start from vendor documentation and launch coverage until a
-live flowtron session is run under that agent. Grok Build and Codex CLI have
-both been dogfooded; Cursor, Gemini CLI, Aider, and Sourcegraph Amp remain
-pre-adoption expectations. Flowtron now ships a Codex skill bundle, while the
-remaining contract-only agents have no full wiring bundle. Update a row on
-first-use observation if anything diverges. This mirrors the per-agent footers
-in [`PLATFORMS.md`](PLATFORMS.md) §"Non-Claude capability triggers".
+live flowtron session is run under that agent. Grok Build, Codex CLI, and Cursor
+have all been dogfooded; Gemini CLI, Aider, and Sourcegraph Amp remain
+pre-adoption expectations. Flowtron ships full Claude/Codex inventories and a
+thin Cursor sibling; the remaining contract-only agents have no full wiring
+bundle. Update a row on first-use observation if anything diverges. This mirrors
+the per-agent footers in [`PLATFORMS.md`](PLATFORMS.md) §"Non-Claude capability
+triggers".
 
 ## Cross-agent cue fallback policy
 
@@ -150,7 +151,7 @@ cues still convey reliably: legibility degrades gracefully to plain text, so
 per-agent emoji-render dogfooding is a currency nicety, not a correctness
 prerequisite. Live cue-render confirmation under a non-Claude agent refreshes
 that agent's row per the §"Reading the cells" update obligation — the natural
-next step for the still-unverified rows (Cursor, Gemini CLI, Aider, Sourcegraph Amp).
+next step for the still-unverified rows (Gemini CLI, Aider, Sourcegraph Amp).
 
 ## Related
 

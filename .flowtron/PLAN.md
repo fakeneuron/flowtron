@@ -16,7 +16,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-438.2** [medium]🧩 | cursor-install-verify — Completed 2026-08-12.
   - [x] **CORE-438.3** [heavy]🧠 | cursor-wiring-bundle — Completed 2026-08-12.
   - [x] **CORE-438.4** [medium]🧩 | cursor-surface-integration — Completed 2026-08-12.
-  - [ ] **CORE-438.5** [medium]🧩 | cursor-dogfood — Run docs/DOGFOOD.md's three steps under Cursor, then replace the PLATFORMS.md Cursor stub with a real trigger table from first-use observation (native structured ask, Task subagents, modes, `/model` + `/clear`). Flip the AGENT-COMPAT row to `dogfooded` and enrol Cursor in the per-release dogfood gate.
+  - [x] **CORE-438.5** [medium]🧩 | cursor-dogfood — Completed 2026-08-12.
   - [ ] **CORE-438.N** [heavy]🧠 | cursor-wiring audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line).
 
 ## Medium

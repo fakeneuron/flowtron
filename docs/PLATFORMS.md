@@ -344,7 +344,7 @@ First-use verification 2026-06-01 (CORE-257 cue dogfood under Grok 4.3 interacti
 _Mirrors the per-trigger shape in [`../claude/CAPABILITIES.md`](../claude/CAPABILITIES.md) —
 **what it is · syntax · what it controls in flowtron · when to reach for it** — for the
 non-Claude agents in the matrix. Flowtron has not run a session under several
-of these agents. Grok Build and Codex CLI now carry
+of these agents. Grok Build, Codex CLI, and Cursor now carry
 first-use observations; remaining stub rows reflect vendor documentation and
 launch coverage. Update a row on first-use observation if anything diverges.
 This mirrors the pre-adoption framing in §"Grok Build adoption notes" above._
@@ -388,15 +388,29 @@ legibly in conversation; labels remained the durable fallback.
 
 **Last verified:** `v5.15.0 · 2026-08-02 (dogfooded; skipped @ v5.16.0)`
 
-### Cursor (thin wiring shipped; trigger table pending)
+### Cursor
 
 Thin wiring ships under `cursor/` (`AGENTS-snippet.md` +
-`procedures/ft-task.md`). Capability-trigger research for flowtron sessions
-under Cursor is still pending — replace this stub with a real trigger table
-on first-use observation ([[CORE-438.5]]). See [`AGENT-COMPAT.md`](AGENT-COMPAT.md)
-for the current matrix row.
+`procedures/ft-task.md`). Adopters reuse Claude `.claude/skills/` bodies when
+that wiring already exists, or symlink them into `.cursor/skills/` for
+Cursor-only projects (see §"Worked example: Cursor" and
+`cursor/AGENTS-snippet.md`).
 
-**Last verified:** `unverified`
+| Trigger | Syntax | What it controls in flowtron | When to reach for it |
+|---|---|---|---|
+| **Skill invocation** | `/ft-task` (and peer `/ft-*`) after wiring — Cursor auto-exposes skills as slash commands. Discovery paths: `.claude/skills/` (compat), `.cursor/skills/`, `.agents/skills/` (project); `~/.cursor/skills/` + `~/.agents/skills/` (user). | Drives the full 4-phase tasknote runner and peer skills from the same canonical `claude/skills/` bodies Claude Code uses — no Cursor-specific wrappers. | Normal flowtron operations under Cursor. Prefer repo-scoped wiring; if Claude `.claude/` is already present, stop — Cursor is already served. |
+| **Force-skip (`--fast`)** | Trailing `--fast` / `-f` on the skill invocation (same spelling as the Claude skill bodies). | Suppresses the 👁️ visual-confirmation ask and 📦 signal trips; Re-scope/De-scope still fires 🛠️. | Routine autonomous runs where the operator owns visual confirmation and commit review. |
+| **Debug mode (`--debug`)** | Trailing `--debug` / `-d` (composes with `--fast`). | Adds hypothesis-first Phase 1 scaffolding + Phase 3 repro re-verify. | Bugs, regressions, flaky behavior when the root cause is not yet known. |
+| **Model / session switch** | CLI: `/model`. IDE: model picker. Post-closure next-move cues use the `[heavy]`🧠 / `[medium]`🧩 / `[light]`🔧 emoji label (never a literal `/model` instruction in the suggestion text). | Ensures the task runs at its assigned `[model]` depth (Step 1.5 gate). | Before starting a task whose `[model]` differs from the current session. |
+| **Context freshness** | CLI: `/clear`. IDE: new chat. | Resets the context window so the next task starts cold — "one task per context window" in practice. | Between tasks, before the next flowtron skill invocation. |
+| **Modes** | Agent / Plan / Ask / Debug — switchable mid-session (Cursor mode picker / `SwitchMode` where exposed). | Agent is the default execution surface for `/ft-task`. Plan suits high-ambiguity Discovery before scaffolding; Ask is read-only exploration; Debug is for hypothesis-led investigation (orthogonal to skill `--debug`, which is soft scaffolding inside a tasknote). | Reach for Plan when Discovery would otherwise thrash; stay in Agent for routine Phase 2–4. |
+| **Structured ask** | Native Cursor multi-option ask ("Ask questions" tool). Observed to render a clean multi-option UI under Cursor ([[CORE-438.1]]); availability can be model/agent-surface dependent — a session without the tool degrades to a **prose ask** with no contract impact. | Realizes Phase 1 clarification asks and other discrete decision points. | Reach for the structured ask by default; treat prose as the floor. Phrase multi-option forks to read cleanly either way. |
+| **Sub-agent / isolated exploration** | Native `Task` tool; custom agent definitions under `.cursor/agents/` (+ `.claude/agents/` compat). Supports `readonly` / background frontmatter. | Realizes the **probe** / **delegate** split (README.md §"Sessions, loops, and sub-agents") natively — no second-session approximation required. | Phase 1 Discovery with a broad or unknown-shaped read set; brief probes with `templates/subagent-probe-template.md`. |
+| **Procedure pointer** | `cursor/procedures/ft-task.md` routes to `SPEC/procedures/ft-task.md`. | Contract-only / SOP entry path when the operator asks to load the agent-neutral procedure rather than a skill body. | Use when testing the SOP or when skill discovery is unavailable; normal runs prefer `/ft-task` via wired skill bodies. |
+
+First-use verification 2026-08-12 ([[CORE-438.5]]): `/ft-task` under Cursor (Grok 4.5) ran DOGFOOD.md's three steps (contract comprehension at `v5.16.0`, full cue-render vocabulary, Phase-1 drive on CORE-438.N with clean Step-3 write boundary). Skill dispatch via `.claude/skills/` compat, Task subagent tool, modes, and `/model`+`/clear` cues confirmed; structured ask confirmed earlier under Cursor in [[CORE-438.1]]. Matrix currency lives in docs/AGENT-COMPAT.md.
+
+**Last verified:** `v5.16.0 · 2026-08-12 (dogfooded)`
 
 ### Gemini CLI (stub)
 
