@@ -98,6 +98,18 @@ const WIRING_SURFACES = [
       return skill ? skill[1] : null;
     },
   },
+  {
+    label: 'Cursor .cursor/skills',
+    snippetPath: 'cursor/AGENTS-snippet.md',
+    // Thin bundle: no cursor/skills/ — Cursor-only installs symlink
+    // canonical claude/skills/ bodies into .cursor/skills/.
+    diffPaths: ['claude/skills/'],
+    snippetKeyPattern: /\.flowtron\/core\/(claude\/skills\/\S+)/,
+    addedKeyForFile(path) {
+      const skill = path.match(/^(claude\/skills\/[^/]+)/);
+      return skill ? skill[1] : null;
+    },
+  },
 ];
 
 export async function git(cwd, ...args) {

@@ -2,10 +2,11 @@
 
 Flowtron's contract is agent-neutral; its execution-surface wiring is
 per-platform. This doc explains the two-layer model that separates them
-and the symmetric plug-in pattern additional platforms (Cursor, …)
-follow if a contributor ships their wiring. Today Claude Code and Codex
-CLI have full wiring shipped and grok a procedure pointer; other
-platforms drive the contract conversationally from `AGENTS.md`.
+and the symmetric plug-in pattern additional platforms follow if a
+contributor ships their wiring. Today Claude Code and Codex CLI have full
+wiring shipped, Cursor ships a thin sibling (`AGENTS-snippet.md` +
+procedure pointer), and Grok ships a procedure pointer; other platforms
+drive the contract conversationally from `AGENTS.md`.
 
 Audience: rare. Read this when adding a new platform's wiring,
 auditing the wiring layer's structure, or writing a follow-up to
@@ -16,7 +17,7 @@ auditing the wiring layer's structure, or writing a follow-up to
 | Layer | What it is | Where it lives | Agent-neutrality |
 |---|---|---|---|
 | **Contract** | The workflow spec any AI can follow conversationally — relevance gate, 4-phase tasknote lifecycle, post-closure protocol, versioning rules. | `SPEC.md`, `SPEC/` (including `SPEC/procedures/` for agent-neutral execution SOPs), `templates/`, `docs/`, `README.md`, `SECURITY.md`, and the `AGENTS.md` paste-block. | Mandatory. Any AI reading `AGENTS.md` should be able to execute the contract without platform-specific machinery. |
-| **Wiring** | The platform-specific execution surface — slash commands, skills, structured-ask primitives, operator flags, install/symlink mechanics. | `claude/` and `codex/` today; `grok/` carries the `ft-task` procedure pointer; future full bundles use sibling top-level dirs per the plug-in pattern below. | Per-platform. Constraints documented in [`AGENT-NEUTRALITY.md`](AGENT-NEUTRALITY.md). |
+| **Wiring** | The platform-specific execution surface — slash commands, skills, structured-ask primitives, operator flags, install/symlink mechanics. | `claude/` and `codex/` today (full bundles); `cursor/` ships a thin snippet + procedure pointer; `grok/` carries the `ft-task` procedure pointer; future full bundles use sibling top-level dirs per the plug-in pattern below. | Per-platform. Constraints documented in [`AGENT-NEUTRALITY.md`](AGENT-NEUTRALITY.md). |
 
 The split is non-negotiable: leaking platform-specific assumptions into
 the contract layer fails [[CORE-154.1]] Constitution principle 1 (the
@@ -30,7 +31,8 @@ wiring but don't *depend* on it for contract semantics).
 |---|---|---|
 | **Claude Code** | Wiring layer + contract layer. Eight tasknote skills (`/ft-task` — which carries debug mode behind `--debug` — `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup` (which carries park mode behind `--park`), `/ft-epic-discovery`, `/ft-close-epic`, `/ft-goal-task` — which carries worktree handoff behind `--worktree` — `/ft-spec`) plus two thin worktree utilities (`/ft-worktree-start`, `/ft-worktree-end`) drive the SPEC's 4-phase workflow inline (or accelerate independent epic children); the parameterized `/ft-audit <domain>` skill runs the 5-pass recipe over six domains and `/ft-audit-repo` runs the first-contact holistic recipe; standalone skills `/ft-new-project`, `/ft-release`, `/ft-flowtron`, `/ft-stats`, `/ft-audit-context`, `/ft-update` follow their own recipes. | `claude/` — `AGENTS-snippet.md` + `commands/*.md` + `skills/*/SKILL.md` (+ lazy fragments). Adopter installs follow the subset policy below and the executable commands in `claude/AGENTS-snippet.md` §"One-time symlink wiring". |
 | **Codex CLI** | Wiring layer + contract layer. Codex consumes the same `AGENTS.md` paste-block, then exposes the adopter subset as repo-scoped skills. `ft-task` routes through the agent-neutral SOP; the other shipped wrappers route to the canonical skill bodies with Codex primitive translation. | `codex/` — `AGENTS-snippet.md` + `skills/*/SKILL.md` wrappers, plus the retained `procedures/ft-task.md` pointer. Adopter installs follow the subset policy below and the executable commands in `codex/AGENTS-snippet.md`; Codex invocation is via `/skills` or `$ft-task` / `$ft-update`, not arbitrary custom `/ft-*` CLI commands. |
-| **Cursor, Sourcegraph Amp, Aider, Gemini CLI, Grok Build** | Contract layer only. The platform reads `AGENTS.md`, sees flowtron's paste-block, and drives the contract conversationally — relevance gate, phase boundaries, post-closure protocol all live in `SPEC.md`. No platform-specific machinery required. | Procedure pointer wrapper shipped for Grok Build: `grok/procedures/ft-task.md` routes to `SPEC/procedures/ft-task.md`. No full wiring bundle for these contract-only agents. Adopters paste the `AGENTS.md` block from `claude/AGENTS-snippet.md` §"Block to paste into AGENTS.md"; that block is agent-neutral by design. For Grok Build adoption specifics (context-load semantics, AGENTS.md visibility, skill/command primitives), see §"Grok Build adoption notes" below. |
+| **Cursor** | Wiring layer + contract layer (thin). Cursor reads `AGENTS.md` and discovers skills from `.cursor/skills/`, `.agents/skills/`, and `.claude/skills/` (compat). No Cursor-specific skill wrappers ship — adopters wire the canonical `claude/skills/` bodies. | `cursor/` — `AGENTS-snippet.md` + `procedures/ft-task.md` pointer only. If the project is already wired for Claude Code, it is already wired for Cursor; Cursor-only projects follow the `.cursor/skills/` block in `cursor/AGENTS-snippet.md`. |
+| **Sourcegraph Amp, Aider, Gemini CLI, Grok Build** | Contract layer only. The platform reads `AGENTS.md`, sees flowtron's paste-block, and drives the contract conversationally — relevance gate, phase boundaries, post-closure protocol all live in `SPEC.md`. No full platform-specific skill bundle required. | Procedure pointer wrapper shipped for Grok Build: `grok/procedures/ft-task.md` routes to `SPEC/procedures/ft-task.md`. Adopters paste the `AGENTS.md` block from `claude/AGENTS-snippet.md` §"Block to paste into AGENTS.md"; that block is agent-neutral by design. For Grok Build adoption specifics (context-load semantics, AGENTS.md visibility, skill/command primitives), see §"Grok Build adoption notes" below. |
 
 A platform doesn't need its own wiring to be useful. Most adopters paste
 the `AGENTS.md` block and drive conversationally. Wiring is an *optional
@@ -67,6 +69,7 @@ Canonical policy:
 |---|---|---|---|---|
 | **Claude Code** | Full `ft-*` command + skill inventory under `claude/commands/` and `claude/skills/`. | The tasknote execution family (`ft-task`, `ft-starter-task`, `ft-micro-task`, `ft-file-followup`, `ft-epic-discovery`, `ft-close-epic`, `ft-goal-task`, `ft-spec`), the worktree pair, and `ft-update`. The `ft-audit` scaffold is forked/overlaid locally under an unprefixed name, not symlinked as an upstream `ft-*` project skill. | `ft-new-project`, `ft-flowtron`, `ft-stats`, `ft-audit-context`, and `ft-audit-repo`; `ft-update` may also be installed globally for adopter bumps but remains adopter-only at runtime. | `ft-release`. |
 | **Codex CLI** | Full `ft-*` wrapper inventory under `codex/skills/`, kept in parity with Claude's shipped skill slugs. | Same policy as Claude, translated to `.agents/skills/`: tasknote execution family (including `ft-spec`), worktree pair, and `ft-update`. Focused audits remain fork/overlay surfaces rather than verbatim upstream project symlinks. | Same utility set as Claude, installed in Codex's user skill directory when desired. | `ft-release`. |
+| **Cursor** | Thin bundle: `cursor/AGENTS-snippet.md` + `cursor/procedures/ft-task.md` only — no `cursor/skills/` wrappers. | Same adopter subset as Claude, targeting either existing `.claude/skills/` (Cursor compat load — preferred when Claude is already wired) or `.cursor/skills/` for Cursor-only projects, always symlinking canonical `claude/skills/` bodies. | Same utility set as Claude, installed in Cursor's user skill directory when desired. | N/A — no Cursor `ft-release` surface. |
 
 The distinction is deliberate. Shipping a wrapper means flowtron can maintain,
 test, and dogfood a platform-equivalent recipe; it does not automatically mean
@@ -92,8 +95,8 @@ Only *broken* links there are drift. `/ft-release` §7.1 verifies both surfaces.
 The categories above say *which* skills install where. This says **how many
 times**: once. Repo-scoped wiring is canonical — the copy that should run is the
 one wired into the project you are working in, whether that is an adopter's
-`.claude/skills/` or `.agents/skills/` pinned through `.flowtron/core/`, or
-flowtron's own full mirror. An agent home (`~/.claude/skills`,
+`.claude/skills/`, `.agents/skills/`, or `.cursor/skills/` pinned through
+`.flowtron/core/`, or flowtron's own full mirror. An agent home (`~/.claude/skills`,
 `~/.agents/skills`, or the platform equivalent) therefore carries **only the
 global-only utilities**. The adopter-installed subset and `ft-release` are never
 installed globally, because every repo that can use them already wires them
@@ -129,7 +132,7 @@ flowtron/
 ├── claude/         # Claude Code wiring
 ├── codex/          # Codex skill wrappers + ft-task procedure pointer
 ├── grok/           # procedure-pointer shipped; full bundle hypothetical
-└── cursor/         # hypothetical Cursor wiring
+└── cursor/         # Cursor thin wiring (snippet + ft-task procedure pointer)
 ```
 
 The structural decision is locked at [[CORE-154.3]]: no parent
@@ -236,7 +239,7 @@ divergence (and divergence is documented here).
 |---|---|---|
 | `AGENTS.md` paste-block visible to the platform | **Mandatory** | The contract entry-point. Without this, the AI has no flowtron context. |
 | `<platform>/AGENTS-snippet.md` (or equivalent adopter-facing doc) | Strongly recommended | Adopters need a single canonical doc for the wiring commands. |
-| `<platform>/commands/` + `<platform>/skills/` | Optional | A platform without command/skill primitives runs flowtron conversationally — same path as Cursor / Amp / Aider / Gemini CLI / Grok Build today. Codex uses `skills/` only because its documented reusable workflow primitive is skills selected via `/skills` or `$name`, not arbitrary custom slash commands. |
+| `<platform>/commands/` + `<platform>/skills/` | Optional | A platform without its own command/skill *wrappers* can still ship a thin snippet that points adopters at another platform's canonical bodies (Cursor) or run flowtron conversationally (Amp / Aider / Gemini CLI / Grok Build today). Codex uses `skills/` only because its documented reusable workflow primitive is skills selected via `/skills` or `$name`, not arbitrary custom slash commands. |
 | Operator force-skip flag (e.g., `--fast`) | Optional | Mirror SPEC §"Operator-gate cues" in the platform's flag syntax if convenient. Concept is platform-neutral; syntax is wiring detail. |
 | Install/symlink mechanism | Optional | Depends on the platform's skill-consumption model. Claude Code uses relative symlinks; others may use copies or registry calls. |
 | `/ft-release` skill equivalent | Flowtron-self only | Release-cutting is only relevant if the platform is being used to maintain flowtron upstream. Skip in adopter contexts. |
@@ -301,11 +304,29 @@ Concrete instantiation:
   exported `ft-*` names, but does not claim Codex supports arbitrary custom
   `/ft-*` slash commands.
 
+## Worked example: Cursor
+
+Concrete instantiation of the thin-bundle shape:
+
+- **Sibling dir**: `cursor/` at the repo root
+- **Adopter-facing snippet**: `cursor/AGENTS-snippet.md`
+- **No `commands/` or `skills/` wrappers** — Cursor loads `.claude/skills/`
+  as a compatibility surface and discovers `.cursor/skills/` / `.agents/skills/`
+  natively; adopters symlink the canonical `claude/skills/` bodies
+- **Procedure pointer**: `cursor/procedures/ft-task.md` routes to
+  `SPEC/procedures/ft-task.md`
+- **Adopter install**: if Claude `.claude/` wiring already exists, stop —
+  Cursor is already served. Cursor-only projects run the `.cursor/skills/`
+  block in `cursor/AGENTS-snippet.md` §"One-time symlink wiring"
+- **Operator flags**: same `--fast` / `--debug` spellings as the Claude skill
+  bodies they invoke (no Cursor-specific translation layer)
+
 ## Grok Build adoption notes
 
 xAI's [Grok Build](https://x.ai/cli) CLI (launched May 2026) adopts
-flowtron via the **contract-layer-only path** — same as Cursor / Amp /
-Aider / Gemini CLI. A `grok/procedures/ft-task.md` procedure pointer
+flowtron via the **contract-layer-only path** — same as Amp /
+Aider / Gemini CLI (Cursor now ships a thin wiring sibling; see
+§"Today's surface"). A `grok/procedures/ft-task.md` procedure pointer
 ships in the repo (CORE-271.4); no full wiring bundle exists today.
 Adopters paste the `AGENTS.md` block per [`MIGRATION.md`](MIGRATION.md)
 §1.3 and drive the contract conversationally.
@@ -367,11 +388,13 @@ legibly in conversation; labels remained the durable fallback.
 
 **Last verified:** `v5.15.0 · 2026-08-02 (dogfooded; skipped @ v5.16.0)`
 
-### Cursor (stub)
+### Cursor (thin wiring shipped; trigger table pending)
 
-Contract-only agent; no capability-trigger research has been conducted for flowtron
-sessions under Cursor. See [`AGENT-COMPAT.md`](AGENT-COMPAT.md) for the current
-matrix row. Update this stub on first-use observation.
+Thin wiring ships under `cursor/` (`AGENTS-snippet.md` +
+`procedures/ft-task.md`). Capability-trigger research for flowtron sessions
+under Cursor is still pending — replace this stub with a real trigger table
+on first-use observation ([[CORE-438.5]]). See [`AGENT-COMPAT.md`](AGENT-COMPAT.md)
+for the current matrix row.
 
 **Last verified:** `unverified`
 

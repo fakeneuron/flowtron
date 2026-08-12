@@ -17,12 +17,14 @@ omit exploit details until we agree on a path.
 ### Prompt injection via user-authored markdown
 
 Flowtron's bundled execution surfaces — Claude Code skills/commands
-(`/ft-task`, `/ft-audit`, `/ft-release`, `/ft-audit-repo`, and others)
-plus Codex skill wrappers under `codex/skills/` — read content the user
-authored: tasknotes, `PLAN.md`, `SPEC.md`. In an adopter project, "the
-user" may include contributors who open pull requests. The threat model
-below applies to any AI assistant reading the same files; runtime-specific
-mitigations name `.claude/` and `.agents/skills/` surfaces where relevant.
+(`/ft-task`, `/ft-audit`, `/ft-release`, `/ft-audit-repo`, and others),
+Codex skill wrappers under `codex/skills/`, and Cursor's thin wiring under
+`cursor/` (snippet + procedure pointer; skills are the canonical
+`claude/skills/` bodies) — read content the user authored: tasknotes,
+`PLAN.md`, `SPEC.md`. In an adopter project, "the user" may include
+contributors who open pull requests. The threat model below applies to any
+AI assistant reading the same files; runtime-specific mitigations name
+`.claude/`, `.agents/skills/`, and `.cursor/skills/` surfaces where relevant.
 
 A contributor PR that adds a tasknote (or edits `PLAN.md`) can attempt
 to steer the assistant into running unintended shell commands the next

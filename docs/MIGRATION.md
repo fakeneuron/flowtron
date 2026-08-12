@@ -69,6 +69,8 @@ Global utilities (`/ft-new-project`, `/ft-flowtron`, `/ft-stats`, `/ft-audit-con
 
 **Codex install:** open `.flowtron/core/codex/AGENTS-snippet.md` §"One-time skill wiring" and run the commands from the project root. Codex discovers these repo-scoped subset skills under `.agents/skills/`; invoke them through `/skills` or `$ft-task` / `$ft-update`.
 
+**Cursor install:** if the project is already wired for Claude Code, it is already wired for Cursor — Cursor loads `.claude/skills/` as a documented compatibility surface. For a **Cursor-only** project (no `.claude/` wiring), open `.flowtron/core/cursor/AGENTS-snippet.md` §"One-time symlink wiring" and run the Cursor-only `.cursor/skills/` block from the project root; targets are the canonical `claude/skills/` bodies. Invoke skills as `/ft-task` (and siblings) in a Cursor session.
+
 ### 1.2.1 Optional: fork the `/ft-audit` scaffold per stack
 
 Flowtron ships one stack-neutral audit scaffold at `.flowtron/core/claude/skills/ft-audit/` — a parameterized `/ft-audit <domain> [scope]` dispatcher over a six-file `passes/` library. The shared procedure (scope resolution, 5-passes-in-order, capped findings, finding format, closing sections, write-tickets-to-PLAN) lives once in `SKILL.md`; each domain's pass definitions, severity guide, scope/rubric/gate hints, and specialist rules live in a sibling `passes/<domain>.md` loaded at run time. **Forked, not symlinked**: per-stack rubrics/commands/examples diverge.
@@ -284,6 +286,7 @@ In a fresh session with your coding agent, verify the platform's wired entry poi
 
 - **Claude Code:** invoke `/ft-task`. The command should appear in the menu (alongside `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-goal-task`, `/ft-spec`, `/ft-worktree-start`, `/ft-worktree-end`, and `/ft-update`) with its description.
 - **Codex:** use `/skills` or mention `$ft-task`. The skill should appear alongside the other wired adopter-subset `ft-*` skills from `.agents/skills/`.
+- **Cursor:** invoke `/ft-task`. If the project already has Claude `.claude/` wiring, Cursor picks it up via compat load; Cursor-only projects should see the same adopter subset under `.cursor/skills/`.
 - **Contract-only agents:** ask the assistant to start the task conversationally; it should read `AGENTS.md` and `SPEC.md` and follow the tasknote contract.
 
 Running the task runner against a real entry in your `.flowtron/PLAN.md` should scaffold a tasknote and begin Phase 1 Discovery.
@@ -437,7 +440,7 @@ After §3.2–§3.7 land and `/ft-task` shows in the slash menu, sweep for resid
   - In code comments / docstrings: low-risk; leave or update at touch time.
   - In archived/legacy content: leave untouched (write-once policy applies — don't retroactively rewrite history).
 - **CI / pre-commit hook check.** `grep -rn "<retired-helper-script-name>" .git/hooks/ .github/ docker/ scripts/` (project root) — confirm nothing depends on retired scripts. Resolve before next CI run.
-- **`/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-goal-task`, `/ft-spec`, `/ft-worktree-start`, `/ft-worktree-end` smoke.** Invoke each in a fresh session with your coding agent's wired entry point — `/ft-*` for Claude Code, `/skills` or `$ft-*` for Codex, or a conversational prompt for contract-only agents. Confirm the tasknote family + worktree pair (nine total) appear alongside `/ft-task` / `$ft-task` (v1.0+ additions; symlinks added in §1.2; worktree pair added in CORE-215.5; `/ft-goal-task` added in CORE-EPIC-330; `/ft-spec` added in CORE-352.3).
+- **`/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-goal-task`, `/ft-spec`, `/ft-worktree-start`, `/ft-worktree-end` smoke.** Invoke each in a fresh session with your coding agent's wired entry point — `/ft-*` for Claude Code or Cursor, `/skills` or `$ft-*` for Codex, or a conversational prompt for contract-only agents. Confirm the tasknote family + worktree pair (nine total) appear alongside `/ft-task` / `$ft-task` (v1.0+ additions; symlinks added in §1.2; worktree pair added in CORE-215.5; `/ft-goal-task` added in CORE-EPIC-330; `/ft-spec` added in CORE-352.3).
 - **Context-surface audit.** If you've installed `/ft-audit-context` globally (see §1.0), run it now — migrations frequently carry over context bloat from the legacy era (stale `CLAUDE.md` workflow tutorials, project-local skills that now shadow `ft-*` namespace, AGENTS.md content redundant with the freshly-pasted block). Soft prose; ticket-filing is opt-in.
 - **Final pin verification.** `git -C .flowtron/core describe --tags` shows the pinned version recorded at the start (e.g., `v5.16.0`). A mismatch means the submodule drifted off the pin during migration.
 - **Cleanup commit.** Bundle the decisions above into a single follow-up commit (`chore: <ID> post-migration cleanup`) OR fold into the §3.9 closure commit if scope is small.
@@ -488,7 +491,7 @@ Remove each hit with `rm`. The commands are safe: these are symlinks into the su
 
 A bump is itself a project-side task (e.g., `CORE-XXX: Bump flowtron to vX.Y.Z`), with a tasknote and the usual 4-phase flow. Don't bump in passing.
 
-For sweeping **non-breaking** releases across the whole workspace at once, flowtron's checkout ships `tools/update-adopters.mjs` (dry-run by default; see `SPEC.md` §"What flowtron does NOT provide" for the carve-out). It skips any repo whose release range carries real migration steps — or a tag whose notes it can't classify, which it treats as migration-bearing rather than assume safe — and flags ranges that shipped new Claude or Codex skill symlinks — those still go through the per-project flow above (or `/ft-update`).
+For sweeping **non-breaking** releases across the whole workspace at once, flowtron's checkout ships `tools/update-adopters.mjs` (dry-run by default; see `SPEC.md` §"What flowtron does NOT provide" for the carve-out). It skips any repo whose release range carries real migration steps — or a tag whose notes it can't classify, which it treats as migration-bearing rather than assume safe — and flags ranges that shipped new Claude, Codex, or Cursor skill symlinks — those still go through the per-project flow above (or `/ft-update`).
 
 ### Upgrading an existing adopter from v4.x (`_project/` → `.flowtron/`)
 

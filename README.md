@@ -257,7 +257,8 @@ runtime lives in the runner; the contract lives in flowtron.
 - `templates/` — canonical tasknote templates (full, micro, starter, sidequest) plus spec, loop-heartbeat, audit-overlay, and subagent-probe templates, and the `PLAN.md` / `tasknote-README.md` seed files
 - `claude/` — Claude Code skills + slash commands (adopter-facing snippet plus the full shipped `ft-*` inventory; adopter projects wire the policy subset, while flowtron-self-only skills like `/ft-release` stay upstream-only)
 - `codex/` — Codex skill wrappers for the full `ft-*` inventory plus Codex-specific wiring notes
-- `grok/` — grok platform wiring (currently the `ft-task` procedure pointer); further platform wirings (e.g., `cursor/`) plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md)
+- `cursor/` — Cursor thin wiring (`AGENTS-snippet.md` + `procedures/ft-task.md` pointer; no skill wrappers — adopters wire canonical `claude/skills/` bodies)
+- `grok/` — grok platform wiring (currently the `ft-task` procedure pointer); further platform wirings plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md)
 - `docs/` — philosophy, vision, glossary, migration, conventions, version history, agent-neutrality, platforms, agent-compat, dogfood, worktrees, and external-agents docs
 - `.flowtron/` — flowtron's own roadmap and tasknotes (self-hosted)
 - `viz/` — Vite/React visualizer (priority-grouped list + optional board mode)

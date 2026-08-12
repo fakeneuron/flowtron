@@ -11,7 +11,8 @@ lazy modules one level up, which carry contract *rules* loaded on demand
 by the Claude `/ft-task` SKILL dispatch. A procedure SOP is loaded
 instead by a thin per-agent **pointer wrapper**
 (`<platform>/procedures/<procedure>.md`, e.g.
-`grok/procedures/ft-task.md`, `codex/procedures/ft-task.md`) that
+`grok/procedures/ft-task.md`, `codex/procedures/ft-task.md`,
+`cursor/procedures/ft-task.md`) that
 routes the agent here rather than copying the steps — the "route, don't
 copy" posture locked at [[CORE-091]] and [[CORE-270]].
 

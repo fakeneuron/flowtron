@@ -28,6 +28,7 @@ small direct change.
 - `claude/` — Claude Code wiring: commands, skills, and the historical
   source for the agent-neutral adopter snippet.
 - `codex/` — Codex CLI skill wrappers and wiring notes.
+- `cursor/` — Cursor thin wiring (snippet + `ft-task` procedure pointer; no skill wrappers).
 - `grok/` — Grok procedure pointer (intentionally minimal mirror).
 - `docs/` — supporting docs, conventions, migration, platform compatibility,
   and design rationale.
@@ -88,6 +89,9 @@ The visualizer dev server is pinned to port `5120` with `strictPort`.
 
 Claude Code has shipped wiring under `claude/`. Codex CLI has first-class
 skill wrappers under `codex/` for the full `ft-*` inventory; `ft-task` routes
-through `SPEC/procedures/`. Grok currently has a per-agent pointer wrapper under
-`grok/` that routes to `SPEC/procedures/`. Other agents consume the contract
-conversationally through this file and `SPEC.md`.
+through `SPEC/procedures/`. Cursor has a thin sibling under `cursor/`
+(`AGENTS-snippet.md` + procedure pointer; adopters wire canonical
+`claude/skills/` bodies into `.cursor/skills/` or reuse `.claude/`). Grok
+currently has a per-agent pointer wrapper under `grok/` that routes to
+`SPEC/procedures/`. Other agents consume the contract conversationally through
+this file and `SPEC.md`.

@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-438.1** [heavy]🧠 | cursor-wiring discovery — Completed 2026-08-12.
   - [x] **CORE-438.2** [medium]🧩 | cursor-install-verify — Completed 2026-08-12.
   - [x] **CORE-438.3** [heavy]🧠 | cursor-wiring-bundle — Completed 2026-08-12.
-  - [ ] **CORE-438.4** [medium]🧩 | cursor-surface-integration — Propagate `cursor/` to every enumeration site `codex/` occupies (~16): README, SPEC.md, AGENTS.md, SECURITY.md, tasknote README, docs/{MIGRATION,PLATFORMS,AGENT-COMPAT,AGENT-NEUTRALITY,VERSION-HISTORY}, plus `ft-new-project`, `ft-release` §7.1 guardrails, `ft-update`, and `update-adopters.mjs` skill-flagging. Flip PLATFORMS.md's `cursor/` tree comment from hypothetical to shipped; correct the AGENT-COMPAT row's stale "no flowtron bundle" clause.
+  - [x] **CORE-438.4** [medium]🧩 | cursor-surface-integration — Completed 2026-08-12.
   - [ ] **CORE-438.5** [medium]🧩 | cursor-dogfood — Run docs/DOGFOOD.md's three steps under Cursor, then replace the PLATFORMS.md Cursor stub with a real trigger table from first-use observation (native structured ask, Task subagents, modes, `/model` + `/clear`). Flip the AGENT-COMPAT row to `dogfooded` and enrol Cursor in the per-release dogfood gate.
   - [ ] **CORE-438.N** [heavy]🧠 | cursor-wiring audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line).
 

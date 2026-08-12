@@ -5,18 +5,20 @@
 Flowtron's **contract layer** (`SPEC.md`, `SPEC/`, `templates/`, `docs/`,
 `README.md`, `SECURITY.md`) is agent-neutral — any AI assistant reading
 `AGENTS.md` should be able to follow the workflow contract
-conversationally. Flowtron's **wiring layer** (`claude/`, `codex/`, and
-procedure pointers such as `grok/`) is platform-specific by design:
+conversationally. Flowtron's **wiring layer** (`claude/`, `codex/`,
+`cursor/`, and procedure pointers such as `grok/`) is platform-specific by
+design:
 slash commands, skills, structured-ask primitives, operator flags, and
-adopter symlinks under paths such as `.claude/` or `.agents/skills/`
+adopter symlinks under paths such as `.claude/`, `.agents/skills/`, or
+`.cursor/skills/`
 are execution-surface details of the target runtime.
 
 Adding agent-specific execution surfaces is fine; leaking agent-specific
 assumptions into the contract layer is not.
 
-Future full platform wiring (Grok Build, Cursor, …) plugs in symmetrically —
+Future full platform wiring (Grok Build, …) plugs in symmetrically —
 see [`docs/PLATFORMS.md`](PLATFORMS.md) ([[CORE-154.4]]) for the plug-in
-pattern.
+pattern. Cursor's thin sibling already ships under `cursor/`.
 
 ## Intentional Claude-specific surfaces
 
@@ -46,7 +48,7 @@ below.
 | `templates/tasknote-README.md` | "CLAUDE.md" entry | `CLAUDE.md` — optional Claude-specific directives | Explicit Claude-only carve-out; adopter agents skip the entry. |
 | `templates/tasknote-micro-template.md` | (closing recap line) | `claude/skills/ft-micro-task/SKILL.md` | Path fact. |
 | `templates/PLAN.md` | (examples + rule comment) | `[heavy]` / `[medium]` / `[light]` primary labels (opus/sonnet as examples) | Per CORE-206 + [[CORE-259]] — neutral primary vocabulary. |
-| `docs/MIGRATION.md` | §1.2, §1.3, §3, troubleshooting | `.claude/commands/...`, `.claude/skills/...`, `claude/AGENTS-snippet.md`, slash-command verification, "fresh Claude Code session" references | MIGRATION remains the full Claude Code adoption guide and now points Codex users at `codex/AGENTS-snippet.md` for the platform-specific skill wiring. Future platforms get their own adoption section if/when wiring lands — see [[CORE-154.4]] / `docs/PLATFORMS.md` for the plug-in pattern. |
+| `docs/MIGRATION.md` | §1.2, §1.3, §3, troubleshooting | `.claude/commands/...`, `.claude/skills/...`, `claude/AGENTS-snippet.md`, slash-command verification, "fresh Claude Code session" references | MIGRATION remains the full Claude Code adoption guide and now points Codex users at `codex/AGENTS-snippet.md` and Cursor users at `cursor/AGENTS-snippet.md` for platform-specific skill wiring. Future platforms get their own adoption section if/when wiring lands — see [[CORE-154.4]] / `docs/PLATFORMS.md` for the plug-in pattern. |
 | `docs/PHILOSOPHY.md` | (historical-narrative paragraphs) | `Claude Code` + "Claude can read markdown" framing | Per [[CORE-132]] defense — file's role is personal narrative; voice IS the deliverable. |
 | `README.md` | §"Repo layout" | `` `claude/` `` — Claude Code skills + slash commands | Factual repo-layout description. |
 | `README.md` | §"Agent memory"; §"Sessions, loops, and sub-agents" | "Claude Code sessions" (agent-memory intro); `` `--fast` `` on `` `/ft-task` `` (within-task-autonomy bullet); Claude Code's `` `/loop` `` (closing runtime paragraph) | Per [[CORE-408.4]]. The section's subject is operator-side session discipline — context reset, delegation, loop runtime — whose only *shipped* realizations are Claude Code's, so naming them is what makes the guidance concrete. Each is framed with its neutral escape hatch already in place ("or any equivalent runner"; `--fast` and `/loop` additionally hold their own ledger rows for their SPEC sites). Note what is **not** claimed here: the **probe** / **delegate** split this section carries is fully agent-neutral — no spawn primitive is named anywhere in the contract layer, and `templates/subagent-probe-template.md` explicitly leaves it to "the operator's and the platform's business". Claude Code's sub-agent mechanics live in `claude/CAPABILITIES.md` (wiring layer, no row); non-Claude approximations in `docs/PLATFORMS.md`. |

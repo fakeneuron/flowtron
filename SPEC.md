@@ -57,7 +57,9 @@ Flowtron does not submodule itself. When working in `~/code/flowtron/`:
 - The flowtron `.flowtron/PLAN.md` tracks flowtron's own development.
 - The `templates/` folder holds the canonical tasknote templates (full, micro, starter, sidequest) plus spec, loop-heartbeat, audit-overlay (usage: [`docs/MIGRATION.md`](docs/MIGRATION.md) §1.2.1), and subagent-probe templates, and the `PLAN.md` / `tasknote-README.md` seed files.
 - `claude/` — Claude Code commands + skills (`/ft-task`, `/ft-release`, `/ft-new-project`, ...); the adopter snippet lives at `claude/AGENTS-snippet.md`.
-- `codex/` — Codex skill wrappers for the full `ft-*` inventory plus Codex-specific wiring notes; `grok/` currently carries the `ft-task` procedure pointer. Future platform wirings plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md) for the plug-in pattern.
+- `codex/` — Codex skill wrappers for the full `ft-*` inventory plus Codex-specific wiring notes.
+- `cursor/` — Cursor thin wiring (`AGENTS-snippet.md` + `procedures/ft-task.md` pointer; no skill wrappers — adopters wire canonical `claude/skills/` bodies).
+- `grok/` — currently carries the `ft-task` procedure pointer. Future platform wirings plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md) for the plug-in pattern.
 - `tools/` — operator-side fleet scripts. Currently `update-adopters.mjs`, the singular CLI carve-out documented in §"What flowtron does NOT provide", plus its portable `update-adopters.test.mjs` suite (a registered release gate).
 
 For flowtron-self global installs (e.g. `/ft-release`), see [`docs/MIGRATION.md`](docs/MIGRATION.md) §1.0 → "One-time global installs" table, `Flowtron-self only` row.

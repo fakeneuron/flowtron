@@ -314,6 +314,7 @@ Run the exact-set checks:
 diff -u <(printf '%s\n' ft-close-epic ft-epic-discovery ft-file-followup ft-goal-task ft-micro-task ft-spec ft-starter-task ft-task ft-update ft-worktree-end ft-worktree-start | sort) <(grep "^ln -s ../../.flowtron/core/claude/skills/" claude/AGENTS-snippet.md | sed -E 's#.*claude/skills/(ft-[^ ]+).*#\1#' | sort)
 diff -u <(printf '%s\n' ft-close-epic ft-epic-discovery ft-file-followup ft-goal-task ft-micro-task ft-spec ft-starter-task ft-task ft-update ft-worktree-end ft-worktree-start | sort) <(grep "^ln -s ../../.flowtron/core/claude/commands/" claude/AGENTS-snippet.md | sed -E 's#.*claude/commands/(ft-[^ ]+)\.md.*#\1#' | sort)
 diff -u <(printf '%s\n' ft-close-epic ft-epic-discovery ft-file-followup ft-goal-task ft-micro-task ft-spec ft-starter-task ft-task ft-update ft-worktree-end ft-worktree-start | sort) <(grep "^ln -s ../../.flowtron/core/codex/skills/" codex/AGENTS-snippet.md | sed -E 's#.*codex/skills/(ft-[^ ]+).*#\1#' | sort)
+diff -u <(printf '%s\n' ft-close-epic ft-epic-discovery ft-file-followup ft-goal-task ft-micro-task ft-spec ft-starter-task ft-task ft-update ft-worktree-end ft-worktree-start | sort) <(grep "^ln -s ../../.flowtron/core/claude/skills/" cursor/AGENTS-snippet.md | sed -E 's#.*claude/skills/(ft-[^ ]+).*#\1#' | sort)
 ```
 
 Then run the explicit forbidden-install checks:
@@ -322,11 +323,12 @@ Then run the explicit forbidden-install checks:
 grep "^ln -s ../../.flowtron/core/claude/skills/" claude/AGENTS-snippet.md | sed -E 's#.*claude/skills/(ft-[^ ]+).*#\1#' | grep -E '^(ft-audit|ft-audit-context|ft-audit-repo|ft-flowtron|ft-new-project|ft-release|ft-stats)$'
 grep "^ln -s ../../.flowtron/core/claude/commands/" claude/AGENTS-snippet.md | sed -E 's#.*claude/commands/(ft-[^ ]+)\.md.*#\1#' | grep -E '^(ft-audit|ft-audit-context|ft-audit-repo|ft-flowtron|ft-new-project|ft-release|ft-stats)$'
 grep "^ln -s ../../.flowtron/core/codex/skills/" codex/AGENTS-snippet.md | sed -E 's#.*codex/skills/(ft-[^ ]+).*#\1#' | grep -E '^(ft-audit|ft-audit-context|ft-audit-repo|ft-flowtron|ft-new-project|ft-release|ft-stats)$'
+grep "^ln -s ../../.flowtron/core/claude/skills/" cursor/AGENTS-snippet.md | sed -E 's#.*claude/skills/(ft-[^ ]+).*#\1#' | grep -E '^(ft-audit|ft-audit-context|ft-audit-repo|ft-flowtron|ft-new-project|ft-release|ft-stats)$'
 ```
 
 The `diff` commands must produce no output and exit 0. The forbidden-install `grep` commands must produce no output and exit 1. Any missing adopter-subset skill or any installed forbidden slug means the snippets contradict the installed-surface policy — fix inline as Critical/High before cutting the release.
 
-**Standing self-wiring parity check.** The three checks above all compare one *declaration* to another — `claude/AGENTS-snippet.md`, `docs/MIGRATION.md`, `ft-new-project/SKILL.md`, `codex/AGENTS-snippet.md`. None resolves a symlink, so a slug correctly declared everywhere can still be unwired and unrunnable in flowtron's own checkout: `/ft-spec` shipped at CORE-352.2, passed all three, and sat missing from `.claude/` for a month. This check reads the filesystem instead.
+**Standing self-wiring parity check.** The four checks above all compare one *declaration* to another — `claude/AGENTS-snippet.md`, `docs/MIGRATION.md`, `ft-new-project/SKILL.md`, `codex/AGENTS-snippet.md`, `cursor/AGENTS-snippet.md`. None resolves a symlink, so a slug correctly declared everywhere can still be unwired and unrunnable in flowtron's own checkout: `/ft-spec` shipped at CORE-352.2, passed all three, and sat missing from `.claude/` for a month. This check reads the filesystem instead.
 
 **Local repo-scoped wiring — blocking.** Flowtron is not an adopter; its `.claude/` mirrors the full shipped inventory (`docs/PLATFORMS.md` §"Installed-surface policy" → "Flowtron's own checkout is not an adopter"). Diff both directions:
 

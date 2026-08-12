@@ -9,8 +9,11 @@ dist/
 SCRATCH*.md
 
 # Personal Claude Code / Codex / Cursor wiring for this checkout.
-# Repo-scoped `ln -s ../../claude/...` and `ln -s ../../codex/...` symlinks are
-# the canonical install (see docs/MIGRATION.md §1.2.2); the agent home carries
-# only the global-only utilities. Never commit per-machine state.
+# Repo-scoped `ln -s ../../claude/...`, `ln -s ../../codex/...`, and
+# Cursor-only `ln -s ../../claude/...` into `.cursor/skills/` are the
+# canonical install (see docs/MIGRATION.md §1.2 / cursor/AGENTS-snippet.md);
+# the agent home carries only the global-only utilities. Never commit
+# per-machine state.
 .claude/
 .agents/
+.cursor/
