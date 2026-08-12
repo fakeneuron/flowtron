@@ -738,4 +738,19 @@ related-tasks: []
     expect(() => parseTasknote('EVIL-1', '/abs/EVIL-1.md', text)).toThrow();
     expect((globalThis as Record<string, unknown>)[marker]).toBeUndefined();
   });
+
+  it('rejects !!omap frontmatter (yaml engine uses CORE_SCHEMA, not DEFAULT_SAFE_SCHEMA)', () => {
+    const text = `---
+title: pwned
+status: in-progress
+created: 2026-01-01
+evil: !!omap
+  - a: 1
+  - b: 2
+---
+
+# EVIL-2 | Evil
+`;
+    expect(() => parseTasknote('EVIL-2', '/abs/EVIL-2.md', text)).toThrow(/omap|unknown tag|unresolved tag/i);
+  });
 });
