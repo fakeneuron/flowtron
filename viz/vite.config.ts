@@ -19,12 +19,16 @@ import {
   createPlanHandler,
   createProjectsHandler,
 } from './src/devApi';
-import { formatChangePayload } from './src/sseChange';
-import { projectForActiveTasknote, projectForPath, watchSets } from './src/watchSet';
+import {
+  createChangeBroadcaster,
+  createOnWatchEvent,
+  SSE_DEBOUNCE_MS,
+  WATCH_ARCHIVE_OPTIONS,
+  WATCH_HOT_OPTIONS,
+} from './src/flowtronWatch';
+import { watchSets } from './src/watchSet';
 
-const SSE_DEBOUNCE_MS = 200;
 const SSE_HEARTBEAT_MS = 30_000;
-const WATCH_POLL_MS = 200;
 
 // Static nonce stamped onto every Vite-injected <script> (the React-refresh
 // preamble and @vite/client) via `html.cspNonce`, and echoed in the dev CSP's
@@ -53,36 +57,12 @@ const DEV_CSP = [
 
 function flowtronApi(): Plugin {
   const sseClients = new Set<ServerResponse>();
-  let debounceTimer: ReturnType<typeof setTimeout> | null = null;
   let hotWatcher: ReturnType<typeof chokidar.watch> | null = null;
   let archiveWatcher: ReturnType<typeof chokidar.watch> | null = null;
   let heartbeat: ReturnType<typeof setInterval> | null = null;
   const projects = new Map<string, ProjectDescriptor>();
   const archiveCache = createArchiveCache();
-  const pendingProjects = new Set<string>();
-  let pendingUnattributed = false;
-
-  const broadcastChange = () => {
-    const names = [...pendingProjects];
-    const unattributed = pendingUnattributed;
-    pendingProjects.clear();
-    pendingUnattributed = false;
-    const payloads = unattributed
-      ? [formatChangePayload(undefined)]
-      : names.map((name) => formatChangePayload(name));
-    for (const res of sseClients) {
-      for (const data of payloads) {
-        res.write(`event: change\ndata: ${data}\n\n`);
-      }
-    }
-  };
-
-  const scheduleBroadcast = (projectName: string | undefined) => {
-    if (projectName) pendingProjects.add(projectName);
-    else pendingUnattributed = true;
-    if (debounceTimer) clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(broadcastChange, SSE_DEBOUNCE_MS);
-  };
+  const changeBroadcaster = createChangeBroadcaster({ sseClients, debounceMs: SSE_DEBOUNCE_MS });
 
   return {
     name: 'flowtron-api',
@@ -95,40 +75,23 @@ function flowtronApi(): Plugin {
 
       if (server.httpServer) {
         const { hot, archive } = watchSets(discovered);
-        const onWatchEvent = (event: string, filepath: unknown) => {
-          if (typeof filepath !== 'string') return;
-          archiveCache.invalidate(filepath, projects.values());
-          // Closure always unlinks the active tasknote. That path stays on the
-          // polled hot watcher, so this covers native FSEvents misses inside
-          // symlink project roots (CORE-222) without busting the archive cache
-          // on every PLAN.md keystroke.
-          if (event === 'unlink') {
-            const owner = projectForActiveTasknote(filepath, projects.values());
-            if (owner) archiveCache.invalidateProject(owner.name);
-          }
-          scheduleBroadcast(projectForPath(filepath, projects.values())?.name);
-        };
+        const onWatchEvent = createOnWatchEvent({
+          projects: projects.values(),
+          archiveCache,
+          broadcast: changeBroadcaster,
+        });
 
         // Hot set (PLAN.md + active tasknotes) must poll: FSEvents does not
         // reliably fire inside symlinked project roots (CORE-222).
         if (hot.length > 0) {
-          hotWatcher = chokidar.watch(hot, {
-            ignoreInitial: true,
-            depth: 1,
-            usePolling: true,
-            interval: WATCH_POLL_MS,
-          });
+          hotWatcher = chokidar.watch(hot, WATCH_HOT_OPTIONS);
           hotWatcher.on('all', onWatchEvent);
         }
 
         // Archives are write-once and fleet-scale (~thousands of files). Native
         // watch is cheap; polling them at 200ms was the cost CORE-431.2 removes.
         if (archive.length > 0) {
-          archiveWatcher = chokidar.watch(archive, {
-            ignoreInitial: true,
-            depth: 2,
-            usePolling: false,
-          });
+          archiveWatcher = chokidar.watch(archive, WATCH_ARCHIVE_OPTIONS);
           archiveWatcher.on('all', onWatchEvent);
         }
 
@@ -137,7 +100,7 @@ function flowtronApi(): Plugin {
         }, SSE_HEARTBEAT_MS);
 
         server.httpServer.on('close', () => {
-          if (debounceTimer) clearTimeout(debounceTimer);
+          changeBroadcaster.dispose();
           if (heartbeat) clearInterval(heartbeat);
           void hotWatcher?.close();
           void archiveWatcher?.close();
