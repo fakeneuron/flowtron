@@ -35,6 +35,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **CORE-434** [medium]🧩 | CI workflow hardening — add `permissions: contents: read` to `.github/workflows/ci.yml`, pin `actions/checkout`/`setup-node` to commit SHAs, and give `SECURITY.md` a threat-model entry for the CI surface — the doc reasons about contributor PRs but never covers the workflow. Surfaced by CORE-430.N audit.
 - [ ] **CORE-437** [medium]🧩 | loosen auto-commit gates — Loosen SPEC/gates Conditional skip so routine frontend (and other low-risk) diffs auto-commit by default; keep fire only for privileged-ops / secrets / migrations / bundled prompts. When go is still required, emit a hard-to-miss 🟢 GO (or 📦) prompt and never suggest next-move until the SHA lands. Surfaced by CORE-432.2 (micro closed + next-task cue with uncommitted App/PLAN dirt).
+- [ ] **CORE-439** [medium]🧩 | install-path dedup — Three install paths (project `.claude/skills/`, `~/.claude/skills/`, `~/.agents/skills/`) all resolve for one agent, so flowtron's 18 skills land in the session roster ~3× — ~29 of ~81 entries are duplicates before any work starts. Pick a per-agent canonical path and document it before [[CORE-EPIC-438]] adds a fourth.
 
 ## Low
 
