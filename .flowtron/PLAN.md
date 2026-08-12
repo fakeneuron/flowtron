@@ -15,11 +15,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **CORE-440** [medium]🧩 | agents-release-skill — AGENTS.md peer roster lists `/ft-update` as the version-bump skill and never names `/ft-release`; in this checkout `/ft-update` has no submodule to bump. Point the self-host guide at `/ft-release` (keep `/ft-update` only if the KEEP IN SYNC roster must name the adopter skill). Surfaced by audit-context 2026-08-12 (Pass d, Medium).
 
 ## Low
 
-(none)
+- [ ] **CORE-441** [light]🔧 | agents-roster-terse — Shorten AGENTS.md §Workflow peer-skill bullet to names-only; leave flag-level detail (`--park` flags, stub/gate prose) to the paste-block and `SPEC/tasknote-selection.md` so KEEP IN SYNC is a name list, not a second flag surface. Surfaced by audit-context 2026-08-12 (Pass d, Low).
+- [ ] **CORE-442** [light]🔧 | local-stale-audit-docs — Drop `Skill(ft-audit-docs)` from gitignored `.claude/settings.local.json` (retired in CORE-EPIC-389). Checkout-local; no tracked file. Surfaced by audit-context 2026-08-12 (Pass d, Low).
 
 ## Future Opportunities
 

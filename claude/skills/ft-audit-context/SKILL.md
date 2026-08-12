@@ -97,7 +97,7 @@ After passes (a)–(d) complete:
    - **File none** — close out the audit with no writes.
    - **Show me the report again** — re-print §§1-4 verbatim.
 
-3. If filing, ticket format: `- [ ] **<AREA>-<N>** [model] | shortname — recommendation. Surfaced by audit-context YYYY-MM-DD (Pass <a|b|c|d>, <severity>).` Pick the next free `<N>` per area prefix; default to `[sonnet]` for follow-up fixes (user can override). Insert under `## High` for High-severity findings, `## Medium` for Medium, `## Low` for Low. Bail with a warning if `.flowtron/PLAN.md` doesn't exist.
+3. If filing, ticket format: `- [ ] **<AREA>-<N>** [model] | shortname — recommendation. Surfaced by audit-context YYYY-MM-DD (Pass <a|b|c|d>, <severity>).` Pick the next free `<N>` per area prefix. Tag with the effort primary labels `[heavy]🧠` / `[medium]🧩` / `[light]🔧` per SPEC/model.md (default `[light]🔧` for mechanical follow-up fixes; user can override). Do not default to a vendor model name. Insert under `## High` for High-severity findings, `## Medium` for Medium, `## Low` for Low. Bail with a warning if `.flowtron/PLAN.md` doesn't exist.
 
 ## 6. Hard rules
 
