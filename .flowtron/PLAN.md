@@ -16,7 +16,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Medium
 
 - [ ] **CORE-EPIC-431** [heavy]🧠 | viz fleet-scale watcher + scoped events — stop polling ~4.9k archive files at 200ms (`viz/vite.config.ts:82`); attribute SSE change events to a project so sibling-repo writes don't refetch the viewed board. Discovery supplied by audit-repo 2026-08-10. Surfaced by audit-repo 2026-08-10 (Theme: Dev server outgrew the single-repo assumption)
-  - [ ] **CORE-431.2** [heavy]🧠 | split watch set — poll PLAN.md + active tasknotes only; archives coarse/native or active-project-only
+  - [x] **CORE-431.2** [heavy]🧠 | split watch set — Completed 2026-08-12.
   - [ ] **CORE-431.3** [medium]🧩 | project-attributed SSE change events; client ignores non-active projects
   - [ ] **CORE-431.4** [light]🔧 | tests pinning both behaviors
   - [ ] **CORE-431.N** [medium]🧩 | fleet-scale audit

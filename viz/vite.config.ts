@@ -2,7 +2,6 @@ import { defineConfig } from 'vitest/config';
 import type { Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import type { ServerResponse } from 'node:http';
-import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import chokidar from 'chokidar';
 import {
@@ -20,6 +19,7 @@ import {
   createPlanHandler,
   createProjectsHandler,
 } from './src/devApi';
+import { projectForActiveTasknote, watchSets } from './src/watchSet';
 
 const SSE_DEBOUNCE_MS = 200;
 const SSE_HEARTBEAT_MS = 30_000;
@@ -53,7 +53,8 @@ const DEV_CSP = [
 function flowtronApi(): Plugin {
   const sseClients = new Set<ServerResponse>();
   let debounceTimer: ReturnType<typeof setTimeout> | null = null;
-  let watcher: ReturnType<typeof chokidar.watch> | null = null;
+  let hotWatcher: ReturnType<typeof chokidar.watch> | null = null;
+  let archiveWatcher: ReturnType<typeof chokidar.watch> | null = null;
   let heartbeat: ReturnType<typeof setInterval> | null = null;
   const projects = new Map<string, ProjectDescriptor>();
   const archiveCache = createArchiveCache();
@@ -79,23 +80,43 @@ function flowtronApi(): Plugin {
       const latestRelease = await latestReleaseTag(fileURLToPath(new URL('.', import.meta.url)));
 
       if (server.httpServer) {
-        const watchPaths = discovered.flatMap((p) => [
-          p.planPath,
-          join(p.tasknoteDir, '*.md'),
-          join(p.archiveDir, '*/*.md'),
-        ]);
-        watcher = chokidar.watch(watchPaths, {
-          ignoreInitial: true,
-          depth: 2,
-          // FSEvents does not reliably fire inside symlinked dirs, which occur
-          // in git-submodule adopter workspaces. usePolling covers all platforms.
-          usePolling: true,
-          interval: WATCH_POLL_MS,
-        });
-        watcher.on('all', (_event, filepath) => {
-          if (typeof filepath === 'string') archiveCache.invalidate(filepath, projects.values());
+        const { hot, archive } = watchSets(discovered);
+        const onWatchEvent = (event: string, filepath: unknown) => {
+          if (typeof filepath !== 'string') return;
+          archiveCache.invalidate(filepath, projects.values());
+          // Closure always unlinks the active tasknote. That path stays on the
+          // polled hot watcher, so this covers native FSEvents misses inside
+          // symlink project roots (CORE-222) without busting the archive cache
+          // on every PLAN.md keystroke.
+          if (event === 'unlink') {
+            const owner = projectForActiveTasknote(filepath, projects.values());
+            if (owner) archiveCache.invalidateProject(owner.name);
+          }
           scheduleBroadcast();
-        });
+        };
+
+        // Hot set (PLAN.md + active tasknotes) must poll: FSEvents does not
+        // reliably fire inside symlinked project roots (CORE-222).
+        if (hot.length > 0) {
+          hotWatcher = chokidar.watch(hot, {
+            ignoreInitial: true,
+            depth: 1,
+            usePolling: true,
+            interval: WATCH_POLL_MS,
+          });
+          hotWatcher.on('all', onWatchEvent);
+        }
+
+        // Archives are write-once and fleet-scale (~thousands of files). Native
+        // watch is cheap; polling them at 200ms was the cost CORE-431.2 removes.
+        if (archive.length > 0) {
+          archiveWatcher = chokidar.watch(archive, {
+            ignoreInitial: true,
+            depth: 2,
+            usePolling: false,
+          });
+          archiveWatcher.on('all', onWatchEvent);
+        }
 
         heartbeat = setInterval(() => {
           for (const res of sseClients) res.write(': ping\n\n');
@@ -104,7 +125,8 @@ function flowtronApi(): Plugin {
         server.httpServer.on('close', () => {
           if (debounceTimer) clearTimeout(debounceTimer);
           if (heartbeat) clearInterval(heartbeat);
-          void watcher?.close();
+          void hotWatcher?.close();
+          void archiveWatcher?.close();
           archiveCache.clear();
           for (const res of sseClients) res.end();
           sseClients.clear();

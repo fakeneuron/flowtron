@@ -36,6 +36,7 @@ async function readArchive(project: ProjectDescriptor): Promise<Tasknote[]> {
 export interface ArchiveCache {
   get(project: ProjectDescriptor): Promise<Tasknote[]>;
   invalidate(filepath: string, projects: Iterable<ProjectDescriptor>): boolean;
+  invalidateProject(name: string): boolean;
   clear(): void;
 }
 
@@ -62,6 +63,9 @@ export function createArchiveCache(): ArchiveCache {
         }
       }
       return false;
+    },
+    invalidateProject(name) {
+      return cache.delete(name);
     },
     clear() {
       cache.clear();

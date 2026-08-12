@@ -141,6 +141,27 @@ describe('createArchiveCache', () => {
     expect(second).toBe(first);
   });
 
+  it('invalidateProject() drops that project and leaves others intact', async () => {
+    const a = await makeProject('alpha', { 'frontend/FE-001.md': tasknote('FE-001', 'a') });
+    const b = await makeProject('beta', { 'frontend/FE-001.md': tasknote('FE-001', 'b') });
+    const cache = createArchiveCache();
+
+    const aFirst = await cache.get(a);
+    const bFirst = await cache.get(b);
+    const hit = cache.invalidateProject(a.name);
+    const aAfter = await cache.get(a);
+    const bAfter = await cache.get(b);
+
+    expect(hit).toBe(true);
+    expect(aAfter).not.toBe(aFirst);
+    expect(bAfter).toBe(bFirst);
+  });
+
+  it('invalidateProject() returns false for an unknown name', () => {
+    const cache = createArchiveCache();
+    expect(cache.invalidateProject('missing')).toBe(false);
+  });
+
   it('invalidate() is per-project: dropping A does not flush B', async () => {
     const a = await makeProject('alpha', { 'frontend/FE-001.md': tasknote('FE-001', 'a') });
     const b = await makeProject('beta', { 'frontend/FE-001.md': tasknote('FE-001', 'b') });
