@@ -11,6 +11,8 @@ related-tasks: [CORE-EPIC-438, CORE-438.1, CORE-438.3]
 
 [← PLAN.md](../PLAN.md) · 🟢 In progress · 🔗 [[CORE-EPIC-438]] · [[CORE-438.1]] · [[CORE-438.3]]
 
+> **⚠️ Superseded by [[CORE-438.3]]** — Finding 4's named mechanism is wrong: at HEAD there is no `newSkillsShipped()` (the function is `wiredSkillKeys()`), and it does not key off the §"One-time symlink wiring" heading — it scans every `ln -s` line in the snippet. Its conclusion (Cursor adopters are flagged via the Claude snippet) holds.
+
 ## 🎯 Goal
 
 Empirically settle whether Cursor discovers and invokes flowtron skills through a relative directory symlink into `.flowtron/core/claude/skills/`, and lock the adopter install mechanism (symlink or copy) that `CORE-438.3` will document.

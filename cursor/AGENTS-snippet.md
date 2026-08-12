@@ -1,0 +1,114 @@
+# Cursor wiring snippet for flowtron
+
+This file is the Cursor-specific sibling of `claude/AGENTS-snippet.md`. The
+workflow block itself is agent-neutral and remains canonical there; this file
+owns only the Cursor wiring commands and notes.
+
+Cursor's bundle is deliberately **thin**: no skill wrappers ship under
+`cursor/`. Cursor discovers skills from `.cursor/skills/` and `.agents/skills/`
+and documents `.claude/skills/` as a compatibility surface, so adopters wire the
+canonical `claude/skills/` bodies directly. There is no second copy of the `ft-*`
+inventory to keep in sync, and no Cursor-specific translation layer — Cursor has
+a native structured ask, native sub-agents, and native `/<skill-name>` slash
+commands, so the canonical bodies run as written.
+
+## Block to paste into `AGENTS.md`
+
+Use the block in `../claude/AGENTS-snippet.md` §"Block to paste into AGENTS.md".
+Do not maintain a second copy here. Cursor reads a repository-root `AGENTS.md`
+with no configuration.
+
+## One-time symlink wiring
+
+**If the project is already wired for Claude Code, it is already wired for
+Cursor.** Cursor loads `.claude/skills/` as a documented compatibility surface,
+and project-scope skill directories dedupe by slug, so the symlinks from
+`../claude/AGENTS-snippet.md` §"One-time symlink wiring" already serve Cursor
+sessions. Run that block and stop there — a second parallel install adds no
+skills and no capability.
+
+For a **Cursor-only project** — one with no `.claude/` wiring — install the same
+adopter subset under Cursor's own directory instead. Run from the project root
+after adding the flowtron submodule at `.flowtron/core`:
+
+```sh
+mkdir -p .cursor/skills
+ln -s ../../.flowtron/core/claude/skills/ft-close-epic .cursor/skills/ft-close-epic
+ln -s ../../.flowtron/core/claude/skills/ft-epic-discovery .cursor/skills/ft-epic-discovery
+ln -s ../../.flowtron/core/claude/skills/ft-file-followup .cursor/skills/ft-file-followup
+ln -s ../../.flowtron/core/claude/skills/ft-goal-task .cursor/skills/ft-goal-task
+ln -s ../../.flowtron/core/claude/skills/ft-micro-task .cursor/skills/ft-micro-task
+ln -s ../../.flowtron/core/claude/skills/ft-spec .cursor/skills/ft-spec
+ln -s ../../.flowtron/core/claude/skills/ft-starter-task .cursor/skills/ft-starter-task
+ln -s ../../.flowtron/core/claude/skills/ft-task .cursor/skills/ft-task
+ln -s ../../.flowtron/core/claude/skills/ft-update .cursor/skills/ft-update
+ln -s ../../.flowtron/core/claude/skills/ft-worktree-end .cursor/skills/ft-worktree-end
+ln -s ../../.flowtron/core/claude/skills/ft-worktree-start .cursor/skills/ft-worktree-start
+```
+
+The targets are `claude/skills/` on purpose — those are the canonical skill
+bodies, not Cursor-specific copies. The relative paths are intentional: they
+survive `git clone` and pin to whichever flowtron commit the submodule is
+checked out at. Commit the symlinks (`git add .cursor/`).
+
+A Cursor skill auto-exposes as `/<skill-name>`, so `/ft-task <TASK-ID>` works
+after wiring with no command stubs to install. Flowtron's `claude/commands/`
+wrappers are **not** part of this block: Cursor's compatibility loading covers
+`.claude/skills/` but not `.claude/commands/`, and the skill bodies carry the
+whole procedure, so the wrappers add nothing here.
+
+Prefer `.cursor/skills/` over `.agents/skills/` for repo-scoped Cursor wiring.
+Both work, but `.agents/skills/` is also Codex's repo-scoped directory — keeping
+them separate avoids a slug collision between the canonical bodies and Codex's
+`codex/skills/` wrappers if the project later wires Codex too.
+
+This snippet wires the adopter-installed subset: the tasknote family, the
+worktree pair, and `/ft-update`. Global utility skills such as
+`ft-new-project`, `ft-flowtron`, `ft-stats`, `ft-audit-context`, and
+`ft-audit-repo` may be installed in the user skill directory when desired;
+`ft-release` remains flowtron-self-only and is not part of the adopter snippet.
+The canonical category table lives in
+`.flowtron/core/docs/PLATFORMS.md` §"Installed-surface policy", and the
+install-once rule this block obeys is
+`../docs/PLATFORMS.md` §"One canonical install path per project".
+
+To verify Cursor wiring: open a fresh Cursor session in the project and invoke
+`/ft-task`. The skill should appear with its description text; an entry that
+lists with an **empty** description is the frontmatter failure described next.
+
+## Forking skills — the description must be valid YAML
+
+Cursor parses `SKILL.md` frontmatter more strictly than Claude Code. An
+unquoted `description:` scalar may not contain a colon followed by a space; when
+it does, the frontmatter fails to parse and the skill still appears in the
+roster but loads with an **empty description**. Nothing errors — the skill
+simply stops being model-invocable and becomes command-only, because the
+description is what an agent reads to decide to reach for it.
+
+This is worth knowing if you fork a flowtron skill under an unprefixed name per
+`.flowtron/core/docs/MIGRATION.md` §1.2.1: keep `": "` out of the description,
+or quote the scalar. Four upstream skill bodies carried this defect until it was
+measured in live Cursor sessions and repaired.
+
+## Pinning notes
+
+These relative symlinks point through the project's pinned `.flowtron/core`
+submodule, so the wired skill bodies move only when the project deliberately
+bumps flowtron. Existing symlinks do not need rewiring on a normal version bump;
+newly shipped adopter-subset skills may need new symlinks, which `/ft-update`
+adds.
+
+Cursor follows relative directory symlinks at adopter depth — verified
+discovered, resolved, and invoked in live sessions, in all three candidate
+directories. Edits to the submodule target are visible through the link, but a
+running session's skill roster is fixed at session start: after a pin bump,
+start a fresh session rather than expecting the running one to reload.
+
+Do **not** glob the skill inventory into an agent home (`~/.cursor/skills/`,
+`~/.agents/skills/`, or `~/.claude/skills/`). Project scope and user scope
+enumerate separately, so a globally installed copy doubles flowtron's footprint
+in every session before any work starts; and user-scope collisions resolve by
+slug without regard to which platform authored the body, so a globally installed
+Codex wrapper can be served to a Cursor session it was not written for. The
+agent home carries only the global-only utilities. Canonical rule:
+`../docs/PLATFORMS.md` §"One canonical install path per project".
