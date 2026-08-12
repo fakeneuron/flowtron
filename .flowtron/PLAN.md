@@ -18,7 +18,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-EPIC-433** [medium]🧩 | drift blind spots — fix 4 doc-drift findings and close the gate gaps that let them survive. Discovery supplied by audit-repo 2026-08-10. Surfaced by audit-repo 2026-08-10 (Theme: Drift survives where the gates can't see)
   - [x] **CORE-433.2** [light]🔧 | fix remaining flag + layout drift — Completed 2026-08-10.
   - [x] **CORE-433.3** [medium]🧩 | widen gates — Completed 2026-08-12.
-  - [ ] **CORE-433.4** [medium]🧩 | validation roster sync — `claude/skills/ft-release/SKILL.md:238-239` omits both `node --check` commands, so the release gate is narrower than CI; sync it, then add a mirror pair covering the roster's 5 sites. Surfaced by CORE-430.N audit.
+  - [x] **CORE-433.4** [medium]🧩 | validation roster sync — Completed 2026-08-12.
   - [ ] **CORE-433.N** [light]🔧 | drift-blind-spots audit
 
 - [ ] **CORE-434** [medium]🧩 | CI workflow hardening — add `permissions: contents: read` to `.github/workflows/ci.yml`, pin `actions/checkout`/`setup-node` to commit SHAs, and give `SECURITY.md` a threat-model entry for the CI surface — the doc reasons about contributor PRs but never covers the workflow. Surfaced by CORE-430.N audit.

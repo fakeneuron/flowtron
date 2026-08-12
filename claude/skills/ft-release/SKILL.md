@@ -232,11 +232,15 @@ Three of the 5 edits are markdown prose — run a markdown lint mental-pass on S
 - Edits are single-token version-string substitutions; surrounding prose unchanged.
 - No frontmatter touched; no fenced blocks broken.
 
-The fourth and fifth edits (`viz/src/ui/constants.ts` and `viz/package.json`) are one-line string substitutions — run lint/type-check on the viz package via its own package scripts:
+The fourth and fifth edits (`viz/src/ui/constants.ts` and `viz/package.json`) are one-line string substitutions — run lint/type-check on the viz package via its own package scripts, then the fleet-updater suite and syntax checks (`AGENTS.md` §"Validation"):
 
 ```sh
-npm --prefix viz run lint; npm --prefix viz run typecheck; npm --prefix viz run test
+npm --prefix viz test
+npm --prefix viz run typecheck
+npm --prefix viz run lint
 node --test tools/update-adopters.test.mjs
+node --check tools/update-adopters.test.mjs
+node --check tools/update-adopters.mjs
 ```
 
 If a viz/code feature ships in this release, surface that the feature's own tasknote already ran its test pass — `/ft-release` does not re-run feature tests beyond these version-string and updater-suite gates.
@@ -467,6 +471,41 @@ done
 ```
 
 Must print nothing. Fix by appending a clause in each surface's established shape, written from `claude/skills/ft-goal-task/SKILL.md`'s `--worktree` section rather than paraphrased from memory.
+
+**Pair H — validation command roster ↔ 5 restatement sites.** `AGENTS.md` §"Validation" is the source of truth for the six commands that define "passing" (3 viz + `node --test` + 2 × `node --check`). Four other surfaces restate that roster — `.github/workflows/ci.yml`, `docs/CONVENTIONS.md` §"GitHub Actions CI", `.flowtron/tasknote/README.md` §"Project quick commands", and this skill's Step 6 fence — and nothing bound them, so a release-gate edit that skipped the two `node --check`s left `/ft-release` narrower than CI with no detector (CORE-430.N F2; CORE-433.4). Pair F's presence idiom covers the class; a second half pins the CI workflow to AGENTS byte-for-byte and in order, which is the "verbatim" claim CONVENTIONS makes.
+
+Presence — each of the five sites must name all six AGENTS command strings. Formats differ (YAML `run:`, prose, bullets, fenced lines), so this is presence, not byte identity. The `/ft-release` site is scoped to Step 6: this pair's own command list lives in the same file, and a whole-file grep would never fail.
+
+```sh
+while IFS= read -r cmd; do
+  [ -z "$cmd" ] && continue
+  for f in AGENTS.md .github/workflows/ci.yml docs/CONVENTIONS.md \
+           .flowtron/tasknote/README.md; do
+    grep -q -F "$cmd" "$f" || echo "MISSING VALIDATION CMD $f :: $cmd"
+  done
+  awk '/^## Step 6 /, /^## Step 7 /' claude/skills/ft-release/SKILL.md \
+    | grep -q -F "$cmd" || echo "MISSING VALIDATION CMD ft-release Step 6 :: $cmd"
+done <<'EOF'
+npm --prefix viz test
+npm --prefix viz run typecheck
+npm --prefix viz run lint
+node --test tools/update-adopters.test.mjs
+node --check tools/update-adopters.test.mjs
+node --check tools/update-adopters.mjs
+EOF
+```
+
+Must print nothing. `grep -F` is load-bearing: the strings contain spaces and must not be regex. `npm --prefix viz test` is *not* a substring of `npm --prefix viz run test` — the AGENTS form is the required one. `node --check tools/update-adopters.mjs` is not a substring of the `.test.mjs` form, so the two `--check`s do not collide. Carve-outs, not roster members: `npm --prefix viz ci` (CI install) and `npm --prefix viz run dev` (README quick command).
+
+CI verbatim — AGENTS §Validation fences vs the workflow's `run:` steps, minus the install step. Must produce no output and exit 0:
+
+```sh
+ssot=$(awk '/^## Validation$/,/^## Dev Server$/' AGENTS.md | grep -E '^(npm --prefix viz |node --)')
+ci=$(grep -E '^      - run: ' .github/workflows/ci.yml | sed 's/^      - run: //' | grep -vx 'npm --prefix viz ci')
+diff -u <(printf '%s\n' "$ssot") <(printf '%s\n' "$ci")
+```
+
+A `-` line is an AGENTS command CI dropped or reordered; a `+` line is a CI command AGENTS does not name (other than the excluded install). Fix a miss by updating the named mirror to match `AGENTS.md` §"Validation" in that surface's established shape — do not normalize every restatement to one fence.
 
 ### 7.2 — Auto-draft annotated tag message
 
