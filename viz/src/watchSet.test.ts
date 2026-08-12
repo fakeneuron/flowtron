@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { join } from 'node:path';
-import { projectForActiveTasknote, watchSets } from './watchSet';
+import { projectForActiveTasknote, projectForPath, watchSets } from './watchSet';
 import type { ProjectDescriptor } from './workspace';
 
 function project(name: string, root: string): ProjectDescriptor {
@@ -60,5 +60,26 @@ describe('projectForActiveTasknote', () => {
 
   it('is per-project', () => {
     expect(projectForActiveTasknote(join(beta.tasknoteDir, 'FE-001.md'), projects)).toBe(beta);
+  });
+});
+
+describe('projectForPath', () => {
+  const alpha = project('alpha', '/ws');
+  const beta = project('beta', '/ws');
+  const projects = [alpha, beta];
+
+  it('matches PLAN.md, active tasknotes, and archive files', () => {
+    expect(projectForPath(alpha.planPath, projects)).toBe(alpha);
+    expect(projectForPath(join(alpha.tasknoteDir, 'CORE-001.md'), projects)).toBe(alpha);
+    expect(projectForPath(join(alpha.archiveDir, 'core', 'CORE-001.md'), projects)).toBe(alpha);
+  });
+
+  it('is per-project', () => {
+    expect(projectForPath(beta.planPath, projects)).toBe(beta);
+    expect(projectForPath(join(beta.archiveDir, 'fe', 'FE-001.md'), projects)).toBe(beta);
+  });
+
+  it('returns undefined for an unknown path', () => {
+    expect(projectForPath('/ws/other/.flowtron/PLAN.md', projects)).toBeUndefined();
   });
 });

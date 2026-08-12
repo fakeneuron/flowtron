@@ -91,8 +91,9 @@ class MockEventSource {
   removeEventListener(type: string, cb: (ev: Event) => void): void {
     this.listeners.get(type)?.delete(cb);
   }
-  emit(type: string): void {
-    const ev = new Event(type);
+  emit(type: string, data?: string): void {
+    const ev =
+      data === undefined ? new Event(type) : new MessageEvent(type, { data });
     for (const cb of this.listeners.get(type) ?? []) cb(ev);
   }
   close(): void {}

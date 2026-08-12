@@ -29,3 +29,18 @@ export function projectForActiveTasknote(
   }
   return undefined;
 }
+
+// Owner of any watched path (PLAN.md, active tasknote, or archive file).
+// Used to attribute SSE change events; not a substitute for
+// projectForActiveTasknote, which must stay unlink-only.
+export function projectForPath(
+  filepath: string,
+  projects: Iterable<ProjectDescriptor>,
+): ProjectDescriptor | undefined {
+  for (const p of projects) {
+    if (filepath === p.planPath) return p;
+    if (dirname(filepath) === p.tasknoteDir) return p;
+    if (filepath.startsWith(p.archiveDir)) return p;
+  }
+  return undefined;
+}

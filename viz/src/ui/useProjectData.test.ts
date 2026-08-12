@@ -7,7 +7,7 @@ import { useProjectData } from './useProjectData';
 // branches. Tests clear the registry in beforeEach so `.at(-1)` is the current one.
 interface MockES {
   url: string;
-  emit(type: string): void;
+  emit(type: string, data?: string): void;
 }
 const esRegistry = () =>
   (globalThis.EventSource as unknown as { instances: MockES[] }).instances;
@@ -118,6 +118,18 @@ describe('useProjectData — SSE branches', () => {
     await waitFor(() => expect(hook.result.current.tasks[0]?.id).toBe('FE-2'));
   });
 
+  it('refreshes on an unattributed {} payload', async () => {
+    const { hook } = mountWithLivePlan();
+    await waitFor(() => expect(hook.result.current.tasks[0]?.id).toBe('FE-1'));
+
+    currentPlan = planWith('FE-2');
+    await act(async () => {
+      latestES().emit('change', '{}');
+      await new Promise((r) => setTimeout(r, 0));
+    });
+    await waitFor(() => expect(hook.result.current.tasks[0]?.id).toBe('FE-2'));
+  });
+
   it('reconciles on reconnect: "error" then "open" triggers a refresh', async () => {
     const { hook } = mountWithLivePlan();
     await waitFor(() => expect(hook.result.current.tasks[0]?.id).toBe('FE-1'));
@@ -154,5 +166,33 @@ describe('useProjectData — SSE branches', () => {
     // No prior drop → no redundant refresh: no new fetches, tasks unchanged.
     expect(fetchMock.mock.calls.length).toBe(callsAfterLoad);
     expect(hook.result.current.tasks[0]?.id).toBe('FE-1');
+  });
+
+  it('ignores a change attributed to a different project', async () => {
+    const { hook, fetchMock } = mountWithLivePlan();
+    await waitFor(() => expect(hook.result.current.tasks[0]?.id).toBe('FE-1'));
+
+    const callsAfterLoad = fetchMock.mock.calls.length;
+    currentPlan = planWith('FE-2');
+
+    await act(async () => {
+      latestES().emit('change', '{"project":"other"}');
+      await new Promise((r) => setTimeout(r, 0));
+    });
+
+    expect(fetchMock.mock.calls.length).toBe(callsAfterLoad);
+    expect(hook.result.current.tasks[0]?.id).toBe('FE-1');
+  });
+
+  it('refreshes on a change attributed to the active project', async () => {
+    const { hook } = mountWithLivePlan();
+    await waitFor(() => expect(hook.result.current.tasks[0]?.id).toBe('FE-1'));
+
+    currentPlan = planWith('FE-2');
+    await act(async () => {
+      latestES().emit('change', '{"project":"p1"}');
+      await new Promise((r) => setTimeout(r, 0));
+    });
+    await waitFor(() => expect(hook.result.current.tasks[0]?.id).toBe('FE-2'));
   });
 });

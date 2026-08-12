@@ -6,6 +6,7 @@ import {
   type NearMissHeading,
 } from '../parser';
 import { type Tasknote } from '../tasknote';
+import { projectFromChangeData } from '../sseChange';
 
 export function useProjectData(activeProject: string | null): {
   tasks: Task[];
@@ -78,7 +79,13 @@ export function useProjectData(activeProject: string | null): {
   useEffect(() => {
     const es = new EventSource('/api/events');
     let droppedSinceOpen = false;
-    es.addEventListener('change', refresh);
+    const onChange = (ev: Event) => {
+      const data = 'data' in ev ? (ev as MessageEvent).data : undefined;
+      const name = projectFromChangeData(data);
+      if (name !== null && name !== activeProjectRef.current) return;
+      refresh();
+    };
+    es.addEventListener('change', onChange);
     es.addEventListener('open', () => {
       // On reconnect after a drop, reconcile changes missed during the gap.
       // The first connect has no prior drop, so no redundant initial refresh.

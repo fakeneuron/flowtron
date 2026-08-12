@@ -19,7 +19,8 @@ import {
   createPlanHandler,
   createProjectsHandler,
 } from './src/devApi';
-import { projectForActiveTasknote, watchSets } from './src/watchSet';
+import { formatChangePayload } from './src/sseChange';
+import { projectForActiveTasknote, projectForPath, watchSets } from './src/watchSet';
 
 const SSE_DEBOUNCE_MS = 200;
 const SSE_HEARTBEAT_MS = 30_000;
@@ -58,14 +59,27 @@ function flowtronApi(): Plugin {
   let heartbeat: ReturnType<typeof setInterval> | null = null;
   const projects = new Map<string, ProjectDescriptor>();
   const archiveCache = createArchiveCache();
+  const pendingProjects = new Set<string>();
+  let pendingUnattributed = false;
 
   const broadcastChange = () => {
+    const names = [...pendingProjects];
+    const unattributed = pendingUnattributed;
+    pendingProjects.clear();
+    pendingUnattributed = false;
+    const payloads = unattributed
+      ? [formatChangePayload(undefined)]
+      : names.map((name) => formatChangePayload(name));
     for (const res of sseClients) {
-      res.write('event: change\ndata: {}\n\n');
+      for (const data of payloads) {
+        res.write(`event: change\ndata: ${data}\n\n`);
+      }
     }
   };
 
-  const scheduleBroadcast = () => {
+  const scheduleBroadcast = (projectName: string | undefined) => {
+    if (projectName) pendingProjects.add(projectName);
+    else pendingUnattributed = true;
     if (debounceTimer) clearTimeout(debounceTimer);
     debounceTimer = setTimeout(broadcastChange, SSE_DEBOUNCE_MS);
   };
@@ -92,7 +106,7 @@ function flowtronApi(): Plugin {
             const owner = projectForActiveTasknote(filepath, projects.values());
             if (owner) archiveCache.invalidateProject(owner.name);
           }
-          scheduleBroadcast();
+          scheduleBroadcast(projectForPath(filepath, projects.values())?.name);
         };
 
         // Hot set (PLAN.md + active tasknotes) must poll: FSEvents does not
