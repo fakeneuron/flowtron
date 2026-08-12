@@ -7,6 +7,7 @@
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/github/license/fakeneuron/flowtron?style=flat-square&color=blue" alt="License: MIT"></a>
   <a href="https://github.com/fakeneuron/flowtron/tags"><img src="https://img.shields.io/github/v/tag/fakeneuron/flowtron?style=flat-square&label=version&color=brightgreen" alt="Latest version"></a>
+  <a href="https://github.com/fakeneuron/flowtron/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/fakeneuron/flowtron/ci.yml?style=flat-square" alt="CI build status"></a>
 </p>
 
 A lightweight, project-agnostic tasknote system for solo AI-assisted coding.
