@@ -68,7 +68,7 @@ A lightweight, project-agnostic tasknote system for solo AI-assisted coding. The
 - `docs/CONVENTIONS.md` — conventions flowtron adheres to and declines (commits, versioning, formatting) with rationale
 - `docs/VERSION-HISTORY.md` — curated, moderately-coarse release highlights (tags remain full SSOT)
 - `docs/AGENT-NEUTRALITY.md` — agent-neutrality contract: which contract-layer Claude-specific surfaces are intentional (load-bearing locators for the Claude Code wiring layer) and why
-- `docs/PLATFORMS.md` — multi-platform wiring pattern: two-layer model (agent-neutral contract / per-platform wiring) and the symmetric plug-in shape for future platforms (Codex CLI / grok / Cursor)
+- `docs/PLATFORMS.md` — multi-platform wiring pattern: two-layer model (agent-neutral contract / per-platform wiring) and the symmetric plug-in shape for shipped siblings (`codex/` full wrappers, `cursor/` thin, `grok/` procedure pointer; future platforms plug in the same way)
 - `CONTRIBUTING.md` — solo-maintenance model; issue and PR guidance
 - `SECURITY.md` — threat model (prompt injection, submodule supply-chain trust, viz dev-server scope) and vulnerability reporting
 - `templates/` — tasknote templates (full, micro, starter, sidequest) plus spec, loop-heartbeat, audit-overlay, and subagent-probe templates

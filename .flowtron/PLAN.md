@@ -11,13 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-EPIC-438** [heavy]🧠 | cursor-wiring — Promote Cursor from contract-only stub to a first-class wiring platform: ship a `cursor/` sibling bundle per `docs/PLATFORMS.md` §"symmetric plug-in pattern", integrate it into adopter + release surfaces, then dogfood a real session to confirm it works (filed via /ft-epic-discovery; refined at .1 closure).
-  - [x] **CORE-438.1** [heavy]🧠 | cursor-wiring discovery — Completed 2026-08-12.
-  - [x] **CORE-438.2** [medium]🧩 | cursor-install-verify — Completed 2026-08-12.
-  - [x] **CORE-438.3** [heavy]🧠 | cursor-wiring-bundle — Completed 2026-08-12.
-  - [x] **CORE-438.4** [medium]🧩 | cursor-surface-integration — Completed 2026-08-12.
-  - [x] **CORE-438.5** [medium]🧩 | cursor-dogfood — Completed 2026-08-12.
-  - [ ] **CORE-438.N** [heavy]🧠 | cursor-wiring audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line).
+(none)
 
 ## Medium
 
@@ -46,6 +40,14 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 
 ## Completed
+
+- [x] **CORE-EPIC-438** [heavy]🧠 | cursor-wiring — Completed 2026-08-12.
+  - [x] **CORE-438.1** [heavy]🧠 | cursor-wiring discovery — Completed 2026-08-12.
+  - [x] **CORE-438.2** [medium]🧩 | cursor-install-verify — Completed 2026-08-12.
+  - [x] **CORE-438.3** [heavy]🧠 | cursor-wiring-bundle — Completed 2026-08-12.
+  - [x] **CORE-438.4** [medium]🧩 | cursor-surface-integration — Completed 2026-08-12.
+  - [x] **CORE-438.5** [medium]🧩 | cursor-dogfood — Completed 2026-08-12.
+  - [x] **CORE-438.N** [heavy]🧠 | cursor-wiring audit — Completed 2026-08-12.
 
 - [x] **CORE-439** [medium]🧩 | install-path dedup — Completed 2026-08-12.
 - [x] **CORE-EPIC-432** [medium]🧩 | honest edge states — Completed 2026-08-10.
