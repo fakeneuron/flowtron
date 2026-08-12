@@ -443,6 +443,31 @@ Three properties of this pair are deliberate, and a future edit should preserve 
 - **The flag half is one-directional on purpose.** The roster may legitimately name flags a `description:` does not — `/ft-file-followup`'s row carries `--low`/`--med`/`--fut`, which appear upstream only inside a quoted illustration and are therefore stripped. Checking the reverse would report those three as drift.
 - **A deleted row reports from both halves.** The loop's `MISSING ROW` guard exists so an absent row degrades to one clear line instead of every flag on that skill reporting missing and misattributing the cause.
 
+**Pair F — park-priority flag roster ↔ mirror surfaces.** `/ft-file-followup`'s park mode documents four priority flags (`--low`, `--med`, `--fut`, `--high`) in its usage line, and five contract-layer surfaces restate that roster in their own shapes — `SPEC/tasknote-selection.md`'s park signature, `AGENTS.md`'s peer-skill roster, `docs/GLOSSARY.md`'s **sidequest** entry, `claude/skills/ft-flowtron/SKILL.md`'s `/ft-file-followup` row, and `docs/MIGRATION.md`'s retired-`ft-sidequest` replacement cell. Nothing binds them, and Pair E's flag half only covers the `ft-flowtron` table against skill `description:` frontmatter — correctly blind to these prose rosters (CORE-433.2 fixed four sites by hand after CORE-399 left them stale; this pair closes the class).
+
+Each mirror must name all four flags. Formats differ by surface (pipe-joined, slash-separated, comma-listed, or table-escaped) — the check counts presence, not byte identity:
+
+```sh
+for f in SPEC/tasknote-selection.md AGENTS.md docs/GLOSSARY.md \
+         claude/skills/ft-flowtron/SKILL.md docs/MIGRATION.md; do
+  for flag in --low --med --fut --high; do
+    grep -q -e "$flag" "$f" || echo "MISSING PARK FLAG $f $flag"
+  done
+done
+```
+
+Must print nothing. `grep -e` is load-bearing on BSD/macOS `grep`: bare `--low` is parsed as a flag, not a pattern. Fix a miss by updating the named mirror to match `claude/skills/ft-file-followup/SKILL.md`'s usage line (`--park [--low|--med|--fut|--high]`) in that surface's established shape — do not normalize every mirror to one string.
+
+**Pair G — goal-task `--worktree` roster ↔ mirror surfaces.** `/ft-goal-task` ships `--worktree` as a documented trailing flag; two surfaces restate it for operators — `claude/skills/ft-flowtron/SKILL.md`'s `/ft-goal-task` row and `docs/PLATFORMS.md`'s operator-mode-flag list. Pair B and Pair E are both blind here: `--worktree` appears only inside `args="…"` illustrations on the skill, so the quote-strip correctly excludes it from frontmatter-derived flag sets (CORE-420.N verified). A fold or doc edit that adds the flag to the skill but not these mirrors strands it silently (CORE-433.2's second drift class).
+
+```sh
+for f in claude/skills/ft-flowtron/SKILL.md docs/PLATFORMS.md; do
+  grep -q -e '--worktree' "$f" || echo "MISSING WORKTREE $f"
+done
+```
+
+Must print nothing. Fix by appending a clause in each surface's established shape, written from `claude/skills/ft-goal-task/SKILL.md`'s `--worktree` section rather than paraphrased from memory.
+
 ### 7.2 — Auto-draft annotated tag message
 
 Use CORE-048's structure as the template:

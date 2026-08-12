@@ -40,6 +40,7 @@ subtask (per [`SPEC/epic.md`](../../SPEC/epic.md)). Flat list, one-line
 purpose each.
 
 - `README.md` — public-facing flowtron repo overview
+- `AGENTS.md` — flowtron-self agent guide: repo layout, validation commands, workflow pointers, and platform wiring notes
 - `SPEC.md` — canonical workflow contract; primary AI cold-start surface
 - `docs/MIGRATION.md` — adoption + bump procedures for adopting projects
 - `claude/AGENTS-snippet.md` — block adopters paste into their AGENTS.md (defines adopters' assistant-facing surface; agent-neutral)
