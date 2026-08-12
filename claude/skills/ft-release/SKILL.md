@@ -1,6 +1,6 @@
 ---
 name: ft-release
-description: Cut a flowtron release — version bump, doc-currency shifts, doc-drift sweep, single feat: commit, annotated tag, VERSION-HISTORY prepend, push. Use when the user asks to cut or ship a flowtron release. Flowtron-self only (global symlink); never installed in adopter projects. Encodes the CORE-048 / CORE-046 / CORE-043 release recipe.
+description: Cut a flowtron release — version bump, doc-currency shifts, doc-drift sweep, single `feat:` commit, annotated tag, VERSION-HISTORY prepend, push. Use when the user asks to cut or ship a flowtron release. Flowtron-self only (global symlink); never installed in adopter projects. Encodes the CORE-048 / CORE-046 / CORE-043 release recipe.
 ---
 
 # release — flowtron self-host release skill

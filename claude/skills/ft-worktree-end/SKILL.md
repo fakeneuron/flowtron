@@ -1,6 +1,6 @@
 ---
 name: ft-worktree-end
-description: Clean up an isolated git worktree for an independent epic child tasknote. Use when the user asks to clean up or merge back an isolated worktree after an epic-child tasknote finishes. From the main checkout: verifies the `wt-<TASK-ID>` branch was merged (or operator explicitly discards), removes the worktree, archives the copied tasknote from the worktree into the main checkout's canonical archive, and optionally prunes the local branch. Thin procedural skill; no tasknote driving. Pair with /ft-worktree-start. See docs/WORKTREES.md for the full convention.
+description: Clean up an isolated git worktree for an independent epic child tasknote. Use when the user asks to clean up or merge back an isolated worktree after an epic-child tasknote finishes. From the main checkout it verifies the `wt-<TASK-ID>` branch was merged (or operator explicitly discards), removes the worktree, archives the copied tasknote from the worktree into the main checkout's canonical archive, and optionally prunes the local branch. Thin procedural skill; no tasknote driving. Pair with /ft-worktree-start. See docs/WORKTREES.md for the full convention.
 ---
 
 # worktree-end — clean up isolated worktree for epic-child tasknotes

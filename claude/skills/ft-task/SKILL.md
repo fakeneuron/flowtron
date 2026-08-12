@@ -1,6 +1,6 @@
 ---
 name: ft-task
-description: Start a flowtron tasknote and drive it through the SPEC's 4-phase workflow. Use when the user asks to start a full tasknote for a normal-sized, multi-step, or design-tradeoff-bearing task — and, with `--debug`, when the user asks to debug a bug, regression, flaky behavior, or other unexpected behavior whose root cause is not yet known (hypothesis-first cadence: expected vs observed → ranked hypotheses → minimal repro → re-verify). Invoke with the task ID as args (e.g., args="CORE-004", "CORE-004 --debug", or "CORE-195.2 --debug --fast"). Reads SPEC.md, scaffolds the tasknote from the template, runs Phase 1 Discovery, then continues conversationally through phases 2-4 and the post-closure protocol.
+description: Start a flowtron tasknote and drive it through the SPEC's 4-phase workflow. Use when the user asks to start a full tasknote for a normal-sized, multi-step, or design-tradeoff-bearing task — and, with `--debug`, when the user asks to debug a bug, regression, flaky behavior, or other unexpected behavior whose root cause is not yet known (hypothesis-first cadence — expected vs observed → ranked hypotheses → minimal repro → re-verify). Invoke with the task ID as args (e.g., args="CORE-004", "CORE-004 --debug", or "CORE-195.2 --debug --fast"). Reads SPEC.md, scaffolds the tasknote from the template, runs Phase 1 Discovery, then continues conversationally through phases 2-4 and the post-closure protocol.
 ---
 
 # task — flowtron tasknote runner
