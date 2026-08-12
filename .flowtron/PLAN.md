@@ -19,12 +19,14 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-442** [light]🔧 | local-stale-audit-docs — Drop `Skill(ft-audit-docs)` from gitignored `.claude/settings.local.json` (retired in CORE-EPIC-389). Checkout-local; no tracked file. Surfaced by audit-context 2026-08-12 (Pass d, Low).
+(none)
 
 ## Future Opportunities
 
 
 ## Completed
+
+- [x] **CORE-442** [light]🔧 | local-stale-audit-docs — Completed 2026-08-12.
 
 - [x] **CORE-441** [light]🔧 | agents-roster-terse — Completed 2026-08-12.
 
