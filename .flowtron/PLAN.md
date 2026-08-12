@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-437** [medium]🧩 | loosen auto-commit gates — Loosen SPEC/gates Conditional skip so routine frontend (and other low-risk) diffs auto-commit by default; keep fire only for privileged-ops / secrets / migrations / bundled prompts. When go is still required, emit a hard-to-miss 🟢 GO (or 📦) prompt and never suggest next-move until the SHA lands. Surfaced by CORE-432.2 (micro closed + next-task cue with uncommitted App/PLAN dirt).
+(none)
 
 ## Low
 
@@ -27,6 +27,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 
 ## Completed
+
+- [x] **CORE-437** [medium]🧩 | loosen auto-commit gates — Completed 2026-08-12.
 
 - [x] **CORE-434** [medium]🧩 | CI workflow hardening — Completed 2026-08-12.
 

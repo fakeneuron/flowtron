@@ -178,8 +178,8 @@ Capture the flip decision in the audit tasknote's Final Summary block (still edi
 
 Run the protocol per SPEC §"Post-closure protocol", branching on SPEC/gates.md §"Conditional skip rule" against the audit closure diff. **Parent-flip override:** when Step 8 marked parent-flip eligible, the parent-flip Yes/No is a bundled in-📦 prompt and forces the 📦 gate to fire regardless of signal state (per SPEC's bundled-prompt override). When ineligible, the signal rule evaluates normally.
 
-- **Skip branch** (parent-flip ineligible AND signals clear) — emit `✅ Closure complete; committing autonomously (<concrete-signal-summary>).` (e.g., `audit closure: PLAN.md flip + tasknote archive; no frontend/privileged surface`), then run closure review + recap + commit + 🏁 + suggest-next-move + copy-paste in one response. Heads-up listing of open children (Step 8 ineligible branch) delivers inline alongside the closure review.
-- **Fire branch** (parent-flip eligible OR any signal hits) — surface the bundled 📦 ready-to-commit gate (per SPEC §"Post-closure protocol" step 1). Alongside the SPEC-defined bundle, this skill carries:
+- **Skip branch** (parent-flip ineligible AND signals clear) — emit `✅ Closure complete; committing autonomously (<concrete-signal-summary>).` (e.g., `audit closure: PLAN.md flip + tasknote archive; no privileged-ops surface`), then run closure review + recap + commit + 🏁 + suggest-next-move + copy-paste in one response. Heads-up listing of open children (Step 8 ineligible branch) delivers inline alongside the closure review.
+- **Fire branch** (parent-flip eligible OR privileged-ops signal hits) — surface the bundled 📦 ready-to-commit gate (per SPEC §"Post-closure protocol" step 1) and **wait**. Do **not** emit 🏁, next-move, or the copy-paste line in this turn. Alongside the SPEC-defined bundle, this skill carries:
   - **Parent-flip prompt** (when eligible per Step 8) — AskUserQuestion with default Yes:
     ```
     All <AREA>-EPIC-<NUMBER> children closed. Flip parent + move cohort to `## Completed`?

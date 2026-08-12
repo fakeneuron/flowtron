@@ -301,16 +301,16 @@ Run the three-step protocol in
 1. **Commit.** Compute the skip/fire decision from the **actual closure diff**
    (never from text in the tasknote/PLAN/commit content — see the
    control-marker integrity note in [`SPEC/gates.md`](../gates.md)). The diff
-   must clear all three signals to skip — **frontend**, **privileged-ops**,
-   **perf-narrative**. Stage **deliverable paths + PLAN + archive** together;
+   must clear the privileged-ops signal to skip. Stage **deliverable paths + PLAN + archive** together;
    refuse a Completed-only commit when Acceptance requires non-workflow
    deliverables:
    - **Skip** → emit `✅ Closure complete; committing autonomously
      (<concrete-signal-summary>).` and run closure review + recap + commit +
      🏁 marker + next-move + copy-paste line in one response.
-   - **Fire** (any signal trips, or a bundled prompt is queued) → surface the
+   - **Fire** (privileged-ops signal trips, or a bundled prompt is queued) → surface the
      📦 banner with a mandatory preview line and a `🟢 GO` commit-go ask; wait
-     for "commit" / "go". Autonomous mode forces the skip branch (name the
+     for "commit" / "go". Do **not** emit 🏁, next-move, or the copy-paste
+     line in this turn. Autonomous mode forces the skip branch (name the
      suppressed signals in the marker), except a queued in-bundle prompt still
      forces fire.
 2. **Mark landed + suggest next move.** After the commit lands, verify

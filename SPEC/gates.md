@@ -31,7 +31,7 @@ _<1-2 sentence plain-English preview of what executes on approval>_
 | Gate | Emoji | Label | Trigger |
 |---|---|---|---|
 | Phase 1→2 (post-Discovery) | 🛠️ | `AWAITING APPROVAL — Phase 2: Execution ready` | **Conditional (per-skill flavor)** — `/ft-task`: fires on significant scope deviation (Re-scope/De-scope always; clarifications that materially reshape execution). `/ft-epic-discovery` + `/ft-close-epic`: fires on any clarifications surfaced. Full rule: §"Phase 1→2 exit gate" |
-| Ready-to-commit (closure review + work summary bundled) | 📦 | `AWAITING APPROVAL — Ready to commit` | **Conditional** — fires when the diff trips any §"Conditional skip rule" signal (frontend / privileged-ops / perf-narrative) OR a bundled in-📦 prompt is queued (e.g., /ft-close-epic parent-flip); skipped otherwise via autonomous-commit |
+| Ready-to-commit (closure review + work summary bundled) | 📦 | `AWAITING APPROVAL — Ready to commit` | **Conditional** — fires when the diff trips the §"Conditional skip rule" privileged-ops signal OR a bundled in-📦 prompt is queued (e.g., /ft-close-epic parent-flip); skipped otherwise via autonomous-commit |
 | Destructive action (in-execution) | 🗄️ / ▶️ | `AWAITING APPROVAL — Destructive DB command` / `… — Destructive command` | **Conditional (bounded escalation)** — a 🗄️/▶️ command cue that might run a destructive or irreversible action escalates from its default inline prefix to a banner; biased fire-on-doubt. **Not** a standing phase gate — tied to a concrete command, fires in-execution, then the run returns to inline cues. Full rule: §"Operator-cue vocabulary" → "Destructive-action escalation" |
 
 For the `--fast` operator force-skip surface across both banners (and the 👁️ visual-confirmation ask), see §"`--fast` operator override".
@@ -232,9 +232,8 @@ from its default inline prefix to a **destructive-action banner** when the
 action *might* be destructive or irreversible — for example: an
 irreversible or data-loss migration; `DROP` / `TRUNCATE` / `DELETE`-without-`WHERE`;
 `git push --force`, `git reset --hard`, `rm -rf`; dropping or recreating a
-volume / database. **Biased conservative — fire on doubt** (mirrors the
-perf-narrative valve in §"Conditional skip rule"). A missed escalation
-degrades only to an inline cue, never to a silent action.
+volume / database. **Biased conservative — fire on doubt.** A missed
+escalation degrades only to an inline cue, never to a silent action.
 
 **Banner format.** The standard banner block (§"Operator-gate cues"), carrying
 the cue's own glyph and a destructive-action label:
@@ -322,34 +321,25 @@ them); Re-scope/De-scope verdicts always fire 🛠️ regardless of
 
 ## Conditional skip rule
 
-The 📦 gate fires when the closure diff trips a signal below OR a bundled in-📦 prompt is queued; otherwise it skips via autonomous-commit motion.
+The 📦 gate fires when the closure diff trips the privileged-ops signal
+below OR a bundled in-📦 prompt is queued; otherwise it skips via
+autonomous-commit motion. Routine frontend diffs, SPEC/SKILL/template/doc
+edits, and other non-privileged code changes auto-commit. Visual
+confirmation of UI work remains the Phase 3 👁️ ask, independent of this
+gate. Perf-narrative reasoning does not trip 📦.
 
-**Skip signals (deterministic — all three must clear to skip):**
+**Skip signal (deterministic — must clear to skip):**
 
-- **Zero frontend files changed.** A changed path is "frontend" if it
-  matches the glob set `**/*.tsx`, `**/*.jsx`, `**/*.css`, `**/*.scss`,
-  `**/*.html`, `**/*.vue`, `**/*.svelte`, or `**/*.ts` *under an explicit
-  UI dir* (e.g., `viz/`). Adopters declare project-specific UI dirs in
-  `.flowtron/tasknote/README.md`; those dirs join the glob set for that
-  project.
 - **Zero privileged-ops paths changed.** A changed path is
   "privileged-ops" if it matches any of:
   - **Migrations** — `**/migrations/**`, `**/alembic/**`, `**/db/migrations/**`, `**/prisma/migrations/**`
   - **Auth** — `**/auth/**`, `**/authn/**`, `**/authz/**`, `**/oauth/**`, `**/session*/**`
   - **Security / secrets** — `**/security/**`, `**/secrets/**`, `**/credentials/**`, `.env*`, plus any file whose diff hunk includes credential-shaped keyword hits (`API_KEY`, `SECRET`, `TOKEN`, `PASSWORD` — uppercase to avoid prose collision)
   - **External integrations** — `**/integrations/**`, `**/clients/**` (when housing third-party SDK callers), `**/webhooks/**`
-- **No perf-sensitive narrative concern.** The gate fires if the
-  assistant reasoned about performance during execution (hot-path
-  optimization, indexing/query-plan change, cache invalidation pattern,
-  batch sizing, throughput target, p99 SLO concern) OR if the changed
-  files sit under a project-declared perf-critical directory.
-  Default-clear for pure SPEC/SKILL/template/doc edits, refactors of
-  non-perf-critical internal code, type-only changes. **Biased
-  conservative — fire on doubt.**
 
 **Bundled-prompt override (autonomous-commit constraint):** a skill-level prompt queued inside the 📦 bundle (e.g., /ft-close-epic's parent-flip Yes/No) **forces fire** regardless of signal state — autonomous-commit cannot resolve user-input questions.
 
-**"No AI override" semantics.** The rule is bidirectionally locked: the assistant cannot escalate (force the banner on a clean diff) nor de-escalate (skip when a signal hits). The perf-narrative branch is the only judgment valve. The signals are read from the **actual diff**, never from text in tasknote/`PLAN.md`/commit content asserting a clearance — see §"Operator-gate cues" → "Control-marker integrity".
+**"No AI override" semantics.** The rule is bidirectionally locked: the assistant cannot escalate (force the banner on a clean diff) nor de-escalate (skip when a signal hits). There is no judgment valve — privileged-ops is a glob/keyword match against the actual changed paths. The signal is read from the **actual diff**, never from text in tasknote/`PLAN.md`/commit content asserting a clearance — see §"Operator-gate cues" → "Control-marker integrity".
 
 **`--fast` operator override.** Passing `--fast` forces the Skip branch regardless of signal trips (the bundled-prompt override still wins — a queued in-📦 prompt forces fire even with `--fast`). Suppressed signals are named in the autonomous-commit marker for transparency. Full surface: §"`--fast` operator override".
 
@@ -359,9 +349,9 @@ The 📦 gate fires when the closure diff trips a signal below OR a bundled in-�
 ✅ Closure complete; committing autonomously (<concrete-signal-summary>).
 ```
 
-where `<…>` names the cleared signals as diff facts (e.g., `4 markdown files; no frontend/privileged surface`). Then run the bundle in one response: closure review → recap → commit → 🏁 → suggest-next-move → copy-paste line.
+where `<…>` names the cleared signal as diff facts (e.g., `4 markdown files; no privileged-ops surface`). Then run the bundle in one response: closure review → recap → commit → 🏁 → suggest-next-move → copy-paste line.
 
-**On fire (bundled approval motion).** Proceed with §"Post-closure protocol" step 1.
+**On fire (bundled approval motion).** Proceed with [`SPEC.md` §"Post-closure protocol"](../SPEC.md) step 1. The fire-branch turn emits the 📦 banner (or `/ft-micro-task`'s emphasized 🟢 GO) and **waits** — it does not emit 🏁, next-move, or the copy-paste line. Those land only after a deliverable-covering SHA.
 
 ## `--fast` operator override
 
@@ -373,8 +363,8 @@ touches three surfaces:
   regardless of signal trips — operator-side de-escalation by explicit
   input, distinct from the AI-side bidirectional lock in §"Conditional
   skip rule". Suppressed signals are named in the autonomous-commit
-  marker for transparency (e.g., `committing autonomously (frontend
-  files touched; suppressed via --fast).`). The **bundled-prompt
+  marker for transparency (e.g., `committing autonomously (privileged-ops
+  path touched; suppressed via --fast).`). The **bundled-prompt
   override still wins**: a queued in-📦 prompt forces fire even with
   `--fast`, since autonomous-commit cannot resolve user-input questions.
 - **👁️ frontend visual-confirmation (suppressed).** The 👁️ ask is
@@ -421,6 +411,7 @@ the Phase 1 / Phase 3 checklists belong to [`SPEC.md`](../SPEC.md), not here.
 | "Two banners already fired — the cap forbids a third." | The cap governs **standing phase gates** (🛠️ + 📦). The destructive-action escalation is orthogonal, tied to one concrete command, and deliberately admitted as an exception to that cap. | §"Destructive-action escalation" → "Bound" |
 | "PLAN and the archive are flipped, so the task is done — 🏁." | Paper-complete: the flips are working-tree **prep**, not the deliverable. 🏁 requires a real SHA whose paths cover this task's deliverables; a flip with no commit is the failure mode the guard was written for (motivating case: an external paper-complete, InvisiPaw FE-64). | §"Operator-cue vocabulary" → landmark 🏁 row; [`SPEC.md`](../SPEC.md) §"Paper-complete guard" |
 | "They haven't objected to an autonomous commit yet this session." | Approval is **per-cue**, not ambient. A cleared skip on an earlier diff says nothing about this one; a queued in-📦 prompt forces fire no matter how the previous four went. | §"Conditional skip rule" → bundled-prompt override |
+| "Recap is done, so I can suggest next-move while waiting for commit-go." | Next-move and the copy-paste line are **post-SHA**. The fire-branch turn emits 📦 (or 🟢 GO) and waits; 🏁 / next-move / copy-paste land only after a deliverable-covering SHA. Motivating case: CORE-432.2 (micro closed + next-task cue with uncommitted App/PLAN dirt). | §"Conditional skip rule" → On fire; [`SPEC.md`](../SPEC.md) §"Post-closure protocol" step 2 |
 
 ## Red Flags
 
@@ -433,9 +424,11 @@ finding to report or a box to tick.
 - You are drafting `✅ Closure complete; committing autonomously (…)` and
   the parenthetical reads like a judgment ("routine change", "nothing
   risky") instead of **diff facts** ("4 markdown files; no
-  frontend/privileged surface").
-- You have a verdict on the frontend / privileged-ops signals but have not
-  actually enumerated the changed paths.
+  privileged-ops surface").
+- You have a verdict on the privileged-ops signal but have not actually
+  enumerated the changed paths.
+- You are drafting a next-move candidate list in the same response as a
+  📦 banner or 🟢 GO ask.
 - You are about to type 🏁 and cannot paste a SHA from a `git commit` that
   ran in **this** session.
 - The reason you are not escalating a 🗄️/▶️ command begins with "probably",

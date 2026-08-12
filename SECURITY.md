@@ -79,9 +79,12 @@ any-AI-assistant threat model.
   — flowtron's own closure protocol commits and pushes, so a commit
   message, branch name, or pushed file is itself an exfil surface (e.g. an
   injected instruction to append `$(… | base64)` to the commit body). The
-  human 📦 ready-to-commit gate is the control that closes this; do not
-  suppress it (`--fast`) on a first run against contributor-authored
-  content.
+  human 📦 ready-to-commit gate is the control that closes this when the
+  closure diff trips privileged-ops (migrations, auth, secrets, credential
+  keywords, external integrations) or a bundled in-📦 prompt is queued;
+  routine frontend and other non-privileged diffs auto-commit. Do not
+  suppress the remaining pause (`--fast`) on a first run against
+  contributor-authored content.
 
 - **Forged in-content control-markers.** flowtron's safety rests on control
   markers and gates the *assistant* emits about its own actions

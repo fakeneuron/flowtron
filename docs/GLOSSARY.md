@@ -26,7 +26,7 @@ Alphabetized. ~63 entries. Maintained via epic children and audits.
 
 **Closure (Phase 4)** — The final auto-run phase: mandatory doc-drift sweep, PLAN.md line flip to stub form + archive move, recap draft. Flows directly into the post-closure protocol. See SPEC §"🚀 Phase 4: Closure".
 
-**Conditional skip rule** — The deterministic three-signal test (zero frontend files changed, zero privileged-ops paths changed, no perf-narrative concern) plus bundled-prompt override that decides whether the 📦 ready-to-commit gate fires or the closure auto-commits. See SPEC/gates.md §"Conditional skip rule".
+**Conditional skip rule** — The deterministic privileged-ops path/keyword test plus bundled-prompt override that decides whether the 📦 ready-to-commit gate fires or the closure auto-commits. Frontend diffs and perf-narrative reasoning do not trip the gate. See SPEC/gates.md §"Conditional skip rule".
 
 **copy-paste line** — The post-closure "suggest next" helper: emoji primary label (`[heavy]🧠` / `[medium]🧩` / `[light]🔧`) + "design / moderate / mechanical" prose + shortname, followed by a tight "Clear your session, then run: /ft-task <next-ID>" cue whose label-line glyph matches the chosen candidate's 🔧/🧩/🧠 (never a default 🔧). Never emits literal `/model` or `/clear` commands.
 
@@ -98,11 +98,11 @@ Alphabetized. ~63 entries. Maintained via epic children and audits.
 
 **priority level** — The PLAN.md heading under which a task row lives (`## High`, `## Medium`, etc.). The `[!critical]` flag can float a row inside High. See SPEC §"Priority levels".
 
-**privileged-ops** — One of the three Conditional skip signals: any changed path under migrations/, auth/, security/secrets/, credentials/, or external integrations/, plus any diff containing uppercase credential keywords (`API_KEY`, `SECRET`, `TOKEN`, `PASSWORD`). See SPEC/gates.md §"Conditional skip rule".
+**privileged-ops** — The Conditional skip signal: any changed path under migrations/, auth/, security/secrets/, credentials/, or external integrations/, plus any diff containing uppercase credential keywords (`API_KEY`, `SECRET`, `TOKEN`, `PASSWORD`). See SPEC/gates.md §"Conditional skip rule".
 
 **probe** — A bounded, read-only sub-agent that answers one stated question for the session holding the tasknote. It owns no tasknote, never runs Phase 1, never trips a gate, and never closes or archives anything — it reads, searches, returns a distilled summary, and ends, so the parent's Discovery Notes get the findings instead of fifty tool calls. Judgment prompt, not a gate: skipping is always correct for a narrow read set. Brief + fixed return shape at `templates/subagent-probe-template.md`; contrast delegate. See SPEC §"📝 Phase 1: Discovery" and README.md §"Sessions, loops, and sub-agents".
 
-**ready-to-commit (📦)** — The second (and final) operator-gate cue; bundles closure review, recap, and proposed commit message. Fires when any Conditional skip signal is hit or a bundled prompt is queued. See SPEC §"Operator-gate cues".
+**ready-to-commit (📦)** — The second (and final) operator-gate cue; bundles closure review, recap, and proposed commit message. Fires when the privileged-ops signal is hit or a bundled prompt is queued. See SPEC §"Operator-gate cues".
 
 **Relevance Assessment** — The non-negotiable first substantive step of Phase 1 Discovery: explicit `Proceed` / `Re-scope` / `De-scope` verdict with one-line rationale. Re-scope or De-scope change the plan before any execution. See SPEC §"📝 Phase 1: Discovery".
 

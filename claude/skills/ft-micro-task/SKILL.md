@@ -112,12 +112,18 @@ Closure flips three things — YAML `status:`, the PLAN.md line, and the tasknot
 
 ## Step 5 — Post-closure protocol
 
-Run the protocol per SPEC §"Post-closure protocol" + §"Paper-complete guard", branching on SPEC/gates.md §"Conditional skip rule". `/ft-micro-task` carries no 📦 banner — its commit-go is a prose ask, not a banner block — but the same rule applies. Stage deliverables + PLAN + archive together; 🏁 only after a real deliverable-covering SHA (`git show --name-only`); never invent a SHA. Paper-complete guard is **not** suppressed by `--fast`.
+Run the protocol per SPEC §"Post-closure protocol" + §"Paper-complete guard", branching on SPEC/gates.md §"Conditional skip rule". `/ft-micro-task` carries no 📦 banner — its commit-go is the emphasized 🟢 GO ask, not a banner block — but the same rule applies. Stage deliverables + PLAN + archive together; 🏁 only after a real deliverable-covering SHA (`git show --name-only`); never invent a SHA. Paper-complete guard is **not** suppressed by `--fast`.
 
-- **Skip branch** (signals clear) — emit `✅ Closure complete; committing autonomously (<concrete-signal-summary>).` (e.g., `single-file doc patch; no frontend/privileged surface`), then run recap + commit + deliverable-covering check + 🏁 state-marker + suggest-next-move + copy-paste line in one response. Micro-tasknotes hit this branch often by design — their threshold aligns with the rule's clean-diff target.
-- **Fire branch** (any signal hits) — surface the prose commit-go ask ("Ready to commit? Reply `commit`/`go`/`yes`."). Never commit unprompted. After commit + deliverable-covering check, same continuous flow.
+- **Skip branch** (signals clear) — emit `✅ Closure complete; committing autonomously (<concrete-signal-summary>).` (e.g., `single-file doc patch; no privileged-ops surface`), then run recap + commit + deliverable-covering check + 🏁 state-marker + suggest-next-move + copy-paste line in one response. Micro-tasknotes hit this branch often by design — their threshold aligns with the rule's clean-diff target.
+- **Fire branch** (privileged-ops signal hits) — surface the emphasized 🟢 GO ask and **wait**. Do **not** emit 🏁, next-move, or the copy-paste line in this turn:
 
-**`--fast` override.** When `fast-mode = true` (from Step 0), force the Skip branch regardless of signal trips. Name the suppressed signals in the marker for transparency (e.g., `✅ Closure complete; committing autonomously (frontend files touched; suppressed via --fast).`).
+  ```markdown
+  🟢 **GO** — Ready to commit? Reply `commit` / `go` / `yes`.
+  ```
+
+  After commit + deliverable-covering check, same continuous flow as the skip branch's post-commit tail.
+
+**`--fast` override.** When `fast-mode = true` (from Step 0), force the Skip branch regardless of signal trips. Name the suppressed signals in the marker for transparency (e.g., `✅ Closure complete; committing autonomously (privileged-ops path touched; suppressed via --fast).`).
 
 Skill-specific:
 - **Commit message:** `feat: <TASK-ID> — <title>` (or `fix:` / `docs:` / `chore:`). Scaffold + closure typically bundle into one commit alongside the code/doc change.
