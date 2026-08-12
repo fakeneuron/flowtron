@@ -43,6 +43,8 @@ ln -s <path-to-flowtron-checkout>/claude/commands/<skill>.md  ~/.claude/commands
 
 The symlinks point at flowtron's working tree, so they pick up flowtron edits immediately rather than tracking a versioned submodule. To pin a specific version of a skill, copy the files instead of symlinking and re-copy on bump.
 
+Install these **one at a time, from the table above**. An agent home carries only these global-only utilities; anything a project already wires repo-scoped through `.flowtron/core/` must not also be installed globally, or it enumerates twice in every session — see [`PLATFORMS.md`](PLATFORMS.md) §"One canonical install path per project".
+
 If you don't have the skill installed, follow §1.1–1.7 manually below — the skill is a convenience wrapper, not a requirement.
 
 ### 1.1 Add flowtron as a submodule
@@ -195,32 +197,38 @@ Optional section — skip entirely if you don't want structured audit skills.
 
 The canonical skill and command definitions live in `claude/skills/` and `claude/commands/` at the root of this checkout. The in-repo `.claude/` directory is gitignored (see root `.gitignore`) and must never contain committed per-machine wiring.
 
-For live editing with immediate effect in your AI coding agent:
+For live editing with immediate effect, wire this checkout's own `.claude/`. The repo-scoped install is the canonical one ([`PLATFORMS.md`](PLATFORMS.md) §"One canonical install path per project"), and because its symlinks point into this tree, an edit to `claude/skills/` is live in the next session:
 
 ```sh
-# One-time (or after adding a new skill/command)
-ln -s ~/code/flowtron/claude/skills/*       ~/.claude/skills/
-ln -s ~/code/flowtron/claude/commands/*.md  ~/.claude/commands/
+# From the flowtron repo root (one-time, or after adding a skill/command)
+mkdir -p .claude/commands .claude/skills
+ln -s ../../claude/commands/*.md .claude/commands/
+ln -s ../../claude/skills/*      .claude/skills/
 ```
 
-Use the same global pattern shown in §1.0 for the thin utility skills. This is the supported way to get hot-reload behavior when you are the one modifying the `ft-*` family itself. The `ft-` prefix remains flowtron's reserved namespace.
+The relative `../../` paths are clone-location independent, and the symlinks land under the ignored `.claude/` directory, so they never enter git history. This gives the complete `/ft-*` surface (all audit variants, worktree pair, release, stats, new-project, etc.) to any agent started inside the tree. It is expected rather than optional: [`PLATFORMS.md`](PLATFORMS.md) §"Installed-surface policy" treats a shipped `ft-*` slug with no `.claude/` symlink as a wiring miss, and `/ft-release` §7.1 checks for one. The glob also wires `/ft-update`, which is intentional — the skill is adopter-only but bails in flowtron-self with a clear message rather than silently misbehaving, so wiring it here is harmless. The `ft-` prefix remains flowtron's reserved namespace.
+
+Codex maintainers wire the same way, from the parallel wrapper inventory:
+
+```sh
+mkdir -p .agents/skills
+ln -s ../../codex/skills/* .agents/skills/
+```
+
+`.agents/` is gitignored alongside `.claude/` (see root `.gitignore`), so this stays per-machine too.
 
 The canonical `claude/skills/ft-audit/` directory (`SKILL.md` + `passes/`) is the **stack-neutral scaffold** of §1.2.1 — it intentionally retains the §0 forker checklist and placeholder globs/rubrics so adopters (and flowtron's own release tooling) can fork it. It is **not** a pre-filled flowtron-self specialization. Auditing flowtron itself therefore supplies scope at invocation time: `/ft-audit <domain>` with no baked-in default stops and asks for a target (e.g. `viz/src/**` for the React app, or a docs path), then runs that domain's five passes against it — the verification gates are the `viz` `npm` scripts (`lint`, `typecheck`, `test`) plus the portable `node --test tools/update-adopters.test.mjs` suite. If you audit this tree often, keep a local-only fork under the gitignored `.claude/skills/audit/` (fill in the `viz` glob + those three gates); like everything under `.claude/`, it stays per-machine and never enters git history.
 
-**Optional: local `.claude/` wiring when cwd is the flowtron checkout**
+**Machine-global installs: utilities only**
 
-If your AI coding sessions often have `cwd` inside this checkout (as opposed to adopter projects), you can populate a *local* (still fully ignored) copy of the wiring instead of or alongside the global `~/.claude/`:
+Do **not** glob the shipped inventory into an agent home. `~/.claude/skills/` and `~/.agents/skills/` carry only the global-only utilities — the skills you need *before* a project is wired, or *outside* any flowtron checkout — installed one at a time with the §1.0 shape:
 
 ```sh
-# From the flowtron repo root (one-time, or after adding a skill)
-mkdir -p .claude/commands .claude/skills
-ln -s ../../claude/commands/*.md .claude/commands/
-ln -s ../../claude/skills/* .claude/skills/
+ln -s ~/code/flowtron/claude/skills/<skill>       ~/.claude/skills/<skill>
+ln -s ~/code/flowtron/claude/commands/<skill>.md  ~/.claude/commands/<skill>.md
 ```
 
-The relative `../../` paths are clone-location independent. The symlinks land under the ignored `.claude/` directory, so they never enter git history. This gives the complete `/ft-*` surface (all audit variants, worktree pair, release, stats, new-project, etc.) for any agent started while inside the tree. The glob also wires `/ft-update`, which is intentional — the skill is adopter-only but bails in flowtron-self with a clear message rather than silently misbehaving, so wiring it here is harmless.
-
-The global form above is still the right choice when you want a single `~/.claude/` that serves flowtron + every adopter project on the machine.
+Globally installing a slug the repo-scoped wiring above already provides makes it enumerate twice in every session's skill roster, because project scope and user scope are counted separately. The rule and its second failure mode — cross-agent slug shadowing in `~/.agents/skills/`, which is read by Codex, Claude Code, and Cursor alike — are canonical in [`PLATFORMS.md`](PLATFORMS.md) §"One canonical install path per project".
 
 ### 1.3 Paste the workflow block into `AGENTS.md`
 

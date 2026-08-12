@@ -49,10 +49,17 @@ project deliberately bumps flowtron. Existing symlinks do not need rewiring on
 a normal version bump; newly shipped adopter-subset skills may need new symlinks.
 
 For flowtron maintainers who want hot-reload behavior while editing this
-checkout, symlink the upstream skill inventory into the user skill directory
-instead:
+checkout, wire the wrapper inventory **repo-scoped**, from the checkout root:
 
 ```sh
-mkdir -p ~/.agents/skills
-ln -s ~/code/flowtron/codex/skills/* ~/.agents/skills/
+mkdir -p .agents/skills
+ln -s ../../codex/skills/* .agents/skills/
 ```
+
+Do **not** glob the inventory into `~/.agents/skills/`. That directory is read by
+Codex, Claude Code, and Cursor alike, and same-named skills resolve by slug
+without regard to which platform authored the body — so a globally installed
+Codex wrapper can be served to an agent it was not written for. The agent home
+carries only the global-only utilities, installed one at a time, and only on a
+machine where Codex is the driver. Canonical rule:
+`../docs/PLATFORMS.md` §"One canonical install path per project".

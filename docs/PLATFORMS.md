@@ -83,8 +83,40 @@ including the global-only utilities and `ft-release`. A shipped `ft-*` slug with
 no `.claude/` symlink is a wiring miss, not a policy choice; that is the exact
 gap that left `/ft-spec` unrunnable in flowtron's own checkout for a month after
 it shipped. Machine-global `~/.claude/` installs stay discretionary per
-[`MIGRATION.md`](MIGRATION.md) §1.0 — only *broken* links there are drift.
-`/ft-release` §7.1 verifies both surfaces.
+[`MIGRATION.md`](MIGRATION.md) §1.0 — but *discretionary* governs **which**
+utilities you install, not how many copies of a slug exist; see the rule below.
+Only *broken* links there are drift. `/ft-release` §7.1 verifies both surfaces.
+
+### One canonical install path per project
+
+The categories above say *which* skills install where. This says **how many
+times**: once. Repo-scoped wiring is canonical — the copy that should run is the
+one wired into the project you are working in, whether that is an adopter's
+`.claude/skills/` or `.agents/skills/` pinned through `.flowtron/core/`, or
+flowtron's own full mirror. An agent home (`~/.claude/skills`,
+`~/.agents/skills`, or the platform equivalent) therefore carries **only the
+global-only utilities**. The adopter-installed subset and `ft-release` are never
+installed globally, because every repo that can use them already wires them
+repo-scoped.
+
+Two agent behaviours make this a correctness rule rather than tidiness:
+
+- **Project scope and user scope enumerate separately.** A slug present in both
+  is listed twice in the session's skill roster. Globbing the shipped inventory
+  into an agent home *and* wiring it repo-scoped therefore doubles flowtron's
+  footprint in every session before any work starts — measured at 36 roster
+  entries for 18 skills in a flowtron-self session ([[CORE-439]]).
+- **User-scope collisions resolve by slug, not by body.** Where an agent reads
+  more than one home directory, a same-named skill in one shadows the other with
+  no regard for which platform authored it. `~/.agents/skills/` is read by Codex,
+  Claude Code, and Cursor alike, so a globally installed `codex/skills/` wrapper
+  can be served to an agent it was not written for — and those wrappers carry
+  Codex-specific instructions (degrade a structured ask to prose) that are wrong
+  on a platform with a native one. Install Codex wrappers in an agent home only
+  on a machine where Codex is the driver, and only the utility set.
+
+The rule binds new platform wiring too: a platform's `AGENTS-snippet.md` adds a
+repo-scoped install path, not another global one.
 
 ## The symmetric plug-in pattern
 
