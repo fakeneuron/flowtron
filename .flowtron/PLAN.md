@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **FE-086** [medium]🧩 | viz-completed-bucket — Completed tasks stay in their priority buckets in the viz instead of moving to Completed; investigate grouping (heading vs checkbox) and fix so done work lands in Completed.
 
 ## Low
 
