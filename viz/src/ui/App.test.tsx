@@ -1026,3 +1026,95 @@ describe('App — near-miss heading diagnostics (CORE-425.3)', () => {
     expect(screen.queryByText(/near-miss heading/)).not.toBeInTheDocument();
   });
 });
+
+function sectionHeadingOf(id: string): string | null {
+  const row = document.getElementById(`row-${id}`);
+  return (
+    row?.closest('section')?.querySelector('button > span.text-base')?.textContent ?? null
+  );
+}
+
+describe('App — completed-bucket grouping (FE-086)', () => {
+  beforeEach(() => {
+    window.localStorage.clear();
+  });
+
+  it('renders a top-level [x] row in Completed even when its heading is still Medium', async () => {
+    const plan = `## Medium
+
+- [x] **CORE-1** | done — Completed 2026-08-01.
+- [ ] **CORE-2** | open — Still open
+`;
+    renderApp({ plan });
+    await waitFor(() => expect(screen.getByText('CORE-1')).toBeInTheDocument());
+
+    expect(sectionHeadingOf('CORE-1')).toBe('Completed');
+    expect(sectionHeadingOf('CORE-2')).toBe('Medium');
+  });
+
+  it('keeps a mixed epic in its heading; completed children stay nested, not top-level Completed', async () => {
+    const plan = `## Medium
+
+- [ ] **CORE-EPIC-1** | epic — Parent still open
+- [x] **CORE-1.1** | done-child — Completed 2026-08-01.
+- [ ] **CORE-1.2** | open-child — Still open
+`;
+    renderApp({ plan });
+    await waitFor(() => expect(screen.getByText('CORE-EPIC-1')).toBeInTheDocument());
+
+    expect(sectionHeadingOf('CORE-EPIC-1')).toBe('Medium');
+    expect(sectionHeadingOf('CORE-1.1')).toBe('Medium');
+    expect(document.getElementById('row-CORE-1.1')?.closest('#row-CORE-EPIC-1')).not.toBeNull();
+  });
+
+  it('evicts a checked Medium row from the board Medium column into below-board Completed', async () => {
+    window.localStorage.setItem('flowtron-viz-view', 'board');
+    const plan = `## High
+
+- [ ] **CORE-3** | high — High task
+
+## Medium
+
+- [x] **CORE-1** | done — Completed 2026-08-01.
+- [ ] **CORE-2** | open — Still open
+`;
+    renderApp({ plan });
+    await waitFor(() => expect(screen.getByText('CORE-2')).toBeInTheDocument());
+
+    const boardContainer = document.querySelector('.overflow-x-auto') as HTMLElement;
+    expect(boardContainer).not.toBeNull();
+    expect(within(boardContainer).queryByText('CORE-1')).toBeNull();
+    expect(within(boardContainer).getByText('CORE-2')).toBeInTheDocument();
+    expect(sectionHeadingOf('CORE-1')).toBe('Completed');
+  });
+
+  it('navigateToTask uncollapses Completed when jumping to a checked standalone still filed under Medium', async () => {
+    const scrollSpy = vi.spyOn(Element.prototype, 'scrollIntoView').mockImplementation(() => {});
+    const user = userEvent.setup();
+    const plan = `## Medium
+
+- [x] **CORE-1** | done — Completed 2026-08-01.
+
+## High
+
+- [ ] **CORE-2** | jumper — Has [[CORE-1]] in related.
+`;
+    renderApp({ plan });
+    await waitFor(() => expect(screen.getByText('CORE-2')).toBeInTheDocument());
+
+    const completedToggle = document
+      .getElementById('row-CORE-1')!
+      .closest('section')!
+      .querySelector('button');
+    expect(completedToggle).toHaveAttribute('aria-expanded', 'false');
+
+    await user.click(screen.getByRole('button', { name: /CORE-2/, expanded: false }));
+    const wikilink = await screen.findByRole('button', { name: /\[\[CORE-1\]\]/ }, { timeout: 4000 });
+    await user.click(wikilink);
+
+    await waitFor(() => expect(completedToggle).toHaveAttribute('aria-expanded', 'true'));
+    await waitFor(() =>
+      expect(scrollSpy).toHaveBeenCalledWith({ behavior: 'smooth', block: 'center' }),
+    );
+  }, 10_000);
+});

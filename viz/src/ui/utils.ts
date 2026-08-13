@@ -1,4 +1,4 @@
-import type { Task } from '../parser';
+import type { Priority, Task } from '../parser';
 import type { Tasknote, TasknoteStatus } from '../tasknote';
 import type { PaletteTokens } from './constants';
 
@@ -25,6 +25,14 @@ export function groupBy<T, K extends string | number>(
 export function effectiveStatus(task: Task, tn: Tasknote | undefined): TasknoteStatus | null {
   if (task.completed) return 'completed';
   return tn?.frontmatter?.status ?? null;
+}
+
+// Display bucket for list/board grouping. Heading (`task.priority`) is
+// provenance — where the row is filed. Checkbox overlay moves a top-level
+// `[x]` into Completed even when the heading hasn't moved yet (FE-086).
+// Epic children are not grouped independently (`groupTasks` nests them).
+export function displaySection(task: Task): Priority {
+  return task.completed ? 'Completed' : task.priority;
 }
 
 // Version-currency of an adopter's pinned flowtron release vs the latest

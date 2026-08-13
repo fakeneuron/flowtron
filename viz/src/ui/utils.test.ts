@@ -1,5 +1,39 @@
 import { describe, expect, it } from 'vitest';
-import { splitHighlight, versionCurrency } from './utils';
+import type { Task } from '../parser';
+import { displaySection, splitHighlight, versionCurrency } from './utils';
+
+const task = (overrides: Partial<Task> = {}): Task => ({
+  id: 'CORE-1',
+  description: 'x',
+  priority: 'Medium',
+  critical: false,
+  completed: false,
+  relatedTasks: [],
+  blockedBy: [],
+  ...overrides,
+});
+
+describe('displaySection', () => {
+  it('keeps an open row in its PLAN.md heading', () => {
+    expect(displaySection(task({ priority: 'High', completed: false }))).toBe('High');
+    expect(displaySection(task({ priority: 'Future Opportunities', completed: false }))).toBe(
+      'Future Opportunities',
+    );
+  });
+
+  it('moves a checked row to Completed regardless of heading', () => {
+    expect(displaySection(task({ priority: 'Medium', completed: true }))).toBe('Completed');
+    expect(displaySection(task({ priority: 'Low', completed: true }))).toBe('Completed');
+  });
+
+  it('leaves a checked row already under Completed in Completed', () => {
+    expect(displaySection(task({ priority: 'Completed', completed: true }))).toBe('Completed');
+  });
+
+  it('keeps an open row under ## Completed in Completed (heading still wins when unchecked)', () => {
+    expect(displaySection(task({ priority: 'Completed', completed: false }))).toBe('Completed');
+  });
+});
 
 describe('versionCurrency', () => {
   it('is current when the pinned version equals the latest release', () => {

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { groupBy, effectiveStatus } from './utils';
+import { displaySection, groupBy, effectiveStatus } from './utils';
 import {
   getSubtaskParentEpicId,
   groupTasks,
@@ -149,7 +149,7 @@ export const App: React.FC = () => {
   );
 
   const bySection = useMemo(() => {
-    const grouped = groupBy(filteredNodes, (n) => n.task.priority);
+    const grouped = groupBy(filteredNodes, (n) => displaySection(n.task));
     const high = grouped.High;
     if (high && high.length > 1) {
       // Critical-flagged tasks rise to the top of High (FE-044). Stable sort
@@ -231,13 +231,15 @@ export const App: React.FC = () => {
     (id: string) => {
       const target = tasks.find((t) => t.id === id);
       if (target) {
+        const epicId = getSubtaskParentEpicId(id);
+        const parent = epicId ? tasks.find((t) => t.id === epicId) : undefined;
+        const section = displaySection(parent ?? target);
         setCollapsedSections((prev) => {
-          if (!prev.has(target.priority)) return prev;
+          if (!prev.has(section)) return prev;
           const next = new Set(prev);
-          next.delete(target.priority);
+          next.delete(section);
           return next;
         });
-        const epicId = getSubtaskParentEpicId(id);
         if (epicId) {
           setExpandedEpicIds((prev) => {
             if (prev.has(epicId)) return prev;
