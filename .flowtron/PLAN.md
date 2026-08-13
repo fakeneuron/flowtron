@@ -11,7 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **FE-087** [medium] | plan-parse-near-miss — Tighten viz PLAN parser for adopter near-misses: lettered subtasks (FE-310.3a), nested decimals (FE-067.2.1), [!critical] after the model glyph, and stop flagging bare checkbox bullets as failed tasks. Surfaced by fleet viz diagnostics.
+(none)
 
 ## Medium
 
@@ -25,6 +25,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 
 ## Completed
+
+- [x] **FE-087** [medium] | plan-parse-near-miss — Completed 2026-08-13.
 
 - [x] **FE-086** [medium]🧩 | viz-completed-bucket — Completed 2026-08-13.
 

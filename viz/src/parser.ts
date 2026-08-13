@@ -49,9 +49,11 @@ const LEGACY_CRITICAL_HEADING = 'Critical';
 // grammar — including the three FE-066 tolerances below — is independently
 // readable and diffable. Fragment order below is left-to-right match order;
 // concatenation order in the `new RegExp(...)` call must match it exactly.
-// Capture groups, in order: mark, id, criticalRaw, modelRaw, shortnameRaw,
-// longRaw. The three FE-066 tolerances are all non-capturing, so they add no
-// group and the destructure at the call site is unaffected:
+// Capture groups, in order: mark, id, criticalRaw, modelRaw, criticalAfter,
+// shortnameRaw, longRaw. The three FE-066 tolerances are all non-capturing;
+// CRITICAL_FLAG_AFTER is the FE-087 swapped-order capture (canonical
+// CRITICAL_FLAG stays group 3; this is group 5 so a `[model] [!critical]`
+// row — including after a suggestion glyph — still sets `critical`):
 //   1. STATUS_GLYPH — leading status glyph between the checkbox and the ID
 //      (`- [ ] ⏸ **ID**`) — the nav-header chip set 🟢/⏸/✅/⚪/🌱.
 //   2. STACKED_MODEL_TOKENS — stacked `[model]` tokens (`[fable] [light]`) —
@@ -62,13 +64,24 @@ const LEGACY_CRITICAL_HEADING = 'Critical';
 //      decorative, redundant with the model tier, dropped.
 // Emoji are matched via alternation (not a char class) so astral-plane glyphs
 // match correctly without the `u` flag; an optional trailing VS16 is tolerated.
+//
+// TASK_ID_BODY (FE-087) is the shared ID shape: canonical SPEC
+// `<AREA>-<NUMBER>` / `<AREA>-EPIC-<NUMBER>` / one `.(digits|N)` subtask
+// slot, plus two adopter near-misses — a lowercase letter suffix on a
+// numeric segment (`FE-310.3a`) and repeating decimals (`FE-067.2.1`).
+// Threaded through TASK_ID, WIKILINK_PATTERN, BLOCKED_BY_BLOCK, and
+// ID_SHAPE_CASE_INSENSITIVE so the five regex slots stay in lockstep
+// (CORE-333 precedent). Not canonical authoring — new entries still use
+// SPEC §"Task ID convention".
 const BULLET_CHECKBOX = String.raw`^\s*-\s+\[([ xX])\]\s+`;
 const STATUS_GLYPH = String.raw`(?:(?:🟢|⏸|✅|⚪|🌱)\uFE0F?\s+)?`;
-const TASK_ID = String.raw`\*\*([A-Z]+(?:-EPIC)?-\d+(?:\.(?:\d+|N))?)\*\*`;
+const TASK_ID_BODY = String.raw`[A-Z]+(?:-EPIC)?-\d+(?:\.(?:\d+[a-z]?|N))*`;
+const TASK_ID = String.raw`\*\*(${TASK_ID_BODY})\*\*`;
 const CRITICAL_FLAG = String.raw`(?:\s+\[(!critical)\])?`;
 const MODEL_TOKEN = String.raw`(?:\s+\[([a-z][\w.-]*)\])?`;
 const STACKED_MODEL_TOKENS = String.raw`(?:\s+\[[a-z][\w.-]*\])*`;
 const SUGGESTION_GLYPH = String.raw`(?:\s*(?:🧠|🔧|🧩)\uFE0F?)?`;
+const CRITICAL_FLAG_AFTER = CRITICAL_FLAG;
 const SHORTNAME = String.raw`(?:\s+\|\s+([^\n]+?))?`;
 const LONG_DESCRIPTION = String.raw`(?:\s+[—-]\s+([^\n]+?))?\s*$`;
 const TASK_LINE = new RegExp(
@@ -79,6 +92,7 @@ const TASK_LINE = new RegExp(
     MODEL_TOKEN +
     STACKED_MODEL_TOKENS +
     SUGGESTION_GLYPH +
+    CRITICAL_FLAG_AFTER +
     SHORTNAME +
     LONG_DESCRIPTION
 );
@@ -136,9 +150,14 @@ function cleanDescription(raw: string): string {
 // A wikilink that appears inside a `Blocked by` block lands in `blockedBy` only;
 // the same ID elsewhere in the description is excluded from `relatedTasks` to
 // avoid double-rendering (blocker is the stronger signal).
-export const WIKILINK_PATTERN = /\[\[([A-Z]+(?:-EPIC)?-\d+(?:\.(?:\d+|N))?)\]\]/g;
-const BLOCKED_BY_BLOCK =
-  /Blocked by\s+(\[\[[A-Z]+(?:-EPIC)?-\d+(?:\.(?:\d+|N))?\]\](?:\s*,\s*\[\[[A-Z]+(?:-EPIC)?-\d+(?:\.(?:\d+|N))?\]\])*)/g;
+export const WIKILINK_PATTERN = new RegExp(
+  String.raw`\[\[(${TASK_ID_BODY})\]\]`,
+  'g'
+);
+const BLOCKED_BY_BLOCK = new RegExp(
+  String.raw`Blocked by\s+(\[\[${TASK_ID_BODY}\]\](?:\s*,\s*\[\[${TASK_ID_BODY}\]\])*)`,
+  'g'
+);
 const CODE_SPAN = /`[^`]*`/g;
 
 function stripCodeSpans(text: string): string {
@@ -175,7 +194,7 @@ export interface DuplicateEpic {
 }
 
 const EPIC_ID = /^([A-Z]+)-EPIC-(\d+)$/;
-const SUBTASK_ID = /^([A-Z]+)-(\d+)\.(?:\d+|N)$/;
+const SUBTASK_ID = /^([A-Z]+)-(\d+)\.(?:\d+[a-z]?|N)(?:\.(?:\d+[a-z]?|N))*$/;
 
 function epicKey(id: string): string | null {
   const m = EPIC_ID.exec(id);
@@ -291,7 +310,7 @@ const LEGACY_LABEL_LINE =
 // as a hand-authoring typo and must keep surfacing as unparsed — only a token
 // with no letter-dash-digit structure at all (checked case-insensitively) is
 // eligible for the legacy exclusion above.
-const ID_SHAPE_CASE_INSENSITIVE = /^[A-Za-z]+(?:-EPIC)?-\d+(?:\.(?:\d+|N))?$/;
+const ID_SHAPE_CASE_INSENSITIVE = new RegExp(`^${TASK_ID_BODY}$`, 'i');
 
 // HTML comments (`<!-- ... -->`, possibly multi-line) are non-rendered content:
 // checkbox lines inside them — typically a grammar-reference example carrying a
@@ -345,14 +364,17 @@ export function parsePlanWithDiagnostics(markdown: string): PlanParseResult {
           legacyMatch !== null &&
           (legacyMatch[1] === 'x' || legacyMatch[1] === 'X') &&
           !ID_SHAPE_CASE_INSENSITIVE.test(legacyMatch[2]);
-        if (!isLegacyRecord) {
+        // FE-087: a checkbox with no ID emphasis (`*` / `**`) is a prose
+        // checklist item, not a failed task. Genuine ID near-misses still
+        // carry asterisks (`*FE-064*`, `**fe-065**`) and keep flagging.
+        if (!isLegacyRecord && line.includes('*')) {
           unparsed.push({ line: i + 1, text: line.trim() });
         }
       }
       continue;
     }
 
-    const [, mark, id, criticalRaw, modelRaw, shortnameRaw, longRaw] = m;
+    const [, mark, id, criticalRaw, modelRaw, criticalAfter, shortnameRaw, longRaw] = m;
     const completed = mark === 'x' || mark === 'X';
     const longText = longRaw ?? '';
     const dateMatch = COMPLETED_DATE.exec(longText);
@@ -363,7 +385,7 @@ export function parsePlanWithDiagnostics(markdown: string): PlanParseResult {
       id,
       description: longText ? cleanDescription(longText) : '',
       priority: currentPriority,
-      critical: criticalRaw === '!critical' || legacyCriticalSection,
+      critical: criticalRaw === '!critical' || criticalAfter === '!critical' || legacyCriticalSection,
       completed,
       completedDate: dateMatch ? dateMatch[1] : undefined,
       model: modelRaw as TaskModel | undefined,

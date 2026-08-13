@@ -81,6 +81,35 @@ describe('parsePlan', () => {
     expect(t.blockedBy).toEqual([]);
   });
 
+  // FE-087: adopter near-miss IDs — lettered subtask suffix + nested decimals.
+  it('parses a lettered subtask id (FE-310.3a)', () => {
+    const md = `## High\n\n- [ ] **FE-310.3a** [medium] | lettered — adopter subtask suffix.\n`;
+    const t = parsePlan(md)[0];
+    expect(t).toMatchObject({
+      id: 'FE-310.3a',
+      model: 'medium',
+      shortname: 'lettered',
+      description: 'adopter subtask suffix',
+    });
+  });
+
+  it('parses a nested-decimal id (FE-067.2.1)', () => {
+    const md = `## Medium\n\n- [ ] **FE-067.2.1** [light] | nested — adopter nested decimal.\n`;
+    const t = parsePlan(md)[0];
+    expect(t).toMatchObject({
+      id: 'FE-067.2.1',
+      model: 'light',
+      shortname: 'nested',
+      description: 'adopter nested decimal',
+    });
+  });
+
+  it('extracts lettered and nested-decimal wikilinks into relatedTasks', () => {
+    const md = `## High\n\n- [ ] **CORE-001** — See [[FE-310.3a]] and [[FE-067.2.1]].\n`;
+    const t = parsePlan(md)[0];
+    expect(t.relatedTasks).toEqual(['FE-310.3a', 'FE-067.2.1']);
+  });
+
   it('skips task-shaped lines outside known section headings', () => {
     const md = `## Vision
 
@@ -367,6 +396,32 @@ describe('parsePlan', () => {
     expect(t.description).toBe('Production breakage');
   });
 
+  // FE-087: swapped flag order is a viz tolerance, not canonical authoring.
+  it('parses [!critical] after [model] and still sets critical', () => {
+    const md = `## High\n\n- [ ] **FE-100** [opus] [!critical] | hotfix — Production breakage.\n`;
+    const t = parsePlan(md)[0];
+    expect(t.critical).toBe(true);
+    expect(t.model).toBe('opus');
+    expect(t.shortname).toBe('hotfix');
+    expect(t.description).toBe('Production breakage');
+  });
+
+  it('parses [!critical] after stacked [model] tokens', () => {
+    const md = `## High\n\n- [ ] **FE-100** [fable] [light] [!critical] — Urgent stacked.\n`;
+    const t = parsePlan(md)[0];
+    expect(t.critical).toBe(true);
+    expect(t.model).toBe('fable');
+    expect(t.description).toBe('Urgent stacked');
+  });
+
+  it('parses [!critical] after a model-suggestion glyph', () => {
+    const md = `## High\n\n- [ ] **FE-100** [medium]🧩 [!critical] | hotfix — After glyph.\n`;
+    const t = parsePlan(md)[0];
+    expect(t.critical).toBe(true);
+    expect(t.model).toBe('medium');
+    expect(t.shortname).toBe('hotfix');
+  });
+
   it('soft-migrates a legacy `## Critical` heading to priority=High with critical=true on every row', () => {
     const md = `## Critical\n\n- [ ] **CORE-99** [opus] | hotfix — Production breakage.\n\n## High\n\n- [ ] **CORE-100** [opus] | normal — Routine work.\n`;
     const tasks = parsePlan(md);
@@ -414,6 +469,42 @@ describe('parsePlanWithDiagnostics', () => {
     const { tasks, unparsed } = parsePlanWithDiagnostics(md);
     expect(tasks).toHaveLength(1);
     expect(unparsed).toEqual([]);
+  });
+
+  // FE-087: a checkbox with no ID emphasis is a prose checklist, not a failed task.
+  it('does not flag a bare checkbox bullet as unparsed', () => {
+    const md = `## High
+
+- [ ] **CORE-001** — real task
+- [ ] follow up with the adopter
+- [x]
+`;
+    const { tasks, unparsed } = parsePlanWithDiagnostics(md);
+    expect(tasks.map((t) => t.id)).toEqual(['CORE-001']);
+    expect(unparsed).toEqual([]);
+  });
+
+  it('does not flag lettered or nested-decimal ids as unparsed', () => {
+    const md = `## High
+
+- [ ] **FE-310.3a** [medium] | lettered — adopter subtask
+- [ ] **FE-067.2.1** [light] | nested — adopter nested decimal
+`;
+    const { tasks, unparsed } = parsePlanWithDiagnostics(md);
+    expect(tasks.map((t) => t.id)).toEqual(['FE-310.3a', 'FE-067.2.1']);
+    expect(unparsed).toEqual([]);
+  });
+
+  it('still flags a letter-only decimal segment as unparsed (not \\d+[a-z]?)', () => {
+    const md = `## High
+
+- [ ] **FE-310.a** — letter without leading digits
+`;
+    const { tasks, unparsed } = parsePlanWithDiagnostics(md);
+    expect(tasks).toEqual([]);
+    expect(unparsed).toEqual([
+      { line: 3, text: '- [ ] **FE-310.a** — letter without leading digits' },
+    ]);
   });
 
   // CORE-336: checkbox lines inside an HTML comment (e.g. the trailing
@@ -712,6 +803,18 @@ describe('groupTasks', () => {
     expect(nodes).toHaveLength(1);
     expect(nodes[0].task.id).toBe('CORE-EPIC-005');
     expect(nodes[0].children.map((c) => c.id)).toEqual(['CORE-005.1', 'CORE-005.N']);
+  });
+
+  // FE-087: lettered + nested-decimal children still group under the epic.
+  it('attaches lettered and nested-decimal subtasks to their epic parent', () => {
+    const { nodes } = groupTasks([
+      t('FE-EPIC-310'),
+      t('FE-310.3a'),
+      t('FE-310.2.1'),
+    ]);
+    expect(nodes).toHaveLength(1);
+    expect(nodes[0].task.id).toBe('FE-EPIC-310');
+    expect(nodes[0].children.map((c) => c.id)).toEqual(['FE-310.3a', 'FE-310.2.1']);
   });
 
   it('treats orphan subtasks (no matching epic) as top-level rows', () => {

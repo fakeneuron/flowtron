@@ -224,6 +224,25 @@ the `parsePlanWithDiagnostics` diagnostics otherwise). They are tolerances,
 not canonical authoring grammar — new entries should still use the clean form
 above.
 
+**Parser tolerances (adopter near-misses).** `viz/src/parser.ts` also accepts
+three shapes that are not canonical authoring — they parse (or stay silent)
+instead of surfacing as unparsed diagnostics. New entries should still follow
+§"Task ID convention" and the flag order above.
+
+- **Lettered subtask suffix** — a lowercase letter after digits on a decimal
+  segment (`FE-310.3a`). Parsed as a task; nests under the matching epic.
+- **Nested decimals** — more than one decimal segment (`FE-067.2.1`). Parsed
+  as a task; nests under the matching epic.
+- **`[!critical]` after `[model]`** — canonical order is `[!critical]` before
+  `[model]`; the parser also accepts the reverse (including after a
+  model-suggestion glyph) and still sets `critical: true`.
+
+**Bare checkbox bullets (excluded, not tolerated).** A checkbox line inside a
+recognized section that carries no markdown emphasis (`*` / `**`) is a prose
+checklist item, not a failed task — excluded from both the task list and
+`unparsed`. Lines that attempt an ID via emphasis but fail `TASK_LINE`
+(`*FE-064*`, `**fe-065**`) still surface (FE-063.2).
+
 **HTML comments are ignored.** Checkbox-shaped lines inside `<!-- ... -->`
 comment blocks are non-rendered content: the parser blanks the comment
 interior first, so such lines are neither parsed as tasks nor surfaced as
