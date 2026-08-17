@@ -20,10 +20,12 @@ below.
 | `status: blocked` in tasknote YAML frontmatter | Tasknote | Started and parked mid-execution | Mid-Phase-2 transition |
 
 A task may carry one, both, or neither. Adopting projects' tools render the
-two signals independently — the canonical viz parser surfaces `Blocked by
-[[ID]]` as a chip on every row whose long description names a blocker
-(regardless of tasknote presence), and the tasknote-level `status:` drives
-the row's status badge for rows that have a tasknote.
+two signals independently — the canonical viz parser extracts PLAN
+`Blocked by [[ID]]` into `Task.blockedBy` (present whether or not the row
+has a tasknote) and may show it as an opt-in row chip (default off). YAML
+`blocked-by:` is separate TaskDetail meta, not that chip. The
+tasknote-level `status:` drives the row's status badge for rows that have
+a tasknote.
 
 **Phase 1 entry (Re-scope path).** If Discovery surfaces a real-but-blocked
 prerequisite, the verdict is `Re-scope`: add `Blocked by [[ID]]` to the

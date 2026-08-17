@@ -15,13 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-445** [heavy] | graph-lite planning — Optional YAML touches, blocked-by, and parallel-safe-with; .1 fan-out plus worktree warn; archive decision links; trivial viz overlay. Markdown and git only — no graph runtime.
-  - [x] **CORE-445.1** [heavy] | graph-lite planning discovery — Completed 2026-08-17.
-  - [x] **CORE-445.2** [medium] | graph-lite yaml surface — Completed 2026-08-17.
-  - [x] **CORE-445.3** [medium] | epic-worktree fan-out — Completed 2026-08-17.
-  - [x] **CORE-445.4** [medium] | archive decision links — Completed 2026-08-17.
-  - [x] **CORE-445.5** [light] | viz optional edges — Completed 2026-08-17.
-  - [ ] **CORE-445.N** [heavy] | graph-lite planning audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
+(none)
 
 ## Low
 
@@ -31,6 +25,14 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 
 ## Completed
+
+- [x] **CORE-EPIC-445** [heavy] | graph-lite planning — Completed 2026-08-17.
+  - [x] **CORE-445.1** [heavy] | graph-lite planning discovery — Completed 2026-08-17.
+  - [x] **CORE-445.2** [medium] | graph-lite yaml surface — Completed 2026-08-17.
+  - [x] **CORE-445.3** [medium] | epic-worktree fan-out — Completed 2026-08-17.
+  - [x] **CORE-445.4** [medium] | archive decision links — Completed 2026-08-17.
+  - [x] **CORE-445.5** [light] | viz optional edges — Completed 2026-08-17.
+  - [x] **CORE-445.N** [heavy] | graph-lite planning audit — Completed 2026-08-17.
 
 - [x] **CORE-444** [heavy]🧠 | nas-term-cues — Completed 2026-08-17.
 
