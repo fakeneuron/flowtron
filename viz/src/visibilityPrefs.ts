@@ -8,6 +8,7 @@ export interface VisibilityPrefs {
     tags: boolean;
     model: boolean;
     related: boolean;
+    blocked: boolean;
     due: boolean;
   };
   detailSections: {
@@ -27,7 +28,7 @@ export interface VisibilityPrefs {
 
 export const DEFAULT_PREFS: VisibilityPrefs = {
   version: 2,
-  rowChips: { id: true, tags: false, model: true, related: false, due: false },
+  rowChips: { id: true, tags: false, model: true, related: false, blocked: false, due: false },
   detailSections: { goal: true, acceptance: true, subtasks: true },
   starterSections: {
     whyExists: true,
@@ -73,6 +74,7 @@ const parsePrefs = (raw: string | null): VisibilityPrefs => {
       tags: isBool(rc.tags) ? rc.tags : DEFAULT_PREFS.rowChips.tags,
       model: isBool(rc.model) ? rc.model : DEFAULT_PREFS.rowChips.model,
       related: isBool(rc.related) ? rc.related : DEFAULT_PREFS.rowChips.related,
+      blocked: isBool(rc.blocked) ? rc.blocked : DEFAULT_PREFS.rowChips.blocked,
       due: isBool(rc.due) ? rc.due : DEFAULT_PREFS.rowChips.due,
     },
     detailSections: {

@@ -38,8 +38,9 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
   const showTags = rowChips.tags && tags.length > 0;
   const showModel = rowChips.model;
   const showRelated = rowChips.related && task.relatedTasks.length > 0;
+  const showBlocked = rowChips.blocked && task.blockedBy.length > 0;
   const showDue = rowChips.due && !!due;
-  const showOptionalChips = showTags || showRelated || showDue;
+  const showOptionalChips = showTags || showRelated || showBlocked || showDue;
   const chipPad = DENSITY_TOKENS[density].chipPad;
   return (
     <div className="flex min-w-0 flex-1 items-center gap-2">
@@ -79,6 +80,9 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
                 </span>
               ))}
             {showRelated && <RelatedChip ids={task.relatedTasks} density={density} />}
+            {showBlocked && (
+              <RelatedChip ids={task.blockedBy} density={density} glyph="⊘" tone="rose" />
+            )}
             {showDue && due && (
               <span className="text-xs text-slate-500 dark:text-slate-400">
                 Due {due}

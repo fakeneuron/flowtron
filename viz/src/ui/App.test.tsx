@@ -503,6 +503,24 @@ describe('App — settings modal', () => {
     expect(screen.queryByText('🧠')).not.toBeInTheDocument();
   });
 
+  it('toggling rowChips.blocked surfaces PLAN blockedBy as a chip (default off)', async () => {
+    const user = userEvent.setup();
+    const blockedPlan = `## High
+
+- [ ] **CORE-100** [opus] | one — Task one. Blocked by [[CORE-200]]
+`;
+    renderApp({ plan: blockedPlan, active });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+    expect(screen.queryByText('CORE-200')).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Open settings' }));
+    await user.click(screen.getByRole('checkbox', { name: 'Blocked' }));
+
+    await waitFor(() => expect(screen.getByText('CORE-200')).toBeInTheDocument());
+    expect(screen.getByText('⊘')).toBeInTheDocument();
+  });
+
   it('toggling detailSections.subtasks hides the Subtasks section when the row is expanded', async () => {
     const user = userEvent.setup();
     renderApp({ plan, active });
@@ -562,6 +580,62 @@ describe('App — settings modal', () => {
     await user.click(screen.getByRole('button', { name: 'Project: fintown' }));
 
     await waitFor(() => expect(screen.getByText('viz')).toBeInTheDocument());
+  });
+});
+
+describe('App — optional YAML planning keys in TaskDetail', () => {
+  const plan = `## High
+
+- [ ] **CORE-100** [opus] | one — Task one
+`;
+
+  it('shows present YAML keys when the row is expanded', async () => {
+    const user = userEvent.setup();
+    renderApp({
+      plan,
+      active: [
+        makeTasknote({
+          id: 'CORE-100',
+          goal: 'The goal sentence.',
+          frontmatter: {
+            title: 'one',
+            status: 'in-progress',
+            tags: [],
+            created: '2026-05-07',
+            relatedTasks: [],
+            touches: ['viz/src/tasknote.ts'],
+            blockedBy: ['CORE-445.2'],
+          },
+        }),
+      ],
+    });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+    expect(screen.queryByText('blocked-by')).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { expanded: false, name: /CORE-100/ }));
+    await waitFor(() => expect(screen.getByText('blocked-by')).toBeInTheDocument());
+    expect(screen.getByText('touches')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /\[\[CORE-445\.2\]\]/ })).toBeInTheDocument();
+  });
+
+  it('renders no planning meta when YAML keys are omitted', async () => {
+    const user = userEvent.setup();
+    renderApp({
+      plan,
+      active: [
+        makeTasknote({
+          id: 'CORE-100',
+          goal: 'The goal sentence.',
+        }),
+      ],
+    });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+    await user.click(screen.getByRole('button', { expanded: false, name: /CORE-100/ }));
+    await waitFor(() => expect(screen.getByText('The goal sentence.')).toBeInTheDocument());
+    expect(screen.queryByText('blocked-by')).not.toBeInTheDocument();
+    expect(screen.queryByText('touches')).not.toBeInTheDocument();
   });
 });
 

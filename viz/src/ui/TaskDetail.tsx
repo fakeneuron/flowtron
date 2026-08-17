@@ -1,6 +1,10 @@
 import React from 'react';
 import type { Task } from '../parser';
-import { STARTER_SUBSECTION_KEYS, type Tasknote } from '../tasknote';
+import {
+  STARTER_SUBSECTION_KEYS,
+  type Tasknote,
+  type TasknoteFrontmatter,
+} from '../tasknote';
 import type { VisibilityPrefs } from '../visibilityPrefs';
 import { WikilinkMarkdown } from './WikilinkMarkdown';
 import { DetailSection } from './DetailSection';
@@ -14,6 +18,28 @@ import { effectiveStatus } from './utils';
 // path that isn't an absolute POSIX path, so no broken link renders.
 export const vscodeFileHref = (path: string): string | null =>
   path.startsWith('/') ? `vscode://file${encodeURI(path)}` : null;
+
+const wikilinkList = (ids: string[]): string => ids.map((id) => `[[${id}]]`).join(' ');
+
+/** Compact TaskDetail rows for omit-when-absent YAML planning keys. */
+export const planningMetaRows = (
+  fm: TasknoteFrontmatter,
+): { label: string; markdown: string }[] => {
+  const rows: { label: string; markdown: string }[] = [];
+  if (fm.touches?.length) {
+    rows.push({ label: 'touches', markdown: fm.touches.map((p) => `\`${p}\``).join(', ') });
+  }
+  if (fm.blockedBy?.length) {
+    rows.push({ label: 'blocked-by', markdown: wikilinkList(fm.blockedBy) });
+  }
+  if (fm.parallelSafeWith?.length) {
+    rows.push({ label: 'parallel-safe-with', markdown: wikilinkList(fm.parallelSafeWith) });
+  }
+  if (fm.supersedes?.length) {
+    rows.push({ label: 'supersedes', markdown: wikilinkList(fm.supersedes) });
+  }
+  return rows;
+};
 
 const TaskDetail: React.FC<{
   task: Task;
@@ -29,6 +55,7 @@ const TaskDetail: React.FC<{
   const priority = tasknote ? task.priority : undefined;
   const showMetaHeader = priority || (task.completed && task.completedDate) || tasknote;
   const vscodeHref = tasknote ? vscodeFileHref(tasknote.path) : null;
+  const metaRows = tasknote?.frontmatter ? planningMetaRows(tasknote.frontmatter) : [];
   const rootClass = compact
     ? '-mx-2 mt-2 mb-0.5 rounded border border-slate-200 bg-white pl-9 pr-3 py-2.5 text-sm text-slate-700 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300'
     : 'border-t border-slate-100 bg-slate-50/40 pl-9 pr-3 py-2 text-sm text-slate-700 dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-300';
@@ -56,6 +83,18 @@ const TaskDetail: React.FC<{
               VS Code →
             </a>
           )}
+        </div>
+      )}
+      {metaRows.length > 0 && (
+        <div className="mb-2 flex flex-col gap-1 text-xs text-slate-500 dark:text-slate-400">
+          {metaRows.map((row) => (
+            <div key={row.label} className="flex min-w-0 items-baseline gap-2">
+              <span className="shrink-0 font-mono">{row.label}</span>
+              <div className="min-w-0 [&_p]:my-0">
+                <WikilinkMarkdown markdown={row.markdown} navigateToTask={navigateToTask} />
+              </div>
+            </div>
+          ))}
         </div>
       )}
       {isStarter && tasknote ? (

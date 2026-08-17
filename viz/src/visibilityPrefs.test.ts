@@ -18,7 +18,7 @@ describe('visibilityPrefs', () => {
   it('round-trips a written value', () => {
     const next: VisibilityPrefs = {
       version: 2,
-      rowChips: { id: false, tags: true, model: false, related: true, due: false },
+      rowChips: { id: false, tags: true, model: false, related: true, blocked: true, due: false },
       detailSections: { goal: false, acceptance: true, subtasks: true },
       starterSections: {
         whyExists: true,
@@ -36,11 +36,11 @@ describe('visibilityPrefs', () => {
   it('isolates prefs across projects', () => {
     const a: VisibilityPrefs = {
       ...DEFAULT_PREFS,
-      rowChips: { id: true, tags: true, model: false, related: false, due: false },
+      rowChips: { id: true, tags: true, model: false, related: false, blocked: false, due: false },
     };
     const b: VisibilityPrefs = {
       ...DEFAULT_PREFS,
-      rowChips: { id: true, tags: false, model: true, related: true, due: false },
+      rowChips: { id: true, tags: false, model: true, related: true, blocked: false, due: false },
     };
     writeVisibilityPrefs('flowtron', a);
     writeVisibilityPrefs('fintown', b);
@@ -92,6 +92,7 @@ describe('visibilityPrefs', () => {
     expect(result.rowChips.tags).toBe(true);
     expect(result.rowChips.model).toBe(false);
     expect(result.rowChips.related).toBe(DEFAULT_PREFS.rowChips.related);
+    expect(result.rowChips.blocked).toBe(DEFAULT_PREFS.rowChips.blocked);
     expect(result.rowChips.id).toBe(DEFAULT_PREFS.rowChips.id);
     expect(result.detailSections.goal).toBe(false);
     expect(result.detailSections.acceptance).toBe(true);

@@ -1,5 +1,15 @@
 import { describe, expect, it } from 'vitest';
-import { vscodeFileHref } from './TaskDetail';
+import { planningMetaRows, vscodeFileHref } from './TaskDetail';
+import type { TasknoteFrontmatter } from '../tasknote';
+
+const fm = (overrides: Partial<TasknoteFrontmatter> = {}): TasknoteFrontmatter => ({
+  title: 'one',
+  status: 'in-progress',
+  tags: [],
+  created: '2026-08-17',
+  relatedTasks: [],
+  ...overrides,
+});
 
 describe('vscodeFileHref', () => {
   it('builds a vscode://file link for an absolute path', () => {
@@ -17,5 +27,29 @@ describe('vscodeFileHref', () => {
   it('returns null for a non-absolute path', () => {
     expect(vscodeFileHref('relative/path.md')).toBeNull();
     expect(vscodeFileHref('')).toBeNull();
+  });
+});
+
+describe('planningMetaRows', () => {
+  it('returns nothing when planning keys are omitted', () => {
+    expect(planningMetaRows(fm())).toEqual([]);
+  });
+
+  it('formats present keys with YAML labels and wikilink IDs', () => {
+    expect(
+      planningMetaRows(
+        fm({
+          touches: ['viz/src/tasknote.ts'],
+          blockedBy: ['CORE-445.2'],
+          parallelSafeWith: ['CORE-445.3'],
+          supersedes: ['CORE-157'],
+        }),
+      ),
+    ).toEqual([
+      { label: 'touches', markdown: '`viz/src/tasknote.ts`' },
+      { label: 'blocked-by', markdown: '[[CORE-445.2]]' },
+      { label: 'parallel-safe-with', markdown: '[[CORE-445.3]]' },
+      { label: 'supersedes', markdown: '[[CORE-157]]' },
+    ]);
   });
 });

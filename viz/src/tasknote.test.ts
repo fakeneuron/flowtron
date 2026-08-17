@@ -56,6 +56,44 @@ describe('parseFrontmatter', () => {
     expect(fm?.tags).toEqual([]);
     expect(fm?.due).toBeUndefined();
     expect(fm?.relatedTasks).toEqual([]);
+    expect(fm?.touches).toBeUndefined();
+    expect(fm?.blockedBy).toBeUndefined();
+    expect(fm?.parallelSafeWith).toBeUndefined();
+    expect(fm?.supersedes).toBeUndefined();
+  });
+
+  it('maps omit-when-absent planning keys when present', () => {
+    const fm = parseFrontmatter({
+      title: 'Test',
+      status: 'in-progress',
+      created: '2026-08-17',
+      touches: ['viz/src/tasknote.ts', 'SPEC.md'],
+      'blocked-by': ['CORE-445.2'],
+      'parallel-safe-with': ['CORE-445.3'],
+      supersedes: ['CORE-157'],
+    });
+    expect(fm).toMatchObject({
+      touches: ['viz/src/tasknote.ts', 'SPEC.md'],
+      blockedBy: ['CORE-445.2'],
+      parallelSafeWith: ['CORE-445.3'],
+      supersedes: ['CORE-157'],
+    });
+  });
+
+  it('omits empty planning-key arrays (undeclared, not an empty claim)', () => {
+    const fm = parseFrontmatter({
+      title: 'Test',
+      status: 'in-progress',
+      created: '2026-08-17',
+      touches: [],
+      'blocked-by': [],
+      'parallel-safe-with': 'CORE-445.3',
+      supersedes: [1, 'CORE-157'],
+    });
+    expect(fm?.touches).toBeUndefined();
+    expect(fm?.blockedBy).toBeUndefined();
+    expect(fm?.parallelSafeWith).toBeUndefined();
+    expect(fm?.supersedes).toEqual(['CORE-157']);
   });
 
   it('rejects invalid status values', () => {
@@ -525,6 +563,33 @@ Demo goal.
     expect(tn.frontmatter?.due).toBeUndefined();
     expect(tn.goal).toBe('Demo goal.');
     expect(tn.subtasks).toBe('- [ ] One\n- [ ] Two');
+  });
+
+  it('parses omit-when-absent YAML planning keys from a real frontmatter block', () => {
+    const text = `---
+title: Demo
+status: in-progress
+created: 2026-08-17
+related-tasks: []
+touches:
+  - viz/src/tasknote.ts
+blocked-by:
+  - CORE-445.2
+parallel-safe-with:
+  - CORE-445.3
+supersedes:
+  - CORE-157
+---
+
+# DEMO-1 | Demo
+`;
+    const tn = parseTasknote('DEMO-1', '/abs/path/DEMO-1.md', text);
+    expect(tn.frontmatter).toMatchObject({
+      touches: ['viz/src/tasknote.ts'],
+      blockedBy: ['CORE-445.2'],
+      parallelSafeWith: ['CORE-445.3'],
+      supersedes: ['CORE-157'],
+    });
   });
 
   it('returns null frontmatter for an archived tasknote with no YAML block', () => {

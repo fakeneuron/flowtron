@@ -1,12 +1,17 @@
 export type TasknoteStatus = 'starter' | 'not-started' | 'in-progress' | 'blocked' | 'completed';
 
-interface TasknoteFrontmatter {
+export interface TasknoteFrontmatter {
   title: string;
   status: TasknoteStatus;
   tags: string[];
   created: string;
   due?: string;
   relatedTasks: string[];
+  /** Omit-when-absent planning keys (SPEC.md §Tasknote frontmatter). */
+  touches?: string[];
+  blockedBy?: string[];
+  parallelSafeWith?: string[];
+  supersedes?: string[];
 }
 
 export interface ChecklistCounts {
@@ -80,6 +85,12 @@ function asStringArray(v: unknown): string[] {
   return v.filter((x): x is string => typeof x === 'string');
 }
 
+/** Empty or non-array → omitted (undeclared), not an empty claim. */
+function asOptionalStringArray(v: unknown): string[] | undefined {
+  const items = asStringArray(v);
+  return items.length > 0 ? items : undefined;
+}
+
 export function parseFrontmatter(raw: unknown): TasknoteFrontmatter | null {
   if (!raw || typeof raw !== 'object') return null;
   const data = raw as Record<string, unknown>;
@@ -93,6 +104,11 @@ export function parseFrontmatter(raw: unknown): TasknoteFrontmatter | null {
   if (!title || !status || !created) return null;
   if (!STATUS_VALUES.has(status as TasknoteStatus)) return null;
 
+  const touches = asOptionalStringArray(data.touches);
+  const blockedBy = asOptionalStringArray(data['blocked-by']);
+  const parallelSafeWith = asOptionalStringArray(data['parallel-safe-with']);
+  const supersedes = asOptionalStringArray(data.supersedes);
+
   return {
     title,
     status: status as TasknoteStatus,
@@ -100,6 +116,10 @@ export function parseFrontmatter(raw: unknown): TasknoteFrontmatter | null {
     created,
     due: due && due.length > 0 ? due : undefined,
     relatedTasks: asStringArray(data['related-tasks']),
+    ...(touches ? { touches } : {}),
+    ...(blockedBy ? { blockedBy } : {}),
+    ...(parallelSafeWith ? { parallelSafeWith } : {}),
+    ...(supersedes ? { supersedes } : {}),
   };
 }
 

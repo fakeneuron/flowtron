@@ -19,6 +19,7 @@ const ROW_CHIP_LABEL: Record<RowChipKey, string> = {
   tags: 'Tags',
   model: 'Model',
   related: 'Related',
+  blocked: 'Blocked',
   due: 'Due date',
 };
 
@@ -40,7 +41,7 @@ const PALETTE_LABEL: Record<PaletteName, string> = {
   github: 'GitHub',
 };
 
-const ROW_CHIP_KEYS: RowChipKey[] = ['id', 'tags', 'model', 'related', 'due'];
+const ROW_CHIP_KEYS: RowChipKey[] = ['id', 'tags', 'model', 'related', 'blocked', 'due'];
 const DETAIL_SECTION_KEYS: DetailSectionKey[] = ['goal', 'acceptance', 'subtasks'];
 const STARTER_SECTION_KEYS: StarterSectionKey[] = [
   'whyExists',
