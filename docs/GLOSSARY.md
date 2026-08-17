@@ -4,7 +4,7 @@
 
 Adopted from the GSD-Pi `CONTEXT.md` glossary pattern (the "mega-doc" slice that survived the one-task-per-window filter during CORE-EPIC-194 Discovery). See [CORE-194.1](../.flowtron/tasknote/archive/core/CORE-194.1.md) for the extraction rationale and term-cohort decisions.
 
-Alphabetized. ~63 entries. Maintained via epic children and audits.
+Alphabetized. ~68 entries. Maintained via epic children and audits.
 
 ---
 
@@ -19,6 +19,8 @@ Alphabetized. ~63 entries. Maintained via epic children and audits.
 **audit-family fork** — An adopter-owned audit skill created by forking an upstream one; must drop the `ft-` prefix so ownership is visible in resolution (e.g. `audit-payments`).
 
 **Blocked by [[ID]]** — Wikilink grammar inside a PLAN.md long-description declaring a hard prerequisite task. Parsed into `Task.blockedBy`. Multiple comma-separated IDs supported. See SPEC §"Task-line format".
+
+**blocked-by (YAML)** — Optional omit-when-absent tasknote frontmatter array of bare task IDs: the durable planning dependency that survives the Phase 4 PLAN stub. Distinct from PLAN `Blocked by [[ID]]` (the don't-start gate) and from `status: blocked` (mid-Phase-2 park). See SPEC §"Tasknote frontmatter" and SPEC/blocked.md.
 
 **blocked tasknote** — A tasknote whose frontmatter `status: blocked`; parked awaiting a prerequisite. Resumed through the special Step 3c path in `/ft-task`. See SPEC/blocked.md.
 
@@ -50,11 +52,13 @@ Alphabetized. ~63 entries. Maintained via epic children and audits.
 
 **epic Audit (.N)** — The closing subtask of an epic; verifies the completed work sits well in the codebase, runs the cumulative doc-drift sweep across AI-referenced docs, records findings even when clean. Executed via `/ft-close-epic`.
 
-**epic Discovery (.1)** — The opening subtask of an epic; surveys the shared surface, resolves scope questions, and files the concrete child task list in PLAN.md. Deliverable is the filed children (not code). Executed via `/ft-epic-discovery`.
+**epic Discovery (.1)** — The opening subtask of an epic; surveys the shared surface, resolves scope questions, and files the concrete child task list in PLAN.md. Deliverable is the filed children (not code). When M>1, may carry optional `## 🌳 Fan-out`. Executed via `/ft-epic-discovery`.
 
 **Execution (Phase 2)** — The implementation phase: mandatory pattern survey of neighboring code first, then minimal targeted change + tests on changed files only. See SPEC §"🛠️ Phase 2: Execution".
 
 **Extension-first** — Outward-facing principle (VISION-only, not in SPEC Core principles): prefer extending an existing pattern (sibling skill, doc convention, tasknote shape) over inventing a parallel one. Promoted from the Phase 2 "Pattern survey" contract step. See docs/VISION.md and SPEC §"🛠️ Phase 2: Execution".
+
+**Fan-out (🌳)** — Optional Discovery `.1` body section declaring which epic children are Parallel / Sequential / Synthesis. Not in the default template; `/ft-epic-discovery` pre-fills when M>1. Children echo via YAML `blocked-by` / `parallel-safe-with`. A declaration, not a scheduler. See SPEC §"Tasknote body shape" and SPEC/epic.md §"Fan-out."
 
 **follow-up** — A lightweight mid-flow task filed via `/ft-file-followup`; produces a one-line PLAN.md entry plus a short context paragraph delivered conversationally. Below the normal tasknote threshold.
 
@@ -84,6 +88,8 @@ Alphabetized. ~63 entries. Maintained via epic children and audits.
 
 **paper-complete** — Failure mode where PLAN.md / tasknote archive show Completed but the task's deliverables never landed in git. Prevented by the paper-complete guard: foreign-dirt hard stop at task entry, atomic single-commit closure (deliverables + PLAN + archive), ban on collateral Completed flips, and 🏁 only with a deliverable-covering SHA. See SPEC §"Paper-complete guard".
 
+**parallel-safe-with** — Optional omit-when-absent tasknote frontmatter array of bare task IDs declaring which siblings may share worktrees with this child. Omitted means *undeclared*, not "safe with everyone." See SPEC §"Tasknote frontmatter" and docs/WORKTREES.md.
+
 **parent epic** — The `CORE-EPIC-N` row in PLAN.md that owns a group of subtasks; remains unchecked until its `.N` audit child completes. See SPEC/epic.md.
 
 **Pattern survey** — The mandatory first sub-step of Phase 2 Execution: examine sibling modules / parallel components / adjacent docs for an existing shape to extend before inventing a new one. See SPEC §"🛠️ Phase 2: Execution".
@@ -94,7 +100,7 @@ Alphabetized. ~63 entries. Maintained via epic children and audits.
 
 **post-closure protocol** — The three steps that run after a tasknote is archived: commit decision (per Conditional skip rule), suggest-next-move (model-aware), copy-paste line. See SPEC §"Post-closure protocol".
 
-**PR / suggestion archetypes** — The six shapes flowtron deliberately rejects in contributions: schema validators, abstractions without two-project precedent, cross-project query layers beyond the read-only visualizer, multi-user/team features, runtime security scanners / audit daemons, and LLM knowledge-base / "wiki layer" subsystems. Terse AI-facing list lives in SPEC; prose mirror in VISION.md. See SPEC §"What flowtron does NOT provide" and docs/VISION.md.
+**PR / suggestion archetypes** — The eight shapes flowtron deliberately rejects in contributions: schema validators, abstractions without two-project precedent, cross-project query layers beyond the read-only visualizer, multi-user/team features, runtime security scanners / audit daemons, LLM knowledge-base / "wiki layer" subsystems, loop runtimes (runners / schedulers / session daemons), and graph / multi-agent execution runtimes. Terse AI-facing list lives in SPEC; prose mirror in VISION.md. See SPEC §"What flowtron does NOT provide" and docs/VISION.md.
 
 **priority level** — The PLAN.md heading under which a task row lives (`## High`, `## Medium`, etc.). The `[!critical]` flag can float a row inside High. See SPEC §"Priority levels".
 
@@ -126,12 +132,16 @@ Alphabetized. ~63 entries. Maintained via epic children and audits.
 
 **Testing & Linting (Phase 3)** — See Phase 3.
 
+**touches** — Optional omit-when-absent tasknote frontmatter array of path/glob strings naming the files this task expects to edit. Distinct from a starter's `### Files to touch` prose survey. See SPEC §"Tasknote frontmatter".
+
 **VISION.md** — The outward-facing identity document (who it's for, principles recap including Extension-first, "what we won't accept", why this exists). Lazy-loaded; cross-linked with the SPEC PR-archetypes subsection. Companion to PHILOSOPHY.md (history). See docs/VISION.md.
 
 **wikilink [[TASK-ID]]** — The only parsed cross-reference syntax in PLAN long-descriptions and tasknote Related sections; populates `relatedTasks` / `blockedBy` metadata. Bare IDs and angle-bracket placeholders are literal text only. See SPEC §"Task-line format".
 
+**worktree** — Isolated git checkout for one independent epic child (`~/code/<project>-worktrees/wt-<ID>/`, branch `wt-<ID>`, copy of the child tasknote). Operator-opt-in parallelism; `/ft-worktree-start` may warn on an open YAML `blocked-by` but must not lock. See docs/WORKTREES.md.
+
 ---
 
-**Maintenance.** This file is the survivor slice of the GSD-Pi `CONTEXT.md` pattern (see CORE-194.1). It is deliberately lazy-loaded and must never be added to the AI-referenced docs list. New terms are introduced only by epic children or audit follow-ups that also update the authoritative SPEC anchors. Last significant update: CORE-408.4 (2026-08-06) — added `probe`, `delegate`, and `Handoff (🔄)` for the CORE-EPIC-408 vocabulary.
+**Maintenance.** This file is the survivor slice of the GSD-Pi `CONTEXT.md` pattern (see CORE-194.1). It is deliberately lazy-loaded and must never be added to the AI-referenced docs list. New terms are introduced only by epic children or audit follow-ups that also update the authoritative SPEC anchors. Last significant update: CORE-445.3 (2026-08-17) — added `blocked-by` (YAML), `Fan-out (🌳)`, `parallel-safe-with`, `touches`, `worktree`; PR-archetypes count 6→8.
 
 See [SPEC.md](../SPEC.md) for the contract and [.flowtron/PLAN.md](../.flowtron/PLAN.md) for the current epic context.

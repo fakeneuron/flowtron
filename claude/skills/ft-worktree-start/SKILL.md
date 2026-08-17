@@ -43,6 +43,8 @@ ls -l .flowtron/tasknote/${TASK_ID}.md
 
 If missing → stop. The child must be filed (and ideally have had at least its Phase 1 Discovery run) before you move it to a worktree. Point the user at `/ft-task ${TASK_ID}` first.
 
+**Warn-only `blocked-by` check.** Read the tasknote's YAML frontmatter. If `blocked-by:` is present, for each listed ID grep `.flowtron/PLAN.md` for that ID's task line. If the line is still unchecked (`- [ ]`), **warn** that the child declares a still-open blocker and offer to proceed anyway or abort — the same flavor as the dirty-checkout warn above. Do **not** refuse, lock, or invent a dirty-tree scanner. If `blocked-by:` is omitted, skip (undeclared ≠ safe). This check does not read the sibling `.1` Fan-out heading; the child's own YAML is the claim a worktree copy will carry. Contract: [`docs/WORKTREES.md`](../../../docs/WORKTREES.md) + [`SPEC/epic.md`](../../../SPEC/epic.md) §"Fan-out."
+
 Compute the project slug and target paths (portable across flowtron-self and adopters):
 
 ```sh
@@ -163,8 +165,9 @@ Print the absolute path with `~` expanded for easy copy-paste (run `realpath "${
 
 ## Notes
 
-- **When to reach for `/ft-worktree-start`:** Only for *independent* children of a multi-child epic that already has a `.1` Discovery (or equivalent explicit scoping). See `docs/WORKTREES.md` §"When to Reach for a Worktree" for the exact criteria. Never for single tasks, dependent children, or long-lived work.
+- **When to reach for `/ft-worktree-start`:** Only for *independent* children of a multi-child epic that already has a `.1` Discovery (or equivalent explicit scoping). See `docs/WORKTREES.md` §"When to Reach for a Worktree" for the exact criteria. Never for single tasks, dependent children, or long-lived work. A YAML `blocked-by` on a still-open PLAN line earns a **warn**, not a refusal.
 - **Thin by design.** This skill + its end sibling are deliberately small (no 4-phase scaffolding inside them, no tasknote mutation on start, minimal preconditions). The real work still happens inside the normal `/ft-task <ID>` that the operator runs after the handoff.
+- **Warn-only `blocked-by`.** Step 0 reads the child YAML and greps PLAN.md; it does not parse the sibling `.1` Fan-out heading, lock the tree, or refuse. Omitted `blocked-by` → no warn. Contract: `docs/WORKTREES.md` §"Fan-out, YAML, and the start warn."
 - **Relationship to the epic:** CORE-215.3 (this skill) + CORE-215.4 (end) + CORE-215.5 (wiring) complete the implementation bracket around the doc delivered by .2. The final .6 audit will verify the whole set.
 - **Symmetry with end skill:** The start skill never archives or deletes anything. All cleanup (worktree remove, branch pruning decisions, archiving the *copied* tasknote from the worktree perspective) lives in `/ft-worktree-end`.
 - **Cross-references (after sibling children land):** See `docs/WORKTREES.md` (the canonical convention), `claude/AGENTS-snippet.md` (will list the pair in the Workflow block), `docs/MIGRATION.md` §1.2 (adopter install), and `claude/skills/ft-flowtron/SKILL.md` (roster entry after .5).

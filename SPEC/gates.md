@@ -98,14 +98,15 @@ Reuse across *unrelated* concepts is not permitted; that would be a genuine
 collision.
 
 **Non-cue glyphs.** A small residual sits outside all three layers — ⚡
-(`--fast` active), 🔬 (`--debug` active), 🧭 (deep pre-pass), 🌳 (worktree),
-🔁 (`## 🔁 Iterations` log), 🔄 (`## 🔄 Handoff`), 📌 (sidequest), 📋 (spec
-template), ⚠️ (inline advisory). These are **legitimate and bounded**: each is
-scoped to one skill or template, none collides with a cue, and none carries
-operator-gate meaning. They are not governed by this table and do not need to
-be. Adding to this residual is a local decision for the owning skill; adding to
-the **cue table** is a vocabulary change and needs the deliberation CORE-254.2
-/ CORE-308 / CORE-353.3 each gave it.
+(`--fast` active), 🔬 (`--debug` active), 🧭 (deep pre-pass), 🌳 (worktree
+/ `## 🌳 Fan-out` heading), 🔁 (`## 🔁 Iterations` log), 🔄 (`## 🔄 Handoff`),
+📌 (sidequest), 📋 (spec template), ⚠️ (inline advisory). These are
+**legitimate and bounded**: each is scoped to one skill or template, none
+collides with a cue, and none carries operator-gate meaning. They are not
+governed by this table and do not need to be. Adding to this residual is a
+local decision for the owning skill; adding to the **cue table** is a
+vocabulary change and needs the deliberation CORE-254.2 / CORE-308 /
+CORE-353.3 each gave it.
 
 ### Event cues (inline operator prompts)
 

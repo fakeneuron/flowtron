@@ -48,7 +48,7 @@ The pattern was robust. The infrastructure around it wasn't. Flowtron is what's 
 
 ## What flowtron deliberately is not
 
-It is not a CLI tool. It is not a database. It is not a schema. It is not a validator. It is not a cross-project query engine. It is not a multi-user platform. It is not a task tracker for teams. SPEC.md spells these out as `What flowtron does NOT provide`; the reason they're called out is that I either had them and they made things worse (helper scripts, JSON schema validation), or I was tempted to build them and stopped (cross-project queries, a "new project" CLI). Each absence is deliberate.
+It is not a CLI tool. It is not a database. It is not a schema. It is not a validator. It is not a cross-project query engine. It is not a multi-user platform. It is not a task tracker for teams. It is not a graph runtime — declaring that two children may run in parallel is markdown; scheduling them is someone else's job. SPEC.md spells these out as `What flowtron does NOT provide`; the reason they're called out is that I either had them and they made things worse (helper scripts, JSON schema validation), or I was tempted to build them and stopped (cross-project queries, a "new project" CLI, a job graph over tasknotes). Each absence is deliberate.
 
 The temptation to add them is real and recurring. The discipline is to write a project-side helper instead, and only promote something into flowtron when at least two projects need the same thing in the same shape.
 

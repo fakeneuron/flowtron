@@ -132,6 +132,10 @@ Check `.flowtron/tasknote/<TASK-ID>.md` and branch on its existence / YAML
   `created:` to today, `title:` from the shortname, `related-tasks:` from any
   IDs the PLAN.md line cites. The 🎯 Goal derives from the PLAN.md line; ✅
   Acceptance and 🧩 Subtasks start empty and fill during Phase 1.
+  If the ID is an epic implementation child (not `.1` / `.N`), echo any
+  `## 🌳 Fan-out` claim that names it into omit-when-absent `blocked-by:`
+  / `parallel-safe-with:` so a worktree copy still sees the claim
+  ([`SPEC/epic.md`](../epic.md) §"Fan-out").
 
 ### 4 — Phase 1: Discovery
 

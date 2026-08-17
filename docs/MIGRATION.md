@@ -256,7 +256,7 @@ Then fill it in:
 - Replace "Project quick commands" with the project's test/lint/dev commands.
 - Extend `## AI-referenced docs` (seeded with `README.md` / `AGENTS.md` / `CLAUDE.md` / `.flowtron/PLAN.md`) — this list is walked at every Phase 4 closure and epic-audit subtask. Add architecture notes, API specs, DB schema docs, ADRs as the project matures.
 
-Tasknote shape and lifecycles: see SPEC §"Tasknote frontmatter" + §"Tasknote body shape", plus the lightweight variants — **starter** (`tasknote-starter-template.md`, lifecycle in `SPEC/starter.md`) and **micro** (`tasknote-micro-template.md`, threshold in SPEC §"When to use a tasknote"). For multi-child code-sweep/feature epics, opening Discovery (`.1`) + closing Audit (highest `.N`) bracket the implementation children — `SPEC/epic.md`. Simple multi-subtask implementations skip the bracket.
+Tasknote shape and lifecycles: see SPEC §"Tasknote frontmatter" + §"Tasknote body shape", plus the lightweight variants — **starter** (`tasknote-starter-template.md`, lifecycle in `SPEC/starter.md`) and **micro** (`tasknote-micro-template.md`, threshold in SPEC §"When to use a tasknote"). For multi-child code-sweep/feature epics, opening Discovery (`.1`) + closing Audit (highest `.N`) bracket the implementation children — `SPEC/epic.md`. Simple multi-subtask implementations skip the bracket. Optional planning YAML (`touches` / `blocked-by` / `parallel-safe-with`) and the Discovery `.1` `## 🌳 Fan-out` insert are omit-when-absent; existing notes need no backfill, and no new skill symlink ships.
 
 ### 1.6 Commit
 

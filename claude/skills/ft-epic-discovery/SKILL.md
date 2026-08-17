@@ -138,6 +138,18 @@ Leave the standard 4-phase checklist sections from the template intact below the
 
 **If `deep-mode = true`** (set in Step 1.5), also inject a `## 🧭 Deep Pre-pass` placeholder section between the `## 🔗 Related` block and the `---` rule that precedes `## 📝 Phase 1: Discovery`, with three empty subsections — `### Constitution`, `### Specification`, `### Clarifications`. Step 5.5 populates them through three discrete review-and-confirm gates before Phase 1 begins. The section is part of the tasknote's permanent body and archives with it at Phase 4 closure.
 
+**If M>1**, also inject an empty `## 🌳 Fan-out` placeholder in the same top-block slot (after Related, before Handoff / Deep Pre-pass / the `---` rule):
+
+```markdown
+## 🌳 Fan-out
+
+- **Parallel:**
+- **Sequential:**
+- **Synthesis:**
+```
+
+Leave the rows blank at scaffold — Step 7 fills them when the child lines are filed. M=1 skips the heading (nothing to fan out). Contract: [`SPEC.md`](../../../SPEC.md) §"🌳 Fan-out" and [`SPEC/epic.md`](../../../SPEC/epic.md) §"Fan-out." The heading is an optional insert, not a template change.
+
 ## Step 5.5 — Deep pre-pass (only on `--deep`)
 
 Skip this entire step if `deep-mode = false` (set in Step 1.5). On `--deep`, drive three discrete stages, writing each stage's output into the `## 🧭 Deep Pre-pass` section already injected into the `.1` tasknote in Step 5. Each stage ends with an AskUserQuestion review-and-confirm gate **before** the next stage begins.
@@ -202,6 +214,8 @@ The Phase 2 deliverable is the filed child lines. Walk the Phase 2 checklist:
 
 Capture in Implementation Notes: the count of lines written, word-count per line, any change to the implementation-child count M from the filing-time estimate (the audit's `.N` suffix is unaffected — it never renumbers), and any reconcile edits applied to existing entries (or "no downstream impact").
 
+**Fan-out fill (when M>1).** The Step 5 placeholder is still empty. Populate `## 🌳 Fan-out` from the Discovery scoping: Parallel (independent children that may share worktrees), Sequential (`[[ID]] after [[pred]]`), Synthesis (the `.N` audit; no extra parent synthesis task). Omit a row that does not apply. When Discovery did not classify, default every implementation child to Sequential and `.N` to Synthesis. Do not write `blocked-by` / `parallel-safe-with` onto the child PLAN lines — those keys live on each child's tasknote at `/ft-task` scaffold (YAML echo). Contract: [`SPEC/epic.md`](../../../SPEC/epic.md) §"Fan-out."
+
 Phase 2 flows continuously into the Step 8 markdown mental-pass and Step 9 closure ops without an intermediate gate; the next operator-gate cue is the 📦 ready-to-commit banner in Step 10.
 
 ## Step 8 — Drive Phase 3: Testing & Linting
@@ -216,6 +230,7 @@ Markdown-prose edits only — no test surface. Markdown mental-pass on the edite
 - Long description ≤70w hard cap; ≤50w target.
 - No trailing whitespace.
 - Any reconcile-edited existing lines (the Step 7 scan) still parse — grammar, indent, and cross-refs intact.
+- If M>1: `## 🌳 Fan-out` is present and populated; wikilinks on Parallel / Sequential / Synthesis rows match the filed children; M=1 notes have no Fan-out heading.
 
 Tick all three Phase 3 boxes (test suite N/A, lint N/A, frontend N/A).
 

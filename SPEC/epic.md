@@ -38,7 +38,12 @@ going forward.
 2. **Run Discovery** via `/ft-epic-discovery` (which also files the epic in
    step 1) or `/ft-task <ID>.1` if filed manually. Deliverable: filed child
    entries in PLAN.md, not code.
-3. **Run children** in order, normal flow.
+3. **Run children** in order, normal flow. That serial default
+   stands. Parallel execution of *independent* children is
+   operator-opt-in via worktrees
+   ([`docs/WORKTREES.md`](../docs/WORKTREES.md)), declared on the
+   Discovery `.1` as optional `## 🌳 Fan-out` (below) — never a
+   scheduler, never a lock.
 4. **Run Audit** via `/ft-close-epic <ID>.N` (or `/ft-task <ID>.N`; legacy
    epics with a numeric audit child pass that number instead) once all
    implementation children are closed. Final summary records findings even
@@ -55,6 +60,31 @@ the row 2-space nested beneath the parent in its current priority section.
 Never move an individual numeric or `.N` child to top-level `## Completed`.
 Only `/ft-close-epic`, after the parent-flip approval, moves the checked parent
 and its complete nested cohort atomically into `## Completed`.
+
+## Fan-out (optional)
+
+The parent epic stays a PLAN checkbox. There is no parent planning
+tasknote. When Discovery files M>1 implementation children, the `.1`
+note may carry an optional `## 🌳 Fan-out` insert (SPEC.md §"Tasknote
+body shape") naming Parallel / Sequential / Synthesis rows.
+`/ft-epic-discovery` injects an empty placeholder at scaffold when M>1
+and fills it when the child lines are written. M=1 skips the heading.
+When Discovery does not classify, every implementation child defaults
+to Sequential and `.N` to Synthesis.
+
+Each child **echoes** the claim on its own tasknote as omit-when-absent
+YAML `blocked-by:` / `parallel-safe-with:` (bare IDs) so a worktree —
+which copies **only** the child note — still sees it. `/ft-task`
+scaffold for an epic implementation child copies any Fan-out claim that
+names it. Omitted YAML means *undeclared*, not "touches nothing" / "safe
+with everyone."
+
+`/ft-worktree-start` may **warn** if the child's `blocked-by` lists a
+still-open PLAN.md line (`- [ ]`). It must not lock or refuse — the
+operator decides. Declaring Fan-out does not authorize chaining two
+tasknotes in one window, auto-dispatch, or a job graph. See
+[`docs/WORKTREES.md`](../docs/WORKTREES.md) and
+[`docs/VISION.md`](../docs/VISION.md) §"What we won't accept".
 
 ## Audit acceptance — fixed doc-drift line
 

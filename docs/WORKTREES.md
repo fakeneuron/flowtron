@@ -23,7 +23,7 @@ All five choices were explicitly resolved during the re-scope documented in CORE
 Use the worktree pair **only** for independent children of a multi-child epic:
 
 - The epic has a `.1` Discovery that filed the children (or equivalent explicit scoping).
-- The specific child has **no hard dependencies** on prior siblings still in flight.
+- The specific child has **no hard dependencies** on prior siblings still in flight. The durable form of that claim is the child's own YAML `blocked-by:` / `parallel-safe-with:` (echoed from the Discovery `.1` `## 🌳 Fan-out` heading — see [Fan-out, YAML, and the start warn](#fan-out-yaml-and-the-start-warn) below). Omitted YAML means *undeclared*, not "safe with everyone."
 - You want to pipeline two or more such children on the same machine without constant stashing.
 
 Do **not** use for:
@@ -33,6 +33,18 @@ Do **not** use for:
 - Anything that would require the worktree to become long-lived
 
 The convention is deliberately narrow so the two thin skills stay thin and the mental model stays simple.
+
+## Fan-out, YAML, and the start warn
+
+Three surfaces, one claim:
+
+| Surface | Who writes it | What a worktree sees |
+|---|---|---|
+| Discovery `.1` `## 🌳 Fan-out` | `/ft-epic-discovery` when M>1 | **Nothing** — the worktree copies only the child note |
+| Child YAML `blocked-by:` / `parallel-safe-with:` | `/ft-task` scaffold echo | The copied child note |
+| `/ft-worktree-start` warn | Reads the child YAML | Warns if `blocked-by` lists a still-open PLAN `- [ ]` line; never locks or refuses |
+
+Independence is no longer verbal-only, but it is still operator-driven. Fan-out is a markdown declaration, not a scheduler — see [`SPEC/epic.md`](../SPEC/epic.md) §"Fan-out" and [`docs/VISION.md`](VISION.md) §"What we won't accept" (graph / multi-agent execution runtimes).
 
 ## Start / End Flow (Conceptual)
 
@@ -54,8 +66,8 @@ Exact mechanics, safety checks, and edge cases (unmerged work, dirty state, viz 
 
 ## Relationship to the Rest of Flowtron
 
-- **No SPEC contract change.** The 4-phase workflow, relevance gate, operator cues (🛠️ / 📦), conditional skip rule, and post-closure protocol are unchanged inside any tasknote that happens to run inside a worktree.
-- **Epic lifecycle unchanged.** The `.1` Discovery + children + `.N` Audit bracket (see [`SPEC/epic.md`](../SPEC/epic.md)) still governs multi-child work; worktrees are merely an execution accelerator for the independent subset of those children.
+- **No 4-phase change inside a worktree.** The relevance gate, operator cues (🛠️ / 📦), conditional skip rule, and post-closure protocol are unchanged inside any tasknote that happens to run here. Fan-out / child YAML (CORE-445.3) is a planning declaration, not a second lifecycle.
+- **Epic lifecycle still governs.** The `.1` Discovery + children + `.N` Audit bracket (see [`SPEC/epic.md`](../SPEC/epic.md)) owns multi-child work; worktrees are the execution accelerator for the independent subset, declared on `.1` as optional `## 🌳 Fan-out`.
 - **Adopter wiring.** The two new skills install via the same per-project symlink bundle as the rest of the tasknote family (see `docs/MIGRATION.md` §1.2 and the AGENTS.md paste block). Full surface updates landed in [[CORE-215.5]].
 - **External CLI agents.** Worktrees are the isolation layer for running independent children in parallel; [`docs/EXTERNAL-AGENTS.md`](EXTERNAL-AGENTS.md) adds the "one external agent per tasknote" convention on top — hand each worktree-isolated child to a single external agent (Kiro / Claude Code / Codex).
 
@@ -65,4 +77,4 @@ All scoping decisions for the convention itself were locked before this document
 
 ---
 
-**Related:** [[CORE-EPIC-215]] · [[CORE-215.1]] · [[CORE-215.3]] · [[CORE-215.4]] · [[CORE-215.5]] · [[CORE-215.6]] · [[CORE-EPIC-195]] (sibling pattern)
+**Related:** [[CORE-EPIC-215]] · [[CORE-215.1]] · [[CORE-215.3]] · [[CORE-215.4]] · [[CORE-215.5]] · [[CORE-215.6]] · [[CORE-EPIC-195]] (sibling pattern) · [[CORE-EPIC-445]] (Fan-out + warn-only start)

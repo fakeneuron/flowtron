@@ -111,6 +111,7 @@ Copy the template (path resolved in Step 0) to `.flowtron/tasknote/<TASK-ID>.md`
 - `status:` — `in-progress`.
 - `created:` — today's date.
 - `related-tasks:` — from PLAN.md if the line cites parent epics, predecessors, or follow-ups; otherwise `[]`.
+- **Epic implementation-child YAML echo.** If the TASK-ID is `<AREA>-<N>.<sub>` and is *not* `.1` / `.N`, look at the sibling Discovery `.1` (active or archived) for a `## 🌳 Fan-out` section. Copy any Parallel / Sequential claim that names this child into omit-when-absent `blocked-by:` / `parallel-safe-with:` on *this* note (bare IDs; Sequential "after X" → `blocked-by: [X]`; Parallel peers → `parallel-safe-with`). Omit the keys when Fan-out does not name this child. A worktree copies only the child note, so the `.1` heading alone is not visible there. Contract: [`SPEC/epic.md`](../../../SPEC/epic.md) §"Fan-out." Do not invent a parser or a lock.
 
 🎯 Goal is derived from the PLAN.md line at scaffold; ask the user if it's too terse for a clear one-sentence goal. ✅ Acceptance and 🧩 Subtasks are empty checklists at scaffold, populated during Phase 1 Discovery.
 

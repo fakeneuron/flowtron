@@ -417,6 +417,7 @@ section until promotion.
 ## ✅ Acceptance
 ## 🧩 Subtasks
 ## 🔗 Related
+## 🌳 Fan-out                                                ← optional (Discovery `.1` when M>1; see below)
 ## 🔄 Handoff                                                ← optional (see below)
 
 ---
@@ -466,10 +467,14 @@ section until promotion.
 **Phase sections (the "log")** — the four-phase checklists below the divider
 remain the execution record.
 
-**Optional inserts.** Two sections are written only when the situation calls
-for them. Neither ships in `templates/tasknote-template.md`, and a tasknote
+**Optional inserts.** Three sections are written only when the situation calls
+for them. None ships in `templates/tasknote-template.md`, and a tasknote
 without them is complete, not incomplete:
 
+- **`## 🌳 Fan-out`** — epic-cohort parallelism declaration, written on a
+  Discovery `.1` when the epic has more than one implementation child.
+  Documented below. Children echo the claim in YAML so a worktree copy
+  (which carries only the child note) still sees it.
 - **`## 🔄 Handoff`** — mid-task resume state, written when a session ends
   with work unfinished. Documented below.
 - **`## 🔁 Iterations`** — the append-only per-cycle log a goal loop keeps
@@ -484,13 +489,53 @@ cheap to write.
 **Backwards compatibility** — see §"Tasknote frontmatter" write-once policy.
 Adopting projects pick up the new shape on their next flowtron version bump.
 
+### 🌳 Fan-out (optional)
+
+An epic Discovery `.1` that files more than one implementation child
+(M>1) may declare how those children relate — which may run in parallel
+worktrees, which stay serial, which is synthesis. It sits in the top
+block after `## 🔗 Related`. `/ft-epic-discovery` pre-fills an empty
+placeholder at scaffold when M>1 and populates it when the child lines
+are filed; the default full template does not ship the heading, so a
+single-child or non-epic tasknote pays nothing. Fixed shape, three
+rows:
+
+```markdown
+## 🌳 Fan-out
+
+- **Parallel:** [[CORE-445.2]] · [[CORE-445.3]]
+- **Sequential:** [[CORE-445.4]] after .2
+- **Synthesis:** [[CORE-445.N]] (audit; no extra parent synthesis task)
+```
+
+Omit a row that does not apply. When Discovery does not classify,
+default every implementation child to Sequential and `.N` to Synthesis
+— that matches [`SPEC/epic.md`](SPEC/epic.md) "run children in order."
+M=1 epics skip the heading (nothing to fan out).
+
+Each named child **echoes** the claim on its own tasknote as omit-when-absent
+YAML `blocked-by:` / `parallel-safe-with:` (and a Related type-hint). A
+worktree copies only the child note, so the `.1` heading alone is not
+visible there. `/ft-task` scaffold for an epic implementation child
+copies any Fan-out claim that names it; omitted YAML still means
+*undeclared*, not "safe with everyone."
+
+**What Fan-out is not.** It is a markdown declaration, not a scheduler.
+It does not lock, refuse, auto-fan-out, or replace the serial default.
+`/ft-worktree-start` may **warn** if the child YAML `blocked-by` lists a
+still-open PLAN line; it must not refuse. Parent epics stay a PLAN
+checkbox — there is no parent planning tasknote. Full lifecycle:
+[`SPEC/epic.md`](SPEC/epic.md) §"Fan-out." Isolation convention:
+[`docs/WORKTREES.md`](docs/WORKTREES.md).
+
 ### 🔄 Handoff (optional)
 
 A session ending mid-task — context exhausted, the operator stopping for the
 day, the work continuing in a different tool — can leave a **Handoff**: a
 short brief that lets the next reader resume without reconstructing state
 from Discovery Notes and a half-ticked Phase 2. It sits in the top block
-after `## 🔗 Related`, because a resuming reader should meet it before the
+after `## 🔗 Related` (and after `## 🌳 Fan-out` when that heading is
+present), because a resuming reader should meet it before the
 execution record. Fixed shape, five parts:
 
 ```markdown
@@ -977,3 +1022,4 @@ For future-AI mid-task discipline. Outward-facing prose version with full justif
 - **Runtime security scanners / audit daemons.** PR-rejection mirror of "Runtime security scanners" in `docs/VISION.md` §"What we won't accept" — the control is the human at the gate, not a scorer; deterministic enforcement lives in per-project permission hooks. `ft-audit security` + `SECURITY.md` already cover the markdown-native need.
 - **LLM knowledge-base / "wiki layer" subsystems.** PR-rejection mirror of "LLM knowledge-base" in `docs/VISION.md` §"What we won't accept" — tasknotes + `PLAN.md` + `archive/` already are the clean LLM-maintained markdown layer; a parallel `raw/`+`wiki/` tree duplicates the SSOT. "Knowledge Gate" phase, `/ft-wiki-*` skills, and link-linters are rejected like schema validators.
 - **Loop runtime — runners, schedulers, session daemons.** PR-rejection mirror of "Loop runners" in `docs/VISION.md` §"What we won't accept" — the loop *runtime* (cadence, re-invocation, session lifetime) is Claude Code's `/loop` or any equivalent, not flowtron. Flowtron ships only the markdown *contract* the loop reports to (§"Loop tasks" → [`SPEC/loop.md`](SPEC/loop.md)); a scheduler, a session daemon, or a `loop-interval` tasknote field is rejected like a cross-project query layer.
+- **Graph / multi-agent execution runtimes.** PR-rejection mirror of "Graph / multi-agent execution runtimes" in `docs/VISION.md` §"What we won't accept" — declare fan-out, `blocked-by`, and `parallel-safe-with` in markdown; never schedule, lock, or auto-fan-out. Worktrees plus a fresh session per child remain the whole parallelism mechanism ([`docs/WORKTREES.md`](docs/WORKTREES.md)). A job graph, swarm runner, or lock over those declarations is rejected like a loop scheduler.
