@@ -8,7 +8,11 @@ paths: []
 
 A task can be **blocked** at two distinct points in its lifecycle, and
 flowtron records each at a different layer. The two signals are independent
-— they describe different states and serve different consumers.
+— they describe different states and serve different consumers. A third,
+optional tasknote-YAML key `blocked-by:` is a *planning* claim (durable
+file ownership / predecessor), not a don't-start gate and not a park —
+see `SPEC.md` §"Tasknote frontmatter". It does not replace either signal
+below.
 
 | Signal | Layer | Means | Entered when |
 |---|---|---|---|

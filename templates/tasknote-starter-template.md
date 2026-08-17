@@ -3,6 +3,15 @@ title: One-line title
 status: starter
 tags: []
 created: YYYY-MM-DD
+# Optional planning keys — omit when absent (SPEC.md §Tasknote frontmatter).
+# `### Files to touch` below stays the prose survey; YAML `touches:` is the
+# short queryable list once known.
+# touches:
+#   - path/or/glob
+# blocked-by:
+#   - TASK-ID
+# parallel-safe-with:
+#   - TASK-ID
 ---
 
 # TASK-ID | One-line title
@@ -42,4 +51,4 @@ _Captured YYYY-MM-DD during <design discussion / mid-flow discovery / etc.> — 
 
 ### Related
 
-- [[TASK-ID]] — short context (predecessor / follow-up / parent epic)
+- [[TASK-ID]] — short context (predecessor / follow-up / parent epic; type-hint `blocked-by:` / `parallel-safe-with:` when a planning key is set)

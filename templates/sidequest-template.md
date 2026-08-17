@@ -5,6 +5,14 @@ priority: Low
 pickup: next-chat
 created: YYYY-MM-DD
 parent:
+# Optional planning keys — omit when absent (SPEC.md §Tasknote frontmatter).
+# Omitted means undeclared, not "touches nothing" / "safe with everyone".
+# touches:
+#   - path/or/glob
+# blocked-by:
+#   - TASK-ID
+# parallel-safe-with:
+#   - TASK-ID
 ---
 
 # TASK-ID | One-line title

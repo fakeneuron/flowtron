@@ -17,7 +17,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **CORE-EPIC-445** [heavy] | graph-lite planning — Optional YAML touches, blocked-by, and parallel-safe-with; .1 fan-out plus worktree warn; archive decision links; trivial viz overlay. Markdown and git only — no graph runtime.
   - [x] **CORE-445.1** [heavy] | graph-lite planning discovery — Completed 2026-08-17.
-  - [ ] **CORE-445.2** [medium] | graph-lite yaml surface — Add optional omit-when-absent YAML keys touches, blocked-by, and parallel-safe-with to the four tasknote templates and SPEC frontmatter, with examples and a Related-prose mirror. No validator.
+  - [x] **CORE-445.2** [medium] | graph-lite yaml surface — Completed 2026-08-17.
   - [ ] **CORE-445.3** [medium] | epic-worktree fan-out — Declare epic fan-out on Discovery .1 (child YAML echo); mesh WORKTREES and a warn-only worktree-start check; document that flowtron will not become a graph runtime.
   - [ ] **CORE-445.4** [medium] | archive decision links — Typed Related depends-on / related-decision lines; optional supersedes: on later notes; Phase 1 skim follows them; no archive backfill.
   - [ ] **CORE-445.5** [light] | viz optional edges — Show PLAN blockedBy as a chip; optionally parse new YAML in TaskDetail. No new view or required Task fields.

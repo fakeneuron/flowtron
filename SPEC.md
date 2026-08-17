@@ -363,6 +363,37 @@ so adopting projects' tools (visualizers, dashboards, queries) can consume
 tasknote metadata without scraping the H1 line. Adopting projects can ignore
 the frontmatter and continue working as before.
 
+**Optional planning keys.** Three additive keys extend the frontmatter when a
+task wants a durable, queryable planning claim. They follow the same
+omit-when-absent rule as the loop keys
+([`SPEC/loop.md`](SPEC/loop.md) §"Frontmatter keys"): legacy notes omit them;
+tools ignore them when absent. Omitted means *undeclared*, not "touches
+nothing" / "blocked by nothing" / "safe with everyone." Bare IDs (not
+wikilinks) for task references; paths as strings or globs.
+
+| Key | Value | Meaning |
+|---|---|---|
+| `touches:` | list of path strings / globs | Files or trees this task expects to edit |
+| `blocked-by:` | list of bare task IDs | Durable planning dependency. Distinct from PLAN `Blocked by [[ID]]` (the don't-start / park-visible gate; see [`SPEC/blocked.md`](SPEC/blocked.md)) and from `status: blocked` (mid-Phase-2 park). Survives the Phase 4 PLAN stub. |
+| `parallel-safe-with:` | list of bare task IDs | Claimed-safe concurrent siblings (typically worktree isolation) |
+
+Do **not** add `blocks` (the inverse of `blocked-by`; derivable by grep) or
+`depends-on` (a synonym of `blocked-by`). Flowtron ships no validator for
+these keys. The shipped templates comment them rather than emitting empty
+arrays, so the happy-path scaffold pays nothing at parse time. Starter
+`### Files to touch` stays the informal prose survey; YAML `touches:` is the
+short queryable list once the files are known.
+
+```yaml
+touches:
+  - templates/
+  - SPEC.md
+blocked-by:
+  - CORE-445.2
+parallel-safe-with:
+  - CORE-445.3
+```
+
 **Date format:** always use `YYYY-MM-DD` for `created:`, `Completed`, and `Archived` date fields.
 
 ## Starter tasknotes
@@ -427,7 +458,10 @@ section until promotion.
   "Execution Steps" block). A working plan, not a contract — **exempt from the
   Phase 4 Acceptance tick-through** (see §"🚀 Phase 4: Closure").
 - **🔗 Related** — bullet list of related tasks with one-line context per ID,
-  mirroring `related-tasks:` from the YAML in human-readable form.
+  mirroring `related-tasks:` from the YAML in human-readable form. When a
+  planning key is set, the same bullet may carry a type hint (`blocked-by:` /
+  `parallel-safe-with:`) so the edge stays readable after the YAML is written:
+  `[[CORE-445.2]] — blocked-by: templates land first`.
 
 **Phase sections (the "log")** — the four-phase checklists below the divider
 remain the execution record.

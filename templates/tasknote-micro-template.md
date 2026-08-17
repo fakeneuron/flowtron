@@ -5,6 +5,14 @@ tags: []
 created: YYYY-MM-DD
 due:
 related-tasks: []
+# Optional planning keys — omit when absent (SPEC.md §Tasknote frontmatter).
+# Omitted means undeclared, not "touches nothing" / "safe with everyone".
+# touches:
+#   - path/or/glob
+# blocked-by:
+#   - TASK-ID
+# parallel-safe-with:
+#   - TASK-ID
 ---
 
 # TASK-ID | One-line title

@@ -5,6 +5,14 @@ tags: []
 created: YYYY-MM-DD
 due:
 related-tasks: []
+# Optional planning keys — omit when absent (SPEC.md §Tasknote frontmatter).
+# Omitted means undeclared, not "touches nothing" / "safe with everyone".
+# touches:
+#   - path/or/glob
+# blocked-by:
+#   - TASK-ID
+# parallel-safe-with:
+#   - TASK-ID
 ---
 
 # TASK-ID | Task Title
@@ -27,7 +35,7 @@ One-sentence goal of what this task accomplishes.
 
 ## 🔗 Related
 
-- [[TASK-ID]] — short context (predecessor / follow-up / parent epic)
+- [[TASK-ID]] — short context (predecessor / follow-up / parent epic; type-hint `blocked-by:` / `parallel-safe-with:` when a planning key is set)
 
 ---
 
