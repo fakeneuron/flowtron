@@ -161,8 +161,11 @@ ticking each box in the tasknote as you go:
   duplication, and any required in-scope refactor or deferred cleanup; otherwise
   record `N/A` with reason.
 - **Archive skim** — list `.flowtron/tasknote/archive/<area>/` and look for
-  prior tasknotes touching the files in scope; log load-bearing findings
-  (renames, regressions, prior decisions) before re-interpreting the task.
+  prior tasknotes touching the files in scope (if YAML `touches:` is set,
+  prefer those paths); also open IDs named by `## 🔗 Related`, YAML
+  `supersedes:`, and any ⚠️ `Superseded by` pointer on the hits — still
+  grep + read, no query engine; log load-bearing findings (renames,
+  regressions, prior decisions) before re-interpreting the task.
 - **Drift check** — verify cited paths, line numbers, function names, and
   root-cause hypotheses still match the code, **and** cross-reference the plan
   you are forming against its `PLAN.md` line and the SPEC contracts it touches

@@ -191,7 +191,7 @@ Walk the Phase 1 checklist per SPEC §"📝 Phase 1: Discovery". Tick boxes as e
 - **Reviewed PLAN.md** — already done (the parent + `.1` + `.N` lines were written in Step 4).
 - **Relevance Assessment** — Verdict: Proceed (the user explicitly invoked `/ft-epic-discovery`, motivating filing an epic). Rationale: capture from the Step 1 conversation context.
 - **Read relevant source files** — read the source files the conversation surfaced as in-scope for the epic. If none surfaced yet, ask the user which directories / modules / files the epic touches and read those.
-- **Archive skim** — `ls <tasknote dir>/archive/<area>/` then `grep -l <source-path> <tasknote dir>/archive/<area>/*.md` for each source path. Read hits and log load-bearing findings (file moves, precedents, design decisions, regressions) in Discovery Notes.
+- **Archive skim** — `ls <tasknote dir>/archive/<area>/` then `grep -l <source-path> <tasknote dir>/archive/<area>/*.md` for each source path (prefer YAML `touches:` when set). Read hits; also open IDs named by Related / `supersedes` / ⚠️ pointers — still grep + read, no query engine. Log load-bearing findings (file moves, precedents, design decisions, regressions) in Discovery Notes.
 - **Drift check** — verify file paths, line numbers, and concepts cited in the conversation context still match HEAD. Flag any drift.
 - **Clarifying questions** — use AskUserQuestion to resolve open scoping decisions for the implementation children.
   Typical questions: per-child shortname + scope; cross-cutting adopter-wiring policy; SPEC contract impact per child. Record answers in a "Resolved scoping" table in Discovery Notes.

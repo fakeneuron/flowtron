@@ -13,6 +13,8 @@ related-tasks: []
 #   - TASK-ID
 # parallel-safe-with:
 #   - TASK-ID
+# supersedes:
+#   - TASK-ID
 ---
 
 # TASK-ID | Task Title
@@ -35,7 +37,7 @@ One-sentence goal of what this task accomplishes.
 
 ## 🔗 Related
 
-- [[TASK-ID]] — short context (predecessor / follow-up / parent epic; type-hint `blocked-by:` / `parallel-safe-with:` when a planning key is set)
+- [[TASK-ID]] — short context (predecessor / follow-up / parent epic; type-hint `blocked-by:` / `parallel-safe-with:` / `supersedes:` / `depends-on:` / `related-decision:` when the edge is set)
 
 ---
 
@@ -52,7 +54,7 @@ One-sentence goal of what this task accomplishes.
 
 - [ ] **Best Practices Review** — for code or module-boundary work, identified touched responsibilities, dependency direction, existing abstractions, nearby duplication, and any required in-scope refactor or deferred cleanup (otherwise `N/A` with reason)
 
-- [ ] **Archive skim** — skim `.flowtron/tasknote/archive/<area>/` for prior tasknotes that touched the source paths in scope; log relevant findings in Discovery Notes before re-interpreting the task
+- [ ] **Archive skim** — skim `.flowtron/tasknote/archive/<area>/` for prior tasknotes that touched the source paths in scope (prefer YAML `touches:` when set); also follow Related / `supersedes` / ⚠️ pointers; log relevant findings in Discovery Notes before re-interpreting the task
 
 - [ ] **Drift check** — file paths, line numbers, function names, and root-cause hypotheses cited in the task description still match current code, **and** the plan this tasknote is forming neither contradicts a SPEC contract nor diverges from its `PLAN.md` line (read both, don't recall them); flag any drift before re-interpreting the task
 

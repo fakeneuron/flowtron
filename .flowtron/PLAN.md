@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-445.1** [heavy] | graph-lite planning discovery — Completed 2026-08-17.
   - [x] **CORE-445.2** [medium] | graph-lite yaml surface — Completed 2026-08-17.
   - [x] **CORE-445.3** [medium] | epic-worktree fan-out — Completed 2026-08-17.
-  - [ ] **CORE-445.4** [medium] | archive decision links — Typed Related depends-on / related-decision lines; optional supersedes: on later notes; Phase 1 skim follows them; no archive backfill.
+  - [x] **CORE-445.4** [medium] | archive decision links — Completed 2026-08-17.
   - [ ] **CORE-445.5** [light] | viz optional edges — Show PLAN blockedBy as a chip; optionally parse new YAML in TaskDetail. No new view or required Task fields.
   - [ ] **CORE-445.N** [heavy] | graph-lite planning audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
 

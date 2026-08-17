@@ -12,6 +12,8 @@ created: YYYY-MM-DD
 #   - TASK-ID
 # parallel-safe-with:
 #   - TASK-ID
+# supersedes:
+#   - TASK-ID
 ---
 
 # TASK-ID | One-line title
@@ -51,4 +53,4 @@ _Captured YYYY-MM-DD during <design discussion / mid-flow discovery / etc.> — 
 
 ### Related
 
-- [[TASK-ID]] — short context (predecessor / follow-up / parent epic; type-hint `blocked-by:` / `parallel-safe-with:` when a planning key is set)
+- [[TASK-ID]] — short context (predecessor / follow-up / parent epic; type-hint `blocked-by:` / `parallel-safe-with:` / `supersedes:` / `depends-on:` / `related-decision:` when the edge is set)

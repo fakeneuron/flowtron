@@ -13,6 +13,8 @@ parent:
 #   - TASK-ID
 # parallel-safe-with:
 #   - TASK-ID
+# supersedes:
+#   - TASK-ID
 ---
 
 # TASK-ID | One-line title

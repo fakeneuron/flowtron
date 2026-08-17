@@ -13,6 +13,8 @@ related-tasks: []
 #   - TASK-ID
 # parallel-safe-with:
 #   - TASK-ID
+# supersedes:
+#   - TASK-ID
 ---
 
 # TASK-ID | One-line title
@@ -28,7 +30,7 @@ related-tasks: []
 **Relevance:** Proceed | Re-scope | De-scope — <one-line rationale>
 **Best Practices Review:** <responsibilities, dependency direction, existing abstractions, duplication, and any in-scope refactor or deferred cleanup; OR N/A with reason>
 **Drift check:** <paths/line numbers/function names cited in PLAN.md still match current code, AND the plan neither contradicts a SPEC contract nor diverges from its PLAN.md line; OR "no drift" / specific findings>
-**Archive skim:** <relevant findings from `.flowtron/tasknote/archive/<area>/`, OR "no prior tasknotes touch these paths">
+**Archive skim:** <relevant findings from `.flowtron/tasknote/archive/<area>/` (prefer YAML `touches:`; also follow Related / `supersedes` / ⚠️), OR "no prior tasknotes touch these paths">
 **Pattern survey:** <neighboring code or sibling shape extended, OR justification for a new shape>
 **Implementation:** <ad-hoc free text — what changed, key decisions, anything load-bearing for future readers>
 **Docs touched:** <per-entry verdict for `.flowtron/tasknote/README.md` §"AI-referenced docs" — "no change" or the update>

@@ -337,7 +337,10 @@ covered:
 
 - **A superseded decision.** CORE-159 overturned CORE-157's exclusion of
   `docs/PLATFORMS.md`; CORE-157 remains an accurate record of what was decided
-  then. Decisions changing is the system working, not a defect.
+  then. Decisions changing is the system working, not a defect. Record the
+  overturn on the *later* note with omit-when-absent YAML `supersedes:` (see
+  Optional planning keys below) — never by writing `superseded-by:` onto the
+  old note, and never via this ⚠️ pointer.
 - **Spec evolution.** The case the policy opens with — conventions move, legacy
   archives stay as-is.
 - **Bulk backfill.** Reaching across many archived notes to normalize them
@@ -363,26 +366,29 @@ so adopting projects' tools (visualizers, dashboards, queries) can consume
 tasknote metadata without scraping the H1 line. Adopting projects can ignore
 the frontmatter and continue working as before.
 
-**Optional planning keys.** Three additive keys extend the frontmatter when a
+**Optional planning keys.** Four additive keys extend the frontmatter when a
 task wants a durable, queryable planning claim. They follow the same
 omit-when-absent rule as the loop keys
 ([`SPEC/loop.md`](SPEC/loop.md) §"Frontmatter keys"): legacy notes omit them;
 tools ignore them when absent. Omitted means *undeclared*, not "touches
-nothing" / "blocked by nothing" / "safe with everyone." Bare IDs (not
-wikilinks) for task references; paths as strings or globs.
+nothing" / "blocked by nothing" / "safe with everyone" / "supersedes
+nothing." Bare IDs (not wikilinks) for task references; paths as strings or
+globs.
 
 | Key | Value | Meaning |
 |---|---|---|
 | `touches:` | list of path strings / globs | Files or trees this task expects to edit |
 | `blocked-by:` | list of bare task IDs | Durable planning dependency. Distinct from PLAN `Blocked by [[ID]]` (the don't-start / park-visible gate; see [`SPEC/blocked.md`](SPEC/blocked.md)) and from `status: blocked` (mid-Phase-2 park). Survives the Phase 4 PLAN stub. |
 | `parallel-safe-with:` | list of bare task IDs | Claimed-safe concurrent siblings (typically worktree isolation) |
+| `supersedes:` | list of bare task IDs | This later note replaces that prior *decision*. Written only on the later note. Distinct from the ⚠️ `Superseded by` pointer (factual-false forward write on the old note; see the write-once carve-out above). Never `superseded-by:` on the corrected note. |
 
 Do **not** add `blocks` (the inverse of `blocked-by`; derivable by grep) or
-`depends-on` (a synonym of `blocked-by`). Flowtron ships no validator for
-these keys. The shipped templates comment them rather than emitting empty
-arrays, so the happy-path scaffold pays nothing at parse time. Starter
-`### Files to touch` stays the informal prose survey; YAML `touches:` is the
-short queryable list once the files are known.
+`depends-on` (a synonym of `blocked-by`). A Related prose label `depends-on:`
+is not this key. Flowtron ships no validator for these keys. The shipped
+templates comment them rather than emitting empty arrays, so the happy-path
+scaffold pays nothing at parse time. Starter `### Files to touch` stays the
+informal prose survey; YAML `touches:` is the short queryable list once the
+files are known.
 
 ```yaml
 touches:
@@ -392,6 +398,8 @@ blocked-by:
   - CORE-445.2
 parallel-safe-with:
   - CORE-445.3
+supersedes:
+  - CORE-157
 ```
 
 **Date format:** always use `YYYY-MM-DD` for `created:`, `Completed`, and `Archived` date fields.
@@ -461,8 +469,11 @@ section until promotion.
 - **🔗 Related** — bullet list of related tasks with one-line context per ID,
   mirroring `related-tasks:` from the YAML in human-readable form. When a
   planning key is set, the same bullet may carry a type hint (`blocked-by:` /
-  `parallel-safe-with:`) so the edge stays readable after the YAML is written:
-  `[[CORE-445.2]] — blocked-by: templates land first`.
+  `parallel-safe-with:` / `supersedes:`) so the edge stays readable after the
+  YAML is written: `[[CORE-445.2]] — blocked-by: templates land first`.
+  Archive decision edges that have no YAML key use prose labels `depends-on:`
+  (this decision rests on a prior one) and `related-decision:` (see-also) —
+  never as frontmatter keys.
 
 **Phase sections (the "log")** — the four-phase checklists below the divider
 remain the execution record.
@@ -632,7 +643,7 @@ Mandatory steps:
 - [ ] **Relevance Assessment** — `Proceed` / `Re-scope` / `De-scope` with one-line rationale
 - [ ] Read relevant source files — when the read set is broad or its shape is unknown, consider isolating the search in a **probe** (see below) and recording only its distilled return in Discovery Notes
 - [ ] **Best Practices Review** — when code or module boundaries are in scope, identify the touched responsibilities, established dependency direction and abstractions, and nearby duplication; record any required in-scope refactor or deferred cleanup (otherwise `N/A` with a one-line reason)
-- [ ] **Archive skim** — surface prior decisions on the same files / area by skimming `.flowtron/tasknote/archive/<area>/` for tasknotes that touched the source paths in scope; log relevant findings in Discovery Notes before re-interpreting the task
+- [ ] **Archive skim** — surface prior decisions on the same files / area by skimming `.flowtron/tasknote/archive/<area>/` for tasknotes that touched the source paths in scope (if YAML `touches:` is set, prefer those paths for the path grep); also open IDs named by `## 🔗 Related`, YAML `supersedes:`, and any ⚠️ `Superseded by` pointer on the hits — still `grep` + read, no query engine; log relevant findings in Discovery Notes before re-interpreting the task
 - [ ] **Drift check** — verify file paths, line numbers, function names, and root-cause hypotheses cited in the task description still match current code, **and** cross-reference the plan this tasknote is forming against its `PLAN.md` line and the SPEC contracts it touches (read them, don't recall them); surface any drift to the user before re-interpreting the task
 - [ ] Asked clarifying questions OR logged "No clarifications needed" with explicit assumptions
 - [ ] Subtasks above populated with concrete, ordered steps
@@ -655,7 +666,7 @@ This is a judgment prompt, not a gate: it adds no checklist box, no phase, and
 no machinery — spawning the probe is the operator's or the session's call, and
 skipping it is always correct for a narrow read set.
 
-Archive skim + drift check both exist because prior tasknotes record decisions (renames, regressions, rationales) and PLAN.md is a snapshot, not a spec. Surface findings before re-interpreting; don't silently "correct" the plan by executing a different task.
+Archive skim + drift check both exist because prior tasknotes record decisions (renames, regressions, rationales) and PLAN.md is a snapshot, not a spec. Surface findings before re-interpreting; don't silently "correct" the plan by executing a different task. When `touches:` is set, use it to narrow the path grep. After the path hits, follow typed Related lines, `supersedes:` IDs, and ⚠️ pointers as extra notes to open — they are edges to read, not a graph query.
 
 The drift check's **cross-artifact half** catches a different failure than its
 code half: a plan that is fine against the code but contradicts a contract the

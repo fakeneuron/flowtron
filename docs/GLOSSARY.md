@@ -126,6 +126,8 @@ Alphabetized. ~68 entries. Maintained via epic children and audits.
 
 **submodule pin** — The deliberate, versioned consumption mechanism: adopters add flowtron as a git submodule pinned to a specific commit. Updates occur only via intentional bumps (see docs/MIGRATION.md).
 
+**supersedes** — Optional omit-when-absent tasknote frontmatter array of bare task IDs, written on the *later* note only: this decision replaces that prior one. Distinct from the ⚠️ `Superseded by` pointer (factual-false forward write on the old note) and from Related prose labels `depends-on:` / `related-decision:` (not YAML keys). See SPEC §"Tasknote frontmatter".
+
 **tasknote** — The self-contained markdown file (YAML frontmatter + 4-phase checklists + Discovery/Implementation/Testing/Closure notes) that holds the complete scope of one unit of work. Exactly one active tasknote per in-flight task.
 
 **tasknote frontmatter** — The YAML block at the top of every tasknote (`title`, `status`, `created`, `related-tasks`, etc.). Most fields are write-once after scaffold. See SPEC §"Tasknote frontmatter".
@@ -142,6 +144,6 @@ Alphabetized. ~68 entries. Maintained via epic children and audits.
 
 ---
 
-**Maintenance.** This file is the survivor slice of the GSD-Pi `CONTEXT.md` pattern (see CORE-194.1). It is deliberately lazy-loaded and must never be added to the AI-referenced docs list. New terms are introduced only by epic children or audit follow-ups that also update the authoritative SPEC anchors. Last significant update: CORE-445.3 (2026-08-17) — added `blocked-by` (YAML), `Fan-out (🌳)`, `parallel-safe-with`, `touches`, `worktree`; PR-archetypes count 6→8.
+**Maintenance.** This file is the survivor slice of the GSD-Pi `CONTEXT.md` pattern (see CORE-194.1). It is deliberately lazy-loaded and must never be added to the AI-referenced docs list. New terms are introduced only by epic children or audit follow-ups that also update the authoritative SPEC anchors. Last significant update: CORE-445.4 (2026-08-17) — added `supersedes`.
 
 See [SPEC.md](../SPEC.md) for the contract and [.flowtron/PLAN.md](../.flowtron/PLAN.md) for the current epic context.

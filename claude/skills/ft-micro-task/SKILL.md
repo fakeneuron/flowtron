@@ -92,7 +92,7 @@ Fill the five bold-prefix prompts in `## ⚡ Notes` before touching code. They m
 Skill-specific imperatives on top of the SPEC contracts:
 
 - **Relevance:** if `Re-scope`, a meaningful re-scope usually means promote to `/ft-task` — archive the micro and re-invoke `/ft-task <ID>`. If `De-scope`, jump to Step 4 with the de-scope rationale as the recap.
-- **Archive skim recipe:** `ls .flowtron/tasknote/archive/<area>/`, then `grep -l <path> .flowtron/tasknote/archive/<area>/*.md` for source paths in scope. Read hits; log load-bearing findings inline. Empty archive → `no prior tasknotes` and move on.
+- **Archive skim recipe:** `ls .flowtron/tasknote/archive/<area>/`, then `grep -l <path> .flowtron/tasknote/archive/<area>/*.md` for source paths in scope (prefer YAML `touches:` when set). Read hits; also open IDs named by Related / `supersedes` / ⚠️ pointers — still grep + read, no query engine; log load-bearing findings inline. Empty archive → `no prior tasknotes` and move on.
 
 Then **do the work**: extend an established pattern or justify a new one; check DRY and responsibility boundaries; refactor only when Acceptance requires it or the touched path would otherwise introduce duplication, obscure responsibility, or violate a dependency boundary. Record that reason and defer unrelated cleanup. Run targeted tests + lint/type-check on changed files, then confirm the canonical structural quality assertions for changed code (otherwise `N/A` with reason). Update **Implementation** bold-prefix as you go (what changed, key decisions). At closure-readiness fill **Docs touched:** per `.flowtron/tasknote/README.md` §"AI-referenced docs" (the micro-tasknote equivalent of `/ft-task`'s Phase 4 doc-drift sweep): "no change" or the specific update.
 

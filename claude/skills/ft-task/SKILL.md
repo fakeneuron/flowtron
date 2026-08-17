@@ -129,7 +129,7 @@ Skill-specific imperatives on top of the SPEC contract:
 
 - Tick boxes in the tasknote as you complete them.
 - The first checklist item (Reviewed PLAN.md) is already done in Step 1 of this skill.
-- For the Archive skim step: `ls .flowtron/tasknote/archive/<area>/` to enumerate, then for each source path in scope run `grep -l <path> .flowtron/tasknote/archive/<area>/*.md`. Read the hits and log anything load-bearing in Discovery Notes (file moves, regressions, design decisions, hardlink notes, etc.). If `archive/<area>/` is empty or absent, log "no prior tasknotes" and tick the box.
+- For the Archive skim step: `ls .flowtron/tasknote/archive/<area>/` to enumerate, then for each source path in scope run `grep -l <path> .flowtron/tasknote/archive/<area>/*.md` (if YAML `touches:` is set, prefer those paths). Read the hits and log anything load-bearing in Discovery Notes (file moves, regressions, design decisions, hardlink notes, etc.). Also open IDs named by `## 🔗 Related`, YAML `supersedes:`, and any ⚠️ `Superseded by` pointer on those hits — still grep + read; no query engine. If `archive/<area>/` is empty or absent, log "no prior tasknotes" and tick the box.
 - For the Clarifying questions step: use AskUserQuestion for anything genuinely ambiguous. If nothing is ambiguous, write `No clarifications needed` in the tasknote with the explicit assumptions.
   **When `fast-mode = true`** (from Step 0): skip the AskUserQuestion call and write `No clarifications needed (--fast)` with the explicit assumptions the operator is asserting.
 - For the "populate Subtasks" step: fill the tasknote's `## 🧩 Subtasks` checklist with concrete, ordered steps.
