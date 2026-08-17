@@ -507,7 +507,7 @@ end-to-end with inline state markers. Once Phase 1 closes, Phase 2 →
 Phase 3 → Phase 4 closure ops flow continuously without intermediate
 gates; skill-level extensions (epic parent-flip, release push-go) bundle
 into 📦 rather than adding their own banners. Separate from these two phase
-gates, a destructive 🗄️/▶️ command cue may trigger a one-off
+gates, a destructive 🗄️/▶️/📡/💻 command cue may trigger a one-off
 destructive-action banner — a bounded safety escalation, not a third
 standing gate (see the glossary below).
 
@@ -528,7 +528,9 @@ reliability. Full contract (emission shapes, escalation, conventions):
 | Glyph | Label | Means |
 |---|---|---|
 | 🗄️ | `DB` | run a database / migration command (inline) |
-| ▶️ | `RUN` | run a build / script / server step (inline) |
+| ▶️ | `RUN` | run a generic / agent-adjacent command (inline) |
+| 📡 | `NAS` | run a command on the NAS (inline) |
+| 💻 | `TERM` | paste a command into the operator TTY (inline) |
 | ✋ | `ACTION` | perform a manual, non-command action (inline) |
 | 🟢 | `GO` | commit-go approval ask |
 | 👁️ | `CONFIRM` | visual-confirmation ask (covers "visit a URL") — **emphasized** inline shape: own line, bold label |
@@ -540,7 +542,7 @@ reliability. Full contract (emission shapes, escalation, conventions):
 | 🔧 / 🧩 / 🧠 | `LIGHT` / `MEDIUM` / `HEAVY` | next-task suggestion: mechanical / moderate / design |
 | 👇 | `HERE` | run the suggested invocation in this session (don't clear) |
 
-A destructive 🗄️/▶️ action may escalate from its inline prefix to a
+A destructive 🗄️/▶️/📡/💻 action may escalate from its inline prefix to a
 blocking banner — see [`SPEC/gates.md` §"Operator-cue vocabulary" → "Destructive-action escalation"](SPEC/gates.md).
 
 ### 📝 Phase 1: Discovery

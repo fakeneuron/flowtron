@@ -59,7 +59,7 @@ both, in which case the hypothesis scaffolding is written without stopping to
 ask, and the Phase 3 repro re-verify still runs (it is not a gate autonomous
 mode may suppress).
 
-The **operator-cue vocabulary** (🛠️ 📦 🟢 👁️ 🏁 ✅ 🔧 🧩 🧠 👇 🗄️ ▶️ ✋ 🔍 and
+The **operator-cue vocabulary** (🛠️ 📦 🟢 👁️ 🏁 ✅ 🔧 🧩 🧠 👇 🗄️ ▶️ 📡 💻 ✋ 🔍 and
 their UPPERCASE labels) is contract-layer, not Claude-specific — emit it
 **verbatim**. The glyph is the fast-scan signal; the UPPERCASE label is the
 fallback if your surface strips emoji. Full vocabulary:

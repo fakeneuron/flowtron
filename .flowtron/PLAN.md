@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-444** [heavy]🧠 | nas-term-cues — Add event cues 📡 NAS (operator runs a command on the NAS) and 💻 TERM (paste into the operator TTY). Narrow ▶️ RUN to generic/agent-adjacent steps. Extend uniqueness and destructive-escalation rules so the new command cues can escalate like 🗄️/▶️.
+(none)
 
 ## Low
 
@@ -25,6 +25,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 
 ## Completed
+
+- [x] **CORE-444** [heavy]🧠 | nas-term-cues — Completed 2026-08-17.
 
 - [x] **FE-087** [medium] | plan-parse-near-miss — Completed 2026-08-13.
 
