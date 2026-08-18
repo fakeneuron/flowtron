@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-(none)
+- [ ] **CORE-446** [light]🔧 | public-index leftovers — Fix README All-docs still calling Cursor future after CORE-438, README glossary blurb still saying ~60 vs GLOSSARY.md ~68, and bump SPEC/procedures/ft-task.md last-verified after CORE-445 SOP body edits.
 
 ## Future Opportunities
 
