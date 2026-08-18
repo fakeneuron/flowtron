@@ -866,7 +866,7 @@ After a tasknote is archived, run the three-step protocol (commit / mark landed 
    - **Recap (work summary)** — 1-2 sentence plain-English lede, then technical detail (file paths / LOC / key decisions + optional verification ask) per §"🚀 Phase 4: Closure".
    - **Proposed commit message** — `feat: <TASK-ID> — <title>` (or `fix:` / `docs:` / `chore:`). Multiple recently-closed tasknotes may bundle into one commit.
 
-   The commit-go prompt carries a `🟢` prefix (e.g., `🟢 Reply commit / go to land.`). Skill-level extensions (e.g., parent-flip Yes/No) ride inside this bundle per the override above; the commit-go is the single approval authorizing recap + closure + bundled prompts + commit.
+   The commit-go prompt carries a `🟢` prefix (e.g., `🟢 Reply commit / go to land.`). Accepted replies are the closed set in [`SPEC/gates.md` §"Accepted gate replies"](SPEC/gates.md) (`commit` / `go` / `yes`); `okay` / `looks good` are not members. Skill-level extensions (e.g., parent-flip Yes/No) ride inside this bundle per the override above; the commit-go is the single approval authorizing recap + closure + bundled prompts + commit.
 
    **ft-micro-task carve-out.** `/ft-micro-task` carries no 📦 banner block on the fire branch — its commit-go is the emphasized 🟢 GO ask (own line, blank-line isolated, bold label) in place of the banner. The 📦 cue does not apply; the 🟢 prefix does. The same conditional skip rule governs both forms. See `/ft-micro-task` SKILL.md Step 5.
 

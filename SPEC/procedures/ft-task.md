@@ -208,8 +208,10 @@ scope deviation** (a `Re-scope`/`De-scope` verdict — always; or a
 clarification that changed which file to edit, restructured the subtasks,
 added a cross-cutting concern, or changed the approach), surface the 🛠️
 banner with a mandatory 1-2 sentence plain-English preview and wait for the
-operator's go. Full flavor rules and the autonomous-mode drift carve-out
-(Re-scope/De-scope always fire 🛠️ even under autonomous mode):
+operator's go (conversational assent —
+[`SPEC/gates.md` §"Accepted gate replies"](../gates.md)). Full flavor rules
+and the autonomous-mode drift carve-out (Re-scope/De-scope always fire 🛠️
+even under autonomous mode):
 [`SPEC/gates.md` §"Phase 1→2 exit gate"](../gates.md).
 
 ### 5 — Phases 2-4
@@ -316,7 +318,8 @@ Run the three-step protocol in
      🏁 marker + next-move + copy-paste line in one response.
    - **Fire** (privileged-ops signal trips, or a bundled prompt is queued) → surface the
      📦 banner with a mandatory preview line and a `🟢 GO` commit-go ask; wait
-     for "commit" / "go". Do **not** emit 🏁, next-move, or the copy-paste
+     for the closed set (`commit` / `go` / `yes` —
+     [`SPEC/gates.md` §"Accepted gate replies"](../gates.md)). Do **not** emit 🏁, next-move, or the copy-paste
      line in this turn. Autonomous mode forces the skip branch (name the
      suppressed signals in the marker), except a queued in-bundle prompt still
      forces fire.

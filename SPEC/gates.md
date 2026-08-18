@@ -143,8 +143,8 @@ CORE-254.4 — this contract fixes the canonical label.
 
 | Cue | Glyph | Label | Shape | Notes |
 |---|---|---|---|---|
-| Commit-go | 🟢 | `GO` | inline ask prefix (**emphasized** when standalone) | The single commit-go approval (`Reply commit / go to land`). Normally bundled inside the 📦 banner, inheriting its salience; when emitted standalone it takes the emphasized shape below |
-| Visual-confirm | 👁️ | `CONFIRM` | **emphasized** inline ask | Visual-confirmation ask; see "Emphasized inline ask shape" below. **Covers "visit / open a URL to confirm"** (e.g. `👁️ **CONFIRM** — does the new outline look right at http://localhost:5120?`) — there is no separate visit-URL cue |
+| Commit-go | 🟢 | `GO` | inline ask prefix (**emphasized** when standalone) | The single commit-go approval. Emission example: `Reply commit / go to land.` Accepted replies: closed set in §"Accepted gate replies" (`commit` / `go` / `yes`). Normally bundled inside the 📦 banner, inheriting its salience; when emitted standalone it takes the emphasized shape below |
+| Visual-confirm | 👁️ | `CONFIRM` | **emphasized** inline ask | Visual-confirmation ask; see "Emphasized inline ask shape" below. **Covers "visit / open a URL to confirm"** (e.g. `👁️ **CONFIRM** — does the new outline look right at http://localhost:5120?`) — there is no separate visit-URL cue. Accepted replies: conversational assent in §"Accepted gate replies" |
 | Audit-family flag | 🔍 | `AUDIT` | inline next-move flag | Prefixes `/ft-audit*` next-move + copy-paste lines |
 
 #### Emphasized inline ask shape
@@ -189,6 +189,35 @@ the same shape. Inside 📦, the banner already carries it.
 **`--fast` is unchanged.** The flag still suppresses the 👁️ ask entirely
 (§"`--fast` operator override"). A suppressed ask has no shape; this section
 governs only the asks that are actually emitted.
+
+### Accepted gate replies
+
+Two layers. `SPEC/gates.md` is the cite-once owner; skills point here rather
+than forking a third token list.
+
+**Closed commit-go set** — 📦 ready-to-commit and standalone 🟢 `GO`.
+Accepted replies are `commit`, `go`, and `yes` (case-insensitive;
+surrounding punctuation ignored). This is the named set. `okay` and
+`looks good` are **not** members: `okay` is too weak to authorize a
+commit, and `looks good` is already the natural 👁️ `CONFIRM` reply —
+promoting it would let a visual confirmation bind as commit
+authorization. The emission example stays `Reply commit / go to land.`;
+`yes` is accepted even when the prompt does not print it.
+
+**Conversational assent** — 🛠️ Phase 1→2 and 👁️ `CONFIRM`. Any clear
+proceed reply counts, including `go`, `okay`, `looks good`, `yep`, and
+`lgtm`. These cues ask whether the plan or UI is right, not whether to
+land a commit. Do **not** wait for a token from the closed commit-go
+set; that under-accept is the failure this clause exists to stop. The
+examples are not a closed list.
+
+`go` sits in both layers on purpose. The split is per-cue (see
+Rationalizations: approval is per-cue, not ambient), not per-word.
+
+**Destructive-action banners are out.** They remain a safety control
+(`--fast` does not suppress them) and are **not** covered by
+conversational assent. `okay` / `looks good` do not approve a
+destructive command.
 
 ### Landmark cues (reaffirmed — unchanged glyphs)
 
@@ -410,8 +439,9 @@ validator.* Reading a rationalization and recognizing your
 own draft sentence in it is the entire mechanism.
 
 Scope is this module's own surface — the two banners, the skip rule,
-`--fast`, the destructive escalation, and 🏁 emission. Shortcuts against
-the Phase 1 / Phase 3 checklists belong to [`SPEC.md`](../SPEC.md), not here.
+`--fast`, the destructive escalation, 🏁 emission, and accepted-reply
+matching. Shortcuts against the Phase 1 / Phase 3 checklists belong to
+[`SPEC.md`](../SPEC.md), not here.
 
 | The excuse | Why it's wrong | Refuted by |
 |---|---|---|
@@ -423,6 +453,8 @@ the Phase 1 / Phase 3 checklists belong to [`SPEC.md`](../SPEC.md), not here.
 | "Two banners already fired — the cap forbids a third." | The cap governs **standing phase gates** (🛠️ + 📦). The destructive-action escalation is orthogonal, tied to one concrete command, and deliberately admitted as an exception to that cap. | §"Destructive-action escalation" → "Bound" |
 | "PLAN and the archive are flipped, so the task is done — 🏁." | Paper-complete: the flips are working-tree **prep**, not the deliverable. 🏁 requires a real SHA whose paths cover this task's deliverables; a flip with no commit is the failure mode the guard was written for (motivating case: an external paper-complete, InvisiPaw FE-64). | §"Operator-cue vocabulary" → landmark 🏁 row; [`SPEC.md`](../SPEC.md) §"Paper-complete guard" |
 | "They haven't objected to an autonomous commit yet this session." | Approval is **per-cue**, not ambient. A cleared skip on an earlier diff says nothing about this one; a queued in-📦 prompt forces fire no matter how the previous four went. | §"Conditional skip rule" → bundled-prompt override |
+| "They said `okay` / `looks good`, but that's not `commit`/`go`/`yes`, so keep waiting." | On 🛠️ and 👁️, conversational assent **is** the approval. Waiting for the closed commit-go set on a non-commit cue is the under-accept this clause exists to stop. | §"Accepted gate replies" |
+| "They said `looks good` on the 👁️ ask, so the 📦 is approved too." | `looks good` is 👁️'s natural reply and is excluded from the closed commit-go set for that reason. Approval is per-cue; a visual confirmation is not commit-go. | §"Accepted gate replies"; §"Conditional skip rule" → bundled-prompt override |
 | "Recap is done, so I can suggest next-move while waiting for commit-go." | Next-move and the copy-paste line are **post-SHA**. The fire-branch turn emits 📦 (or 🟢 GO) and waits; 🏁 / next-move / copy-paste land only after a deliverable-covering SHA. Motivating case: CORE-432.2 (micro closed + next-task cue with uncommitted App/PLAN dirt). | §"Conditional skip rule" → On fire; [`SPEC.md`](../SPEC.md) §"Post-closure protocol" step 2 |
 
 ## Red Flags
@@ -449,6 +481,9 @@ finding to report or a box to tick.
   §"`--fast` operator override" does not list.
 - Discovery landed a Re-scope or De-scope verdict and you are composing an
   inline skip marker rather than the 🛠️ banner.
+- You are holding a 🛠️ or 👁️ ask because the reply was not exactly
+  `commit` / `go` / `yes`.
+- You treated a 👁️ `looks good` as 📦 commit-go.
 - The 📦 bundle carries a question for the operator and you are answering it
   yourself so the commit can proceed unattended.
 - You are writing the exit-gate judgment line *after* choosing to skip, to
