@@ -26,6 +26,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-449** [medium]🧩 | release v5.18.0 — Completed 2026-08-18.
+
 - [x] **CORE-446** [light]🔧 | public-index leftovers — Completed 2026-08-18.
 - [x] **CORE-447** [light]🔧 | migration-cursor-commit — Completed 2026-08-18.
 

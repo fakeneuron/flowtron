@@ -38,7 +38,7 @@ import type { DensityMode, PaletteName } from '../visibilityPrefs';
 
 // Single source of truth for the footer version display. Bumped by /ft-release
 // alongside SPEC.md; viz/package.json mirrors this value via the same recipe.
-export const VIZ_VERSION = 'v5.17.0';
+export const VIZ_VERSION = 'v5.18.0';
 
 export const TYPOGRAPHY = {
   heading: 'text-lg',

@@ -22,6 +22,14 @@ unless correcting a factual error.
 
 ---
 
+## v5.18.0 — graph-lite planning YAML, epic fan-out, NAS/TERM cues
+
+- Graph-lite: omit-when-absent YAML planning keys, Discovery `.1` fan-out, archive decision-link skim, viz optional-edge chips
+- 📡 NAS and 💻 TERM destructive-action cues; ▶️ RUN narrowed to generic/agent-adjacent commands
+- viz parser: completed rows by checkbox; tolerate adopter PLAN.md near-misses
+
+Also: docs/SECURITY hygiene; CI full-history fetch for updater tests.
+
 ## v5.17.0 — Cursor wiring, viz fleet-scale watcher, CI + filing auto-commit
 
 - Cursor first-class thin wiring (snippet + procedure pointer); fourth
