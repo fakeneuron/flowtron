@@ -7,10 +7,11 @@ follow. It is short on purpose — anything not covered here is out of scope.
 ## Reporting a vulnerability
 
 Open a GitHub issue on this repository. There is no private disclosure
-channel; flowtron has no networked attack surface, no users beyond its
-adopters, and no realistic class of finding that benefits from embargoed
-disclosure. If you believe you have an exception, say so in the issue and
-omit exploit details until we agree on a path.
+channel; flowtron has no internet-facing service (the viz dev server is
+localhost-only; see below), no users beyond its adopters, and no realistic
+class of finding that benefits from embargoed disclosure. If you believe
+you have an exception, say so in the issue and omit exploit details until
+we agree on a path.
 
 ## Threat model
 
