@@ -56,7 +56,8 @@ one pass. Then file a task in `.flowtron/PLAN.md` and run it:
 
 Prefer to wire it by hand, or not using Claude Code?
 [docs/MIGRATION.md](docs/MIGRATION.md) carries the manual path (§1.1–1.7), the
-full one-time global-install table (§1.0), and the Codex / grok wiring.
+full one-time global-install table (§1.0), and Codex / Cursor wiring (§1.2).
+Grok is contract-only — see [docs/PLATFORMS.md](docs/PLATFORMS.md).
 
 <details>
 <summary><b>All documentation</b></summary>
@@ -69,7 +70,7 @@ full one-time global-install table (§1.0), and the Codex / grok wiring.
   is for, the principles (recap of SPEC), and the PR/suggestion archetypes
   flowtron deliberately rejects
 - [docs/GLOSSARY.md](docs/GLOSSARY.md) — alphabetized one-line definitions for
-  ~60 load-bearing terms, phases, markers, and grammar elements (lazy-loaded
+  ~68 load-bearing terms, phases, markers, and grammar elements (lazy-loaded
   pointer to SPEC anchors)
 - [docs/MIGRATION.md](docs/MIGRATION.md) — adoption guide for fresh projects
   and migration from a prior workflow system
@@ -85,8 +86,9 @@ full one-time global-install table (§1.0), and the Codex / grok wiring.
   (load-bearing locators for the Claude Code wiring layer) and why
 - [docs/PLATFORMS.md](docs/PLATFORMS.md) — multi-platform wiring pattern:
   the two-layer model (agent-neutral contract / per-platform wiring) and
-  the symmetric plug-in shape by which platforms plug in (Codex CLI and
-  grok shipped today; Cursor and others future)
+  the symmetric plug-in shape by which platforms plug in (Claude Code and
+  Codex CLI full wiring; Cursor thin sibling; Grok procedure pointer;
+  others conversational)
 - [docs/AGENT-COMPAT.md](docs/AGENT-COMPAT.md) — living agent-compatibility
   matrix: which AI coding agents flowtron supports, their contract
   entry-points, skill primitives, and last-verified currency

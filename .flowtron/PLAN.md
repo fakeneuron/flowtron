@@ -19,13 +19,14 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-446** [light]🔧 | public-index leftovers — Fix README All-docs still calling Cursor future after CORE-438, README Quickstart still pointing non-Claude users at "Codex / grok wiring" in MIGRATION (Cursor is §1.2; Grok is PLATFORMS contract-only), README glossary blurb still saying ~60 vs GLOSSARY.md ~68, and bump SPEC/procedures/ft-task.md last-verified after CORE-445 SOP body edits. Also surfaced by audit-docs 2026-08-17 (Finding #2, Medium).
+(none)
 
 ## Future Opportunities
 
 
 ## Completed
 
+- [x] **CORE-446** [light]🔧 | public-index leftovers — Completed 2026-08-18.
 - [x] **CORE-447** [light]🔧 | migration-cursor-commit — Completed 2026-08-18.
 
 - [x] **CORE-448** [light]🔧 | security-reporting-surface — Narrowed SECURITY.md reporting sentence from "no networked attack surface" to no internet-facing service (viz localhost-only). Surfaced by audit-docs 2026-08-17 (Finding #3, Medium), fixed inline.

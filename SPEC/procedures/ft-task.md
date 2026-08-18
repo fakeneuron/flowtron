@@ -2,7 +2,7 @@
 procedure: ft-task
 source: claude/skills/ft-task/ templates/tasknote-template.md
 restates: SPEC.md
-last-verified: v5.15.0 · 2026-08-08
+last-verified: v5.17.0 · 2026-08-18
 ---
 
 # Procedure SOP — `ft-task`
