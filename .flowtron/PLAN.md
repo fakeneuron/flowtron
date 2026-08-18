@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-(none)
+- [ ] **CORE-450** [medium]🧩 | proceed-reply-vocab — Decide whether informal proceed replies (`go`, `okay`, `looks good`) stay implicit conversational assent or get named as accepted gate-go tokens in SPEC/gates.md, and whether `okay`/`looks good` join the existing `commit`/`go`/`yes` set.
 
 ## Future Opportunities
 
