@@ -11,7 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-447** [light]🔧 | migration-cursor-commit — Add a Cursor-only staging note (or snippet pointer) to MIGRATION §1.6 so `git add` does not assume `.claude/` paths a Cursor-only install never creates. Surfaced by audit-docs 2026-08-17 (Finding #1, High).
+(none)
 
 ## Medium
 
@@ -25,6 +25,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 
 ## Completed
+
+- [x] **CORE-447** [light]🔧 | migration-cursor-commit — Completed 2026-08-18.
 
 - [x] **CORE-448** [light]🔧 | security-reporting-surface — Narrowed SECURITY.md reporting sentence from "no networked attack surface" to no internet-facing service (viz localhost-only). Surfaced by audit-docs 2026-08-17 (Finding #3, Medium), fixed inline.
 

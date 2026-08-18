@@ -280,6 +280,8 @@ git commit -m "chore: adopt flowtron at vX.Y.Z"
 
 If your project already has other files under `.claude/` (settings, other skills), the explicit paths above keep the migration commit scoped to just the flowtron wiring.
 
+**Cursor-only (no `.claude/` wiring).** The `git add` block above is the Claude-default path. A Cursor-only install from §1.2 never creates those `.claude/` files — adding them fails. Stage the Cursor snippet's symlinks instead (`git add .cursor/` per [`cursor/AGENTS-snippet.md`](../cursor/AGENTS-snippet.md) §"One-time symlink wiring") together with `.gitmodules`, `.flowtron/core`, `.flowtron/PLAN.md`, `.flowtron/tasknote/`, and `AGENTS.md`.
+
 ### 1.7 Verify
 
 In a fresh session with your coding agent, verify the platform's wired entry point:
