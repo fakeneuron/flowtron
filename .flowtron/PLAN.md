@@ -11,7 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-(none)
+- [ ] **CORE-451** [medium]🧩 | install-path doc reconcile — Drop `/ft-update` and `/ft-release` from `docs/MIGRATION.md` §1.0's one-time global-install table (keep the true globals: `ft-new-project`, `ft-flowtron`, `ft-stats`, `ft-audit-context`, `ft-audit-repo`). Delete the `docs/PLATFORMS.md` Installed-surface policy clause that `ft-update` "may also be installed globally" so it matches §"One canonical install path" (repo-scoped is canonical; agent home carries only those utilities). Surfaced by audit-docs 2026-08-19 (Finding #2, High)
 
 ## Medium
 
@@ -25,6 +25,10 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 
 ## Completed
+
+- [x] **CORE-454** [light]🔧 | audit-docs-default-scope — Rewrote `docs/MIGRATION.md` §1.2.2 so `/ft-audit docs` with no extra scope walks the AI-referenced set. Surfaced by audit-docs 2026-08-19 (Finding #1, Medium), fixed inline.
+- [x] **CORE-453** [light]🔧 | migration-cursor-dangling-find — Retired-skill dangling-symlink check in `docs/MIGRATION.md` now walks `.cursor` when that directory exists. Surfaced by audit-docs 2026-08-19 (Finding #3, Medium), fixed inline.
+- [x] **CORE-452** [light]🔧 | readme-task-counter — README closed-task count 689 → 691 (as of 2026-08-19). Surfaced by audit-docs 2026-08-19 (Finding #4, Medium), fixed inline.
 
 - [x] **CORE-450** [medium]🧩 | proceed-reply-vocab — Completed 2026-08-18.
 

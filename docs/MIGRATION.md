@@ -219,7 +219,7 @@ ln -s ../../codex/skills/* .agents/skills/
 
 `.agents/` is gitignored alongside `.claude/` (see root `.gitignore`), so this stays per-machine too.
 
-The canonical `claude/skills/ft-audit/` directory (`SKILL.md` + `passes/`) is the **stack-neutral scaffold** of §1.2.1 — it intentionally retains the §0 forker checklist and placeholder globs/rubrics so adopters (and flowtron's own release tooling) can fork it. It is **not** a pre-filled flowtron-self specialization. Auditing flowtron itself therefore supplies scope at invocation time: `/ft-audit <domain>` with no baked-in default stops and asks for a target (e.g. `viz/src/**` for the React app, or a docs path), then runs that domain's five passes against it — the verification gates are the `viz` `npm` scripts (`lint`, `typecheck`, `test`) plus the portable `node --test tools/update-adopters.test.mjs` suite. If you audit this tree often, keep a local-only fork under the gitignored `.claude/skills/audit/` (fill in the `viz` glob + those three gates); like everything under `.claude/`, it stays per-machine and never enters git history.
+The canonical `claude/skills/ft-audit/` directory (`SKILL.md` + `passes/`) is the **stack-neutral scaffold** of §1.2.1 — it intentionally retains the §0 forker checklist and placeholder globs/rubrics so adopters (and flowtron's own release tooling) can fork it. It is **not** a pre-filled flowtron-self specialization. Auditing flowtron itself therefore supplies scope at invocation time. `/ft-audit docs` with no extra scope walks `.flowtron/tasknote/README.md` §"AI-referenced docs" (the same default `/ft-release` §7.1 uses). Other domains have no baked-in glob — pass a target (e.g. `viz/src/**` for the React app) or the run stops and asks. Verification gates are the `viz` `npm` scripts (`lint`, `typecheck`, `test`) plus the portable `node --test tools/update-adopters.test.mjs` suite. If you audit this tree often, keep a local-only fork under the gitignored `.claude/skills/audit/` (fill in the `viz` glob + those three gates); like everything under `.claude/`, it stays per-machine and never enters git history.
 
 **Machine-global installs: utilities only**
 
@@ -477,7 +477,9 @@ Running `/ft-update` surfaces dangling hits automatically; to check outside of a
 
 ```sh
 # From the project root — lists symlinks whose target no longer resolves
-find .claude .agents/skills -type l ! -exec test -e {} \; -print
+for d in .claude .agents/skills .cursor; do
+  [ -d "$d" ] && find "$d" -type l ! -exec test -e {} \; -print
+done
 ```
 
 Remove each hit with `rm`. The commands are safe: these are symlinks into the submodule, never real files.
