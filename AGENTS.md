@@ -29,7 +29,7 @@ small direct change.
   source for the agent-neutral adopter snippet.
 - `codex/` — Codex CLI skill wrappers and wiring notes.
 - `cursor/` — Cursor thin wiring (snippet + `ft-task` procedure pointer; no skill wrappers).
-- `grok/` — Grok procedure pointer (intentionally minimal mirror).
+- `grok/` — Grok thin wiring (snippet + `ft-task` procedure pointer; no skill wrappers).
 - `docs/` — supporting docs, conventions, migration, platform compatibility,
   and design rationale.
 - `templates/` — canonical markdown templates.
@@ -92,6 +92,7 @@ skill wrappers under `codex/` for the full `ft-*` inventory; `ft-task` routes
 through `SPEC/procedures/`. Cursor has a thin sibling under `cursor/`
 (`AGENTS-snippet.md` + procedure pointer; adopters wire canonical
 `claude/skills/` bodies into `.cursor/skills/` or reuse `.claude/`). Grok
-currently has a per-agent pointer wrapper under `grok/` that routes to
-`SPEC/procedures/`. Other agents consume the contract conversationally through
-this file and `SPEC.md`.
+has a thin sibling under `grok/` (`AGENTS-snippet.md` + procedure pointer;
+adopters reuse Claude/Codex/Cursor wiring or symlink canonical
+`claude/skills/` bodies into `.grok/skills/`). Other agents consume the
+contract conversationally through this file and `SPEC.md`.

@@ -69,7 +69,7 @@ Global utilities (`/ft-new-project`, `/ft-flowtron`, `/ft-stats`, `/ft-audit-con
 
 **Cursor install:** if the project is already wired for Claude Code, it is already wired for Cursor — Cursor loads `.claude/skills/` as a documented compatibility surface. For a **Cursor-only** project (no `.claude/` wiring), open `.flowtron/core/cursor/AGENTS-snippet.md` §"One-time symlink wiring" and run the Cursor-only `.cursor/skills/` block from the project root; targets are the canonical `claude/skills/` bodies. Invoke skills as `/ft-task` (and siblings) in a Cursor session.
 
-**Grok Build install:** if the project is already wired for Claude Code or Codex, it is already wired for Grok — Grok scans `.claude/skills/` and `.agents/skills/` as documented compatibility surfaces (Cursor-shaped). Invoke skills as `/ft-task` (and siblings) in a Grok session; `--fast` / `--debug` are the same trailing flags as the canonical skill bodies. A **Grok-only** project (no `.claude/` and no `.agents/skills/` wiring) can symlink those same `claude/skills/` bodies into `.grok/skills/`; a `grok/AGENTS-snippet.md` for that path is the remaining thin-bundle piece.
+**Grok Build install:** if the project is already wired for Claude Code, Codex, or Cursor, it is already wired for Grok — Grok scans `.claude/skills/`, `.agents/skills/`, and `.cursor/skills/` as documented compatibility surfaces (Cursor-shaped). Invoke skills as `/ft-task` (and siblings) in a Grok session; `--fast` / `--debug` are the same trailing flags as the canonical skill bodies. For a **Grok-only** project (no `.claude/`, no `.agents/skills/`, and no `.cursor/skills/` wiring), open `.flowtron/core/grok/AGENTS-snippet.md` §"One-time symlink wiring" and run the Grok-only `.grok/skills/` block from the project root; targets are the canonical `claude/skills/` bodies.
 
 ### 1.2.1 Optional: fork the `/ft-audit` scaffold per stack
 
@@ -282,6 +282,8 @@ If your project already has other files under `.claude/` (settings, other skills
 
 **Cursor-only (no `.claude/` wiring).** The `git add` block above is the Claude-default path. A Cursor-only install from §1.2 never creates those `.claude/` files — adding them fails. Stage the Cursor snippet's symlinks instead (`git add .cursor/` per [`cursor/AGENTS-snippet.md`](../cursor/AGENTS-snippet.md) §"One-time symlink wiring") together with `.gitmodules`, `.flowtron/core`, `.flowtron/PLAN.md`, `.flowtron/tasknote/`, and `AGENTS.md`.
 
+**Grok-only (no `.claude/`, `.agents/skills/`, or `.cursor/skills/` wiring).** Same constraint: the Claude-default `git add` block fails. Stage the Grok snippet's symlinks instead (`git add .grok/` per [`grok/AGENTS-snippet.md`](../grok/AGENTS-snippet.md) §"One-time symlink wiring") together with `.gitmodules`, `.flowtron/core`, `.flowtron/PLAN.md`, `.flowtron/tasknote/`, and `AGENTS.md`.
+
 ### 1.7 Verify
 
 In a fresh session with your coding agent, verify the platform's wired entry point:
@@ -289,7 +291,7 @@ In a fresh session with your coding agent, verify the platform's wired entry poi
 - **Claude Code:** invoke `/ft-task`. The command should appear in the menu (alongside `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-goal-task`, `/ft-spec`, `/ft-worktree-start`, `/ft-worktree-end`, and `/ft-update`) with its description.
 - **Codex:** use `/skills` or mention `$ft-task`. The skill should appear alongside the other wired adopter-subset `ft-*` skills from `.agents/skills/`.
 - **Cursor:** invoke `/ft-task`. If the project already has Claude `.claude/` wiring, Cursor picks it up via compat load; Cursor-only projects should see the same adopter subset under `.cursor/skills/`.
-- **Grok Build:** invoke `/ft-task`. If the project already has Claude `.claude/` or Codex `.agents/skills/` wiring, Grok picks it up via compat load; `--fast` / `--debug` work once those bodies are loaded.
+- **Grok Build:** invoke `/ft-task`. If the project already has Claude `.claude/`, Codex `.agents/skills/`, or Cursor `.cursor/skills/` wiring, Grok picks it up via compat load; Grok-only projects should see the same adopter subset under `.grok/skills/`. `--fast` / `--debug` work once those bodies are loaded.
 - **Contract-only agents:** ask the assistant to start the task conversationally; it should read `AGENTS.md` and `SPEC.md` and follow the tasknote contract.
 
 Running the task runner against a real entry in your `.flowtron/PLAN.md` should scaffold a tasknote and begin Phase 1 Discovery.

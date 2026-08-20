@@ -85,6 +85,7 @@ Handle each platform wiring surface independently:
 - **Claude Code:** authoritative list is the `ln -s … .claude/skills/<name>` / `.claude/commands/<name>.md` block in the freshly-bumped `<FT>/claude/AGENTS-snippet.md` §"One-time symlink wiring". If `.claude/` exists, create any missing symlinks with the same relative form the snippet uses (substituting the resolved `<FT>`, e.g. `ln -s ../../<FT>/claude/skills/<name> .claude/skills/<name>`). If `.claude/` is absent, do not create a new Claude wiring surface during an update; report "Claude wiring not present; skipped `.claude/` symlink check."
 - **Codex:** authoritative list is the `ln -s … .agents/skills/<name>` block in the freshly-bumped `<FT>/codex/AGENTS-snippet.md` §"One-time skill wiring". If `.agents/skills/` exists, create any missing symlinks with the same relative form the snippet uses (substituting the resolved `<FT>`, e.g. `ln -s ../../<FT>/codex/skills/<name> .agents/skills/<name>`). If `.agents/skills/` is absent, do not create a new Codex wiring surface during an update; report "Codex wiring not present; skipped `.agents/skills/` symlink check."
 - **Cursor:** authoritative list is the Cursor-only `ln -s … .cursor/skills/<name>` block in the freshly-bumped `<FT>/cursor/AGENTS-snippet.md` §"One-time symlink wiring" (targets are canonical `claude/skills/` bodies). If `.cursor/skills/` exists, create any missing symlinks with the same relative form the snippet uses (substituting the resolved `<FT>`). If `.cursor/skills/` is absent, do not create a new Cursor wiring surface during an update; report "Cursor wiring not present; skipped `.cursor/skills/` symlink check." (Projects that only have `.claude/` and rely on Cursor's compat load need no Cursor-specific re-wire — the Claude surface above covers them.)
+- **Grok:** authoritative list is the Grok-only `ln -s … .grok/skills/<name>` block in the freshly-bumped `<FT>/grok/AGENTS-snippet.md` §"One-time symlink wiring" (targets are canonical `claude/skills/` bodies). If `.grok/skills/` exists, create any missing symlinks with the same relative form the snippet uses (substituting the resolved `<FT>`). If `.grok/skills/` is absent, do not create a new Grok wiring surface during an update; report "Grok wiring not present; skipped `.grok/skills/` symlink check." (Projects that only have `.claude/`, `.agents/skills/`, or `.cursor/skills/` and rely on Grok's compat load need no Grok-specific re-wire — those surfaces above cover them.)
 
 Report the added symlinks per platform (or "no new skills to wire"). Note: global/by-reference skills (`/ft-flowtron`, `/ft-stats`, `/ft-new-project`, `/ft-audit-context`, `/ft-audit-repo`) are picked up by the user's agent-home wiring when desired, not per-project — do not add extra repo-scoped symlinks beyond each platform's snippet list. `/ft-update` is intentionally in the adopter subset; `/ft-release` is flowtron-self-only.
 
@@ -136,6 +137,7 @@ For each wiring surface confirmed present in Step 4:
 find .claude -type l ! -exec test -e {} \; -print          # if .claude/ is present
 find .agents/skills -type l ! -exec test -e {} \; -print   # if .agents/skills/ is present
 find .cursor/skills -type l ! -exec test -e {} \; -print   # if .cursor/skills/ is present
+find .grok/skills -type l ! -exec test -e {} \; -print      # if .grok/skills/ is present
 ```
 
 If any of those commands print hits, surface them:
@@ -155,6 +157,7 @@ If all present-surface commands print nothing, report "No dangling symlinks foun
   - Claude: `readlink .claude/commands/ft-task.md` resolves into `<FT>/claude/commands/ft-task.md`; spot-check one skill dir symlink too.
   - Codex: `readlink .agents/skills/ft-task` resolves into `<FT>/codex/skills/ft-task`.
   - Cursor: `readlink .cursor/skills/ft-task` resolves into `<FT>/claude/skills/ft-task` (thin bundle — targets are Claude bodies).
+  - Grok: `readlink .grok/skills/ft-task` resolves into `<FT>/claude/skills/ft-task` (thin bundle — targets are Claude bodies).
   A broken link means the submodule isn't checked out or the symlink target is stale — surface it.
 - **Version confirm:** re-read `<FT>/SPEC.md:3` — now `<target>`.
 - Optionally **offer** (do not auto-run) a full `/ft-task <ID>` against a real PLAN.md entry as a deeper smoke test.
@@ -166,6 +169,7 @@ git add <FT>
 git add .claude/         # if present
 git add .agents/skills/  # if present
 git add .cursor/skills/  # if present
+git add .grok/skills/    # if present
 ```
 
 Surface a recap (current→target, tag headline, any new symlinks wired, any Migration action items) and a proposed commit message:

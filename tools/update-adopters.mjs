@@ -110,6 +110,18 @@ const WIRING_SURFACES = [
       return skill ? skill[1] : null;
     },
   },
+  {
+    label: 'Grok .grok/skills',
+    snippetPath: 'grok/AGENTS-snippet.md',
+    // Thin bundle: no grok/skills/ — Grok-only installs symlink
+    // canonical claude/skills/ bodies into .grok/skills/.
+    diffPaths: ['claude/skills/'],
+    snippetKeyPattern: /\.flowtron\/core\/(claude\/skills\/\S+)/,
+    addedKeyForFile(path) {
+      const skill = path.match(/^(claude\/skills\/[^/]+)/);
+      return skill ? skill[1] : null;
+    },
+  },
 ];
 
 export async function git(cwd, ...args) {

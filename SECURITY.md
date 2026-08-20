@@ -19,13 +19,14 @@ we agree on a path.
 
 Flowtron's bundled execution surfaces — Claude Code skills/commands
 (`/ft-task`, `/ft-audit`, `/ft-release`, `/ft-audit-repo`, and others),
-Codex skill wrappers under `codex/skills/`, and Cursor's thin wiring under
-`cursor/` (snippet + procedure pointer; skills are the canonical
-`claude/skills/` bodies) — read content the user authored: tasknotes,
-`PLAN.md`, `SPEC.md`. In an adopter project, "the user" may include
-contributors who open pull requests. The threat model below applies to any
-AI assistant reading the same files; runtime-specific mitigations name
-`.claude/`, `.agents/skills/`, and `.cursor/skills/` surfaces where relevant.
+Codex skill wrappers under `codex/skills/`, and Cursor / Grok thin wiring
+under `cursor/` and `grok/` (snippet + procedure pointer; skills are the
+canonical `claude/skills/` bodies) — read content the user authored:
+tasknotes, `PLAN.md`, `SPEC.md`. In an adopter project, "the user" may
+include contributors who open pull requests. The threat model below applies
+to any AI assistant reading the same files; runtime-specific mitigations
+name `.claude/`, `.agents/skills/`, `.cursor/skills/`, and `.grok/skills/`
+surfaces where relevant.
 
 A contributor PR that adds a tasknote (or edits `PLAN.md`) can attempt
 to steer the assistant into running unintended shell commands the next

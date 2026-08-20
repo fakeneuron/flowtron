@@ -61,7 +61,9 @@ Read `.flowtron/core/claude/AGENTS-snippet.md` and run the bash block under the 
 
 **Cursor note:** Cursor loads `.claude/skills/` as a documented compatibility surface, so this Claude wiring already serves Cursor sessions. For a Cursor-only project (no `.claude/`), follow `.flowtron/core/cursor/AGENTS-snippet.md` §"One-time symlink wiring" instead — see `docs/MIGRATION.md` §1.2.
 
-Reference: `claude/AGENTS-snippet.md` §"One-time symlink wiring" (canonical) · `cursor/AGENTS-snippet.md` (Cursor-only variant) · `docs/MIGRATION.md` §1.2 (adopter doc, points to the snippets).
+**Grok note:** Grok loads `.claude/skills/`, `.agents/skills/`, and `.cursor/skills/` as documented compatibility surfaces, so this Claude wiring already serves Grok sessions. For a Grok-only project (no `.claude/`, no `.agents/skills/`, no `.cursor/skills/`), follow `.flowtron/core/grok/AGENTS-snippet.md` §"One-time symlink wiring" instead — see `docs/MIGRATION.md` §1.2.
+
+Reference: `claude/AGENTS-snippet.md` §"One-time symlink wiring" (canonical) · `cursor/AGENTS-snippet.md` (Cursor-only variant) · `grok/AGENTS-snippet.md` (Grok-only variant) · `docs/MIGRATION.md` §1.2 (adopter doc, points to the snippets).
 
 ## Step 4 — Create or patch AGENTS.md
 

@@ -57,9 +57,9 @@ one pass. Then file a task in `.flowtron/PLAN.md` and run it:
 Prefer to wire it by hand, or not using Claude Code?
 [docs/MIGRATION.md](docs/MIGRATION.md) carries the manual path (§1.1–1.7), the
 full one-time global-install table (§1.0), and Codex / Cursor / Grok wiring (§1.2).
-Grok is Cursor-shaped — it scans `.claude/skills/` and `.agents/skills/`, so
-existing Claude or Codex wiring already serves it; see
-[docs/PLATFORMS.md](docs/PLATFORMS.md).
+Grok is Cursor-shaped — it scans `.claude/skills/`, `.agents/skills/`, and
+`.cursor/skills/`, so existing Claude, Codex, or Cursor wiring already
+serves it; Grok-only projects follow [`grok/AGENTS-snippet.md`](grok/AGENTS-snippet.md).
 
 <details>
 <summary><b>All documentation</b></summary>
@@ -89,9 +89,9 @@ existing Claude or Codex wiring already serves it; see
 - [docs/PLATFORMS.md](docs/PLATFORMS.md) — multi-platform wiring pattern:
   the two-layer model (agent-neutral contract / per-platform wiring) and
   the symmetric plug-in shape by which platforms plug in (Claude Code and
-  Codex CLI full wiring; Cursor thin sibling; Grok Cursor-shaped compat
-  (`.claude/skills/` / `.agents/skills/`) plus procedure pointer;
-  others conversational)
+  Codex CLI full wiring; Cursor and Grok thin siblings (Grok is
+  Cursor-shaped: `.claude/skills/` / `.agents/skills/` / `.cursor/skills/`
+  compat plus Grok-only `.grok/skills/`); others conversational)
 - [docs/AGENT-COMPAT.md](docs/AGENT-COMPAT.md) — living agent-compatibility
   matrix: which AI coding agents flowtron supports, their contract
   entry-points, skill primitives, and last-verified currency
@@ -264,7 +264,7 @@ runtime lives in the runner; the contract lives in flowtron.
 - `claude/` — Claude Code skills + slash commands (adopter-facing snippet plus the full shipped `ft-*` inventory; adopter projects wire the policy subset, while flowtron-self-only skills like `/ft-release` stay upstream-only)
 - `codex/` — Codex skill wrappers for the full `ft-*` inventory plus Codex-specific wiring notes
 - `cursor/` — Cursor thin wiring (`AGENTS-snippet.md` + `procedures/ft-task.md` pointer; no skill wrappers — adopters wire canonical `claude/skills/` bodies)
-- `grok/` — grok platform wiring (currently the `ft-task` procedure pointer); further platform wirings plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md)
+- `grok/` — Grok thin wiring (`AGENTS-snippet.md` + `procedures/ft-task.md` pointer; no skill wrappers — adopters wire canonical `claude/skills/` bodies)
 - `docs/` — philosophy, vision, glossary, migration, conventions, version history, agent-neutrality, platforms, agent-compat, dogfood, worktrees, and external-agents docs
 - `.flowtron/` — flowtron's own roadmap and tasknotes (self-hosted)
 - `viz/` — Vite/React visualizer (priority-grouped list + optional board mode)
