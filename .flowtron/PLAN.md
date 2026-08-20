@@ -16,7 +16,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-EPIC-456** [medium]🧩 | grok-thin-wiring — Cursor-parity Grok surface: document `.claude/skills` / `.agents/skills` compat, ship `grok/AGENTS-snippet.md`, restamp AGENT-COMPAT consume-mode. Discovery supplied by audit-repo 2026-08-20. Surfaced by audit-repo 2026-08-20 (Theme: Grok TUI outran the platform row).
   - [x] **CORE-456.2** [medium]🧩 | grok-compat-docs — Completed 2026-08-20.
   - [x] **CORE-456.3** [medium]🧩 | grok-agents-snippet — Completed 2026-08-20.
-  - [ ] **CORE-456.4** [light]🔧 | grok-dogfood-restamp — run `docs/DOGFOOD.md` under Grok Build; restamp consume-mode + last-verified.
+  - [ ] **CORE-456.4** [light]🔧 | grok-dogfood-restamp — run `docs/DOGFOOD.md` under Grok Build; restamp last-verified (AGENT-COMPAT + PLATFORMS; consume-mode already done by .2/.3).
   - [ ] **CORE-456.N** [medium]🧩 | grok-thin-wiring audit
 
 ## Low
