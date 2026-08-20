@@ -11,8 +11,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-451** [medium]🧩 | install-path doc reconcile — Drop `/ft-update` and `/ft-release` from `docs/MIGRATION.md` §1.0's one-time global-install table (keep the true globals: `ft-new-project`, `ft-flowtron`, `ft-stats`, `ft-audit-context`, `ft-audit-repo`). Delete the `docs/PLATFORMS.md` Installed-surface policy clause that `ft-update` "may also be installed globally" so it matches §"One canonical install path" (repo-scoped is canonical; agent home carries only those utilities). Surfaced by audit-docs 2026-08-19 (Finding #2, High)
-
 ## Medium
 
 - [ ] **CORE-455** [medium]🧩 | audit-write-step-commit — `/ft-audit` §5 write-step confirmation already authorizes the PLAN tickets and any inline fixes, but the skill names the working-tree diff as the deliverable and never commits. After the write, auto-commit like the filing-only skills (SPEC/tasknote-selection.md §"Filing commits"); write-step yes is commit authorization, no second 📦. Today `/ft-audit` is in neither the filing-only list nor the execution-skills list, so the tree stays dirty until someone asks.
@@ -25,6 +23,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 
 ## Completed
+
+- [x] **CORE-451** [medium]🧩 | install-path doc reconcile — Completed 2026-08-19.
 
 - [x] **CORE-454** [light]🔧 | audit-docs-default-scope — Rewrote `docs/MIGRATION.md` §1.2.2 so `/ft-audit docs` with no extra scope walks the AI-referenced set. Surfaced by audit-docs 2026-08-19 (Finding #1, Medium), fixed inline.
 - [x] **CORE-453** [light]🔧 | migration-cursor-dangling-find — Retired-skill dangling-symlink check in `docs/MIGRATION.md` now walks `.cursor` when that directory exists. Surfaced by audit-docs 2026-08-19 (Finding #3, Medium), fixed inline.

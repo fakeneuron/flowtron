@@ -62,7 +62,7 @@ Flowtron does not submodule itself. When working in `~/code/flowtron/`:
 - `grok/` — currently carries the `ft-task` procedure pointer. Future platform wirings plug in symmetrically as sibling top-level dirs — see [`docs/PLATFORMS.md`](docs/PLATFORMS.md) for the plug-in pattern.
 - `tools/` — operator-side fleet scripts. Currently `update-adopters.mjs`, the singular CLI carve-out documented in §"What flowtron does NOT provide", plus its portable `update-adopters.test.mjs` suite (a registered release gate).
 
-For flowtron-self global installs (e.g. `/ft-release`), see [`docs/MIGRATION.md`](docs/MIGRATION.md) §1.0 → "One-time global installs" table, `Flowtron-self only` row.
+Global-only utilities install per [`docs/MIGRATION.md`](docs/MIGRATION.md) §1.0. `/ft-release` is flowtron-self-only and stays repo-scoped in this checkout ([`docs/PLATFORMS.md`](docs/PLATFORMS.md) §"Installed-surface policy").
 
 ### Lazy SPEC module frontmatter
 
