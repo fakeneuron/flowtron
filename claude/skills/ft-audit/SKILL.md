@@ -58,13 +58,12 @@ Severity is judged against the pass file's severity guide — authoritative for 
 
 ## 5. Write the proposed tasks into `.flowtron/PLAN.md` (required, not optional)
 
-The deliverable is tickets in PLAN.md — a report that gets forgotten isn't useful.
+The deliverable is tickets in PLAN.md — a report that gets forgotten isn't useful. **Subroutine invocations skip this entire section** (§6 "Subroutine-safe").
 
-1. **After** §§1–3 are presented and any `AskUserQuestion` blockers are answered, write tickets using flowtron's task-line grammar: `- [ ] **<AREA>-<N>** [model] | shortname — long description.` (primary labels `[heavy]🧠` / `[medium]🧩` / `[light]🔧` recommended; specifics e.g. `opus` / `sonnet` / `grok` remain valid per SPEC §"Model field"). See §"Task-line format".
-2. Pick the next free `<N>` per area prefix (valid prefixes in `.flowtron/tasknote/README.md` §"Area prefixes"; the pass file may name the typical prefixes for its domain).
-3. Insert in correct priority section (`## High`/`## Medium`/`## Low` for blocking; `## Future Opportunities` otherwise; add `[!critical]` for urgent rows). Append `Surfaced by <slug> YYYY-MM-DD (Finding #N, <severity>)` to each ticket — `<slug>` is the pass file's attribution slug — so the origin's traceable. Include any extra attribution the pass file requires (e.g. `performance` appends the measured-impact number).
+1. **Write-step confirmation.** After §§1–4 are presented and any `AskUserQuestion` blockers are answered, stop and confirm via `AskUserQuestion` before writing anything to disk: the proposed ticket list (drop/combine/split per operator feedback first), any **Proposed inline fixes**, and that `.flowtron/PLAN.md` is about to be updated. The operator's yes **is** commit authorization — there is no separate commit-go ask. Zero findings across all passes → say so explicitly and skip this entire section.
+2. **Filing-commit pre-check.** Run `git status --porcelain -- .flowtron/PLAN.md` **before any write** and record `auto-commit`: clean output → `auto-commit = true`; any output → `auto-commit = false` (PLAN.md already carries foreign edits, so the filing rides along in the surrounding commit instead). Run here, immediately before the write — the confirmation pause can stale a pre-flight reading. Not a gate: nothing stops either way; it only decides whether step 6 below runs. Contract: `SPEC/tasknote-selection.md` §"Filing commits".
+3. **Write tickets** using flowtron's task-line grammar: `- [ ] **<AREA>-<N>** [model] | shortname — long description.` (primary labels `[heavy]🧠` / `[medium]🧩` / `[light]🔧` recommended; specifics e.g. `opus` / `sonnet` / `grok` remain valid per SPEC §"Model field"). See §"Task-line format". Pick the next free `<N>` per area prefix (valid prefixes in `.flowtron/tasknote/README.md` §"Area prefixes"; the pass file may name the typical prefixes for its domain). Insert in correct priority section (`## High`/`## Medium`/`## Low` for blocking; `## Future Opportunities` otherwise; add `[!critical]` for urgent rows). Append `Surfaced by <slug> YYYY-MM-DD (Finding #N, <severity>)` to each ticket — `<slug>` is the pass file's attribution slug — so the origin's traceable. Include any extra attribution the pass file requires (e.g. `performance` appends the measured-impact number).
 4. **No code changes**, no source edits, no opening files for fixes. Tickets only — actual fixes happen in separate `/ft-task` cycles. One exception: the skip-the-tasknote carve-out below, plus any domain exception the pass file declares (e.g. `security`'s leaked-secret immediate-ask path).
-5. User pushes back on a ticket → drop it. Ask to combine/split → do that before writing.
 
 **Trivial-fix carve-out (skip-the-tasknote inline path).** When a finding's fix is small enough to hit the skip-the-tasknote threshold — single-line patch, pure formatting tweak, a doc edit under ~10 lines, or a trivial config edit with no logic impact (per SPEC §"When to use a tasknote (and when not to)") — don't file an intermediate `## Low` ticket that needs its own `/ft-task` cycle. Instead, present it in the report under a distinct **Proposed inline fixes** heading (kept separate from the proposed-ticket list) and, on the **same** write-step confirmation that lands the tickets, apply the edit and record it directly under PLAN.md's `## Completed` as a **self-contained** line:
 
@@ -74,7 +73,14 @@ The deliverable is tickets in PLAN.md — a report that gets forgotten isn't use
 
 Keep the description (there is no tasknote/archive file to be the canonical record — see SPEC/tasknote-selection.md §"`## Completed` archive convention") and take the next free `<N>` like any ticket. Anything above the skip threshold — multi-file, logic impact, or a design tradeoff worth recording — files a normal ticket; never apply a non-trivial fix under this carve-out. The single write-step confirmation covers both tickets and inline fixes; no separate gate. Apply any carve-out adjustments the pass file declares (e.g. `security` narrows it to trivial hygiene only; `docs` notes doc audits hit it often).
 
-Zero findings across all passes → say so explicitly and skip the write.
+5. **Commit the filing** (when `auto-commit = true` from step 2 above). The filing's **last** write, so inline fixes land with the tickets. Stage by explicit pathspec only — `.flowtron/PLAN.md`, plus each inline-fix source path by name. **Never** `git commit -a`, `git add .`, or `git add -A`:
+
+   ```sh
+   git add .flowtron/PLAN.md [<inline-fix-path> ...]
+   git commit -m "chore: audit file tickets — <domain>"
+   ```
+
+   `<domain>` is the domain token resolved in §1. Commit only — never push. `auto-commit = false` → skip this step entirely and note it in the response (`left uncommitted (PLAN.md already carried other edits)`). Full contract: `SPEC/tasknote-selection.md` §"Filing commits". Not a closure commit — report `committed <sha>` as plain text, **no 🏁** (`SPEC.md` §"Paper-complete guard" §3).
 
 ## 6. Hard rules
 
@@ -83,7 +89,7 @@ Zero findings across all passes → say so explicitly and skip the write.
 - **Don't repeat the gates.** If a §1 verification gate (linter, type-checker, build tool, scanner) already flagged it, surface the aggregate once and move on — don't enumerate each gate row as a separate finding.
 - **Don't audit adjacent code.** Stay inside the resolved scope.
 - **Subroutine-safe.** Any domain may be invoked from another skill (notably `/ft-release` §7.1 → `/ft-audit docs`). When invoked as a subroutine with an explicit scope: skip §0 forker prompts, surface the report inline rather than blocking on `AskUserQuestion` for non-blocker items, and do **not** write PLAN.md tickets — the invoking skill is the orchestrator and owns per-finding decisions.
-- **No final summary of what you just did.** The report + the `.flowtron/PLAN.md` diff *are* the deliverable.
+- **No final summary of what you just did.** The report + the committed PLAN.md diff (or the explicit zero-findings statement) *are* the deliverable — hand off with `committed <sha>` or the skip-on-dirt note, not a recap paragraph.
 - The pass file's **specialist hard rules** are part of this contract — apply them as written.
 
 ## 7. Rationalizations
@@ -122,7 +128,9 @@ report.
   padded to get there.
 - A finding's `Location:` sits outside the scope resolved in §1.
 - The run is ending with no `.flowtron/PLAN.md` diff **and** without an
-  explicit "zero findings across all passes" statement.
+  explicit "zero findings across all passes" statement — **or** with a PLAN.md
+  diff but no `committed <sha>` / skip-on-dirt note when §5 ran outside a
+  subroutine invocation.
 - A "Why it matters" line would read identically in any codebase — a sign
   the project rubric was never loaded.
 - A severity was assigned by feel and doesn't trace to the pass file's

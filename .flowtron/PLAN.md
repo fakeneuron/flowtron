@@ -13,7 +13,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-455** [medium]🧩 | audit-write-step-commit — `/ft-audit` §5 write-step confirmation already authorizes the PLAN tickets and any inline fixes, but the skill names the working-tree diff as the deliverable and never commits. After the write, auto-commit like the filing-only skills (SPEC/tasknote-selection.md §"Filing commits"); write-step yes is commit authorization, no second 📦. Today `/ft-audit` is in neither the filing-only list nor the execution-skills list, so the tree stays dirty until someone asks.
+(none)
 
 ## Low
 
@@ -23,6 +23,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 
 ## Completed
+
+- [x] **CORE-455** [medium]🧩 | audit-write-step-commit — Completed 2026-08-19.
 
 - [x] **CORE-451** [medium]🧩 | install-path doc reconcile — Completed 2026-08-19.
 

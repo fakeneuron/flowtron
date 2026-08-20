@@ -134,12 +134,13 @@ for the mechanism. `/ft-file-followup` declines at >70w and routes to
 
 ## Filing commits
 
-The filing-only skills — `/ft-file-followup` (default flow), its `--park`
-mode, and `/ft-starter-task` — **commit their own filing** at hand-off.
-Filing approval *is* commit authorization: the operator already confirmed the
-PLAN line at the review gate (or, in park mode, by passing the flag and
-answering the priority question), and a second commit-go ask on a one-line
-filing buys nothing. Left uncommitted, a filing carries into the next session
+The filing motions — `/ft-file-followup` (default flow), its `--park`
+mode, `/ft-starter-task`, and `/ft-audit` — **commit their own filing** at
+hand-off. Filing approval *is* commit authorization: the operator already
+confirmed at the review gate (follow-up / starter), by passing the park flag
+and answering the priority question (park mode), or at `/ft-audit`'s write-step
+confirmation (tickets plus any inline fixes), and a second commit-go ask buys
+nothing. Left uncommitted, a filing carries into the next session
 as working-tree dirt — which `SPEC.md` §"Paper-complete guard" then converts
 into a hard stop at the next `/ft-task` entry, so the filing's cost lands on a
 later, unrelated task.
@@ -151,15 +152,17 @@ Message shape, one per filing motion:
 | `/ft-file-followup` (default) | `chore: file <ID> follow-up — <shortname>` |
 | `/ft-file-followup --park` | `chore: file <ID> park — <shortname>` |
 | `/ft-starter-task` | `chore: file <ID> starter — <shortname>` |
+| `/ft-audit` | `chore: audit file tickets — <domain>` |
 
 Rules:
 
 - **Explicit pathspecs only.** Stage the filing's own paths by name —
   `.flowtron/PLAN.md`, plus `.flowtron/tasknote/<ID>.md` (starter) or
-  `.flowtron/sidequest/<ID>.md` (park). **Never** `git commit -a`, `git add .`,
-  or `git add -A`. A follow-up is routinely filed from *inside* an active
-  `/ft-task`, where the working tree legitimately carries the parent task's
-  unfinished edits; a greedy stage would commit them under a `chore: file`
+  `.flowtron/sidequest/<ID>.md` (park), plus each inline-fix source path
+  (`/ft-audit` §5 trivial-fix carve-out). **Never** `git commit -a`,
+  `git add .`, or `git add -A`. A follow-up is routinely filed from *inside*
+  an active `/ft-task`, where the working tree legitimately carries the parent
+  task's unfinished edits; a greedy stage would commit them under a `chore: file`
   message.
 - **Pre-check, then skip on dirt.** Check whether `.flowtron/PLAN.md` already
   carries uncommitted changes (`git status --porcelain -- .flowtron/PLAN.md`).
@@ -187,8 +190,8 @@ Rules:
   and this adds none — the two-banner cap in `SPEC/gates.md` §"Operator-gate
   cues" is unaffected.
 
-**Execution skills keep their commit-go gate.** This section governs the three
-filing-only motions above and nothing else. `/ft-task`, `/ft-micro-task`,
+**Execution skills keep their commit-go gate.** This section governs the four
+filing motions above and nothing else. `/ft-task`, `/ft-micro-task`,
 `/ft-goal-task`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release`,
 `/ft-new-project`, `/ft-update`, and `/ft-spec` are unchanged: their commits
 land deliverables or cut releases, and it is the 📦 conditional skip rule
