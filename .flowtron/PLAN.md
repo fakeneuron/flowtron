@@ -13,7 +13,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **CORE-458** [medium]🧩 | grok-trigger-table — Refresh PLATFORMS.md Grok Sub-agent, /model, and /clear trigger rows against current vendor docs (spawn_subagent, /model, /clear); restamp last-verified if facts change.
 
 ## Low
 
