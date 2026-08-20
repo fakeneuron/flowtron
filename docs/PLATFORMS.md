@@ -393,7 +393,7 @@ This mirrors the pre-adoption framing in §"Grok Build adoption notes" above._
 
 First-use verification 2026-06-01 (CORE-257). /ft-task skill invocation, model gate (with retag), AskUserQuestion render, and cue emissions (✅ marker + post-closure expectations) exercised under Grok. Structured ask support observed (see trigger table note). Matrix currency lives in docs/AGENT-COMPAT.md.
 
-**Last verified:** `v5.18.0 · 2026-08-18 (dogfooded)`
+**Last verified:** `v5.18.0 · 2026-08-20 (dogfooded)`
 
 ### Codex CLI
 
