@@ -69,6 +69,8 @@ Global utilities (`/ft-new-project`, `/ft-flowtron`, `/ft-stats`, `/ft-audit-con
 
 **Cursor install:** if the project is already wired for Claude Code, it is already wired for Cursor — Cursor loads `.claude/skills/` as a documented compatibility surface. For a **Cursor-only** project (no `.claude/` wiring), open `.flowtron/core/cursor/AGENTS-snippet.md` §"One-time symlink wiring" and run the Cursor-only `.cursor/skills/` block from the project root; targets are the canonical `claude/skills/` bodies. Invoke skills as `/ft-task` (and siblings) in a Cursor session.
 
+**Grok Build install:** if the project is already wired for Claude Code or Codex, it is already wired for Grok — Grok scans `.claude/skills/` and `.agents/skills/` as documented compatibility surfaces (Cursor-shaped). Invoke skills as `/ft-task` (and siblings) in a Grok session; `--fast` / `--debug` are the same trailing flags as the canonical skill bodies. A **Grok-only** project (no `.claude/` and no `.agents/skills/` wiring) can symlink those same `claude/skills/` bodies into `.grok/skills/`; a `grok/AGENTS-snippet.md` for that path is the remaining thin-bundle piece.
+
 ### 1.2.1 Optional: fork the `/ft-audit` scaffold per stack
 
 Flowtron ships one stack-neutral audit scaffold at `.flowtron/core/claude/skills/ft-audit/` — a parameterized `/ft-audit <domain> [scope]` dispatcher over a six-file `passes/` library. The shared procedure (scope resolution, 5-passes-in-order, capped findings, finding format, closing sections, write-tickets-to-PLAN) lives once in `SKILL.md`; each domain's pass definitions, severity guide, scope/rubric/gate hints, and specialist rules live in a sibling `passes/<domain>.md` loaded at run time. **Forked, not symlinked**: per-stack rubrics/commands/examples diverge.
@@ -228,7 +230,7 @@ ln -s ~/code/flowtron/claude/skills/<skill>       ~/.claude/skills/<skill>
 ln -s ~/code/flowtron/claude/commands/<skill>.md  ~/.claude/commands/<skill>.md
 ```
 
-Globally installing a slug the repo-scoped wiring above already provides makes it enumerate twice in every session's skill roster, because project scope and user scope are counted separately. The rule and its second failure mode — cross-agent slug shadowing in `~/.agents/skills/`, which is read by Codex, Claude Code, and Cursor alike — are canonical in [`PLATFORMS.md`](PLATFORMS.md) §"One canonical install path per project".
+Globally installing a slug the repo-scoped wiring above already provides makes it enumerate twice in every session's skill roster, because project scope and user scope are counted separately. The rule and its second failure mode — cross-agent slug shadowing in `~/.agents/skills/`, which is read by Codex, Claude Code, Cursor, and Grok alike — are canonical in [`PLATFORMS.md`](PLATFORMS.md) §"One canonical install path per project".
 
 ### 1.3 Paste the workflow block into `AGENTS.md`
 
@@ -287,6 +289,7 @@ In a fresh session with your coding agent, verify the platform's wired entry poi
 - **Claude Code:** invoke `/ft-task`. The command should appear in the menu (alongside `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-goal-task`, `/ft-spec`, `/ft-worktree-start`, `/ft-worktree-end`, and `/ft-update`) with its description.
 - **Codex:** use `/skills` or mention `$ft-task`. The skill should appear alongside the other wired adopter-subset `ft-*` skills from `.agents/skills/`.
 - **Cursor:** invoke `/ft-task`. If the project already has Claude `.claude/` wiring, Cursor picks it up via compat load; Cursor-only projects should see the same adopter subset under `.cursor/skills/`.
+- **Grok Build:** invoke `/ft-task`. If the project already has Claude `.claude/` or Codex `.agents/skills/` wiring, Grok picks it up via compat load; `--fast` / `--debug` work once those bodies are loaded.
 - **Contract-only agents:** ask the assistant to start the task conversationally; it should read `AGENTS.md` and `SPEC.md` and follow the tasknote contract.
 
 Running the task runner against a real entry in your `.flowtron/PLAN.md` should scaffold a tasknote and begin Phase 1 Discovery.
@@ -440,7 +443,7 @@ After §3.2–§3.7 land and `/ft-task` shows in the slash menu, sweep for resid
   - In code comments / docstrings: low-risk; leave or update at touch time.
   - In archived/legacy content: leave untouched (write-once policy applies — don't retroactively rewrite history).
 - **CI / pre-commit hook check.** `grep -rn "<retired-helper-script-name>" .git/hooks/ .github/ docker/ scripts/` (project root) — confirm nothing depends on retired scripts. Resolve before next CI run.
-- **`/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-goal-task`, `/ft-spec`, `/ft-worktree-start`, `/ft-worktree-end` smoke.** Invoke each in a fresh session with your coding agent's wired entry point — `/ft-*` for Claude Code or Cursor, `/skills` or `$ft-*` for Codex, or a conversational prompt for contract-only agents. Confirm the tasknote family + worktree pair (nine total) appear alongside `/ft-task` / `$ft-task` (v1.0+ additions; symlinks added in §1.2; worktree pair added in CORE-215.5; `/ft-goal-task` added in CORE-EPIC-330; `/ft-spec` added in CORE-352.3).
+- **`/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-goal-task`, `/ft-spec`, `/ft-worktree-start`, `/ft-worktree-end` smoke.** Invoke each in a fresh session with your coding agent's wired entry point — `/ft-*` for Claude Code, Cursor, or Grok, `/skills` or `$ft-*` for Codex, or a conversational prompt for contract-only agents. Confirm the tasknote family + worktree pair (nine total) appear alongside `/ft-task` / `$ft-task` (v1.0+ additions; symlinks added in §1.2; worktree pair added in CORE-215.5; `/ft-goal-task` added in CORE-EPIC-330; `/ft-spec` added in CORE-352.3).
 - **Context-surface audit.** If you've installed `/ft-audit-context` globally (see §1.0), run it now — migrations frequently carry over context bloat from the legacy era (stale `CLAUDE.md` workflow tutorials, project-local skills that now shadow `ft-*` namespace, AGENTS.md content redundant with the freshly-pasted block). Soft prose; ticket-filing is opt-in.
 - **Final pin verification.** `git -C .flowtron/core describe --tags` shows the pinned version recorded at the start (e.g., `v5.18.0`). A mismatch means the submodule drifted off the pin during migration.
 - **Cleanup commit.** Bundle the decisions above into a single follow-up commit (`chore: <ID> post-migration cleanup`) OR fold into the §3.9 closure commit if scope is small.
