@@ -23,6 +23,8 @@
 // Per-adopter safety gates (any hit → skip that repo, report why):
 //   - .flowtron/core/SPEC.md's Version line is unreadable → the current pin
 //     can't be established, so no range can be reasoned about
+//   - adopter repo's HEAD is detached (tag checkout, mid-bisect, mid-rebase)
+//     → a bump commit here would have no branch to land on and be orphaned
 //   - adopter pinned NEWER than the latest known release → bumping would
 //     downgrade it (usually a stale tag list in this checkout)
 //   - release range carries a real Migration block (BREAKING or required
@@ -416,6 +418,17 @@ export async function checkAdopter(adopter, latest) {
     const drift = await gitlinkDrift(repo, latest);
     if (drift) return { status: 'drift', current, reason: drift };
     return { status: 'current', current };
+  }
+
+  // Detached-HEAD guard: applyBump commits the gitlink bump onto `repo`'s
+  // current HEAD. A tag checkout, mid-bisect, or mid-rebase adopter has no
+  // branch to carry that commit — it would be reachable only from a detached
+  // ref, orphaned the moment the operator returns to a branch.
+  try {
+    await git(repo, 'symbolic-ref', '--quiet', 'HEAD');
+  } catch (e) {
+    if (e.code !== 1) throw e;
+    return { status: 'skip', current, reason: 'detached HEAD — check out a branch before bumping' };
   }
 
   // Pinned-ahead guard: `tagsInRange` is empty when the pin is newer than

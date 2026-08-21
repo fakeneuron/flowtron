@@ -297,6 +297,15 @@ describe('checkAdopter classification (fixtures)', () => {
     assert.match(result.reason, /dirty .*worktree/i);
   });
 
+  it('skip: detached HEAD in adopter repo (CORE-459.2)', async () => {
+    const adopter = await makeAdopter(root, 'detached-repo', previous);
+    await gitQuiet(adopter.repo, 'checkout', '-q', '--detach', 'HEAD');
+    const result = await checkAdopter(adopter, latest);
+    assert.equal(result.status, 'skip');
+    assert.equal(result.current, previous);
+    assert.match(result.reason, /detached HEAD/i);
+  });
+
   it('skip: migration-bearing range (pre-v5 pin)', async () => {
     // v4.0.0..latest includes v5.0.0 BREAKING → must not auto-bump.
     const adopter = await makeAdopter(root, 'migrate-repo', 'v4.0.0');
