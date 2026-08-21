@@ -16,7 +16,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Low
 
 - [ ] **CORE-EPIC-457** [medium]🧩 | currency-surfaces — committed STATS.md is stale; `/ft-new-project` CLAUDE.md-only validity gate; viz lockfile has npm-audit highs in devDependencies. Discovery supplied by audit-repo 2026-08-20. Surfaced by audit-repo 2026-08-20 (Theme: Currency artifacts lag the empty queue).
-  - [ ] **CORE-457.2** [light]🔧 | stats-md-policy — refresh `.flowtron/STATS.md` via `/ft-stats --write`, or gitignore it, or add a release-gate refresh.
+  - [x] **CORE-457.2** [light]🔧 | stats-md-policy — Completed 2026-08-20.
   - [ ] **CORE-457.3** [medium]🧩 | new-project-agents-gate — `/ft-new-project` accepts `AGENTS.md` as the project-validity signal (keep CLAUDE.md as sufficient, not required).
   - [ ] **CORE-457.4** [light]🔧 | viz-devdep-audit — `npm audit fix` for brace-expansion / nanoid / postcss highs in the viz lockfile (production audit is clean).
   - [ ] **CORE-457.N** [light]🔧 | currency-surfaces audit
