@@ -11,7 +11,25 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
+- [ ] **CORE-EPIC-459** [medium]🧩 | adopter-bump edge states — harden `tools/update-adopters.mjs` against misleading outcomes in uncommon git states (success on orphaned commits, rollback un-fixing healthy repos, raw fatals on missing tags). Discovery supplied by audit-repo 2026-08-20. Surfaced by audit-repo 2026-08-20 (Theme: fleet-bump edge-state blindness)
+  - [ ] **CORE-459.2** [light]🔧 | detached-HEAD pre-flight gate — `symbolic-ref --quiet HEAD` check in `checkAdopter` → `skip`, so a tag-checkout/bisect/rebase repo never gets an orphaned bump commit (Finding #1, High)
+  - [ ] **CORE-459.3** [medium]🧩 | empty-stage no-op + gitlinkDrift on bump path — gitlink-current-but-worktree-stale repos classified up front instead of "nothing to commit" → rollback to the stale SHA (Finding #3)
+  - [ ] **CORE-459.4** [light]🔧 | missing-pinned-tag guard — `rev-parse --verify` the pin before range work → `skip` naming the missing tag (Finding #4)
+  - [ ] **CORE-459.N** [light]🔧 | adopter-bump edge states audit
+
 ## Medium
+
+- [ ] **CORE-EPIC-460** [medium]🧩 | platform-parity gate widening — close the flag/surface drift class and put the lagging platform surfaces under `/ft-release` §7.1 Pair coverage. Discovery supplied by audit-repo 2026-08-20. Surfaced by audit-repo 2026-08-20 (Theme: mirror-pair gates lag the surfaces they guard)
+  - [ ] **CORE-460.2** [light]🔧 | command-stub `--high` + Pair F widening — add `--high` at `claude/commands/ft-starter-task.md` / `ft-epic-discovery.md`, extend Pair F to glob `claude/commands/*.md` for `--park` lines, fix Pair E "those three" → four (Findings #8, #10)
+  - [ ] **CORE-460.3** [medium]🧩 | `--park`/`--worktree` flag parity — PLATFORMS Cursor+Grok operator-flag bullets and trigger tables, AGENT-COMPAT ×2, `grok/AGENTS-snippet.md`; consider a new mirror pair for CAPABILITIES flag rows (Finding #7 + tail)
+  - [ ] **CORE-460.4** [medium]🧩 | Codex trigger-table backfill — bring the 4-row Codex table to Cursor/Grok's 9-row shape + restamp last-verified; add the "fork, don't symlink" note to `codex/skills/ft-audit` wrapper (Finding #6 + tail)
+  - [ ] **CORE-460.N** [light]🔧 | platform-parity audit
+
+- [ ] **FE-EPIC-088** [medium]🧩 | viz containment & visible staleness — replace viz's silent wrong-states with path containment and user-visible indicators; no auth layer (localhost single-user posture stays). Discovery supplied by audit-repo 2026-08-20. Surfaced by audit-repo 2026-08-20 (Theme: viz trusts the workspace and fails silent)
+  - [ ] **FE-088.2** [medium]🧩 | realpath containment — `discoverProjects` + `archiveCache.readArchive` drop files resolving outside the project root, closing the symlink read (Finding #2)
+  - [ ] **FE-088.3** [medium]🧩 | SSE disconnect visibility — "live updates disconnected" state + poll fallback on 503/CLOSED; consider oldest-client eviction over newest rejection (Finding #5)
+  - [ ] **FE-088.4** [light]🔧 | debounce max-wait flush (~1 s cap) so sustained write bursts still paint; optional glob-metachar watch fix (Finding #9 + tail)
+  - [ ] **FE-088.N** [light]🔧 | viz containment audit
 
 ## Low
 
