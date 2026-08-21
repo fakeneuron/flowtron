@@ -16,7 +16,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Medium
 
 - [ ] **CORE-EPIC-460** [medium]🧩 | platform-parity gate widening — close the flag/surface drift class and put the lagging platform surfaces under `/ft-release` §7.1 Pair coverage. Discovery supplied by audit-repo 2026-08-20. Surfaced by audit-repo 2026-08-20 (Theme: mirror-pair gates lag the surfaces they guard)
-  - [ ] **CORE-460.2** [light]🔧 | command-stub `--high` + Pair F widening — add `--high` at `claude/commands/ft-starter-task.md` / `ft-epic-discovery.md`, extend Pair F to glob `claude/commands/*.md` for `--park` lines, fix Pair E "those three" → four (Findings #8, #10)
+  - [x] **CORE-460.2** [light]🔧 | command-stub `--high` + Pair F widening — Completed 2026-08-21.
   - [ ] **CORE-460.3** [medium]🧩 | `--park`/`--worktree` flag parity — PLATFORMS Cursor+Grok operator-flag bullets and trigger tables, AGENT-COMPAT ×2, `grok/AGENTS-snippet.md`; consider a new mirror pair for CAPABILITIES flag rows (Finding #7 + tail)
   - [ ] **CORE-460.4** [medium]🧩 | Codex trigger-table backfill — bring the 4-row Codex table to Cursor/Grok's 9-row shape + restamp last-verified; add the "fork, don't symlink" note to `codex/skills/ft-audit` wrapper (Finding #6 + tail)
   - [ ] **CORE-460.N** [light]🔧 | platform-parity audit

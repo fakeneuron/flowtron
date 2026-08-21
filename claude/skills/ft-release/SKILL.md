@@ -446,7 +446,7 @@ Both must produce no output, and the `diff` must exit 0. A `-` line is a shipped
 Three properties of this pair are deliberate, and a future edit should preserve them:
 
 - **The flag extraction is Pair B's pipeline verbatim** — same quote-strip, so `args="CORE-004 --debug --fast"`-style illustrations are excluded here for the same load-bearing reason `CORE-420.5` measured. Keep the two in sync: a change to what counts as a *documented* flag belongs in both, or the checks start disagreeing.
-- **The flag half is one-directional on purpose.** The roster may legitimately name flags a `description:` does not — `/ft-file-followup`'s row carries `--low`/`--med`/`--fut`, which appear upstream only inside a quoted illustration and are therefore stripped. Checking the reverse would report those three as drift.
+- **The flag half is one-directional on purpose.** The roster may legitimately name flags a `description:` does not — `/ft-file-followup`'s row carries `--low`/`--med`/`--fut`/`--high`, which appear upstream only inside a quoted illustration (or, for `--high`, not in the `description:` at all) and are therefore stripped. Checking the reverse would report those four as drift.
 - **A deleted row reports from both halves.** The loop's `MISSING ROW` guard exists so an absent row degrades to one clear line instead of every flag on that skill reporting missing and misattributing the cause.
 
 **Pair F — park-priority flag roster ↔ mirror surfaces.** `/ft-file-followup`'s park mode documents four priority flags (`--low`, `--med`, `--fut`, `--high`) in its usage line, and five contract-layer surfaces restate that roster in their own shapes — `SPEC/tasknote-selection.md`'s park signature, `AGENTS.md`'s peer-skill roster, `docs/GLOSSARY.md`'s **sidequest** entry, `claude/skills/ft-flowtron/SKILL.md`'s `/ft-file-followup` row, and `docs/MIGRATION.md`'s retired-`ft-sidequest` replacement cell. Nothing binds them, and Pair E's flag half only covers the `ft-flowtron` table against skill `description:` frontmatter — correctly blind to these prose rosters (CORE-433.2 fixed four sites by hand after CORE-399 left them stale; this pair closes the class).
@@ -463,6 +463,19 @@ done
 ```
 
 Must print nothing. `grep -e` is load-bearing on BSD/macOS `grep`: bare `--low` is parsed as a flag, not a pattern. Fix a miss by updating the named mirror to match `claude/skills/ft-file-followup/SKILL.md`'s usage line (`--park [--low|--med|--fut|--high]`) in that surface's established shape — do not normalize every mirror to one string.
+
+Command stubs — the same roster, one layer down, and globbed rather than named. `claude/commands/*.md` see-also sentences restate the park signature for operators, and the fixed five-mirror list above never covered them: CORE-399 added `--high` to the surfaces it named, and CORE-433.2 / CORE-440 / CORE-443 each re-verified only *those* surfaces, so `ft-starter-task.md` and `ft-epic-discovery.md` sat three flags deep across three separate correction passes until CORE-460.2. A glob, not a list, is the point — a stub added later is covered the day it lands:
+
+```sh
+for f in $(grep -l -e '--park' claude/commands/*.md); do
+  grep -q -E -e '--(low|med|fut|high)' "$f" || continue
+  for flag in --low --med --fut --high; do
+    grep -q -e "$flag" "$f" || echo "MISSING PARK FLAG $f $flag"
+  done
+done
+```
+
+Must print nothing. The `continue` guard is the load-bearing half: a stub may legitimately name `--park` with **no** priority roster at all (`ft-spec.md` points at park mode in one clause without restating the flags), and demanding four flags there would mint a false positive on this check's first run. Only a stub that already commits to a partial roster is held to the full one. Fix a miss the same way as above — extend that stub's own sentence, don't normalize the wording.
 
 **Pair G — goal-task `--worktree` roster ↔ mirror surfaces.** `/ft-goal-task` ships `--worktree` as a documented trailing flag; two surfaces restate it for operators — `claude/skills/ft-flowtron/SKILL.md`'s `/ft-goal-task` row and `docs/PLATFORMS.md`'s operator-mode-flag list. Pair B and Pair E are both blind here: `--worktree` appears only inside `args="…"` illustrations on the skill, so the quote-strip correctly excludes it from frontmatter-derived flag sets (CORE-420.N verified). A fold or doc edit that adds the flag to the skill but not these mirrors strands it silently (CORE-433.2's second drift class).
 
