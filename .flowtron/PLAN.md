@@ -13,8 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-458** [medium]🧩 | grok-trigger-table — Refresh PLATFORMS.md Grok Sub-agent, /model, and /clear trigger rows against current vendor docs (spawn_subagent, /model, /clear); restamp last-verified if facts change.
-
 ## Low
 
 - [ ] **CORE-EPIC-457** [medium]🧩 | currency-surfaces — committed STATS.md is stale; `/ft-new-project` CLAUDE.md-only validity gate; viz lockfile has npm-audit highs in devDependencies. Discovery supplied by audit-repo 2026-08-20. Surfaced by audit-repo 2026-08-20 (Theme: Currency artifacts lag the empty queue).
@@ -27,6 +25,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 
 ## Completed
+
+- [x] **CORE-458** [medium]🧩 | grok-trigger-table — Completed 2026-08-20.
 
 - [x] **CORE-EPIC-456** [medium]🧩 | grok-thin-wiring — Completed 2026-08-20.
   - [x] **CORE-456.2** [medium]🧩 | grok-compat-docs — Completed 2026-08-20.
