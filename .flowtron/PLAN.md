@@ -15,16 +15,18 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-EPIC-457** [medium]🧩 | currency-surfaces — committed STATS.md is stale; `/ft-new-project` CLAUDE.md-only validity gate; viz lockfile has npm-audit highs in devDependencies. Discovery supplied by audit-repo 2026-08-20. Surfaced by audit-repo 2026-08-20 (Theme: Currency artifacts lag the empty queue).
-  - [x] **CORE-457.2** [light]🔧 | stats-md-policy — Completed 2026-08-20.
-  - [x] **CORE-457.3** [medium]🧩 | new-project-agents-gate — Completed 2026-08-20.
-  - [x] **CORE-457.4** [light]🔧 | viz-devdep-audit — Completed 2026-08-20.
-  - [ ] **CORE-457.N** [light]🔧 | currency-surfaces audit
+(none)
 
 ## Future Opportunities
 
 
 ## Completed
+
+- [x] **CORE-EPIC-457** [medium]🧩 | currency-surfaces — Completed 2026-08-20.
+  - [x] **CORE-457.2** [light]🔧 | stats-md-policy — Completed 2026-08-20.
+  - [x] **CORE-457.3** [medium]🧩 | new-project-agents-gate — Completed 2026-08-20.
+  - [x] **CORE-457.4** [light]🔧 | viz-devdep-audit — Completed 2026-08-20.
+  - [x] **CORE-457.N** [light]🔧 | currency-surfaces audit — Completed 2026-08-20.
 
 - [x] **CORE-458** [medium]🧩 | grok-trigger-table — Completed 2026-08-20.
 
