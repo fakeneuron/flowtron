@@ -7,7 +7,7 @@ There are two starting points:
 - **Section 1 — Fresh adoption.** The project has no prior workflow tooling, or its workflow is informal enough to discard.
 - **Section 2 — Migrating from a prior workflow system.** The project already has a `plan.json`, helper scripts, a `WORKFLOW.md`, or another structured workflow. Do Section 1 first, then continue into Section 2.
 
-Both paths assume the project has its own git repo — the project can live anywhere on your local machine. (The `/ft-new-project` Quick path in §1.0 additionally checks for `CLAUDE.md` as a project-validity heuristic; the manual §1.1–1.7 path does not require it.)
+Both paths assume the project has its own git repo — the project can live anywhere on your local machine. (The `/ft-new-project` Quick path in §1.0 additionally checks for `AGENTS.md` or `CLAUDE.md` as a project-validity heuristic; the manual §1.1–1.7 path does not require it.)
 
 ## 1 — Fresh adoption
 
@@ -20,7 +20,7 @@ cd ~/code/<your-new-project>
 /ft-new-project
 ```
 
-The skill verifies preconditions (cwd is a git repo with `CLAUDE.md`, no existing flowtron wiring, and no legacy workflow tooling at the root — `PLAN.md`, `plan.json`, or `WORKFLOW.md` route to §3 / §2 instead), asks for the project name and pinned flowtron version, and walks through §1.1–1.7 conversationally. It stages all bootstrap files and surfaces the commit message for your approval — no unprompted commits.
+The skill verifies preconditions (cwd is a git repo with `AGENTS.md` or `CLAUDE.md`, no existing flowtron wiring, and no legacy workflow tooling at the root — `PLAN.md`, `plan.json`, or `WORKFLOW.md` route to §3 / §2 instead), asks for the project name and pinned flowtron version, and walks through §1.1–1.7 conversationally. It stages all bootstrap files and surfaces the commit message for your approval — no unprompted commits.
 
 **One-time global installs** (run once per machine, after cloning flowtron anywhere on your local machine).
 

@@ -14,7 +14,7 @@ This skill is **fresh-adoption only** — Step 0 detects prior workflow tooling 
 The skill operates on the current working directory. Before doing anything:
 
 - `.git/` exists (cwd is a git repo). If not, stop and tell the user to `git init` first.
-- `CLAUDE.md` exists in cwd. If not, stop and ask the user to create one before proceeding — this is a project-validity check (signals an AI-coding project); the flowtron paste-block itself lands in `AGENTS.md` (created in Step 4 if missing).
+- `AGENTS.md` or `CLAUDE.md` exists in cwd. If neither is present, stop and ask the user to create one before proceeding — this is a project-validity check (signals an AI-coding project); the flowtron paste-block itself lands in `AGENTS.md` (created in Step 4 if missing).
 - None of the following exist (their presence means flowtron is already adopted):
   - `.flowtron/core/`
   - `.flowtron/PLAN.md`
