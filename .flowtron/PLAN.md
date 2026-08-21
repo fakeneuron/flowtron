@@ -15,12 +15,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-460** [medium]🧩 | platform-parity gate widening — close the flag/surface drift class and put the lagging platform surfaces under `/ft-release` §7.1 Pair coverage. Discovery supplied by audit-repo 2026-08-20. Surfaced by audit-repo 2026-08-20 (Theme: mirror-pair gates lag the surfaces they guard)
-  - [x] **CORE-460.2** [light]🔧 | command-stub `--high` + Pair F widening — Completed 2026-08-21.
-  - [x] **CORE-460.3** [medium]🧩 | `--park`/`--worktree` flag parity — Completed 2026-08-21.
-  - [x] **CORE-460.4** [medium]🧩 | Codex trigger-table backfill — Completed 2026-08-21.
-  - [ ] **CORE-460.N** [light]🔧 | platform-parity audit
-
 - [ ] **FE-EPIC-088** [medium]🧩 | viz containment & visible staleness — replace viz's silent wrong-states with path containment and user-visible indicators; no auth layer (localhost single-user posture stays). Discovery supplied by audit-repo 2026-08-20. Surfaced by audit-repo 2026-08-20 (Theme: viz trusts the workspace and fails silent)
   - [ ] **FE-088.2** [medium]🧩 | realpath containment — `discoverProjects` + `archiveCache.readArchive` drop files resolving outside the project root, closing the symlink read (Finding #2)
   - [ ] **FE-088.3** [medium]🧩 | SSE disconnect visibility — "live updates disconnected" state + poll fallback on 503/CLOSED; consider oldest-client eviction over newest rejection (Finding #5)
@@ -35,6 +29,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 
 ## Completed
+
+- [x] **CORE-EPIC-460** [medium]🧩 | platform-parity gate widening — Completed 2026-08-21.
+  - [x] **CORE-460.2** [light]🔧 | command-stub `--high` + Pair F widening — Completed 2026-08-21.
+  - [x] **CORE-460.3** [medium]🧩 | `--park`/`--worktree` flag parity — Completed 2026-08-21.
+  - [x] **CORE-460.4** [medium]🧩 | Codex trigger-table backfill — Completed 2026-08-21.
+  - [x] **CORE-460.N** [light]🔧 | platform-parity gate widening audit — Completed 2026-08-21.
 
 - [x] **CORE-EPIC-459** [medium]🧩 | adopter-bump edge states — Completed 2026-08-21.
   - [x] **CORE-459.2** [light]🔧 | detached-HEAD pre-flight gate — Completed 2026-08-21.
