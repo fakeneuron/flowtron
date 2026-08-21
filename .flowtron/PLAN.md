@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-459.2** [light]🔧 | detached-HEAD pre-flight gate — Completed 2026-08-21.
   - [x] **CORE-459.3** [medium]🧩 | empty-stage no-op + gitlinkDrift on bump path — Completed 2026-08-21.
   - [x] **CORE-459.4** [light]🔧 | missing-pinned-tag guard — Completed 2026-08-21.
-  - [ ] **CORE-459.N** [light]🔧 | adopter-bump edge states audit
+  - [x] **CORE-459.N** [light]🔧 | adopter-bump edge states audit — Completed 2026-08-21.
 
 ## Medium
 
