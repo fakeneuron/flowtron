@@ -14,7 +14,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-EPIC-459** [medium]🧩 | adopter-bump edge states — harden `tools/update-adopters.mjs` against misleading outcomes in uncommon git states (success on orphaned commits, rollback un-fixing healthy repos, raw fatals on missing tags). Discovery supplied by audit-repo 2026-08-20. Surfaced by audit-repo 2026-08-20 (Theme: fleet-bump edge-state blindness)
   - [x] **CORE-459.2** [light]🔧 | detached-HEAD pre-flight gate — Completed 2026-08-21.
   - [x] **CORE-459.3** [medium]🧩 | empty-stage no-op + gitlinkDrift on bump path — Completed 2026-08-21.
-  - [ ] **CORE-459.4** [light]🔧 | missing-pinned-tag guard — `rev-parse --verify` the pin before range work → `skip` naming the missing tag (Finding #4)
+  - [x] **CORE-459.4** [light]🔧 | missing-pinned-tag guard — Completed 2026-08-21.
   - [ ] **CORE-459.N** [light]🔧 | adopter-bump edge states audit
 
 ## Medium

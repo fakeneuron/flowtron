@@ -27,6 +27,9 @@
 //     → a bump commit here would have no branch to land on and be orphaned
 //   - adopter pinned NEWER than the latest known release → bumping would
 //     downgrade it (usually a stale tag list in this checkout)
+//   - pinned tag can't be resolved locally (deleted/renamed upstream, or a
+//     hand-edited SPEC.md Version line) → no real commit to reason a range
+//     from; skip rather than compute a range against a nonexistent tag
 //   - release range carries a real Migration block (BREAKING or required
 //     project-side edits) → manual /ft-update required
 //   - release range carries a tag whose notes can't be classified at all
@@ -484,6 +487,21 @@ export async function checkAdopter(adopter, latest) {
       status: 'skip',
       current,
       reason: `pinned ahead of latest release ${latest} — bumping would downgrade; run git fetch --tags in ${FLOWTRON_REPO} and re-run`,
+    };
+  }
+
+  // Missing-pinned-tag guard: `current` is just the string `pinnedVersion`
+  // parsed out of SPEC.md's Version line — nothing above confirms a tag by
+  // that name still exists in FLOWTRON_REPO. If it was deleted or renamed
+  // upstream (or the pin was hand-edited to a value that never existed),
+  // `tagsInRange` below would compute a numeric range against a boundary
+  // that was never actually released — silently wrong rather than a clear
+  // signal. Verify it resolves before doing any range work.
+  if ((await canonicalTagSha(current)) === null) {
+    return {
+      status: 'skip',
+      current,
+      reason: `pinned tag ${current} not found in ${FLOWTRON_REPO} — run git fetch --tags in ${FLOWTRON_REPO} and re-run`,
     };
   }
 

@@ -347,6 +347,19 @@ describe('checkAdopter classification (fixtures)', () => {
     assert.equal(typeof result.skillsNote, 'string');
   });
 
+  it('skip: pinned tag not found locally (missing-pinned-tag, CORE-459.4)', async () => {
+    const adopter = await makeAdopter(root, 'missing-tag-repo', previous);
+    // v0.0.1 parses as valid semver but sits below v0.1.0, the repo's oldest
+    // real tag — guaranteed not to resolve, while still passing the
+    // pinned-ahead guard (it isn't ahead of `latest`).
+    await writeFile(join(adopter.sub, 'SPEC.md'), '# X\n\n**Version:** v0.0.1\n');
+    const result = await checkAdopter(adopter, latest);
+    assert.equal(result.status, 'skip');
+    assert.equal(result.current, 'v0.0.1');
+    assert.match(result.reason, /v0\.0\.1/);
+    assert.match(result.reason, /not found/i);
+  });
+
   it('skip: unreadable SPEC version', async () => {
     const adopter = await makeAdopter(root, 'bad-spec-repo', latest);
     await writeFile(join(adopter.sub, 'SPEC.md'), '# no version line\n');
