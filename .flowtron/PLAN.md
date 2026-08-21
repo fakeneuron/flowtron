@@ -17,8 +17,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **CORE-EPIC-460** [medium]🧩 | platform-parity gate widening — close the flag/surface drift class and put the lagging platform surfaces under `/ft-release` §7.1 Pair coverage. Discovery supplied by audit-repo 2026-08-20. Surfaced by audit-repo 2026-08-20 (Theme: mirror-pair gates lag the surfaces they guard)
   - [x] **CORE-460.2** [light]🔧 | command-stub `--high` + Pair F widening — Completed 2026-08-21.
-  - [ ] **CORE-460.3** [medium]🧩 | `--park`/`--worktree` flag parity — PLATFORMS Cursor+Grok operator-flag bullets and trigger tables, AGENT-COMPAT ×2, `grok/AGENTS-snippet.md`; consider a new mirror pair for CAPABILITIES flag rows (Finding #7 + tail)
-  - [ ] **CORE-460.4** [medium]🧩 | Codex trigger-table backfill — bring the 4-row Codex table to Cursor/Grok's 9-row shape + restamp last-verified; add the "fork, don't symlink" note to `codex/skills/ft-audit` wrapper (Finding #6 + tail)
+  - [x] **CORE-460.3** [medium]🧩 | `--park`/`--worktree` flag parity — Completed 2026-08-21.
+  - [ ] **CORE-460.4** [medium]🧩 | Codex trigger-table backfill — bring the 4-row Codex table to Cursor/Grok's 11-row shape (Pair I gates it the moment Codex names its first flag) + restamp last-verified; add the "fork, don't symlink" note to `codex/skills/ft-audit` wrapper (Finding #6 + tail)
   - [ ] **CORE-460.N** [light]🔧 | platform-parity audit
 
 - [ ] **FE-EPIC-088** [medium]🧩 | viz containment & visible staleness — replace viz's silent wrong-states with path containment and user-visible indicators; no auth layer (localhost single-user posture stays). Discovery supplied by audit-repo 2026-08-20. Surfaced by audit-repo 2026-08-20 (Theme: viz trusts the workspace and fails silent)

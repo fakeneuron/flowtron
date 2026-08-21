@@ -522,6 +522,33 @@ diff -u <(printf '%s\n' "$ssot") <(printf '%s\n' "$ci")
 
 A `-` line is an AGENTS command CI dropped or reordered; a `+` line is a CI command AGENTS does not name (other than the excluded install). Fix a miss by updating the named mirror to match `AGENTS.md` §"Validation" in that surface's established shape — do not normalize every restatement to one fence.
 
+**Pair I — `claude/CAPABILITIES.md` flag rows ↔ non-Claude trigger tables.** `claude/CAPABILITIES.md` is the Claude-side roster of operator flags that change how a skill runs, one table row per flag; `docs/PLATFORMS.md` §"Non-Claude capability triggers" is its non-Claude mirror, one `###` section per agent reusing the same four-column shape (`claude/CAPABILITIES.md`'s own pattern note says so). Nothing bound them. Pair B and Pair E are frontmatter-derived and blind here; Pair G names `docs/PLATFORMS.md` but greps the *whole file*, so an unrelated `--worktree` in the Claude worked example satisfied it while both non-Claude tables sat two flags short — a gate that existed and still lagged the surface it guarded (CORE-460.3; `--park` / `--worktree` had been missing since they shipped, because CORE-456.2 and CORE-438.5 were each about the flags they *were* adding).
+
+Both the roster and the section list are **derived, not listed** — a flag added to `CAPABILITIES.md`, or an agent section that later grows a flag row, is covered the day it lands:
+
+```sh
+flags=$(grep -oE '^\| \*\*`--[a-z-]+`' claude/CAPABILITIES.md \
+        | grep -oE -e '--[a-z-]+' | tr '\n' ' ')
+awk '/^## Non-Claude capability triggers$/,/^## When this doc is useful$/' docs/PLATFORMS.md \
+| awk -v flags="$flags" '
+    BEGIN { RS = "\n### "; n = split(flags, F, " ") }
+    NR == 1 { next }
+    { split($0, L, "\n"); sec = L[1]; hit = 0
+      for (i = 1; i <= n; i++) if (F[i] != "" && index($0, F[i])) hit = 1
+      if (!hit) next
+      for (i = 1; i <= n; i++) if (F[i] != "" && !index($0, F[i]))
+        print "MISSING TRIGGER FLAG " sec " :: " F[i] }'
+```
+
+Must print nothing. Fix a miss by adding a row to that agent's table in its established four-column shape (`Trigger | Syntax | What it controls in flowtron | When to reach for it`), written from the matching `claude/CAPABILITIES.md` row and re-stated for that platform's availability story — not paraphrased from memory, and not normalized to Claude's wording.
+
+Four properties are deliberate, and a future edit should preserve them:
+
+- **`tr '\n' ' '` is load-bearing on macOS.** BWK `awk` rejects a newline inside a `-v` assignment (`awk: newline in string`), so the derived roster must reach `awk` space-separated. The `F[i] != ""` guards absorb the trailing separator.
+- **The section guard is Pair F's `continue` idiom one level up.** A section naming *no* flag is skipped, not failed; only one that already commits to a partial roster is held to the full one. Codex's table names no flag today (its backfill is CORE-460.4) and the three stub sections have no table at all — demanding four flags there would mint false positives on this check's first run, which is how a gate gets "temporarily" commented out. Codex is picked up automatically the moment it gains its first flag row.
+- **The row-shape anchor `^| **\`--`** selects flag rows only.** `CAPABILITIES.md`'s non-flag triggers (`Effort / thinking level`, `/model <name>`, `/clear`, `Structured ask`, `Sub-agent`) are correctly excluded: they are platform-native controls, not portable skill-body flags, and each agent documents its own spelling.
+- **`docs/AGENT-COMPAT.md` is deliberately *not* a mirror here.** Its own §"Scope of this matrix" declares the matrix structural and defers per-agent triggers to this table; CORE-460.3 de-enumerated its Grok/Cursor rows to a pointer rather than adding a third roster to police. Same for the thin `grok/` + `cursor/AGENTS-snippet.md`, which own wiring commands only. Recorded here so a later reader does not read their absence as an oversight.
+
 ### 7.2 — Auto-draft annotated tag message
 
 Use CORE-048's structure as the template:
