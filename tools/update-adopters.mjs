@@ -43,6 +43,16 @@
 // as `drift` (not `current`); the fix is `git add .flowtron/core` + commit, or
 // /ft-update. Report-only — never auto-committed.
 //
+// The reverse also happens: the committed pin already matches the latest tag,
+// but the checked-out .flowtron/core worktree (what SPEC.md reads) is behind —
+// e.g. after a superproject checkout without `git submodule update`. Left
+// undetected, `checkAdopter` would classify this as an ordinary `bump` and
+// `applyBump` would stage a gitlink identical to HEAD, then fail to commit it
+// ("nothing to commit"); the resulting rollback resets the worktree back to
+// the stale SHA, un-fixing a repo that only needed `git submodule update`. So
+// this direction is detected up front too and reported as `drift` before any
+// bump-path work runs.
+//
 // Mid-bump rollback: applyBump mutates the adopter (submodule checkout, then a
 // staged gitlink) before it commits, and every step after the checkout can fail.
 // Without recovery a failed bump leaves the repo half-updated — submodule at the
@@ -240,23 +250,35 @@ export async function describePin(sha) {
   return sha.slice(0, 12);
 }
 
+// The superproject's committed submodule gitlink SHA at HEAD, or null when
+// there's no committed gitlink to compare against (e.g. no commits yet).
+async function recordedGitlinkSha(repo) {
+  try {
+    return (await git(repo, 'rev-parse', `HEAD:${SUBMODULE_PATH}`)).trim();
+  } catch {
+    return null;
+  }
+}
+
+// The canonical commit SHA a release tag resolves to in FLOWTRON_REPO, or
+// null when the tag can't be resolved locally. Commit SHAs are
+// content-identical across clones, so FLOWTRON_REPO is the canonical source —
+// no adopter-side fetch needed.
+async function canonicalTagSha(tag) {
+  try {
+    return (await git(FLOWTRON_REPO, 'rev-parse', `${tag}^{commit}`)).trim();
+  } catch {
+    return null;
+  }
+}
+
 // Compare the superproject's committed submodule gitlink against the latest
 // release commit. Returns a reason string when they diverge (drift), else null.
-// Commit SHAs are content-identical across clones, so FLOWTRON_REPO is the
-// canonical source for the latest-tag SHA — no adopter-side fetch needed.
 export async function gitlinkDrift(repo, latest) {
-  let recorded;
-  try {
-    recorded = (await git(repo, 'rev-parse', `HEAD:${SUBMODULE_PATH}`)).trim();
-  } catch {
-    return null; // no committed gitlink to compare — nothing to report
-  }
-  let latestSha;
-  try {
-    latestSha = (await git(FLOWTRON_REPO, 'rev-parse', `${latest}^{commit}`)).trim();
-  } catch {
-    return null; // can't resolve the latest tag locally — skip the cross-check
-  }
+  const recorded = await recordedGitlinkSha(repo);
+  if (recorded === null) return null; // no committed gitlink to compare — nothing to report
+  const latestSha = await canonicalTagSha(latest);
+  if (latestSha === null) return null; // can't resolve the latest tag locally — skip the cross-check
   if (recorded === latestSha) return null;
   return `committed gitlink at ${await describePin(recorded)}, worktree SPEC.md at ${latest} — commit the pin (git add ${SUBMODULE_PATH}) or run /ft-update`;
 }
@@ -418,6 +440,26 @@ export async function checkAdopter(adopter, latest) {
     const drift = await gitlinkDrift(repo, latest);
     if (drift) return { status: 'drift', current, reason: drift };
     return { status: 'current', current };
+  }
+
+  // Reverse gitlink-drift guard: the committed pin can already be at `latest`
+  // even though the checked-out worktree (what `current` above just read) is
+  // behind — e.g. the superproject was checked out without a matching
+  // `git submodule update`. Left unclassified, this falls through to `bump`
+  // below and `applyBump` stages a gitlink identical to HEAD, then fails to
+  // commit it ("nothing to commit"), and the resulting rollback resets the
+  // worktree back to the stale SHA it was already recovering from. Detect it
+  // up front and report it the same way the forward direction is reported.
+  const recordedGitlink = await recordedGitlinkSha(repo);
+  if (recordedGitlink !== null) {
+    const latestSha = await canonicalTagSha(latest);
+    if (latestSha !== null && recordedGitlink === latestSha) {
+      return {
+        status: 'drift',
+        current,
+        reason: `committed gitlink already at ${latest}, worktree SPEC.md at ${current} — run git submodule update in .flowtron/core (or /ft-update) to sync the worktree; nothing to commit`,
+      };
+    }
   }
 
   // Detached-HEAD guard: applyBump commits the gitlink bump onto `repo`'s

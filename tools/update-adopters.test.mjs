@@ -280,6 +280,17 @@ describe('checkAdopter classification (fixtures)', () => {
     assert.match(result.reason, new RegExp(previous.replace(/\./g, '\\.')));
   });
 
+  it('drift: committed gitlink already at latest, worktree behind (CORE-459.3)', async () => {
+    const adopter = await makeAdopter(root, 'reverse-drift-repo', latest);
+    // Move the worktree back without touching the superproject's committed pin.
+    await gitQuiet(adopter.sub, 'checkout', '-q', previous);
+    const result = await checkAdopter(adopter, latest);
+    assert.equal(result.status, 'drift');
+    assert.equal(result.current, previous);
+    assert.match(result.reason, /submodule update|\/ft-update/i);
+    assert.match(result.reason, /nothing to commit/i);
+  });
+
   it('skip: staged changes in adopter index', async () => {
     const adopter = await makeAdopter(root, 'staged-repo', previous);
     await writeFile(join(adopter.repo, 'extra.txt'), 'staged\n');
