@@ -77,7 +77,7 @@ export const ProjectSelector: React.FC<Props> = ({
         aria-pressed={on}
         aria-label={`Project: ${name}${currencyLabel}`}
         title={currencyLabel ? currencyLabel.trim().replace(/^\(|\)$/g, '') : undefined}
-        className={`${corner} ${divider} px-3 py-1.5 text-base focus:outline-none focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500 ${
+        className={`${corner} ${divider} px-3 py-1.5 text-base focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500 ${
           on
             ? 'bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900'
             : 'hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800'
@@ -104,7 +104,7 @@ export const ProjectSelector: React.FC<Props> = ({
         <div
           role="group"
           aria-label="Project"
-          className="inline-flex rounded border border-slate-300 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900"
+          className="inline-flex rounded border border-slate-300 bg-white shadow-xs dark:border-slate-700 dark:bg-slate-900"
         >
           {visible.map((name, i) => {
             const corner = i === 0 ? 'rounded-l' : i === last ? 'rounded-r' : '';
@@ -118,7 +118,7 @@ export const ProjectSelector: React.FC<Props> = ({
               aria-haspopup="true"
               aria-expanded={open}
               aria-label={`${overflow.length} more projects`}
-              className="rounded-r border-l border-slate-300 px-3 py-1.5 text-base text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-400 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:focus:ring-slate-500"
+              className="rounded-r border-l border-slate-300 px-3 py-1.5 text-base text-slate-500 focus:outline-hidden focus:ring-2 focus:ring-slate-400 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:focus:ring-slate-500"
             >
               +{overflow.length}
             </button>
@@ -128,7 +128,7 @@ export const ProjectSelector: React.FC<Props> = ({
           <div
             role="group"
             aria-label="More projects"
-            className="absolute right-0 top-full z-10 mt-1 flex min-w-max flex-col overflow-hidden rounded border border-slate-300 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900"
+            className="absolute right-0 top-full z-10 mt-1 flex min-w-max flex-col overflow-hidden rounded border border-slate-300 bg-white shadow-xs dark:border-slate-700 dark:bg-slate-900"
           >
             {overflow.map((name) => renderChip(name, '', ''))}
           </div>

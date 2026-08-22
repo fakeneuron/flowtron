@@ -38,7 +38,7 @@ export const SubtaskRow: React.FC<SubtaskRowProps> = ({ task }) => {
       >
         <span
           aria-hidden
-          className={`inline-flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-sm border ${
+          className={`inline-flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-xs border ${
             task.completed
               ? 'border-emerald-500 bg-emerald-500 text-white'
               : 'border-slate-300 bg-white dark:border-slate-600 dark:bg-slate-800'
@@ -51,7 +51,7 @@ export const SubtaskRow: React.FC<SubtaskRowProps> = ({ task }) => {
           onClick={() => setExpandedId(isExpandedDetail ? null : task.id)}
           aria-expanded={isExpandedDetail}
           aria-label={`${task.completed ? 'Completed' : 'Incomplete'}: ${task.id} ${task.description}`}
-          className="flex min-w-0 flex-1 items-center gap-2 rounded text-left focus:outline-none focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
+          className="flex min-w-0 flex-1 items-center gap-2 rounded text-left focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
         >
           <span className="font-mono text-sm font-medium text-slate-700 dark:text-slate-300">
             {highlightMatch(task.id, query)}

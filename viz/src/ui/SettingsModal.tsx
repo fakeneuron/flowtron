@@ -174,7 +174,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose, pre
           <button
             type="button"
             onClick={() => onChange(DEFAULT_PREFS)}
-            className="rounded border border-slate-300 bg-white px-2 py-1 text-sm text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 dark:focus:ring-slate-500"
+            className="rounded border border-slate-300 bg-white px-2 py-1 text-sm text-slate-700 hover:bg-slate-50 focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 dark:focus:ring-slate-500"
           >
             Reset to defaults
           </button>
@@ -182,7 +182,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose, pre
             type="button"
             onClick={() => dialogRef.current?.close()}
             autoFocus
-            className="rounded bg-slate-800 px-3 py-1 text-sm text-white hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 dark:bg-slate-200 dark:text-slate-900 dark:hover:bg-slate-300 dark:focus:ring-slate-500"
+            className="rounded bg-slate-800 px-3 py-1 text-sm text-white hover:bg-slate-700 focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:bg-slate-200 dark:text-slate-900 dark:hover:bg-slate-300 dark:focus:ring-slate-500"
           >
             Done
           </button>

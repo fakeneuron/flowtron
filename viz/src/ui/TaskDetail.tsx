@@ -57,7 +57,7 @@ const TaskDetail: React.FC<{
   const vscodeHref = tasknote ? vscodeFileHref(tasknote.path) : null;
   const metaRows = tasknote?.frontmatter ? planningMetaRows(tasknote.frontmatter) : [];
   const rootClass = compact
-    ? '-mx-2 mt-2 mb-0.5 rounded border border-slate-200 bg-white pl-9 pr-3 py-2.5 text-sm text-slate-700 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300'
+    ? '-mx-2 mt-2 mb-0.5 rounded border border-slate-200 bg-white pl-9 pr-3 py-2.5 text-sm text-slate-700 shadow-xs dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300'
     : 'border-t border-slate-100 bg-slate-50/40 pl-9 pr-3 py-2 text-sm text-slate-700 dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-300';
   return (
     <div className={rootClass}>

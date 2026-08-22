@@ -30,7 +30,7 @@ export const PrioritySection: React.FC<PrioritySectionProps> = ({
         type="button"
         onClick={onToggle}
         aria-expanded={!collapsed}
-        className="flex w-full items-center gap-2 px-3 py-2 text-left focus:outline-none focus:ring-2 focus:ring-inset focus:ring-slate-400 dark:focus:ring-slate-500"
+        className="flex w-full items-center gap-2 px-3 py-2 text-left focus:outline-hidden focus:ring-2 focus:ring-inset focus:ring-slate-400 dark:focus:ring-slate-500"
       >
         <Chevron expanded={!collapsed} />
         <span className="text-base font-medium">{priority}</span>

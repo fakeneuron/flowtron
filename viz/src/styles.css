@@ -1,9 +1,31 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+/* Tailwind 4 has no `darkMode` config key — the class strategy FE-009 chose is
+   re-declared here. `theme-init.js` stamps `.dark` on <html> before first paint;
+   this variant is what makes every `dark:` utility match it. */
+@custom-variant dark (&:where(.dark, .dark *));
 
 html,
 body,
 #root {
   height: 100%;
+}
+
+/* Tailwind 4's preflight sets `cursor: default` on buttons to match native
+   behavior. viz has always relied on v3's `cursor: pointer` and carries no
+   `cursor-pointer` classes, so restore it here rather than restyle 14 controls. */
+@layer base {
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+
+  /* Tailwind 4's preflight zeroes `margin` on every element (`*, ::after,
+     ::before, ::backdrop`), where Tailwind 3 reset only a named element list.
+     That takes <dialog> with it and kills the UA's `margin: auto`, which is what
+     centers a modal — both viz modals relied on it and rendered pinned to the
+     top-left corner. Restore it. */
+  dialog {
+    margin: auto;
+  }
 }

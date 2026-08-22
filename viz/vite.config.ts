@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitest/config';
 import type { Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 import type { ServerResponse } from 'node:http';
 import { fileURLToPath } from 'node:url';
 import chokidar from 'chokidar';
@@ -121,7 +122,7 @@ function flowtronApi(): Plugin {
 }
 
 export default defineConfig({
-  plugins: [react(), flowtronApi()],
+  plugins: [react(), tailwindcss(), flowtronApi()],
   // Stamp DEV_CSP_NONCE onto Vite-injected <script>/<style> tags so the dev
   // CSP's script-src can omit 'unsafe-inline' (see DEV_CSP above).
   html: { cspNonce: DEV_CSP_NONCE },

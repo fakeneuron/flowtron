@@ -363,7 +363,7 @@ export const App: React.FC = () => {
               <div
                 role="group"
                 aria-label="View mode"
-                className="inline-flex rounded border border-slate-300 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900"
+                className="inline-flex rounded border border-slate-300 bg-white shadow-xs dark:border-slate-700 dark:bg-slate-900"
               >
                 {(['list', 'board'] as const).map((m, i) => {
                   const active = viewMode === m;
@@ -373,7 +373,7 @@ export const App: React.FC = () => {
                       type="button"
                       onClick={() => updateViewMode(m)}
                       aria-pressed={active}
-                      className={`${i === 0 ? 'rounded-l' : 'rounded-r'} px-3 py-1.5 text-base focus:outline-none focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500 ${
+                      className={`${i === 0 ? 'rounded-l' : 'rounded-r'} px-3 py-1.5 text-base focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500 ${
                         active
                           ? 'bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900'
                           : 'hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800'
@@ -391,7 +391,7 @@ export const App: React.FC = () => {
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search id, description, status"
                 autoComplete="off"
-                className="w-72 rounded border border-slate-300 bg-white px-3 py-1.5 text-base shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:ring-slate-600"
+                className="w-72 rounded border border-slate-300 bg-white px-3 py-1.5 text-base shadow-xs focus:outline-hidden focus:ring-2 focus:ring-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:ring-slate-600"
                 aria-label="Search tasks"
               />
               <button
@@ -399,7 +399,7 @@ export const App: React.FC = () => {
                 onClick={() => setShortcutsOpen(true)}
                 aria-label="Keyboard shortcuts"
                 title="Keyboard shortcuts"
-                className="rounded border border-slate-300 bg-white px-2 py-1.5 text-base shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 dark:focus:ring-slate-500"
+                className="rounded border border-slate-300 bg-white px-2 py-1.5 text-base shadow-xs hover:bg-slate-50 focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 dark:focus:ring-slate-500"
               >
                 ⓘ
               </button>
@@ -409,7 +409,7 @@ export const App: React.FC = () => {
                 onClick={() => setSettingsOpen(true)}
                 aria-label="Open settings"
                 title="Settings"
-                className="rounded border border-slate-300 bg-white px-2 py-1.5 text-base shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 dark:focus:ring-slate-500"
+                className="rounded border border-slate-300 bg-white px-2 py-1.5 text-base shadow-xs hover:bg-slate-50 focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 dark:focus:ring-slate-500"
               >
                 ⚙️
               </button>

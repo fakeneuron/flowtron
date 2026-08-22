@@ -49,7 +49,7 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
         onClick={onToggleDetail}
         aria-expanded={isExpandedDetail}
         aria-label={rowChips.id ? undefined : `${task.id}: ${task.shortname ?? tn?.frontmatter?.title ?? task.description}`}
-        className="flex min-w-0 flex-1 items-center gap-2 rounded text-left focus:outline-none focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
+        className="flex min-w-0 flex-1 items-center gap-2 rounded text-left focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
       >
         <Chevron expanded={isExpandedDetail} />
         {rowChips.id && (

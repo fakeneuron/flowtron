@@ -68,7 +68,7 @@ export const ShortcutsModal: React.FC<ShortcutsModalProps> = ({ open, onClose })
             type="button"
             onClick={() => dialogRef.current?.close()}
             autoFocus
-            className="rounded bg-slate-800 px-3 py-1 text-sm text-white hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 dark:bg-slate-200 dark:text-slate-900 dark:hover:bg-slate-300 dark:focus:ring-slate-500"
+            className="rounded bg-slate-800 px-3 py-1 text-sm text-white hover:bg-slate-700 focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:bg-slate-200 dark:text-slate-900 dark:hover:bg-slate-300 dark:focus:ring-slate-500"
           >
             Done
           </button>
