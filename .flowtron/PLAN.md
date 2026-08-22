@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-462** [light]🔧 | security-md updater section — Add a SECURITY.md §"Fleet updater (tools/)" documenting the update-adopters threat posture: execFile-only git invocation, semver-constrained arguments, canonical-SHA cross-check on checkout, local-commits-never-push, dry-run default, and the deliberate symlink-following write footprint under the workspace root. Surfaced by audit-security 2026-08-22 (Finding #1, Low).
+(none)
 
 ## Future Opportunities
 
@@ -28,6 +28,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-462** [light]🔧 | security-md updater section — Completed 2026-08-22.
 - [x] **CORE-461** [light]🔧 | release-publish-step — Completed 2026-08-22.
 - [x] **FE-091** [medium]🧩 | watch-event iterator fix — Completed 2026-08-22.
 - [x] **FE-EPIC-090** [medium]🧩 | viz major-bump wave — Completed 2026-08-22.

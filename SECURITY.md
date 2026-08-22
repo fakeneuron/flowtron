@@ -152,6 +152,57 @@ vulnerability.
 broaden `permissions:`, or swap a SHA is a code change and should be
 reviewed as one. Do not add repository secrets to this workflow.
 
+### Fleet updater (`tools/`)
+
+`tools/update-adopters.mjs` is the singular script exception to SPEC.md
+§"What flowtron does NOT provide" — operator-side fleet maintenance across
+`~/code`, not workflow machinery inside a project. It batches the
+`/ft-update` recipe across every discovered adopter: bump the pinned
+`.flowtron/core` submodule to the latest release and commit, run manually
+by the maintainer (never on a schedule or in CI). Its execution surface
+differs from the rest of this document: it walks a filesystem tree, shells
+out to `git` across many repos, and can commit inside them.
+
+- **`execFile`-only git invocation.** Every git call goes through
+  `execFile('git', [...])` (`git()`, `tools/update-adopters.mjs:142-145`) —
+  arguments are passed as an array, never interpolated into a shell string,
+  so there is no shell-injection surface even for inputs the script doesn't
+  otherwise validate (e.g. adopter directory names discovered under the
+  workspace root).
+- **Semver-constrained arguments.** The one value that reaches git from
+  outside the script's own control — the release tag checked out in an
+  adopter's submodule — is validated against `^v\d+\.\d+\.\d+$` before use
+  (`parseSemverTag`, lines 199-203) and re-validated when supplied via the
+  `FLOWTRON_UPDATE_LATEST` test-seam env var (lines 654-661). A malformed or
+  unexpected tag string is rejected rather than passed through.
+- **Canonical-SHA cross-check on checkout.** `applyBump` doesn't trust the
+  checked-out submodule's own claim of its version — after checkout it
+  re-reads SPEC.md's Version line (lines 581-584) and separately verifies
+  the checked-out commit SHA matches the canonical SHA for that tag as
+  resolved in `FLOWTRON_REPO`, not the adopter's own clone
+  (`verifyPinnedSha`, lines 540-546). A moved tag ref or a divergent adopter
+  remote fails closed instead of committing a mismatched pin.
+- **Local-commits-never-push.** `applyBump` runs `git add` + `git commit`
+  (lines 588-592) and the only other network call is `fetch --tags`
+  (line 576) — there is no `git push` anywhere in the script. Every bump
+  commit stays local until the operator reviews and pushes it themselves,
+  per repo (line 640).
+- **Dry-run default.** The script only reports what it would do unless
+  invoked with `--apply` (`parseArgs`, lines 148-179); a bare
+  `node tools/update-adopters.mjs` mutates nothing.
+- **Deliberate symlink-following write footprint under the workspace
+  root.** `discoverAdopters` (lines 413-435) follows symlinked directories
+  when enumerating the workspace root, and `applyBump` writes into whatever
+  `.flowtron/core` resolves to for each discovered adopter — unlike the viz
+  dev server's `discoverProjects` (see "Visualizer" below), there is no
+  post-resolution containment check pinning writes inside the workspace
+  root. This is a deliberate scope difference, not an oversight: the fleet
+  updater is operator-invoked tooling over a workspace the operator already
+  controls (typically `~/code`), not a service resolving
+  attacker-influenced paths. Do not point `--root` (or
+  `FLOWTRON_VIZ_WORKSPACE`) at a workspace containing symlinks you do not
+  trust.
+
 ### Visualizer (`viz/`) dev-server scope
 
 `viz/` is a single-user local development tool. It is not designed to run
