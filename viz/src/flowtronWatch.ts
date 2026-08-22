@@ -131,17 +131,25 @@ export function createOnWatchEvent(opts: {
   archiveCache: ArchiveCache;
   broadcast: Pick<ChangeBroadcaster, 'schedule'>;
 }): (event: string, filepath: unknown) => void {
+  // Materialize once. `Iterable` promises nothing about re-iterability, and the
+  // handler below walks this list up to three times *per event*, for every
+  // event on both watchers — so a one-shot iterator (the production call site
+  // passes `Map.values()`) dies on the first pass and every later read sees an
+  // empty sequence: SSE attribution never fires and archive-cache invalidation
+  // stops matching (FE-091). Safe to snapshot: discovery completes before this
+  // handler is constructed and the project set is not mutated afterwards.
+  const projects = [...opts.projects];
   return (event, filepath) => {
     if (typeof filepath !== 'string') return;
     // chokidar reports directory events (`addDir` / `unlinkDir`) too. The
     // retired globs matched files only, and `ignored` cannot prune directories
     // without also pruning traversal — so the file-only reach is restored here.
     if (!filepath.endsWith('.md')) return;
-    opts.archiveCache.invalidate(filepath, opts.projects);
+    opts.archiveCache.invalidate(filepath, projects);
     if (event === 'unlink') {
-      const owner = projectForActiveTasknote(filepath, opts.projects);
+      const owner = projectForActiveTasknote(filepath, projects);
       if (owner) opts.archiveCache.invalidateProject(owner.name);
     }
-    opts.broadcast.schedule(projectForPath(filepath, opts.projects)?.name);
+    opts.broadcast.schedule(projectForPath(filepath, projects)?.name);
   };
 }

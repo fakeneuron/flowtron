@@ -16,7 +16,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Medium
 
 - [ ] **CORE-461** [light]🔧 | release-publish-step — `/ft-release` tags and pushes but never runs `gh release create`, so every cut since v0.1.0 left an unpublished tag; adopter cloutomaton CORE-035.3 backfilled all 45 by hand. Add the publish step (title + body from the annotated tag message, `--latest` on the new tag) and repoint README's version badge at `github/v/release` + `/releases`.
-- [ ] **FE-091** [medium]🧩 | watch-event iterator fix — `vite.config.ts:80` passes `projects.values()` — a one-shot Map iterator — into `createOnWatchEvent`, which iterates it twice per event and across events, so FE-088.3's SSE attribution never fires and archive-cache invalidation dies after event one. Tests pass arrays, so the suite can't express it. Surfaced by FE-090.2, audited FE-090.N.
 
 ## Low
 
@@ -29,6 +28,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-091** [medium]🧩 | watch-event iterator fix — Completed 2026-08-22.
 - [x] **FE-EPIC-090** [medium]🧩 | viz major-bump wave — Completed 2026-08-22.
   - [x] **FE-090.2** [medium]🧩 | toolchain pair — Completed 2026-08-22.
   - [x] **FE-090.3** [heavy]🧠 | framework pair — Completed 2026-08-22.

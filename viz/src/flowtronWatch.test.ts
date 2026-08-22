@@ -240,6 +240,90 @@ created: 2026-05-18
   });
 });
 
+// The production call site passes `Map.values()` — a one-shot iterator. Every
+// test above hands in an array, which is re-iterable, so the suite that shipped
+// with CORE-431.2/.3 was structurally unable to express this failure (FE-090.N).
+// These construct the handler exactly as `vite.config.ts` does.
+describe('createOnWatchEvent survives a one-shot iterator (FE-091)', () => {
+  it('attributes a PLAN.md change when constructed from Map.values()', async () => {
+    const alpha = await makeProject('alpha');
+    const map = new Map<string, ProjectDescriptor>([[alpha.name, alpha]]);
+
+    const scheduled: Array<string | undefined> = [];
+    const onWatchEvent = createOnWatchEvent({
+      projects: map.values(),
+      archiveCache: createArchiveCache(),
+      broadcast: { schedule: (name) => scheduled.push(name) },
+    });
+
+    // A PLAN.md path matches no archiveDir, so invalidate() walks the whole
+    // sequence before projectForPath() reads it — the exact ordering that left
+    // FE-088.3's attribution permanently unattributed.
+    onWatchEvent('change', alpha.planPath);
+
+    expect(scheduled).toEqual(['alpha']);
+  });
+
+  it('keeps invalidating the archive cache after the first event', async () => {
+    const alpha = await makeProject('alpha');
+    const archiveDirCore = join(alpha.archiveDir, 'core');
+    await writeFile(join(archiveDirCore, 'CORE-001.md'), tasknote('CORE-001', 'prior'));
+    const map = new Map<string, ProjectDescriptor>([[alpha.name, alpha]]);
+
+    const cache = createArchiveCache();
+    const scheduled: Array<string | undefined> = [];
+    const onWatchEvent = createOnWatchEvent({
+      projects: map.values(),
+      archiveCache: cache,
+      broadcast: { schedule: (name) => scheduled.push(name) },
+    });
+
+    const firstPromise = cache.get(alpha);
+    await firstPromise;
+    onWatchEvent('change', join(archiveDirCore, 'CORE-001.md'));
+    expect(cache.get(alpha)).not.toBe(firstPromise);
+
+    // Second event on the same handler — where a consumed iterator leaves the
+    // cache stale and the broadcast unattributed.
+    const secondPromise = cache.get(alpha);
+    await secondPromise;
+    await writeFile(join(archiveDirCore, 'CORE-002.md'), tasknote('CORE-002', 'later'));
+    onWatchEvent('add', join(archiveDirCore, 'CORE-002.md'));
+
+    expect(cache.get(alpha)).not.toBe(secondPromise);
+    const repopulated = await cache.get(alpha);
+    expect(repopulated.map((t) => t.id).sort()).toEqual(['CORE-001', 'CORE-002']);
+    expect(scheduled).toEqual(['alpha', 'alpha']);
+  });
+
+  it('still invalidates the owning project on a second unlink event', async () => {
+    const alpha = await makeProject('alpha');
+    const first = join(alpha.tasknoteDir, 'CORE-998.md');
+    const second = join(alpha.tasknoteDir, 'CORE-999.md');
+    await writeFile(first, tasknote('CORE-998', 'active one'));
+    await writeFile(second, tasknote('CORE-999', 'active two'));
+    await writeFile(join(alpha.archiveDir, 'core', 'CORE-001.md'), tasknote('CORE-001', 'prior'));
+    const map = new Map<string, ProjectDescriptor>([[alpha.name, alpha]]);
+
+    const cache = createArchiveCache();
+    const scheduled: Array<string | undefined> = [];
+    const onWatchEvent = createOnWatchEvent({
+      projects: map.values(),
+      archiveCache: cache,
+      broadcast: { schedule: (name) => scheduled.push(name) },
+    });
+
+    onWatchEvent('unlink', first);
+    const afterFirst = cache.get(alpha);
+    await afterFirst;
+
+    onWatchEvent('unlink', second);
+
+    expect(cache.get(alpha)).not.toBe(afterFirst);
+    expect(scheduled).toEqual(['alpha', 'alpha']);
+  });
+});
+
 describe('createChangeBroadcaster (CORE-431.3 debounce + attribution)', () => {
   it('debounces and writes one attributed change event per project', () => {
     const sseClients = new Set<ServerResponse>();
