@@ -1,12 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { join } from 'node:path';
-import {
-  escapeGlobLiteral,
-  projectForActiveTasknote,
-  projectForPath,
-  watchGlob,
-  watchSets,
-} from './watchSet';
+import { projectForActiveTasknote, projectForPath, watchSets } from './watchSet';
 import type { ProjectDescriptor } from './workspace';
 
 function project(name: string, root: string): ProjectDescriptor {
@@ -23,21 +17,13 @@ function project(name: string, root: string): ProjectDescriptor {
 }
 
 describe('watchSets', () => {
-  it('partitions PLAN + active globs onto hot and archive globs onto archive', () => {
+  it('partitions PLAN + tasknote dir onto hot and archive roots onto archive', () => {
     const alpha = project('alpha', '/ws');
     const beta = project('beta', '/ws');
 
     expect(watchSets([alpha, beta])).toEqual({
-      hot: [
-        alpha.planPath,
-        join(alpha.tasknoteDir, '*.md'),
-        beta.planPath,
-        join(beta.tasknoteDir, '*.md'),
-      ],
-      archive: [
-        join(alpha.archiveDir, '*/*.md'),
-        join(beta.archiveDir, '*/*.md'),
-      ],
+      hot: [alpha.planPath, alpha.tasknoteDir, beta.planPath, beta.tasknoteDir],
+      archive: [alpha.archiveDir, beta.archiveDir],
     });
   });
 
@@ -45,14 +31,16 @@ describe('watchSets', () => {
     expect(watchSets([])).toEqual({ hot: [], archive: [] });
   });
 
-  it('escapes glob metacharacters in project paths for chokidar', () => {
+  // chokidar 4 removed glob support, so v5 reads every watch path literally.
+  // The FE-088.4 escaping this replaced would now corrupt such a path.
+  it('leaves glob metacharacters in project paths untouched (chokidar 5)', () => {
     const bracketed = project('foo[wip]', '/ws');
     const sets = watchSets([bracketed]);
 
-    expect(sets.hot[0]).toBe(escapeGlobLiteral(bracketed.planPath));
-    expect(sets.hot[1]).toBe(watchGlob(bracketed.tasknoteDir, '*.md'));
-    expect(sets.archive[0]).toBe(watchGlob(bracketed.archiveDir, '*/*.md'));
-    expect(sets.hot[1]).toContain('\\[wip\\]');
+    expect(sets.hot).toEqual([bracketed.planPath, bracketed.tasknoteDir]);
+    expect(sets.archive).toEqual([bracketed.archiveDir]);
+    expect(sets.hot[1]).toContain('foo[wip]');
+    expect(sets.hot[1]).not.toContain('\\[');
   });
 });
 

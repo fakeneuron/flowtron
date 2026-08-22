@@ -20,10 +20,10 @@ import {
   createProjectsHandler,
 } from './src/devApi';
 import {
+  archiveWatchOptions,
   createChangeBroadcaster,
   createOnWatchEvent,
   SSE_DEBOUNCE_MS,
-  WATCH_ARCHIVE_OPTIONS,
   WATCH_HOT_OPTIONS,
 } from './src/flowtronWatch';
 import { watchSets } from './src/watchSet';
@@ -91,7 +91,7 @@ function flowtronApi(): Plugin {
         // Archives are write-once and fleet-scale (~thousands of files). Native
         // watch is cheap; polling them at 200ms was the cost CORE-431.2 removes.
         if (archive.length > 0) {
-          archiveWatcher = chokidar.watch(archive, WATCH_ARCHIVE_OPTIONS);
+          archiveWatcher = chokidar.watch(archive, archiveWatchOptions(archive));
           archiveWatcher.on('all', onWatchEvent);
         }
 

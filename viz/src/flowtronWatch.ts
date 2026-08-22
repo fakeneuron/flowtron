@@ -1,4 +1,6 @@
+import type { Stats } from 'node:fs';
 import type { ServerResponse } from 'node:http';
+import { dirname } from 'node:path';
 import type { ArchiveCache } from './archiveCache';
 import { formatChangePayload } from './sseChange';
 import { projectForActiveTasknote, projectForPath } from './watchSet';
@@ -9,20 +11,58 @@ export const SSE_DEBOUNCE_MS = 200;
 /** Upper bound on debounce coalescing — flush at least once per burst (FE-088.4). */
 export const SSE_MAX_WAIT_MS = 1000;
 
-/** Hot set (PLAN.md + active tasknotes) — must poll inside symlink roots (CORE-222). */
+/**
+ * Markdown files only. Directories must pass — chokidar applies `ignored` to
+ * traversal as well as events, so pruning a directory would stop the watcher
+ * ever reaching the files inside it. The stats-less pre-check chokidar makes
+ * before stat'ing also passes, for the same reason.
+ */
+export function ignoreNonMarkdown(path: string, stats?: Stats): boolean {
+  return stats?.isFile() === true && !path.endsWith('.md');
+}
+
+/**
+ * Archive reach must stay exactly `<archiveRoot>/<area>/<file>.md` — the shape
+ * `archiveCache`'s `readArchive` reads (FE-076 narrowed the old recursive glob
+ * to a single area level for precisely this reason). `depth: 1` alone is looser
+ * than the retired glob: it would also admit a stray `.md` sitting directly in
+ * an archive root, so the root list narrows it back.
+ */
+export function ignoreOutsideArchiveArea(archiveRoots: readonly string[]) {
+  return (path: string, stats?: Stats): boolean => {
+    if (stats?.isFile() !== true) return false;
+    if (!path.endsWith('.md')) return true;
+    return !archiveRoots.some((root) => dirname(dirname(path)) === root);
+  };
+}
+
+/**
+ * Hot set (PLAN.md + active tasknotes) — must poll inside symlink roots
+ * (CORE-222). `depth: 0` keeps the reach at the tasknote dir's immediate
+ * children, which is what the retired one-level tasknote glob matched; it also
+ * stops the hot watcher descending into the archive tree below it.
+ */
 export const WATCH_HOT_OPTIONS = {
   ignoreInitial: true,
-  depth: 1,
+  depth: 0,
   usePolling: true,
   interval: WATCH_POLL_MS,
+  ignored: ignoreNonMarkdown,
 } as const;
 
-/** Archives — native watch; fleet-scale cost was the poll, not the watch (CORE-431.2). */
-export const WATCH_ARCHIVE_OPTIONS = {
-  ignoreInitial: true,
-  depth: 2,
-  usePolling: false,
-} as const;
+/**
+ * Archives — native watch; fleet-scale cost was the poll, not the watch
+ * (CORE-431.2). `depth: 1` reaches `<area>/<file>.md`. Takes the watched
+ * archive roots because the reach predicate needs them (see above).
+ */
+export function archiveWatchOptions(archiveRoots: readonly string[]) {
+  return {
+    ignoreInitial: true,
+    depth: 1,
+    usePolling: false,
+    ignored: ignoreOutsideArchiveArea(archiveRoots),
+  } as const;
+}
 
 export interface ChangeBroadcaster {
   schedule(projectName: string | undefined): void;
@@ -93,6 +133,10 @@ export function createOnWatchEvent(opts: {
 }): (event: string, filepath: unknown) => void {
   return (event, filepath) => {
     if (typeof filepath !== 'string') return;
+    // chokidar reports directory events (`addDir` / `unlinkDir`) too. The
+    // retired globs matched files only, and `ignored` cannot prune directories
+    // without also pruning traversal — so the file-only reach is restored here.
+    if (!filepath.endsWith('.md')) return;
     opts.archiveCache.invalidate(filepath, opts.projects);
     if (event === 'unlink') {
       const owner = projectForActiveTasknote(filepath, opts.projects);

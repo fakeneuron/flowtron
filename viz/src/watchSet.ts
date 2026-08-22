@@ -1,4 +1,4 @@
-import { dirname, join } from 'node:path';
+import { dirname } from 'node:path';
 import type { ProjectDescriptor } from './workspace';
 
 export interface WatchSets {
@@ -6,26 +6,21 @@ export interface WatchSets {
   archive: string[];
 }
 
-/** Chokidar treats `*`, `?`, `[`, … as glob syntax — escape literal path segments. */
-const GLOB_METACHAR = /[\\*?[\]{}()+!@]/g;
-
-export function escapeGlobLiteral(path: string): string {
-  return path.replace(GLOB_METACHAR, '\\$&');
-}
-
-/** Literal base directory + relative glob pattern for chokidar.watch(). */
-export function watchGlob(baseDir: string, pattern: string): string {
-  return join(escapeGlobLiteral(baseDir), pattern);
-}
-
-// Hot paths are polled (PLAN.md + active tasknotes). Archive globs are
+// Hot paths are polled (PLAN.md + active tasknotes). Archive roots are
 // watched natively — the fleet-scale cost is the 200ms poll, not the watch.
+//
+// These are literal paths, not globs: chokidar 4 removed glob support
+// (FE-090.2), which also retired the FE-088.4 metacharacter escaping — v5
+// treats every path literally, so escaping `[` or `*` in a project directory
+// name would now corrupt the path rather than protect it. The `*.md` /
+// `*/*.md` reach the globs used to carry now lives in the `depth` + `ignored`
+// options beside the watchers in `flowtronWatch.ts`.
 export function watchSets(projects: Iterable<ProjectDescriptor>): WatchSets {
   const hot: string[] = [];
   const archive: string[] = [];
   for (const p of projects) {
-    hot.push(escapeGlobLiteral(p.planPath), watchGlob(p.tasknoteDir, '*.md'));
-    archive.push(watchGlob(p.archiveDir, '*/*.md'));
+    hot.push(p.planPath, p.tasknoteDir);
+    archive.push(p.archiveDir);
   }
   return { hot, archive };
 }

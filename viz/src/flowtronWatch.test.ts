@@ -1,15 +1,18 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
+import type { Stats } from 'node:fs';
 import type { ServerResponse } from 'node:http';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createArchiveCache } from './archiveCache';
 import {
+  archiveWatchOptions,
   createChangeBroadcaster,
   createOnWatchEvent,
+  ignoreNonMarkdown,
+  ignoreOutsideArchiveArea,
   SSE_DEBOUNCE_MS,
   SSE_MAX_WAIT_MS,
-  WATCH_ARCHIVE_OPTIONS,
   WATCH_HOT_OPTIONS,
   WATCH_POLL_MS,
 } from './flowtronWatch';
@@ -58,22 +61,79 @@ async function makeProject(name: string): Promise<ProjectDescriptor> {
   };
 }
 
-describe('watcher option pins (CORE-431.2)', () => {
-  it('polls the hot set at WATCH_POLL_MS with depth 1', () => {
+const FILE = { isFile: () => true, isDirectory: () => false } as unknown as Stats;
+const DIR = { isFile: () => false, isDirectory: () => true } as unknown as Stats;
+
+describe('watcher option pins (CORE-431.2, chokidar 5 depths per FE-090.2)', () => {
+  it('polls the hot set at WATCH_POLL_MS with depth 0', () => {
     expect(WATCH_HOT_OPTIONS).toEqual({
       ignoreInitial: true,
-      depth: 1,
+      depth: 0,
       usePolling: true,
       interval: WATCH_POLL_MS,
+      ignored: ignoreNonMarkdown,
     });
   });
 
-  it('watches archives natively with depth 2', () => {
-    expect(WATCH_ARCHIVE_OPTIONS).toEqual({
+  it('watches archives natively with depth 1', () => {
+    const roots = ['/ws/alpha/.flowtron/tasknote/archive'];
+    expect(archiveWatchOptions(roots)).toMatchObject({
       ignoreInitial: true,
-      depth: 2,
+      depth: 1,
       usePolling: false,
     });
+    expect(typeof archiveWatchOptions(roots).ignored).toBe('function');
+  });
+});
+
+// chokidar 4 dropped glob support, so the retired `*.md` / `*/*.md` reach is
+// now carried by these predicates plus `depth`. They must not prune
+// directories: `ignored` gates traversal as well as events.
+describe('ignoreNonMarkdown', () => {
+  it('ignores non-markdown files', () => {
+    expect(ignoreNonMarkdown('/ws/a/.flowtron/tasknote/notes.txt', FILE)).toBe(true);
+  });
+
+  it('keeps markdown files', () => {
+    expect(ignoreNonMarkdown('/ws/a/.flowtron/tasknote/CORE-001.md', FILE)).toBe(false);
+  });
+
+  it('keeps directories and stats-less pre-checks so traversal can reach files', () => {
+    expect(ignoreNonMarkdown('/ws/a/.flowtron/tasknote/archive', DIR)).toBe(false);
+    expect(ignoreNonMarkdown('/ws/a/.flowtron/tasknote/archive')).toBe(false);
+  });
+});
+
+describe('ignoreOutsideArchiveArea (FE-076 reader-matching reach)', () => {
+  const archiveRoot = '/ws/alpha/.flowtron/tasknote/archive';
+  const ignored = ignoreOutsideArchiveArea([archiveRoot]);
+
+  it('keeps <archiveRoot>/<area>/<file>.md — the shape readArchive reads', () => {
+    expect(ignored(join(archiveRoot, 'core', 'CORE-001.md'), FILE)).toBe(false);
+  });
+
+  it('ignores a stray .md sitting directly in the archive root', () => {
+    expect(ignored(join(archiveRoot, 'README.md'), FILE)).toBe(true);
+  });
+
+  it('ignores .md nested deeper than one area level', () => {
+    expect(ignored(join(archiveRoot, 'core', 'old', 'CORE-001.md'), FILE)).toBe(true);
+  });
+
+  it('ignores non-markdown files', () => {
+    expect(ignored(join(archiveRoot, 'core', 'notes.txt'), FILE)).toBe(true);
+  });
+
+  it('keeps directories so traversal can reach the area dirs', () => {
+    expect(ignored(join(archiveRoot, 'core'), DIR)).toBe(false);
+    expect(ignored(join(archiveRoot, 'core'))).toBe(false);
+  });
+
+  it('is per-root', () => {
+    const other = '/ws/beta/.flowtron/tasknote/archive';
+    expect(ignoreOutsideArchiveArea([archiveRoot, other])(join(other, 'fe', 'FE-001.md'), FILE)).toBe(
+      false,
+    );
   });
 });
 

@@ -24,7 +24,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Future Opportunities
 
 - [ ] **FE-EPIC-090** [medium]🧩 | viz major-bump wave — React 19 / Vite latest / ESLint 10 / Tailwind 4 / jsdom 30 in staged pairs, gates green after each. Deferral origin: CORE-457.4. Discovery supplied by audit-repo 2026-08-22. Surfaced by audit-repo 2026-08-22 (Theme: deliberate conservatism on deps)
-  - [ ] **FE-090.2** [medium]🧩 | toolchain pair — ESLint 10 + typescript-eslint, jsdom 30, chokidar 5
+  - [x] **FE-090.2** [medium]🧩 | toolchain pair — Completed 2026-08-22.
   - [ ] **FE-090.3** [heavy]🧠 | framework pair — React 19 + types, Vite latest + plugin-react
   - [ ] **FE-090.4** [heavy]🧠 | Tailwind 4 migration
   - [ ] **FE-090.N** [light]🔧 | viz major-bump wave audit
