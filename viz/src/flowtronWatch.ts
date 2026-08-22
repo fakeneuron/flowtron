@@ -6,6 +6,8 @@ import type { ProjectDescriptor } from './workspace';
 
 export const WATCH_POLL_MS = 200;
 export const SSE_DEBOUNCE_MS = 200;
+/** Upper bound on debounce coalescing — flush at least once per burst (FE-088.4). */
+export const SSE_MAX_WAIT_MS = 1000;
 
 /** Hot set (PLAN.md + active tasknotes) — must poll inside symlink roots (CORE-222). */
 export const WATCH_HOT_OPTIONS = {
@@ -31,12 +33,26 @@ export interface ChangeBroadcaster {
 export function createChangeBroadcaster(opts: {
   sseClients: Set<ServerResponse>;
   debounceMs?: number;
+  maxWaitMs?: number;
 }): ChangeBroadcaster {
   let debounceTimer: ReturnType<typeof setTimeout> | null = null;
+  let maxWaitTimer: ReturnType<typeof setTimeout> | null = null;
   const pendingProjects = new Set<string>();
   let pendingUnattributed = false;
 
+  const clearTimers = () => {
+    if (debounceTimer) {
+      clearTimeout(debounceTimer);
+      debounceTimer = null;
+    }
+    if (maxWaitTimer) {
+      clearTimeout(maxWaitTimer);
+      maxWaitTimer = null;
+    }
+  };
+
   const flush = () => {
+    clearTimers();
     const names = [...pendingProjects];
     const unattributed = pendingUnattributed;
     pendingProjects.clear();
@@ -54,6 +70,9 @@ export function createChangeBroadcaster(opts: {
   const schedule = (projectName: string | undefined) => {
     if (projectName) pendingProjects.add(projectName);
     else pendingUnattributed = true;
+    if (!maxWaitTimer) {
+      maxWaitTimer = setTimeout(flush, opts.maxWaitMs ?? SSE_MAX_WAIT_MS);
+    }
     if (debounceTimer) clearTimeout(debounceTimer);
     debounceTimer = setTimeout(flush, opts.debounceMs ?? SSE_DEBOUNCE_MS);
   };
@@ -62,7 +81,7 @@ export function createChangeBroadcaster(opts: {
     schedule,
     flush,
     dispose() {
-      if (debounceTimer) clearTimeout(debounceTimer);
+      clearTimers();
     },
   };
 }

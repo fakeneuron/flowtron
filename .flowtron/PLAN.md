@@ -18,7 +18,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **FE-EPIC-088** [medium]🧩 | viz containment & visible staleness — replace viz's silent wrong-states with path containment and user-visible indicators; no auth layer (localhost single-user posture stays). Discovery supplied by audit-repo 2026-08-20. Surfaced by audit-repo 2026-08-20 (Theme: viz trusts the workspace and fails silent)
   - [x] **FE-088.2** [medium]🧩 | realpath containment — Completed 2026-08-21.
   - [x] **FE-088.3** [medium]🧩 | SSE disconnect visibility — Completed 2026-08-22.
-  - [ ] **FE-088.4** [light]🔧 | debounce max-wait flush (~1 s cap) so sustained write bursts still paint; optional glob-metachar watch fix (Finding #9 + tail)
+  - [x] **FE-088.4** [light]🔧 | debounce max-wait flush — Completed 2026-08-22.
   - [ ] **FE-088.N** [light]🔧 | viz containment audit
 
 ## Low

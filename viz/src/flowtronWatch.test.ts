@@ -8,6 +8,7 @@ import {
   createChangeBroadcaster,
   createOnWatchEvent,
   SSE_DEBOUNCE_MS,
+  SSE_MAX_WAIT_MS,
   WATCH_ARCHIVE_OPTIONS,
   WATCH_HOT_OPTIONS,
   WATCH_POLL_MS,
@@ -195,6 +196,26 @@ describe('createChangeBroadcaster (CORE-431.3 debounce + attribution)', () => {
       'event: change\ndata: {"project":"alpha"}\n\n',
       'event: change\ndata: {"project":"beta"}\n\n',
     ]);
+  });
+
+  it('flushes at maxWaitMs when schedule keeps resetting the debounce timer', () => {
+    const sseClients = new Set<ServerResponse>();
+    const { res, state } = makeRes();
+    sseClients.add(res);
+    const broadcaster = createChangeBroadcaster({
+      sseClients,
+      debounceMs: SSE_DEBOUNCE_MS,
+      maxWaitMs: SSE_MAX_WAIT_MS,
+    });
+
+    for (let i = 0; i < 5; i++) {
+      broadcaster.schedule('alpha');
+      vi.advanceTimersByTime(SSE_DEBOUNCE_MS - 1);
+    }
+    expect(state.chunks).toEqual([]);
+
+    vi.advanceTimersByTime(SSE_MAX_WAIT_MS - 5 * (SSE_DEBOUNCE_MS - 1));
+    expect(state.chunks).toEqual(['event: change\ndata: {"project":"alpha"}\n\n']);
   });
 
   it('fail-opens to unattributed {} when any event in the window is unattributed', () => {

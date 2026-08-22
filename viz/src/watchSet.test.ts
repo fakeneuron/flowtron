@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { join } from 'node:path';
-import { projectForActiveTasknote, projectForPath, watchSets } from './watchSet';
+import {
+  escapeGlobLiteral,
+  projectForActiveTasknote,
+  projectForPath,
+  watchGlob,
+  watchSets,
+} from './watchSet';
 import type { ProjectDescriptor } from './workspace';
 
 function project(name: string, root: string): ProjectDescriptor {
@@ -37,6 +43,16 @@ describe('watchSets', () => {
 
   it('returns empty sets for no projects', () => {
     expect(watchSets([])).toEqual({ hot: [], archive: [] });
+  });
+
+  it('escapes glob metacharacters in project paths for chokidar', () => {
+    const bracketed = project('foo[wip]', '/ws');
+    const sets = watchSets([bracketed]);
+
+    expect(sets.hot[0]).toBe(escapeGlobLiteral(bracketed.planPath));
+    expect(sets.hot[1]).toBe(watchGlob(bracketed.tasknoteDir, '*.md'));
+    expect(sets.archive[0]).toBe(watchGlob(bracketed.archiveDir, '*/*.md'));
+    expect(sets.hot[1]).toContain('\\[wip\\]');
   });
 });
 

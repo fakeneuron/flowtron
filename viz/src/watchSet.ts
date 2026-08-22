@@ -6,14 +6,26 @@ export interface WatchSets {
   archive: string[];
 }
 
+/** Chokidar treats `*`, `?`, `[`, … as glob syntax — escape literal path segments. */
+const GLOB_METACHAR = /[\\*?[\]{}()+!@]/g;
+
+export function escapeGlobLiteral(path: string): string {
+  return path.replace(GLOB_METACHAR, '\\$&');
+}
+
+/** Literal base directory + relative glob pattern for chokidar.watch(). */
+export function watchGlob(baseDir: string, pattern: string): string {
+  return join(escapeGlobLiteral(baseDir), pattern);
+}
+
 // Hot paths are polled (PLAN.md + active tasknotes). Archive globs are
 // watched natively — the fleet-scale cost is the 200ms poll, not the watch.
 export function watchSets(projects: Iterable<ProjectDescriptor>): WatchSets {
   const hot: string[] = [];
   const archive: string[] = [];
   for (const p of projects) {
-    hot.push(p.planPath, join(p.tasknoteDir, '*.md'));
-    archive.push(join(p.archiveDir, '*/*.md'));
+    hot.push(escapeGlobLiteral(p.planPath), watchGlob(p.tasknoteDir, '*.md'));
+    archive.push(watchGlob(p.archiveDir, '*/*.md'));
   }
   return { hot, archive };
 }
