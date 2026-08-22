@@ -10,6 +10,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
+    // Relative imports in vite.config.ts's module graph carry explicit `.ts`
+    // extensions so Vite's `configLoader: 'native'` (Node type-stripping, the
+    // planned default in a future major) can load the config. Requires noEmit.
+    // See FE-090.3. UI modules keep bare specifiers — they are bundled, not
+    // loaded natively.
+    "allowImportingTsExtensions": true,
     "allowJs": false,
     "strict": true,
     "types": ["node", "vitest/globals"]

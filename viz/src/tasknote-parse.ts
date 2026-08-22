@@ -8,7 +8,7 @@ import {
   extractStarterSubsections,
   parseFrontmatter,
   type Tasknote,
-} from './tasknote';
+} from './tasknote.ts';
 
 // gray-matter's built-in `javascript` engine parses `---js` frontmatter via eval().
 // Overriding it here closes that code-execution path; `js` resolves to this same

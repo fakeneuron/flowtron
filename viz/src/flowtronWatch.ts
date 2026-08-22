@@ -1,10 +1,10 @@
 import type { Stats } from 'node:fs';
 import type { ServerResponse } from 'node:http';
 import { dirname } from 'node:path';
-import type { ArchiveCache } from './archiveCache';
-import { formatChangePayload } from './sseChange';
-import { projectForActiveTasknote, projectForPath } from './watchSet';
-import type { ProjectDescriptor } from './workspace';
+import type { ArchiveCache } from './archiveCache.ts';
+import { formatChangePayload } from './sseChange.ts';
+import { projectForActiveTasknote, projectForPath } from './watchSet.ts';
+import type { ProjectDescriptor } from './workspace.ts';
 
 export const WATCH_POLL_MS = 200;
 export const SSE_DEBOUNCE_MS = 200;

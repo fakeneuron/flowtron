@@ -3,7 +3,7 @@ import { readdir, readFile, stat } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 import { promisify } from 'node:util';
-import { realpathWithin, safeRealpath } from './fsSafe';
+import { realpathWithin, safeRealpath } from './fsSafe.ts';
 
 const execFileAsync = promisify(execFile);
 

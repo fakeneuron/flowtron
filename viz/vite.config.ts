@@ -9,24 +9,24 @@ import {
   latestReleaseTag,
   workspaceRoot,
   type ProjectDescriptor,
-} from './src/workspace';
-import { createArchiveCache } from './src/archiveCache';
-import { DEV_PORT } from './src/originGuard';
+} from './src/workspace.ts';
+import { createArchiveCache } from './src/archiveCache.ts';
+import { DEV_PORT } from './src/originGuard.ts';
 import {
   createActiveHandler,
   createArchiveHandler,
   createEventsHandler,
   createPlanHandler,
   createProjectsHandler,
-} from './src/devApi';
+} from './src/devApi.ts';
 import {
   archiveWatchOptions,
   createChangeBroadcaster,
   createOnWatchEvent,
   SSE_DEBOUNCE_MS,
   WATCH_HOT_OPTIONS,
-} from './src/flowtronWatch';
-import { watchSets } from './src/watchSet';
+} from './src/flowtronWatch.ts';
+import { watchSets } from './src/watchSet.ts';
 
 const SSE_HEARTBEAT_MS = 30_000;
 

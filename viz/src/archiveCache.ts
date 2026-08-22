@@ -1,9 +1,9 @@
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { parseTasknote } from './tasknote-parse';
-import { realpathWithin, safeReaddir, safeRealpath } from './fsSafe';
-import type { Tasknote } from './tasknote';
-import type { ProjectDescriptor } from './workspace';
+import { parseTasknote } from './tasknote-parse.ts';
+import { realpathWithin, safeReaddir, safeRealpath } from './fsSafe.ts';
+import type { Tasknote } from './tasknote.ts';
+import type { ProjectDescriptor } from './workspace.ts';
 
 async function readArchive(project: ProjectDescriptor): Promise<Tasknote[]> {
   // Containment base is the project root resolved through symlinks, not the

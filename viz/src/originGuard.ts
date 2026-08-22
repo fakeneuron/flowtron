@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { endPlain } from './apiResponse';
+import { endPlain } from './apiResponse.ts';
 
 export const DEV_PORT = 5120;
 

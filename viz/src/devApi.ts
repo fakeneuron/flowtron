@@ -1,13 +1,13 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { endPlain } from './apiResponse';
-import { originGuard } from './originGuard';
-import { parseTasknote } from './tasknote-parse';
-import { realpathWithin, safeReaddir, safeRealpath } from './fsSafe';
-import type { ProjectDescriptor } from './workspace';
-import type { ArchiveCache } from './archiveCache';
-import type { Tasknote } from './tasknote';
+import { endPlain } from './apiResponse.ts';
+import { originGuard } from './originGuard.ts';
+import { parseTasknote } from './tasknote-parse.ts';
+import { realpathWithin, safeReaddir, safeRealpath } from './fsSafe.ts';
+import type { ProjectDescriptor } from './workspace.ts';
+import type { ArchiveCache } from './archiveCache.ts';
+import type { Tasknote } from './tasknote.ts';
 
 type Handler = (req: IncomingMessage, res: ServerResponse) => void;
 type AsyncHandler = (req: IncomingMessage, res: ServerResponse) => Promise<void>;

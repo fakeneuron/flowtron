@@ -1,5 +1,5 @@
 import { dirname } from 'node:path';
-import type { ProjectDescriptor } from './workspace';
+import type { ProjectDescriptor } from './workspace.ts';
 
 export interface WatchSets {
   hot: string[];
