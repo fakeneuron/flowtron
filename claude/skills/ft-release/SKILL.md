@@ -626,7 +626,7 @@ git add docs/AGENT-COMPAT.md docs/PLATFORMS.md claude/CAPABILITIES.md
 
 (The Step 7.3 `mv` left the archived tasknote untracked; the explicit `git add` here stages it.)
 
-Surface the bundled 📦 ready-to-commit gate per SPEC/gates.md §"Operator-gate cues" (banner block + mandatory 1-2 sentence preview line summarising what executes on commit-go — typically "cut flowtron vA.B.C: commit the 5 version edits + any dogfood-gate stamp refreshes/skips + PLAN.md flip + tasknote archive, create annotated `vA.B.C` tag, push branch + tag to origin (or hold local if push-go declined)"). Alongside the SPEC-defined bundle (closure review · recap · proposed commit message), this skill carries:
+Surface the bundled 📦 ready-to-commit gate per SPEC/gates.md §"Operator-gate cues" (banner block + mandatory 1-2 sentence preview line summarising what executes on commit-go — typically "cut flowtron vA.B.C: commit the 5 version edits + any dogfood-gate stamp refreshes/skips + PLAN.md flip + tasknote archive, create annotated `vA.B.C` tag, push branch + tag to origin, and publish a GitHub Release for `vA.B.C` (or hold local, unpublished, if push-go declined)"). Alongside the SPEC-defined bundle (closure review · recap · proposed commit message), this skill carries:
 
 - **Dogfood-gate resolution (enforcement)** — confirm the §5 walk resolved **every** dogfooded row, and surface the per-agent summary inside the closure review:
 
@@ -663,24 +663,24 @@ On 🟢 GO commit-go (push-go answer already captured in the §7.4 bundle), run 
 
 1. ▶️ RUN: `git commit` with the surfaced message.
 2. ▶️ RUN: `git tag -a vA.B.C -F -` with the approved message from §7.2 (HEREDOC).
-3. **If push-go was Yes** — ▶️ RUN: `git push origin <current-branch>` then `git push origin vA.B.C`.
-   **If push-go was No** — stop after the tag; §8's 🏁 marker names the manual push commands as a follow-up step.
+3. **If push-go was Yes** — ▶️ RUN: `git push origin <current-branch>` then `git push origin vA.B.C`, then ▶️ RUN: `gh release create vA.B.C --latest --title "<title>" --notes "<notes>"` — title is the §7.2 locked tag message's first line (`flowtron vA.B.C — <headline>`), notes is everything after it, `--latest` marks it the repo's latest release (flowtron cuts releases linearly off `main`, so this is always correct — no need to ask). A release can't be created for a tag that isn't on origin yet, so this always runs after the tag push, never before or in place of it.
+   **If push-go was No** — stop after the tag; §8's 🏁 marker names the manual push + `gh release create` commands as a follow-up step.
 
-Verify each operation before the next (`git log -1 --stat`, `git tag --list vA.B.C`, and on push-go Yes also `git ls-remote --tags origin vA.B.C`). The separate prose "ask explicitly before pushing" pause from earlier revisions is collapsed — push approval is captured upstream as the bundled push-go prompt at §7.4, per SPEC §"Operator-gate cues" ("skill-level extensions (epic parent-flip, release push-go) bundle into 📦").
+Verify each operation before the next (`git log -1 --stat`, `git tag --list vA.B.C`, and on push-go Yes also `git ls-remote --tags origin vA.B.C` and `gh release view vA.B.C`). The separate prose "ask explicitly before pushing" pause from earlier revisions is collapsed — push approval is captured upstream as the bundled push-go prompt at §7.4, per SPEC §"Operator-gate cues" ("skill-level extensions (epic parent-flip, release push-go) bundle into 📦").
 
 ## Step 8 — Post-closure protocol (🏁 marker + suggest-next-move + copy-paste)
 
 The post-closure protocol is canonical in SPEC §"Post-closure protocol" (steps 1-3: commit / mark landed with 🏁 / offer copy-paste line). For releases:
 
 - **Recap** — already bundled into the §7.4 📦 gate per SPEC §"🚀 Phase 4: Closure" (not re-surfaced here). One paragraph of what shipped (version, headline features, adopter migration if any); drop the "verification request" — the verification IS the push.
-- **🏁 post-commit state-marker** — once §7.5's operations land (commit + tag + push on push-go Yes; commit + tag only on push-go No), emit the marker per SPEC §"Post-closure protocol" step 2:
+- **🏁 post-commit state-marker** — once §7.5's operations land (commit + tag + push + release create on push-go Yes; commit + tag only on push-go No), emit the marker per SPEC §"Post-closure protocol" step 2:
 
   ```markdown
-  🏁 **<TASK-ID> — committed `<sha>`, tagged `vA.B.C`** · archived to `.flowtron/tasknote/archive/core/<TASK-ID>.md`
+  🏁 **<TASK-ID> — committed `<sha>`, tagged `vA.B.C`, published release** · archived to `.flowtron/tasknote/archive/core/<TASK-ID>.md`
   <1-2 sentence plain-English summary of what shipped + adopter-impact>
   ```
 
-  On push-go No, append a one-line manual-push reminder under the marker (e.g., `Manual push pending: ▶️ RUN: \`git push origin <branch>\` then \`git push origin vA.B.C\`.`).
+  On push-go No, drop "published release" from the marker and append a one-line manual follow-up reminder under it (e.g., `Manual push pending: ▶️ RUN: \`git push origin <branch>\` then \`git push origin vA.B.C\`, then \`gh release create vA.B.C --latest --title "<title>" --notes "<notes>"\`.`).
 
 - **Suggest-next-move + copy-paste line** — follow in the same response as the 🏁 marker. Candidates carry `[model]` inline per option (`**<TASK-ID>** [model] | shortname — one-sentence "why now"`). The next move is typically the next pending child in the cohort that filed this release, or `/ft-file-followup` for any drift surfaced during the cut.
 

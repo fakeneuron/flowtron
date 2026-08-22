@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-461** [light]🔧 | release-publish-step — `/ft-release` tags and pushes but never runs `gh release create`, so every cut since v0.1.0 left an unpublished tag; adopter cloutomaton CORE-035.3 backfilled all 45 by hand. Add the publish step (title + body from the annotated tag message, `--latest` on the new tag) and repoint README's version badge at `github/v/release` + `/releases`.
+(none)
 
 ## Low
 
@@ -28,6 +28,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-461** [light]🔧 | release-publish-step — Completed 2026-08-22.
 - [x] **FE-091** [medium]🧩 | watch-event iterator fix — Completed 2026-08-22.
 - [x] **FE-EPIC-090** [medium]🧩 | viz major-bump wave — Completed 2026-08-22.
   - [x] **FE-090.2** [medium]🧩 | toolchain pair — Completed 2026-08-22.
