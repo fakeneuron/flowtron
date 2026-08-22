@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-(none)
+- [ ] **CORE-462** [light]🔧 | security-md updater section — Add a SECURITY.md §"Fleet updater (tools/)" documenting the update-adopters threat posture: execFile-only git invocation, semver-constrained arguments, canonical-SHA cross-check on checkout, local-commits-never-push, dry-run default, and the deliberate symlink-following write footprint under the workspace root. Surfaced by audit-security 2026-08-22 (Finding #1, Low).
 
 ## Future Opportunities
 
