@@ -25,8 +25,10 @@ describe('App — navigateToTask', () => {
   // `vi.useFakeTimers({ shouldAdvanceTime: true })` variant was needed to fire
   // the mocked rAF, but that coupled the test to wall-clock: under the full
   // parallel run it intermittently timed out (FE-045). Real timers reduce but
-  // don't fully eliminate flakiness under parallel jsdom contention; the raised
-  // findByRole timeout below and the per-test timeout absorb the remaining slack.
+  // don't fully eliminate flakiness under parallel jsdom contention; the
+  // shared-config timeouts (setup.ts asyncUtilTimeout + vite.config.ts
+  // testTimeout, FE-053) absorb the remaining slack — no per-call or per-test
+  // overrides here, they only undercut those globals (FE-089.2).
   it('clicking a wikilink in TaskDetail auto-expands the parent epic, scrolls, and clears highlight', async () => {
     const scrollSpy = vi.spyOn(Element.prototype, 'scrollIntoView').mockImplementation(() => {});
     const user = userEvent.setup();
@@ -39,7 +41,7 @@ describe('App — navigateToTask', () => {
 
     await user.click(screen.getByRole('button', { name: /CORE-900/, expanded: false }));
 
-    const wikilink = await screen.findByRole('button', { name: /\[\[CORE-1\.1\]\]/ }, { timeout: 4000 });
+    const wikilink = await screen.findByRole('button', { name: /\[\[CORE-1\.1\]\]/ });
     await user.click(wikilink);
 
     await waitFor(() =>
@@ -55,11 +57,10 @@ describe('App — navigateToTask', () => {
     const targetRow = document.getElementById('row-CORE-1.1')!;
     await waitFor(() => expect(targetRow.className).toMatch(/ring-indigo/));
 
-    // Highlight clears HIGHLIGHT_MS (1500ms) after navigation; allow margin.
-    await waitFor(() => expect(targetRow.className).not.toMatch(/ring-indigo/), {
-      timeout: 2500,
-    });
-  }, 10_000);
+    // Highlight clears HIGHLIGHT_MS (1500ms) after navigation; the shared
+    // asyncUtilTimeout covers the margin.
+    await waitFor(() => expect(targetRow.className).not.toMatch(/ring-indigo/));
+  });
 });
 
 describe('App — expand-on-click toggling', () => {
@@ -1224,12 +1225,12 @@ describe('App — completed-bucket grouping (FE-086)', () => {
     expect(completedToggle).toHaveAttribute('aria-expanded', 'false');
 
     await user.click(screen.getByRole('button', { name: /CORE-2/, expanded: false }));
-    const wikilink = await screen.findByRole('button', { name: /\[\[CORE-1\]\]/ }, { timeout: 4000 });
+    const wikilink = await screen.findByRole('button', { name: /\[\[CORE-1\]\]/ });
     await user.click(wikilink);
 
     await waitFor(() => expect(completedToggle).toHaveAttribute('aria-expanded', 'true'));
     await waitFor(() =>
       expect(scrollSpy).toHaveBeenCalledWith({ behavior: 'smooth', block: 'center' }),
     );
-  }, 10_000);
+  });
 });

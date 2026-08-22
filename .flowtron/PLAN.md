@@ -12,7 +12,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## High
 
 - [ ] **FE-EPIC-089** [medium]🧩 | release-gate flake hardening — deflake cold-run timing in the viz suite. Discovery supplied by audit-repo 2026-08-22. Surfaced by audit-repo 2026-08-22 (Theme: release-gate timing margin)
-  - [ ] **FE-089.2** [medium]🧩 | deflake wikilink-nav waits — widen/restructure the two 4s findByRole waits (`viz/src/ui/App.test.tsx:42`, `:1227`) or amortize cold-start env cost; verify 5 consecutive cold runs
+  - [x] **FE-089.2** [medium]🧩 | deflake wikilink-nav waits — Completed 2026-08-22.
   - [ ] **FE-089.N** [light]🔧 | release-gate flake hardening audit
 
 ## Medium
