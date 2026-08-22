@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, rm, symlink, writeFile } from 'node:fs/promises';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -89,13 +89,16 @@ const BLOCKED_ORIGIN = 'https://evil.example.com';
 const PLAIN_TEXT = 'text/plain; charset=utf-8';
 
 let root: string;
+let outside: string;
 
 beforeEach(async () => {
   root = await mkdtemp(join(tmpdir(), 'flowtron-viz-dev-api-'));
+  outside = await mkdtemp(join(tmpdir(), 'flowtron-viz-dev-api-outside-'));
 });
 
 afterEach(async () => {
   await rm(root, { recursive: true, force: true });
+  await rm(outside, { recursive: true, force: true });
 });
 
 async function makeProject(
@@ -399,6 +402,79 @@ created: 2026-05-18
     await handler(req, res);
 
     expect(state.statusCode).toBe(200);
+    const parsed = JSON.parse(state.body) as Array<{ id: string }>;
+    expect(parsed.map((t) => t.id)).toEqual(['CORE-999']);
+  });
+
+  it('drops tasknotes that resolve outside the project root', async () => {
+    const outsideNote = `---
+title: leaked
+status: in-progress
+created: 2026-08-21
+---
+
+# SECRET-001 | leaked
+`;
+    // Project root is real, but `.flowtron/tasknote` points out of the tree.
+    const stash = join(outside, 'stash');
+    await mkdir(stash, { recursive: true });
+    await writeFile(join(stash, 'SECRET-001.md'), outsideNote);
+    const projectRoot = join(root, 'escaper');
+    await mkdir(join(projectRoot, '.flowtron'), { recursive: true });
+    await symlink(stash, join(projectRoot, '.flowtron', 'tasknote'));
+    const escaper: ProjectDescriptor = {
+      name: 'escaper',
+      root: projectRoot,
+      planPath: join(projectRoot, '.flowtron', 'PLAN.md'),
+      tasknoteDir: join(projectRoot, '.flowtron', 'tasknote'),
+      archiveDir: join(projectRoot, '.flowtron', 'tasknote', 'archive'),
+      flowtronVersion: null,
+    };
+    const handler = createActiveHandler(new Map([['escaper', escaper]]));
+    const req = makeReq({
+      url: '/api/active?project=escaper',
+      headers: { origin: ALLOWED_ORIGIN },
+    });
+    const { res, state } = makeRes();
+
+    await handler(req, res);
+
+    expect(state.statusCode).toBe(200);
+    expect(JSON.parse(state.body)).toEqual([]);
+  });
+
+  it('still lists tasknotes under a symlinked project root (CORE-222)', async () => {
+    const tasknote = `---
+title: hi
+status: in-progress
+created: 2026-08-21
+---
+
+# CORE-999 | hi
+`;
+    const realProject = join(outside, 'linked-adopter');
+    const realTasknoteDir = join(realProject, '.flowtron', 'tasknote');
+    await mkdir(realTasknoteDir, { recursive: true });
+    await writeFile(join(realTasknoteDir, 'CORE-999.md'), tasknote);
+    const linkedRoot = join(root, 'linked');
+    await symlink(realProject, linkedRoot);
+    const linked: ProjectDescriptor = {
+      name: 'linked',
+      root: linkedRoot,
+      planPath: join(linkedRoot, '.flowtron', 'PLAN.md'),
+      tasknoteDir: join(linkedRoot, '.flowtron', 'tasknote'),
+      archiveDir: join(linkedRoot, '.flowtron', 'tasknote', 'archive'),
+      flowtronVersion: null,
+    };
+    const handler = createActiveHandler(new Map([['linked', linked]]));
+    const req = makeReq({
+      url: '/api/active?project=linked',
+      headers: { origin: ALLOWED_ORIGIN },
+    });
+    const { res, state } = makeRes();
+
+    await handler(req, res);
+
     const parsed = JSON.parse(state.body) as Array<{ id: string }>;
     expect(parsed.map((t) => t.id)).toEqual(['CORE-999']);
   });

@@ -3,6 +3,7 @@ import { readdir, readFile, stat } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 import { promisify } from 'node:util';
+import { realpathWithin, safeRealpath } from './fsSafe';
 
 const execFileAsync = promisify(execFile);
 
@@ -81,8 +82,19 @@ export async function discoverProjects(root: string): Promise<ProjectDescriptor[
     if (!(entry.isDirectory() || entry.isSymbolicLink())) continue;
     if (entry.name.startsWith('.')) continue;
     const projectRoot = join(root, entry.name);
+    // A symlinked project root is legitimate and stays discoverable (CORE-222);
+    // what must not escape is the PLAN.md below it. `isFile`'s stat follows
+    // symlinks, so without this a `.flowtron/PLAN.md` (or `.flowtron/`) link
+    // pointing anywhere on disk would make that file readable at /api/plan.
+    const realRoot = await safeRealpath(projectRoot);
+    if (realRoot === null) continue;
     const planPath = join(projectRoot, '.flowtron', 'PLAN.md');
-    if (!(await isFile(planPath))) continue;
+    const realPlan = await realpathWithin(realRoot, planPath);
+    if (realPlan === null || !(await isFile(realPlan))) continue;
+    // Deliberately not containment-checked: this read yields only a
+    // `v\d+.\d+.\d+` regex match (no file content reaches the wire), and
+    // `.flowtron/core -> ~/code/flowtron` is a plausible local-dev symlink
+    // that containment would break for no security gain.
     const flowtronSpec = join(projectRoot, '.flowtron', 'core', 'SPEC.md');
     const flowtronVersion = await readFlowtronVersion(flowtronSpec);
     projects.push({

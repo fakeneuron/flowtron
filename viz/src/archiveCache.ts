@@ -1,11 +1,18 @@
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { parseTasknote } from './tasknote-parse';
-import { safeReaddir } from './fsSafe';
+import { realpathWithin, safeReaddir, safeRealpath } from './fsSafe';
 import type { Tasknote } from './tasknote';
 import type { ProjectDescriptor } from './workspace';
 
 async function readArchive(project: ProjectDescriptor): Promise<Tasknote[]> {
+  // Containment base is the project root resolved through symlinks, not the
+  // archive dir: if `archive/` (or `tasknote/`, or `.flowtron/`) is itself a
+  // symlink, everything under its target is trivially "inside" it, so only the
+  // root is a meaningful bound. Symlinked project roots stay legitimate
+  // (CORE-222) — they resolve first, then nothing below may escape.
+  const realRoot = await safeRealpath(project.root);
+  if (realRoot === null) return [];
   const areas = (await safeReaddir(project.archiveDir)).filter((e) => e.isDirectory());
   const nested = await Promise.all(
     areas.map(async (area) => {
@@ -16,8 +23,12 @@ async function readArchive(project: ProjectDescriptor): Promise<Tasknote[]> {
         files.map(async (e) => {
           const id = e.name.replace(/\.md$/, '');
           const path = join(areaDir, e.name);
+          const realPath = await realpathWithin(realRoot, path);
+          // Resolves outside the project root — drop it silently, same shape as
+          // the malformed-YAML skip below. No user action is possible either way.
+          if (realPath === null) return null;
           try {
-            const text = await readFile(path, 'utf8');
+            const text = await readFile(realPath, 'utf8');
             return parseTasknote(id, path, text);
           } catch {
             // Legacy archived tasknotes may have malformed YAML frontmatter (write-once policy in SPEC.md).

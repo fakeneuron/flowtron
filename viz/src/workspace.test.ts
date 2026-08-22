@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { execFile } from 'node:child_process';
-import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, rm, symlink, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { promisify } from 'node:util';
@@ -9,13 +9,16 @@ import { discoverProjects, latestReleaseTag, workspaceRoot } from './workspace';
 const execFileAsync = promisify(execFile);
 
 let root: string;
+let outside: string;
 
 beforeEach(async () => {
   root = await mkdtemp(join(tmpdir(), 'flowtron-viz-workspace-'));
+  outside = await mkdtemp(join(tmpdir(), 'flowtron-viz-outside-'));
 });
 
 afterEach(async () => {
   await rm(root, { recursive: true, force: true });
+  await rm(outside, { recursive: true, force: true });
 });
 
 async function makeAdopter(
@@ -87,6 +90,43 @@ describe('discoverProjects', () => {
   it('returns empty array if workspace root does not exist', async () => {
     const projects = await discoverProjects(join(root, 'does-not-exist'));
     expect(projects).toEqual([]);
+  });
+
+  it('drops a project whose PLAN.md resolves outside the project root', async () => {
+    await makeAdopter('honest');
+    const secret = join(outside, 'secret.md');
+    await writeFile(secret, '## High\n\n- [ ] **SECRET-001** — leaked\n');
+    await mkdir(join(root, 'escaper', '.flowtron'), { recursive: true });
+    await symlink(secret, join(root, 'escaper', '.flowtron', 'PLAN.md'));
+
+    const projects = await discoverProjects(root);
+
+    expect(projects.map((p) => p.name)).toEqual(['honest']);
+  });
+
+  it('drops a project whose .flowtron dir resolves outside the project root', async () => {
+    await makeAdopter('honest');
+    await mkdir(join(outside, 'stash'), { recursive: true });
+    await writeFile(join(outside, 'stash', 'PLAN.md'), '## High\n');
+    await mkdir(join(root, 'escaper'), { recursive: true });
+    await symlink(join(outside, 'stash'), join(root, 'escaper', '.flowtron'));
+
+    const projects = await discoverProjects(root);
+
+    expect(projects.map((p) => p.name)).toEqual(['honest']);
+  });
+
+  it('still discovers a project whose root is itself a symlink (CORE-222)', async () => {
+    const realProject = join(outside, 'linked-adopter');
+    await mkdir(join(realProject, '.flowtron', 'tasknote'), { recursive: true });
+    await writeFile(join(realProject, '.flowtron', 'PLAN.md'), '## High\n');
+    await symlink(realProject, join(root, 'linked'));
+
+    const projects = await discoverProjects(root);
+
+    expect(projects.map((p) => p.name)).toEqual(['linked']);
+    expect(projects[0].root).toBe(join(root, 'linked'));
+    expect(projects[0].planPath).toBe(join(root, 'linked', '.flowtron', 'PLAN.md'));
   });
 });
 

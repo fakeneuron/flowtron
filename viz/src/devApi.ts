@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { endPlain } from './apiResponse';
 import { originGuard } from './originGuard';
 import { parseTasknote } from './tasknote-parse';
-import { safeReaddir } from './fsSafe';
+import { realpathWithin, safeReaddir, safeRealpath } from './fsSafe';
 import type { ProjectDescriptor } from './workspace';
 import type { ArchiveCache } from './archiveCache';
 import type { Tasknote } from './tasknote';
@@ -111,6 +111,15 @@ export function createActiveHandler(
       return;
     }
     try {
+      // Same project-root containment archiveCache.readArchive applies: a
+      // symlinked `.flowtron/tasknote/` would otherwise let any readable file
+      // on disk reach /api/active (FE-088.2).
+      const realRoot = await safeRealpath(project.root);
+      if (realRoot === null) {
+        res.setHeader('Content-Type', 'application/json');
+        res.end('[]');
+        return;
+      }
       const entries = await safeReaddir(project.tasknoteDir);
       const files = entries.filter((e) => e.isFile() && e.name.endsWith('.md'));
       const tasknotes = (
@@ -118,8 +127,12 @@ export function createActiveHandler(
           files.map(async (e) => {
             const id = e.name.replace(/\.md$/, '');
             const path = join(project.tasknoteDir, e.name);
+            const realPath = await realpathWithin(realRoot, path);
+            // Resolves outside the project root — drop it, same silent shape
+            // as the malformed-tasknote skip below.
+            if (realPath === null) return null;
             try {
-              const text = await readFile(path, 'utf8');
+              const text = await readFile(realPath, 'utf8');
               return parseTasknote(id, path, text);
             } catch {
               // One unreadable/malformed tasknote (or a TOCTOU delete between readdir

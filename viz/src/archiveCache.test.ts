@@ -1,18 +1,21 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, rm, symlink, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createArchiveCache } from './archiveCache';
 import type { ProjectDescriptor } from './workspace';
 
 let root: string;
+let outside: string;
 
 beforeEach(async () => {
   root = await mkdtemp(join(tmpdir(), 'flowtron-viz-archive-cache-'));
+  outside = await mkdtemp(join(tmpdir(), 'flowtron-viz-archive-outside-'));
 });
 
 afterEach(async () => {
   await rm(root, { recursive: true, force: true });
+  await rm(outside, { recursive: true, force: true });
 });
 
 async function makeProject(
@@ -208,6 +211,49 @@ describe('createArchiveCache', () => {
 
     expect(second).toHaveLength(1);
     expect(second[0].frontmatter?.title).toBe('recovered');
+  });
+
+  it('drops archive files that resolve outside the project root', async () => {
+    // The archive dir itself is the symlink — the dirent `isFile()` filter
+    // cannot see this, only realpath containment against the root can.
+    const stash = join(outside, 'stash', 'core');
+    await mkdir(stash, { recursive: true });
+    await writeFile(join(stash, 'SECRET-001.md'), tasknote('SECRET-001', 'leaked'));
+    const projectRoot = join(root, 'escaper');
+    const tasknoteDir = join(projectRoot, '.flowtron', 'tasknote');
+    await mkdir(tasknoteDir, { recursive: true });
+    await symlink(join(outside, 'stash'), join(tasknoteDir, 'archive'));
+    const project: ProjectDescriptor = {
+      name: 'escaper',
+      root: projectRoot,
+      planPath: join(projectRoot, '.flowtron', 'PLAN.md'),
+      tasknoteDir,
+      archiveDir: join(tasknoteDir, 'archive'),
+      flowtronVersion: null,
+    };
+
+    expect(await createArchiveCache().get(project)).toEqual([]);
+  });
+
+  it('still reads archives under a symlinked project root (CORE-222)', async () => {
+    const realProject = join(outside, 'linked-adopter');
+    const archiveDir = join(realProject, '.flowtron', 'tasknote', 'archive');
+    await mkdir(join(archiveDir, 'core'), { recursive: true });
+    await writeFile(join(archiveDir, 'core', 'CORE-001.md'), tasknote('CORE-001', 'kept'));
+    const linkedRoot = join(root, 'linked');
+    await symlink(realProject, linkedRoot);
+    const project: ProjectDescriptor = {
+      name: 'linked',
+      root: linkedRoot,
+      planPath: join(linkedRoot, '.flowtron', 'PLAN.md'),
+      tasknoteDir: join(linkedRoot, '.flowtron', 'tasknote'),
+      archiveDir: join(linkedRoot, '.flowtron', 'tasknote', 'archive'),
+      flowtronVersion: null,
+    };
+
+    const notes = await createArchiveCache().get(project);
+
+    expect(notes.map((t) => t.id)).toEqual(['CORE-001']);
   });
 
   it('clear() drops every cached project', async () => {

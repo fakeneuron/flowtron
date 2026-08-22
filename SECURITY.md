@@ -170,7 +170,15 @@ dev server:
   validation and business logic (`viz/src/devApi.ts`).
 - Reads files only from projects discovered under
   `${FLOWTRON_VIZ_WORKSPACE:-~/code}/*/.flowtron/`. There is no
-  user-controlled path input on any endpoint.
+  user-controlled path input on any endpoint. That bound is **enforced,
+  not assumed**: `discoverProjects` (`viz/src/workspace.ts`),
+  `archiveCache.readArchive` (`viz/src/archiveCache.ts`), and the
+  `/api/active` handler (`viz/src/devApi.ts`) resolve each candidate
+  file through symlinks and drop it unless it lands inside the project
+  root's own resolved path, so a symlinked `PLAN.md`, `.flowtron/`,
+  `tasknote/`, or `archive/` cannot pull an arbitrary readable file onto
+  the wire. Project roots that are *themselves* symlinks stay supported
+  — the root resolves first, and nothing below it may escape.
 - Sends a defense-in-depth `Content-Security-Policy` response header
   (`server.headers` in `vite.config.ts`): `default-src 'self'`,
   `object-src 'none'`, `base-uri 'self'`, `frame-ancestors 'none'`, and a
