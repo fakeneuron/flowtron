@@ -11,9 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **FE-EPIC-089** [medium]🧩 | release-gate flake hardening — deflake cold-run timing in the viz suite. Discovery supplied by audit-repo 2026-08-22. Surfaced by audit-repo 2026-08-22 (Theme: release-gate timing margin)
-  - [x] **FE-089.2** [medium]🧩 | deflake wikilink-nav waits — Completed 2026-08-22.
-  - [ ] **FE-089.N** [light]🔧 | release-gate flake hardening audit
+(none)
 
 ## Medium
 
@@ -33,6 +31,10 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 
 ## Completed
+
+- [x] **FE-EPIC-089** [medium]🧩 | release-gate flake hardening — Completed 2026-08-22.
+  - [x] **FE-089.2** [medium]🧩 | deflake wikilink-nav waits — Completed 2026-08-22.
+  - [x] **FE-089.N** [light]🔧 | release-gate flake hardening audit — Completed 2026-08-22.
 
 - [x] **FE-EPIC-088** [medium]🧩 | viz containment & visible staleness — Completed 2026-08-22.
   - [x] **FE-088.2** [medium]🧩 | realpath containment — Completed 2026-08-21.
