@@ -8,6 +8,10 @@ import {
 import { type Tasknote } from '../tasknote';
 import { projectFromChangeData } from '../sseChange';
 
+// Cadence for both halves of the degraded mode: how often the board re-polls
+// while live updates are down, and how often a CLOSED stream is retried.
+export const LIVE_RECOVERY_MS = 5000;
+
 export function useProjectData(activeProject: string | null): {
   tasks: Task[];
   unparsed: UnparsedLine[];
@@ -15,6 +19,7 @@ export function useProjectData(activeProject: string | null): {
   tasknotesById: Map<string, Tasknote>;
   loading: boolean;
   error: string | null;
+  liveDisconnected: boolean;
   refresh: () => void;
   reset: () => void;
 } {
@@ -24,6 +29,7 @@ export function useProjectData(activeProject: string | null): {
   const [tasknotesById, setTasknotesById] = useState<Map<string, Tasknote>>(new Map());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [liveDisconnected, setLiveDisconnected] = useState(false);
   const activeProjectRef = useRef<string | null>(null);
   activeProjectRef.current = activeProject;
   // Monotonic load counter: two rapid refreshes on the same project each fire a
@@ -77,30 +83,74 @@ export function useProjectData(activeProject: string | null): {
   }, [load]);
 
   useEffect(() => {
-    const es = new EventSource('/api/events');
+    let disposed = false;
+    let es: EventSource | null = null;
     let droppedSinceOpen = false;
+    let recovery: ReturnType<typeof setInterval> | null = null;
+
+    const stopRecovery = () => {
+      if (recovery === null) return;
+      clearInterval(recovery);
+      recovery = null;
+    };
+
     const onChange = (ev: Event) => {
       const data = 'data' in ev ? (ev as MessageEvent).data : undefined;
       const name = projectFromChangeData(data);
       if (name !== null && name !== activeProjectRef.current) return;
       refresh();
     };
-    es.addEventListener('change', onChange);
-    es.addEventListener('open', () => {
+
+    const onOpen = () => {
+      stopRecovery();
+      setLiveDisconnected(false);
       // On reconnect after a drop, reconcile changes missed during the gap.
       // The first connect has no prior drop, so no redundant initial refresh.
       if (droppedSinceOpen) {
         droppedSinceOpen = false;
         refresh();
       }
-    });
-    es.addEventListener('error', () => {
-      // Connection dropped; the browser auto-reconnects. Flag so the next
-      // 'open' reconciles any changes missed while disconnected, rather than
-      // letting the board go silently stale.
+    };
+
+    const onError = () => {
+      // Two failures arrive on this one listener and they are not the same.
+      // A mid-stream drop leaves readyState CONNECTING and the browser retries
+      // on its own. A rejected handshake — the 503 from MAX_SSE_CLIENTS, or any
+      // non-`text/event-stream` response — leaves it CLOSED, and the browser
+      // never retries; without recovery here that tab's board freezes forever.
+      // Flag the drop for the next 'open' to reconcile (FE-064), surface the
+      // state, and poll until live updates come back.
       droppedSinceOpen = true;
-    });
-    return () => es.close();
+      setLiveDisconnected(true);
+      startRecovery();
+    };
+
+    const connect = () => {
+      if (disposed) return;
+      es?.close();
+      es = new EventSource('/api/events');
+      es.addEventListener('change', onChange);
+      es.addEventListener('open', onOpen);
+      es.addEventListener('error', onError);
+    };
+
+    function startRecovery(): void {
+      if (recovery !== null || disposed) return;
+      recovery = setInterval(() => {
+        // Poll fallback: the board keeps moving on either failure shape.
+        refresh();
+        // Recovery: only when the browser has given up. Reconnecting while it
+        // is still CONNECTING would race a socket it is already retrying.
+        if (es === null || es.readyState === EventSource.CLOSED) connect();
+      }, LIVE_RECOVERY_MS);
+    }
+
+    connect();
+    return () => {
+      disposed = true;
+      stopRecovery();
+      es?.close();
+    };
   }, [refresh]);
 
   const reset = useCallback(() => {
@@ -111,5 +161,15 @@ export function useProjectData(activeProject: string | null): {
     setLoading(true);
   }, []);
 
-  return { tasks, unparsed, nearMissHeadings, tasknotesById, loading, error, refresh, reset };
+  return {
+    tasks,
+    unparsed,
+    nearMissHeadings,
+    tasknotesById,
+    loading,
+    error,
+    liveDisconnected,
+    refresh,
+    reset,
+  };
 }

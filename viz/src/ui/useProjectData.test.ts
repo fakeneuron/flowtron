@@ -1,12 +1,13 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { renderHook, act, waitFor, cleanup } from '@testing-library/react';
-import { useProjectData } from './useProjectData';
+import { LIVE_RECOVERY_MS, useProjectData } from './useProjectData';
 
 // The upgraded MockEventSource (src/test/setup.ts) records every instance and
 // exposes emit(type). Reach the EventSource a hook mounted to drive its SSE
 // branches. Tests clear the registry in beforeEach so `.at(-1)` is the current one.
 interface MockES {
   url: string;
+  readyState: number;
   emit(type: string, data?: string): void;
 }
 const esRegistry = () =>
@@ -166,6 +167,90 @@ describe('useProjectData — SSE branches', () => {
     // No prior drop → no redundant refresh: no new fetches, tasks unchanged.
     expect(fetchMock.mock.calls.length).toBe(callsAfterLoad);
     expect(hook.result.current.tasks[0]?.id).toBe('FE-1');
+  });
+
+  it('flags liveDisconnected on a drop and clears it on reconnect', async () => {
+    const { hook } = mountWithLivePlan();
+    await waitFor(() => expect(hook.result.current.tasks[0]?.id).toBe('FE-1'));
+    expect(hook.result.current.liveDisconnected).toBe(false);
+
+    await act(async () => {
+      latestES().emit('error');
+      await new Promise((r) => setTimeout(r, 0));
+    });
+    expect(hook.result.current.liveDisconnected).toBe(true);
+
+    await act(async () => {
+      latestES().emit('open');
+      await new Promise((r) => setTimeout(r, 0));
+    });
+    expect(hook.result.current.liveDisconnected).toBe(false);
+  });
+
+  it('polls while disconnected so the board keeps updating', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    try {
+      const { hook, fetchMock } = mountWithLivePlan();
+      await waitFor(() => expect(hook.result.current.tasks[0]?.id).toBe('FE-1'));
+
+      // Mid-stream drop: the browser is retrying on its own (CONNECTING), so
+      // the poll must carry the board until it succeeds.
+      latestES().readyState = 0;
+      await act(async () => {
+        latestES().emit('error');
+        await new Promise((r) => setTimeout(r, 0));
+      });
+
+      const callsAfterDrop = fetchMock.mock.calls.length;
+      currentPlan = planWith('FE-2');
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(LIVE_RECOVERY_MS);
+      });
+
+      expect(fetchMock.mock.calls.length).toBeGreaterThan(callsAfterDrop);
+      await waitFor(() => expect(hook.result.current.tasks[0]?.id).toBe('FE-2'));
+      // Still CONNECTING — no second socket racing the browser's own retry.
+      expect(esRegistry().length).toBe(1);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('reopens the stream when the handshake was rejected (readyState CLOSED)', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    try {
+      const { hook } = mountWithLivePlan();
+      await waitFor(() => expect(hook.result.current.tasks[0]?.id).toBe('FE-1'));
+
+      // The 503-capacity shape: the browser fails the connection outright and
+      // will never retry, so recovery has to construct a new EventSource.
+      latestES().readyState = 2;
+      await act(async () => {
+        latestES().emit('error');
+        await new Promise((r) => setTimeout(r, 0));
+      });
+      expect(esRegistry().length).toBe(1);
+
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(LIVE_RECOVERY_MS);
+      });
+      expect(esRegistry().length).toBe(2);
+
+      // A slot freed up: the fresh socket opens and live updates resume.
+      await act(async () => {
+        latestES().emit('open');
+        await new Promise((r) => setTimeout(r, 0));
+      });
+      expect(hook.result.current.liveDisconnected).toBe(false);
+
+      // Recovery stopped — no further sockets once live again.
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(LIVE_RECOVERY_MS * 2);
+      });
+      expect(esRegistry().length).toBe(2);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it('ignores a change attributed to a different project', async () => {

@@ -70,6 +70,12 @@ if (typeof window.matchMedia !== 'function') {
 // reach the EventSource a hook created; tests clear it in their own setup.
 class MockEventSource {
   static instances: MockEventSource[] = [];
+  // `useProjectData` reads `EventSource.CLOSED` to tell a fatal handshake
+  // reject (503 — the browser will not retry) from a mid-stream drop (it
+  // will). Tests drive that by setting `readyState` before emitting 'error'.
+  static readonly CONNECTING = 0;
+  static readonly OPEN = 1;
+  static readonly CLOSED = 2;
   url: string;
   readyState = 0;
   onopen: ((ev: Event) => void) | null = null;
@@ -96,7 +102,9 @@ class MockEventSource {
       data === undefined ? new Event(type) : new MessageEvent(type, { data });
     for (const cb of this.listeners.get(type) ?? []) cb(ev);
   }
-  close(): void {}
+  close(): void {
+    this.readyState = MockEventSource.CLOSED;
+  }
 }
 
 if (typeof globalThis.EventSource === 'undefined') {

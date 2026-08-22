@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { cleanup, screen, waitFor, within } from '@testing-library/react';
+import { act, cleanup, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { makeTasknote, renderApp } from '../test/fixtures';
 
@@ -1107,6 +1107,47 @@ function sectionHeadingOf(id: string): string | null {
     row?.closest('section')?.querySelector('button > span.text-base')?.textContent ?? null
   );
 }
+
+describe('App — SSE disconnect visibility (FE-088.3)', () => {
+  const plan = '## High\n\n- [ ] **CORE-100** | fine — Parses fine.\n';
+  const esRegistry = () =>
+    (globalThis.EventSource as unknown as { instances: { emit(t: string): void }[] })
+      .instances;
+
+  beforeEach(() => {
+    esRegistry().length = 0;
+  });
+
+  it('shows no chip or banner while the stream is live', async () => {
+    renderApp({ plan });
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+
+    expect(screen.queryByText(/live updates off/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Live updates disconnected/)).not.toBeInTheDocument();
+  });
+
+  it('shows the chip and banner on a drop, and clears both on reconnect', async () => {
+    renderApp({ plan });
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+
+    const es = esRegistry().at(-1)!;
+    await act(async () => {
+      es.emit('error');
+      await new Promise((r) => setTimeout(r, 0));
+    });
+
+    expect(screen.getByText(/live updates off/)).toBeInTheDocument();
+    expect(screen.getByText(/Live updates disconnected/)).toBeInTheDocument();
+
+    await act(async () => {
+      es.emit('open');
+      await new Promise((r) => setTimeout(r, 0));
+    });
+
+    expect(screen.queryByText(/live updates off/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Live updates disconnected/)).not.toBeInTheDocument();
+  });
+});
 
 describe('App — completed-bucket grouping (FE-086)', () => {
   beforeEach(() => {

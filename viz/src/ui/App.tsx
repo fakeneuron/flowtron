@@ -19,7 +19,7 @@ import { SettingsModal } from './SettingsModal';
 import { ShortcutsModal } from './ShortcutsModal';
 import { ThemeToggle } from './ThemeToggle';
 import { useKeyboardNav } from './useKeyboardNav';
-import { useProjectData } from './useProjectData';
+import { LIVE_RECOVERY_MS, useProjectData } from './useProjectData';
 import { useProjects } from './useProjects';
 import { useToggleSet } from './useToggleSet';
 import {
@@ -61,6 +61,7 @@ export const App: React.FC = () => {
     tasknotesById,
     loading: dataLoading,
     error: dataError,
+    liveDisconnected,
     refresh,
     reset,
   } = useProjectData(activeProject);
@@ -351,6 +352,11 @@ export const App: React.FC = () => {
                     ⚠ {nearMissHeadings.length} near-miss heading{nearMissHeadings.length === 1 ? '' : 's'}
                   </span>
                 )}
+                {liveDisconnected && (
+                  <span className="ml-2 inline-flex items-center rounded bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-200">
+                    ⚠ live updates off
+                  </span>
+                )}
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -424,6 +430,16 @@ export const App: React.FC = () => {
       {errorMessage && (
         <div className="mx-4 mt-3 rounded border border-red-300 bg-red-50 p-3 text-base text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200">
           {errorMessage}
+        </div>
+      )}
+
+      {liveDisconnected && (
+        <div
+          role="status"
+          className="mx-4 mt-3 rounded border border-amber-300 bg-amber-50 p-3 text-base text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200"
+        >
+          ⚠ Live updates disconnected — showing polled data (every{' '}
+          {Math.round(LIVE_RECOVERY_MS / 1000)}s) and retrying the live connection.
         </div>
       )}
 
