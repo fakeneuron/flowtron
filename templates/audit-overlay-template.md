@@ -27,10 +27,10 @@ reference.)_
 
 ## Domains
 
-`<e.g. all six; or: backend, security, docs only — the domains this project audits>`
+`<e.g. all seven; or: backend, security, docs only — the domains this project audits>`
 
 Domain tokens are `general` (default) · `backend` · `frontend` · `security` ·
-`performance` · `docs`. Invoked as `/audit-<stack> <domain> [scope]`; a bare
+`performance` · `docs` · `structure`. Invoked as `/audit-<stack> <domain> [scope]`; a bare
 invocation resolves to `general`.
 
 ## Deltas

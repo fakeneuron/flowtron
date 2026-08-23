@@ -17,7 +17,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **CORE-EPIC-463** [heavy]🧠 | refactor-and-structure-audit — Flowtron ships no refactor skill and no structural audit domain, and the `ft-audit` scaffold degrades to generic output in unforked repos. Add a `structure` domain, a `/ft-refactor` depth-planner, and a self-filling scaffold bootstrap (filed via /ft-epic-discovery; refined at .1 closure).
   - [x] **CORE-463.1** [heavy]🧠 | refactor-and-structure-audit discovery — Completed 2026-08-23.
-  - [ ] **CORE-463.2** [heavy]🧠 | structure-domain — Add a seventh `structure` domain to the `ft-audit` passes/ library: five passes covering duplication clusters, coupling and module boundaries, abstraction drift, god-files, and stray scripts that should become justfile targets, CLI subcommands, tests, or CI.
+  - [x] **CORE-463.2** [heavy]🧠 | structure-domain — Completed 2026-08-23.
   - [ ] **CORE-463.3** [heavy]🧠 | refactor-planner — New `/ft-refactor` skill: depth planner over one named target. Read-only — files a sequenced epic whose children each carry characterization-test and behavior-preservation acceptance criteria. Never edits code; execution happens through normal /ft-task cycles. Symlinked tier.
   - [x] **CORE-463.4** [heavy]🧠 | audit-scaffold-bootstrap — Completed 2026-08-23.
   - [ ] **CORE-463.5** [medium]🧩 | wiring-and-docs — Wire `/ft-refactor` across claude and codex skills plus command wrappers, add it to the ft-new-project symlink block (22 → 24) and the ft-flowtron roster (18 → 19), then sweep MIGRATION.md §1.2.1, SPEC §"Skill namespace", GLOSSARY, CONVENTIONS, PLATFORMS, and the AGENTS snippets.

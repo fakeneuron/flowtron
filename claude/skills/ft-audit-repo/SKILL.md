@@ -55,7 +55,7 @@ Cluster the map facts and sweep findings into **3–5 themes** — patterns, not
 
 ## 5. Delegation — recommend focused audits
 
-Based on what the map revealed, recommend which `/ft-audit <domain>` runs deserve a full pass — do **not** run them here. Domains are `general` · `backend` · `frontend` · `security` · `performance` · `docs`. For each recommendation: domain, scope glob, and the map/sweep observation that triggers it. Skip domains the map gives no reason to run. (In adopter context the audit scaffold is forked under an unprefixed local name per `docs/MIGRATION.md` §1.2.1 — recommend whichever name resolves locally, e.g. `/audit backend src/api/**`.)
+Based on what the map revealed, recommend which `/ft-audit <domain>` runs deserve a full pass — do **not** run them here. Domains are `general` · `backend` · `frontend` · `security` · `performance` · `docs` · `structure`. For each recommendation: domain, scope glob, and the map/sweep observation that triggers it. Skip domains the map gives no reason to run. (In adopter context the audit scaffold is forked under an unprefixed local name per `docs/MIGRATION.md` §1.2.1 — recommend whichever name resolves locally, e.g. `/audit backend src/api/**`.)
 
 ## 6. Required closing sections + PLAN.md write
 

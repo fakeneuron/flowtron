@@ -73,7 +73,7 @@ Global utilities (`/ft-new-project`, `/ft-flowtron`, `/ft-stats`, `/ft-audit-con
 
 ### 1.2.1 Optional: fork the `/ft-audit` scaffold per stack
 
-Flowtron ships one stack-neutral audit scaffold at `.flowtron/core/claude/skills/ft-audit/` — a parameterized `/ft-audit <domain> [scope]` dispatcher over a six-file `passes/` library. The shared procedure (scope resolution, 5-passes-in-order, capped findings, finding format, closing sections, write-tickets-to-PLAN) lives once in `SKILL.md`; each domain's pass definitions, severity guide, scope/rubric/gate hints, and specialist rules live in a sibling `passes/<domain>.md` loaded at run time. **Forked, not symlinked**: per-stack rubrics/commands/examples diverge.
+Flowtron ships one stack-neutral audit scaffold at `.flowtron/core/claude/skills/ft-audit/` — a parameterized `/ft-audit <domain> [scope]` dispatcher over a seven-file `passes/` library. The shared procedure (scope resolution, 5-passes-in-order, capped findings, finding format, closing sections, write-tickets-to-PLAN) lives once in `SKILL.md`; each domain's pass definitions, severity guide, scope/rubric/gate hints, and specialist rules live in a sibling `passes/<domain>.md` loaded at run time. **Forked, not symlinked**: per-stack rubrics/commands/examples diverge.
 
 | Domain | Scope | 5 passes |
 |---|---|---|
@@ -83,6 +83,7 @@ Flowtron ships one stack-neutral audit scaffold at `.flowtron/core/claude/skills
 | `frontend` | Frontend (framework-agnostic) | Bundle & payload · Accessibility · Render perf · Browser hygiene · Component health |
 | `backend` | Backend (framework-agnostic) | Input & contracts · Error & lifecycle · Persistence · Async correctness · Observability |
 | `performance` | Cross-cutting perf (measurements required) | Hot paths · Payload & bundle · Data access · Memory & resource · Caching |
+| `structure` | Cross-file structural health (breadth sweep; depth via `/ft-refactor`) | Duplication clusters · Coupling & boundaries · Abstraction drift · God-files · Stray scripts |
 
 Invoke as `/ft-audit backend src/api/**` or bare `/ft-audit` (→ `general`, default scope). A first token that isn't a domain name (a path, `last-commit`, `staged`) resolves to `general` with the whole argument string as scope.
 
@@ -136,7 +137,7 @@ substituting the `## Deltas` values for the scaffold's `<placeholder>` slots —
 the same read-by-reference pattern `/ft-task` uses for its lazy SPEC modules.
 Because the body lives upstream, an overlay **inherits scaffold improvements
 automatically** on a version bump (it never copied them). One overlay covers
-all six domains; per-domain deltas are keyed by domain inside the `## Deltas`
+all seven domains; per-domain deltas are keyed by domain inside the `## Deltas`
 block.
 
 Choose by how much you diverge: **overlay** when only the §0 surface changes
@@ -163,7 +164,7 @@ Add these fields to your fork's `SKILL.md` frontmatter at install time (the over
 
 **Keeping a full-copy fork's `passes/` current.** Beyond the drift warning above, `/ft-update` Step 4.5 also reconciles the *file set* of a full-copy fork against the bundled scaffold. Any pass file the bundle has at the target version and your fork lacks is classified by whether it existed upstream at your `flowtron-reconciled:` point: **absent then** means flowtron shipped a new domain you have never seen, and `/ft-update` offers to copy it in (per-file confirm; it lands as an unfilled scaffold for you to fill); **present then** means you deleted it deliberately — as §0 sanctions for surfaces your project doesn't have — and it is reported without ever being re-added. Files your fork already has are never read, diffed, or written by this step, so filled rubrics, gates, and sacred invariants cannot be clobbered. Thin overlays carry no `passes/` of their own and resolve pass files from the scaffold at run time, so they inherit new domains automatically and this step reports them as needing no action.
 
-**Surfaces not covered by the six domains.** For audit surfaces without a dedicated pass file — API contracts, database schema/migrations, E2E test quality — use the nearest domain as the base rather than starting from scratch: `backend` covers API and database surfaces well through its Input & contracts and Persistence passes (scope the glob to your API routes or migrations dir; point the rubric at your API contract and schema docs). There is no `e2e` domain yet; if your project needs one, add a `passes/e2e.md` to your fork modeled on `general` — at that point, full-copy rather than overlay.
+**Surfaces not covered by the seven domains.** For audit surfaces without a dedicated pass file — API contracts, database schema/migrations, E2E test quality — use the nearest domain as the base rather than starting from scratch: `backend` covers API and database surfaces well through its Input & contracts and Persistence passes (scope the glob to your API routes or migrations dir; point the rubric at your API contract and schema docs). There is no `e2e` domain yet; if your project needs one, add a `passes/e2e.md` to your fork modeled on `general` — at that point, full-copy rather than overlay.
 
 #### Migrating a pre-consolidation audit fork
 
