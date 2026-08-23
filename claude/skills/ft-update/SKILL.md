@@ -1,6 +1,6 @@
 ---
 name: ft-update
-description: Bump an adopter project's pinned flowtron submodule to the latest released tag — show current→target version + tag changelog, fetch + checkout the tag, record the new pin, re-wire per-project Claude/Codex symlinks for newly shipped skills, report any dangling symlinks left by retired skills, and run a lightweight smoke check. Use when the user asks to update or bump their project's flowtron submodule to the latest release. Adopter-only (bails in flowtron-self); thin procedural skill, no tasknote.
+description: Bump an adopter project's pinned flowtron submodule to the latest released tag — show current→target version + tag changelog, fetch + checkout the tag, record the new pin, re-wire per-project Claude/Codex symlinks for newly shipped skills, report any dangling symlinks left by retired skills, refresh full-copy audit forks with newly shipped pass files without clobbering filled rubrics, and run a lightweight smoke check. Use when the user asks to update or bump their project's flowtron submodule to the latest release. Adopter-only (bails in flowtron-self); thin procedural skill, no tasknote.
 ---
 
 # update — flowtron submodule bump (adopter-side)
@@ -89,7 +89,7 @@ Handle each platform wiring surface independently:
 
 Report the added symlinks per platform (or "no new skills to wire"). Note: global/by-reference skills (`/ft-flowtron`, `/ft-stats`, `/ft-new-project`, `/ft-audit-context`, `/ft-audit-repo`) are picked up by the user's agent-home wiring when desired, not per-project — do not add extra repo-scoped symlinks beyond each platform's snippet list. `/ft-update` is intentionally in the adopter subset; `/ft-release` is flowtron-self-only.
 
-## Step 4.5 — Audit-fork drift scan
+## Step 4.5 — Audit-fork drift scan & pass-file refresh
 
 Scan the adopter's `.claude/skills/` for local audit forks that carry fork-provenance markers — these signal which bundled scaffold a fork was last reconciled against so that silent upstream drift becomes visible.
 
@@ -122,10 +122,36 @@ For each file matching `.claude/skills/*/SKILL.md` that is a **regular file** (n
          git -C <FT> diff <reconciled>..<target> -- claude/skills/<flowtron-tracks>/
    ```
 
-5. If no `.claude/skills/*/SKILL.md` file carries `flowtron-reconciled:`, emit:
+5. **Pass-file refresh (full-copy forks only).** A fork is **full-copy** when a `passes/` directory sits beside its `SKILL.md`; a fork with no `passes/` sibling is a **thin overlay** — it resolves pass files from the bundled scaffold at run time and therefore picks up newly shipped domains automatically. Report an overlay as `inherits new pass files automatically; no action` and skip the rest of this item.
+
+   For a full-copy fork whose `flowtron-tracks:` is `ft-audit`, compare its `passes/` against the bundled set — at the target *and* at the reconcile point:
+
+   ```sh
+   ls .claude/skills/<dir>/passes/                                                    # the fork has
+   git -C <FT> ls-tree --name-only <target>     -- claude/skills/ft-audit/passes/     # bundled now
+   git -C <FT> ls-tree --name-only <reconciled> -- claude/skills/ft-audit/passes/     # bundled then
+   ```
+
+   Classify every bundled-at-`<target>` file the fork lacks. The `<reconciled>` listing is the discriminator — it separates "the forker never saw this" from "the forker saw it and removed it":
+
+   - **Newly shipped** — *absent* from the `<reconciled>` listing. Upstream added the domain after this fork was last reconciled, so the forker has never had the chance to decide against it. **Offer to copy it in**, one confirm per file:
+
+     ```sh
+     cp <FT>/claude/skills/ft-audit/passes/<domain>.md .claude/skills/<dir>/passes/<domain>.md
+     ```
+
+     A copied file lands as an **unfilled scaffold** — say so, and point at the fork's §0 forker checklist for the slots it needs. `/ft-audit`'s own §1.5 bootstrap will also catch them on the first run of that domain, so a deferred fill degrades to a prompt rather than to silence.
+
+   - **Deliberately deleted** — *present* in the `<reconciled>` listing. The forker had the file and removed it; the scaffold's §0 explicitly sanctions deleting pass files for surfaces a project doesn't have. **Report only — never re-add.** Re-adding would silently undo a deliberate decision on every bump.
+
+   Files present in **both** the fork and the bundle are never read, diffed, or written by this step. That is exactly where filled rubrics, gate commands, and sacred invariants live, and this refresh must not be able to reach them. Changes to pass files the fork already has are the drift *warning*'s job (item 4), not this item's.
+
+   Copies are the only write this step makes, and only on an explicit per-file `AskUserQuestion` confirm. Declining is a valid answer and changes nothing.
+
+6. If no `.claude/skills/*/SKILL.md` file carries `flowtron-reconciled:`, emit:
    `No provenance-marked audit forks found; skipping drift scan.`
 
-Drift warnings are **informational only** — the bump proceeds regardless. After the adopter reviews and re-reconciles, they manually update `flowtron-reconciled:` to `<target>`. Report all warnings (if any) before continuing to Step 5.
+Drift warnings are **informational only** — the bump proceeds regardless. After the adopter reviews and re-reconciles, they manually update `flowtron-reconciled:` to `<target>`. The item-5 pass-file copies are the one exception to report-only, and they are gated behind a per-file confirm; declining leaves the fork untouched. Report all warnings, copies, and skips (if any) before continuing to Step 5.
 
 ## Step 4.6 — Dangling symlink check
 
