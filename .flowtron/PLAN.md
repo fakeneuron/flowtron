@@ -20,7 +20,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-463.2** [heavy]🧠 | structure-domain — Completed 2026-08-23.
   - [x] **CORE-463.3** [heavy]🧠 | refactor-planner — Completed 2026-08-23.
   - [x] **CORE-463.4** [heavy]🧠 | audit-scaffold-bootstrap — Completed 2026-08-23.
-  - [ ] **CORE-463.5** [medium]🧩 | wiring-and-docs — Wire `/ft-refactor` across claude and codex skills plus command wrappers, add it to the ft-new-project symlink block (22 → 24) and the ft-flowtron roster (18 → 19), then sweep MIGRATION.md §1.2.1, SPEC §"Skill namespace", GLOSSARY, CONVENTIONS, PLATFORMS, and the AGENTS snippets.
+  - [x] **CORE-463.5** [medium]🧩 | wiring-and-docs — Completed 2026-08-23.
   - [ ] **CORE-463.N** [light]🔧 | refactor-and-structure-audit audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
 
 ## Low

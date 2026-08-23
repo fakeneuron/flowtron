@@ -64,6 +64,8 @@ Alphabetized. ~68 entries. Maintained via epic children and audits.
 
 **sidequest** — The lightest persistent mid-flow park, filed via `/ft-file-followup --park`; writes a tiny stub at `.flowtron/sidequest/<ID>.md` plus one PLAN line. Priority via flags (`--low`, `--med`, `--fut`, `--high`) or one short question when omitted. Skips the review gate and the reconciliation scan; replies with priority + resume anchor, then continues the main session inline. Promote via `/ft-micro-task`, `/ft-task`, or `/ft-starter-task`, deleting the stub on promotion. (Filed via the retired `/ft-sidequest` skill before v5.15.0 — the artifact is unchanged, only the invocation moved.)
 
+**`/ft-refactor`** — The refactor **depth planner that files**: takes one named target, runs a read-only survey (dependencies, seams, test coverage, blast radius), surfaces a sequenced behavior-preserving plan for operator review, then files a parent epic + implementation children from `.2` + a `.N` audit, each child a starter seeded with characterization-test and behavior-preservation acceptance. Never edits source — children execute via `/ft-task`. Its epics carry no `.1` Discovery (the run *is* the discovery). Depth counterpart to `/ft-audit structure`'s **breadth sweep**; contrast `/ft-spec` (plans, never files) and `/ft-epic-discovery` (files, then drives a generic Discovery).
+
 **`/ft-update`** — The adopter-side command that bumps a project's pinned flowtron submodule to the latest released tag: shows current→target + changelog, moves the pin, re-wires newly shipped symlinks, runs a smoke check. Consumer-side counterpart to `/ft-release`. Adopter-only (bails in flowtron-self); takes no arguments. See docs/MIGRATION.md.
 
 **goal loop** — The loop-task shape that repeats Phase 2→3 (execute→verify) against a fixed, machine-checkable `## ✅ Acceptance` target until every check passes, `loop-max` is exhausted, or the per-cycle relevance gate says stop. Driven by `/ft-goal-task`; contrast heartbeat. See SPEC/loop.md.
@@ -144,6 +146,6 @@ Alphabetized. ~68 entries. Maintained via epic children and audits.
 
 ---
 
-**Maintenance.** This file is the survivor slice of the GSD-Pi `CONTEXT.md` pattern (see CORE-194.1). It is deliberately lazy-loaded and must never be added to the AI-referenced docs list. New terms are introduced only by epic children or audit follow-ups that also update the authoritative SPEC anchors. Last significant update: CORE-445.4 (2026-08-17) — added `supersedes`.
+**Maintenance.** This file is the survivor slice of the GSD-Pi `CONTEXT.md` pattern (see CORE-194.1). It is deliberately lazy-loaded and must never be added to the AI-referenced docs list. New terms are introduced only by epic children or audit follow-ups that also update the authoritative SPEC anchors. Last significant update: CORE-463.5 (2026-08-23) — added `/ft-refactor`.
 
 See [SPEC.md](../SPEC.md) for the contract and [.flowtron/PLAN.md](../.flowtron/PLAN.md) for the current epic context.

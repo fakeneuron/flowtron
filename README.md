@@ -43,10 +43,10 @@ ln -s ~/code/flowtron/claude/commands/ft-new-project.md ~/.claude/commands/ft-ne
 /ft-new-project
 ```
 
-That adds the flowtron submodule, wires the eight tasknote skills (`/ft-task`,
+That adds the flowtron submodule, wires the nine tasknote skills (`/ft-task`,
 `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`,
 `/ft-epic-discovery`, `/ft-close-epic`, `/ft-goal-task`,
-`/ft-spec`) plus the two worktree utilities (`/ft-worktree-start`,
+`/ft-spec`, `/ft-refactor`) plus the two worktree utilities (`/ft-worktree-start`,
 `/ft-worktree-end`) and `/ft-update`, and drops in the `.flowtron/` skeleton in
 one pass. Then file a task in `.flowtron/PLAN.md` and run it:
 

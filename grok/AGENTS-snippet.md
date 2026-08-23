@@ -42,6 +42,7 @@ ln -s ../../.flowtron/core/claude/skills/ft-epic-discovery .grok/skills/ft-epic-
 ln -s ../../.flowtron/core/claude/skills/ft-file-followup .grok/skills/ft-file-followup
 ln -s ../../.flowtron/core/claude/skills/ft-goal-task .grok/skills/ft-goal-task
 ln -s ../../.flowtron/core/claude/skills/ft-micro-task .grok/skills/ft-micro-task
+ln -s ../../.flowtron/core/claude/skills/ft-refactor .grok/skills/ft-refactor
 ln -s ../../.flowtron/core/claude/skills/ft-spec .grok/skills/ft-spec
 ln -s ../../.flowtron/core/claude/skills/ft-starter-task .grok/skills/ft-starter-task
 ln -s ../../.flowtron/core/claude/skills/ft-task .grok/skills/ft-task

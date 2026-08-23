@@ -35,6 +35,14 @@ paths: []
 - A one-liner idea needs neither a spec nor a starter — write the PLAN.md line directly
 - The design is already clear and decomposed — file directly with `/ft-starter-task` or `/ft-epic-discovery`
 
+**Plan a refactor (`/ft-refactor <target> [--fast]`) when:**
+
+- One named target — a file, module, directory, or subsystem — needs restructuring that is too sequenced for a single tasknote and too specific for an open-scope epic
+- An `/ft-audit structure` finding recommends a depth escalation on one target
+- The change must preserve behavior, so the work needs characterization-test coverage staged before any move
+
+`/ft-refactor` is read-only on source: it surveys dependencies, seams, and test coverage, surfaces a sequenced plan for review, and on your go files a parent epic + implementation children from `.2` + a `.N` audit, each child a starter carrying behavior-preservation acceptance seeds. Execution happens through normal `/ft-task` cycles on those children. No target means you want the breadth sweep (`/ft-audit structure`), not this; genuinely open scope means `/ft-epic-discovery`.
+
 **File a starter (`/ft-starter-task [ID]`) when:**
 
 - The PLAN.md long description would exceed **~50 words (target) or 70 words (hard cap)** — richer context belongs in the starter body, not on the line

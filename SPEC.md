@@ -107,7 +107,8 @@ wrappers (`<platform>/procedures/<procedure>.md`) rather than by the
 Bundled flowtron skills carry the `ft-` prefix in their slug (`/ft-task`,
 `/ft-release`, `/ft-new-project`, `/ft-starter-task`,
 `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`,
-`/ft-close-epic`, `/ft-goal-task`, `/ft-spec`, `/ft-worktree-start`, `/ft-worktree-end`,
+`/ft-close-epic`, `/ft-goal-task`, `/ft-spec`, `/ft-refactor`,
+`/ft-worktree-start`, `/ft-worktree-end`,
 `/ft-flowtron`, `/ft-stats`,
 `/ft-audit-context`, `/ft-update`, and the audit family
 `/ft-audit{,-repo}`). The prefix

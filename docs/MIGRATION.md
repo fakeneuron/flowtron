@@ -59,7 +59,7 @@ The `checkout` step is what pins the project to a specific flowtron version. Wit
 
 ### 1.2 Wire the adopter skill subset via symlinks
 
-The submodule ships the full Claude slash-command inventory and matching Codex skill-wrapper inventory. Adopter projects wire only the policy subset: the eight tasknote family (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-goal-task`, `/ft-spec`), two thin worktree utilities (`/ft-worktree-start` + `/ft-worktree-end`), plus the `/ft-update` submodule-bump utility. Each tasknote family's purpose lives in its own SKILL.md frontmatter — short version: 4-phase runner (with `--debug` for hypothesis-first bug work); starter filer; micro one-shot; in-chat follow-up (with `--park` for the sidequest parker); epic open; epic close; converge-until-verified goal-loop runner; planning-peer spec drafter. The worktree pair are thin procedural utilities (see their SKILL.md frontmatter + `docs/WORKTREES.md`); `/ft-update` is the adopter-side version-bump counterpart to `/ft-release` (see [`PLATFORMS.md`](PLATFORMS.md) §"Installed-surface policy").
+The submodule ships the full Claude slash-command inventory and matching Codex skill-wrapper inventory. Adopter projects wire only the policy subset: the nine tasknote family (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-goal-task`, `/ft-spec`, `/ft-refactor`), two thin worktree utilities (`/ft-worktree-start` + `/ft-worktree-end`), plus the `/ft-update` submodule-bump utility. Each tasknote family's purpose lives in its own SKILL.md frontmatter — short version: 4-phase runner (with `--debug` for hypothesis-first bug work); starter filer; micro one-shot; in-chat follow-up (with `--park` for the sidequest parker); epic open; epic close; converge-until-verified goal-loop runner; planning-peer spec drafter; read-only refactor depth planner that files a sequenced epic. The worktree pair are thin procedural utilities (see their SKILL.md frontmatter + `docs/WORKTREES.md`); `/ft-update` is the adopter-side version-bump counterpart to `/ft-release` (see [`PLATFORMS.md`](PLATFORMS.md) §"Installed-surface policy").
 
 Global utilities (`/ft-new-project`, `/ft-flowtron`, `/ft-stats`, `/ft-audit-context`, `/ft-audit-repo`) live in the user's agent home when desired, not in every adopter repo. `/ft-release` is flowtron-self-only. The canonical category table lives in [`docs/PLATFORMS.md`](PLATFORMS.md) §"Installed-surface policy".
 
@@ -96,6 +96,15 @@ deserve full runs. It is stack-neutral, strictly read-only, and carries no §0
 forker checklist — don't fork it; invoke it by reference from the read-only
 submodule path (`.flowtron/core/claude/skills/ft-audit-repo/SKILL.md`), the
 same by-reference pattern the thin overlay below uses.
+
+**Depth path: `/ft-refactor` (symlinked, not forked).** The `structure` domain
+above is a *breadth* sweep — capped passes across a scope, flat tickets. When
+one of its findings needs a sequenced multi-step restructuring of a single
+target, the follow-up is `/ft-refactor <target>`: a read-only depth survey that
+files the work as an epic with characterization-test-seeded starters. It is
+stack-neutral (it reads your code rather than encoding your stack's rubric), so
+unlike the audit scaffold it is wired by **symlink** with the rest of the
+tasknote family in §1.2 — do not fork it.
 
 To install the scaffold, fork the **whole directory** — `SKILL.md` plus the `passes/` library:
 
@@ -273,12 +282,14 @@ git add .gitmodules .flowtron/core .flowtron/PLAN.md .flowtron/tasknote/ \
         .claude/commands/ft-update.md \
         .claude/commands/ft-goal-task.md \
         .claude/commands/ft-spec.md \
+        .claude/commands/ft-refactor.md \
         .claude/skills/ft-task .claude/skills/ft-starter-task .claude/skills/ft-micro-task \
         .claude/skills/ft-file-followup .claude/skills/ft-epic-discovery .claude/skills/ft-close-epic \
         .claude/skills/ft-worktree-start .claude/skills/ft-worktree-end \
         .claude/skills/ft-update \
         .claude/skills/ft-goal-task \
         .claude/skills/ft-spec \
+        .claude/skills/ft-refactor \
         AGENTS.md
 git commit -m "chore: adopt flowtron at vX.Y.Z"
 ```
@@ -293,7 +304,7 @@ If your project already has other files under `.claude/` (settings, other skills
 
 In a fresh session with your coding agent, verify the platform's wired entry point:
 
-- **Claude Code:** invoke `/ft-task`. The command should appear in the menu (alongside `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-goal-task`, `/ft-spec`, `/ft-worktree-start`, `/ft-worktree-end`, and `/ft-update`) with its description.
+- **Claude Code:** invoke `/ft-task`. The command should appear in the menu (alongside `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-goal-task`, `/ft-spec`, `/ft-refactor`, `/ft-worktree-start`, `/ft-worktree-end`, and `/ft-update`) with its description.
 - **Codex:** use `/skills` or mention `$ft-task`. The skill should appear alongside the other wired adopter-subset `ft-*` skills from `.agents/skills/`.
 - **Cursor:** invoke `/ft-task`. If the project already has Claude `.claude/` wiring, Cursor picks it up via compat load; Cursor-only projects should see the same adopter subset under `.cursor/skills/`.
 - **Grok Build:** invoke `/ft-task`. If the project already has Claude `.claude/`, Codex `.agents/skills/`, or Cursor `.cursor/skills/` wiring, Grok picks it up via compat load; Grok-only projects should see the same adopter subset under `.grok/skills/`. The canonical bodies' trailing operator flags work once those bodies are loaded — see [`PLATFORMS.md` §"Non-Claude capability triggers"](PLATFORMS.md#non-claude-capability-triggers).
@@ -450,7 +461,7 @@ After §3.2–§3.7 land and `/ft-task` shows in the slash menu, sweep for resid
   - In code comments / docstrings: low-risk; leave or update at touch time.
   - In archived/legacy content: leave untouched (write-once policy applies — don't retroactively rewrite history).
 - **CI / pre-commit hook check.** `grep -rn "<retired-helper-script-name>" .git/hooks/ .github/ docker/ scripts/` (project root) — confirm nothing depends on retired scripts. Resolve before next CI run.
-- **`/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-goal-task`, `/ft-spec`, `/ft-worktree-start`, `/ft-worktree-end` smoke.** Invoke each in a fresh session with your coding agent's wired entry point — `/ft-*` for Claude Code, Cursor, or Grok, `/skills` or `$ft-*` for Codex, or a conversational prompt for contract-only agents. Confirm the tasknote family + worktree pair (nine total) appear alongside `/ft-task` / `$ft-task` (v1.0+ additions; symlinks added in §1.2; worktree pair added in CORE-215.5; `/ft-goal-task` added in CORE-EPIC-330; `/ft-spec` added in CORE-352.3).
+- **`/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-goal-task`, `/ft-spec`, `/ft-refactor`, `/ft-worktree-start`, `/ft-worktree-end` smoke.** Invoke each in a fresh session with your coding agent's wired entry point — `/ft-*` for Claude Code, Cursor, or Grok, `/skills` or `$ft-*` for Codex, or a conversational prompt for contract-only agents. Confirm the tasknote family + worktree pair (ten total) appear alongside `/ft-task` / `$ft-task` (v1.0+ additions; symlinks added in §1.2; worktree pair added in CORE-215.5; `/ft-goal-task` added in CORE-EPIC-330; `/ft-spec` added in CORE-352.3; `/ft-refactor` added in CORE-463.5).
 - **Context-surface audit.** If you've installed `/ft-audit-context` globally (see §1.0), run it now — migrations frequently carry over context bloat from the legacy era (stale `CLAUDE.md` workflow tutorials, project-local skills that now shadow `ft-*` namespace, AGENTS.md content redundant with the freshly-pasted block). Soft prose; ticket-filing is opt-in.
 - **Final pin verification.** `git -C .flowtron/core describe --tags` shows the pinned version recorded at the start (e.g., `v5.18.0`). A mismatch means the submodule drifted off the pin during migration.
 - **Cleanup commit.** Bundle the decisions above into a single follow-up commit (`chore: <ID> post-migration cleanup`) OR fold into the §3.9 closure commit if scope is small.
