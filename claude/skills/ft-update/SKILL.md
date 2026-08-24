@@ -140,7 +140,7 @@ For each file matching `.claude/skills/*/SKILL.md` that is a **regular file** (n
      cp <FT>/claude/skills/ft-audit/passes/<domain>.md .claude/skills/<dir>/passes/<domain>.md
      ```
 
-     A copied file lands as an **unfilled scaffold** — say so, and point at the fork's §0 forker checklist for the slots it needs. `/ft-audit`'s own §1.5 bootstrap will also catch them on the first run of that domain, so a deferred fill degrades to a prompt rather than to silence.
+     A copied file lands as an **unfilled scaffold** — say so, and point at the fork's §0 forker checklist for the slots it needs. `/ft-audit`'s own scaffold bootstrap will also catch them on the first run of that domain, so a deferred fill degrades to a prompt rather than to silence.
 
    - **Deliberately deleted** — *present* in the `<reconciled>` listing. The forker had the file and removed it; the scaffold's §0 explicitly sanctions deleting pass files for surfaces a project doesn't have. **Report only — never re-add.** Re-adding would silently undo a deliberate decision on every bump.
 

@@ -1,15 +1,15 @@
 ---
 name: ft-audit
-description: Parameterized principal-engineer audit — `/ft-audit <domain> [scope]` runs 5 domain-specific passes, capped at 5 findings each, and writes prioritized tickets to `.flowtron/PLAN.md`. Domains — general (default — code audit/review with no domain named) · backend (audit/review/harden backend/API/server code) · frontend (bundle size, accessibility, render performance) · security (vulnerabilities, secrets, auth) · performance (latency, profiling, resource usage) · docs (documentation accuracy, staleness, cross-doc drift) · structure (duplication clusters, coupling, module boundaries, god-files, stray scripts). Use whenever the user asks to audit, review, or harden any of these surfaces. Stack-neutral scaffold; adopters fork the whole directory (SKILL.md + passes/) into `.claude/skills/audit/` and fill in rubrics / verification gates / per-pass examples for their stack. See `docs/MIGRATION.md` §1.2.1.
+description: Parameterized principal-engineer audit — `/ft-audit <domain> [scope]` runs 5 domain-specific passes, capped at 5 findings each, and writes prioritized tickets to `.flowtron/PLAN.md`. Domains — general (default — code audit/review with no domain named) · backend (audit/review/harden backend/API/server code) · frontend (bundle size, accessibility, render performance) · security (vulnerabilities, secrets, auth) · performance (latency, profiling, resource usage) · docs (documentation accuracy, staleness, cross-doc drift) · structure (duplication clusters, coupling, module boundaries, god-files, stray scripts). Use whenever the user asks to audit, review, or harden any of these surfaces. Stack-neutral scaffold; adopters fork the whole directory (SKILL.md + scaffold-bootstrap.md + passes/) into `.claude/skills/audit/` and fill in rubrics / verification gates / per-pass examples for their stack. See `docs/MIGRATION.md` §1.2.1.
 ---
 
 # audit — flowtron parameterized audit skill
 
 Principal-engineer audit of a project surface: find what matters, report concisely, **make no changes without explicit confirmation**.
 
-One dispatcher, seven domains. The shared procedure lives in this file; each domain's pass definitions, severity guide, scope/rubric/gate hints, and specialist rules live in a sibling `passes/<domain>.md` file, loaded at §1 step 1.
+One dispatcher, seven domains. The shared procedure lives in this file; each domain's pass definitions, severity guide, scope/rubric/gate hints, and specialist rules live in a sibling `passes/<domain>.md` file, loaded at §1 step 1. A second sibling, `scaffold-bootstrap.md`, holds the unfilled-scaffold repair procedure and is loaded only when §1 step 3 trips.
 
-Stack-neutral scaffold — **fork**, don't symlink (per-stack rubrics/commands diverge). Fork the whole directory — `SKILL.md` + `passes/` — into `.claude/skills/audit/`. Install per `docs/MIGRATION.md` §1.2.1.
+Stack-neutral scaffold — **fork**, don't symlink (per-stack rubrics/commands diverge). Fork the whole directory — `SKILL.md` + `scaffold-bootstrap.md` + `passes/` — into `.claude/skills/audit/`. Install per `docs/MIGRATION.md` §1.2.1.
 
 ## 0. Forker checklist (fill in before first run)
 
@@ -23,7 +23,7 @@ Walk this list once per fork. Every fillable placeholder lives in the `passes/<d
 - [ ] §5 step 2 — confirm the area-prefix list valid for your `.flowtron/tasknote/README.md` §"Area prefixes".
 - [ ] Optional: delete pass files for surfaces your project doesn't have (no frontend → remove `passes/frontend.md`). A domain token whose pass file is missing → stop and ask rather than improvise.
 
-§1.5 automates the mechanical half of this list — it derives glob, rubric files, and gate commands from your repo's manifests and CI config, and can write a prefilled thin-overlay fork for you. What it cannot derive, and what this checklist still exists for, is the judgment half: your sacred invariants under **Critical**, your stack's concrete pass examples, and any extra hard rules.
+The `scaffold-bootstrap.md` fragment (loaded by §1 step 3) automates the mechanical half of this list — it derives glob, rubric files, and gate commands from your repo's manifests and CI config, and can write a prefilled thin-overlay fork for you. What it cannot derive, and what this checklist still exists for, is the judgment half: your sacred invariants under **Critical**, your stack's concrete pass examples, and any extra hard rules.
 
 Once the checklist is satisfied, delete this §0 block from your fork — leaving it in confuses the auditor's first read on every run.
 
@@ -31,159 +31,12 @@ Once the checklist is satisfied, delete this §0 block from your fork — leavin
 
 1. **Resolve the domain** from `$ARGUMENTS`: if the first whitespace-separated token is one of `general` · `backend` · `frontend` · `security` · `performance` · `docs` · `structure`, that token is the domain and the **remaining** tokens are the scope args for step 2. Any other first token (a path, `last-commit`, `staged`, …) → domain `general`, and the **whole** `$ARGUMENTS` string is the scope args. Bare invocation → domain `general`, default scope. Then **Read `passes/<domain>.md`** (sibling `passes/` directory) — it supplies the pass definitions (§2), severity guide (§3), scope/rubric/gate hints (this section), attribution slug (§5), and specialist additions. If the user's prose names a focused concern the invocation didn't (asked to "audit auth" but invoked bare), prefer the matching domain over stretching `general`.
 2. **Resolve scope** from the scope args: `all`/empty → the pass file's default scope glob; a path → that path; `last-commit` → files in `HEAD`; `staged` → files in `git diff --cached`; plus any extra scope tokens the pass file declares (e.g. an endpoint/route for `backend`, `ai-referenced` for `docs`). If ambiguous, **stop and ask** via `AskUserQuestion`.
-3. **Scaffold-bootstrap check.** Scan the loaded `passes/<domain>.md` for unfilled placeholder slots — any `<…>` angle-bracket span in its §"Scope & rubric hints" block, or any `_(forker: …)_` note anywhere in the file — **less anything a thin overlay's `## Deltas` block already supplies** (§1.5 step 1). One or more genuinely-unfilled hits → **stop and run §1.5** before going further; it returns with resolved values or an explicit degraded-run acknowledgement. Zero hits — the normal case in a filled fork — is a silent no-op: continue to step 4 without mentioning it.
+3. **Scaffold-bootstrap check.** Scan the loaded `passes/<domain>.md` for unfilled placeholder slots — any `<…>` angle-bracket span in its §"Scope & rubric hints" block, or any `_(forker: …)_` note anywhere in the file — **less anything a thin overlay's `## Deltas` block already supplies**. Zero hits — the normal case in a filled fork, and in a filled overlay — is a silent no-op: continue to step 4 without mentioning it.
+
+   One or more genuinely-unfilled hits → **stop, Read the sibling `scaffold-bootstrap.md`, and run it** before going further. That fragment owns the detection rationale, the thin-overlay exemption in full, the install-context branch, the auto-derivation table and its destructive-intent denylist, and the three resolution branches; it returns with resolved values or an explicit degraded-run acknowledgement.
 4. **Load the project rubric** (audit-against contracts, not generic best practices) — the pass file's rubric slots name what to load.
 5. **Run verification gates** so passes don't report toolchain noise — commands per the pass file's gate hints; the pass file says which pass absorbs failures as findings.
 6. If anything's unclear, stop and ask. Don't guess intent.
-
-## 1.5 Scaffold bootstrap (unfilled-scaffold detection)
-
-Flowtron ships this skill as a **stack-neutral scaffold** whose scope, rubric,
-and gate slots stay placeholders until a fork fills them. Run against unfilled
-slots, an audit has no project contracts to grade against: the rubric load
-finds nothing to open, the gates are uninvokable strings, and every "Why it
-matters" line collapses into generic best-practice advice with the test suite
-as the only grounded signal. This section makes that state **visible and
-fixable at dispatch time** instead of silently absorbed into the report.
-
-Reached only from §1 step 3, and only when placeholders were found. A filled
-fork never arrives here, so this costs nothing on a configured project.
-
-### 1. Confirm the unfilled state
-
-Detect **structurally**, never by matching a fixed list of placeholder
-strings. Each domain words its slots differently — `general` ships
-`<default glob>` and `<lint command for your stack>` where `backend` ships
-`<default backend glob>` and `<lint command, e.g. ruff check / golangci-lint
-run>`, and `security` ships `<secret-scanner, e.g. gitleaks detect
---no-banner>`. A literal token list would pass five domains as "filled" while
-they are anything but, which is the exact failure this section exists to
-prevent. Two rules cover every pass file, present and future:
-
-1. Any **`<…>` angle-bracket span** inside the pass file's §"Scope & rubric hints" block — that block holds the scope glob, the rubric slots, and the gate commands, and a filled fork replaces every one of them with a real value.
-2. Any **`_(forker: …)_` note**, anywhere in the file — these mark the judgment slots in §"The 5 passes", §"Severity guide", and §"Specialist additions".
-
-Count the hits and name the slots they sit in — both go in the prompt at step
-4. A `## 0. Forker checklist` still present in `SKILL.md` is corroborating
-evidence (§0 is deleted at fork time), never a trigger on its own.
-
-**Overlay exemption — check this before firing.** A thin overlay
-(`docs/MIGRATION.md` §1.2.1) has no `passes/` directory of its own: it runs the
-*bundled* scaffold's pass files by reference and supplies the values from its
-own `## Deltas` block. Those bundled pass files therefore still carry
-placeholders by design, and those placeholders are **not** unfilled — the
-overlay resolved them one layer up. Firing here would false-positive on every
-run of the fork style this skill recommends.
-
-So: when the running skill is an overlay (its `SKILL.md` has a `## Deltas`
-block and no `passes/` sibling), a slot counts as unfilled only when the
-`## Deltas` block leaves it unset — still a `<…>` placeholder there, or with no
-entry for a domain the overlay claims to cover. A fully filled overlay never
-reaches §1.5, which is exactly why it is the recommended shape. When it *does*
-reach §1.5, the fix is filling the overlay's deltas, so step 5's fork branch
-does not apply — say so and offer only *run once* and *proceed degraded*.
-
-### 2. Resolve the install context
-
-- **Adopter** — `.flowtron/core/claude/skills/ft-audit/` resolves from the repo root. All three branches below are available.
-- **Non-adopter** — no flowtron submodule resolves. A thin overlay's referenced-scaffold path would not resolve either, so **do not offer fork+fill**; offer only *run once* and *proceed degraded*, and say in one line why the fork option is absent.
-
-### 3. Auto-derive candidate values
-
-Read what the repo already declares. Do not guess, do not infer conventions
-from the code under audit, and do not ask the operator for anything the repo
-states itself. **Every derived value cites the file it came from** — a value
-with no source is not a derivation and must not be presented as one.
-
-| Evidence | Derives |
-|---|---|
-| `package.json` `scripts` | gate candidates |
-| `pyproject.toml` `[tool.ruff]` / `[tool.mypy]` / `[tool.pytest.ini_options]`; `uv.lock` present → `uv run` prefix | gate candidates |
-| `justfile` / `Makefile` targets | gate candidates |
-| `.github/workflows/*.yml` `run:` steps (or the equivalent CI config) | gate candidates |
-| `Cargo.toml` · `go.mod` · `Gemfile` | gate candidates (`cargo clippy`/`test`, `go vet`/`test`, `rubocop`/`rspec`) |
-| `.pre-commit-config.yaml`, `.gitleaks.toml`, lockfile-audit config | gate candidates for scanner slots |
-| Top-level layout (`src/`, `backend/`, `frontend/`) + dominant file extension | default scope glob |
-| Root `CLAUDE.md` / `AGENTS.md`, `docs/ARCHITECTURE.md`, an ADR directory, `SECURITY.md` | rubric files |
-
-**The pass file decides which gates are wanted; this table only finds
-candidates.** Domains declare different gate slots — `general` wants lint /
-type-check / test, `security` wants a secret-scanner and a dep-scanner,
-`performance` wants a profiler and a load test, `frontend` wants a bundle
-analyzer and an a11y check, `docs` wants a markdown linter and a link checker.
-**Propose a command only for a slot the loaded pass file actually declares**,
-and match candidate to slot by intent. A slot with no plausible candidate stays
-unfilled and is reported as such — inventing a gate is worse than admitting
-there isn't one. This keeps derivation correct as new domains are added,
-because the slot list is read, not hardcoded here.
-
-**Destructive-intent denylist — safety boundary, not a preference.** Never
-propose and never run a command whose intent is deploy, publish, release,
-migrate, seed, reset, push, or anything else that mutates state outside the
-working tree — regardless of which slot it might plausibly fill or how its
-script is named. A mis-derived gate turns a read-only audit into a destructive
-one, and the operator approved an audit, not that. When in doubt about a
-candidate, leave the slot unfilled. Where CI config and a package manifest
-disagree, prefer CI — it is what the project actually enforces.
-
-**Not derivable.** Sacred invariants (the severity guide's Critical row) and
-per-pass stack examples cannot come from repo metadata; they are judgment about
-what this project must never break. Report them as still-unfilled in every
-branch below — including after a successful fork+fill. A prefilled overlay is
-prefilled, not finished.
-
-### 4. Present the finding and stop
-
-Surface the derived values with their sources, then stop and ask via
-`AskUserQuestion`. Do not run a pass before this is answered.
-
-```text
-⚠️  Unfilled audit scaffold — passes/<domain>.md
-    <N> placeholder slot(s): <named slots>
-
-Auto-derived from this repo:
-  gates:  <cmd>            (package.json:scripts.lint)
-          <cmd>            (.github/workflows/ci.yml:31)
-  scope:  <glob>           (repo layout)
-  rubric: <file>, <file>   (present at repo root)
-
-Not derivable — still needs you:
-  sacred invariants (Critical severity) · per-pass stack examples
-```
-
-Branches (fork+fill omitted in a non-adopter repo, per step 2):
-
-- **Fork + fill now** — write the fork (step 5), then run the audit against it.
-- **Run once with these** — apply the derived values in memory for this run only. Nothing is written; the next run detects the same placeholders and asks again.
-- **Proceed degraded** — run with the placeholders unresolved. The report **must** open with an explicit banner naming the unfilled slots and stating that findings are ungrounded in project contracts. Not the default, and never chosen on the operator's behalf.
-
-### 5. Fork + fill (adopter repos, on explicit confirm only)
-
-Install a **thin overlay** — it carries only the deltas and inherits every
-future scaffold improvement, which is exactly the "only the §0 surface
-diverges" case (`docs/MIGRATION.md` §1.2.1):
-
-```sh
-mkdir -p .claude/skills/audit
-cp .flowtron/core/templates/audit-overlay-template.md .claude/skills/audit/SKILL.md
-cp .flowtron/core/claude/commands/ft-audit.md         .claude/commands/audit.md
-```
-
-Then fill the overlay's `## Deltas` block with the derived values, set
-`flowtron-reconciled:` to the currently pinned flowtron tag (`git -C
-.flowtron/core describe --tags`), leave `flowtron-tracks: ft-audit` as shipped,
-and remove the template's trailing forker note. Leave the not-derivable slots
-as clearly-marked placeholders and tell the operator they are outstanding.
-
-**Never overwrite an existing `.claude/skills/audit/`.** If one is already
-present, this branch does not apply — that fork simply has unfilled slots, and
-the fix is editing it, not replacing it. Say so and fall back to the other two
-branches.
-
-A full `cp -R` copy of the scaffold directory remains the right choice when the
-project needs to edit pass *bodies* rather than just the deltas; point at
-`docs/MIGRATION.md` §1.2.1 and let the operator do it deliberately — this
-branch does not offer it.
 
 ## 2. The 5 passes (in order)
 
@@ -237,8 +90,8 @@ Keep the description (there is no tasknote/archive file to be the canonical reco
 ## 6. Hard rules
 
 - **Targeted, not exhaustive.** Five findings per pass is a *ceiling*, not a target. A clean pass gets zero findings and moves on.
-- **Write tickets, not fixes.** `.flowtron/PLAN.md` gets updated (§5 above). Source files do NOT — any code change needs a separate explicit user request. Do not open files in edit mode for fixes, do not run formatters, do not "fix while I'm in here." **Exceptions:** the §5 trivial-fix carve-out, the §1.5 fork-install carve-out below, plus any domain exception the pass file declares.
-- **Fork-install carve-out (§1.5 only).** The one write this skill may make outside `.flowtron/PLAN.md` is installing a fork of *itself* — `.claude/skills/audit/SKILL.md` plus its `.claude/commands/` wrapper, from `templates/audit-overlay-template.md`, and only on an explicit §1.5 confirm. It is an install, not a source edit: it touches nothing inside the scope resolved in §1 step 2. Never write it unprompted, never as a side effect of a run the operator started to get findings, and never overwrite an existing `.claude/skills/audit/`.
+- **Write tickets, not fixes.** `.flowtron/PLAN.md` gets updated (§5 above). Source files do NOT — any code change needs a separate explicit user request. Do not open files in edit mode for fixes, do not run formatters, do not "fix while I'm in here." **Exceptions:** the §5 trivial-fix carve-out, the scaffold-bootstrap fork-install carve-out below, plus any domain exception the pass file declares.
+- **Fork-install carve-out (`scaffold-bootstrap.md` only).** The one write this skill may make outside `.flowtron/PLAN.md` is installing a fork of *itself* — `.claude/skills/audit/SKILL.md` plus its `.claude/commands/` wrapper, from `templates/audit-overlay-template.md`, and only on an explicit confirm at that fragment's step 4. It is an install, not a source edit: it touches nothing inside the scope resolved in §1 step 2. Never write it unprompted, never as a side effect of a run the operator started to get findings, and never overwrite an existing `.claude/skills/audit/`.
 - **Don't repeat the gates.** If a §1 verification gate (linter, type-checker, build tool, scanner) already flagged it, surface the aggregate once and move on — don't enumerate each gate row as a separate finding.
 - **Don't audit adjacent code.** Stay inside the resolved scope.
 - **Subroutine-safe.** Any domain may be invoked from another skill (notably `/ft-release` §7.1 → `/ft-audit docs`). When invoked as a subroutine with an explicit scope: skip §0 forker prompts, surface the report inline rather than blocking on `AskUserQuestion` for non-blocker items, and do **not** write PLAN.md tickets — the invoking skill is the orchestrator and owns per-finding decisions.
@@ -266,9 +119,9 @@ your own draft sentence in the left column is the whole mechanism.
 | "Every pass returning findings looks more thorough than a pass returning none." | Five per pass is a **ceiling, not a target**. A clean pass gets zero and moves on. Padding to look thorough corrupts the severity scale for every real finding in the same report. | §6 "Targeted, not exhaustive" |
 | "The linter flagged 30 of these, and each one is a real issue." | They are — collectively, once. Enumerating gate output as individual findings crowds out the analysis only a human-shaped read produces. Surface the aggregate and move on. | §6 "Don't repeat the gates" |
 | "I was invoked as a subroutine, but these tickets are too valuable to drop." | Under subroutine invocation the **calling skill owns per-finding decisions**. Writing PLAN tickets from inside another skill's run puts filings on the board that its operator never approved. | §6 "Subroutine-safe" |
-| "The scaffold is unfilled, but I can pick this project's conventions up from the code as I read it." | Inferring the rubric from the code under audit is the exact substitution §1.5 exists to prevent — you would be grading the code against itself and calling the result a finding. Derivation reads what the project *declares* (manifests, CI config, rubric docs) and cites a source for every value; "I'll pick it up as I go" cites none. | §1 step 3; §1.5 step 3 |
+| "The scaffold is unfilled, but I can pick this project's conventions up from the code as I read it." | Inferring the rubric from the code under audit is the exact substitution the scaffold bootstrap exists to prevent — you would be grading the code against itself and calling the result a finding. Derivation reads what the project *declares* (manifests, CI config, rubric docs) and cites a source for every value; "I'll pick it up as I go" cites none. | §1 step 3; `scaffold-bootstrap.md` step 3 |
 | "Prompting about the scaffold before I've found anything is friction — I'll audit first and note it in the summary." | Detection sits ahead of the rubric load and the gates deliberately: findings produced without contracts can't be re-graded afterward, and a caveat in the closing summary reaches the operator only after they've read five passes of generic advice. The stop is cheap precisely because it happens before the work. | §1 step 3 |
-| "No project rubric turned up, so I'll audit against general best practices." | The rubric slot exists specifically to prevent that substitution — the job is auditing against **this project's** contracts. Missing rubric is a §1 step 6 *stop and ask*, not a licence to grade against generic style — and when the rubric slot is an unfilled *placeholder*, §1 step 3 has already routed you to §1.5 rather than past it. | §1 steps 3, 4, 6; §1.5 |
+| "No project rubric turned up, so I'll audit against general best practices." | The rubric slot exists specifically to prevent that substitution — the job is auditing against **this project's** contracts. Missing rubric is a §1 step 6 *stop and ask*, not a licence to grade against generic style — and when the rubric slot is an unfilled *placeholder*, §1 step 3 has already routed you to `scaffold-bootstrap.md` rather than past it. | §1 steps 3, 4, 6; `scaffold-bootstrap.md` |
 
 ## 8. Red Flags
 
@@ -288,13 +141,13 @@ report.
   subroutine invocation.
 - A pass is running against a `passes/<domain>.md` whose `<…>` slots or
   `_(forker: …)_` notes are resolved by neither the pass file itself nor an
-  overlay's `## Deltas`, and §1.5 returned neither resolved values nor an
-  explicit degraded-run acknowledgement.
-- §1.5 fired on a run whose overlay `## Deltas` block was fully filled — the
-  exemption in its step 1 was skipped.
+  overlay's `## Deltas`, and `scaffold-bootstrap.md` returned neither resolved
+  values nor an explicit degraded-run acknowledgement.
+- The scaffold bootstrap fired on a run whose overlay `## Deltas` block was
+  fully filled — the exemption in its step 1 was skipped.
 - A report is being written with no unfilled-scaffold banner even though the
   gates were never runnable and the rubric slots were never opened.
-- A fork is being written into `.claude/skills/` and the §1.5 confirm was
+- A fork is being written into `.claude/skills/` and the bootstrap's confirm was
   never asked — or was asked and something already exists at that path.
 - A derived gate command is about to run for a slot the loaded pass file
   never declared, or its intent is deploy / publish / release / migrate /

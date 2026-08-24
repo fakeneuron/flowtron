@@ -261,7 +261,7 @@ Concrete instantiation:
   plus `ft-new-project.md`, `ft-release.md`, `ft-flowtron.md`,
   `ft-stats.md`, `ft-audit-context.md`, `ft-update.md`)
 - **`skills/`**: 19 `SKILL.md` skill bodies (one per command), some with
-  lazy-load fragments (`ft-task/step-*.md`, including `step-4-debug-mode.md`; `ft-file-followup/park-mode.md`) or sibling libraries (`ft-audit/passes/*.md`); includes `ft-worktree-start/` and `ft-worktree-end/`
+  lazy-load fragments (`ft-task/step-*.md`, including `step-4-debug-mode.md`; `ft-file-followup/park-mode.md`; `ft-audit/scaffold-bootstrap.md`) or sibling libraries (`ft-audit/passes/*.md`); includes `ft-worktree-start/` and `ft-worktree-end/`
 - **Adopter install**: relative symlinks for the adopter-installed subset from
   `.claude/commands/*` and `.claude/skills/*` into the submodule, per
   `claude/AGENTS-snippet.md` §"One-time symlink wiring". The relative

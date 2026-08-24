@@ -25,11 +25,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Future Opportunities
 
 - [ ] **CORE-467** [heavy]🧠 | plan-completed-rotation — Decide and declare a bound on `## Completed`. PLAN.md is 78.5 KB (larger than SPEC.md) with 551 completed rows and zero open tasks; tasknotes rotate to `archive/<area>/` but their PLAN lines never do, and `SPEC.md:888` mitigates the symptom rather than the cause. Either a retention window in `SPEC/tasknote-selection.md` §"`## Completed` archive convention" or a split ledger with `/ft-stats` + the viz parser reading both; self-contained inline-fix rows have no archive file and must survive either. Contract change — affects every adopter. Surfaced by audit-structure 2026-08-23 (Finding #7, High).
-- [ ] **CORE-468** [medium]🧩 | audit-bootstrap-lazy — Split `/ft-audit` SKILL.md §1.5 (149 of 311 lines — 48% of the always-loaded dispatcher) into a lazily-loaded `scaffold-bootstrap.md` fragment behind a 3-line §1 step 3 trigger, matching the `ft-task/step-4-debug-mode.md` pattern; reassess whether three resolution branches earn their keep against `docs/CONVENTIONS.md` §"Template override stacking". Surfaced by audit-structure 2026-08-23 (Finding #6, Medium).
 
 
 ## Completed
 
+- [x] **CORE-468** [medium]🧩 | audit-bootstrap-lazy — Completed 2026-08-24.
 - [x] **CORE-465** [heavy]🧠 | wiring-roster-ssot — Completed 2026-08-24.
 - [x] **CORE-464** [medium]🧩 | ci-drift-checks — Completed 2026-08-24.
 - [x] **FE-093** [light]🔧 | viz-architecture-doc — Completed 2026-08-24.
