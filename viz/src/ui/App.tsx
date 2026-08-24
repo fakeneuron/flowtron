@@ -40,6 +40,8 @@ import {
 } from '../visibilityPrefs';
 import { readStoredViewMode, writeStoredViewMode, type ViewMode } from '../viewMode';
 import { BoardView } from './BoardView';
+import { HeaderBadge } from './HeaderBadge';
+import { DiagnosticBanner } from './DiagnosticBanner';
 
 const SECTIONS: Priority[] = [
   'High',
@@ -283,25 +285,19 @@ export const App: React.FC = () => {
                   ? ` · flowtron ${projectVersions[activeProject ?? '']}`
                   : null}
                 {unparsed.length > 0 && (
-                  <span className="ml-2 inline-flex items-center rounded bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-200">
-                    ⚠ {unparsed.length} unparsed
-                  </span>
+                  <HeaderBadge>⚠ {unparsed.length} unparsed</HeaderBadge>
                 )}
                 {duplicateEpics.length > 0 && (
-                  <span className="ml-2 inline-flex items-center rounded bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-200">
+                  <HeaderBadge>
                     ⚠ {duplicateEpics.length} duplicate epic{duplicateEpics.length === 1 ? '' : 's'}
-                  </span>
+                  </HeaderBadge>
                 )}
                 {nearMissHeadings.length > 0 && (
-                  <span className="ml-2 inline-flex items-center rounded bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-200">
+                  <HeaderBadge>
                     ⚠ {nearMissHeadings.length} near-miss heading{nearMissHeadings.length === 1 ? '' : 's'}
-                  </span>
+                  </HeaderBadge>
                 )}
-                {liveDisconnected && (
-                  <span className="ml-2 inline-flex items-center rounded bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-200">
-                    ⚠ live updates off
-                  </span>
-                )}
+                {liveDisconnected && <HeaderBadge>⚠ live updates off</HeaderBadge>}
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -389,52 +385,55 @@ export const App: React.FC = () => {
       )}
 
       {!loading && unparsed.length > 0 && (
-        <div className="mx-4 mt-3 rounded border border-amber-300 bg-amber-50 p-3 text-base text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200">
-          <p>
-            ⚠ {unparsed.length === 1
-              ? '1 line in PLAN.md looks like a task but failed to parse:'
-              : `${unparsed.length} lines in PLAN.md look like tasks but failed to parse:`}
-          </p>
-          <ul className="mt-1 font-mono text-sm">
-            {unparsed.map((u) => (
-              <li key={u.line}>
-                L{u.line}: {u.text}
-              </li>
-            ))}
-          </ul>
-        </div>
+        <DiagnosticBanner
+          message={
+            <>
+              ⚠ {unparsed.length === 1
+                ? '1 line in PLAN.md looks like a task but failed to parse:'
+                : `${unparsed.length} lines in PLAN.md look like tasks but failed to parse:`}
+            </>
+          }
+        >
+          {unparsed.map((u) => (
+            <li key={u.line}>
+              L{u.line}: {u.text}
+            </li>
+          ))}
+        </DiagnosticBanner>
       )}
 
       {!loading && duplicateEpics.length > 0 && (
-        <div className="mx-4 mt-3 rounded border border-amber-300 bg-amber-50 p-3 text-base text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200">
-          <p>
-            ⚠ {duplicateEpics.length === 1
-              ? '1 epic ID appears under more than one PLAN.md heading; only its first occurrence is shown:'
-              : `${duplicateEpics.length} epic IDs appear under more than one PLAN.md heading; only each first occurrence is shown:`}
-          </p>
-          <ul className="mt-1 font-mono text-sm">
-            {duplicateEpics.map((d, i) => (
-              <li key={`${d.id}-${i}`}>{d.id}</li>
-            ))}
-          </ul>
-        </div>
+        <DiagnosticBanner
+          message={
+            <>
+              ⚠ {duplicateEpics.length === 1
+                ? '1 epic ID appears under more than one PLAN.md heading; only its first occurrence is shown:'
+                : `${duplicateEpics.length} epic IDs appear under more than one PLAN.md heading; only each first occurrence is shown:`}
+            </>
+          }
+        >
+          {duplicateEpics.map((d, i) => (
+            <li key={`${d.id}-${i}`}>{d.id}</li>
+          ))}
+        </DiagnosticBanner>
       )}
 
       {!loading && nearMissHeadings.length > 0 && (
-        <div className="mx-4 mt-3 rounded border border-amber-300 bg-amber-50 p-3 text-base text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200">
-          <p>
-            ⚠ {nearMissHeadings.length === 1
-              ? "1 PLAN.md heading looks like a typo'd priority section and its tasks were skipped:"
-              : `${nearMissHeadings.length} PLAN.md headings look like typo'd priority sections and their tasks were skipped:`}
-          </p>
-          <ul className="mt-1 font-mono text-sm">
-            {nearMissHeadings.map((h) => (
-              <li key={h.line}>
-                L{h.line}: "{h.heading}" (did you mean "{h.matched}"?)
-              </li>
-            ))}
-          </ul>
-        </div>
+        <DiagnosticBanner
+          message={
+            <>
+              ⚠ {nearMissHeadings.length === 1
+                ? "1 PLAN.md heading looks like a typo'd priority section and its tasks were skipped:"
+                : `${nearMissHeadings.length} PLAN.md headings look like typo'd priority sections and their tasks were skipped:`}
+            </>
+          }
+        >
+          {nearMissHeadings.map((h) => (
+            <li key={h.line}>
+              L{h.line}: "{h.heading}" (did you mean "{h.matched}"?)
+            </li>
+          ))}
+        </DiagnosticBanner>
       )}
 
       <main className="mx-auto max-w-screen-xl px-4 py-4">
