@@ -1234,3 +1234,156 @@ describe('App — completed-bucket grouping (FE-086)', () => {
     );
   });
 });
+
+describe('App — App-level characterization gaps (FE-94.2)', () => {
+  beforeEach(() => {
+    window.localStorage.clear();
+  });
+
+  it('the view-mode toggle group carries correct aria-pressed and clicking Board switches the view and persists the choice', async () => {
+    const user = userEvent.setup();
+    const plan = `## High
+
+- [ ] **CORE-1** | one — Task one
+`;
+    renderApp({ plan });
+    await waitFor(() => expect(screen.getByText('CORE-1')).toBeInTheDocument());
+
+    const group = screen.getByRole('group', { name: 'View mode' });
+    const listButton = within(group).getByRole('button', { name: 'List' });
+    const boardButton = within(group).getByRole('button', { name: 'Board' });
+    expect(listButton).toHaveAttribute('aria-pressed', 'true');
+    expect(boardButton).toHaveAttribute('aria-pressed', 'false');
+    expect(document.querySelector('.overflow-x-auto')).toBeNull();
+
+    await user.click(boardButton);
+
+    await waitFor(() => expect(document.querySelector('.overflow-x-auto')).not.toBeNull());
+    expect(boardButton).toHaveAttribute('aria-pressed', 'true');
+    expect(listButton).toHaveAttribute('aria-pressed', 'false');
+    expect(window.localStorage.getItem('flowtron-viz-view')).toBe('board');
+  });
+
+  it('shows "No tasks in this project" in list view when every priority section is empty', async () => {
+    const plan = `## High
+`;
+    renderApp({ plan });
+    await waitFor(() => expect(screen.getByText('No tasks in this project')).toBeInTheDocument());
+  });
+
+  it('shows "No tasks in: <sections>" in list view when only some priority sections are empty', async () => {
+    const plan = `## High
+
+- [ ] **CORE-1** | one — Task one
+
+## Medium
+
+- [ ] **CORE-2** | two — Task two
+`;
+    renderApp({ plan });
+    await waitFor(() => expect(screen.getByText('CORE-2')).toBeInTheDocument());
+    expect(
+      screen.getByText('No tasks in: Low · Future Opportunities · Completed'),
+    ).toBeInTheDocument();
+  });
+
+  it('shows "No matches. Press Esc to clear filters." when a query filter matches nothing', async () => {
+    const user = userEvent.setup();
+    const plan = `## High
+
+- [ ] **CORE-1** | one — Task one
+`;
+    renderApp({ plan });
+    await waitFor(() => expect(screen.getByText('CORE-1')).toBeInTheDocument());
+
+    await user.type(screen.getByRole('searchbox'), 'no-such-task');
+
+    await waitFor(() =>
+      expect(
+        screen.getByText('No matches. Press Esc to clear filters.'),
+      ).toBeInTheDocument(),
+    );
+  });
+
+  it('pluralizes the header starter suffix and omits it when there are no starters', async () => {
+    const plan = `## High
+
+- [ ] **CORE-1** | one — Task one
+- [ ] **CORE-2** | two — Task two
+`;
+    const active = [
+      makeTasknote({
+        id: 'CORE-1',
+        frontmatter: {
+          title: 'one',
+          status: 'starter',
+          tags: [],
+          created: '2026-05-07',
+          relatedTasks: [],
+        },
+      }),
+    ];
+    renderApp({ plan, active });
+    await waitFor(() => expect(screen.getByText(/1 starter\b/)).toBeInTheDocument());
+    expect(screen.queryByText(/starters/)).not.toBeInTheDocument();
+  });
+
+  it('shows the plural header starter suffix for more than one starter', async () => {
+    const plan = `## High
+
+- [ ] **CORE-1** | one — Task one
+- [ ] **CORE-2** | two — Task two
+`;
+    const active = [
+      makeTasknote({
+        id: 'CORE-1',
+        frontmatter: {
+          title: 'one',
+          status: 'starter',
+          tags: [],
+          created: '2026-05-07',
+          relatedTasks: [],
+        },
+      }),
+      makeTasknote({
+        id: 'CORE-2',
+        frontmatter: {
+          title: 'two',
+          status: 'starter',
+          tags: [],
+          created: '2026-05-07',
+          relatedTasks: [],
+        },
+      }),
+    ];
+    renderApp({ plan, active });
+    await waitFor(() => expect(screen.getByText(/2 starters/)).toBeInTheDocument());
+  });
+
+  it('omits the starter suffix entirely when no tasknote has starter status', async () => {
+    const plan = `## High
+
+- [ ] **CORE-1** | one — Task one
+`;
+    renderApp({ plan });
+    await waitFor(() => expect(screen.getByText('CORE-1')).toBeInTheDocument());
+    expect(screen.queryByText(/starter/)).not.toBeInTheDocument();
+  });
+
+  it('renders the error banner when the active project fails to load', async () => {
+    const plan = `## High
+
+- [ ] **CORE-1** | one — Task one
+`;
+    renderApp({
+      plan,
+      perProject: {
+        flowtron: { fail: { plan: 500 } },
+      },
+    });
+
+    await waitFor(() =>
+      expect(screen.getByText('PLAN.md fetch failed: HTTP 500')).toBeInTheDocument(),
+    );
+  });
+});
