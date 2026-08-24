@@ -30,6 +30,16 @@ symlink wiring" (or the Codex / Cursor-only siblings) already serve Grok
 sessions. Run that block and stop there — a second parallel install into
 `.grok/skills/` adds no skills and no capability.
 
+**Derived surface.** The roster is not decided here. It is defined once in
+[`../claude/AGENTS-snippet.md`](../claude/AGENTS-snippet.md) §"One-time symlink
+wiring", and the Grok-only block below is that roster under one substitution —
+destination `.claude/skills/<n>` → `.grok/skills/<n>`, source path unchanged
+(the targets are the canonical Claude bodies), `claude/commands/` lines dropped,
+lines sorted. Adding or removing a skill means editing the SSOT and regenerating
+this block, never editing this block alone. It stays a literal `ln -s` list
+because adopters copy-paste it and `tools/update-adopters.mjs` parses it;
+`/ft-release` §7.1 diffs it against the SSOT as a set.
+
 For a **Grok-only project** — one with no `.claude/`, no `.agents/skills/`,
 and no `.cursor/skills/` wiring — install the same adopter subset under
 Grok's own directory instead. Run from the project root after adding the

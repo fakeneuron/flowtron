@@ -43,12 +43,11 @@ ln -s ~/code/flowtron/claude/commands/ft-new-project.md ~/.claude/commands/ft-ne
 /ft-new-project
 ```
 
-That adds the flowtron submodule, wires the nine tasknote skills (`/ft-task`,
-`/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`,
-`/ft-epic-discovery`, `/ft-close-epic`, `/ft-goal-task`,
-`/ft-spec`, `/ft-refactor`) plus the two worktree utilities (`/ft-worktree-start`,
-`/ft-worktree-end`) and `/ft-update`, and drops in the `.flowtron/` skeleton in
-one pass. Then file a task in `.flowtron/PLAN.md` and run it:
+That adds the flowtron submodule, wires the adopter skill subset — the tasknote
+family, the two worktree utilities, and `/ft-update`, whose exact roster is the
+`ln -s` block in [`claude/AGENTS-snippet.md`](claude/AGENTS-snippet.md)
+§"One-time symlink wiring" — and drops in the `.flowtron/` skeleton in one
+pass. Then file a task in `.flowtron/PLAN.md` and run it:
 
 ```sh
 /ft-task CORE-001

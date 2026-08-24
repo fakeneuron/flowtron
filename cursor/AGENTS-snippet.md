@@ -27,6 +27,16 @@ and project-scope skill directories dedupe by slug, so the symlinks from
 sessions. Run that block and stop there — a second parallel install adds no
 skills and no capability.
 
+**Derived surface.** The roster is not decided here. It is defined once in
+[`../claude/AGENTS-snippet.md`](../claude/AGENTS-snippet.md) §"One-time symlink
+wiring", and the Cursor-only block below is that roster under one substitution —
+destination `.claude/skills/<n>` → `.cursor/skills/<n>`, source path unchanged
+(the targets are the canonical Claude bodies), `claude/commands/` lines dropped,
+lines sorted. Adding or removing a skill means editing the SSOT and regenerating
+this block, never editing this block alone. It stays a literal `ln -s` list
+because adopters copy-paste it and `tools/update-adopters.mjs` parses it;
+`/ft-release` §7.1 diffs it against the SSOT as a set.
+
 For a **Cursor-only project** — one with no `.claude/` wiring — install the same
 adopter subset under Cursor's own directory instead. Run from the project root
 after adding the flowtron submodule at `.flowtron/core`:

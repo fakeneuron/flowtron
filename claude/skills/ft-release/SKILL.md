@@ -265,13 +265,16 @@ For each returned finding:
 
 If the sweep reports zero findings, state that explicitly and move on to §7.2.
 
-**Standing Claude symlink-wiring count check.** Independently of the subroutine findings, compare the canonical Claude adopter-wiring block against its three consumers:
+**Standing wiring-consumer derivation check.** `claude/AGENTS-snippet.md` §"One-time symlink wiring" is the declared SSOT for the adopter-wiring roster (CORE-465). Its two doc consumers — `docs/MIGRATION.md` §1.6 and `claude/skills/ft-new-project/SKILL.md` Steps 7–8 — *derive* their staging and verify commands from that block instead of restating its paths, so there is no count to keep aligned. This check guards that property rather than the old count:
 
 ```sh
-grep -c "^ln -s" claude/AGENTS-snippet.md
+awk '/^### 1\.6 Commit$/,/^### 1\.7 /' docs/MIGRATION.md | grep -n '\.claude/\(commands\|skills\)/ft-'
+awk '/^## Step 7 /,/^## Step 9 /' claude/skills/ft-new-project/SKILL.md | grep -n '\.claude/\(commands\|skills\)/ft-'
 ```
 
-That count must equal the number of `.claude/` paths in `docs/MIGRATION.md` §1.6's staging block, the number of `.claude/` paths in `claude/skills/ft-new-project/SKILL.md` Step 7's staging block, and the number of `readlink` lines in its Step 8 (whose prose count word must also match). A mismatch means a Claude adopter symlink was added to the snippet without fanning out to the consumers (the CORE-329.2 drift class) — fix inline as Critical/High before cutting the release.
+Both must produce no output and exit 1. A hit means someone re-introduced a hand-maintained roster copy into a surface that is supposed to derive one — the CORE-329.2 drift class, which stayed alive for a year because the fix was "keep four counts equal" rather than "stop counting". Fix by restoring the derivation (`grep '^ln -s' … | awk '{print $NF}'`), not by re-syncing the list — fix inline as Critical/High before cutting the release.
+
+This check **replaces** the standing symlink-wiring *count* check that shipped at CORE-329.2 and was retired at CORE-465 as vacuous: with the consumers deriving, the counts cannot disagree.
 
 **Standing shipped-skill parity check.** Independently of the subroutine findings, compare the exported skill inventories:
 
@@ -284,57 +287,48 @@ The two shipped inventories must match exactly by slug. This is parity of export
 
 **Standing installed-surface policy check.** Independently of the subroutine findings, verify the repo-scoped adopter snippets install exactly the policy subset from `docs/PLATFORMS.md` §"Installed-surface policy", not the full shipped inventories.
 
-Expected adopter-installed skill slugs:
+Nothing here is a hand-maintained roster. The expected set is **derived** — the shipped Claude skill inventory minus the declared non-adopter categories — and the three platform snippets are **derived surfaces** of `claude/AGENTS-snippet.md` §"One-time symlink wiring", each stating its own substitution in its own file. So a newly shipped adopter skill needs no edit here at all; only a change to *policy* (a new global-only utility or flowtron-self-only skill) touches the exclusion list below. That list is the machine form of `docs/PLATFORMS.md`'s "Global-only utilities" and "Flowtron-self-only" columns:
 
 ```text
-ft-close-epic
-ft-epic-discovery
-ft-file-followup
-ft-goal-task
-ft-micro-task
-ft-spec
-ft-starter-task
-ft-task
-ft-update
-ft-worktree-end
-ft-worktree-start
+ft-audit           (forked/overlaid locally under an unprefixed name, never symlinked)
+ft-audit-context   (global-only)
+ft-audit-repo      (global-only)
+ft-flowtron        (global-only)
+ft-new-project     (global-only)
+ft-release         (flowtron-self-only)
+ft-stats           (global-only)
 ```
 
-Forbidden repo-scoped upstream `ft-*` installs:
-
-```text
-ft-audit
-ft-audit-context
-ft-audit-repo
-ft-flowtron
-ft-new-project
-ft-release
-ft-stats
-```
-
-Run the exact-set checks:
+Run the derivation, then the four set-equality diffs:
 
 ```sh
-diff -u <(printf '%s\n' ft-close-epic ft-epic-discovery ft-file-followup ft-goal-task ft-micro-task ft-spec ft-starter-task ft-task ft-update ft-worktree-end ft-worktree-start | sort) <(grep "^ln -s ../../.flowtron/core/claude/skills/" claude/AGENTS-snippet.md | sed -E 's#.*claude/skills/(ft-[^ ]+).*#\1#' | sort)
-diff -u <(printf '%s\n' ft-close-epic ft-epic-discovery ft-file-followup ft-goal-task ft-micro-task ft-spec ft-starter-task ft-task ft-update ft-worktree-end ft-worktree-start | sort) <(grep "^ln -s ../../.flowtron/core/claude/commands/" claude/AGENTS-snippet.md | sed -E 's#.*claude/commands/(ft-[^ ]+)\.md.*#\1#' | sort)
-diff -u <(printf '%s\n' ft-close-epic ft-epic-discovery ft-file-followup ft-goal-task ft-micro-task ft-spec ft-starter-task ft-task ft-update ft-worktree-end ft-worktree-start | sort) <(grep "^ln -s ../../.flowtron/core/codex/skills/" codex/AGENTS-snippet.md | sed -E 's#.*codex/skills/(ft-[^ ]+).*#\1#' | sort)
-diff -u <(printf '%s\n' ft-close-epic ft-epic-discovery ft-file-followup ft-goal-task ft-micro-task ft-spec ft-starter-task ft-task ft-update ft-worktree-end ft-worktree-start | sort) <(grep "^ln -s ../../.flowtron/core/claude/skills/" cursor/AGENTS-snippet.md | sed -E 's#.*claude/skills/(ft-[^ ]+).*#\1#' | sort)
-diff -u <(printf '%s\n' ft-close-epic ft-epic-discovery ft-file-followup ft-goal-task ft-micro-task ft-spec ft-starter-task ft-task ft-update ft-worktree-end ft-worktree-start | sort) <(grep "^ln -s ../../.flowtron/core/claude/skills/" grok/AGENTS-snippet.md | sed -E 's#.*claude/skills/(ft-[^ ]+).*#\1#' | sort)
+ssot=$(grep '^ln -s ../../.flowtron/core/claude/skills/' claude/AGENTS-snippet.md \
+       | awk '{print $3}' | sed -E 's#.*/##' | sort -u)
+
+# Expected = shipped inventory minus the non-adopter categories above.
+diff -u <(ls claude/skills | grep '^ft-' \
+          | grep -Ev '^(ft-audit|ft-audit-context|ft-audit-repo|ft-flowtron|ft-new-project|ft-release|ft-stats)$' \
+          | sort) \
+        <(printf '%s\n' "$ssot")
+
+# The SSOT's own command half must cover the same set as its skill half.
+diff -u <(printf '%s\n' "$ssot") \
+        <(grep '^ln -s ../../.flowtron/core/claude/commands/' claude/AGENTS-snippet.md \
+          | awk '{print $3}' | sed -E 's#.*/##; s#\.md$##' | sort -u)
+
+# Each derived platform block must be the same set under its substitution.
+diff -u <(printf '%s\n' "$ssot") <(grep '^ln -s ../../.flowtron/core/codex/skills/'  codex/AGENTS-snippet.md  | awk '{print $3}' | sed -E 's#.*/##' | sort -u)
+diff -u <(printf '%s\n' "$ssot") <(grep '^ln -s ../../.flowtron/core/claude/skills/' cursor/AGENTS-snippet.md | awk '{print $3}' | sed -E 's#.*/##' | sort -u)
+diff -u <(printf '%s\n' "$ssot") <(grep '^ln -s ../../.flowtron/core/claude/skills/' grok/AGENTS-snippet.md   | awk '{print $3}' | sed -E 's#.*/##' | sort -u)
 ```
 
-Then run the explicit forbidden-install checks:
+All four `diff` commands must produce no output and exit 0. A `-` line is a policy-subset skill missing from that surface; a `+` line is a slug installed that policy excludes — the forbidden-install case, now caught by the same diff rather than a separate grep pass.
 
-```sh
-grep "^ln -s ../../.flowtron/core/claude/skills/" claude/AGENTS-snippet.md | sed -E 's#.*claude/skills/(ft-[^ ]+).*#\1#' | grep -E '^(ft-audit|ft-audit-context|ft-audit-repo|ft-flowtron|ft-new-project|ft-release|ft-stats)$'
-grep "^ln -s ../../.flowtron/core/claude/commands/" claude/AGENTS-snippet.md | sed -E 's#.*claude/commands/(ft-[^ ]+)\.md.*#\1#' | grep -E '^(ft-audit|ft-audit-context|ft-audit-repo|ft-flowtron|ft-new-project|ft-release|ft-stats)$'
-grep "^ln -s ../../.flowtron/core/codex/skills/" codex/AGENTS-snippet.md | sed -E 's#.*codex/skills/(ft-[^ ]+).*#\1#' | grep -E '^(ft-audit|ft-audit-context|ft-audit-repo|ft-flowtron|ft-new-project|ft-release|ft-stats)$'
-grep "^ln -s ../../.flowtron/core/claude/skills/" cursor/AGENTS-snippet.md | sed -E 's#.*claude/skills/(ft-[^ ]+).*#\1#' | grep -E '^(ft-audit|ft-audit-context|ft-audit-repo|ft-flowtron|ft-new-project|ft-release|ft-stats)$'
-grep "^ln -s ../../.flowtron/core/claude/skills/" grok/AGENTS-snippet.md | sed -E 's#.*claude/skills/(ft-[^ ]+).*#\1#' | grep -E '^(ft-audit|ft-audit-context|ft-audit-repo|ft-flowtron|ft-new-project|ft-release|ft-stats)$'
-```
+The anchored `grep` prefixes are load-bearing: `codex/AGENTS-snippet.md` carries a second `ln -s` block (the maintainer hot-reload glob `codex/skills/*`), and an unanchored match would drag `*` into the set.
 
-The `diff` commands must produce no output and exit 0. The forbidden-install `grep` commands must produce no output and exit 1. Any missing adopter-subset skill or any installed forbidden slug means the snippets contradict the installed-surface policy — fix inline as Critical/High before cutting the release.
+**Why this shape.** The predecessor hardcoded an eleven-slug expected list and repeated it across five `diff`s plus five forbidden-install `grep`s. It went stale the day `/ft-refactor` shipped (CORE-463.5 wired the skill across sixteen surfaces and all four snippets; the gate's own list was not one of them), so every one of its diffs was failing against `main` when CORE-465 found it — a roster gate that had itself drifted out of the roster. Deriving both halves removes the class: the only way to fail now is a genuine policy or wiring divergence. Fix any finding inline as Critical/High before cutting the release.
 
-**Standing self-wiring parity check.** The four checks above all compare one *declaration* to another — `claude/AGENTS-snippet.md`, `docs/MIGRATION.md`, `ft-new-project/SKILL.md`, `codex/AGENTS-snippet.md`, `cursor/AGENTS-snippet.md`, `grok/AGENTS-snippet.md`. None resolves a symlink, so a slug correctly declared everywhere can still be unwired and unrunnable in flowtron's own checkout: `/ft-spec` shipped at CORE-352.2, passed all three, and sat missing from `.claude/` for a month. This check reads the filesystem instead.
+**Standing self-wiring parity check.** The checks above all compare one *declaration* to another — `claude/AGENTS-snippet.md` and its three derived platform snippets, plus the shipped `claude/skills/` listing. None resolves a symlink, so a slug correctly declared everywhere can still be unwired and unrunnable in flowtron's own checkout: `/ft-spec` shipped at CORE-352.2, passed all three, and sat missing from `.claude/` for a month. This check reads the filesystem instead.
 
 **Local repo-scoped wiring — blocking.** Flowtron is not an adopter; its `.claude/` mirrors the full shipped inventory (`docs/PLATFORMS.md` §"Installed-surface policy" → "Flowtron's own checkout is not an adopter"). Diff both directions:
 

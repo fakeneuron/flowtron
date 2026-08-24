@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-465** [heavy]🧠 | wiring-roster-ssot — Give the 12-skill adopter-wiring roster a declared SSOT. Promote `claude/AGENTS-snippet.md` §"One-time symlink wiring" (already de-facto authoritative for `/ft-update` Step 4 and `tools/update-adopters.mjs`) and reduce the codex/cursor/grok snippets plus `docs/MIGRATION.md` and `ft-new-project` to path substitutions or pointers; fold the 7-line Codex translation boilerplate out of 17 wrappers into `codex/AGENTS-snippet.md` §"Translation rules". Retire whichever §7.1 checks the SSOT makes vacuous. Sequenced after CORE-464. Surfaced by audit-structure 2026-08-23 (Findings #1 + #3, Medium).
+(none)
 
 ## Low
 
@@ -30,6 +30,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-465** [heavy]🧠 | wiring-roster-ssot — Completed 2026-08-24.
 - [x] **CORE-464** [medium]🧩 | ci-drift-checks — Completed 2026-08-24.
 - [x] **FE-093** [light]🔧 | viz-architecture-doc — Completed 2026-08-24.
 - [x] **FE-EPIC-94** [heavy]🧠 | viz-app-decompose — Completed 2026-08-24.

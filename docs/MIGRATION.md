@@ -59,7 +59,7 @@ The `checkout` step is what pins the project to a specific flowtron version. Wit
 
 ### 1.2 Wire the adopter skill subset via symlinks
 
-The submodule ships the full Claude slash-command inventory and matching Codex skill-wrapper inventory. Adopter projects wire only the policy subset: the nine tasknote family (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-goal-task`, `/ft-spec`, `/ft-refactor`), two thin worktree utilities (`/ft-worktree-start` + `/ft-worktree-end`), plus the `/ft-update` submodule-bump utility. Each tasknote family's purpose lives in its own SKILL.md frontmatter — short version: 4-phase runner (with `--debug` for hypothesis-first bug work); starter filer; micro one-shot; in-chat follow-up (with `--park` for the sidequest parker); epic open; epic close; converge-until-verified goal-loop runner; planning-peer spec drafter; read-only refactor depth planner that files a sequenced epic. The worktree pair are thin procedural utilities (see their SKILL.md frontmatter + `docs/WORKTREES.md`); `/ft-update` is the adopter-side version-bump counterpart to `/ft-release` (see [`PLATFORMS.md`](PLATFORMS.md) §"Installed-surface policy").
+The submodule ships the full Claude slash-command inventory and matching Codex skill-wrapper inventory. Adopter projects wire only the policy subset — the tasknote family, two thin worktree utilities, and the `/ft-update` submodule-bump utility. **The exact roster is the `ln -s` block in [`claude/AGENTS-snippet.md`](../claude/AGENTS-snippet.md) §"One-time symlink wiring", its single source of truth; this section deliberately does not restate it.** What each does lives in its own SKILL.md frontmatter — short version: `/ft-task` the 4-phase runner (with `--debug` for hypothesis-first bug work), `/ft-starter-task` the starter filer, `/ft-micro-task` the one-shot, `/ft-file-followup` the in-chat follow-up (with `--park` for the sidequest parker), `/ft-epic-discovery` and `/ft-close-epic` the epic bookends, `/ft-goal-task` the converge-until-verified loop runner, `/ft-spec` the planning-peer spec drafter, `/ft-refactor` the read-only refactor depth planner that files a sequenced epic. The worktree pair are thin procedural utilities (see their SKILL.md frontmatter + `docs/WORKTREES.md`); `/ft-update` is the adopter-side version-bump counterpart to `/ft-release` (see [`PLATFORMS.md`](PLATFORMS.md) §"Installed-surface policy").
 
 Global utilities (`/ft-new-project`, `/ft-flowtron`, `/ft-stats`, `/ft-audit-context`, `/ft-audit-repo`) live in the user's agent home when desired, not in every adopter repo. `/ft-release` is flowtron-self-only. The canonical category table lives in [`docs/PLATFORMS.md`](PLATFORMS.md) §"Installed-surface policy".
 
@@ -275,26 +275,12 @@ Tasknote shape and lifecycles: see SPEC §"Tasknote frontmatter" + §"Tasknote b
 ### 1.6 Commit
 
 ```sh
-git add .gitmodules .flowtron/core .flowtron/PLAN.md .flowtron/tasknote/ \
-        .claude/commands/ft-task.md .claude/commands/ft-starter-task.md .claude/commands/ft-micro-task.md \
-        .claude/commands/ft-file-followup.md .claude/commands/ft-epic-discovery.md .claude/commands/ft-close-epic.md \
-        .claude/commands/ft-worktree-start.md .claude/commands/ft-worktree-end.md \
-        .claude/commands/ft-update.md \
-        .claude/commands/ft-goal-task.md \
-        .claude/commands/ft-spec.md \
-        .claude/commands/ft-refactor.md \
-        .claude/skills/ft-task .claude/skills/ft-starter-task .claude/skills/ft-micro-task \
-        .claude/skills/ft-file-followup .claude/skills/ft-epic-discovery .claude/skills/ft-close-epic \
-        .claude/skills/ft-worktree-start .claude/skills/ft-worktree-end \
-        .claude/skills/ft-update \
-        .claude/skills/ft-goal-task \
-        .claude/skills/ft-spec \
-        .claude/skills/ft-refactor \
-        AGENTS.md
+git add .gitmodules .flowtron/core .flowtron/PLAN.md .flowtron/tasknote/ AGENTS.md
+grep '^ln -s' .flowtron/core/claude/AGENTS-snippet.md | awk '{print $NF}' | xargs git add
 git commit -m "chore: adopt flowtron at vX.Y.Z"
 ```
 
-If your project already has other files under `.claude/` (settings, other skills), the explicit paths above keep the migration commit scoped to just the flowtron wiring.
+The second line stages exactly the symlinks §1.2 created, read back from the snippet that created them. That snippet is the single source of truth for the adopter-wiring roster ([`claude/AGENTS-snippet.md`](../claude/AGENTS-snippet.md) §"One-time symlink wiring"), so this block restates no path list and cannot fall behind a newly shipped skill. Explicit paths — not `git add .` — keep the migration commit scoped to the flowtron wiring even if your project already has other files under `.claude/` (settings, other skills).
 
 **Cursor-only (no `.claude/` wiring).** The `git add` block above is the Claude-default path. A Cursor-only install from §1.2 never creates those `.claude/` files — adding them fails. Stage the Cursor snippet's symlinks instead (`git add .cursor/` per [`cursor/AGENTS-snippet.md`](../cursor/AGENTS-snippet.md) §"One-time symlink wiring") together with `.gitmodules`, `.flowtron/core`, `.flowtron/PLAN.md`, `.flowtron/tasknote/`, and `AGENTS.md`.
 
@@ -304,7 +290,7 @@ If your project already has other files under `.claude/` (settings, other skills
 
 In a fresh session with your coding agent, verify the platform's wired entry point:
 
-- **Claude Code:** invoke `/ft-task`. The command should appear in the menu (alongside `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-goal-task`, `/ft-spec`, `/ft-refactor`, `/ft-worktree-start`, `/ft-worktree-end`, and `/ft-update`) with its description.
+- **Claude Code:** invoke `/ft-task`. The command should appear in the menu with its description, alongside every other skill the §1.2 snippet block wired (that block is the roster; there is no second list to check it against).
 - **Codex:** use `/skills` or mention `$ft-task`. The skill should appear alongside the other wired adopter-subset `ft-*` skills from `.agents/skills/`.
 - **Cursor:** invoke `/ft-task`. If the project already has Claude `.claude/` wiring, Cursor picks it up via compat load; Cursor-only projects should see the same adopter subset under `.cursor/skills/`.
 - **Grok Build:** invoke `/ft-task`. If the project already has Claude `.claude/`, Codex `.agents/skills/`, or Cursor `.cursor/skills/` wiring, Grok picks it up via compat load; Grok-only projects should see the same adopter subset under `.grok/skills/`. The canonical bodies' trailing operator flags work once those bodies are loaded — see [`PLATFORMS.md` §"Non-Claude capability triggers"](PLATFORMS.md#non-claude-capability-triggers).
@@ -461,7 +447,14 @@ After §3.2–§3.7 land and `/ft-task` shows in the slash menu, sweep for resid
   - In code comments / docstrings: low-risk; leave or update at touch time.
   - In archived/legacy content: leave untouched (write-once policy applies — don't retroactively rewrite history).
 - **CI / pre-commit hook check.** `grep -rn "<retired-helper-script-name>" .git/hooks/ .github/ docker/ scripts/` (project root) — confirm nothing depends on retired scripts. Resolve before next CI run.
-- **`/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-goal-task`, `/ft-spec`, `/ft-refactor`, `/ft-worktree-start`, `/ft-worktree-end` smoke.** Invoke each in a fresh session with your coding agent's wired entry point — `/ft-*` for Claude Code, Cursor, or Grok, `/skills` or `$ft-*` for Codex, or a conversational prompt for contract-only agents. Confirm the tasknote family + worktree pair (ten total) appear alongside `/ft-task` / `$ft-task` (v1.0+ additions; symlinks added in §1.2; worktree pair added in CORE-215.5; `/ft-goal-task` added in CORE-EPIC-330; `/ft-spec` added in CORE-352.3; `/ft-refactor` added in CORE-463.5).
+- **Adopter-subset smoke.** Enumerate what §1.2 wired and invoke each in a fresh session with your coding agent's wired entry point — `/ft-*` for Claude Code, Cursor, or Grok, `/skills` or `$ft-*` for Codex, or a conversational prompt for contract-only agents:
+
+  ```sh
+  grep '^ln -s' .flowtron/core/claude/AGENTS-snippet.md |
+    awk '{print $NF}' | sed -E 's#.*/##; s#\.md$##' | sort -u
+  ```
+
+  Confirm every slug it prints appears in your agent's roster (v1.0+ additions; symlinks added in §1.2; worktree pair added in CORE-215.5; `/ft-goal-task` added in CORE-EPIC-330; `/ft-spec` added in CORE-352.3; `/ft-refactor` added in CORE-463.5).
 - **Context-surface audit.** If you've installed `/ft-audit-context` globally (see §1.0), run it now — migrations frequently carry over context bloat from the legacy era (stale `CLAUDE.md` workflow tutorials, project-local skills that now shadow `ft-*` namespace, AGENTS.md content redundant with the freshly-pasted block). Soft prose; ticket-filing is opt-in.
 - **Final pin verification.** `git -C .flowtron/core describe --tags` shows the pinned version recorded at the start (e.g., `v5.18.0`). A mismatch means the submodule drifted off the pin during migration.
 - **Cleanup commit.** Bundle the decisions above into a single follow-up commit (`chore: <ID> post-migration cleanup`) OR fold into the §3.9 closure commit if scope is small.

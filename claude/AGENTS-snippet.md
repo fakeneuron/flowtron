@@ -33,6 +33,27 @@ This project uses **flowtron** for task tracking. The canonical workflow contrac
 
 ## One-time symlink wiring
 
+**This block is the single source of truth for the adopter-wiring roster.** The
+set of skills an adopting project installs is defined here and nowhere else.
+Five surfaces are *derived* from it and must never be edited independently:
+
+| Derived surface | Derivation |
+|---|---|
+| [`codex/AGENTS-snippet.md`](../codex/AGENTS-snippet.md) §"One-time skill wiring" | source `claude/skills/` → `codex/skills/`; dest `.claude/skills/` → `.agents/skills/`; commands dropped |
+| [`cursor/AGENTS-snippet.md`](../cursor/AGENTS-snippet.md) §"One-time symlink wiring" | dest `.claude/skills/` → `.cursor/skills/`; commands dropped; source unchanged |
+| [`grok/AGENTS-snippet.md`](../grok/AGENTS-snippet.md) §"One-time symlink wiring" | dest `.claude/skills/` → `.grok/skills/`; commands dropped; source unchanged |
+| [`docs/MIGRATION.md`](../docs/MIGRATION.md) §1.6 | stages the destination paths this block creates |
+| [`claude/skills/ft-new-project/SKILL.md`](skills/ft-new-project/SKILL.md) Steps 7–8 | stages and verifies the destination paths this block creates |
+
+The last two derive their commands from this block at run time and restate no
+path list. The three platform blocks stay literal `ln -s` lines — they are
+copy-pasted by adopters and parsed by `tools/update-adopters.mjs`
+(`wiredSkillKeys()`) and `/ft-update` Step 4 — so **adding or removing a skill
+means editing this block first, then regenerating the three platform blocks by
+substitution.** `/ft-release` §7.1's installed-surface check derives its expected
+set from here and diffs all four blocks against it; there is no hand-maintained
+roster left to drift.
+
 Run these from the project root after adding the flowtron submodule at `.flowtron/core/`:
 
 ```sh

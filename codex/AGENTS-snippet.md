@@ -11,6 +11,16 @@ Do not maintain a second copy here.
 
 ## One-time skill wiring
 
+**Derived surface.** The roster is not decided here. It is defined once in
+[`claude/AGENTS-snippet.md`](../claude/AGENTS-snippet.md) §"One-time symlink
+wiring", and the block below is that roster under one substitution — source
+`claude/skills/<n>` → `codex/skills/<n>`, destination `.claude/skills/<n>` →
+`.agents/skills/<n>`, `claude/commands/` lines dropped (Codex has no command
+stubs), lines sorted. Adding or removing a skill means editing the SSOT and
+regenerating this block, never editing this block alone. It stays a literal
+`ln -s` list because adopters copy-paste it and `tools/update-adopters.mjs`
+parses it; `/ft-release` §7.1 diffs it against the SSOT as a set.
+
 Codex discovers repo-scoped skills from `.agents/skills` in the current
 directory walk. From an adopting project's repository root, after adding the
 flowtron submodule at `.flowtron/core`, wire the adopter-facing Flowtron skill
@@ -41,6 +51,26 @@ The canonical category table lives in
 `.flowtron/core/docs/PLATFORMS.md` §"Installed-surface policy".
 Codex's built-in CLI slash commands do not define arbitrary custom `/ft-*`
 commands; the stable exported surface is the `ft-*` skill name.
+
+## Translation rules
+
+Every wrapper under `codex/skills/` is a thin pointer at a canonical body that
+was written for Claude Code. These are the rules for reading such a body from
+Codex. They live here once rather than restated in each wrapper, so a change to
+how Codex translates lands in one place:
+
+- Use a concise prose question when the source skill asks for a structured ask
+  and no Codex structured prompt is available.
+- Invoke sibling Flowtron Codex skills by their `ft-*` names when a source step
+  references another skill.
+- Treat `.claude/` paths as Claude-only install paths; Codex install paths are
+  documented in §"One-time skill wiring" above.
+
+Treat `../SPEC.md` and the lazy modules under `../SPEC/` as authoritative when
+source instructions diverge from the contract.
+
+A wrapper may add a rule of its own — `ft-task` names one for its lazy fragments
+— but never restates these.
 
 ## Pinning notes
 

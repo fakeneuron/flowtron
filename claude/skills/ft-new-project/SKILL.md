@@ -55,9 +55,9 @@ The `checkout` step is what pins the project to a specific flowtron commit. Skip
 
 Reference: `docs/MIGRATION.md` §1.1.
 
-## Step 3 — Wire /ft-task, /ft-starter-task, /ft-micro-task, /ft-file-followup, /ft-epic-discovery, /ft-close-epic, /ft-worktree-start, /ft-worktree-end, /ft-update, /ft-goal-task, /ft-spec, /ft-refactor via symlinks
+## Step 3 — Wire the adopter skill subset via symlinks
 
-Read `.flowtron/core/claude/AGENTS-snippet.md` and run the bash block under the §"One-time symlink wiring" heading from the project root. Run it verbatim — relative paths are intentional (they survive `git clone` and pin to whichever flowtron commit the submodule is checked out at). Do not substitute absolute paths.
+Read `.flowtron/core/claude/AGENTS-snippet.md` and run the bash block under the §"One-time symlink wiring" heading from the project root. That block is the single source of truth for which skills an adopter installs — this skill never restates the roster, so it cannot drift from it. Run it verbatim — relative paths are intentional (they survive `git clone` and pin to whichever flowtron commit the submodule is checked out at). Do not substitute absolute paths.
 
 **Cursor note:** Cursor loads `.claude/skills/` as a documented compatibility surface, so this Claude wiring already serves Cursor sessions. For a Cursor-only project (no `.claude/`), follow `.flowtron/core/cursor/AGENTS-snippet.md` §"One-time symlink wiring" instead — see `docs/MIGRATION.md` §1.2.
 
@@ -97,21 +97,13 @@ Reference: `docs/MIGRATION.md` §1.5.
 Stage the bootstrap files explicitly. Do **not** use `git add .` or `git add -A` — the project may have unrelated unstaged work that should not be bundled into the adoption commit:
 
 ```sh
-git add .gitmodules .flowtron/core .flowtron/PLAN.md .flowtron/tasknote/ \
-        .claude/commands/ft-task.md .claude/commands/ft-starter-task.md .claude/commands/ft-micro-task.md .claude/commands/ft-file-followup.md .claude/commands/ft-epic-discovery.md .claude/commands/ft-close-epic.md \
-        .claude/commands/ft-worktree-start.md .claude/commands/ft-worktree-end.md \
-        .claude/commands/ft-update.md \
-        .claude/commands/ft-goal-task.md \
-        .claude/commands/ft-spec.md \
-        .claude/commands/ft-refactor.md \
-        .claude/skills/ft-task .claude/skills/ft-starter-task .claude/skills/ft-micro-task .claude/skills/ft-file-followup .claude/skills/ft-epic-discovery .claude/skills/ft-close-epic \
-        .claude/skills/ft-worktree-start .claude/skills/ft-worktree-end \
-        .claude/skills/ft-update \
-        .claude/skills/ft-goal-task \
-        .claude/skills/ft-spec \
-        .claude/skills/ft-refactor \
-        AGENTS.md
+git add .gitmodules .flowtron/core .flowtron/PLAN.md .flowtron/tasknote/ AGENTS.md
+grep '^ln -s' .flowtron/core/claude/AGENTS-snippet.md | awk '{print $NF}' | xargs git add
 ```
+
+The second line stages exactly the symlinks Step 3 created, read back from the
+snippet that created them — no roster is restated here, so a skill added
+upstream is staged the day it ships.
 
 Surface the proposed commit message and wait for commit-go (e.g. "yes", "go", "commit"). Do not commit unprompted — same protocol as the `/ft-task` post-closure flow.
 
@@ -123,36 +115,18 @@ Reference: `docs/MIGRATION.md` §1.6.
 
 ## Step 8 — Verify and hand off
 
-Confirm all twenty-four symlinks resolve correctly:
+Confirm every symlink Step 3 created resolves — derived from the snippet, not
+from a restated list, so the check never falls behind the roster:
 
 ```sh
-readlink .claude/commands/ft-task.md            # → ../../.flowtron/core/claude/commands/ft-task.md
-readlink .claude/commands/ft-starter-task.md    # → ../../.flowtron/core/claude/commands/ft-starter-task.md
-readlink .claude/commands/ft-micro-task.md      # → ../../.flowtron/core/claude/commands/ft-micro-task.md
-readlink .claude/commands/ft-file-followup.md   # → ../../.flowtron/core/claude/commands/ft-file-followup.md
-readlink .claude/commands/ft-epic-discovery.md  # → ../../.flowtron/core/claude/commands/ft-epic-discovery.md
-readlink .claude/commands/ft-close-epic.md      # → ../../.flowtron/core/claude/commands/ft-close-epic.md
-readlink .claude/skills/ft-task                 # → ../../.flowtron/core/claude/skills/ft-task
-readlink .claude/skills/ft-starter-task         # → ../../.flowtron/core/claude/skills/ft-starter-task
-readlink .claude/skills/ft-micro-task           # → ../../.flowtron/core/claude/skills/ft-micro-task
-readlink .claude/skills/ft-file-followup        # → ../../.flowtron/core/claude/skills/ft-file-followup
-readlink .claude/skills/ft-epic-discovery       # → ../../.flowtron/core/claude/skills/ft-epic-discovery
-readlink .claude/skills/ft-close-epic           # → ../../.flowtron/core/claude/skills/ft-close-epic
-readlink .claude/commands/ft-worktree-start.md   # → ../../.flowtron/core/claude/commands/ft-worktree-start.md
-readlink .claude/commands/ft-worktree-end.md     # → ../../.flowtron/core/claude/commands/ft-worktree-end.md
-readlink .claude/skills/ft-worktree-start        # → ../../.flowtron/core/claude/skills/ft-worktree-start
-readlink .claude/skills/ft-worktree-end          # → ../../.flowtron/core/claude/skills/ft-worktree-end
-readlink .claude/commands/ft-update.md           # → ../../.flowtron/core/claude/commands/ft-update.md
-readlink .claude/skills/ft-update                # → ../../.flowtron/core/claude/skills/ft-update
-readlink .claude/commands/ft-goal-task.md        # → ../../.flowtron/core/claude/commands/ft-goal-task.md
-readlink .claude/skills/ft-goal-task             # → ../../.flowtron/core/claude/skills/ft-goal-task
-readlink .claude/commands/ft-spec.md             # → ../../.flowtron/core/claude/commands/ft-spec.md
-readlink .claude/skills/ft-spec                  # → ../../.flowtron/core/claude/skills/ft-spec
-readlink .claude/commands/ft-refactor.md         # → ../../.flowtron/core/claude/commands/ft-refactor.md
-readlink .claude/skills/ft-refactor              # → ../../.flowtron/core/claude/skills/ft-refactor
+grep '^ln -s' .flowtron/core/claude/AGENTS-snippet.md | awk '{print $NF}' |
+  while read -r l; do
+    [ -e "$l" ] || echo "BROKEN  $l -> $(readlink "$l")"
+  done
 ```
 
-If any resolves wrong, fix before reporting success.
+No output means every link resolves into the submodule. Any `BROKEN` line names
+the symlink to re-create from the snippet — fix before reporting success.
 
 Then surface to the user, in one short message:
 
