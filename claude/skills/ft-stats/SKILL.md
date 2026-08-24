@@ -1,14 +1,15 @@
 ---
 name: ft-stats
-description: Show flowtron stats — `[model]` distribution, completion velocity, per-area volume — aggregated from `.flowtron/PLAN.md` `## Completed` data. Use when the user asks to see flowtron stats, completion velocity, or model distribution. Read-only; with `--write`, also flushes the screen to `.flowtron/STATS.md`.
+description: Show flowtron stats — `[model]` distribution, completion velocity, per-area volume — aggregated from `.flowtron/PLAN.md` `## Completed` plus `.flowtron/PLAN-ARCHIVE.md` when present. Use when the user asks to see flowtron stats, completion velocity, or model distribution. Read-only; with `--write`, also flushes the screen to `.flowtron/STATS.md`.
 ---
 
 # flowtron — stats screen
 
-Output an analysis screen aggregating the `## Completed` data in
-`.flowtron/PLAN.md`: `[model]` distribution, completion velocity, and per-area
-volume. Read-only by default. With the `--write` arg, also flushes the same
-screen content to `.flowtron/STATS.md` (overwrite).
+Output an analysis screen aggregating closed-row history from
+`.flowtron/PLAN.md` `## Completed` **and** `.flowtron/PLAN-ARCHIVE.md` (when
+present): `[model]` distribution, completion velocity, and per-area volume.
+Read-only by default. With the `--write` arg, also flushes the same screen
+content to `.flowtron/STATS.md` (overwrite).
 
 The skill is markdown-only — the assistant does the parsing and aggregation
 inline at invocation time, like every other flowtron skill. No CLI, no
@@ -20,6 +21,10 @@ executable surface (per `SPEC.md` §"What flowtron does NOT provide").
   contexts — adopters keep their own PLAN.md at this path; flowtron-self uses
   the same path for its own roadmap). If the file is absent, stop and tell
   the user this directory doesn't look like a flowtron-using project.
+- **PLAN-ARCHIVE.md path:** `.flowtron/PLAN-ARCHIVE.md`. Optional — absent
+  until a project's first rotation. Treat absence as an empty archive (zero
+  rows), never an error. Contract:
+  `SPEC/tasknote-selection.md` §"`## Completed` rotation" · Consumers.
 - **Args:** if `$ARGUMENTS` contains the token `--write` (whitespace-delimited),
   set `WRITE_OUT = .flowtron/STATS.md`; otherwise `WRITE_OUT = null`. Unknown
   args (anything other than `--write`) → stop and surface the usage:
@@ -30,26 +35,42 @@ executable surface (per `SPEC.md` §"What flowtron does NOT provide").
 
 ## Step 1 — Parse `## Completed` entries
 
-Find the `## Completed` heading in PLAN.md. Read every list item beneath it
-until the next H2 heading (`## …`) or end-of-file. For each line:
+Collect checked rows from **both** history files, then concatenate
+(PLAN first, archive second). Rotation moves rows; do not deduplicate.
+
+**PLAN.md.** Find the bare `## Completed` heading. Read every list item
+beneath it until the next H2 heading (`## …`) or end-of-file.
+
+**PLAN-ARCHIVE.md** (when present). For every H2 matching
+`## Completed <YYYY-MM>` (month form from the rotation contract), read every
+list item beneath it until the next H2 or end-of-file. Ignore the file's
+prose header above the first month heading. If the file is absent, contribute
+zero rows.
+
+For each candidate line in either file:
 
 1. Strip optional leading indent (2-space child indent for epic subtasks).
 2. Match against the closure stub form from `SPEC.md` §"`## Completed` archive
-   convention":
+   convention" (inline-audit-fix rows use the self-contained description
+   form from the same module's §"Exception — inline audit fixes"):
 
    ```text
    - [x] **<TASK-ID>** [<model>] | <shortname> — Completed <YYYY-MM-DD>.
+   - [x] **<TASK-ID>** [<model>] | <shortname> — … Surfaced by <label> <YYYY-MM-DD> …, fixed inline.
    ```
 
    - `[<model>]` is the model token per SPEC §"Task-line format". Bucket: primary recommended tiers `[heavy]` / `[medium]` / `[light]` (from CORE-256); named concrete buckets `fable` / `opus` / `sonnet` / `haiku` — the current Claude roster per SPEC/model.md (`opus`/`sonnet` also carry historical entries; `fable` added in CORE-303, `haiku` in CORE-373); any other (e.g. limited-access `mythos`, agent-specific `grok`, `gpt-5`, or historical) → `other`; absent `[<model>]` → `legacy`.
    - `| <shortname>` is optional (legacy entries may omit it).
-   - The trailing date marker `Completed <YYYY-MM-DD>.` is the canonical date
-     source. Both stub-form and legacy paragraph-form lines that carry this
-     token parse cleanly.
+   - **Date resolution** (same order as `SPEC/tasknote-selection.md`
+     §"`## Completed` rotation"): prefer the trailing `Completed <YYYY-MM-DD>.`
+     token when present; otherwise take the date from the mandatory
+     `Surfaced by <audit-label> <YYYY-MM-DD>` clause on inline-audit-fix
+     rows. Both stub-form and legacy paragraph-form lines that carry either
+     token parse cleanly. When a line carries both (rare), prefer `Completed`.
 3. Lines that don't start with `- [x] **<AREA>-...**` are skipped silently
    (blank lines, prose, sub-bullets).
-4. Lines that match the prefix but lack a `Completed <YYYY-MM-DD>.` token
-   are skipped with a 1-line footer warning citing the `<TASK-ID>`.
+4. Lines that match the prefix but resolve to **neither** date source are
+   skipped with a 1-line footer warning citing the `<TASK-ID>`.
 
 For each parsed entry, capture:
 
@@ -58,7 +79,7 @@ For each parsed entry, capture:
 | `task_id` | bold ID (e.g., `CORE-097.2`, `FE-EPIC-033`) |
 | `area` | prefix before the first `-` (`CORE`, `FE`, `BE`, `DB`, `DEPLOY`, `TEST`, or an adopter domain prefix) |
 | `model` | `heavy` \| `medium` \| `light` \| `fable` \| `opus` \| `sonnet` \| `haiku` \| `other` \| `legacy` |
-| `date` | `YYYY-MM-DD` from the `Completed` marker |
+| `date` | `YYYY-MM-DD` from date resolution above |
 | `is_subtask` | true if `task_id` matches `<AREA>-<N>.<SUB>` |
 | `is_epic_parent` | true if `task_id` matches `<AREA>-EPIC-<N>` |
 
@@ -124,7 +145,7 @@ from Step 2.
 ```text
 # flowtron stats — <today>
 
-Source: `.flowtron/PLAN.md` `## Completed` — <N> entries parsed<, M skipped>
+Source: `.flowtron/PLAN.md` `## Completed`[+ `.flowtron/PLAN-ARCHIVE.md`] — <N> entries parsed[, M skipped]
 Last 30d window: <today − 30> → <today> (inclusive)
 
 ## Model distribution
@@ -139,7 +160,11 @@ Last 30d window: <today − 30> → <today> (inclusive)
 <Skipped-lines footer if any — one line per skipped entry, citing the TASK-ID>
 ```
 
-The `, M skipped` segment is omitted entirely when no lines were skipped.
+Bracketed segments in the Source line are optional. When
+`.flowtron/PLAN-ARCHIVE.md` exists, append a space-plus-path segment naming
+that file after the PLAN.md clause (even if the archive contributed zero rows
+this run). When the archive file is absent, omit that segment. Omit the
+`, M skipped` segment when no lines were skipped.
 
 ## Step 4 — Optional `--write`
 

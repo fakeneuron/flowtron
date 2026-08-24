@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-470** [light]🔧 | ft-stats-plan-archive — Extend `/ft-stats` Step 1 to parse `.flowtron/PLAN-ARCHIVE.md` in addition to `PLAN.md` so all-time velocity and model distribution stay whole after rotation; treat a missing file as an empty archive. Also worth reconsidering the existing skip-with-warning on rows lacking a `Completed YYYY-MM-DD.` token — those are inline-audit-fix rows whose date lives in the `Surfaced by … YYYY-MM-DD` clause. Filed by CORE-467.
+(none)
 
 ## Low
 
@@ -28,6 +28,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-470** [light]🔧 | ft-stats-plan-archive — Completed 2026-08-24.
 - [x] **FE-094** [medium]🧩 | viz-parser-plan-archive — Completed 2026-08-24.
 - [x] **CORE-467** [heavy]🧠 | plan-completed-rotation — Completed 2026-08-24.
 - [x] **CORE-468** [medium]🧩 | audit-bootstrap-lazy — Completed 2026-08-24.
