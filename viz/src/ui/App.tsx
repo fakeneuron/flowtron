@@ -1,13 +1,23 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { displaySection, groupBy, effectiveStatus } from './utils';
+import { displaySection } from './utils';
 import {
   getSubtaskParentEpicId,
   groupTasks,
-  isEpic,
   type Priority,
   type Task,
 } from '../parser';
 import { type TasknoteStatus } from '../tasknote';
+import {
+  collectEpicIds,
+  collectVisibleIds,
+  countFiltered,
+  countInProgress,
+  countStarters,
+  emptySections,
+  groupBySection,
+  matchesFilter as matchesTaskFilter,
+  pruneMatchingNodes,
+} from './taskView';
 import { DENSITY_TOKENS, TYPOGRAPHY } from './constants';
 import { VisibilityProvider } from './VisibilityContext';
 import { SearchProvider } from './SearchContext';
@@ -110,104 +120,39 @@ export const App: React.FC = () => {
   );
 
   const matchesFilter = useCallback(
-    (task: Task): boolean => {
-      const tn = tasknotesById.get(task.id);
-      const fm = tn?.frontmatter ?? null;
-
-      if (statusFilter.size > 0) {
-        const s: TasknoteStatus = effectiveStatus(task, tn) ?? 'not-started';
-        if (!statusFilter.has(s)) return false;
-      }
-
-      const q = query.trim().toLowerCase();
-      if (q) {
-        const parts = [
-          task.id,
-          ...(task.shortname ? [task.shortname] : []),
-          task.description,
-          ...(fm ? [fm.status, fm.title] : []),
-        ];
-        if (!parts.join(' ').toLowerCase().includes(q)) return false;
-      }
-      return true;
-    },
+    (task: Task): boolean => matchesTaskFilter(task, tasknotesById, query, statusFilter),
     [tasknotesById, query, statusFilter],
   );
 
   const { nodes: allNodes, duplicateEpics } = useMemo(() => groupTasks(tasks), [tasks]);
 
-  // Single derived tree for count, render, and keyboard-nav: keep a parent
-  // when it or any child matches, but prune non-matching children so "N of M
-  // matching" and j/k stops never include hidden rows (CORE-432.3).
   const filteredNodes = useMemo(
-    () =>
-      allNodes.flatMap((n) => {
-        const children = n.children.filter(matchesFilter);
-        if (!matchesFilter(n.task) && children.length === 0) return [];
-        return [{ task: n.task, children }];
-      }),
+    () => pruneMatchingNodes(allNodes, matchesFilter),
     [allNodes, matchesFilter],
   );
 
-  const bySection = useMemo(() => {
-    const grouped = groupBy(filteredNodes, (n) => displaySection(n.task));
-    const high = grouped.High;
-    if (high && high.length > 1) {
-      // Critical-flagged tasks rise to the top of High (FE-044). Stable sort
-      // preserves source order within the flagged and un-flagged groups.
-      grouped.High = [...high].sort(
-        (a, b) => Number(b.task.critical) - Number(a.task.critical),
-      );
-    }
-    return grouped;
-  }, [filteredNodes]);
+  const bySection = useMemo(() => groupBySection(filteredNodes), [filteredNodes]);
 
   const listViewEmptySections = useMemo(
-    () => SECTIONS.filter((p) => (bySection[p] ?? []).length === 0),
+    () => emptySections(SECTIONS, bySection),
     [bySection],
   );
 
-  const epicIds = useMemo(() => {
-    const set = new Set<string>();
-    for (const node of allNodes) {
-      if (isEpic(node)) set.add(node.task.id);
-    }
-    return set;
-  }, [allNodes]);
+  const epicIds = useMemo(() => collectEpicIds(allNodes), [allNodes]);
 
-  const visibleIds = useMemo(() => {
-    const ids: string[] = [];
-    for (const p of SECTIONS) {
-      if (collapsedSections.has(p)) continue;
-      const nodes = bySection[p] ?? [];
-      for (const node of nodes) {
-        ids.push(node.task.id);
-        if (expandedEpicIds.has(node.task.id)) {
-          for (const c of node.children) ids.push(c.id);
-        }
-      }
-    }
-    return ids;
-  }, [bySection, collapsedSections, expandedEpicIds]);
+  const visibleIds = useMemo(
+    () => collectVisibleIds(SECTIONS, bySection, collapsedSections, expandedEpicIds),
+    [bySection, collapsedSections, expandedEpicIds],
+  );
 
   const total = tasks.length;
-  const filteredCount = useMemo(
-    () => filteredNodes.reduce((sum, n) => sum + 1 + n.children.length, 0),
-    [filteredNodes],
-  );
+  const filteredCount = useMemo(() => countFiltered(filteredNodes), [filteredNodes]);
   const inProgress = useMemo(
-    () =>
-      tasks.filter((t) => {
-        const tn = tasknotesById.get(t.id);
-        const s = effectiveStatus(t, tn);
-        if (s) return s === 'in-progress';
-        return tasknotesById.has(t.id) && !t.completed;
-      }).length,
+    () => countInProgress(tasks, tasknotesById),
     [tasks, tasknotesById],
   );
   const starterCount = useMemo(
-    () =>
-      tasks.filter((t) => tasknotesById.get(t.id)?.frontmatter?.status === 'starter').length,
+    () => countStarters(tasks, tasknotesById),
     [tasks, tasknotesById],
   );
   const starterSuffix =
