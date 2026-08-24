@@ -191,8 +191,11 @@ context windows — need persistent memory that survives the context window:
 state on disk they can reload and resume from. Flowtron's markdown state
 model already is that layer:
 
-- `PLAN.md` — durable intent: priorities, open tasks, and the
-  `## Completed` history in one scannable, git-versioned file.
+- `PLAN.md` — durable intent: priorities, open tasks, and recent
+  `## Completed` history in one scannable, git-versioned file. Older closed
+  rows rotate verbatim to a sibling `PLAN-ARCHIVE.md` so the active plan
+  stays bounded ([SPEC/tasknote-selection.md](SPEC/tasknote-selection.md)
+  §"`## Completed` rotation"); nothing is ever deleted.
 - `tasknote/<ID>.md` — working state for the active task: goal,
   acceptance criteria, subtasks, and the phase log. A fresh session (or a
   sub-agent handed the task) reads one file and picks up where the last

@@ -30,6 +30,12 @@ Illustrative entries (replace TASK-ID with a real <AREA>-<N> id when filing):
   - [ ] **TASK-ID** [light] | shortname — One-line description of a mechanical, clear-diff task.
   - [x] **TASK-ID** [light] | shortname — Completed YYYY-MM-DD.
 
+`## Completed` is bounded (see .flowtron/core/SPEC/tasknote-selection.md
+§"`## Completed` rotation"): past ~150 rows, rotate the oldest whole-month
+blocks into a sibling `.flowtron/PLAN-ARCHIVE.md`. That file does not exist
+until your first rotation, and rotation is an operator motion — nothing here
+auto-applies, and no closed row is ever deleted.
+
 These examples live ABOVE the first `##` heading on purpose: the parser only
 processes checkbox lines *inside* ## High / Medium / Low / Future Opportunities
 / Completed, so illustrative TASK-ID lines here never surface as unparsed

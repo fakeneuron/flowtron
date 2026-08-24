@@ -28,7 +28,7 @@ The skill verifies preconditions (cwd is a git repo with `AGENTS.md` or `CLAUDE.
 |---|---|---|
 | `/ft-new-project` | Adopters (+ flowtron-self) | Bootstrap a new project with flowtron wiring |
 | `/ft-flowtron` | Adopters | Info screen — version, principles, bundled-skill roster (reads `.flowtron/core/SPEC.md`) |
-| `/ft-stats` | Adopters | Stats from `.flowtron/PLAN.md` `## Completed` — `[model]` distribution, velocity, per-area volume; `--write` flushes to `.flowtron/STATS.md` |
+| `/ft-stats` | Adopters | Stats from `.flowtron/PLAN.md` `## Completed` (plus `.flowtron/PLAN-ARCHIVE.md` once rotation has run) — `[model]` distribution, velocity, per-area volume; `--write` flushes to `.flowtron/STATS.md` |
 | `/ft-audit-context` | Adopters (+ flowtron-self) | Adopter-context audit — 4 conversational passes over `CLAUDE.md`, `AGENTS.md`, `.claude/{commands,skills}` for bloat / paste-block redundancy / `ft-*` namespace conflicts / lean-context drift; soft prose recommendations with an offer to file PLAN tickets (no auto-write) |
 | `/ft-audit-repo` | Adopters (+ flowtron-self) | First-contact holistic repo audit — Repo Map discovery, one thin capped sweep, 3–5 thematic synthesis, milestone-sequenced plan filed as flowtron epics, plus delegation hints for focused `/ft-audit <domain>` runs; strictly read-only, no fork. Global install lets you run it on a repo before flowtron is wired in (see §1.2.1) |
 
@@ -257,6 +257,8 @@ cp .flowtron/core/templates/PLAN.md .flowtron/PLAN.md
 ```
 
 Then fill in the project name, vision paragraph, and current task list. Tasks use the area-prefix convention from SPEC.md §"Task ID convention" (`CORE-`, `BE-`, `FE-`, etc.). Project-specific prefixes are allowed; declare them in the next file.
+
+**`.flowtron/PLAN-ARCHIVE.md` appears later — do not create it now.** `## Completed` grows one row per closure and is bounded: once it passes 150 rows, `/ft-task` surfaces a one-line advisory suggesting you rotate the oldest whole-month blocks into a sibling `.flowtron/PLAN-ARCHIVE.md`. Rotation is an operator motion you run when you choose — nothing auto-applies, and no row is ever deleted. See [`SPEC/tasknote-selection.md`](../SPEC/tasknote-selection.md) §"`## Completed` rotation" for the bound, the month-block granularity, and the two never-split rules.
 
 ### 1.5 Create `.flowtron/tasknote/README.md`
 

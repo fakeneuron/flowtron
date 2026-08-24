@@ -6,6 +6,8 @@ This repository is **flowtron** itself. The canonical workflow contract lives
 in `SPEC.md`; read it before starting non-trivial work.
 
 - Plans live in `.flowtron/PLAN.md`.
+- Rotated `## Completed` rows live in `.flowtron/PLAN-ARCHIVE.md` (closed rows
+  only, append-only — see `SPEC/tasknote-selection.md` §"`## Completed` rotation").
 - Active tasknotes live in `.flowtron/tasknote/<TASK-ID>.md`.
 - Completed tasknotes live in `.flowtron/tasknote/archive/<area>/<TASK-ID>.md`.
 - Tasknote templates live in `templates/`.

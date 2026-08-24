@@ -4,7 +4,7 @@ paths: []
 
 # Tasknote selection
 
-> Lazy-loaded SPEC module. Loaded by the filing/runner skills (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release`, `/ft-worktree-{start,end}`) when they need the use/skip thresholds, filing-discipline word budget, filing-commit contract, or `## Completed` archive convention. See `SPEC.md` for the always-loaded core spec.
+> Lazy-loaded SPEC module. Loaded by the filing/runner skills (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release`, `/ft-worktree-{start,end}`) when they need the use/skip thresholds, filing-discipline word budget, filing-commit contract, or the `## Completed` archive + rotation conventions. See `SPEC.md` for the always-loaded core spec.
 
 ## When to use a tasknote (and when not to)
 
@@ -238,6 +238,73 @@ tasknote and no archive file, so its `## Completed` line **retains** a
 short self-contained description plus `Surfaced by <audit-label>
 YYYY-MM-DD (Finding #N, <severity>), fixed inline` — here the line itself
 is the canonical record.
+
+## `## Completed` rotation
+
+`## Completed` grows without bound: every closure appends a row and nothing
+ever removes one. Tasknotes rotate to `.flowtron/tasknote/archive/<area>/`,
+but their PLAN lines never did — so the plan file, which every task reads at
+Step 1 and re-reads at post-closure, carries the entire project history
+forever. **Rotation bounds the section without deleting anything.**
+
+**The bound.** `## Completed` holds at most **100** checked rows (nested epic
+children counted). Past that, older rows belong in the rotation file.
+
+**The rotation file.** `.flowtron/PLAN-ARCHIVE.md`, a sibling of `PLAN.md`.
+Rotated rows are grouped under `## Completed <YYYY-MM>` headings, newest month
+first. Rows move **verbatim** — same stub form, same nesting, same text. The
+file is **append-only**: rotation adds month blocks, and nothing ever rewrites
+an existing one. This is what keeps the §"Exception — inline audit fixes"
+rows above safe, since those lines *are* their own canonical record and have
+no archived tasknote to fall back on.
+
+**Granularity: whole calendar months.** A rotation moves the oldest complete
+month blocks until `## Completed` is at or below the bound. Never a partial
+month — a month block that would cross the boundary stays where it is.
+
+**Date resolution.** A row's month comes from its `Completed <YYYY-MM-DD>.`
+token. Inline-audit-fix rows (§"Exception — inline audit fixes") carry no such
+token — for those, read the date from their mandatory `Surfaced by <audit-label>
+<YYYY-MM-DD>` clause, which is the same day the fix landed. A row that resolves
+to neither is not rotated; leave it in `PLAN.md` and fix its filing instead.
+
+**Two rules that override the bound:**
+
+- **Never rotate the current calendar month.** Recent closures are the context
+  a reader actually wants in the plan file. This rule wins, so `## Completed`
+  may legitimately sit *above* 100 whenever the current month alone exceeds it.
+  The bound is a target, not an invariant.
+- **Never split an epic cohort.** A 2-space-nested child always travels with
+  its parent's block, even when its own `Completed` date falls in an earlier
+  month.
+
+**Rotation is an operator motion.** Nothing applies it automatically. When a
+runner skill reads `PLAN.md` and finds `## Completed` over **150** rows, it
+surfaces a one-line advisory and continues — never blocking, never editing.
+The gap between the 100 bound and the 150 advisory is deliberate hysteresis:
+rotation is periodic hygiene, not a per-task chore. This mirrors the ~50/70-word
+filing-discipline advisory in §"PLAN.md filing-discipline thresholds" — the
+control is the human at the gate, not a validator (`SPEC.md` §"What flowtron
+does NOT provide").
+
+**Why a second file and not a retention window.** Deleting rows past a window
+would destroy the inline-audit-fix records described above, and truncate the
+all-time aggregates `/ft-stats` computes. Rotation loses nothing.
+
+**Why this does not re-open the single-plan-file decision.** flowtron's
+founding adopter migrations collapsed `PLAN.md` + `ROADMAP.md` +
+`PLAN_ARCHIVE.md` + `FUTURE_OPPORTUNITIES.md` into one file, because *active*
+planning spread across four files meant no single place answered "what is
+open?". `PLAN-ARCHIVE.md` holds **closed rows only** and never carries active
+work, so that property is unchanged: `PLAN.md` remains the one file that
+answers what is open. Do not extend the rotation file to hold anything but
+closed rows.
+
+**Consumers.** Readers that need full history — the visualizer's parser and
+`/ft-stats` — read both files and concatenate. Readers that only care about
+open work (every runner skill's Step 1) read `PLAN.md` alone and are the
+motion's beneficiary. The file is absent until a project's first rotation;
+consumers treat absence as an empty archive, never an error.
 
 ## Downstream-impact reconciliation
 

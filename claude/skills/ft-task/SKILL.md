@@ -76,6 +76,15 @@ The full task-line grammar is `- [ ] **TASK-ID** [!critical] [model] | shortname
 
 Informational only — do not block scaffolding; the task is already filed and reworking the filing now is too late. The warning nudges future filings.
 
+**Completed-rotation check (advisory).** While PLAN.md is open, count the checked rows under `## Completed` (nested epic children included). If the count exceeds **150**, surface a one-line warning:
+
+```text
+⚠️ PLAN.md `## Completed` holds <N> rows (>150). Consider rotating older
+   month blocks to `.flowtron/PLAN-ARCHIVE.md`. Proceeding.
+```
+
+Informational only — never block, never rotate. Rotation is an operator motion; the bound, the month-block granularity, and the two never-split rules are canonical in SPEC/tasknote-selection.md §"`## Completed` rotation".
+
 ## Step 1.5 — Model gate (BEFORE scaffolding)
 
 Gate on the `[model]` segment captured in Step 1 before any source reads — heavy thinking shouldn't run on the wrong model. The active model is whatever the assistant is currently running as (ask the user if uncertain). A **concrete** tag (`opus`/`sonnet`/`grok`/…) is matched by exact identity; a **category** tag (`[heavy]`/`[medium]`/`[light]`) is matched by *tier*, not string — see `<SPEC_DIR>/model.md` §"Category-vs-concrete matching" for the tier ladder + rule.

@@ -977,7 +977,9 @@ budget (≤50w target / 70w hard cap), the filing-commit contract (the four
 filing motions — follow-up, park, starter, and `/ft-audit` — auto-commit at
 hand-off since filing approval *is* commit authorization; execution skills keep
 their commit-go gate), the `## Completed` archive
-stub-form convention, and the downstream-impact reconciliation scan (a new
+stub-form convention, the `## Completed` rotation bound (older month blocks
+spill verbatim to `.flowtron/PLAN-ARCHIVE.md` on an operator motion; advisory
+only, nothing deleted), and the downstream-impact reconciliation scan (a new
 filing or a mid-flow direction change triggers a cohesion check against
 active PLAN entries, behind a user-confirm gate).
 
