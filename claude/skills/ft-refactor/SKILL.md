@@ -1,6 +1,6 @@
 ---
 name: ft-refactor
-description: Plan a refactor of one named target as a sequenced, behavior-preserving epic — read-only depth analysis (dependencies, seams, test coverage), an operator-reviewed plan, then files parent `<AREA>-EPIC-<N>` + implementation children from `.2` + a `.N` audit into PLAN.md with a starter tasknote per child carrying characterization-test and behavior-preservation acceptance seeds. Never edits code — execution happens through normal /ft-task cycles. Use when the user asks to plan, stage, or scope a refactor of a specific file, module, directory, or subsystem (including depth escalations recommended by `/ft-audit structure` findings). Invoke with the target as args (e.g., args="src/parser/" or args="backend/models.py --fast").
+description: Plan a refactor of one named target as a sequenced, behavior-preserving epic — read-only depth analysis (dependencies, seams, test coverage), an operator-reviewed plan, then files parent `<AREA>-EPIC-<N>` + implementation children from `.2` + a `.N` audit into PLAN.md with a starter tasknote per child carrying characterization-test and behavior-preservation acceptance seeds. Never edits code — execution happens through normal /ft-task cycles. Use when the user asks to plan, stage, or scope a refactor of a specific file, module, directory, or subsystem (including depth escalations recommended by `/ft-audit structure` findings). Invoke with the target as args (e.g., args="src/parser/" or args="backend/models.py") plus optional --fast.
 ---
 
 # ft-refactor — flowtron refactor depth planner

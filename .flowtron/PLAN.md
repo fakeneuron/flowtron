@@ -15,19 +15,24 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **CORE-464** [medium]🧩 | ci-drift-checks — Add a `drift` job to `.github/workflows/ci.yml` running the release-context-free subset of `/ft-release` §7.1 (wrapper-name invariant, shipped-skill parity, `ft-flowtron` roster diff, mirror Pairs A–C + E, template back-link depth) as inline `run:` steps, so cross-file drift is caught when it lands instead of at the next cut. No new script — the shell already exists in `SKILL.md`; §7.1 stays the release gate. Surfaced by audit-structure 2026-08-23 (Finding #9, High).
+- [ ] **CORE-465** [heavy]🧠 | wiring-roster-ssot — Give the 12-skill adopter-wiring roster a declared SSOT. Promote `claude/AGENTS-snippet.md` §"One-time symlink wiring" (already de-facto authoritative for `/ft-update` Step 4 and `tools/update-adopters.mjs`) and reduce the codex/cursor/grok snippets plus `docs/MIGRATION.md` and `ft-new-project` to path substitutions or pointers; fold the 7-line Codex translation boilerplate out of 17 wrappers into `codex/AGENTS-snippet.md` §"Translation rules". Retire whichever §7.1 checks the SSOT makes vacuous. Sequenced after CORE-464. Surfaced by audit-structure 2026-08-23 (Findings #1 + #3, Medium).
 
 ## Low
 
-(none)
+- [ ] **FE-092** [medium]🧩 | viz-row-dedup — Extract the shared expandable-detail wrapper from `TaskRow.tsx` / `SubtaskRow.tsx` / `EpicRow.tsx` (each independently declares `lazy(() => import('./TaskDetail'))` plus its own ErrorBoundary/Suspense block) and fold `SubtaskRow`'s inline highlight/selection ternary into a parameterized `rowOutlineClass` — it is already stale relative to the helper the other two adopted. Surfaced by audit-structure 2026-08-23 (Finding #2, Medium).
+- [ ] **FE-093** [light]🔧 | viz-architecture-doc — Declare `viz/`'s three tiers (browser UI `src/ui/` · shared pure parsing · Node-only dev API) and the no-Node-imports-under-`src/ui/` rule, so structural audits of the repo's only code surface have a declared boundary to judge against. Surfaced by audit-structure 2026-08-23 (Finding #5, Medium).
+- [ ] **CORE-466** [light]🔧 | neutrality-ledger-gaps — Register the three unledgered contract-layer wiring references in `docs/AGENT-NEUTRALITY.md` (`templates/loop-heartbeat-template.md:1,8` has no row at all; `SPEC/loop.md:17`; `SPEC.md:126-135`) and state who owns ledger currency — the ledger puts re-surveying out of its own scope and no §7.1 check reads it. Surfaced by audit-structure 2026-08-23 (Finding #4, Medium).
 
 ## Future Opportunities
 
-(none)
+- [ ] **CORE-467** [heavy]🧠 | plan-completed-rotation — Decide and declare a bound on `## Completed`. PLAN.md is 78.5 KB (larger than SPEC.md) with 551 completed rows and zero open tasks; tasknotes rotate to `archive/<area>/` but their PLAN lines never do, and `SPEC.md:888` mitigates the symptom rather than the cause. Either a retention window in `SPEC/tasknote-selection.md` §"`## Completed` archive convention" or a split ledger with `/ft-stats` + the viz parser reading both; self-contained inline-fix rows have no archive file and must survive either. Contract change — affects every adopter. Surfaced by audit-structure 2026-08-23 (Finding #7, High).
+- [ ] **CORE-468** [medium]🧩 | audit-bootstrap-lazy — Split `/ft-audit` SKILL.md §1.5 (149 of 311 lines — 48% of the always-loaded dispatcher) into a lazily-loaded `scaffold-bootstrap.md` fragment behind a 3-line §1 step 3 trigger, matching the `ft-task/step-4-debug-mode.md` pattern; reassess whether three resolution branches earn their keep against `docs/CONVENTIONS.md` §"Template override stacking". Surfaced by audit-structure 2026-08-23 (Finding #6, Medium).
 
 
 ## Completed
 
+- [x] **CORE-469** [light]🔧 | ft-refactor-fast-doc — Documented `--fast` outside the `args="…"` illustration in `claude/skills/ft-refactor/SKILL.md`'s `description:`, matching `/ft-spec`'s house style, so `/ft-release` §7.1 Pair B (Claude ↔ Codex description flags) passes. Surfaced by audit-structure 2026-08-23 (Finding #9, High), fixed inline.
 - [x] **CORE-EPIC-463** [heavy]🧠 | refactor-and-structure-audit — Completed 2026-08-23.
   - [x] **CORE-463.1** [heavy]🧠 | refactor-and-structure-audit discovery — Completed 2026-08-23.
   - [x] **CORE-463.2** [heavy]🧠 | structure-domain — Completed 2026-08-23.
