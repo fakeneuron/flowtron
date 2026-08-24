@@ -98,6 +98,49 @@ export function createPlanHandler(
   };
 }
 
+// `.flowtron/PLAN-ARCHIVE.md` is optional history: it does not exist until a
+// project's first `## Completed` rotation, and many adopters will never rotate.
+// Absence is an empty archive, never an error (SPEC/tasknote-selection.md
+// §"`## Completed` rotation" — "consumers treat absence as an empty archive").
+// The same tolerance covers a present-but-unreadable file: a board renders fine
+// from PLAN.md alone, so supplementary history must never be able to 500 it.
+// Containment mirrors createActiveHandler / archiveCache.readArchive — without
+// it a symlinked PLAN-ARCHIVE.md would make any readable file on disk fetchable
+// here (FE-088.2).
+export function createPlanArchiveHandler(
+  projects: Map<string, ProjectDescriptor>,
+): AsyncHandler {
+  return async (req, res) => {
+    applyApiHeaders(res);
+    if (!methodGuard(req, res)) return;
+    if (!originGuard(req, res)) return;
+    const project = projectFromQuery(req, projects);
+    if ('error' in project) {
+      endPlain(res, 400, project.error);
+      return;
+    }
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    const realRoot = await safeRealpath(project.root);
+    if (realRoot === null) {
+      res.end('');
+      return;
+    }
+    // Null covers both "not there" and "resolves outside the project root" —
+    // the response is the same empty archive either way.
+    const realArchive = await realpathWithin(realRoot, project.planArchivePath);
+    if (realArchive === null) {
+      res.end('');
+      return;
+    }
+    try {
+      res.end(await readFile(realArchive, 'utf8'));
+    } catch (e) {
+      console.error(`[devApi] Failed to read PLAN-ARCHIVE.md: ${(e as Error).message}`);
+      res.end('');
+    }
+  };
+}
+
 export function createActiveHandler(
   projects: Map<string, ProjectDescriptor>,
 ): AsyncHandler {

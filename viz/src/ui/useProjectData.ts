@@ -44,8 +44,9 @@ export function useProjectData(activeProject: string | null): {
     if (showSkeleton) setLoading(true);
     try {
       const q = `?project=${encodeURIComponent(project)}`;
-      const [planRes, activeRes, archiveRes] = await Promise.all([
+      const [planRes, planArchiveRes, activeRes, archiveRes] = await Promise.all([
         fetch(`/api/plan${q}`),
+        fetch(`/api/plan-archive${q}`),
         fetch(`/api/active${q}`),
         fetch(`/api/archive${q}`),
       ]);
@@ -53,12 +54,17 @@ export function useProjectData(activeProject: string | null): {
       if (!activeRes.ok) throw new Error(`Tasknote list failed: HTTP ${activeRes.status}`);
       if (!archiveRes.ok) throw new Error(`Archive list failed: HTTP ${archiveRes.status}`);
       const md = await planRes.text();
+      // Rotated `## Completed` history. Unlike the three above this one never
+      // throws: the endpoint already answers an absent archive with an empty
+      // body, and a board that PLAN.md alone can render must not be taken down
+      // by supplementary history.
+      const archiveMd = planArchiveRes.ok ? await planArchiveRes.text() : '';
       const active = (await activeRes.json()) as Tasknote[];
       const archived = (await archiveRes.json()) as Tasknote[];
       if (activeProjectRef.current !== project || loadSeqRef.current !== seq) {
         return;
       }
-      const parsed = parsePlanWithDiagnostics(md);
+      const parsed = parsePlanWithDiagnostics(md, archiveMd);
       setTasks(parsed.tasks);
       setUnparsed(parsed.unparsed);
       setNearMissHeadings(parsed.nearMissHeadings);

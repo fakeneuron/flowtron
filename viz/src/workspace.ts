@@ -11,6 +11,7 @@ export interface ProjectDescriptor {
   name: string;
   root: string;
   planPath: string;
+  planArchivePath: string;
   tasknoteDir: string;
   archiveDir: string;
   flowtronVersion: string | null;
@@ -101,6 +102,10 @@ export async function discoverProjects(root: string): Promise<ProjectDescriptor[
       name: entry.name,
       root: projectRoot,
       planPath,
+      // Optional sibling: it does not exist until a project's first
+      // `## Completed` rotation, so unlike planPath its presence is not a
+      // discovery gate and it is containment-checked at request time instead.
+      planArchivePath: join(projectRoot, '.flowtron', 'PLAN-ARCHIVE.md'),
       tasknoteDir: join(projectRoot, '.flowtron', 'tasknote'),
       archiveDir: join(projectRoot, '.flowtron', 'tasknote', 'archive'),
       flowtronVersion,

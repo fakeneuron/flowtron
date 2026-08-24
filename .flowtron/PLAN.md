@@ -15,7 +15,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **FE-094** [medium]🧩 | viz-parser-plan-archive — Teach `viz/src/parser.ts` to read `.flowtron/PLAN-ARCHIVE.md` alongside `PLAN.md` and concatenate their `## Completed` rows. The archive groups rows under `## Completed <YYYY-MM>` headings, which `SECTION_HEADINGS` does not match today, so rotated history is currently invisible in viz. Absence of the file is an empty archive, never an error. Contract: `SPEC/tasknote-selection.md` §"`## Completed` rotation". Verified pure addition — today's parser reads the archive as 0 tasks with 0 diagnostics rather than mis-parsing it. Filed by CORE-467.
 - [ ] **CORE-470** [light]🔧 | ft-stats-plan-archive — Extend `/ft-stats` Step 1 to parse `.flowtron/PLAN-ARCHIVE.md` in addition to `PLAN.md` so all-time velocity and model distribution stay whole after rotation; treat a missing file as an empty archive. Also worth reconsidering the existing skip-with-warning on rows lacking a `Completed YYYY-MM-DD.` token — those are inline-audit-fix rows whose date lives in the `Surfaced by … YYYY-MM-DD` clause. Filed by CORE-467.
 
 ## Low
@@ -29,6 +28,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-094** [medium]🧩 | viz-parser-plan-archive — Completed 2026-08-24.
 - [x] **CORE-467** [heavy]🧠 | plan-completed-rotation — Completed 2026-08-24.
 - [x] **CORE-468** [medium]🧩 | audit-bootstrap-lazy — Completed 2026-08-24.
 - [x] **CORE-465** [heavy]🧠 | wiring-roster-ssot — Completed 2026-08-24.

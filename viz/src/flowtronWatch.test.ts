@@ -55,6 +55,7 @@ async function makeProject(name: string): Promise<ProjectDescriptor> {
     name,
     root: projectRoot,
     planPath: join(projectDir, 'PLAN.md'),
+    planArchivePath: join(projectDir, 'PLAN-ARCHIVE.md'),
     tasknoteDir,
     archiveDir,
     flowtronVersion: null,

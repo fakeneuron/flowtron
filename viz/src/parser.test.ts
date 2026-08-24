@@ -431,6 +431,118 @@ describe('parsePlan', () => {
   });
 });
 
+// FE-094: `.flowtron/PLAN-ARCHIVE.md` groups rotated rows under
+// `## Completed <YYYY-MM>` headings. Before this the heading matched nothing,
+// so every row below it was skipped and rotated history vanished from the board.
+describe('rotated `## Completed <YYYY-MM>` history', () => {
+  it('parses rows under a month heading as Completed', () => {
+    const md = `## Completed 2026-07
+
+- [x] **CORE-400** [light] | old-work — Completed 2026-07-14.
+`;
+    expect(parsePlan(md)).toEqual([
+      {
+        id: 'CORE-400',
+        // Stub rows carry only the Completed token, which cleanDescription strips.
+        description: '',
+        priority: 'Completed',
+        critical: false,
+        completed: true,
+        completedDate: '2026-07-14',
+        model: 'light',
+        shortname: 'old-work',
+        relatedTasks: [],
+        blockedBy: [],
+      },
+    ]);
+  });
+
+  it('keeps nested epic children under a month heading', () => {
+    const md = `## Completed 2026-06
+
+- [x] **CORE-EPIC-300** | epic — Completed 2026-06-02.
+  - [x] **CORE-300.1** [light] | discovery — Completed 2026-06-01.
+`;
+    expect(parsePlan(md).map((t) => [t.id, t.priority])).toEqual([
+      ['CORE-EPIC-300', 'Completed'],
+      ['CORE-300.1', 'Completed'],
+    ]);
+  });
+
+  it('does not treat a month heading as a near-miss priority typo', () => {
+    const { nearMissHeadings } = parsePlanWithDiagnostics('## Completed 2026-07\n');
+    expect(nearMissHeadings).toEqual([]);
+  });
+
+  it('leaves a malformed month heading unrecognized', () => {
+    // Only `YYYY-MM` — a day-precision or free-text suffix is not the contract.
+    const md = `## Completed 2026-07-14
+
+- [x] **CORE-401** — Completed 2026-07-14.
+`;
+    expect(parsePlan(md)).toEqual([]);
+  });
+
+  it('appends archive tasks after PLAN.md tasks', () => {
+    const plan = `## High
+
+- [ ] **CORE-500** — open work
+
+## Completed
+
+- [x] **CORE-499** — Completed 2026-08-01.
+`;
+    const archive = `# PLAN Archive
+
+## Completed 2026-07
+
+- [x] **CORE-400** — Completed 2026-07-14.
+
+## Completed 2026-06
+
+- [x] **CORE-300** — Completed 2026-06-02.
+`;
+    const { tasks } = parsePlanWithDiagnostics(plan, archive);
+    expect(tasks.map((t) => t.id)).toEqual(['CORE-500', 'CORE-499', 'CORE-400', 'CORE-300']);
+  });
+
+  it('treats an absent archive as empty rather than an error', () => {
+    const plan = '## High\n\n- [ ] **CORE-500** — open work\n';
+    expect(parsePlanWithDiagnostics(plan, '')).toEqual(parsePlanWithDiagnostics(plan));
+    expect(parsePlanWithDiagnostics(plan, undefined)).toEqual(parsePlanWithDiagnostics(plan));
+  });
+
+  it('scopes diagnostics to PLAN.md — archive line numbers never leak into them', () => {
+    const plan = `## High
+
+- [ ] *FE-064* [medium] | bad-bold — single-asterisk ID fails
+`;
+    const archive = `## Completed 2026-07
+
+- [x] **CORE-400** — Completed 2026-07-14.
+- [x] *CORE-401* — malformed archive row
+- [ ] under a lowercase heading below
+
+## completed 2026-06
+`;
+    const { tasks, unparsed, nearMissHeadings } = parsePlanWithDiagnostics(plan, archive);
+    expect(tasks.map((t) => t.id)).toEqual(['CORE-400']);
+    expect(unparsed).toEqual([
+      { line: 3, text: '- [ ] *FE-064* [medium] | bad-bold — single-asterisk ID fails' },
+    ]);
+    expect(nearMissHeadings).toEqual([]);
+  });
+
+  it('groups an epic parent in PLAN.md with a child rotated into the archive', () => {
+    const plan = '## Medium\n\n- [ ] **CORE-EPIC-300** | epic — still open\n';
+    const archive = '## Completed 2026-07\n\n- [x] **CORE-300.1** — Completed 2026-07-14.\n';
+    const { tasks } = parsePlanWithDiagnostics(plan, archive);
+    const { nodes } = groupTasks(tasks);
+    expect(nodes).toHaveLength(1);
+    expect(nodes[0].children.map((c) => c.id)).toEqual(['CORE-300.1']);
+  });
+});
+
 describe('parsePlanWithDiagnostics', () => {
   it('collects checkbox-bullet lines that fail TASK_LINE with 1-based line numbers', () => {
     const md = `## High

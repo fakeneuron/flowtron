@@ -7,6 +7,7 @@ import {
   createActiveHandler,
   createArchiveHandler,
   createEventsHandler,
+  createPlanArchiveHandler,
   createPlanHandler,
   createProjectsHandler,
   projectFromQuery,
@@ -103,7 +104,11 @@ afterEach(async () => {
 
 async function makeProject(
   name: string,
-  opts: { planText?: string; tasknotes?: Record<string, string> } = {},
+  opts: {
+    planText?: string;
+    planArchiveText?: string;
+    tasknotes?: Record<string, string>;
+  } = {},
 ): Promise<ProjectDescriptor> {
   const projectRoot = join(root, name);
   const projectDir = join(projectRoot, '.flowtron');
@@ -112,10 +117,22 @@ async function makeProject(
   await mkdir(archiveDir, { recursive: true });
   const planPath = join(projectDir, 'PLAN.md');
   await writeFile(planPath, opts.planText ?? `## High\n\n- [ ] **${name.toUpperCase()}-001** — seed\n`);
+  // Left unwritten unless a test asks for it: an absent PLAN-ARCHIVE.md is the
+  // normal state of a project that has never rotated.
+  const planArchivePath = join(projectDir, 'PLAN-ARCHIVE.md');
+  if (opts.planArchiveText !== undefined) await writeFile(planArchivePath, opts.planArchiveText);
   for (const [filename, content] of Object.entries(opts.tasknotes ?? {})) {
     await writeFile(join(tasknoteDir, filename), content);
   }
-  return { name, root: projectRoot, planPath, tasknoteDir, archiveDir, flowtronVersion: null };
+  return {
+    name,
+    root: projectRoot,
+    planPath,
+    planArchivePath,
+    tasknoteDir,
+    archiveDir,
+    flowtronVersion: null,
+  };
 }
 
 describe('projectFromQuery', () => {
@@ -124,6 +141,7 @@ describe('projectFromQuery', () => {
       name: 'alpha',
       root: '/tmp/alpha',
       planPath: '/tmp/alpha/.flowtron/PLAN.md',
+      planArchivePath: '/tmp/alpha/.flowtron/PLAN-ARCHIVE.md',
       tasknoteDir: '/tmp/alpha/.flowtron/tasknote',
       archiveDir: '/tmp/alpha/.flowtron/tasknote/archive',
       flowtronVersion: null,
@@ -322,6 +340,115 @@ describe('createPlanHandler', () => {
   });
 });
 
+// FE-094: rotated `## Completed` history. The endpoint's whole contract is that
+// it degrades instead of failing — an absent archive is the normal state.
+describe('createPlanArchiveHandler', () => {
+  it('returns the PLAN-ARCHIVE.md text on the allowed origin', async () => {
+    const planArchiveText = '# PLAN Archive\n\n## Completed 2026-07\n\n- [x] **ALPHA-001** — Completed 2026-07-14.\n';
+    const alpha = await makeProject('alpha', { planArchiveText });
+    const handler = createPlanArchiveHandler(new Map([['alpha', alpha]]));
+    const req = makeReq({
+      url: '/api/plan-archive?project=alpha',
+      headers: { origin: ALLOWED_ORIGIN },
+    });
+    const { res, state } = makeRes();
+
+    await handler(req, res);
+
+    expect(state.headers['content-type']).toBe('text/plain; charset=utf-8');
+    expect(state.headers['x-content-type-options']).toBe('nosniff');
+    expect(state.headers['content-security-policy']).toBe("default-src 'none'");
+    expect(state.body).toBe(planArchiveText);
+  });
+
+  it('returns an empty body when the archive does not exist', async () => {
+    // makeProject writes no PLAN-ARCHIVE.md unless asked — a project that has
+    // never rotated.
+    const alpha = await makeProject('alpha');
+    const handler = createPlanArchiveHandler(new Map([['alpha', alpha]]));
+    const req = makeReq({
+      url: '/api/plan-archive?project=alpha',
+      headers: { origin: ALLOWED_ORIGIN },
+    });
+    const { res, state } = makeRes();
+
+    await handler(req, res);
+
+    expect(state.statusCode).toBe(200);
+    expect(state.body).toBe('');
+    expect(state.headers['content-type']).toBe('text/plain; charset=utf-8');
+  });
+
+  it('returns an empty body when the archive symlinks outside the project root', async () => {
+    const outside = await mkdtemp(join(tmpdir(), 'flowtron-outside-'));
+    const secret = join(outside, 'secret.md');
+    await writeFile(secret, '## Completed 2026-07\n\n- [x] **LEAK-001** — Completed 2026-07-14.\n');
+    const alpha = await makeProject('alpha');
+    await symlink(secret, alpha.planArchivePath);
+    const handler = createPlanArchiveHandler(new Map([['alpha', alpha]]));
+    const req = makeReq({
+      url: '/api/plan-archive?project=alpha',
+      headers: { origin: ALLOWED_ORIGIN },
+    });
+    const { res, state } = makeRes();
+
+    await handler(req, res);
+
+    expect(state.statusCode).toBe(200);
+    expect(state.body).toBe('');
+    expect(state.body).not.toContain('LEAK-001');
+    await rm(outside, { recursive: true, force: true });
+  });
+
+  it('returns a typed 400 that does not echo the requested project name', async () => {
+    const handler = createPlanArchiveHandler(new Map());
+    const req = makeReq({
+      url: '/api/plan-archive?project=ghost',
+      headers: { origin: ALLOWED_ORIGIN },
+    });
+    const { res, state } = makeRes();
+    const logged = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    await handler(req, res);
+
+    expect(state.statusCode).toBe(400);
+    expect(state.body).toBe('unknown project');
+    expect(state.body).not.toContain('ghost');
+    expect(state.headers['content-type']).toBe(PLAIN_TEXT);
+    logged.mockRestore();
+  });
+
+  it('rejects a cross-origin request with 403', async () => {
+    const alpha = await makeProject('alpha', { planArchiveText: 'secret' });
+    const handler = createPlanArchiveHandler(new Map([['alpha', alpha]]));
+    const req = makeReq({
+      url: '/api/plan-archive?project=alpha',
+      headers: { origin: 'https://evil.example' },
+    });
+    const { res, state } = makeRes();
+
+    await handler(req, res);
+
+    expect(state.statusCode).toBe(403);
+    expect(state.body).not.toContain('secret');
+  });
+
+  it('rejects a non-GET/HEAD request with 405', async () => {
+    const handler = createPlanArchiveHandler(new Map());
+    const req = makeReq({
+      url: '/api/plan-archive?project=alpha',
+      method: 'POST',
+      headers: { origin: ALLOWED_ORIGIN },
+    });
+    const { res, state } = makeRes();
+
+    await handler(req, res);
+
+    expect(state.statusCode).toBe(405);
+    expect(state.headers['allow']).toBe('GET, HEAD');
+  });
+});
+
 describe('createActiveHandler', () => {
   it('rejects a cross-origin request with 403', async () => {
     const handler = createActiveHandler(new Map());
@@ -426,6 +553,7 @@ created: 2026-08-21
       name: 'escaper',
       root: projectRoot,
       planPath: join(projectRoot, '.flowtron', 'PLAN.md'),
+      planArchivePath: join(projectRoot, '.flowtron', 'PLAN-ARCHIVE.md'),
       tasknoteDir: join(projectRoot, '.flowtron', 'tasknote'),
       archiveDir: join(projectRoot, '.flowtron', 'tasknote', 'archive'),
       flowtronVersion: null,
@@ -462,6 +590,7 @@ created: 2026-08-21
       name: 'linked',
       root: linkedRoot,
       planPath: join(linkedRoot, '.flowtron', 'PLAN.md'),
+      planArchivePath: join(linkedRoot, '.flowtron', 'PLAN-ARCHIVE.md'),
       tasknoteDir: join(linkedRoot, '.flowtron', 'tasknote'),
       archiveDir: join(linkedRoot, '.flowtron', 'tasknote', 'archive'),
       flowtronVersion: null,

@@ -17,6 +17,11 @@ const latestES = () => esRegistry().at(-1)!;
 const planRes = (md: string) => ({ ok: true, status: 200, text: async () => md });
 const jsonRes = (body: unknown) => ({ ok: true, status: 200, json: async () => body });
 
+// `/api/plan-archive` also starts with `/api/plan` (FE-094), so route checks
+// compare the path exactly rather than by prefix — a prefix test would hand the
+// archive fetch the PLAN.md mock.
+const routeIs = (url: string, route: string) => url.split('?')[0] === route;
+
 const planWith = (id: string) => `## Low\n\n- [ ] **${id}** | t — desc\n`;
 
 afterEach(() => {
@@ -32,7 +37,7 @@ beforeEach(() => {
 describe('useProjectData — same-project load race', () => {
   it('ignores a stale same-project load that resolves after a newer one', async () => {
     // Gate every load generation so the test controls resolution order. A new
-    // generation begins on each /api/plan fetch; active/archive reuse it.
+    // generation begins on each /api/plan fetch; the other three reuse it.
     const gates = new Map<number, Promise<void>>();
     const releases = new Map<number, () => void>();
     const planTextByGen = new Map<number, string>();
@@ -46,13 +51,14 @@ describe('useProjectData — same-project load race', () => {
     };
 
     const fetchMock = vi.fn((url: string) => {
-      if (url.startsWith('/api/plan')) {
+      if (routeIs(url, '/api/plan')) {
         currentGen++;
         ensureGate(currentGen);
       }
       const gen = currentGen;
       return gates.get(gen)!.then(() => {
-        if (url.startsWith('/api/plan')) return planRes(planTextByGen.get(gen) ?? '');
+        if (routeIs(url, '/api/plan')) return planRes(planTextByGen.get(gen) ?? '');
+        if (routeIs(url, '/api/plan-archive')) return planRes('');
         return jsonRes([]);
       });
     });
@@ -95,11 +101,14 @@ describe('useProjectData — same-project load race', () => {
 
 describe('useProjectData — SSE branches', () => {
   let currentPlan: string;
+  let currentArchive: string;
 
   const mountWithLivePlan = () => {
     currentPlan = planWith('FE-1');
+    currentArchive = '';
     const fetchMock = vi.fn((url: string) => {
-      if (url.startsWith('/api/plan')) return Promise.resolve(planRes(currentPlan));
+      if (routeIs(url, '/api/plan')) return Promise.resolve(planRes(currentPlan));
+      if (routeIs(url, '/api/plan-archive')) return Promise.resolve(planRes(currentArchive));
       return Promise.resolve(jsonRes([]));
     });
     vi.stubGlobal('fetch', fetchMock);
@@ -279,5 +288,48 @@ describe('useProjectData — SSE branches', () => {
       await new Promise((r) => setTimeout(r, 0));
     });
     await waitFor(() => expect(hook.result.current.tasks[0]?.id).toBe('FE-2'));
+  });
+});
+
+// FE-094: rotated `## Completed` history reaches the board through a fourth
+// fetch that is never allowed to break it.
+describe('useProjectData — rotated PLAN-ARCHIVE.md', () => {
+  const mountWith = (plan: string, archive: unknown) => {
+    const fetchMock = vi.fn((url: string) => {
+      if (routeIs(url, '/api/plan')) return Promise.resolve(planRes(plan));
+      if (routeIs(url, '/api/plan-archive')) return Promise.resolve(archive);
+      return Promise.resolve(jsonRes([]));
+    });
+    vi.stubGlobal('fetch', fetchMock);
+    return { hook: renderHook(() => useProjectData('p1')), fetchMock };
+  };
+
+  it('concatenates archive rows after PLAN.md rows', async () => {
+    const { hook } = mountWith(
+      planWith('FE-1'),
+      planRes('## Completed 2026-07\n\n- [x] **FE-0** — Completed 2026-07-14.\n'),
+    );
+
+    await waitFor(() => expect(hook.result.current.tasks.map((t) => t.id)).toEqual(['FE-1', 'FE-0']));
+    expect(hook.result.current.tasks[1].priority).toBe('Completed');
+  });
+
+  it('requests the archive alongside the other three endpoints', async () => {
+    const { hook, fetchMock } = mountWith(planWith('FE-1'), planRes(''));
+
+    await waitFor(() => expect(hook.result.current.loading).toBe(false));
+    expect(fetchMock.mock.calls.map((c) => c[0])).toEqual([
+      '/api/plan?project=p1',
+      '/api/plan-archive?project=p1',
+      '/api/active?project=p1',
+      '/api/archive?project=p1',
+    ]);
+  });
+
+  it('renders the board from PLAN.md alone when the archive fetch fails', async () => {
+    const { hook } = mountWith(planWith('FE-1'), { ok: false, status: 500 });
+
+    await waitFor(() => expect(hook.result.current.tasks.map((t) => t.id)).toEqual(['FE-1']));
+    expect(hook.result.current.error).toBeNull();
   });
 });

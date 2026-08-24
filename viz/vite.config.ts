@@ -17,6 +17,7 @@ import {
   createActiveHandler,
   createArchiveHandler,
   createEventsHandler,
+  createPlanArchiveHandler,
   createPlanHandler,
   createProjectsHandler,
 } from './src/devApi.ts';
@@ -115,6 +116,11 @@ function flowtronApi(): Plugin {
 
       server.middlewares.use('/api/projects', createProjectsHandler(projects, latestRelease));
       server.middlewares.use('/api/plan', createPlanHandler(projects));
+      // Distinct route, not a widened /api/plan body: concatenating the two
+      // files server-side would leave parser diagnostics reporting line numbers
+      // that exist in neither. Connect matches mount paths on a `/` or `.`
+      // boundary, so `/api/plan` does not swallow `/api/plan-archive`.
+      server.middlewares.use('/api/plan-archive', createPlanArchiveHandler(projects));
       server.middlewares.use('/api/active', createActiveHandler(projects));
       server.middlewares.use('/api/archive', createArchiveHandler(projects, archiveCache));
     },

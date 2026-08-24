@@ -10,6 +10,7 @@ function project(name: string, root: string): ProjectDescriptor {
     name,
     root: join(root, name),
     planPath: join(flowtron, 'PLAN.md'),
+    planArchivePath: join(flowtron, 'PLAN-ARCHIVE.md'),
     tasknoteDir,
     archiveDir: join(tasknoteDir, 'archive'),
     flowtronVersion: null,

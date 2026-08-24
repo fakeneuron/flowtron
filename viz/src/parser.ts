@@ -39,6 +39,16 @@ const SECTION_HEADINGS = new Set<Priority>([
 // that still carry a `## Critical` section keep parsing without data loss.
 const LEGACY_CRITICAL_HEADING = 'Critical';
 
+// Rotated-history heading (`## Completed 2026-07`). `.flowtron/PLAN-ARCHIVE.md`
+// groups its month blocks under these, newest month first; the rows beneath are
+// verbatim `PLAN.md` stubs, so only the heading needs teaching — the task-line
+// grammar below is untouched. Mapped onto the canonical `Completed` priority
+// inside the heading branch rather than widened into SECTION_HEADINGS, mirroring
+// LEGACY_CRITICAL_HEADING (FE-044): the canonical Priority set stays the five
+// section names the board renders.
+// Contract: SPEC/tasknote-selection.md §"`## Completed` rotation".
+const COMPLETED_MONTH_HEADING = /^Completed\s+\d{4}-\d{2}$/;
+
 // Grammar (see SPEC §"Task-line format"):
 //   - [ ] **TASK-ID** [!critical] [model] | shortname — long description
 // All of `[!critical]`, `[model]`, and `| shortname` are optional. Canonical
@@ -323,7 +333,10 @@ function blankHtmlComments(markdown: string): string {
   return markdown.replace(/<!--[\s\S]*?-->/g, (m) => m.replace(/[^\n]/g, ' '));
 }
 
-export function parsePlanWithDiagnostics(markdown: string): PlanParseResult {
+// One document's worth of scanning. Private because the two documents a board
+// reads are not interchangeable: only `PLAN.md`'s diagnostics reach the caller
+// (see parsePlanWithDiagnostics).
+function scanDocument(markdown: string): PlanParseResult {
   const lines = blankHtmlComments(markdown).split(/\r?\n/);
   const inFence = fenceMask(lines);
   const tasks: Task[] = [];
@@ -343,6 +356,9 @@ export function parsePlanWithDiagnostics(markdown: string): PlanParseResult {
         legacyCriticalSection = true;
       } else if (SECTION_HEADINGS.has(heading as Priority)) {
         currentPriority = heading as Priority;
+        legacyCriticalSection = false;
+      } else if (COMPLETED_MONTH_HEADING.test(heading)) {
+        currentPriority = 'Completed';
         legacyCriticalSection = false;
       } else {
         currentPriority = null;
@@ -396,4 +412,27 @@ export function parsePlanWithDiagnostics(markdown: string): PlanParseResult {
   }
 
   return { tasks, unparsed, nearMissHeadings };
+}
+
+// `PLAN.md` plus, optionally, the rotated history in `.flowtron/PLAN-ARCHIVE.md`.
+// Rotation moves closed rows out of `PLAN.md` verbatim, so a board that reads
+// only the first file loses every rotated month; concatenating the second
+// restores whole history. Absence is an empty archive, never an error — the file
+// does not exist until a project's first rotation.
+//
+// Diagnostics stay `PLAN.md`-only, deliberately. `UnparsedLine.line` /
+// `NearMissHeading.line` are documented as `PLAN.md` line numbers and rendered
+// as "N lines in PLAN.md ..." (FE-063.2); the archive is machine-rotated,
+// append-only, and never hand-authored, so it is not the authoring surface those
+// diagnostics were built to protect. Reporting an archive line number under that
+// banner would point the operator at a line of `PLAN.md` that says something
+// else entirely.
+export function parsePlanWithDiagnostics(
+  markdown: string,
+  archiveMarkdown?: string,
+): PlanParseResult {
+  const plan = scanDocument(markdown);
+  if (!archiveMarkdown) return plan;
+  const archive = scanDocument(archiveMarkdown);
+  return { ...plan, tasks: [...plan.tasks, ...archive.tasks] };
 }
