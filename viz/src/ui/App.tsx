@@ -1,11 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { displaySection } from './utils';
-import {
-  getSubtaskParentEpicId,
-  groupTasks,
-  type Priority,
-  type Task,
-} from '../parser';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
+import { groupTasks, type Priority, type Task } from '../parser';
 import { type TasknoteStatus } from '../tasknote';
 import {
   collectEpicIds,
@@ -26,17 +20,12 @@ import { LoadingSkeleton } from './LoadingSkeleton';
 import { PrioritySection } from './PrioritySection';
 import { SettingsModal } from './SettingsModal';
 import { ShortcutsModal } from './ShortcutsModal';
+import { useBoardSelection } from './useBoardSelection';
 import { useKeyboardNav } from './useKeyboardNav';
 import { LIVE_RECOVERY_MS, useProjectData } from './useProjectData';
 import { useProjects } from './useProjects';
 import { useToggleSet } from './useToggleSet';
-import {
-  DEFAULT_PREFS,
-  readVisibilityPrefs,
-  writeVisibilityPrefs,
-  type VisibilityPrefs,
-} from '../visibilityPrefs';
-import { readStoredViewMode, writeStoredViewMode, type ViewMode } from '../viewMode';
+import { useViewPrefs } from './useViewPrefs';
 import { BoardView } from './BoardView';
 import { DiagnosticBanner } from './DiagnosticBanner';
 import { AppHeader } from './AppHeader';
@@ -51,8 +40,6 @@ const SECTIONS: Priority[] = [
 
 const BOARD_SECTIONS: Priority[] = ['High', 'Medium', 'Low'];
 const BELOW_BOARD_SECTIONS: Priority[] = ['Future Opportunities', 'Completed'];
-
-const HIGHLIGHT_MS = 1500;
 
 export const App: React.FC = () => {
   const {
@@ -75,49 +62,29 @@ export const App: React.FC = () => {
     refresh,
     reset,
   } = useProjectData(activeProject);
+  const { visibilityPrefs, updateVisibilityPrefs, viewMode, updateViewMode } =
+    useViewPrefs(activeProject);
   const loading = initialLoading || (activeProject !== null && dataLoading);
   const errorMessage = projectsError ?? dataError;
 
   const [query, setQuery] = useState<string>('');
   const [statusFilter, , setStatusFilter] = useToggleSet<TasknoteStatus>();
-  const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [collapsedSections, toggleSection, setCollapsedSections] = useToggleSet<Priority>(
-    new Set(['Completed']),
-  );
-  const [expandedEpicIds, toggleEpic, setExpandedEpicIds] = useToggleSet<string>();
-  const [highlightId, setHighlightId] = useState<string | null>(null);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [visibilityPrefs, setVisibilityPrefs] = useState<VisibilityPrefs>(DEFAULT_PREFS);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
-  const [viewMode, setViewMode] = useState<ViewMode>(() => readStoredViewMode());
-  const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
-
-  useEffect(() => {
-    if (!activeProject) return;
-    setVisibilityPrefs(readVisibilityPrefs(activeProject));
-  }, [activeProject]);
-
-  const updateVisibilityPrefs = useCallback(
-    (next: VisibilityPrefs) => {
-      setVisibilityPrefs(next);
-      if (activeProject) writeVisibilityPrefs(activeProject, next);
-    },
-    [activeProject],
-  );
-
-  const updateViewMode = useCallback((next: ViewMode) => {
-    setViewMode(next);
-    writeStoredViewMode(next);
-  }, []);
-
-  useEffect(
-    () => () => {
-      if (highlightTimer.current) clearTimeout(highlightTimer.current);
-    },
-    [],
-  );
+  const {
+    expandedId,
+    setExpandedId,
+    selectedId,
+    setSelectedId,
+    highlightId,
+    collapsedSections,
+    toggleSection,
+    expandedEpicIds,
+    toggleEpic,
+    navigateToTask,
+    resetForProjectSwitch,
+  } = useBoardSelection(tasks);
 
   const matchesFilter = useCallback(
     (task: Task): boolean => matchesTaskFilter(task, tasknotesById, query, statusFilter),
@@ -160,50 +127,11 @@ export const App: React.FC = () => {
     if (name === activeProject) return;
     setQuery('');
     setStatusFilter(new Set());
-    setExpandedId(null);
-    setExpandedEpicIds(new Set());
-    setSelectedId(null);
-    setCollapsedSections(new Set(['Completed']));
-    if (highlightTimer.current) clearTimeout(highlightTimer.current);
-    setHighlightId(null);
+    resetForProjectSwitch();
     window.scrollTo({ top: 0, behavior: 'auto' });
     reset();
     setActiveProject(name);
   };
-
-  const navigateToTask = useCallback(
-    (id: string) => {
-      const target = tasks.find((t) => t.id === id);
-      if (target) {
-        const epicId = getSubtaskParentEpicId(id);
-        const parent = epicId ? tasks.find((t) => t.id === epicId) : undefined;
-        const section = displaySection(parent ?? target);
-        setCollapsedSections((prev) => {
-          if (!prev.has(section)) return prev;
-          const next = new Set(prev);
-          next.delete(section);
-          return next;
-        });
-        if (epicId) {
-          setExpandedEpicIds((prev) => {
-            if (prev.has(epicId)) return prev;
-            const next = new Set(prev);
-            next.add(epicId);
-            return next;
-          });
-        }
-      }
-      requestAnimationFrame(() => {
-        const el = document.getElementById(`row-${id}`);
-        if (!el) return;
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        setHighlightId(id);
-        if (highlightTimer.current) clearTimeout(highlightTimer.current);
-        highlightTimer.current = setTimeout(() => setHighlightId(null), HIGHLIGHT_MS);
-      });
-    },
-    [tasks, setCollapsedSections, setExpandedEpicIds],
-  );
 
   const rowInteraction = useMemo(
     () => ({
