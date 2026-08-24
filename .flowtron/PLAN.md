@@ -15,13 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-463** [heavy]🧠 | refactor-and-structure-audit — Flowtron ships no refactor skill and no structural audit domain, and the `ft-audit` scaffold degrades to generic output in unforked repos. Add a `structure` domain, a `/ft-refactor` depth-planner, and a self-filling scaffold bootstrap (filed via /ft-epic-discovery; refined at .1 closure).
-  - [x] **CORE-463.1** [heavy]🧠 | refactor-and-structure-audit discovery — Completed 2026-08-23.
-  - [x] **CORE-463.2** [heavy]🧠 | structure-domain — Completed 2026-08-23.
-  - [x] **CORE-463.3** [heavy]🧠 | refactor-planner — Completed 2026-08-23.
-  - [x] **CORE-463.4** [heavy]🧠 | audit-scaffold-bootstrap — Completed 2026-08-23.
-  - [x] **CORE-463.5** [medium]🧩 | wiring-and-docs — Completed 2026-08-23.
-  - [ ] **CORE-463.N** [light]🔧 | refactor-and-structure-audit audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
+(none)
 
 ## Low
 
@@ -33,6 +27,14 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 
 ## Completed
+
+- [x] **CORE-EPIC-463** [heavy]🧠 | refactor-and-structure-audit — Completed 2026-08-23.
+  - [x] **CORE-463.1** [heavy]🧠 | refactor-and-structure-audit discovery — Completed 2026-08-23.
+  - [x] **CORE-463.2** [heavy]🧠 | structure-domain — Completed 2026-08-23.
+  - [x] **CORE-463.3** [heavy]🧠 | refactor-planner — Completed 2026-08-23.
+  - [x] **CORE-463.4** [heavy]🧠 | audit-scaffold-bootstrap — Completed 2026-08-23.
+  - [x] **CORE-463.5** [medium]🧩 | wiring-and-docs — Completed 2026-08-23.
+  - [x] **CORE-463.N** [light]🔧 | refactor-and-structure-audit audit — Completed 2026-08-23.
 
 - [x] **CORE-462** [light]🔧 | security-md updater section — Completed 2026-08-22.
 - [x] **CORE-461** [light]🔧 | release-publish-step — Completed 2026-08-22.
