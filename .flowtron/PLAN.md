@@ -17,13 +17,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **CORE-464** [medium]🧩 | ci-drift-checks — Add a `drift` job to `.github/workflows/ci.yml` running the release-context-free subset of `/ft-release` §7.1 (wrapper-name invariant, shipped-skill parity, `ft-flowtron` roster diff, mirror Pairs A–C + E, template back-link depth) as inline `run:` steps, so cross-file drift is caught when it lands instead of at the next cut. No new script — the shell already exists in `SKILL.md`; §7.1 stays the release gate. Surfaced by audit-structure 2026-08-23 (Finding #9, High).
 - [ ] **CORE-465** [heavy]🧠 | wiring-roster-ssot — Give the 12-skill adopter-wiring roster a declared SSOT. Promote `claude/AGENTS-snippet.md` §"One-time symlink wiring" (already de-facto authoritative for `/ft-update` Step 4 and `tools/update-adopters.mjs`) and reduce the codex/cursor/grok snippets plus `docs/MIGRATION.md` and `ft-new-project` to path substitutions or pointers; fold the 7-line Codex translation boilerplate out of 17 wrappers into `codex/AGENTS-snippet.md` §"Translation rules". Retire whichever §7.1 checks the SSOT makes vacuous. Sequenced after CORE-464. Surfaced by audit-structure 2026-08-23 (Findings #1 + #3, Medium).
-- [ ] **FE-EPIC-94** [heavy]🧠 | viz-app-decompose — Decompose `viz/src/ui/App.tsx` (541 lines, six responsibilities in one component) into pure selectors, extracted presentation, and state hooks — behavior-preserving, one seam per child, standing on the ~70-test App-level suite (filed via /ft-refactor; plan on the child starters).
-  - [x] **FE-94.2** [light]🔧 | app-characterization-gaps — Completed 2026-08-23.
-  - [x] **FE-94.3** [medium]🧩 | app-derivation-extract — Completed 2026-08-24.
-  - [x] **FE-94.4** [light]🔧 | app-diagnostics-extract — Completed 2026-08-24.
-  - [x] **FE-94.5** [medium]🧩 | app-header-extract — Completed 2026-08-24.
-  - [x] **FE-94.6** [heavy]🧠 | app-state-hooks — Completed 2026-08-24.
-  - [ ] **FE-94.N** [light]🔧 | viz-app-decompose audit — Verify the decomposed `App.tsx` sits well in `viz/src/ui/`, that no child leaked a behavior change, and that the App-level suite still pins everything it did at FE-94.2.
 
 ## Low
 
@@ -38,6 +31,14 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 
 ## Completed
+
+- [x] **FE-EPIC-94** [heavy]🧠 | viz-app-decompose — Completed 2026-08-24.
+  - [x] **FE-94.2** [light]🔧 | app-characterization-gaps — Completed 2026-08-23.
+  - [x] **FE-94.3** [medium]🧩 | app-derivation-extract — Completed 2026-08-24.
+  - [x] **FE-94.4** [light]🔧 | app-diagnostics-extract — Completed 2026-08-24.
+  - [x] **FE-94.5** [medium]🧩 | app-header-extract — Completed 2026-08-24.
+  - [x] **FE-94.6** [heavy]🧠 | app-state-hooks — Completed 2026-08-24.
+  - [x] **FE-94.N** [light]🔧 | viz-app-decompose audit — Completed 2026-08-24.
 
 - [x] **CORE-469** [light]🔧 | ft-refactor-fast-doc — Documented `--fast` outside the `args="…"` illustration in `claude/skills/ft-refactor/SKILL.md`'s `description:`, matching `/ft-spec`'s house style, so `/ft-release` §7.1 Pair B (Claude ↔ Codex description flags) passes. Surfaced by audit-structure 2026-08-23 (Finding #9, High), fixed inline.
 - [x] **CORE-EPIC-463** [heavy]🧠 | refactor-and-structure-audit — Completed 2026-08-23.
