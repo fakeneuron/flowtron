@@ -30,3 +30,83 @@ jobs:
       - run: node --test tools/update-adopters.test.mjs
       - run: node --check tools/update-adopters.test.mjs
       - run: node --check tools/update-adopters.mjs
+
+  # Cross-file drift checks — the release-context-free subset of /ft-release
+  # §7.1 (plus SPEC.md §"Skill namespace"), so drift is caught on the commit
+  # that lands it instead of at the next cut. §7.1 remains the release gate and
+  # the broader superset; nothing here replaces it.
+  #
+  # Keep every step in the `- name:` + `run: |` shape. §7.1 Pair H extracts this
+  # workflow's commands with `grep -E '^      - run: '` and diffs them against
+  # AGENTS.md §"Validation" — a single-line `- run:` here would leak into that
+  # extraction and break the release gate.
+  #
+  # The §7.1 blocks print their findings but exit 0, so each loop below carries
+  # a `bad=` accumulator to turn a finding into a failing step. Do not "simplify"
+  # that to `out=$(for … done)`: bash's `$( )` parser reads a `case` pattern's
+  # closing `)` as the end of the substitution, and the roster flag check below
+  # dies with `syntax error near unexpected token ';;'`.
+  drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+
+      - name: Wrapper-name invariant (SPEC.md §"Skill namespace")
+        run: |
+          bad=
+          for f in claude/commands/ft-*.md; do
+            grep -q "\`$(basename "$f" .md)\`" "$f" || { echo "NO SELF-NAME  $f"; bad=1; }
+          done
+          [ -z "$bad" ] || exit 1
+
+      - name: Shipped-skill parity (claude/skills ↔ codex/skills)
+        run: |
+          diff -u <(find claude/skills -mindepth 1 -maxdepth 1 -type d -exec test -f "{}/SKILL.md" \; -print | sed 's#^claude/skills/##' | sort) \
+                  <(find codex/skills  -mindepth 1 -maxdepth 1 -type d -exec test -f "{}/SKILL.md" \; -print | sed 's#^codex/skills/##' | sort)
+
+      - name: Pair A — templates roster clause present in all three surfaces
+        run: |
+          # Presence only. The content half — every file in templates/ named by
+          # every clause — needs a filename-to-token derivation that exists
+          # nowhere in the repo, and stays a §7.1 judgment call.
+          bad=
+          for f in README.md SPEC.md claude/skills/ft-flowtron/SKILL.md; do
+            grep -q 'tasknote templates (full' "$f" || { echo "NO ROSTER CLAUSE  $f"; bad=1; }
+          done
+          [ -z "$bad" ] || exit 1
+
+      - name: Pair B — Claude skill flags ↔ Codex wrapper descriptions
+        run: |
+          bad=
+          for d in claude/skills/ft-*/SKILL.md; do
+            s=$(basename "$(dirname "$d")"); c="codex/skills/$s/SKILL.md"; [ -f "$c" ] || continue
+            cf=$(grep -m1 '^description:' "$d" | sed -E 's/"[^"]*"//g' | grep -oE '\-\-[a-z][a-z-]+' | sort -u | tr '\n' ' ')
+            xf=$(grep -m1 '^description:' "$c" | sed -E 's/"[^"]*"//g' | grep -oE '\-\-[a-z][a-z-]+' | sort -u | tr '\n' ' ')
+            [ "$cf" = "$xf" ] || { echo "MISMATCH $s | claude:[$cf] codex:[$xf]"; bad=1; }
+          done
+          [ -z "$bad" ] || exit 1
+
+      - name: Pair C — template back-link depth
+        run: |
+          if grep -rn '](\.\./\.\./PLAN\.md)' templates/; then
+            echo "template back-link is one level too deep; skills write templates one level under .flowtron/"
+            exit 1
+          fi
+
+      - name: Pair E — ft-flowtron roster row coverage
+        run: |
+          diff -u <(ls claude/skills | grep '^ft-' | sort) \
+                  <(grep -oE '^\| `/ft-[a-z-]+`' claude/skills/ft-flowtron/SKILL.md | sed -E 's#^\| `/##; s#`$##' | sort)
+
+      - name: Pair E — ft-flowtron roster flag coverage
+        run: |
+          r=claude/skills/ft-flowtron/SKILL.md
+          bad=
+          for d in claude/skills/ft-*/SKILL.md; do
+            s=$(basename "$(dirname "$d")")
+            row=$(grep -m1 "^| \`/$s\` |" "$r") || { echo "MISSING ROW  $s"; bad=1; continue; }
+            for f in $(grep -m1 '^description:' "$d" | sed -E 's/"[^"]*"//g' | grep -oE '\-\-[a-z][a-z-]+' | sort -u); do
+              case "$row" in *"$f"*) ;; *) echo "MISSING FLAG $s $f"; bad=1 ;; esac
+            done
+          done
+          [ -z "$bad" ] || exit 1

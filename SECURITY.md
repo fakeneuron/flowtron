@@ -126,10 +126,14 @@ invocations will execute.
 
 ### GitHub Actions CI
 
-`.github/workflows/ci.yml` runs the AGENTS.md §"Validation" roster on
-push and pull request to `main`. That is an execution surface the rest
-of this document did not cover: a contributor PR's tree is checked out
-and its tests run on a GitHub-hosted runner.
+`.github/workflows/ci.yml` runs the AGENTS.md §"Validation" roster
+(`validate`) and the cross-file drift checks described in
+[docs/CONVENTIONS.md](docs/CONVENTIONS.md) §"GitHub Actions CI"
+(`drift`) on push and pull request to `main`. That is an execution
+surface the rest of this document did not cover: a contributor PR's tree
+is checked out and its tests run on a GitHub-hosted runner. Both jobs
+inherit the workflow-level `permissions: contents: read` and the same
+SHA-pinned `actions/checkout`, so the posture below covers both.
 
 The realistic compromise paths are (1) a mutable action tag silently
 moving to malicious code, and (2) a workflow that grants the job more

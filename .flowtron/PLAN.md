@@ -15,7 +15,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-464** [medium]🧩 | ci-drift-checks — Add a `drift` job to `.github/workflows/ci.yml` running the release-context-free subset of `/ft-release` §7.1 (wrapper-name invariant, shipped-skill parity, `ft-flowtron` roster diff, mirror Pairs A–C + E, template back-link depth) as inline `run:` steps, so cross-file drift is caught when it lands instead of at the next cut. No new script — the shell already exists in `SKILL.md`; §7.1 stays the release gate. Surfaced by audit-structure 2026-08-23 (Finding #9, High).
 - [ ] **CORE-465** [heavy]🧠 | wiring-roster-ssot — Give the 12-skill adopter-wiring roster a declared SSOT. Promote `claude/AGENTS-snippet.md` §"One-time symlink wiring" (already de-facto authoritative for `/ft-update` Step 4 and `tools/update-adopters.mjs`) and reduce the codex/cursor/grok snippets plus `docs/MIGRATION.md` and `ft-new-project` to path substitutions or pointers; fold the 7-line Codex translation boilerplate out of 17 wrappers into `codex/AGENTS-snippet.md` §"Translation rules". Retire whichever §7.1 checks the SSOT makes vacuous. Sequenced after CORE-464. Surfaced by audit-structure 2026-08-23 (Findings #1 + #3, Medium).
 
 ## Low
@@ -31,6 +30,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-464** [medium]🧩 | ci-drift-checks — Completed 2026-08-24.
 - [x] **FE-093** [light]🔧 | viz-architecture-doc — Completed 2026-08-24.
 - [x] **FE-EPIC-94** [heavy]🧠 | viz-app-decompose — Completed 2026-08-24.
   - [x] **FE-94.2** [light]🔧 | app-characterization-gaps — Completed 2026-08-23.
