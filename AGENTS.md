@@ -34,7 +34,7 @@ small direct change.
   and design rationale.
 - `templates/` — canonical markdown templates.
 - `tools/` — operator-side fleet scripts (`update-adopters.mjs` + tests).
-- `viz/` — Vite/React/TypeScript visualizer.
+- `viz/` — Vite/React/TypeScript visualizer (module tiers + no-Node-under-`src/ui/` rule: [`viz/README.md`](viz/README.md)).
 
 ## Validation
 

@@ -21,7 +21,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Low
 
 - [ ] **FE-092** [medium]🧩 | viz-row-dedup — Extract the shared expandable-detail wrapper from `TaskRow.tsx` / `SubtaskRow.tsx` / `EpicRow.tsx` (each independently declares `lazy(() => import('./TaskDetail'))` plus its own ErrorBoundary/Suspense block) and fold `SubtaskRow`'s inline highlight/selection ternary into a parameterized `rowOutlineClass` — it is already stale relative to the helper the other two adopted. Surfaced by audit-structure 2026-08-23 (Finding #2, Medium).
-- [ ] **FE-093** [light]🔧 | viz-architecture-doc — Declare `viz/`'s three tiers (browser UI `src/ui/` · shared pure parsing · Node-only dev API) and the no-Node-imports-under-`src/ui/` rule, so structural audits of the repo's only code surface have a declared boundary to judge against. Surfaced by audit-structure 2026-08-23 (Finding #5, Medium).
 - [ ] **CORE-466** [light]🔧 | neutrality-ledger-gaps — Register the three unledgered contract-layer wiring references in `docs/AGENT-NEUTRALITY.md` (`templates/loop-heartbeat-template.md:1,8` has no row at all; `SPEC/loop.md:17`; `SPEC.md:126-135`) and state who owns ledger currency — the ledger puts re-surveying out of its own scope and no §7.1 check reads it. Surfaced by audit-structure 2026-08-23 (Finding #4, Medium).
 
 ## Future Opportunities
@@ -32,6 +31,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-093** [light]🔧 | viz-architecture-doc — Completed 2026-08-24.
 - [x] **FE-EPIC-94** [heavy]🧠 | viz-app-decompose — Completed 2026-08-24.
   - [x] **FE-94.2** [light]🔧 | app-characterization-gaps — Completed 2026-08-23.
   - [x] **FE-94.3** [medium]🧩 | app-derivation-extract — Completed 2026-08-24.
