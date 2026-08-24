@@ -21,7 +21,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **FE-94.2** [light]🔧 | app-characterization-gaps — Completed 2026-08-23.
   - [x] **FE-94.3** [medium]🧩 | app-derivation-extract — Completed 2026-08-24.
   - [x] **FE-94.4** [light]🔧 | app-diagnostics-extract — Completed 2026-08-24.
-  - [ ] **FE-94.5** [medium]🧩 | app-header-extract — Move the ~100-line header — title, stats line, badge row, view-mode toggle, search input, shortcuts/settings buttons, `ProjectSelector` — into `AppHeader.tsx` behind an explicit props contract, composed from FE-94.4's extracted pieces.
+  - [x] **FE-94.5** [medium]🧩 | app-header-extract — Completed 2026-08-24.
   - [ ] **FE-94.6** [heavy]🧠 | app-state-hooks — Extract `useViewPrefs` (per-project visibility prefs + view-mode persistence) and `useBoardSelection` (expanded/selected/highlight/collapsed sets, `navigateToTask`'s rAF+timer, and the reset `handleSelectProject` fans out). Riskiest seam — last, on everything pinned.
   - [ ] **FE-94.N** [light]🔧 | viz-app-decompose audit — Verify the decomposed `App.tsx` sits well in `viz/src/ui/`, that no child leaked a behavior change, and that the App-level suite still pins everything it did at FE-94.2.
 

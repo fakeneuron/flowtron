@@ -24,10 +24,8 @@ import { SearchProvider } from './SearchContext';
 import { RowInteractionProvider } from './RowInteractionContext';
 import { LoadingSkeleton } from './LoadingSkeleton';
 import { PrioritySection } from './PrioritySection';
-import { ProjectSelector } from './ProjectSelector';
 import { SettingsModal } from './SettingsModal';
 import { ShortcutsModal } from './ShortcutsModal';
-import { ThemeToggle } from './ThemeToggle';
 import { useKeyboardNav } from './useKeyboardNav';
 import { LIVE_RECOVERY_MS, useProjectData } from './useProjectData';
 import { useProjects } from './useProjects';
@@ -40,8 +38,8 @@ import {
 } from '../visibilityPrefs';
 import { readStoredViewMode, writeStoredViewMode, type ViewMode } from '../viewMode';
 import { BoardView } from './BoardView';
-import { HeaderBadge } from './HeaderBadge';
 import { DiagnosticBanner } from './DiagnosticBanner';
+import { AppHeader } from './AppHeader';
 
 const SECTIONS: Priority[] = [
   'High',
@@ -157,8 +155,6 @@ export const App: React.FC = () => {
     () => countStarters(tasks, tasknotesById),
     [tasks, tasknotesById],
   );
-  const starterSuffix =
-    starterCount > 0 ? ` · ${starterCount} ${starterCount === 1 ? 'starter' : 'starters'}` : '';
 
   const handleSelectProject = (name: string) => {
     if (name === activeProject) return;
@@ -269,104 +265,28 @@ export const App: React.FC = () => {
     <SearchProvider value={query}>
     <RowInteractionProvider value={rowInteraction}>
     <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
-      <header className="border-b border-slate-200 bg-white px-4 py-3 dark:border-slate-800 dark:bg-slate-900">
-        <div className="mx-auto flex max-w-screen-xl flex-col gap-2">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h1 className="flex items-center gap-2 text-lg font-semibold">
-                <img src="/LOGO.webp" alt="" aria-hidden="true" className="h-6 w-auto" />
-                Flowtron — {activeProject ?? '…'}
-              </h1>
-              <p className="text-sm text-slate-600 dark:text-slate-400">
-                {filteredCount === total
-                  ? `${total} tasks · ${inProgress} in progress${starterSuffix}`
-                  : `${filteredCount} of ${total} matching · ${inProgress} in progress${starterSuffix}`}
-                {projectVersions[activeProject ?? '']
-                  ? ` · flowtron ${projectVersions[activeProject ?? '']}`
-                  : null}
-                {unparsed.length > 0 && (
-                  <HeaderBadge>⚠ {unparsed.length} unparsed</HeaderBadge>
-                )}
-                {duplicateEpics.length > 0 && (
-                  <HeaderBadge>
-                    ⚠ {duplicateEpics.length} duplicate epic{duplicateEpics.length === 1 ? '' : 's'}
-                  </HeaderBadge>
-                )}
-                {nearMissHeadings.length > 0 && (
-                  <HeaderBadge>
-                    ⚠ {nearMissHeadings.length} near-miss heading{nearMissHeadings.length === 1 ? '' : 's'}
-                  </HeaderBadge>
-                )}
-                {liveDisconnected && <HeaderBadge>⚠ live updates off</HeaderBadge>}
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <div
-                role="group"
-                aria-label="View mode"
-                className="inline-flex rounded border border-slate-300 bg-white shadow-xs dark:border-slate-700 dark:bg-slate-900"
-              >
-                {(['list', 'board'] as const).map((m, i) => {
-                  const active = viewMode === m;
-                  return (
-                    <button
-                      key={m}
-                      type="button"
-                      onClick={() => updateViewMode(m)}
-                      aria-pressed={active}
-                      className={`${i === 0 ? 'rounded-l' : 'rounded-r'} px-3 py-1.5 text-base focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500 ${
-                        active
-                          ? 'bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900'
-                          : 'hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800'
-                      }`}
-                    >
-                      {m === 'list' ? 'List' : 'Board'}
-                    </button>
-                  );
-                })}
-              </div>
-              <input
-                ref={searchInputRef}
-                type="search"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search id, description, status"
-                autoComplete="off"
-                className="w-72 rounded border border-slate-300 bg-white px-3 py-1.5 text-base shadow-xs focus:outline-hidden focus:ring-2 focus:ring-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:ring-slate-600"
-                aria-label="Search tasks"
-              />
-              <button
-                type="button"
-                onClick={() => setShortcutsOpen(true)}
-                aria-label="Keyboard shortcuts"
-                title="Keyboard shortcuts"
-                className="rounded border border-slate-300 bg-white px-2 py-1.5 text-base shadow-xs hover:bg-slate-50 focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 dark:focus:ring-slate-500"
-              >
-                ⓘ
-              </button>
-              <ThemeToggle />
-              <button
-                type="button"
-                onClick={() => setSettingsOpen(true)}
-                aria-label="Open settings"
-                title="Settings"
-                className="rounded border border-slate-300 bg-white px-2 py-1.5 text-base shadow-xs hover:bg-slate-50 focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 dark:focus:ring-slate-500"
-              >
-                ⚙️
-              </button>
-            </div>
-          </div>
-          <div className="text-sm">
-            <ProjectSelector
-              projects={projects}
-              active={activeProject}
-              onSelect={handleSelectProject}
-              versions={projectVersions}
-              latestRelease={latestRelease}
-            />
-          </div>
-        </div>
-      </header>
+      <AppHeader
+        activeProject={activeProject}
+        projects={projects}
+        projectVersions={projectVersions}
+        latestRelease={latestRelease}
+        onSelectProject={handleSelectProject}
+        total={total}
+        filteredCount={filteredCount}
+        inProgress={inProgress}
+        starterCount={starterCount}
+        unparsedCount={unparsed.length}
+        duplicateEpicCount={duplicateEpics.length}
+        nearMissHeadingCount={nearMissHeadings.length}
+        liveDisconnected={liveDisconnected}
+        viewMode={viewMode}
+        onViewModeChange={updateViewMode}
+        query={query}
+        onQueryChange={setQuery}
+        searchInputRef={searchInputRef}
+        onOpenShortcuts={() => setShortcutsOpen(true)}
+        onOpenSettings={() => setSettingsOpen(true)}
+      />
 
       {errorMessage && (
         <div className="mx-4 mt-3 rounded border border-red-300 bg-red-50 p-3 text-base text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200">
