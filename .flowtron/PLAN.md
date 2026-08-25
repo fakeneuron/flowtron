@@ -19,7 +19,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-466** [light]🔧 | neutrality-ledger-gaps — Register the three unledgered contract-layer wiring references in `docs/AGENT-NEUTRALITY.md` (`templates/loop-heartbeat-template.md:1,8` has no row at all; `SPEC/loop.md:17`; `SPEC.md:126-135`) and state who owns ledger currency — the ledger puts re-surveying out of its own scope and no §7.1 check reads it. Surfaced by audit-structure 2026-08-23 (Finding #4, Medium).
 
 ## Future Opportunities
 
@@ -27,6 +26,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-466** [light]🔧 | neutrality-ledger-gaps — Completed 2026-08-24.
 - [x] **FE-092** [medium]🧩 | viz-row-dedup — Completed 2026-08-24.
 - [x] **CORE-470** [light]🔧 | ft-stats-plan-archive — Completed 2026-08-24.
 - [x] **FE-094** [medium]🧩 | viz-parser-plan-archive — Completed 2026-08-24.
