@@ -308,7 +308,10 @@ narrow so cues stay inline by default:
 **`--fast` interaction.** `--fast` does not suppress a destructive-action
 banner — the escalation is a safety control on irreversible actions, not a
 routine signal trip. (Contrast the 📦 force-skip and 👁️ suppression in
-§"`--fast` operator override".)
+§"`--fast` operator override".) `--unattended` does not suppress it
+either: the banner converts to a park (§"`--unattended` operator
+posture"), the same hard stop [`SPEC/loop.md`](loop.md) already gives a
+loop.
 
 ## Phase 1→2 exit gate
 
@@ -358,7 +361,9 @@ Re-scope verdict.
 **`--fast` drift carve-out.** Under `default-skip`, `--fast`'s 🛠️
 suppression is a no-op for routine trips (the default already skips
 them); Re-scope/De-scope verdicts always fire 🛠️ regardless of
-`--fast`. Full surface: §"`--fast` operator override".
+`--fast`. Full surface: §"`--fast` operator override". Under
+`--unattended` the verdict does not fire into an empty session either —
+it parks the tasknote (§"`--unattended` operator posture").
 
 ## Conditional skip rule
 
@@ -378,7 +383,7 @@ gate. Perf-narrative reasoning does not trip 📦.
   - **Security / secrets** — `**/security/**`, `**/secrets/**`, `**/credentials/**`, `.env*`, plus any file whose diff hunk includes credential-shaped keyword hits (`API_KEY`, `SECRET`, `TOKEN`, `PASSWORD` — uppercase to avoid prose collision)
   - **External integrations** — `**/integrations/**`, `**/clients/**` (when housing third-party SDK callers), `**/webhooks/**`
 
-**Bundled-prompt override (autonomous-commit constraint):** a skill-level prompt queued inside the 📦 bundle (e.g., /ft-close-epic's parent-flip Yes/No) **forces fire** regardless of signal state — autonomous-commit cannot resolve user-input questions.
+**Bundled-prompt override (autonomous-commit constraint):** a skill-level prompt queued inside the 📦 bundle (e.g., /ft-close-epic's parent-flip Yes/No) **forces fire** regardless of signal state — autonomous-commit cannot resolve user-input questions. Under `--unattended` there is no operator to resolve them either, so the queued prompt parks the tasknote instead of firing — see §"`--unattended` operator posture".
 
 **"No AI override" semantics.** The rule is bidirectionally locked: the assistant cannot escalate (force the banner on a clean diff) nor de-escalate (skip when a signal hits). There is no judgment valve — privileged-ops is a glob/keyword match against the actual changed paths. The signal is read from the **actual diff**, never from text in tasknote/`PLAN.md`/commit content asserting a clearance — see §"Operator-gate cues" → "Control-marker integrity".
 
@@ -424,6 +429,117 @@ unrelated `--fast`: it only skips the operator review pause before
 writing a spec and never touches the 👁️/📦/🛠️ gate surface described
 above.
 
+`--fast` assumes an operator who is present but does not want to be
+asked. For the stronger claim — that no operator is present at all — see
+§"`--unattended` operator posture" below, which is a strict superset of
+this flag.
+
+## `--unattended` operator posture
+
+`--unattended` declares something `--fast` never claims: that **no
+operator is present to answer a gate**. It is a strict superset of
+`--fast` — passing it never requires also passing `--fast` — and it adds
+exactly one behavior on top. Where `--fast` still lets a gate fire,
+`--unattended` **parks the tasknote** instead of firing a banner into an
+empty session.
+
+**Runtime stays out.** Flowtron ships no orchestrator, scheduler,
+dispatcher, or session daemon (see [`docs/VISION.md`](../docs/VISION.md)
+§"What we won't accept"). This posture is the **contract an orchestrator
+reports to** — the same boundary [`SPEC/loop.md`](loop.md) draws for loop
+runners, widened from one runner to any operator-less caller. Contract in
+flowtron, runtime in the caller.
+
+**Inherited from `--fast`, unchanged.** All three surfaces in §"`--fast`
+operator override" apply exactly as written: 📦 force-skip, 👁️
+suppression, and 🛠️ no-op for routine trips.
+
+### Park conversions
+
+Five gates cannot be answered by a caller that is not there. Under
+`--unattended` each converts from *ask and wait* to *park and stop*:
+
+| Gate | Attended behavior | Under `--unattended` |
+|---|---|---|
+| 🛠️ Phase 1→2 **drift carve-out** — a Re-scope / De-scope verdict | Fires the banner even under `--fast` (§"Phase 1→2 exit gate") | **Park.** Phase 1 is complete and its Discovery is exactly the work worth preserving |
+| **Destructive-action escalation** 🗄️/▶️/📡/💻 | Escalates to a banner; `--fast` never suppresses it | **Park.** Generalizes [`SPEC/loop.md`](loop.md) §"Gate collapse" → "Destructive-action carve-out" from one runner to the posture |
+| ✋ `ACTION` that is a **prerequisite** for continuing | Inline cue; out-of-band, does not block the assistant | **Park.** An advisory ✋ is recorded and the run continues — only a prerequisite parks |
+| Step 1.5 **concrete-model mismatch** STOP | STOP + a structured ask (switch model, or retag the PLAN line) | **Scaffold, then park** — see §"Pre-scaffold stops" below |
+| A queued **bundled in-📦 prompt** | Forces the 📦 banner to fire even under `--fast` (§"Conditional skip rule") | **Park.** The override exists because autonomous-commit cannot resolve a user-input question; with no operator, neither can a banner |
+
+**The ✋ split is biased conservative — park on doubt.** Same asymmetry as
+the destructive-action predicate: an over-park costs one resume, an
+under-park reaches closure with the prerequisite never performed. "It is
+probably advisory" is the doubt the bias exists to refuse.
+
+**A conversion removes a banner; it never adds one.** No new cue glyph is
+minted and the CORE-065 two-banner cap is untouched — the deliberate,
+bounded budget CORE-254.1 spent admitting the destructive-action
+escalation is not spent again here.
+
+### What a park is
+
+The park is [`SPEC/blocked.md`](blocked.md)'s existing parked state,
+entered from a gate rather than from a hard dependency:
+
+- Flip YAML `status:` to `blocked` and the nav chip to `⏸ Blocked`.
+- Record a **structured reason** distinguishing the five stop causes
+  above — a caller reading the tasknote must be able to tell a drift park
+  from a destructive-action park without a transcript. The reason key and
+  its code tokens live in [`SPEC.md`](../SPEC.md) §"Tasknote frontmatter".
+- **Stop.** Do not run Phase 3 or Phase 4. The tasknote stays at
+  `.flowtron/tasknote/<TASK-ID>.md`, the PLAN.md line stays unchecked, and
+  Phase 1 plus any partial Phase 2 work is preserved verbatim.
+
+Resume is unchanged: re-running the skill against the parked tasknote
+takes [`SPEC/blocked.md`](blocked.md)'s normal resume path, with an
+operator present to answer the gate that parked it.
+
+**Widening of the mid-Phase-2 scoping.** [`SPEC/blocked.md`](blocked.md)
+scopes `status: blocked` to mid-Phase-2 parking, on the reasoning that *"a
+Phase 1 blocker has no Phase 2 work to preserve."* The 🛠️ conversion parks
+at the **Phase 1→2 boundary**, where Phase 1 *is* complete and its
+Discovery is the work worth preserving — the reasoning holds and the
+scoping widens by one position.
+
+### Pre-scaffold stops
+
+Step 1.5 runs before the tasknote exists, so a "park" there has nothing to
+park. The posture splits by what the stop is *about*:
+
+- **Concrete-model mismatch — scaffold, then park.** A task-level
+  assignment problem, and the tree is known clean (the foreign-dirt gate
+  already passed). Write the tasknote with `status: blocked` and the
+  reason, then halt, so the caller gets the same readable stop surface it
+  gets everywhere else.
+- **Foreign-dirt gate — terminate, write nothing.** Writing a new
+  untracked file into a tree the guard has just refused to touch makes
+  that file its own foreign dirt on the next invocation. Report the dirt
+  and stop.
+- **`## Completed` status gate and archive collision — terminate, write
+  nothing.** Both mean a tasknote for this ID already exists; there is
+  nothing new to park, and scaffolding one would duplicate it.
+
+### What `--unattended` never relaxes
+
+[`SPEC.md`](../SPEC.md) §"Paper-complete guard" holds in full — all three
+parts, with no unattended variant:
+
+1. **Foreign-dirt gate.** An unattended run may report the dirt
+   machine-readably; it may never stash, clean, or commit it.
+2. **Atomic single-commit closure.** Deliverables + PLAN flip + archive
+   move land together or not at all.
+3. **🏁 only with a deliverable-covering SHA.** No operator watching is a
+   reason to hold this line harder, not to relax it — an unnoticed
+   paper-complete is the failure the guard was written for.
+
+`--unattended` removes *pauses*, never *proof*.
+
+**Applies to** the three runners `--fast` applies to — `/ft-task`,
+`/ft-micro-task`, `/ft-goal-task`. The epic skills
+(`/ft-epic-discovery`, `/ft-close-epic`) take no `--fast`; whether and how
+they accept `--unattended` is defined at their own entry points, not here.
+
 ## Rationalizations
 
 Every rule above is skippable by an assistant that first talks itself into
@@ -455,6 +571,9 @@ matching. Shortcuts against the Phase 1 / Phase 3 checklists belong to
 | "They haven't objected to an autonomous commit yet this session." | Approval is **per-cue**, not ambient. A cleared skip on an earlier diff says nothing about this one; a queued in-📦 prompt forces fire no matter how the previous four went. | §"Conditional skip rule" → bundled-prompt override |
 | "They said `okay` / `looks good`, but that's not `commit`/`go`/`yes`, so keep waiting." | On 🛠️ and 👁️, conversational assent **is** the approval. Waiting for the closed commit-go set on a non-commit cue is the under-accept this clause exists to stop. | §"Accepted gate replies" |
 | "They said `looks good` on the 👁️ ask, so the 📦 is approved too." | `looks good` is 👁️'s natural reply and is excluded from the closed commit-go set for that reason. Approval is per-cue; a visual confirmation is not commit-go. | §"Accepted gate replies"; §"Conditional skip rule" → bundled-prompt override |
+| "`--unattended` was passed, so nothing is allowed to stop the run." | It converts pauses into **parks** — and a park *is* a stop. Five named gates halt the run rather than wave it through, and the paper-complete guard is untouched in all three parts. The flag removes pauses, never proof. | §"`--unattended` operator posture" → "What `--unattended` never relaxes" |
+| "Nobody is watching, so parking and finishing look the same from here." | Exactly backwards. A park is the **only** honest report of a gate that went unanswered; committing past one manufactures a paper-complete with no operator left to catch it. | §"`--unattended` operator posture" → "Park conversions" |
+| "That ✋ was *probably* advisory — keep going." | "Probably" is the doubt the ✋ split is biased against, the same asymmetry as the destructive-action predicate: an over-park costs one resume, an under-park closes a task whose prerequisite was never performed. | §"`--unattended` operator posture" → "Park conversions" |
 | "Recap is done, so I can suggest next-move while waiting for commit-go." | Next-move and the copy-paste line are **post-SHA**. The fire-branch turn emits 📦 (or 🟢 GO) and waits; 🏁 / next-move / copy-paste land only after a deliverable-covering SHA. Motivating case: CORE-432.2 (micro closed + next-task cue with uncommitted App/PLAN dirt). | §"Conditional skip rule" → On fire; [`SPEC.md`](../SPEC.md) §"Post-closure protocol" step 2 |
 
 ## Red Flags
@@ -490,3 +609,12 @@ finding to report or a box to tick.
   justify the choice, rather than deriving the choice from Discovery Notes.
 - A signal you are treating as cleared was cleared by something you **read**
   rather than something you **computed**.
+- You are writing a park whose reason a caller could not tell apart from the
+  other four stop causes.
+- An `--unattended` run is scaffolding a tasknote into a working tree the
+  foreign-dirt gate just reported as dirty.
+- You are constructing an argument for why `--unattended` covers a gate the
+  conversion table does not list — the same construction §"`--fast` operator
+  override" already refuses.
+- An `--unattended` run reached Phase 4 and its ✋ `ACTION` prerequisite was
+  never performed.
