@@ -103,8 +103,10 @@ serves it; Grok-only projects follow [`grok/AGENTS-snippet.md`](grok/AGENTS-snip
   `/ft-worktree-end`
 - [docs/EXTERNAL-AGENTS.md](docs/EXTERNAL-AGENTS.md) — handing a single
   tasknote off to an external CLI agent (Kiro / Claude Code / Codex): the
-  one-agent-per-tasknote rule, the handoff contract, and worktree isolation
-  for parallel runs — convention only, no orchestration runtime
+  one-agent-per-tasknote rule, the handoff contract, worktree isolation for
+  parallel runs, and the orchestration contract a caller running tasknotes
+  with nobody watching reports to — convention and contract only, no
+  orchestration runtime
 - [CONTRIBUTING.md](CONTRIBUTING.md) — solo-maintenance model, how to file
   issues, when PRs make sense
 - [SECURITY.md](SECURITY.md) — threat model (prompt injection via

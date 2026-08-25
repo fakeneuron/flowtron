@@ -17,7 +17,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-473.3** [medium]🧩 | park-reason-key — Completed 2026-08-25.
   - [x] **CORE-473.4** [medium]🧩 | unattended-wiring — Completed 2026-08-25.
   - [x] **CORE-473.5** [heavy]🧠 | unreachable-entrypoints — Completed 2026-08-25.
-  - [ ] **CORE-473.6** [medium]🧩 | orchestration-contract — Extend docs/EXTERNAL-AGENTS.md with the positive contract an orchestrator reports to, beside its existing not-a-runtime boundary; correct §"The Return" and §"Relationship" where `--unattended` makes their operator-gate and no-SPEC-change claims false. Orchestrator-neutral prose — no vendor named.
+  - [x] **CORE-473.6** [medium]🧩 | orchestration-contract — Completed 2026-08-25.
   - [ ] **CORE-473.N** [light]🔧 | unattended-orchestration audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
 
 ## Medium

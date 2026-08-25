@@ -54,7 +54,7 @@ purpose each.
 - `docs/PLATFORMS.md` — two-layer contract/wiring model and symmetric plug-in pattern for shipping new platform wiring
 - `claude/CAPABILITIES.md` — Claude Code capability-trigger reference; carries a last-verified stamp that the doc-drift sweep should verify on each version bump
 - `docs/AGENT-COMPAT.md` — living agent-compatibility matrix: per-agent consume-mode, context entry-point, skill/command primitive, and last-verified currency
-- `docs/EXTERNAL-AGENTS.md` — one-agent-per-tasknote rule, the handoff contract for external CLI agents, and the not-an-orchestration-runtime boundary; contract edits that touch delegation or handoff routinely drift against it
+- `docs/EXTERNAL-AGENTS.md` — one-agent-per-tasknote rule, the handoff contract for external CLI agents, the orchestration contract an operator-less caller reports to, and the not-an-orchestration-runtime boundary; contract edits that touch delegation, handoff, or the unattended posture routinely drift against it
 - `docs/WORKTREES.md` — the locked isolation convention for parallel epic children (`wt-<ID>` branch + worktree pair); named by `docs/EXTERNAL-AGENTS.md` as the isolation layer and cited wherever parallelism is discussed
 
 `SPEC/*.md` (lazy modules) and `claude/skills/*/SKILL.md` are loaded on

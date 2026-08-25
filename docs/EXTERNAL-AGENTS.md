@@ -2,7 +2,7 @@
 
 Flowtron is agent-neutral: the tasknote, `PLAN.md`, and `SPEC.md` are plain markdown, so any coding agent that can read a repo can pick up a flowtron task. This document records the convention for **handing a single tasknote off to an external CLI coding agent** — Kiro, Claude Code, Codex, or any equivalent — and getting its work back cleanly.
 
-It is a documentation pattern, not a subsystem. Flowtron ships **no orchestrator, no scheduler, and no multi-agent runtime** — see [Not an orchestration runtime](#not-an-orchestration-runtime) below. The tools named here are **examples**, not dependencies; the convention is tool-agnostic.
+It is a documentation pattern, not a subsystem. Flowtron ships **no orchestrator, no scheduler, and no multi-agent runtime** — see [Not an orchestration runtime](#not-an-orchestration-runtime) below. What it *does* ship for a caller running tasknotes with nobody watching is a markdown contract: [The Orchestration Contract](#the-orchestration-contract). The tools named here are **examples**, not dependencies; the convention is tool-agnostic.
 
 ## The Core Rule: One Agent Per Tasknote
 
@@ -40,24 +40,52 @@ One agent, one tasknote, one worktree. The worktree convention's "when to reach 
 
 ## The Return
 
-When an external agent finishes, its output is exactly what any flowtron session produces: the tasknote archived to `.flowtron/tasknote/archive/<area>/`, the `PLAN.md` line flipped to the `Completed YYYY-MM-DD.` stub, and a commit. Reviewing that work is the same operator gate as always — the 📦 ready-to-commit recap and the closure diff. Nothing about an external agent changes the post-closure protocol (SPEC.md §"Post-closure protocol"); the operator reviewing the diff is still the control point.
+When an external agent runs a tasknote to completion, its output is exactly what any flowtron session produces: the tasknote archived to `.flowtron/tasknote/archive/<area>/`, the `PLAN.md` line flipped to the `Completed YYYY-MM-DD.` stub, and a commit. Reviewing that work is the same operator gate as always — the 📦 ready-to-commit recap and the closure diff. Nothing about an external agent changes the post-closure protocol (SPEC.md §"Post-closure protocol").
+
+**A run has three possible endings, not one.** A run driven with no operator present (see [The Orchestration Contract](#the-orchestration-contract) below) may also stop deliberately, or refuse to start at all. All three are filesystem facts, so a caller reads the outcome from the repo rather than from a transcript:
+
+- **Closed** — tasknote archived, `PLAN.md` line stubbed `[x]`, one atomic commit covering deliverables + PLAN flip + archive move.
+- **Parked** — tasknote still at `.flowtron/tasknote/<TASK-ID>.md` with `status: blocked` and a `park-reason:` code, `PLAN.md` line still `[ ]`, no commit. Phase 1 and any partial Phase 2 are preserved verbatim.
+- **Refused** — nothing written at all. A pre-scaffold stop (a dirty tree, an already-closed ID, an existing archive) is reported and the run terminates rather than leaving a half-scaffolded note behind.
+
+**The control point moves; it does not disappear.** With an operator at the 📦 gate, the diff review is the control. With none, two things hold that line in its place: the park conversions, which stop the run at any question an absent operator would have answered, and the **paper-complete guard** (SPEC.md §"Paper-complete guard"), which the posture leaves untouched — the foreign-dirt gate still refuses a dirty tree, closure is still one atomic commit, and 🏁 still requires a real deliverable-covering SHA. Review is deferred to the accumulated commits, not removed from the loop.
 
 If the external agent worked in a worktree, `/ft-worktree-end` is the merge-and-clean step. If it worked on the main checkout in its own session, the returned commit is reviewed and kept like any other.
 
+## The Orchestration Contract
+
+Everything above assumes an operator choosing when to hand a tasknote out and reading the result when it comes back. A caller may also drive a tasknote with **nobody present** — a headless session, a scheduled run, a process handing out children of an epic. Flowtron supports that the same way it supports loops and worktrees: with a contract, not a runtime. The caller declares the posture; flowtron guarantees a readable outcome in the repo.
+
+What follows is the whole of what such a caller may rely on. Each rule names its canonical owner rather than restating it — the contract lives in `SPEC/`, and a second copy here would be the first thing to drift.
+
+1. **Declare the posture.** Pass `--unattended` to the runner. It is a strict superset of `--fast` — never pass both — and it declares something `--fast` never claims: that no operator is present to answer a gate. Four runners accept it (`/ft-task`, `/ft-micro-task`, `/ft-goal-task`, `/ft-close-epic`). `/ft-epic-discovery` deliberately does not: filing an epic is a scoping conversation, and there is nobody to have it with. Contract: SPEC/gates.md §"`--unattended` operator posture". Per-agent availability and routing: [PLATFORMS.md](PLATFORMS.md).
+
+2. **Expect a park wherever a gate would have fired.** A gate that survives `--fast` does so because it needs a decision, not merely patience — a scope verdict, a destructive command, a manual prerequisite. Under the posture each of those stops the run rather than blocking on an answer nobody is there to give. A park is not a failure: it is Phase 1 and any partial Phase 2 preserved at the exact point a decision was needed. SPEC/gates.md enumerates which gates convert; a caller needs only to know that a park is an expected ending, not an error.
+
+3. **Classify a stop by its code, not its prose.** A parked tasknote carries `park-reason: <code> — <explanation>`. Split on the first ` — `, branch on the code, and never parse the explanation. The codes are a **closed set**: a new stop cause adds a row upstream rather than inventing a value, so exhaustive branching is safe and an unrecognized code is a bug rather than a variant. The set and each code's meaning: SPEC.md §"Tasknote frontmatter" → "Park reason".
+
+4. **Resume by re-invoking the same runner.** A parked tasknote is paused, not closed. Running `<SKILL> <TASK-ID>` against it takes the resume path automatically, restores `in-progress`, clears the reason, and continues where the park left off. Nothing is reconstructed and Discovery is not re-run — that preservation is the point. Most codes describe a question, so the natural resume is an attended one with somebody there to answer it. Contract: SPEC/blocked.md.
+
+5. **Annotate a run that ended without stopping.** A killed process, an exhausted context, or a lost session leaves a tasknote at `in-progress` with no gate having fired and no reason written — a state the runners refuse, because restarting a half-executed task would re-run Discovery over finished work. The caller converts it into the parked state above with two frontmatter writes (`status: blocked` plus an `interrupted` reason) and re-invokes normally. **Flowtron performs neither write**: it ships no crash detector, supervisor, or session daemon, and a runner cannot annotate a note in a session that no longer exists. Contract: SPEC/blocked.md §"Resuming an interrupted run".
+
+6. **Expect one deferred motion when closing an epic.** Under the posture, the epic-close runner drives the terminal audit child to full closure and commits it, then leaves the parent-flip unanswered: the parent line stays `[ ]` above a cohort of `[x]` children, which is structurally what "flip pending" looks like. The audit is reachable; the irreversible cohort move stays operator-owned. Terms: SPEC/gates.md §"`/ft-close-epic` under the posture".
+
+The posture removes *pauses*, never *proof* — every part of the paper-complete guard holds with no unattended variant. What it deliberately does **not** provide is the subject of the next section.
+
 ## Not an Orchestration Runtime
 
-This document describes a **convention for a human operator** who chooses to run more than one agent. Flowtron deliberately does not provide, and will not accept:
+This document describes a **convention and a markdown contract**, for an operator who chooses to run more than one agent and for a caller running one with nobody watching. Neither is a runtime. Flowtron deliberately does not provide, and will not accept:
 
 - A multi-agent scheduler or dispatcher that assigns tasknotes to agents.
 - A session daemon that keeps external agents alive or polls their state.
 - A "fan-out" or "swarm" runtime that runs children in parallel automatically.
 - A job graph or lock over `## 🌳 Fan-out` / YAML `blocked-by:` / `parallel-safe-with:` — those are markdown facts, not a scheduler. `/ft-worktree-start` may warn on an open blocker; it must not refuse.
 
-These are the same rejections VISION.md §"What we won't accept" makes for loop runtimes, graph / multi-agent execution runtimes, and cross-project query layers: flowtron ships the **markdown contract** the agents report to (the tasknote, the 4-phase workflow, the operator cues, the Fan-out declaration), and the *runtime* — which agent, when, in which session — stays with the operator and whatever CLI they chose. If you want parallelism, the worktree pair plus a fresh session per child is the whole mechanism. See [PHILOSOPHY.md](PHILOSOPHY.md) §"What flowtron deliberately is not."
+These are the same rejections VISION.md §"What we won't accept" makes for loop runtimes, graph / multi-agent execution runtimes, and cross-project query layers: flowtron ships the **markdown contract** the agents report to (the tasknote, the 4-phase workflow, the operator cues, the Fan-out declaration, and the operator-less posture above), and the *runtime* — which agent, when, in which session — stays with the operator and whatever CLI they chose. If you want parallelism, the worktree pair plus a fresh session per child is the whole mechanism. See [PHILOSOPHY.md](PHILOSOPHY.md) §"What flowtron deliberately is not."
 
 ## Relationship to the Rest of Flowtron
 
-- **No SPEC contract change.** The 4-phase workflow, relevance gate, operator cues (🛠️ / 📦), and post-closure protocol are identical whether the agent running a tasknote is Claude Code, Codex, Kiro, or the operator by hand.
+- **The contract does not vary by agent; it varies by posture.** The 4-phase workflow, relevance gate, operator cues (🛠️ / 📦), and post-closure protocol are identical whether the agent running a tasknote is Claude Code, Codex, Kiro, or the operator by hand. What differs is the posture the *caller* declares: the operator-less posture (§"The Orchestration Contract") is an opt-in, additive SPEC contract that converts unanswerable gates into parks. A run that does not declare it sees the contract exactly as it was before the posture existed.
 - **Agent-neutral by construction.** See [AGENT-NEUTRALITY.md](AGENT-NEUTRALITY.md) and [AGENT-COMPAT.md](AGENT-COMPAT.md) for the per-agent consume-mode matrix. An external agent that can read markdown and run `cp` / `mv` / `git` can run a tasknote; a contract-only agent uses the procedure SOPs (`SPEC/procedures/`).
 - **Worktrees are the isolation layer.** [WORKTREES.md](WORKTREES.md) owns the parallel-execution convention; this doc adds only the "one external agent per tasknote" framing on top of it.
 
