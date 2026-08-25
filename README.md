@@ -237,6 +237,15 @@ the discipline the sizing principle depends on. The safe patterns:
   suppresses the routine operator gates on a single run — the sanctioned
   hands-off mode. It makes one task autonomous; it is not a license to
   chain tasks in one window.
+- **`--unattended` for when nobody's there to ask.** `--fast` still
+  assumes an operator who could answer a gate if one fired; `--unattended`
+  declares that no one is — an orchestrator's child, a scheduled run, a
+  session with no one watching. It's a strict superset of `--fast`, and
+  where `--fast` would still let a gate fire, `--unattended` parks the
+  tasknote instead of firing a banner into an empty session
+  ([`SPEC/gates.md`](SPEC/gates.md) §"`--unattended` operator posture").
+  The contract lives in flowtron; the runtime that decides *when* to run
+  unattended is still the caller's.
 - **A delegate gets exactly one tasknote.** A delegated context that
   reads one `tasknote/<ID>.md` and works its scope inherits the full
   Phase 1 record and runs the 4-phase workflow to closure. Anything
