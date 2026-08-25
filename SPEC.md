@@ -403,6 +403,52 @@ supersedes:
   - CORE-157
 ```
 
+**Park reason.** One additive key, `park-reason:`, records *why* a tasknote
+sits at `status: blocked`. Omit-when-absent like the planning keys above:
+legacy parked notes omit it and tools ignore it when absent. It appears only
+while a note is parked.
+
+The value is a **stable code, then prose**, separated by the same ` — ` this
+spec uses on the PLAN.md task line (§"Task-line format"):
+
+```yaml
+status: blocked
+park-reason: destructive — needs a `git push` to the public remote before the tag can be verified
+```
+
+A caller splits on the first ` — ` to read the code and never parses the
+prose. The code comes from a **closed set** — a new stop cause adds a row to
+this table, never a free-form value:
+
+| Code | Records |
+|---|---|
+| `drift` | A Phase 1 `Re-scope` / `De-scope` verdict — the 🛠️ drift carve-out |
+| `destructive` | A 🗄️/▶️/📡/💻 destructive-action escalation |
+| `prerequisite` | A ✋ `ACTION` that must be performed before the run can continue |
+| `model-mismatch` | The Step 1.5 concrete-`[model]` STOP |
+| `input-needed` | A queued bundled in-📦 prompt — a question autonomous commit cannot answer |
+| `dependency` | A hard dependency surfaced mid-Phase-2 — the park that predates the posture |
+
+The first five are the gate conversions in [`SPEC/gates.md`](SPEC/gates.md)
+§"`--unattended` operator posture"; `dependency` is the mid-Phase-2 park
+[`SPEC/blocked.md`](SPEC/blocked.md) has always had.
+
+**`drift` vs `dependency`.** The code names what *stopped* the run, not what
+motivated it. A `Re-scope` verdict parks as `drift` even when a dependency
+drove the verdict, because the verdict is the stop. `dependency` is reserved
+for the mid-Phase-2 park, where no verdict is involved.
+
+**Written on every `--unattended` park; optional on an attended one.** With no
+operator present the key is the only stop surface a caller has, so a park
+without one is a park it cannot classify. An attended park may write it — the
+same reason is useful to a human resuming a week later — but is not required to.
+
+**Cleared on resume.** The key describes a *current* stop, so the flip back to
+`status: in-progress` removes it, alongside the `⏸ Blocked` → `🟢 In progress`
+chip. That is an active-note lifecycle write, not a retroactive edit — the
+write-once carve-out above already covers it. A note that parks twice writes
+the second reason fresh; a note that reaches Phase 4 closure carries none.
+
 **Date format:** always use `YYYY-MM-DD` for `created:`, `Completed`, and `Archived` date fields.
 
 ## Starter tasknotes
