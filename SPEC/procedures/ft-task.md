@@ -156,7 +156,10 @@ Check `.flowtron/tasknote/<TASK-ID>.md` and branch on its existence / YAML
 - **`status: blocked`** → resume from Phase 2; Phase 1 is already done on a
   parked tasknote. See [`SPEC/blocked.md`](../blocked.md).
 - **`status: in-progress` / `not-started` / `completed`** → the file is in
-  flight or closed; do not restart. Continue it conversationally.
+  flight or closed; do not restart. Continue it conversationally. If the
+  session that started it is gone, that is not possible — an `in-progress`
+  note is recovered by park-then-resume, not by restarting. See
+  [`SPEC/blocked.md`](../blocked.md) §"Resuming an interrupted run".
 - **Absent** → scaffold fresh: copy `templates/tasknote-template.md` to
   `.flowtron/tasknote/<TASK-ID>.md` and fill the frontmatter + body per
   [`SPEC.md` §"Tasknote frontmatter"](../../SPEC.md) and

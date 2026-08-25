@@ -107,7 +107,7 @@ Gate on the `[model]` segment captured in Step 1 before any source reads — hea
 - Check `.flowtron/tasknote/<TASK-ID>.md`. **Four-way branch on the file's YAML `status:`:**
   - **`status: starter`** — starter tasknote awaiting promotion. Continue at **Step 3a (Promote a starter)**.
   - **`status: blocked`** — parked tasknote awaiting resume. Continue at **Step 3c (Resume a blocked tasknote)**.
-  - **Any other `status:`** (`not-started` / `in-progress` / `completed`) — file is in flight or already closed. Stop. Tell the user the tasknote exists and recommend they continue conversationally (e.g., "continue CORE-004") rather than restarting. This skill is start-only by design.
+  - **Any other `status:`** (`not-started` / `in-progress` / `completed`) — file is in flight or already closed. Stop. Tell the user the tasknote exists and recommend they continue conversationally (e.g., "continue CORE-004") rather than restarting. This skill is start-only by design. **When the session that started it is gone** — killed, out of context, an orchestrator's child that exited — "continue conversationally" is unreachable; name the park-then-resume path in `<SPEC_DIR>/blocked.md` §"Resuming an interrupted run" instead of stopping at the recommendation. It applies to `in-progress` only.
   - **File absent** — fresh scaffold path. Continue at **Step 3b (Scaffold a fresh tasknote)**.
 
 ## Step 3a — Promote a starter (existing file with `status: starter`)

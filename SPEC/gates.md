@@ -535,10 +535,50 @@ parts, with no unattended variant:
 
 `--unattended` removes *pauses*, never *proof*.
 
+### `/ft-close-epic` under the posture
+
+The three runners above are not the whole surface. `/ft-close-epic` drives an
+epic's `.N` audit through closure and then asks whether to flip the parent and
+move the cohort — and that ask is a **bundled in-📦 prompt**, which the
+override in §"Conditional skip rule" makes force-fire. An operator-less caller
+therefore could not close an epic at all: not the audit, not the parent.
+
+The flag reaches it, with two semantics that differ from the runners':
+
+- **It is not a `--fast` superset.** The epic skills never accepted `--fast`,
+  so there is nothing to be a superset of. `--unattended` carries the posture
+  directly — suppress what has no operator, park or terminate what cannot be
+  answered.
+- **The parent-flip is unbundled, not parked.** The audit runs to full
+  closure and commits atomically, exactly as an attended run with clear
+  signals would. The parent-flip prompt is simply **not queued into the 📦
+  bundle**: the parent line stays `[ ]`, the cohort stays nested, and the run
+  reports the deferral machine-readably.
+
+Unbundling preserves the override's *intent* — the question stays unanswered
+by an autonomous run — while removing the coupling that made the audit
+unreachable. Parking instead would strand a verification pass that had no
+unanswered question of its own, and there would be nothing to park: the audit
+note is `completed` and archived by then, and a parked note is *paused, not
+closed* ([`SPEC/blocked.md`](blocked.md) §"Parked state").
+
+The deferred flip needs no `park-reason:` because PLAN.md already states it
+structurally — a parent `- [ ]` above a cohort of `- [x]` children means the
+flip is pending and nothing else. The one conversion that *does* park is the
+Phase 1→2 exit gate, where the audit tasknote exists and the standard recipe
+applies; `/ft-close-epic` runs the `default-fire-on-clarifications` flavor, so
+a clarification it cannot answer parks as `input-needed` — the same "question
+autonomous execution cannot answer" that code already names.
+
+Everything §"What `--unattended` never relaxes" lists holds here in full. The
+audit commit is a **real** commit, so the foreign-dirt gate still terminates
+write-nothing and 🏁 still requires a deliverable-covering SHA.
+
 **Applies to** the three runners `--fast` applies to — `/ft-task`,
-`/ft-micro-task`, `/ft-goal-task`. The epic skills
-(`/ft-epic-discovery`, `/ft-close-epic`) take no `--fast`; whether and how
-they accept `--unattended` is defined at their own entry points, not here.
+`/ft-micro-task`, `/ft-goal-task` — plus `/ft-close-epic`, on the terms
+above. `/ft-epic-discovery` does not accept it: it opens an epic by filing
+PLAN.md lines from a scoping conversation, and there is no such conversation
+to have with nobody present.
 
 ## Rationalizations
 

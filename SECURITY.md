@@ -85,8 +85,8 @@ any-AI-assistant threat model.
   closure diff trips privileged-ops (migrations, auth, secrets, credential
   keywords, external integrations) or a bundled in-📦 prompt is queued;
   routine frontend and other non-privileged diffs auto-commit. Do not
-  suppress the remaining pause (`--fast`, or the `--unattended` posture
-  that supersets it) on a first run against contributor-authored content.
+  suppress the remaining pause (`--fast`, or the `--unattended` posture)
+  on a first run against contributor-authored content.
 
 - **Forged in-content control-markers.** flowtron's safety rests on control
   markers and gates the *assistant* emits about its own actions

@@ -1,13 +1,13 @@
 ---
 name: ft-close-epic
-description: Close a flowtron epic by scaffolding and driving its audit `.N` tasknote in one motion. Use when the user asks to close out an epic or run its final audit subtask. Invoke with the audit subtask ID as args (e.g., args="CORE-057.N"; legacy numeric audit IDs like args="CORE-057.6" are also accepted). Pre-fills the audit tasknote with the fixed doc-drift sweep acceptance line per `SPEC/epic.md`, drives the full 4-phase audit inline, then prompts to flip the parent `<AREA>-EPIC-<N>` to `Completed` and move the cohort to `## Completed`. Auto-wired into adopters via `/ft-new-project` and `docs/MIGRATION.md` §1.2.
+description: Close a flowtron epic by scaffolding and driving its audit `.N` tasknote in one motion. Use when the user asks to close out an epic or run its final audit subtask. Invoke with the audit subtask ID as args (e.g., args="CORE-057.N"; legacy numeric audit IDs like args="CORE-057.6" are also accepted). Pre-fills the audit tasknote with the fixed doc-drift sweep acceptance line per `SPEC/epic.md`, drives the full 4-phase audit inline, then prompts to flip the parent `<AREA>-EPIC-<N>` to `Completed` and move the cohort to `## Completed`. With `--unattended`, run it with no operator present — the audit still closes and commits, and the parent-flip is deferred to the operator rather than answered autonomously. Auto-wired into adopters via `/ft-new-project` and `docs/MIGRATION.md` §1.2.
 ---
 
 # close-epic — flowtron epic audit + close driver
 
 You are scaffolding and driving the audit `.N` subtask of an epic, then prompting the user whether to flip the parent epic to `Completed`. The full lifecycle contract lives in `<SPEC_DIR>/epic.md` — this skill is the executable interpretation of the lifecycle's audit-and-close side, not a replacement. Treat `SPEC/epic.md` as authoritative when this file is silent or in tension.
 
-The skill takes the **audit subtask ID** as `args` — canonically the reserved `.N` suffix (e.g., `args="CORE-057.N"`); a legacy numeric audit ID (e.g., `args="CORE-057.6"`) is also accepted. If `args` is missing or doesn't match `<AREA>-<NUMBER>.<SUB>`, stop and ask the user for a valid ID. Do not guess.
+The skill takes the **audit subtask ID** as `args` — canonically the reserved `.N` suffix (e.g., `args="CORE-057.N"`); a legacy numeric audit ID (e.g., `args="CORE-057.6"`) is also accepted. A trailing `--unattended` is the only other accepted token. If `args` is missing or its first token doesn't match `<AREA>-<NUMBER>.<SUB>`, stop and ask the user for a valid ID. Do not guess.
 
 ## Step 0 — Resolve paths
 
@@ -20,12 +20,22 @@ If neither matches, bail.
 
 Paths: SPEC=`<root>SPEC.md`, SPEC_DIR=`<root>SPEC/`, template=`<root>templates/tasknote-template.md`, PLAN=`.flowtron/PLAN.md`, tasknote dir=`.flowtron/tasknote/`.
 
+UNATTENDED (shared `--unattended` fragment, owned by `/ft-task`): `<root>claude/skills/ft-task/unattended-mode.md`.
+
 After resolving, Read `<SPEC_DIR>/epic.md` for the canonical lifecycle before drafting anything.
+
+**Parse the flag.** Split `args` on whitespace into `(AUDIT-SUBTASK-ID, rest...)`. Initialize `unattended-mode = false`; a `--unattended` token (no short alias) sets it true. Any unrecognized token → surface ``Unknown arg `<arg>`. Usage: `/ft-close-epic <AUDIT-SUBTASK-ID> [--unattended]`.`` and ask via AskUserQuestion whether the user meant `--unattended`, the default flow, or to abort. Do not proceed silently. This skill takes **no `--fast`** — there is none to pass.
+
+When `unattended-mode = true`, Read `<UNATTENDED>` and `<SPEC_DIR>/blocked.md` now, then emit:
+
+`⚡ --unattended active — no operator present: the audit closes and commits autonomously, and the parent-flip is deferred rather than answered. Gates that cannot be answered park or terminate.`
+
+The posture's contract is [`SPEC/gates.md`](../../../SPEC/gates.md) §"`--unattended` operator posture" → "`/ft-close-epic` under the posture". Two things differ from the three runners, and both matter below: the flag is **not** a `--fast` superset here (the epic skills never accepted `--fast`), and the Step 8/9 parent-flip is **unbundled and deferred**, not parked. Everything §"What `--unattended` never relaxes" lists holds in full — the audit commit is a real commit.
 
 ## Step 1 — Pre-flight
 
 - `.flowtron/PLAN.md` must exist (cwd is a flowtron-adopting project or flowtron itself).
-- **Foreign-dirt gate (paper-complete guard).** Before scaffold writes, run `git status --porcelain`. If non-empty: **STOP**, surface the dirt list, ask the operator to commit / stash / discard themselves, then re-invoke. Do not auto-clean. See SPEC §"Paper-complete guard".
+- **Foreign-dirt gate (paper-complete guard).** Before scaffold writes, run `git status --porcelain`. If non-empty: **STOP**, surface the dirt list, ask the operator to commit / stash / discard themselves, then re-invoke. Do not auto-clean. See SPEC §"Paper-complete guard". **`--unattended` does not relax this** — it terminates and writes nothing, in the machine-readable stop shape below.
 - Parse `args` as `<AREA>-<NUMBER>.<SUB>` (where `.<SUB>` is a number or the reserved literal `.N` — both parse per SPEC §"Task ID convention"):
   - **Area** must resolve per SPEC §"Task ID convention" or via `.flowtron/tasknote/README.md`'s project-specific prefixes. Unknown prefix → stop and ask.
   - **`.<SUB>` segment is required** — `/ft-close-epic` only runs against epic subtasks, not standalone tasks. If the ID matches `<AREA>-<NUMBER>` (no `.<SUB>` suffix), stop and tell the user "`/ft-close-epic` runs against the audit `.N` subtask of an epic, not a standalone task. Use `/ft-task <ID>` for standalone tasks."
@@ -33,6 +43,14 @@ After resolving, Read `<SPEC_DIR>/epic.md` for the canonical lifecycle before dr
   - If the file already exists with `status: in-progress`, stop and tell the user the audit tasknote is already in flight. Recommend continuing conversationally (e.g., "continue CORE-057.6") rather than restarting — this skill is start-only by design.
   - If `<tasknote dir>/archive/<area>/<AUDIT-SUBTASK-ID>.md` already exists, the audit is closed and archived; stop and surface the conflict.
 - Otherwise (fresh scaffold path), continue.
+
+**Pre-scaffold stops under `--unattended`.** Every bail in Steps 1-2 fires *before* the audit tasknote exists, so there is nothing to park — and scaffolding one to hold a stop would either duplicate an existing note or become its own foreign dirt on the next invocation (`<UNATTENDED>` §"Pre-scaffold stops"). Each terminates and **writes nothing**, in one shape:
+
+```markdown
+⏸ --unattended stop — <cause>: <one line>. No tasknote written.
+```
+
+`<cause>` is one of `foreign-dirt` · `in-flight` · `archived` · `no-parent` · `parent-closed` · `audit-position` · `open-siblings`. List the specifics (dirty paths, the correct audit ID, the open child IDs) so the caller can act without a transcript. Never stash, clean, or commit foreign dirt.
 
 ## Step 2 — Validate audit position and check sibling state
 
@@ -63,6 +81,8 @@ Walk the children for **un-checked** `[ ]` siblings (excluding the chosen audit 
 
   - Default No → stop. Tell the user to drive the open children via `/ft-task <ID>` first, then re-run `/ft-close-epic <AUDIT-SUBTASK-ID>`.
   - Yes → continue, log the early-audit decision in the audit tasknote's Discovery Notes (Step 4) so the audit's scope is honest about the partial cohort.
+
+  **When `unattended-mode = true`**, take the default-No bail deterministically — do not ask. An early audit over a partial cohort is a scope judgment, and the ask's own default is already "bail". Stop with `⏸ --unattended stop — open-siblings: …`, naming the open child IDs.
 
 ## Step 3 — Scaffold the audit tasknote
 
@@ -116,13 +136,13 @@ Walk the Phase 1 checklist per SPEC §"📝 Phase 1: Discovery". Tick boxes as e
 - **Read relevant source files** — for each cohort sibling, read its archived tasknote at `<tasknote dir>/archive/<area>/<SIBLING-ID>.md`. Capture each child's deliverables (files added/edited, design decisions, surfaces touched) in Discovery Notes.
 - **Archive skim** — typically self-referential for an epic audit (cohort children are themselves archive entries). If the epic touched surfaces with prior tasknote history beyond the cohort, grep for those paths in `<tasknote dir>/archive/<area>/*.md` and read non-cohort hits for cumulative context.
 - **Drift check** — verify cited paths and conventions in cohort children's deliverables still match HEAD (paths the implementation children touched may have moved during the cohort).
-- **Clarifying questions** — for an audit, typically none. If cohort scope is ambiguous (some children deferred, partial-cohort early-audit per Step 2), use AskUserQuestion to confirm audit scope.
+- **Clarifying questions** — for an audit, typically none. If cohort scope is ambiguous (some children deferred, partial-cohort early-audit per Step 2), use AskUserQuestion to confirm audit scope. **When `unattended-mode = true`**, skip the AskUserQuestion call and write `No clarifications needed (--unattended)` with the explicit assumptions — unless the ambiguity genuinely blocks the audit, which is the exit-gate park below.
 - **Subtasks populated** — Step 3 scaffold pre-filled the canonical epic-audit subtask list; refine if Discovery surfaces a scope shift.
 
 Do not enter Phase 2 until every Phase 1 box is ticked. Once ticked, apply the SPEC/gates.md §"Phase 1→2 exit gate"'s **`default-fire-on-clarifications` flavor** (this skill follows the higher-checkpoint flavor, not `/ft-task`'s `default-skip` — epic-closure is lower-volume and higher-stakes, so any surfaced clarification gates):
 
 - **"No clarifications needed" branch** — emit the inline marker `✅ Phase 1 Discovery complete; entering Phase 2 Execution.` and start Step 5 Phase 2 immediately. Plain prose, not a banner; not a new gate.
-- **Clarifications-surfaced branch** — surface the **🛠️ Phase 1→2 operator-gate cue** with the mandatory 1-2 sentence plain-English preview line (per SPEC/gates.md §"Operator-gate cues") and wait for the user's go (conversational assent — SPEC/gates.md §"Accepted gate replies") before starting Step 5 Phase 2.
+- **Clarifications-surfaced branch** — surface the **🛠️ Phase 1→2 operator-gate cue** with the mandatory 1-2 sentence plain-English preview line (per SPEC/gates.md §"Operator-gate cues") and wait for the user's go (conversational assent — SPEC/gates.md §"Accepted gate replies") before starting Step 5 Phase 2. **When `unattended-mode = true`**, the branch has no operator to fire at: **park** instead of banner, per the four-write recipe in `<UNATTENDED>` §"The park recipe" — `status: blocked`, chip → `⏸ Blocked`, `park-reason: input-needed — <the clarification>`, then stop. The audit tasknote exists by now (Step 3 scaffolded it), so the standard recipe applies unchanged; a `Re-scope` / `De-scope` verdict parks as `drift` instead. Do not run Phases 2-4, and do not touch PLAN.md.
 
 ## Step 5 — Drive Phase 2: Execution
 
@@ -156,6 +176,8 @@ Walk the Phase 4 checklist for the audit subtask itself under SPEC §"Paper-comp
 - **Move the audit tasknote** — `git mv <tasknote dir>/<AUDIT-SUBTASK-ID>.md <tasknote dir>/archive/<area>/<AUDIT-SUBTASK-ID>.md`. Set `**Archived:** YYYY-MM-DD` in the tasknote.
 - **Draft the recap** — leads with a 1-2 sentence plain-English summary (audit ran; key finding or "no inconsistencies surfaced"), then technical detail (cohort children inventoried, follow-ups to file, any inline fixes applied). Hold it for Step 9's 📦 bundle; do not surface a banner now.
 
+**Under `--unattended` this step is unchanged.** The audit's own closure has nothing an operator must answer, so it runs exactly as written — including the `.N` PLAN stub flip and the archive move. Only the *parent* line is off-limits (Step 8).
+
 ## Step 8 — Parent-epic flip eligibility (no banner)
 
 After the audit closes cleanly, scan `.flowtron/PLAN.md` for the parent epic line + all its children. Determine eligibility:
@@ -174,9 +196,23 @@ On **No** (still in Step 9's bundle): leave cohort nested under current section.
 
 Capture the flip decision in the audit tasknote's Final Summary block (still editable until git commit lands in Step 9).
 
+**When `unattended-mode = true`, the prompt never fires.** Compute eligibility exactly as above — the state is what the caller needs — then **defer**: the parent line stays `- [ ]`, the cohort stays nested, and no Completed move happens. This is the one place the posture defers rather than parks, because by Step 9 the audit note is `completed` and archived and a parked note is *paused, not closed* ([`SPEC/blocked.md`](../../../SPEC/blocked.md) §"Parked state"). Nothing is lost: a parent `- [ ]` above a cohort of `- [x]` children states the pending flip structurally, and PLAN.md is a file the caller already reads. Record the deferral in the audit tasknote's Final Summary before the archive move, so the closed note carries it too:
+
+> **Parent-flip deferred (`--unattended`).** All `<AREA>-EPIC-<NUMBER>` children closed; the flip and the cohort move to `## Completed` need an operator. Cohort left nested under `## <Priority>`.
+
 ## Step 9 — Post-closure protocol
 
 Run the protocol per SPEC §"Post-closure protocol", branching on SPEC/gates.md §"Conditional skip rule" against the audit closure diff. **Parent-flip override:** when Step 8 marked parent-flip eligible, the parent-flip Yes/No is a bundled in-📦 prompt and forces the 📦 gate to fire regardless of signal state (per SPEC's bundled-prompt override). When ineligible, the signal rule evaluates normally.
+
+**When `unattended-mode = true`, the override does not apply** — the prompt was never queued (Step 8). The 📦 gate evaluates against the audit closure diff **alone**, which for a typical audit is signals-clear → Skip branch → autonomous commit. Unbundling preserves the override's intent (the question stays unanswered by an autonomous run) while letting the audit close, which is the whole point of the posture reaching this skill; see SPEC/gates.md §"`/ft-close-epic` under the posture". Stage the audit deliverables + the `.N` PLAN stub flip + the archive move — **never** the parent flip or the cohort move. Then, after the 🏁 marker and its real deliverable-covering SHA, emit the deferral on its own line:
+
+```markdown
+⏸ --unattended stop — parent-flip: <AREA>-EPIC-<NUMBER> eligible; all <M> children [x]. Cohort left nested under `## <Priority>`. Flip manually or re-run attended.
+```
+
+The suggest-next-move and copy-paste line emit as usual — the Skip branch is otherwise unchanged, and a caller that has no use for them ignores them; suppressing them would be a special case with nothing behind it.
+
+**A destructive action never reaches Step 9.** If an audit's inline fix would touch a privileged-ops path (🗄️/▶️/📡/💻), that escalation surfaces during Step 5 Phase 2, and under `--unattended` it parks there — `park-reason: destructive — …`, per `<UNATTENDED>` §"Conversion map" — before Step 7 flips anything or the note is archived. Do not carry such a fix into closure and rely on the 📦 gate to catch it: the gate is force-skipped here, and the park is the stop.
 
 - **Skip branch** (parent-flip ineligible AND signals clear) — emit `✅ Closure complete; committing autonomously (<concrete-signal-summary>).` (e.g., `audit closure: PLAN.md flip + tasknote archive; no privileged-ops surface`), then run closure review + recap + commit + 🏁 + suggest-next-move + copy-paste in one response. Heads-up listing of open children (Step 8 ineligible branch) delivers inline alongside the closure review.
 - **Fire branch** (parent-flip eligible OR privileged-ops signal hits) — surface the bundled 📦 ready-to-commit gate (per SPEC §"Post-closure protocol" step 1) and **wait**. Do **not** emit 🏁, next-move, or the copy-paste line in this turn. Alongside the SPEC-defined bundle, this skill carries:
@@ -207,5 +243,6 @@ Skill-specific next-move shape:
 - **Audit-only — never standalone.** Validates arg is the parent epic's audit child — the reserved `.N` suffix (canonical) or the highest numeric `.<SUB>` (legacy). Standalone tasks → `/ft-task <ID>`.
 - **Open-children warn-and-proceed.** Sibling implementation children still open → skill warns and asks (default No bails). Useful for early audits when a child is stuck or deferred.
 - **Audit follow-ups → `/ft-file-followup`.** Misses logged in Implementation Notes as `/ft-file-followup <NEW-ID>` candidates; user invokes per miss after closure (preserves the 50w/70w cap at its natural boundary).
-- **Parent-flip is a prompt, not automatic.** Skill never silently flips. User confirms (default Yes); declines leave cohort nested for a later flip.
+- **Parent-flip is a prompt, not automatic.** Skill never silently flips. User confirms (default Yes); declines leave cohort nested for a later flip. Under `--unattended` the prompt does not fire at all and the flip is **deferred**, never auto-approved — the irreversible cohort move stays operator-owned in every posture.
+- **`--unattended` is the only flag.** No `--fast` (the epic skills never took one, so there is nothing to be a superset of) and no `--debug`. Contract: SPEC/gates.md §"`/ft-close-epic` under the posture". `/ft-epic-discovery` accepts neither — opening an epic is a scoping conversation, and there is nobody to have it with.
 - **Auto-wired into adopters.** Symlinked via `claude/skills/ft-new-project/` + `docs/MIGRATION.md` §1.2 + `claude/AGENTS-snippet.md`'s symlink section. Existing adopters pick up on next flowtron version bump.

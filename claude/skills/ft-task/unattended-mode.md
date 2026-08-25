@@ -1,14 +1,16 @@
 # `--unattended` — operator-less posture (executable steps)
 
-> Lazy-loaded SKILL fragment — **shared**. Loaded by `/ft-task`, `/ft-micro-task`, and `/ft-goal-task` at their Step 0 when `unattended-mode = true`. The file is owned by `claude/skills/ft-task/`; the other two skills resolve it through their `<UNATTENDED>` path binding, the same way they resolve `step-1.5-model-edge.md` through `<MODEL_EDGE>`.
+> Lazy-loaded SKILL fragment — **shared**. Loaded by `/ft-task`, `/ft-micro-task`, `/ft-goal-task`, and `/ft-close-epic` at their Step 0 when `unattended-mode = true`. The file is owned by `claude/skills/ft-task/`; the other three skills resolve it through their `<UNATTENDED>` path binding, the same way the runners resolve `step-1.5-model-edge.md` through `<MODEL_EDGE>`.
 >
 > **The contract lives in [`SPEC/gates.md`](../../../SPEC/gates.md) §"`--unattended` operator posture"** — this fragment is its executable interpretation across the three runners, not a second copy. Read the contract when this file is silent or in tension. The `park-reason:` key and its closed-set codes are canonical in [`SPEC.md`](../../../SPEC.md) §"Tasknote frontmatter"; the parked state and its resume path are canonical in [`SPEC/blocked.md`](../../../SPEC/blocked.md).
 >
-> **`<SKILL>` below stands for the invoking skill's own slash command** — `/ft-task`, `/ft-micro-task`, or `/ft-goal-task`. Substitute it wherever it appears; never hard-code `/ft-task`.
+> **`<SKILL>` below stands for the invoking skill's own slash command** — `/ft-task`, `/ft-micro-task`, `/ft-goal-task`, or `/ft-close-epic`. Substitute it wherever it appears; never hard-code `/ft-task`.
+>
+> **Most of this file is written for the three runners.** `/ft-close-epic` shares the park recipe, the pre-scaffold stop shape, and the never-relaxed list, but it is **not** a `--fast` superset there and its parent-flip is *deferred* rather than parked — see §"`/ft-close-epic`" at the end, and `SPEC/gates.md` §"`/ft-close-epic` under the posture" for the contract.
 
 ## What the posture adds
 
-`--unattended` declares that **no operator is present to answer a gate**. It is a strict superset of `--fast`: setting `unattended-mode = true` also sets `fast-mode = true`, so all three `--fast` surfaces (📦 force-skip, 👁️ suppression, 🛠️ no-op for routine trips) apply exactly as written — the operator does not pass both flags.
+`--unattended` declares that **no operator is present to answer a gate**. On the three runners it is a strict superset of `--fast`: setting `unattended-mode = true` also sets `fast-mode = true`, so all three `--fast` surfaces (📦 force-skip, 👁️ suppression, 🛠️ no-op for routine trips) apply exactly as written — the operator does not pass both flags. On `/ft-close-epic` there is no `--fast` to be a superset of, and the flag carries the posture directly.
 
 On top of that, it adds **exactly one behavior**: where `--fast` still lets a gate fire, `--unattended` **parks the tasknote** instead of firing a banner into an empty session. A conversion *removes* a banner and never adds one. Mint no new cue glyph; the CORE-065 two-banner cap is untouched.
 
@@ -82,3 +84,30 @@ Step 1.5 and the Step-2 pre-flight checks run before the tasknote exists, so a "
 Nor does it relax the **downstream-impact reconciliation** user-confirm, which guards plan correctness rather than pacing: with no operator to confirm, a direction-changing decision that reaches beyond the current task is a `Re-scope`, and `Re-scope` parks as `drift`.
 
 `--unattended` removes *pauses*, never *proof*.
+
+## `/ft-close-epic`
+
+The epic-close skill accepts the flag on its own terms (`SPEC/gates.md`
+§"`/ft-close-epic` under the posture"). What it shares with the runners:
+
+- **The park recipe** — used once, at its Step 4 Phase 1→2 exit gate. It runs
+  the `default-fire-on-clarifications` flavor, so a clarification it cannot
+  answer parks as `input-needed`; a `Re-scope` / `De-scope` verdict parks as
+  `drift`. The audit tasknote exists by then, so all four writes apply.
+- **The pre-scaffold stop shape** — every Step 1-2 bail terminates and writes
+  nothing, including the open-siblings ask (whose own default is already
+  "bail", so it is taken deterministically rather than asked).
+- **The never-relaxed list, in full.** The audit commit is a real commit.
+
+What differs:
+
+- **Not a `--fast` superset.** Nothing to inherit.
+- **The parent-flip is deferred, not parked.** The audit closes and commits;
+  the parent line stays `- [ ]`, the cohort stays nested, and the run emits
+  `⏸ --unattended stop — parent-flip: …`. There is nothing to park by then —
+  the audit note is `completed` and archived, and a parked note is *paused,
+  not closed*. The deferral is recorded in the archived note's Final Summary,
+  and PLAN.md states it structurally: a parent `- [ ]` above a cohort of
+  `- [x]` children means the flip is pending.
+
+`/ft-epic-discovery` does not accept the flag at all.

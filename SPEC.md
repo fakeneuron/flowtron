@@ -426,12 +426,16 @@ this table, never a free-form value:
 | `destructive` | A 🗄️/▶️/📡/💻 destructive-action escalation |
 | `prerequisite` | A ✋ `ACTION` that must be performed before the run can continue |
 | `model-mismatch` | The Step 1.5 concrete-`[model]` STOP |
-| `input-needed` | A queued bundled in-📦 prompt — a question autonomous commit cannot answer |
+| `input-needed` | A question autonomous execution cannot answer — a queued bundled in-📦 prompt, or `/ft-close-epic`'s Phase 1→2 clarification ask |
 | `dependency` | A hard dependency surfaced mid-Phase-2 — the park that predates the posture |
+| `interrupted` | The run ended without reaching closure *or* a gate — killed, out of context, session lost |
 
 The first five are the gate conversions in [`SPEC/gates.md`](SPEC/gates.md)
 §"`--unattended` operator posture"; `dependency` is the mid-Phase-2 park
-[`SPEC/blocked.md`](SPEC/blocked.md) has always had.
+[`SPEC/blocked.md`](SPEC/blocked.md) has always had. `interrupted` is neither
+— nothing stopped the run, it simply ended — and it is the one code a *caller*
+writes rather than a runner, to route a stranded note into the resume path
+([`SPEC/blocked.md`](SPEC/blocked.md) §"Resuming an interrupted run").
 
 **`drift` vs `dependency`.** The code names what *stopped* the run, not what
 motivated it. A `Re-scope` verdict parks as `drift` even when a dependency

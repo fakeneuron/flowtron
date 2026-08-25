@@ -64,7 +64,7 @@ not run Phase 3 or Phase 4. The tasknote sits at
 **Parked state.** A blocked tasknote is paused, not closed — Phase 4 is
 reserved for actual completion (or a Phase 1 De-scope). The tasknote is not
 archived, the PLAN.md task line stays unchecked, and Phase 1 + partial
-Phase 2 work are preserved verbatim. `park-reason:` states which of the six
+Phase 2 work are preserved verbatim. `park-reason:` states which of the seven
 stop causes put the note here, so a caller reading the file alone can tell a
 drift park from a destructive-action park without a transcript.
 
@@ -77,6 +77,59 @@ longer stopped), optionally remove the `Blocked by` clause from PLAN.md (or
 leave it as historical context), and continue Phase 2 from where parking
 left off.
 Phase 1 is already complete — do not re-run it.
+
+## Resuming an interrupted run
+
+A park is a *deliberate* stop. A run can also simply **end** — the process is
+killed, the context window runs out, the session is lost — leaving the tasknote
+at `status: in-progress` with no gate having fired and no `park-reason:`
+written. The runners refuse that state by design: `/ft-task` (and its two
+siblings) stop on an in-flight tasknote and recommend continuing
+conversationally, because restarting a half-executed task from Step 1 would
+re-run Discovery over work already done.
+
+That recommendation presumes a session that still holds the task's context. An
+operator-less caller has neither the session nor a flag, so the state is a dead
+end. It does not need one: the parked state above already expresses "started,
+paused, resume from here." The stranded note simply never entered it.
+
+**The path is two frontmatter writes, then a normal invocation.** The caller —
+an operator by hand, or an orchestrator that noticed its child exited without a
+commit — writes into the stranded note:
+
+```yaml
+status: blocked
+park-reason: interrupted — session ended mid-Phase-2 without reaching closure or a gate
+```
+
+and re-invokes `<SKILL> <TASK-ID>`. The runner's status branch now sees
+`blocked` and takes the **Exit (resume)** path above unchanged: drift-check the
+parked work, flip back to `in-progress`, restore the `🟢 In progress` chip,
+remove `park-reason:`, continue Phase 2. No new flag, no second resume path,
+and no executable change to any runner.
+
+**Flowtron performs neither write.** It ships no crash detector, no supervisor,
+and no session daemon (`docs/VISION.md` §"What we won't accept") — a runner
+cannot annotate a note in a session that no longer exists. This section is the
+contract the caller reports to; the two writes are the caller's, exactly as the
+`--unattended` posture is flowtron's contract and the orchestrator is not
+([`SPEC/gates.md`](gates.md) §"`--unattended` operator posture").
+
+**Scoped to `in-progress`.** The other two refused statuses are not this case
+and take no shortcut:
+
+- `not-started` is the template default and should never appear on a note the
+  runners scaffolded; treat it as a filing error, not an interrupted run.
+- `completed` means Phase 4 ran but the archive move or the commit did not —
+  closure was interrupted *inside* the atomic step. That is paper-complete
+  territory (`SPEC.md` §"Paper-complete guard"), and the foreign-dirt gate will
+  stop the next invocation on the uncommitted work regardless. It is an
+  operator repair, not a resume.
+
+**Preserve the note, don't reconstruct it.** Whatever Phase 1 and partial Phase
+2 the interrupted run wrote is the reason this path exists. Rewriting the
+tasknote from the template, or re-running Discovery on top of it, throws away
+exactly what resuming was meant to recover.
 
 ## Viz interaction
 
