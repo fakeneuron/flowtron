@@ -81,6 +81,7 @@ export interface PaletteTokens {
   ROW_SELECTION: string;
   ROW_SELECTION_SUBTASK: string;
   ROW_NEUTRAL: string;
+  ROW_NEUTRAL_SUBTASK: string;
   EPIC_ROW_NEUTRAL: string;
 }
 
@@ -121,6 +122,7 @@ const DEFAULT_PALETTE: PaletteTokens = {
   ROW_SELECTION: 'border-slate-200 ring-2 ring-sky-400 dark:border-slate-800 dark:ring-sky-600',
   ROW_SELECTION_SUBTASK: 'ring-1 ring-sky-400 dark:ring-sky-600',
   ROW_NEUTRAL: 'border-slate-200 dark:border-slate-800',
+  ROW_NEUTRAL_SUBTASK: 'hover:bg-slate-100/70 dark:hover:bg-slate-700/30',
   EPIC_ROW_NEUTRAL: 'border-slate-300 dark:border-slate-700',
 };
 
@@ -161,6 +163,7 @@ const LINEAR_PALETTE: PaletteTokens = {
   ROW_SELECTION: 'border-slate-200 ring-2 ring-teal-400 dark:border-slate-800 dark:ring-teal-600',
   ROW_SELECTION_SUBTASK: 'ring-1 ring-teal-400 dark:ring-teal-600',
   ROW_NEUTRAL: 'border-slate-200 dark:border-slate-800',
+  ROW_NEUTRAL_SUBTASK: 'hover:bg-slate-100/70 dark:hover:bg-slate-700/30',
   EPIC_ROW_NEUTRAL: 'border-slate-300 dark:border-slate-700',
 };
 
@@ -201,6 +204,7 @@ const GITHUB_PALETTE: PaletteTokens = {
   ROW_SELECTION: 'border-slate-200 ring-2 ring-pink-400 dark:border-slate-800 dark:ring-pink-600',
   ROW_SELECTION_SUBTASK: 'ring-1 ring-pink-400 dark:ring-pink-600',
   ROW_NEUTRAL: 'border-slate-200 dark:border-slate-800',
+  ROW_NEUTRAL_SUBTASK: 'hover:bg-slate-100/70 dark:hover:bg-slate-700/30',
   EPIC_ROW_NEUTRAL: 'border-slate-300 dark:border-slate-700',
 };
 

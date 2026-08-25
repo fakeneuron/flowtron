@@ -48,24 +48,27 @@ export function versionCurrency(
   return version === latestRelease ? 'current' : 'behind';
 }
 
+// The three row kinds share one highlight → selection → neutral decision and
+// differ only in which palette tokens it picks: subtask rows use the narrower
+// ring-1 variants, epic rows a heavier neutral border.
+export type RowVariant = 'task' | 'epic' | 'subtask';
+
+const ROW_OUTLINE_TOKENS: Record<RowVariant, (p: PaletteTokens) => [string, string, string]> = {
+  task: (p) => [p.ROW_HIGHLIGHT, p.ROW_SELECTION, p.ROW_NEUTRAL],
+  epic: (p) => [p.ROW_HIGHLIGHT, p.ROW_SELECTION, p.EPIC_ROW_NEUTRAL],
+  subtask: (p) => [p.ROW_HIGHLIGHT_SUBTASK, p.ROW_SELECTION_SUBTASK, p.ROW_NEUTRAL_SUBTASK],
+};
+
 export function rowOutlineClass(
   palette: PaletteTokens,
   isHighlighted: boolean,
   isSelected: boolean,
+  variant: RowVariant = 'task',
 ): string {
-  if (isHighlighted) return palette.ROW_HIGHLIGHT;
-  if (isSelected) return palette.ROW_SELECTION;
-  return palette.ROW_NEUTRAL;
-}
-
-export function epicRowOutlineClass(
-  palette: PaletteTokens,
-  isHighlighted: boolean,
-  isSelected: boolean,
-): string {
-  if (isHighlighted) return palette.ROW_HIGHLIGHT;
-  if (isSelected) return palette.ROW_SELECTION;
-  return palette.EPIC_ROW_NEUTRAL;
+  const [highlight, selection, neutral] = ROW_OUTLINE_TOKENS[variant](palette);
+  if (isHighlighted) return highlight;
+  if (isSelected) return selection;
+  return neutral;
 }
 
 export function splitHighlight(

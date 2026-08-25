@@ -1,21 +1,20 @@
-import React, { Suspense, lazy } from 'react';
+import React from 'react';
 import type { Task } from '../parser';
 import { DENSITY_TOKENS } from './constants';
 import { usePalette, useVisibilityPrefs } from './VisibilityContext';
 import { useRowInteraction } from './RowInteractionContext';
 import { highlightMatch } from './highlight';
 import { useSearchQuery } from './SearchContext';
-import { ErrorBoundary } from './ErrorBoundary';
 import { ClosureDriftChip } from './ClosureDriftChip';
-
-const TaskDetail = lazy(() => import('./TaskDetail'));
+import { TaskDetailPanel } from './TaskDetailPanel';
+import { rowOutlineClass } from './utils';
 
 interface SubtaskRowProps {
   task: Task;
 }
 
 export const SubtaskRow: React.FC<SubtaskRowProps> = ({ task }) => {
-  const { tasknotesById, expandedId, setExpandedId, highlightId, selectedId, navigateToTask } =
+  const { tasknotesById, expandedId, setExpandedId, highlightId, selectedId } =
     useRowInteraction();
   const isSelected = selectedId === task.id;
   const query = useSearchQuery();
@@ -28,13 +27,14 @@ export const SubtaskRow: React.FC<SubtaskRowProps> = ({ task }) => {
     <div>
       <div
         id={`row-${task.id}`}
-        className={`flex items-center gap-2 rounded ${DENSITY_TOKENS[density].subtaskRowPad} ${
-          highlightId === task.id
-            ? palette.ROW_HIGHLIGHT_SUBTASK
-            : isSelected
-              ? palette.ROW_SELECTION_SUBTASK
-              : 'hover:bg-slate-100/70 dark:hover:bg-slate-700/30'
-        } transition-colors`}
+        className={`flex items-center gap-2 rounded ${
+          DENSITY_TOKENS[density].subtaskRowPad
+        } ${rowOutlineClass(
+          palette,
+          highlightId === task.id,
+          isSelected,
+          'subtask',
+        )} transition-colors`}
       >
         <span
           aria-hidden
@@ -65,20 +65,7 @@ export const SubtaskRow: React.FC<SubtaskRowProps> = ({ task }) => {
           <span className="text-xs text-slate-500 dark:text-slate-400">{task.completedDate}</span>
         )}
       </div>
-      {isExpandedDetail && (
-        <ErrorBoundary>
-          <Suspense fallback={null}>
-            <TaskDetail
-              task={task}
-              tasknote={tn}
-              detailSections={visibility.detailSections}
-              starterSections={visibility.starterSections}
-              navigateToTask={navigateToTask}
-              compact
-            />
-          </Suspense>
-        </ErrorBoundary>
-      )}
+      <TaskDetailPanel task={task} compact />
     </div>
   );
 };

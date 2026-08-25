@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React from 'react';
 import type { TaskNode } from '../parser';
 import { Chevron } from './Chevron';
 import { DENSITY_TOKENS } from './constants';
@@ -6,10 +6,8 @@ import { usePalette, useVisibilityPrefs } from './VisibilityContext';
 import { useRowInteraction } from './RowInteractionContext';
 import { TaskRowInner } from './TaskRowInner';
 import { SubtaskRow } from './SubtaskRow';
-import { ErrorBoundary } from './ErrorBoundary';
-import { epicRowOutlineClass } from './utils';
-
-const TaskDetail = lazy(() => import('./TaskDetail'));
+import { TaskDetailPanel } from './TaskDetailPanel';
+import { rowOutlineClass } from './utils';
 
 interface EpicRowProps {
   node: TaskNode;
@@ -18,8 +16,7 @@ interface EpicRowProps {
 }
 
 export const EpicRow: React.FC<EpicRowProps> = ({ node, expanded, toggleExpanded }) => {
-  const { tasknotesById, expandedId, setExpandedId, highlightId, selectedId, navigateToTask } =
-    useRowInteraction();
+  const { expandedId, setExpandedId, highlightId, selectedId } = useRowInteraction();
   const { task, children } = node;
   const isSelected = selectedId === task.id;
   const done = children.filter((c) => c.completed).length;
@@ -31,10 +28,11 @@ export const EpicRow: React.FC<EpicRowProps> = ({ node, expanded, toggleExpanded
   return (
     <div
       id={`row-${task.id}`}
-      className={`relative rounded border-2 bg-slate-50 dark:bg-slate-800/50 ${epicRowOutlineClass(
+      className={`relative rounded border-2 bg-slate-50 dark:bg-slate-800/50 ${rowOutlineClass(
         palette,
         highlightId === task.id,
         isSelected,
+        'epic',
       )} transition-colors`}
     >
       <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 w-0.5 rounded-l bg-slate-400 dark:bg-slate-500" />
@@ -80,19 +78,7 @@ export const EpicRow: React.FC<EpicRowProps> = ({ node, expanded, toggleExpanded
           </div>
         </div>
       )}
-      {expandedId === task.id && (
-        <ErrorBoundary>
-          <Suspense fallback={null}>
-            <TaskDetail
-              task={task}
-              tasknote={tasknotesById.get(task.id)}
-              detailSections={visibility.detailSections}
-              starterSections={visibility.starterSections}
-              navigateToTask={navigateToTask}
-            />
-          </Suspense>
-        </ErrorBoundary>
-      )}
+      <TaskDetailPanel task={task} />
     </div>
   );
 };

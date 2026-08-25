@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { Task } from '../parser';
-import { displaySection, splitHighlight, versionCurrency } from './utils';
+import { PALETTES } from './constants';
+import { displaySection, rowOutlineClass, splitHighlight, versionCurrency } from './utils';
 
 const task = (overrides: Partial<Task> = {}): Task => ({
   id: 'CORE-1',
@@ -95,5 +96,28 @@ describe('splitHighlight', () => {
       { text: 'FE', matched: true },
       { text: '-042 task', matched: false },
     ]);
+  });
+});
+
+describe('rowOutlineClass', () => {
+  const palette = PALETTES.default;
+
+  it('prefers highlight over selection', () => {
+    expect(rowOutlineClass(palette, true, true, 'task')).toBe(palette.ROW_HIGHLIGHT);
+  });
+
+  it('picks the per-variant neutral token when neither state is active', () => {
+    expect(rowOutlineClass(palette, false, false, 'task')).toBe(palette.ROW_NEUTRAL);
+    expect(rowOutlineClass(palette, false, false, 'epic')).toBe(palette.EPIC_ROW_NEUTRAL);
+    expect(rowOutlineClass(palette, false, false, 'subtask')).toBe(palette.ROW_NEUTRAL_SUBTASK);
+  });
+
+  it('uses the narrower subtask tokens for the subtask variant', () => {
+    expect(rowOutlineClass(palette, true, false, 'subtask')).toBe(palette.ROW_HIGHLIGHT_SUBTASK);
+    expect(rowOutlineClass(palette, false, true, 'subtask')).toBe(palette.ROW_SELECTION_SUBTASK);
+  });
+
+  it('defaults to the task variant', () => {
+    expect(rowOutlineClass(palette, false, true)).toBe(palette.ROW_SELECTION);
   });
 });

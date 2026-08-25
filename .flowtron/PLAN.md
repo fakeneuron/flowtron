@@ -19,7 +19,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **FE-092** [medium]🧩 | viz-row-dedup — Extract the shared expandable-detail wrapper from `TaskRow.tsx` / `SubtaskRow.tsx` / `EpicRow.tsx` (each independently declares `lazy(() => import('./TaskDetail'))` plus its own ErrorBoundary/Suspense block) and fold `SubtaskRow`'s inline highlight/selection ternary into a parameterized `rowOutlineClass` — it is already stale relative to the helper the other two adopted. Surfaced by audit-structure 2026-08-23 (Finding #2, Medium).
 - [ ] **CORE-466** [light]🔧 | neutrality-ledger-gaps — Register the three unledgered contract-layer wiring references in `docs/AGENT-NEUTRALITY.md` (`templates/loop-heartbeat-template.md:1,8` has no row at all; `SPEC/loop.md:17`; `SPEC.md:126-135`) and state who owns ledger currency — the ledger puts re-surveying out of its own scope and no §7.1 check reads it. Surfaced by audit-structure 2026-08-23 (Finding #4, Medium).
 
 ## Future Opportunities
@@ -28,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-092** [medium]🧩 | viz-row-dedup — Completed 2026-08-24.
 - [x] **CORE-470** [light]🔧 | ft-stats-plan-archive — Completed 2026-08-24.
 - [x] **FE-094** [medium]🧩 | viz-parser-plan-archive — Completed 2026-08-24.
 - [x] **CORE-467** [heavy]🧠 | plan-completed-rotation — Completed 2026-08-24.

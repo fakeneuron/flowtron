@@ -1,21 +1,18 @@
-import React, { Suspense, lazy } from 'react';
+import React from 'react';
 import type { Task } from '../parser';
 import { DENSITY_TOKENS } from './constants';
 import { usePalette, useVisibilityPrefs } from './VisibilityContext';
 import { useRowInteraction } from './RowInteractionContext';
 import { TaskRowInner } from './TaskRowInner';
-import { ErrorBoundary } from './ErrorBoundary';
+import { TaskDetailPanel } from './TaskDetailPanel';
 import { rowOutlineClass } from './utils';
-
-const TaskDetail = lazy(() => import('./TaskDetail'));
 
 interface TaskRowProps {
   task: Task;
 }
 
 export const TaskRow: React.FC<TaskRowProps> = ({ task }) => {
-  const { tasknotesById, expandedId, setExpandedId, highlightId, selectedId, navigateToTask } =
-    useRowInteraction();
+  const { expandedId, setExpandedId, highlightId, selectedId } = useRowInteraction();
   const isSelected = selectedId === task.id;
   const visibility = useVisibilityPrefs();
   const palette = usePalette();
@@ -26,6 +23,7 @@ export const TaskRow: React.FC<TaskRowProps> = ({ task }) => {
       palette,
       highlightId === task.id,
       isSelected,
+      'task',
     )} transition-colors`}
   >
     <div className={`flex items-center gap-2 ${DENSITY_TOKENS[visibility.density].rowPad} pl-9`}>
@@ -35,19 +33,7 @@ export const TaskRow: React.FC<TaskRowProps> = ({ task }) => {
         onToggleDetail={() => setExpandedId(expandedId === task.id ? null : task.id)}
       />
     </div>
-    {expandedId === task.id && (
-      <ErrorBoundary>
-        <Suspense fallback={null}>
-          <TaskDetail
-            task={task}
-            tasknote={tasknotesById.get(task.id)}
-            detailSections={visibility.detailSections}
-            starterSections={visibility.starterSections}
-            navigateToTask={navigateToTask}
-          />
-        </Suspense>
-      </ErrorBoundary>
-    )}
+    <TaskDetailPanel task={task} />
   </div>
   );
 };
