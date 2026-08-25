@@ -15,6 +15,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
+- [ ] **CORE-474** [light]🔧 | readme-unattended-bullet — README §"Sessions, loops, and sub-agents" presents `--fast` as "the sanctioned hands-off mode" with no `--unattended` bullet — incomplete since CORE-EPIC-473. Add one bullet drawing the operator-present vs nobody-present distinction, parallel to the existing `--fast` entry. Surfaced by the CORE-473.N audit doc-drift sweep.
+
 ## Low
 
 
