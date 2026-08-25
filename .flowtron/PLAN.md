@@ -15,8 +15,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-472** [light]🔧 | ft-task-sop-rotation-mirror — CORE-467 added a `## Completed`-rotation advisory check to claude/skills/ft-task/SKILL.md Step 1, but SPEC/procedures/ft-task.md (its agent-neutral mirror) doesn't restate it. Surfaced by /ft-release CORE-471's SOP-currency check 2026-08-24 (flag-don't-bump); mirror the advisory into the SOP and bump its last-verified stamp.
-
 ## Low
 
 
@@ -26,6 +24,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-472** [light]🔧 | ft-task-sop-rotation-mirror — Completed 2026-08-25.
 - [x] **CORE-471** [medium]🧩 | release v5.19.0 — Completed 2026-08-25.
 - [x] **CORE-466** [light]🔧 | neutrality-ledger-gaps — Completed 2026-08-24.
 - [x] **FE-092** [medium]🧩 | viz-row-dedup — Completed 2026-08-24.

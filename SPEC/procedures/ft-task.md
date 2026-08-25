@@ -2,7 +2,7 @@
 procedure: ft-task
 source: claude/skills/ft-task/ templates/tasknote-template.md
 restates: SPEC.md
-last-verified: v5.17.0 · 2026-08-18
+last-verified: v5.19.0 · 2026-08-25
 ---
 
 # Procedure SOP — `ft-task`
@@ -87,6 +87,14 @@ Otherwise capture, per [`SPEC.md` §"Task-line format"](../../SPEC.md): the
 optional `[model]` tag, the `| shortname`, the long description, the section
 heading the line lives under (its **Priority**), and an optional `[!critical]`
 flag.
+
+**`## Completed`-rotation advisory.** While `PLAN.md` is open, count the
+checked rows under `## Completed` (nested epic children included). Past
+**150**, surface a one-line `⚠️` advisory naming the count and suggesting the
+operator rotate older month blocks to `.flowtron/PLAN-ARCHIVE.md` — then
+continue. Informational only; never block, never rotate on your own. Full
+contract (the 100-row bound, month-block granularity, the never-split rules):
+[`SPEC/tasknote-selection.md` §"`## Completed` rotation"](../tasknote-selection.md).
 
 ### 2 — Resolve the area and check the model
 
