@@ -22,6 +22,15 @@ unless correcting a factual error.
 
 ---
 
+## v5.19.0 — viz App decomposition, /ft-refactor depth-planner, PLAN.md rotation contract
+
+- New `/ft-refactor` depth-planner skill: read-only survey (dependencies, seams, coverage) → sequenced, behavior-preserving refactor plan filed as an epic
+- viz's `App.tsx` decomposed into extracted hooks and components (prefs/selection state, header, diagnostics, derived selectors)
+- PLAN.md's `## Completed` section bounded by a rotation contract into a new sibling `.flowtron/PLAN-ARCHIVE.md`; viz and `/ft-stats` read both files
+- `/ft-release` now publishes GitHub Releases on push-go, and its §7.1 drift checks also run in CI on every push
+
+Also: Grok/Codex/Cursor platform-parity hardening (`--park`/`--worktree` flag parity, Codex trigger-table backfill), a viz major dependency bump (React 19, Vite 8, Tailwind 4), and a wave of doc-currency fixes.
+
 ## v5.18.0 — graph-lite planning YAML, epic fan-out, NAS/TERM cues
 
 - Graph-lite: omit-when-absent YAML planning keys, Discovery `.1` fan-out, archive decision-link skim, viz optional-edge chips

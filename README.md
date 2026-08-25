@@ -20,8 +20,8 @@ actually review. No scripts, daemons, databases, or schemas to maintain.
 
 ![The flowtron visualizer showing flowtron's own PLAN.md — open tasks by priority, phase-progress dots, and the completed archive](.flowtron/screenshots/viz-board.png)
 
-Flowtron is built with flowtron: **691 tasks** closed through this exact
-workflow between 2026-04-28 and 2026-08-18 (as of 2026-08-19) — each one with
+Flowtron is built with flowtron: **744 tasks** closed through this exact
+workflow between 2026-04-28 and 2026-08-24 (as of 2026-08-24) — each one with
 a tasknote preserved in [`.flowtron/tasknote/archive/`](.flowtron/tasknote/archive/).
 Count and date range are recomputed each release by `/ft-release` §7.1's
 "Standing README task-counter check" (one archived tasknote per closed task,
