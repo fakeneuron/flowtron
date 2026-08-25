@@ -11,7 +11,14 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-(none)
+- [ ] **CORE-EPIC-473** [heavy]🧠 | unattended-orchestration — Close flowtron's headless gaps: an opt-in `--unattended` posture that parks blocking gates as `status: blocked` instead of firing banners into a session with no operator, machine-readable stop reasons, reachable epic-close and resume entry points, and a published orchestration contract. Filed via /ft-epic-discovery; refined at .1 closure.
+  - [x] **CORE-473.1** [heavy]🧠 | unattended-orchestration discovery — Completed 2026-08-25.
+  - [ ] **CORE-473.2** [heavy]🧠 | unattended-posture — Define the `--unattended` posture in SPEC/gates.md: a `--fast` superset that converts the 🛠️ drift banner, destructive-action escalation, ✋ ACTION, and the Step 1.5 concrete-model STOP into a `status: blocked` park carrying a structured reason. Extends SPEC/loop.md's shipped carve-out; never relaxes the paper-complete guard.
+  - [ ] **CORE-473.3** [medium]🧩 | park-reason-key — Add the structured park-reason frontmatter key to SPEC.md §"Tasknote frontmatter" and SPEC/blocked.md: a stable code plus prose written whenever an unattended run parks, so an orchestrator reading the tasknote can distinguish stop causes without stdout. Additive and omit-when-absent.
+  - [ ] **CORE-473.4** [medium]🧩 | unattended-wiring — Wire `--unattended` through /ft-task, /ft-micro-task, /ft-goal-task, their claude/commands/*.md stubs, claude/CAPABILITIES.md, and every docs/PLATFORMS.md non-Claude trigger table that already commits to a flag roster — /ft-release §7.1 Pair I gates the last two.
+  - [ ] **CORE-473.5** [heavy]🧠 | unreachable-entrypoints — Close the two entry points an orchestrator cannot reach: `/ft-close-epic --unattended` drives the .N audit then parks at the parent-flip rather than auto-approving it, and a documented resume path for an in-progress tasknote that /ft-task refuses by design.
+  - [ ] **CORE-473.6** [medium]🧩 | orchestration-contract — Extend docs/EXTERNAL-AGENTS.md with the positive contract an orchestrator reports to, beside its existing not-a-runtime boundary; correct §"The Return" and §"Relationship" where `--unattended` makes their operator-gate and no-SPEC-change claims false. Orchestrator-neutral prose — no vendor named.
+  - [ ] **CORE-473.N** [light]🔧 | unattended-orchestration audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
 
 ## Medium
 
