@@ -1,6 +1,6 @@
 ---
 name: ft-goal-task
-description: Start a goal-loop tasknote for the given task ID and drive it through the SPEC's 4-phase workflow with the Phase 2↔3 execute→verify cycle run as an inline loop. Use when the user asks to run a task as an iterative execute→verify loop against machine-checkable acceptance criteria. Phase 1 additionally requires every Acceptance criterion to carry a machine-checkable verify command (taste criteria split to a one-time 👁️ ask); the loop iterates under the SPEC/loop.md budget + per-cycle relevance gate, commits per verified iteration, and logs to a 🔁 Iterations section. Sibling of /ft-task; uses `templates/tasknote-template.md`. Invoke with the task ID as args (e.g., args="CORE-042", "CORE-195.2 --fast", or "CORE-042 --worktree").
+description: Start a goal-loop tasknote for the given task ID and drive it through the SPEC's 4-phase workflow with the Phase 2↔3 execute→verify cycle run as an inline loop. Use when the user asks to run a task as an iterative execute→verify loop against machine-checkable acceptance criteria. Phase 1 additionally requires every Acceptance criterion to carry a machine-checkable verify command (taste criteria split to a one-time 👁️ ask); the loop iterates under the SPEC/loop.md budget + per-cycle relevance gate, commits per verified iteration, and logs to a 🔁 Iterations section. Sibling of /ft-task; uses `templates/tasknote-template.md`. Invoke with the task ID as args (e.g., args="CORE-042", "CORE-195.2 --fast", "CORE-042 --worktree", or "CORE-042 --unattended" for the operator-less posture).
 ---
 
 # goal-task — goal-loop tasknote runner
@@ -15,8 +15,9 @@ Supported invocations:
 - `/ft-goal-task <TASK-ID>`
 - `/ft-goal-task <TASK-ID> --fast` (or `-f`)
 - `/ft-goal-task <TASK-ID> --worktree`
+- `/ft-goal-task <TASK-ID> --unattended`
 
-`--fast` / `-f` and `--worktree` are the only accepted trailing tokens (either, both, or neither).
+`--fast` / `-f`, `--worktree`, and `--unattended` are the only accepted trailing tokens (any combination, or none).
 
 ## Step 0 — Resolve paths + flag parse
 
@@ -32,6 +33,7 @@ Paths this skill uses:
 - SPEC_DIR (lazy modules `loop.md` · `epic.md` · `starter.md` · `blocked.md` · `model.md` · `versioning.md`): `<root>SPEC/`
 - SKILL_DIR: `<root>claude/skills/ft-goal-task/` (no private fragments in v1; falls back to the same mental model as ft-task)
 - MODEL_EDGE (shared Step 1.5 fragment, owned by `/ft-task`): `<root>claude/skills/ft-task/step-1.5-model-edge.md`
+- UNATTENDED (shared `--unattended` fragment, owned by `/ft-task`): `<root>claude/skills/ft-task/unattended-mode.md`
 - Template: `<root>templates/tasknote-template.md`
 - PLAN: `.flowtron/PLAN.md`, tasknote dir: `.flowtron/tasknote/` (always)
 
@@ -39,13 +41,16 @@ Paths this skill uses:
 
 **Parse `args`.** Split on whitespace into `(TASK-ID, rest...)`. Branch on the flag set in `rest`:
 
-- **No flags** → `fast-mode = false`, `worktree-mode = false`. Continue to Step 1.
+- **No flags** → `fast-mode = false`, `worktree-mode = false`, `unattended-mode = false`. Continue to Step 1.
 - **`--fast` or `-f`** → `fast-mode = true`. Emit exactly one inline marker after path resolution: `⚡ --fast active — 👁️ frontend ask and 📦 signal trips suppressed; Re-scope/De-scope still fires 🛠️.` Continue to Step 1. (Note: a goal loop already runs with `--fast` semantics once the loop starts — see Step 5 gate collapse — so `--fast` is largely redundant here; accepted for parity and for the one-time pre-loop Phase 1 surface.)
 - **`--worktree`** → `worktree-mode = true`. Emit: `🌳 --worktree active — Phase 1 Discovery runs here, then I hand off to /ft-worktree-start; the loop runs in the isolated worktree.` Continue to Step 1.
-- **Both `--worktree` and `--fast`/`-f`** → set both flags; the worktree handoff (Step 4) takes precedence — the operator carries `--fast` onto the in-worktree re-run if desired.
-- **Any other trailing arg** → surface a one-line usage notice (``Unknown arg `<arg>`. Usage: `/ft-goal-task <TASK-ID> [--fast|-f] [--worktree]`.``) and ask via AskUserQuestion whether they meant `--fast`, `--worktree`, the default flow, or to abort. Do not proceed silently.
+- **`--unattended`** (no short alias) → `unattended-mode = true` **and** `fast-mode = true` — the posture is a strict `--fast` superset, so the operator never passes both. Its marker replaces `--fast`'s: `⚡ --unattended active — no operator present: the loop's gate collapse applies as always, and the gates it cannot answer park the tasknote with a park-reason instead of handing back.`
+- **Combinations** → set every flag named; order never matters. With `--worktree`, the worktree handoff (Step 4) takes precedence — the operator carries `--fast` / `--unattended` onto the in-worktree re-run if desired.
+- **Any other trailing arg** → surface a one-line usage notice (``Unknown arg `<arg>`. Usage: `/ft-goal-task <TASK-ID> [--fast|-f] [--worktree] [--unattended]`.``) and ask via AskUserQuestion whether they meant `--fast`, `--worktree`, `--unattended`, the default flow, or to abort. Do not proceed silently.
 
 `fast-mode` semantics are identical to `/ft-task`. See `<root>claude/skills/ft-task/SKILL.md` Step 0 for the full contract and operator-gate cue details.
+
+`unattended-mode` is the operator-less posture. **When it is true, Read `<UNATTENDED>` now** (alongside `<SPEC_DIR>/blocked.md`, which every conversion writes into); it carries the park recipe, the conversion map keyed to *this* skill's step numbers, and the pre-scaffold stop split. A goal loop already parks on a destructive step by construction — the posture generalizes that one carve-out to five gates and adds the `park-reason:` obligation. Branches reference it at Steps 1.5, 2, 4, 5, and 6. Contract: SPEC/gates.md §"`--unattended` operator posture".
 
 ## Step 1 — Locate the task in PLAN.md (identical to /ft-task)
 
@@ -53,11 +58,11 @@ Read PLAN.md. Find the line containing `**<TASK-ID>**`. Status gate (already-clo
 
 ## Step 1.5 — Model gate (identical to /ft-task)
 
-Gate on the `[model]` segment before scaffolding. Satisfied → proceed. Category under-tier / concrete mismatch / legacy-absent → read `<SPEC_DIR>/model.md` + `<MODEL_EDGE>` in parallel and follow the matching branch. Same two-path AskUserQuestion; no silent overrides. `<MODEL_EDGE>` is shared across the three model-gate skills — substitute `/ft-goal-task` for its `<SKILL>` placeholder when surfacing a branch, so a re-invoke suggestion preserves the loop shape rather than sending the operator to `/ft-task`.
+Gate on the `[model]` segment before scaffolding. Satisfied → proceed. Category under-tier / concrete mismatch / legacy-absent → read `<SPEC_DIR>/model.md` + `<MODEL_EDGE>` in parallel and follow the matching branch. Same two-path AskUserQuestion; no silent overrides. **When `unattended-mode = true`**, a concrete mismatch takes `<UNATTENDED>` §"Pre-scaffold stops" instead — scaffold with `status: blocked` + `park-reason: model-mismatch — …` and halt, rather than offering the ask. `<MODEL_EDGE>` is shared across the three model-gate skills — substitute `/ft-goal-task` for its `<SKILL>` placeholder when surfacing a branch, so a re-invoke suggestion preserves the loop shape rather than sending the operator to `/ft-task`.
 
 ## Step 2 — Pre-flight checks & file-state branch (identical to /ft-task)
 
-Resolve Area, epic-ID dispatch (read `SPEC/epic.md` for `<AREA>-EPIC-<N>` / `<AREA>-<N>.<sub>`), **foreign-dirt gate** (`git status --porcelain` hard stop per SPEC §"Paper-complete guard"), archive vs active tasknote checks, four-way status branch (starter / blocked / in-flight / fresh). Same routing to 3a / 3b / 3c. The goal-loop flavor changes *scaffold content* (Step 3b addendum below) and the Phase 2↔3 *drive* (Step 5), not the routing.
+Resolve Area, epic-ID dispatch (read `SPEC/epic.md` for `<AREA>-EPIC-<N>` / `<AREA>-<N>.<sub>`), **foreign-dirt gate** (`git status --porcelain` hard stop per SPEC §"Paper-complete guard"), archive vs active tasknote checks, four-way status branch (starter / blocked / in-flight / fresh). **`--unattended` relaxes none of these** — each terminates and writes nothing, in the machine-readable stop shape at `<UNATTENDED>` §"Pre-scaffold stops". Same routing to 3a / 3b / 3c. The goal-loop flavor changes *scaffold content* (Step 3b addendum below) and the Phase 2↔3 *drive* (Step 5), not the routing.
 
 ## Step 3a / 3b / 3c — Promote, Scaffold, Resume
 
@@ -116,6 +121,8 @@ Every `## ✅ Acceptance` criterion must be *loop-verifiable* — it carries a *
 
 **When `fast-mode = true`:** write the verify commands + the taste-split directly, skipping extra AskUserQuestion pauses (the operator asserts the Acceptance shape).
 
+**When `unattended-mode = true`:** the same, plus the Phase 1→2 exit gate's drift carve-out converts — a `Re-scope` / `De-scope` verdict parks with `park-reason: drift — …` per `<UNATTENDED>` §"Conversion map" rather than firing 🛠️ into an empty session. The **no-machine-verifiable-criteria** edge case above is not a conversion: it is a wrong-skill stop with nothing yet worth preserving, so report it and halt without parking.
+
 **`--worktree` handoff (if `worktree-mode = true`).** Once Phase 1 is complete and the exit gate has cleared, **do NOT enter the loop.** `/ft-worktree-start` requires a pre-existing, Phase-1-scoped tasknote and hands off to a *fresh session* — exactly the state you now have. Hand off:
 
 ```markdown
@@ -146,19 +153,19 @@ This is the heart of the skill. Instead of running Phase 2 then Phase 3 once, **
 4. **Commit-or-retry.**
    - **All pass** → commit autonomously (`feat: <TASK-ID> — <cycle summary>` or `fix:`/`chore:`), append a `## 🔁 Iterations` line with the sha, update `loop-last-run:` to today. If this cycle's pass means *every* Acceptance criterion is now green → the loop is converged; break to Step 6.
    - **Any fail** → append a `## 🔁 Iterations` line noting the failure, **no commit**, and loop back to step 1 with the failure as new evidence (adjust the next change).
-5. **Budget check.** If the cycle count reaches `loop-max` without convergence → **soft stop** (`SPEC/loop.md` §"max-iterations budget"): halt, record budget-exhaustion in `## 🔁 Iterations`, and **hand the tasknote back to the operator** (not auto-parked, not auto-closed — the operator decides to raise the budget, re-scope, or park). Do not silently keep going past `loop-max`.
+5. **Budget check.** If the cycle count reaches `loop-max` without convergence → **soft stop** (`SPEC/loop.md` §"max-iterations budget"): halt, record budget-exhaustion in `## 🔁 Iterations`, and **hand the tasknote back to the operator** (not auto-parked, not auto-closed — the operator decides to raise the budget, re-scope, or park). Do not silently keep going past `loop-max`. This is **not** an `--unattended` conversion — the budget stop is the same hand-back either way, and the tasknote stays unparked.
 
-**Destructive-action carve-out (does NOT collapse).** If a cycle needs a destructive or irreversible command — a migration, `git push`, `rm`, a release step — the `--fast` collapse does **not** cover it (`SPEC/loop.md` §"Gate collapse" → destructive carve-out). An autonomous loop cannot fire a blocking banner into an unattended session, so **park the tasknote via `status: blocked`** (read `SPEC/blocked.md`, flip status, update the nav header to `⏸ Blocked`, log the reason in `## 🔁 Iterations`) and stop. The operator resumes with the destructive step under a real gate (Step 3c).
+**Destructive-action carve-out (does NOT collapse).** If a cycle needs a destructive or irreversible command — a migration, `git push`, `rm`, a release step — the `--fast` collapse does **not** cover it (`SPEC/loop.md` §"Gate collapse" → destructive carve-out). An autonomous loop cannot fire a blocking banner into an unattended session, so **park the tasknote via `status: blocked`** (read `SPEC/blocked.md`, flip status, update the nav header to `⏸ Blocked`, log the reason in `## 🔁 Iterations`) and stop. The operator resumes with the destructive step under a real gate (Step 3c). **When `unattended-mode = true`**, also write `park-reason: destructive — <the command>` so a caller reading the file alone can classify the stop without a transcript (`<UNATTENDED>` §"Conversion map"); a prerequisite ✋ `ACTION` parks the same way as `prerequisite`.
 
-**Hard dependency surfaces mid-loop.** Same as `/ft-task` — read `SPEC/blocked.md` and park. The `## 🔁 Iterations` log preserves the loop's memory across the park so resume is cheap.
+**Hard dependency surfaces mid-loop.** Same as `/ft-task` — read `SPEC/blocked.md` and park, writing `park-reason: dependency — <the dependency>` (mandatory under `--unattended`, recommended otherwise). The `## 🔁 Iterations` log preserves the loop's memory across the park so resume is cheap.
 
 ## Step 6 — Phase 4: Closure + Post-closure (identical to /ft-task)
 
 Once the loop converges (all Acceptance verify commands green):
 
-1. **One-time taste checks.** If Phase 1 split any criteria into `### 👁️ One-time visual checks`, surface them now as a single emphasized `👁️ **CONFIRM**` prose ask — own line, blank-line isolated, bold label per SPEC/gates.md §"Emphasized inline ask shape" (suppressed only when `fast-mode = true`, where the operator owns visual confirmation). This is the *only* 👁️ ask in the whole run.
+1. **One-time taste checks.** If Phase 1 split any criteria into `### 👁️ One-time visual checks`, surface them now as a single emphasized `👁️ **CONFIRM**` prose ask — own line, blank-line isolated, bold label per SPEC/gates.md §"Emphasized inline ask shape" (suppressed only when `fast-mode = true` — which `unattended-mode` implies — where the operator owns visual confirmation). This is the *only* 👁️ ask in the whole run.
 2. **Phase 4 closure — identical to `/ft-task`.** Doc-drift sweep across the AI-referenced docs in `.flowtron/tasknote/README.md`; tick every `## ✅ Acceptance` criterion the loop verified and annotate any it did not (`N/A` / not-met with a one-line reason) — a soft stop at `loop-max` closes with the unmet criteria annotated, never silently unticked; do **not** flip the markdown nav chip to `✅ Completed` (retired by CORE-042.4; render-derived from YAML); flip the tasknote's YAML `status:` to `completed`; flip **only this task's** PLAN.md line to the stub `Completed YYYY-MM-DD.` form and move the tasknote to `archive/<area>/` only when ready for the atomic closure commit (SPEC §"Paper-complete guard"); draft the evidence-based recap: 1-2 sentence plain-English summary first — mention the loop converged in N iterations against which verify target — then paths/LOC where meaningful, verification results, refactors made or deferred with rationale, documentation verdict, and maintainability effect.
-3. **Post-closure protocol — identical to `/ft-task`.** Because the loop ran under `--fast` semantics, the closure's own commit (PLAN flip + archive move + any remaining deliverables) routes to the **Skip branch** behind an `✅ Closure complete; committing autonomously (…)` marker. Then verify deliverable-covering SHA and emit 🏁 (never invent a SHA), suggest-next-move (re-read PLAN.md fresh), and the copy-paste line — all exactly as `/ft-task` Step 6. Per-cycle commits during the loop are intermediate; the final closure commit still must land PLAN/archive under the paper-complete guard.
+3. **Post-closure protocol — identical to `/ft-task`.** Because the loop ran under `--fast` semantics, the closure's own commit (PLAN flip + archive move + any remaining deliverables) routes to the **Skip branch** behind an `✅ Closure complete; committing autonomously (…)` marker. Then verify deliverable-covering SHA and emit 🏁 (never invent a SHA), suggest-next-move (re-read PLAN.md fresh), and the copy-paste line — all exactly as `/ft-task` Step 6. **When `unattended-mode = true`**, a queued bundled in-📦 prompt is the one thing the Skip branch cannot resolve: park with `park-reason: input-needed — …` per `<UNATTENDED>` §"Conversion map" rather than committing. The paper-complete guard is not suppressed by either flag. Per-cycle commits during the loop are intermediate; the final closure commit still must land PLAN/archive under the paper-complete guard.
 
 The recap should state the convergence: how many iterations ran, which verify target closed the loop, and (if applicable) that `loop-max` was hit or a taste check remains for the operator.
 

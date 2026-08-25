@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-473.1** [heavy]🧠 | unattended-orchestration discovery — Completed 2026-08-25.
   - [x] **CORE-473.2** [heavy]🧠 | unattended-posture — Completed 2026-08-25.
   - [x] **CORE-473.3** [medium]🧩 | park-reason-key — Completed 2026-08-25.
-  - [ ] **CORE-473.4** [medium]🧩 | unattended-wiring — Wire `--unattended` through /ft-task, /ft-micro-task, /ft-goal-task, their claude/commands/*.md stubs, claude/CAPABILITIES.md, and every docs/PLATFORMS.md non-Claude trigger table that already commits to a flag roster — /ft-release §7.1 Pair I gates the last two.
+  - [x] **CORE-473.4** [medium]🧩 | unattended-wiring — Completed 2026-08-25.
   - [ ] **CORE-473.5** [heavy]🧠 | unreachable-entrypoints — Close the two entry points an orchestrator cannot reach: `/ft-close-epic --unattended` drives the .N audit then parks at the parent-flip rather than auto-approving it, and a documented resume path for an in-progress tasknote that /ft-task refuses by design.
   - [ ] **CORE-473.6** [medium]🧩 | orchestration-contract — Extend docs/EXTERNAL-AGENTS.md with the positive contract an orchestrator reports to, beside its existing not-a-runtime boundary; correct §"The Return" and §"Relationship" where `--unattended` makes their operator-gate and no-SPEC-change claims false. Orchestrator-neutral prose — no vendor named.
   - [ ] **CORE-473.N** [light]🔧 | unattended-orchestration audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).

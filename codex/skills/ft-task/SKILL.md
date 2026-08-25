@@ -1,6 +1,6 @@
 ---
 name: ft-task
-description: Start or promote a Flowtron tasknote from Codex and drive the 4-phase workflow through closure. With `--debug`, drive it hypothesis-first for a bug, regression, or unexpected behavior whose root cause is not yet known.
+description: Start or promote a Flowtron tasknote from Codex and drive the 4-phase workflow through closure. With `--debug`, drive it hypothesis-first for a bug, regression, or unexpected behavior whose root cause is not yet known. With `--unattended`, run it with no operator present — the gates that would ask instead park the tasknote with a machine-readable stop reason.
 ---
 
 # ft-task - Codex wrapper

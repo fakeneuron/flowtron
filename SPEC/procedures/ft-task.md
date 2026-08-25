@@ -53,11 +53,26 @@ equivalent where a step calls for one (full ledger:
 | **trigger** | The operator's conversational request to start the task — there is no slash dispatch to rely on. |
 | **autonomous mode** | The operator may ask you to run without stopping at the conditional gates (Claude Code exposes this as `--fast`). Honor it as described under each gate; the concept is platform-neutral, the flag syntax is not. |
 | **debug mode** | The operator may ask you to drive the task hypothesis-first because the root cause is not yet known (Claude Code exposes this as `--debug`). **Explicit opt-in only** — never infer it from a bug-shaped task description. It adds *content* to Phases 1–4 and no mechanics: no new phase, template, banner, or gate. See Step 4 and Step 5. |
+| **unattended mode** | The caller may declare that **no operator is present to answer a gate** (Claude Code exposes this as `--unattended`). A strict superset of autonomous mode — everything that mode suppresses stays suppressed — plus exactly one added behavior: the five gates an operator-less run cannot answer **park the tasknote** instead of firing a banner into an empty session. Full contract, including which five and what a park writes: [`SPEC/gates.md` §"`--unattended` operator posture"](../gates.md). |
 
 Autonomous mode and debug mode are **orthogonal and compose**: a run can be
 both, in which case the hypothesis scaffolding is written without stopping to
 ask, and the Phase 3 repro re-verify still runs (it is not a gate autonomous
-mode may suppress).
+mode may suppress). Unattended mode composes with both the same way — it is
+autonomous mode plus parking, never a replacement for either.
+
+**Parking, in one paragraph.** Under unattended mode a converted gate flips the
+tasknote's YAML `status:` to `blocked`, flips the nav chip to `⏸ Blocked`,
+writes `park-reason: <code> — <one line>` from the closed set in
+[`SPEC.md` §"Tasknote frontmatter"](../../SPEC.md), and **stops** — no Phase 3,
+no Phase 4, PLAN.md line unchanged, Phase 1 and any partial Phase 2 work
+preserved verbatim. A park never performs the operator's own motion (it does
+not make a verdict's PLAN edit, delete a tasknote, or re-file a task); it
+records what the resuming operator should do. A park *is* a stop:
+unattended mode removes **pauses**, never **proof** — all three parts of
+[`SPEC.md` §"Paper-complete guard"](../../SPEC.md) hold with no unattended
+variant. Resume is the ordinary blocked path in
+[`SPEC/blocked.md`](../blocked.md), which also clears `park-reason:`.
 
 The **operator-cue vocabulary** (🛠️ 📦 🟢 👁️ 🏁 ✅ 🔧 🧩 🧠 👇 🗄️ ▶️ 📡 💻 ✋ 🔍 and
 their UPPERCASE labels) is contract-layer, not Claude-specific — emit it
@@ -106,7 +121,11 @@ Check the `[model]` tag against the model you are running as, per
 [`SPEC/model.md`](../model.md). If the task is tagged for a heavier tier or a
 different concrete model than yours, surface that to the operator before doing
 heavy thinking on the wrong model — heavy work should not run on an
-under-tier model silently.
+under-tier model silently. **Under unattended mode** there is no operator to
+surface a concrete mismatch to: scaffold the tasknote with `status: blocked`
+and `park-reason: model-mismatch — …`, then halt, rather than asking or
+retagging the PLAN line yourself. The soft under-tier advisory is unchanged —
+it never blocked, so there is nothing to convert.
 
 **Epic IDs.** If the ID is `<AREA>-EPIC-<N>` or `<AREA>-<N>.<sub>`, read
 [`SPEC/epic.md`](../epic.md) for the lifecycle — the parent line is not
@@ -120,7 +139,12 @@ child is typically an Audit.
 resume writes, run `git status --porcelain`. If non-empty: **STOP**, surface
 the dirt list, and ask the operator to commit / stash / discard themselves,
 then re-invoke. Do not auto-clean. Full contract:
-[`SPEC.md` §"Paper-complete guard"](../../SPEC.md).
+[`SPEC.md` §"Paper-complete guard"](../../SPEC.md). **Unattended mode does not
+relax this**, and it does not park here either: writing a new tasknote into a
+tree the guard has just refused to touch makes that file its own foreign dirt
+on the next invocation. Report the dirt machine-readably and terminate without
+writing — likewise for the archived / in-flight collisions below, where a
+tasknote for this ID already exists and there is nothing new to park.
 
 Check `.flowtron/tasknote/<TASK-ID>.md` and branch on its existence / YAML
 `status:`:
@@ -220,7 +244,11 @@ operator's go (conversational assent —
 [`SPEC/gates.md` §"Accepted gate replies"](../gates.md)). Full flavor rules
 and the autonomous-mode drift carve-out (Re-scope/De-scope always fire 🛠️
 even under autonomous mode):
-[`SPEC/gates.md` §"Phase 1→2 exit gate"](../gates.md).
+[`SPEC/gates.md` §"Phase 1→2 exit gate"](../gates.md). **Under unattended
+mode** the carve-out is not weakened either, but there is nobody to fire at:
+the verdict parks with `park-reason: drift — …` and stops, leaving the
+verdict's own PLAN.md edit and any tasknote deletion to the resuming
+operator.
 
 ### 5 — Phases 2-4
 
@@ -237,6 +265,12 @@ time (Step 6).
   boundary; record the reason and defer unrelated cleanup. Add targeted tests
   for non-trivial behavior. If a hard dependency surfaces mid-execution,
   **park** the tasknote per [`SPEC/blocked.md`](../blocked.md) and stop.
+  Under **unattended mode** a destructive-action escalation (🗄️/▶️/📡/💻) and a
+  ✋ `ACTION` that is a **prerequisite** for continuing park the same way, with
+  `park-reason: destructive — …` / `prerequisite — …`; an *advisory* ✋ is
+  recorded and the run continues. The prerequisite/advisory split is biased
+  conservative — park on doubt, since an over-park costs one resume and an
+  under-park reaches closure with the prerequisite never performed.
   If a **direction-changing decision** surfaces mid-execution — one that
   changes the approach, contract, data model, or sequencing in a way reaching
   *beyond* this task — run the **downstream-impact reconciliation scan** before
@@ -249,7 +283,9 @@ time (Step 6).
   effect stays inside this task skips the scan (judgment). This is an inline
   review prompt, **not** a third banner — and like the Re-scope/De-scope
   carve-out it guards plan correctness, so it runs even under autonomous mode
-  (it proposes; the operator owns the confirm). Triggers, scan steps, and
+  (it proposes; the operator owns the confirm). Under **unattended mode** there
+  is no operator to own that confirm, so such a decision is a `Re-scope` and
+  parks as `drift`. Triggers, scan steps, and
   vocabulary:
   [`SPEC/tasknote-selection.md` §"Downstream-impact reconciliation"](../tasknote-selection.md).
   **Under debug mode**, weight the pattern survey toward similar bug fixes in
@@ -330,7 +366,10 @@ Run the three-step protocol in
      [`SPEC/gates.md` §"Accepted gate replies"](../gates.md)). Do **not** emit 🏁, next-move, or the copy-paste
      line in this turn. Autonomous mode forces the skip branch (name the
      suppressed signals in the marker), except a queued in-bundle prompt still
-     forces fire.
+     forces fire. Under **unattended mode** that exception has no operator to
+     fire at either: park with `park-reason: input-needed — …` instead of
+     committing. The paper-complete guard is suppressed by neither mode —
+     🏁 still requires a real deliverable-covering SHA.
 2. **Mark landed + suggest next move.** After the commit lands, verify
    `git show --name-only` covers deliverables (paper-complete guard), then
    emit the 🏁 state-marker with that real SHA and a 1-2 sentence
