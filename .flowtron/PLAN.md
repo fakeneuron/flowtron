@@ -16,6 +16,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Medium
 
 - [ ] **CORE-474** [light]🔧 | readme-unattended-bullet — README §"Sessions, loops, and sub-agents" presents `--fast` as "the sanctioned hands-off mode" with no `--unattended` bullet — incomplete since CORE-EPIC-473. Add one bullet drawing the operator-present vs nobody-present distinction, parallel to the existing `--fast` entry. Surfaced by the CORE-473.N audit doc-drift sweep.
+- [ ] **CORE-475** [medium]🧩 | argument-hint-drift-gate — No `/ft-release` §7.1 pair binds `claude/commands/*.md` `argument-hint:` to the flags each stub documents; Pairs B/E are `description:`-derived, I covers CAPABILITIES↔PLATFORMS. Add Pair J. Live finding: `ft-epic-discovery` has no `argument-hint` while accepting `--deep`. Check must ignore cross-reference flag mentions.
 
 ## Low
 
