@@ -11,14 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-EPIC-473** [heavy]🧠 | unattended-orchestration — Close flowtron's headless gaps: an opt-in `--unattended` posture that parks blocking gates as `status: blocked` instead of firing banners into a session with no operator, machine-readable stop reasons, reachable epic-close and resume entry points, and a published orchestration contract. Filed via /ft-epic-discovery; refined at .1 closure.
-  - [x] **CORE-473.1** [heavy]🧠 | unattended-orchestration discovery — Completed 2026-08-25.
-  - [x] **CORE-473.2** [heavy]🧠 | unattended-posture — Completed 2026-08-25.
-  - [x] **CORE-473.3** [medium]🧩 | park-reason-key — Completed 2026-08-25.
-  - [x] **CORE-473.4** [medium]🧩 | unattended-wiring — Completed 2026-08-25.
-  - [x] **CORE-473.5** [heavy]🧠 | unreachable-entrypoints — Completed 2026-08-25.
-  - [x] **CORE-473.6** [medium]🧩 | orchestration-contract — Completed 2026-08-25.
-  - [ ] **CORE-473.N** [light]🔧 | unattended-orchestration audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
+(none)
 
 ## Medium
 
@@ -31,6 +24,14 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-473** [heavy]🧠 | unattended-orchestration — Completed 2026-08-25.
+  - [x] **CORE-473.1** [heavy]🧠 | unattended-orchestration discovery — Completed 2026-08-25.
+  - [x] **CORE-473.2** [heavy]🧠 | unattended-posture — Completed 2026-08-25.
+  - [x] **CORE-473.3** [medium]🧩 | park-reason-key — Completed 2026-08-25.
+  - [x] **CORE-473.4** [medium]🧩 | unattended-wiring — Completed 2026-08-25.
+  - [x] **CORE-473.5** [heavy]🧠 | unreachable-entrypoints — Completed 2026-08-25.
+  - [x] **CORE-473.6** [medium]🧩 | orchestration-contract — Completed 2026-08-25.
+  - [x] **CORE-473.N** [light]🔧 | unattended-orchestration audit — Completed 2026-08-25.
 - [x] **CORE-472** [light]🔧 | ft-task-sop-rotation-mirror — Completed 2026-08-25.
 - [x] **CORE-471** [medium]🧩 | release v5.19.0 — Completed 2026-08-25.
 - [x] **CORE-466** [light]🔧 | neutrality-ledger-gaps — Completed 2026-08-24.
