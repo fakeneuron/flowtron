@@ -13,8 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-478** [light]🔧 | viz-version-drop — Delete dead VIZ_VERSION (no footer renders it) and the /ft-release bump step together; git tag stays the version authority. Direction confirmed by operator 2026-08-26. Surfaced by audit 2026-08-26 (Finding #11, Medium)
-
 ## Low
 
 - [ ] **CORE-479** [light]🔧 | updater-naming-dedup — De-trap the viz↔tools mirror naming (latestReleaseTag same-name/different-signature; pinnedVersion vs readFlowtronVersion); optionally extract checkAdopter's eight gates to an ordered array. Surfaced by audit 2026-08-26 (Findings #6 + #8, Medium/Low)
@@ -25,6 +23,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-478** [light]🔧 | viz-version-drop — Completed 2026-08-26.
 - [x] **FE-99** [light]🔧 | shared-fencemask — Completed 2026-08-26. De-scoped: duplication is a deliberate, twice-reaffirmed precedent ([[CORE-421.2]], [[CORE-423]]); no code changed.
 - [x] **FE-98** [medium]🧩 | derive-registries-single-source — Completed 2026-08-26.
 - [x] **FE-97** [light]🔧 | ui-tier-eslint-rule — Completed 2026-08-26.

@@ -81,7 +81,7 @@ If the proposed bump and the PLAN-line target match, the user confirms in one sh
 
 ## Step 2.5 — Context-budget self-assessment (escape hatch)
 
-Before scaffolding the tasknote (Step 3), self-assess whether the **remaining context budget** is comfortable for a full release cut driven inline in this session. A full cut is a long, multi-file motion: the 5 version edits (Step 5), the dogfood-gate walk (per-agent `AskUserQuestion` + stamp edits), the `/ft-audit docs` subroutine (5 passes over the doc set, Step 7.1), tag-message drafting (Step 7.2), and the commit/tag/push sequence (Step 7.5). Driving all of that with little headroom risks a degraded cut.
+Before scaffolding the tasknote (Step 3), self-assess whether the **remaining context budget** is comfortable for a full release cut driven inline in this session. A full cut is a long, multi-file motion: the 3 version edits (Step 5), the dogfood-gate walk (per-agent `AskUserQuestion` + stamp edits), the `/ft-audit docs` subroutine (5 passes over the doc set, Step 7.1), tag-message drafting (Step 7.2), and the commit/tag/push sequence (Step 7.5). Driving all of that with little headroom risks a degraded cut.
 
 - **Comfortable** → proceed to Step 3 and drive the cut inline. This is the default — the skill drives the whole release in one session; the escape hatch never fires.
 - **Tight** → do **not** scaffold. Surface an **offer** and let the operator decide (self-assess + offer; the assistant flags, the human chooses):
@@ -93,7 +93,7 @@ Before scaffolding the tasknote (Step 3), self-assess whether the **remaining co
     `/ft-release`
     ```
 
-**Re-entry is `/ft-release`, not `/ft-task <TASK-ID>`.** The release recipe (5 version edits · dogfood gate · annotated tag · push) lives in *this* skill; running `/ft-task` against the pre-filed release line would drive the generic 4-phase flow without any of it. The escape hatch defers the release skill itself to a clean context — it does not hand off to the tasknote runner.
+**Re-entry is `/ft-release`, not `/ft-task <TASK-ID>`.** The release recipe (3 version edits · dogfood gate · annotated tag · push) lives in *this* skill; running `/ft-task` against the pre-filed release line would drive the generic 4-phase flow without any of it. The escape hatch defers the release skill itself to a clean context — it does not hand off to the tasknote runner.
 
 ## Step 3 — Scaffold the release tasknote
 
@@ -114,8 +114,6 @@ Acceptance (parameterized):
 - [ ] SPEC.md `**Version:** vX.Y.Z` → `vA.B.C`
 - [ ] docs/MIGRATION.md example pin bumped `vX.Y.Z` → `vA.B.C`
 - [ ] SECURITY.md release-tag example pin bumped `vX.Y.Z` → `vA.B.C`
-- [ ] `viz/src/ui/constants.ts` `VIZ_VERSION` bumped `vX.Y.Z` → `vA.B.C`
-- [ ] `viz/package.json` `"version"` bumped `"X.Y.Z"` → `"A.B.C"` (bare semver, no `v` prefix), `viz/package-lock.json` resynced to match
 - [ ] Dogfood gate resolved — every dogfooded row (Claude / Grok / Codex / Cursor) refreshed from a real verification run at `vA.B.C`, or recorded `skipped @ vA.B.C` (per `docs/AGENT-COMPAT.md` §"Reading the cells")
 - [ ] SOP-currency check run — `SPEC/procedures/*.md` reported clean, or drift candidates adjudicated and a follow-up filed (stamps left un-bumped either way)
 - [ ] Phase 4 doc-drift sweep run across all `.flowtron/tasknote/README.md` §"AI-referenced docs" entries
@@ -146,26 +144,19 @@ Tick boxes as each step completes. Do not enter Phase 2 until every Phase 1 box 
 
 ## Step 5 — Drive Phase 2: Execution
 
-Apply the 5 version edits in order:
+Apply the 3 version edits in order:
 
 1. **`SPEC.md:3`** — `**Version:** vX.Y.Z` → `**Version:** vA.B.C`.
 2. **`docs/MIGRATION.md`** — locate the example pin (grep for `describe --tags`) and bump `(e.g., \`vX.Y.Z\`)` → `(e.g., \`vA.B.C\`)`. Historical references like `v1.0 additions` stay (write-once historical context, per CORE-046 precedent).
 3. **`SECURITY.md`** — locate the release-tag example pin (grep for `release tags (e.g.`) and bump `(e.g. \`vX.Y.Z\`)` → `(e.g. \`vA.B.C\`)`.
-4. **`viz/src/ui/constants.ts`** — `VIZ_VERSION = 'vX.Y.Z'` → `VIZ_VERSION = 'vA.B.C'`.
-5. **`viz/package.json`** — `"version": "X.Y.Z"` → `"version": "A.B.C"`. Bare semver (no `v` prefix); mirrors VIZ_VERSION so tooling stays consistent. Also resync **`viz/package-lock.json`** — run `npm install --package-lock-only` (from `viz/`) so its `version` fields (root + `packages[""]`) follow `package.json` without touching `node_modules` or dependency ranges.
 
 Verify the `v`-prefixed pins post-edit:
 
 ```sh
-grep -rn 'vX\.Y\.Z' SPEC.md SPEC/ docs/ README.md SECURITY.md templates/ claude/ viz/src/ui/constants.ts 2>/dev/null
+grep -rn 'vX\.Y\.Z' SPEC.md SPEC/ docs/ README.md SECURITY.md templates/ claude/ 2>/dev/null
 ```
 
-The four `v`-prefixed pins above should be clean. The `viz/package.json` and `viz/package-lock.json` versions use bare semver (`"X.Y.Z"`) and won't appear in this grep — verify them separately:
-
-```sh
-grep '"version"' viz/package.json
-grep -n '"version"' viz/package-lock.json | head -2
-```
+The three `v`-prefixed pins above should be clean.
 
 **Dogfood gate — walk the dogfooded rows (dogfood-or-explicit-skip).** Since CORE-224 the doc set carries `last-verified` version stamps (`docs/AGENT-COMPAT.md` matrix, `claude/CAPABILITIES.md`, and per-agent `docs/PLATFORMS.md` stubs) formatted `vX.Y.Z · YYYY-MM[-DD] (context-tag)`. These are **not** release pins. Per the release-gate obligation (`docs/AGENT-COMPAT.md` §"Reading the cells"), **every row carrying a `dogfooded` history must be resolved at each release** — refreshed from a real verification run at the new version, or recorded as a deliberate skip. Leaving a stale stamp silently untouched is not a valid release state. Walk it now:
 
@@ -223,16 +214,16 @@ Resolution — this check **flags, it does not fix and it does not bump**:
 
 **This is advisory, not a gate.** Unlike the dogfood gate above it never blocks commit-go: a stale SOP is a filed follow-up, not a reason to hold a release. Record the verdict (clean, or candidates + their adjudication + the follow-up ID) in Implementation Notes, and carry the one-line summary into the §7.4 closure review.
 
-Tick boxes; populate Implementation Notes with the diff shape (the 5 version edits, plus any dogfood-gate stamp refreshes/skips landed by the walk above, plus the SOP-currency verdict).
+Tick boxes; populate Implementation Notes with the diff shape (the 3 version edits, plus any dogfood-gate stamp refreshes/skips landed by the walk above, plus the SOP-currency verdict).
 
 ## Step 6 — Drive Phase 3: Testing & Linting
 
-Three of the 5 edits are markdown prose — run a markdown lint mental-pass on SPEC.md, docs/MIGRATION.md, and SECURITY.md:
+The 3 version edits are markdown prose — run a markdown lint mental-pass on SPEC.md, docs/MIGRATION.md, and SECURITY.md:
 
 - Edits are single-token version-string substitutions; surrounding prose unchanged.
 - No frontmatter touched; no fenced blocks broken.
 
-The fourth and fifth edits (`viz/src/ui/constants.ts` and `viz/package.json`) are one-line string substitutions — run lint/type-check on the viz package via its own package scripts, then the fleet-updater suite and syntax checks (`AGENTS.md` §"Validation"):
+Independently of the version edits, run the standing viz + fleet-updater validation gate (`AGENTS.md` §"Validation") — every cut runs this regardless of which files it touches:
 
 ```sh
 npm --prefix viz test
@@ -243,7 +234,7 @@ node --check tools/update-adopters.test.mjs
 node --check tools/update-adopters.mjs
 ```
 
-If a viz/code feature ships in this release, surface that the feature's own tasknote already ran its test pass — `/ft-release` does not re-run feature tests beyond these version-string and updater-suite gates.
+If a viz/code feature ships in this release, surface that the feature's own tasknote already ran its test pass — `/ft-release` does not re-run feature tests beyond these standing validation gates.
 
 ## Step 7 — Drive Phase 4: Closure
 
@@ -260,7 +251,7 @@ Skill(ft-audit) with args "docs"
 The `docs` domain walks its 5 passes (Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content) over the declared doc set and returns the report inline. Per the dispatcher's Subroutine-safe hard rule it does **not** write tickets to `.flowtron/PLAN.md`; the release skill is the orchestrator and decides per finding whether to absorb the fix into the current cut.
 
 For each returned finding:
-- **Critical / High** — fix inline as part of the release cut (the 5 version edits in Phase 2 normally clear the routine SPEC + MIGRATION + SECURITY + constants.ts + package.json version-pin drift; anything else surfaced here gets the same treatment).
+- **Critical / High** — fix inline as part of the release cut (the 3 version edits in Phase 2 normally clear the routine SPEC + MIGRATION + SECURITY version-pin drift; anything else surfaced here gets the same treatment).
 - **Medium / Low** — surface to the user with a one-line summary; ask whether to absorb into the release cut or file a followup via `/ft-file-followup`. Default to file-followup if uncertain (release cuts should not balloon).
 
 If the sweep reports zero findings, state that explicitly and move on to §7.2.
@@ -366,7 +357,7 @@ find .flowtron/tasknote/archive -name "*.md" | wc -l
 grep -rhoE '\*\*Archived:\*\* [0-9]{4}-[0-9]{2}-[0-9]{2}' .flowtron/tasknote/archive/*/*.md | awk '{print $2}' | sort | sed -n '1p;$p'
 ```
 
-The first command is the closed-task count — one archived tasknote per closed task, standalone or epic child. The second prints the earliest and latest `**Archived:**` date; the earliest is stable (2026-04-28) and only the latest moves. Update `README.md:22-23`'s count and "as of" date to match. A handful of archived tasknotes carry an unfilled `**Archived:** YYYY-MM-DD` placeholder or omit the field (archive-hygiene misses, e.g. CORE-255), so the second command undercounts by that many; if the gap looks material, file a follow-up via `/ft-file-followup` rather than fixing archive hygiene mid-cut. This is a mechanical text substitution, same footing as the 5 version edits in Step 5 — fix inline as Critical/High before cutting the release.
+The first command is the closed-task count — one archived tasknote per closed task, standalone or epic child. The second prints the earliest and latest `**Archived:**` date; the earliest is stable (2026-04-28) and only the latest moves. Update `README.md:22-23`'s count and "as of" date to match. A handful of archived tasknotes carry an unfilled `**Archived:** YYYY-MM-DD` placeholder or omit the field (archive-hygiene misses, e.g. CORE-255), so the second command undercounts by that many; if the gap looks material, file a follow-up via `/ft-file-followup` rather than fixing archive hygiene mid-cut. This is a mechanical text substitution, same footing as the 3 version edits in Step 5 — fix inline as Critical/High before cutting the release.
 
 **Standing mirror-pair check.** Some surfaces restate a fact that is *derived* from another surface — a roster that must list what a directory holds, a Codex description that must name the flags its Claude twin documents, a template's back-link that must resolve from the directory a skill writes it to. Nothing binds the two halves, so an edit to the source silently strands the mirror, and the gap only surfaces when a reader trips over it (CORE-EPIC-420 found four such pairs drifted at once). Each pair below is repo state — a commit in this cut can carry every fix — so all of them **block**: fix inline as Critical/High before cutting the release.
 
@@ -641,7 +632,7 @@ Move the tasknote file with a plain `mv` — it was copied fresh in Step 3 and n
 Stage explicitly (do NOT use `git add .` or `-A` — there may be unrelated unstaged work):
 
 ```sh
-git add SPEC.md docs/MIGRATION.md SECURITY.md docs/VERSION-HISTORY.md viz/src/ui/constants.ts viz/package.json viz/package-lock.json .flowtron/PLAN.md
+git add SPEC.md docs/MIGRATION.md SECURITY.md docs/VERSION-HISTORY.md .flowtron/PLAN.md
 git add .flowtron/tasknote/archive/core/<TASK-ID>.md
 # If the §5 dogfood-gate walk landed any refresh/skip edits, also stage the touched stamp files
 # (a git add of an unchanged file is a no-op, so listing all three is safe):
@@ -650,7 +641,7 @@ git add docs/AGENT-COMPAT.md docs/PLATFORMS.md claude/CAPABILITIES.md
 
 (The Step 7.3 `mv` left the archived tasknote untracked; the explicit `git add` here stages it.)
 
-Surface the bundled 📦 ready-to-commit gate per SPEC/gates.md §"Operator-gate cues" (banner block + mandatory 1-2 sentence preview line summarising what executes on commit-go — typically "cut flowtron vA.B.C: commit the 5 version edits + any dogfood-gate stamp refreshes/skips + PLAN.md flip + tasknote archive, create annotated `vA.B.C` tag, push branch + tag to origin, and publish a GitHub Release for `vA.B.C` (or hold local, unpublished, if push-go declined)"). Alongside the SPEC-defined bundle (closure review · recap · proposed commit message), this skill carries:
+Surface the bundled 📦 ready-to-commit gate per SPEC/gates.md §"Operator-gate cues" (banner block + mandatory 1-2 sentence preview line summarising what executes on commit-go — typically "cut flowtron vA.B.C: commit the 3 version edits + any dogfood-gate stamp refreshes/skips + PLAN.md flip + tasknote archive, create annotated `vA.B.C` tag, push branch + tag to origin, and publish a GitHub Release for `vA.B.C` (or hold local, unpublished, if push-go declined)"). Alongside the SPEC-defined bundle (closure review · recap · proposed commit message), this skill carries:
 
 - **Dogfood-gate resolution (enforcement)** — confirm the §5 walk resolved **every** dogfooded row, and surface the per-agent summary inside the closure review:
 
