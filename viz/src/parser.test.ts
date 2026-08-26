@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { groupTasks, parsePlanWithDiagnostics, type Task } from './parser';
+import { groupTasks, parsePlanWithDiagnostics, PRIORITIES, type Task } from './parser';
 
 function parsePlan(markdown: string): Task[] {
   return parsePlanWithDiagnostics(markdown).tasks;
@@ -972,5 +972,26 @@ describe('groupTasks', () => {
     expect(nodes).toHaveLength(1);
     expect(nodes[0].children.map((c) => c.id)).toEqual(['CORE-421.1']);
     expect(duplicateEpics).toEqual([{ id: 'CORE-EPIC-421' }]);
+  });
+});
+
+describe('PRIORITIES registry', () => {
+  it('recognizes every member as a section heading', () => {
+    for (const [i, priority] of PRIORITIES.entries()) {
+      const md = `## ${priority}\n\n- [ ] **CORE-${i}** — task under ${priority}.`;
+      const tasks = parsePlan(md);
+      expect(tasks).toHaveLength(1);
+      expect(tasks[0].priority).toBe(priority);
+    }
+  });
+
+  it('surfaces no unparsed diagnostics for a PLAN built from every member', () => {
+    const md = PRIORITIES.map(
+      (priority, i) => `## ${priority}\n\n- [ ] **CORE-${i}** — task under ${priority}.`,
+    ).join('\n\n');
+    const { tasks, unparsed, nearMissHeadings } = parsePlanWithDiagnostics(md);
+    expect(tasks.map((t) => t.priority)).toEqual([...PRIORITIES]);
+    expect(unparsed).toEqual([]);
+    expect(nearMissHeadings).toEqual([]);
   });
 });

@@ -26,13 +26,20 @@ export interface Task {
   blockedBy: string[];
 }
 
-const SECTION_HEADINGS = new Set<Priority>([
+// The canonical priority registry, in board/list render order. Single source
+// for both the parser's heading lookup below and the UI's section lists
+// (`App.tsx`) — adding a `Priority` here reaches every consumer, which the
+// hand-maintained copies it replaces did not (FE-039 and FE-044 each had to
+// edit parser + App in lockstep).
+export const PRIORITIES: readonly Priority[] = [
   'High',
   'Medium',
   'Low',
   'Future Opportunities',
   'Completed',
-]);
+];
+
+const SECTION_HEADINGS = new Set<Priority>(PRIORITIES);
 
 // Legacy `## Critical` heading — soft-migrated to `High` with every task
 // under it auto-flagged `critical: true` (FE-044). Adopter PLAN.md files

@@ -60,7 +60,7 @@ export function groupBySection(nodes: TaskNode[]): Record<Priority, TaskNode[]> 
 }
 
 export function emptySections(
-  sections: Priority[],
+  sections: readonly Priority[],
   bySection: Record<Priority, TaskNode[]>,
 ): Priority[] {
   return sections.filter((p) => (bySection[p] ?? []).length === 0);
@@ -75,7 +75,7 @@ export function collectEpicIds(nodes: TaskNode[]): Set<string> {
 }
 
 export function collectVisibleIds(
-  sections: Priority[],
+  sections: readonly Priority[],
   bySection: Record<Priority, TaskNode[]>,
   collapsedSections: Set<Priority>,
   expandedEpicIds: Set<string>,

@@ -13,7 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **FE-98** [medium]🧩 | derive-registries-single-source — Export parser SECTION_HEADINGS and derive App.tsx section lists (or exhaustive Record<Priority,…>); single-source PALETTE_KEYS/DENSITY_KEYS from visibilityPrefs; reuse tasknote STARTER_SUBSECTION_KEYS in SettingsModal. Surfaced by audit 2026-08-26 (Findings #4 + #7, Medium)
 - [ ] **CORE-478** [light]🔧 | viz-version-drop — Delete dead VIZ_VERSION (no footer renders it) and the /ft-release bump step together; git tag stays the version authority. Direction confirmed by operator 2026-08-26. Surfaced by audit 2026-08-26 (Finding #11, Medium)
 
 ## Low
@@ -27,6 +26,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-98** [medium]🧩 | derive-registries-single-source — Completed 2026-08-26.
 - [x] **FE-97** [light]🔧 | ui-tier-eslint-rule — Completed 2026-08-26.
 - [x] **FE-96** [light]🔧 | plan-handler-request-containment — Completed 2026-08-26.
 - [x] **FE-95** [medium]🧩 | viz-suite-flake-structural — Completed 2026-08-26.

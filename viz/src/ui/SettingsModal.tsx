@@ -1,5 +1,13 @@
 import React from 'react';
-import { DEFAULT_PREFS, type DensityMode, type PaletteName, type VisibilityPrefs } from '../visibilityPrefs';
+import {
+  DEFAULT_PREFS,
+  DENSITY_MODES,
+  PALETTE_NAMES,
+  type DensityMode,
+  type PaletteName,
+  type VisibilityPrefs,
+} from '../visibilityPrefs';
+import { STARTER_SUBSECTION_KEYS } from '../tasknote';
 import { STARTER_SUBSECTION_LABEL } from './constants';
 import { useDialog } from './useDialog';
 
@@ -43,14 +51,6 @@ const PALETTE_LABEL: Record<PaletteName, string> = {
 
 const ROW_CHIP_KEYS: RowChipKey[] = ['id', 'tags', 'model', 'related', 'blocked', 'due'];
 const DETAIL_SECTION_KEYS: DetailSectionKey[] = ['goal', 'acceptance', 'subtasks'];
-const STARTER_SECTION_KEYS: StarterSectionKey[] = [
-  'whyExists',
-  'solutionShape',
-  'filesToTouch',
-  'outOfScope',
-];
-const DENSITY_KEYS: DensityMode[] = ['comfortable', 'default', 'compact'];
-const PALETTE_KEYS: PaletteName[] = ['default', 'linear', 'github'];
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose, prefs, onChange }) => {
   const dialogRef = useDialog(open, onClose);
@@ -103,7 +103,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose, pre
             Density
           </legend>
           <div className="flex items-center gap-4">
-            {DENSITY_KEYS.map((key) => (
+            {DENSITY_MODES.map((key) => (
               <label key={key} className="flex items-center gap-2 text-sm">
                 <input
                   type="radio"
@@ -122,7 +122,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose, pre
             Palette
           </legend>
           <div className="flex items-center gap-4">
-            {PALETTE_KEYS.map((key) => (
+            {PALETTE_NAMES.map((key) => (
               <label key={key} className="flex items-center gap-2 text-sm">
                 <input
                   type="radio"
@@ -158,7 +158,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose, pre
             Starter context
           </legend>
           <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
-            {STARTER_SECTION_KEYS.map((key) => (
+            {STARTER_SUBSECTION_KEYS.map((key) => (
               <label key={key} className="flex items-center gap-2 text-sm">
                 <input
                   type="checkbox"

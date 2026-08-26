@@ -2,6 +2,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, cleanup, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { makeTasknote, renderApp } from '../test/fixtures';
+import { DENSITY_MODES, PALETTE_NAMES } from '../visibilityPrefs';
+import { STARTER_SUBSECTION_KEYS } from '../tasknote';
 
 afterEach(() => {
   cleanup();
@@ -677,6 +679,9 @@ describe('App — density modes', () => {
     await user.click(screen.getByRole('button', { name: 'Open settings' }));
 
     const densityGroup = screen.getByRole('group', { name: 'Density' });
+    // One radio per DENSITY_MODES member — the picker maps the registry, it
+    // does not keep its own list (FE-98).
+    expect(within(densityGroup).getAllByRole('radio')).toHaveLength(DENSITY_MODES.length);
     const comfortable = within(densityGroup).getByRole('radio', { name: 'Comfortable' });
     const def = within(densityGroup).getByRole('radio', { name: 'Default' });
     const compact = within(densityGroup).getByRole('radio', { name: 'Compact' });
@@ -788,12 +793,30 @@ describe('App — palette modes', () => {
     await user.click(screen.getByRole('button', { name: 'Open settings' }));
 
     const paletteGroup = screen.getByRole('group', { name: 'Palette' });
+    // One radio per PALETTE_NAMES member (FE-98).
+    expect(within(paletteGroup).getAllByRole('radio')).toHaveLength(PALETTE_NAMES.length);
     const def = within(paletteGroup).getByRole('radio', { name: 'Default' });
     const linear = within(paletteGroup).getByRole('radio', { name: 'Linear' });
     const github = within(paletteGroup).getByRole('radio', { name: 'GitHub' });
     expect(def).toBeChecked();
     expect(linear).not.toBeChecked();
     expect(github).not.toBeChecked();
+  });
+
+  it('renders one Starter context checkbox per STARTER_SUBSECTION_KEYS entry', async () => {
+    const user = userEvent.setup();
+    renderApp({ plan, active });
+
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+
+    await user.click(screen.getByRole('button', { name: 'Open settings' }));
+
+    // The Settings fieldset maps the same registry TaskDetail renders from, so
+    // the two can no longer disagree about which starter subsections exist.
+    const starterGroup = screen.getByRole('group', { name: 'Starter context' });
+    expect(within(starterGroup).getAllByRole('checkbox')).toHaveLength(
+      STARTER_SUBSECTION_KEYS.length,
+    );
   });
 
   it('selecting Linear checks the Linear radio', async () => {

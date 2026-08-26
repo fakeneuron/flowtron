@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { groupTasks, type Priority, type Task } from '../parser';
+import { groupTasks, PRIORITIES, type Priority, type Task } from '../parser';
 import { type TasknoteStatus } from '../tasknote';
 import {
   collectEpicIds,
@@ -30,16 +30,13 @@ import { BoardView } from './BoardView';
 import { DiagnosticBanner } from './DiagnosticBanner';
 import { AppHeader } from './AppHeader';
 
-const SECTIONS: Priority[] = [
-  'High',
-  'Medium',
-  'Low',
-  'Future Opportunities',
-  'Completed',
-];
+const SECTIONS = PRIORITIES;
 
+// Layout, not domain: which priorities render as board columns is the one
+// section list this file still authors. Everything else falls below the board,
+// so a priority added to PRIORITIES stays visible without an edit here.
 const BOARD_SECTIONS: Priority[] = ['High', 'Medium', 'Low'];
-const BELOW_BOARD_SECTIONS: Priority[] = ['Future Opportunities', 'Completed'];
+const BELOW_BOARD_SECTIONS = PRIORITIES.filter((p) => !BOARD_SECTIONS.includes(p));
 
 export const App: React.FC = () => {
   const {

@@ -1,6 +1,8 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import {
   DEFAULT_PREFS,
+  DENSITY_MODES,
+  PALETTE_NAMES,
   readVisibilityPrefs,
   writeVisibilityPrefs,
   type VisibilityPrefs,
@@ -230,5 +232,21 @@ describe('visibilityPrefs', () => {
     writeVisibilityPrefs('fintown', b);
     expect(readVisibilityPrefs('flowtron').palette).toBe('linear');
     expect(readVisibilityPrefs('fintown').palette).toBe('github');
+  });
+
+  // The guards are derived from these arrays, so a member added to either one
+  // must survive a round-trip without a second edit to isDensity/isPalette.
+  it('accepts every DENSITY_MODES member on read-back', () => {
+    for (const density of DENSITY_MODES) {
+      writeVisibilityPrefs('flowtron', { ...DEFAULT_PREFS, density });
+      expect(readVisibilityPrefs('flowtron').density).toBe(density);
+    }
+  });
+
+  it('accepts every PALETTE_NAMES member on read-back', () => {
+    for (const palette of PALETTE_NAMES) {
+      writeVisibilityPrefs('flowtron', { ...DEFAULT_PREFS, palette });
+      expect(readVisibilityPrefs('flowtron').palette).toBe(palette);
+    }
   });
 });

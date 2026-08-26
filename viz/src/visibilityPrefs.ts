@@ -1,5 +1,10 @@
-export type DensityMode = 'comfortable' | 'default' | 'compact';
-export type PaletteName = 'default' | 'linear' | 'github';
+// Single source for each pref vocabulary: the type, the runtime guard below,
+// and the Settings picker all derive from these arrays, in picker order.
+export const DENSITY_MODES = ['comfortable', 'default', 'compact'] as const;
+export const PALETTE_NAMES = ['default', 'linear', 'github'] as const;
+
+export type DensityMode = (typeof DENSITY_MODES)[number];
+export type PaletteName = (typeof PALETTE_NAMES)[number];
 
 export interface VisibilityPrefs {
   version: 2;
@@ -47,10 +52,10 @@ const storageKey = (project: string): string => `${KEY_PREFIX}${project}`;
 const isBool = (v: unknown): v is boolean => typeof v === 'boolean';
 
 const isDensity = (v: unknown): v is DensityMode =>
-  v === 'comfortable' || v === 'default' || v === 'compact';
+  DENSITY_MODES.includes(v as DensityMode);
 
 const isPalette = (v: unknown): v is PaletteName =>
-  v === 'default' || v === 'linear' || v === 'github';
+  PALETTE_NAMES.includes(v as PaletteName);
 
 const parsePrefs = (raw: string | null): VisibilityPrefs => {
   if (!raw) return DEFAULT_PREFS;
