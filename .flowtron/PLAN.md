@@ -11,19 +11,23 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-(none)
+- [ ] **FE-95** [medium]🧩 | viz-suite-flake-structural — Fix the App.test.tsx full-suite flake structurally: cap vitest worker parallelism and/or split App.test.tsx per feature; acceptance = repeated clean full-suite runs under load, no further timeout bumps (FE-045/FE-053/FE-089.2 exhausted that approach). Surfaced by audit 2026-08-26 (Finding #2, High)
 
 ## Medium
 
-(none)
+- [ ] **FE-96** [light]🔧 | plan-handler-request-containment — /api/plan: resolve planPath via safeRealpath + realpathWithin at request time, matching the FE-088.2 pattern on the sibling handlers; align the SECURITY.md sentence. Surfaced by audit 2026-08-26 (Finding #1, Medium)
+- [ ] **FE-97** [light]🔧 | ui-tier-eslint-rule — Mechanize the no-Node-under-src/ui rule as eslint no-restricted-imports scoped to src/ui/** (verified passing today with zero code changes); update viz/README.md §Hard rule wording. Surfaced by audit 2026-08-26 (Finding #3, Medium)
+- [ ] **FE-98** [medium]🧩 | derive-registries-single-source — Export parser SECTION_HEADINGS and derive App.tsx section lists (or exhaustive Record<Priority,…>); single-source PALETTE_KEYS/DENSITY_KEYS from visibilityPrefs; reuse tasknote STARTER_SUBSECTION_KEYS in SettingsModal. Surfaced by audit 2026-08-26 (Findings #4 + #7, Medium)
+- [ ] **CORE-478** [light]🔧 | viz-version-drop — Delete dead VIZ_VERSION (no footer renders it) and the /ft-release bump step together; git tag stays the version authority. Direction confirmed by operator 2026-08-26. Surfaced by audit 2026-08-26 (Finding #11, Medium)
 
 ## Low
 
-(none)
+- [ ] **FE-99** [light]🔧 | shared-fencemask — Extract the verbatim-duplicated fenceMask/FENCE_DELIMITER (parser.ts:121 / tasknote.ts:139) into one shared-pure module imported by both. Surfaced by audit 2026-08-26 (Finding #5, Medium)
+- [ ] **CORE-479** [light]🔧 | updater-naming-dedup — De-trap the viz↔tools mirror naming (latestReleaseTag same-name/different-signature; pinnedVersion vs readFlowtronVersion); optionally extract checkAdopter's eight gates to an ordered array. Surfaced by audit 2026-08-26 (Findings #6 + #8, Medium/Low)
 
 ## Future Opportunities
 
-(none)
+- [ ] **FE-100** [light]🔧 | viz-orphan-and-shape-trim — Trim TYPOGRAPHY to used keys; de-export nine file-local symbols; dedupe App.tsx diagnostic banners; split scanDocument; extract ProjectSelector overflow math per the taskView.ts precedent. Surfaced by audit 2026-08-26 (Findings #9 + #10 + Pass-3 tail, Low)
 
 ## Completed
 
