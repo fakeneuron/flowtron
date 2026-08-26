@@ -19,6 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
+- [ ] **CORE-477** [light]🔧 | claude-example-flag-drift — `docs/PLATFORMS.md` §"Worked example: Claude Code" enumerates operator flags in prose, missing `--unattended` since it shipped and now `--deep`. No gate reads it — Pair I scopes to the non-Claude section, Pair G greps whole-file. De-enumerate to a §-pointer, as [[CORE-460.3]] did for the non-Claude asides. Surfaced by [[CORE-476]].
 
 ## Future Opportunities
 
