@@ -228,7 +228,7 @@ dev server:
   user-controlled path input on any endpoint. That bound is **enforced,
   not assumed**: `discoverProjects` (`viz/src/workspace.ts`),
   `archiveCache.readArchive` (`viz/src/archiveCache.ts`), and the
-  `/api/active` and `/api/plan-archive` handlers (`viz/src/devApi.ts`)
+  `/api/plan`, `/api/active`, and `/api/plan-archive` handlers (`viz/src/devApi.ts`)
   resolve each candidate file through symlinks and drop it unless it lands
   inside the project root's own resolved path, so a symlinked `PLAN.md`,
   `PLAN-ARCHIVE.md`, `.flowtron/`, `tasknote/`, or `archive/` cannot pull an

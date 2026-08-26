@@ -13,7 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **FE-96** [light]🔧 | plan-handler-request-containment — /api/plan: resolve planPath via safeRealpath + realpathWithin at request time, matching the FE-088.2 pattern on the sibling handlers; align the SECURITY.md sentence. Surfaced by audit 2026-08-26 (Finding #1, Medium)
 - [ ] **FE-97** [light]🔧 | ui-tier-eslint-rule — Mechanize the no-Node-under-src/ui rule as eslint no-restricted-imports scoped to src/ui/** (verified passing today with zero code changes); update viz/README.md §Hard rule wording. Surfaced by audit 2026-08-26 (Finding #3, Medium)
 - [ ] **FE-98** [medium]🧩 | derive-registries-single-source — Export parser SECTION_HEADINGS and derive App.tsx section lists (or exhaustive Record<Priority,…>); single-source PALETTE_KEYS/DENSITY_KEYS from visibilityPrefs; reuse tasknote STARTER_SUBSECTION_KEYS in SettingsModal. Surfaced by audit 2026-08-26 (Findings #4 + #7, Medium)
 - [ ] **CORE-478** [light]🔧 | viz-version-drop — Delete dead VIZ_VERSION (no footer renders it) and the /ft-release bump step together; git tag stays the version authority. Direction confirmed by operator 2026-08-26. Surfaced by audit 2026-08-26 (Finding #11, Medium)
@@ -29,6 +28,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-96** [light]🔧 | plan-handler-request-containment — Completed 2026-08-26.
 - [x] **FE-95** [medium]🧩 | viz-suite-flake-structural — Completed 2026-08-26.
 - [x] **CORE-477** [light]🔧 | claude-example-flag-drift — Completed 2026-08-25.
 - [x] **CORE-476** [medium]🧩 | capabilities-deep-row — Completed 2026-08-25.

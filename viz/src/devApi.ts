@@ -88,7 +88,16 @@ export function createPlanHandler(
       return;
     }
     try {
-      const text = await readFile(project.planPath, 'utf8');
+      // Same project-root containment createPlanArchiveHandler / createActiveHandler
+      // apply: discoverProjects only validates planPath once, at scan time — without
+      // a per-request check, a `.flowtron/PLAN.md` (or an ancestor) swapped to a
+      // symlink afterward would let any readable file on disk reach /api/plan (FE-088.2).
+      const realRoot = await safeRealpath(project.root);
+      const realPlan = realRoot === null ? null : await realpathWithin(realRoot, project.planPath);
+      if (realPlan === null) {
+        throw new Error('planPath resolves outside the project root');
+      }
+      const text = await readFile(realPlan, 'utf8');
       res.setHeader('Content-Type', 'text/plain; charset=utf-8');
       res.end(text);
     } catch (e) {

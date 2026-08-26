@@ -338,6 +338,30 @@ describe('createPlanHandler', () => {
     expect(state.headers['content-type']).toBe(PLAIN_TEXT);
     logged.mockRestore();
   });
+
+  it('returns a typed 500 when PLAN.md symlinks outside the project root', async () => {
+    const outside = await mkdtemp(join(tmpdir(), 'flowtron-outside-'));
+    const secret = join(outside, 'secret.md');
+    await writeFile(secret, '## High\n\n- [ ] **LEAK-001** — leaked\n');
+    const alpha = await makeProject('alpha');
+    await rm(alpha.planPath);
+    await symlink(secret, alpha.planPath);
+    const handler = createPlanHandler(new Map([['alpha', alpha]]));
+    const req = makeReq({
+      url: '/api/plan?project=alpha',
+      headers: { origin: ALLOWED_ORIGIN },
+    });
+    const { res, state } = makeRes();
+    const logged = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    await handler(req, res);
+
+    expect(state.statusCode).toBe(500);
+    expect(state.body).toBe('Failed to read PLAN.md');
+    expect(state.body).not.toContain('LEAK-001');
+    logged.mockRestore();
+    await rm(outside, { recursive: true, force: true });
+  });
 });
 
 // FE-094: rotated `## Completed` history. The endpoint's whole contract is that
