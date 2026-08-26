@@ -17,7 +17,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **FE-99** [light]🔧 | shared-fencemask — Extract the verbatim-duplicated fenceMask/FENCE_DELIMITER (parser.ts:121 / tasknote.ts:139) into one shared-pure module imported by both. Surfaced by audit 2026-08-26 (Finding #5, Medium)
 - [ ] **CORE-479** [light]🔧 | updater-naming-dedup — De-trap the viz↔tools mirror naming (latestReleaseTag same-name/different-signature; pinnedVersion vs readFlowtronVersion); optionally extract checkAdopter's eight gates to an ordered array. Surfaced by audit 2026-08-26 (Findings #6 + #8, Medium/Low)
 
 ## Future Opportunities
@@ -26,6 +25,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-99** [light]🔧 | shared-fencemask — Completed 2026-08-26. De-scoped: duplication is a deliberate, twice-reaffirmed precedent ([[CORE-421.2]], [[CORE-423]]); no code changed.
 - [x] **FE-98** [medium]🧩 | derive-registries-single-source — Completed 2026-08-26.
 - [x] **FE-97** [light]🔧 | ui-tier-eslint-rule — Completed 2026-08-26.
 - [x] **FE-96** [light]🔧 | plan-handler-request-containment — Completed 2026-08-26.
