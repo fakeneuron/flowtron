@@ -39,9 +39,8 @@ tier module (`devApi`, `workspace`, `fsSafe`, `archiveCache`, `flowtronWatch`,
 `watchSet`, `originGuard`, `apiResponse`). They import shared pure modules via
 `../…` and sibling UI modules via `./…` only.
 
-This is a **convention held by the import graph today**, not yet an eslint
-`no-restricted-imports` rule. Audits and reviews treat a violation as a
-boundary break even without a linter hit.
+This is enforced by an eslint `no-restricted-imports` rule scoped to
+`src/ui/**` (`eslint.config.js`), not just an import-graph convention.
 
 ### Dependency direction
 

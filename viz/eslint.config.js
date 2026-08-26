@@ -26,4 +26,38 @@ export default tseslint.config(
       'react-hooks/exhaustive-deps': 'warn',
     },
   },
+  {
+    // Codifies the ui-tier hard rule from README.md §"Hard rule: no Node
+    // imports under src/ui/" — src/ui/ is a Node-free tier, never a
+    // Node-only tier module or a node: builtin.
+    files: ['src/ui/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['node:*'],
+              message:
+                'src/ui/ must not import Node builtins — see README.md §"Hard rule: no Node imports under src/ui/".',
+            },
+            {
+              group: [
+                '**/devApi',
+                '**/workspace',
+                '**/fsSafe',
+                '**/archiveCache',
+                '**/flowtronWatch',
+                '**/watchSet',
+                '**/originGuard',
+                '**/apiResponse',
+              ],
+              message:
+                'src/ui/ must not import Node-only tier modules — see README.md §"Hard rule: no Node imports under src/ui/".',
+            },
+          ],
+        },
+      ],
+    },
+  },
 );
