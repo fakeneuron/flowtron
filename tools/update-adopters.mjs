@@ -226,7 +226,8 @@ async function isDir(path) {
   }
 }
 
-// Same Version-line contract viz/src/workspace.ts reads.
+// Same Version-line contract viz/src/workspace.ts's pinnedVersion reads — now
+// name-aligned with that mirror too (was readFlowtronVersion; CORE-479).
 export async function pinnedVersion(specPath) {
   try {
     const text = await readFile(specPath, 'utf8');
@@ -286,6 +287,12 @@ export async function gitlinkDrift(repo, latest) {
   return `committed gitlink at ${await describePin(recorded)}, worktree SPEC.md at ${latest} — commit the pin (git add ${SUBMODULE_PATH}) or run /ft-update`;
 }
 
+// Shares its name with viz/src/workspace.ts's latestReleaseTag but not its
+// signature: this one always resolves against the fixed FLOWTRON_REPO
+// constant (this script only ever bumps flowtron adopters), while viz's
+// takes an explicit repoDir because it discovers adopter projects at
+// arbitrary paths. Same-name-different-signature is deliberate, not a slip —
+// see the workspaceRoot comment below for the precedent.
 export async function latestReleaseTag() {
   const stdout = await git(FLOWTRON_REPO, 'tag', '--sort=-v:refname');
   return stdout.split('\n').map((l) => l.trim()).find((l) => parseSemverTag(l)) ?? null;
@@ -434,6 +441,13 @@ export async function discoverAdopters(root) {
   return { adopters, legacy };
 }
 
+// Eight sequential skip/drift gates below (unreadable version, reverse
+// gitlink-drift, detached HEAD, pinned-ahead, missing-tag, migration-bearing,
+// staged changes, dirty submodule). Considered extracting them to an ordered
+// array (CORE-479) but each later gate consumes state a prior gate computed
+// (current, recordedGitlink, currentVersion/latestVersion, range/bearing) —
+// an array of independent gate functions would need a threaded context
+// object, a larger refactor than this naming cleanup's scope. Left inline.
 export async function checkAdopter(adopter, latest) {
   const { repo } = adopter;
   const sub = join(repo, SUBMODULE_PATH);

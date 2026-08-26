@@ -39,7 +39,11 @@ async function isFile(path: string): Promise<boolean> {
   }
 }
 
-async function readFlowtronVersion(specPath: string): Promise<string | null> {
+// Shares its name with tools/update-adopters.mjs's exported pinnedVersion —
+// same Version-line contract, kept duplicated for the same zero-dep reason
+// as expandHome/workspaceRoot/isFile above. Stays private/untested-by-name
+// here (only discoverProjects calls it), unlike the tools-side export.
+async function pinnedVersion(specPath: string): Promise<string | null> {
   try {
     const text = await readFile(specPath, 'utf8');
     // Matches "**Version:** v4.5.0" or "**Version:** 4.5.0" (with or without v prefix)
@@ -56,6 +60,12 @@ async function readFlowtronVersion(specPath: string): Promise<string | null> {
 // (git walks up from cwd, so the viz dir resolves the flowtron checkout).
 // Read once at dev-server startup — a release cut mid-session shows up on
 // the next restart, which matches how /ft-release restarts the gate anyway.
+//
+// Shares its name with tools/update-adopters.mjs's latestReleaseTag but not
+// its signature: that one takes zero args and always resolves against the
+// fixed FLOWTRON_REPO constant, while this one needs an explicit repoDir
+// since viz discovers adopter projects at arbitrary paths. Deliberate, not a
+// slip — same shape as the workspaceRoot mirror above.
 export async function latestReleaseTag(repoDir: string): Promise<string | null> {
   try {
     const { stdout } = await execFileAsync('git', ['tag', '--sort=-v:refname'], {
@@ -97,7 +107,7 @@ export async function discoverProjects(root: string): Promise<ProjectDescriptor[
     // `.flowtron/core -> ~/code/flowtron` is a plausible local-dev symlink
     // that containment would break for no security gain.
     const flowtronSpec = join(projectRoot, '.flowtron', 'core', 'SPEC.md');
-    const flowtronVersion = await readFlowtronVersion(flowtronSpec);
+    const flowtronVersion = await pinnedVersion(flowtronSpec);
     projects.push({
       name: entry.name,
       root: projectRoot,

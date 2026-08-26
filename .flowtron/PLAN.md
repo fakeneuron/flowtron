@@ -15,14 +15,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-479** [light]🔧 | updater-naming-dedup — De-trap the viz↔tools mirror naming (latestReleaseTag same-name/different-signature; pinnedVersion vs readFlowtronVersion); optionally extract checkAdopter's eight gates to an ordered array. Surfaced by audit 2026-08-26 (Findings #6 + #8, Medium/Low)
-
 ## Future Opportunities
 
 - [ ] **FE-100** [light]🔧 | viz-orphan-and-shape-trim — Trim TYPOGRAPHY to used keys; de-export nine file-local symbols; dedupe App.tsx diagnostic banners; split scanDocument; extract ProjectSelector overflow math per the taskView.ts precedent. Surfaced by audit 2026-08-26 (Findings #9 + #10 + Pass-3 tail, Low)
 
 ## Completed
 
+- [x] **CORE-479** [light]🔧 | updater-naming-dedup — Completed 2026-08-26.
 - [x] **CORE-478** [light]🔧 | viz-version-drop — Completed 2026-08-26.
 - [x] **FE-99** [light]🔧 | shared-fencemask — Completed 2026-08-26. De-scoped: duplication is a deliberate, twice-reaffirmed precedent ([[CORE-421.2]], [[CORE-423]]); no code changed.
 - [x] **FE-98** [medium]🧩 | derive-registries-single-source — Completed 2026-08-26.
