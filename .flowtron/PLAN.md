@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **CORE-476** [medium]🧩 | capabilities-deep-row — `--deep` changes how `/ft-epic-discovery` runs (three-stage pre-pass) but has no `claude/CAPABILITIES.md` row — same footing as `--debug`. Adding one obliges matching rows in every `docs/PLATFORMS.md` non-Claude trigger table Pair I holds to the full roster. Surfaced by [[CORE-475]].
 
 ## Low
 
