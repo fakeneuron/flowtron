@@ -267,19 +267,10 @@ Concrete instantiation:
   `claude/AGENTS-snippet.md` §"One-time symlink wiring". The relative
   paths survive `git clone` and pin to whichever flowtron commit the
   submodule is checked out at.
-- **Operator force-skip flag**: `--fast` / `-f` on `/ft-task`,
-  `/ft-micro-task`, and `/ft-goal-task`, per SPEC
-  §"Operator-gate cues" (`/ft-spec` and `/ft-refactor` each carry a
-  separate, unrelated `--fast` that never touches the gate surface)
-- **Operator mode flag**: `--debug` / `-d` on `/ft-task`, loading the
-  `step-4-debug-mode.md` lazy fragment (hypothesis-first Phase 1 prompts +
-  Phase 3 repro re-verify); composes with `--fast` in either order.
-  `--park` / `-p` on `/ft-file-followup`, loading the `park-mode.md` lazy
-  fragment (priority flags, `.flowtron/sidequest/` stub + resume anchor,
-  no review gate, ≤70w reply, resume inline).
-  `--worktree` on `/ft-goal-task` runs Phase 1 in-session then hands off to
-  `/ft-worktree-start` so the execute→verify loop runs in an isolated worktree
-  (see `docs/WORKTREES.md`)
+- **Operator flags**: canonical roster, per-flag syntax, gate behavior, and
+  when to reach for each in [`../claude/CAPABILITIES.md`](../claude/CAPABILITIES.md)
+  §"The triggers" — these flags are Claude-native, so this worked example is
+  their home, not a mirror
 
 [`MIGRATION.md`](MIGRATION.md) is the full Claude Code adoption guide —
 fresh adoption (§1), heavy migration with full archive lift (§2), and
