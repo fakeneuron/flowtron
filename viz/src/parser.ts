@@ -205,7 +205,7 @@ export interface TaskNode {
   children: Task[];
 }
 
-export interface DuplicateEpic {
+interface DuplicateEpic {
   /** The epic ID that appeared under more than one heading. */
   id: string;
 }
@@ -232,7 +232,7 @@ export function getSubtaskParentEpicId(id: string): string | null {
   return m ? `${m[1]}-EPIC-${m[2]}` : null;
 }
 
-export interface GroupTasksResult {
+interface GroupTasksResult {
   nodes: TaskNode[];
   duplicateEpics: DuplicateEpic[];
 }
@@ -343,6 +343,79 @@ function blankHtmlComments(markdown: string): string {
 // One document's worth of scanning. Private because the two documents a board
 // reads are not interchangeable: only `PLAN.md`'s diagnostics reach the caller
 // (see parsePlanWithDiagnostics).
+// A heading line's effect on scan state: which priority (if any) subsequent
+// lines file under, whether the legacy `## Critical` section is active, and
+// the near-miss match (if the heading looks like a typo'd priority).
+function resolveHeadingLine(heading: string): {
+  priority: Priority | null;
+  legacyCriticalSection: boolean;
+  nearMissMatch: Priority | null;
+} {
+  if (heading === LEGACY_CRITICAL_HEADING) {
+    return { priority: 'High', legacyCriticalSection: true, nearMissMatch: null };
+  }
+  if (SECTION_HEADINGS.has(heading as Priority)) {
+    return { priority: heading as Priority, legacyCriticalSection: false, nearMissMatch: null };
+  }
+  if (COMPLETED_MONTH_HEADING.test(heading)) {
+    return { priority: 'Completed', legacyCriticalSection: false, nearMissMatch: null };
+  }
+  return {
+    priority: null,
+    legacyCriticalSection: false,
+    nearMissMatch: LOWERCASE_TO_PRIORITY.get(heading.toLowerCase()) ?? null,
+  };
+}
+
+// A task-section line's effect on scan output: a parsed `Task`, unparsed
+// text for a checkbox line that looked like a task but didn't match, or
+// `null` for a line that's neither (blank lines, prose, etc.).
+function parseTaskLine(
+  line: string,
+  currentPriority: Priority,
+  legacyCriticalSection: boolean,
+): { task: Task } | { unparsedText: string } | null {
+  const m = TASK_LINE.exec(line);
+  if (!m) {
+    if (CHECKBOX_BULLET.test(line)) {
+      const legacyMatch = LEGACY_LABEL_LINE.exec(line);
+      const isLegacyRecord =
+        legacyMatch !== null &&
+        (legacyMatch[1] === 'x' || legacyMatch[1] === 'X') &&
+        !ID_SHAPE_CASE_INSENSITIVE.test(legacyMatch[2]);
+      // FE-087: a checkbox with no ID emphasis (`*` / `**`) is a prose
+      // checklist item, not a failed task. Genuine ID near-misses still
+      // carry asterisks (`*FE-064*`, `**fe-065**`) and keep flagging.
+      if (!isLegacyRecord && line.includes('*')) {
+        return { unparsedText: line.trim() };
+      }
+    }
+    return null;
+  }
+
+  const [, mark, id, criticalRaw, modelRaw, criticalAfter, shortnameRaw, longRaw] = m;
+  const completed = mark === 'x' || mark === 'X';
+  const longText = longRaw ?? '';
+  const dateMatch = COMPLETED_DATE.exec(longText);
+  const blockedBy = extractBlockedBy(longText);
+  const relatedTasks = extractRelatedTasks(longText, blockedBy);
+
+  return {
+    task: {
+      id,
+      description: longText ? cleanDescription(longText) : '',
+      priority: currentPriority,
+      critical: criticalRaw === '!critical' || criticalAfter === '!critical' || legacyCriticalSection,
+      completed,
+      completedDate: dateMatch ? dateMatch[1] : undefined,
+      model: modelRaw as TaskModel | undefined,
+      shortname: shortnameRaw ? shortnameRaw.trim() : undefined,
+      relatedTasks,
+      blockedBy,
+    },
+  };
+}
+
 function scanDocument(markdown: string): PlanParseResult {
   const lines = blankHtmlComments(markdown).split(/\r?\n/);
   const inFence = fenceMask(lines);
@@ -358,64 +431,22 @@ function scanDocument(markdown: string): PlanParseResult {
     const headingMatch = HEADING_LINE.exec(line);
     if (headingMatch) {
       const heading = headingMatch[1];
-      if (heading === LEGACY_CRITICAL_HEADING) {
-        currentPriority = 'High';
-        legacyCriticalSection = true;
-      } else if (SECTION_HEADINGS.has(heading as Priority)) {
-        currentPriority = heading as Priority;
-        legacyCriticalSection = false;
-      } else if (COMPLETED_MONTH_HEADING.test(heading)) {
-        currentPriority = 'Completed';
-        legacyCriticalSection = false;
-      } else {
-        currentPriority = null;
-        legacyCriticalSection = false;
-        const matched = LOWERCASE_TO_PRIORITY.get(heading.toLowerCase());
-        if (matched) {
-          nearMissHeadings.push({ line: i + 1, heading, matched });
-        }
+      const resolved = resolveHeadingLine(heading);
+      currentPriority = resolved.priority;
+      legacyCriticalSection = resolved.legacyCriticalSection;
+      if (resolved.nearMissMatch) {
+        nearMissHeadings.push({ line: i + 1, heading, matched: resolved.nearMissMatch });
       }
       continue;
     }
     if (!currentPriority) continue;
 
-    const m = TASK_LINE.exec(line);
-    if (!m) {
-      if (CHECKBOX_BULLET.test(line)) {
-        const legacyMatch = LEGACY_LABEL_LINE.exec(line);
-        const isLegacyRecord =
-          legacyMatch !== null &&
-          (legacyMatch[1] === 'x' || legacyMatch[1] === 'X') &&
-          !ID_SHAPE_CASE_INSENSITIVE.test(legacyMatch[2]);
-        // FE-087: a checkbox with no ID emphasis (`*` / `**`) is a prose
-        // checklist item, not a failed task. Genuine ID near-misses still
-        // carry asterisks (`*FE-064*`, `**fe-065**`) and keep flagging.
-        if (!isLegacyRecord && line.includes('*')) {
-          unparsed.push({ line: i + 1, text: line.trim() });
-        }
-      }
-      continue;
+    const parsed = parseTaskLine(line, currentPriority, legacyCriticalSection);
+    if (parsed && 'task' in parsed) {
+      tasks.push(parsed.task);
+    } else if (parsed && 'unparsedText' in parsed) {
+      unparsed.push({ line: i + 1, text: parsed.unparsedText });
     }
-
-    const [, mark, id, criticalRaw, modelRaw, criticalAfter, shortnameRaw, longRaw] = m;
-    const completed = mark === 'x' || mark === 'X';
-    const longText = longRaw ?? '';
-    const dateMatch = COMPLETED_DATE.exec(longText);
-    const blockedBy = extractBlockedBy(longText);
-    const relatedTasks = extractRelatedTasks(longText, blockedBy);
-
-    tasks.push({
-      id,
-      description: longText ? cleanDescription(longText) : '',
-      priority: currentPriority,
-      critical: criticalRaw === '!critical' || criticalAfter === '!critical' || legacyCriticalSection,
-      completed,
-      completedDate: dateMatch ? dateMatch[1] : undefined,
-      model: modelRaw as TaskModel | undefined,
-      shortname: shortnameRaw ? shortnameRaw.trim() : undefined,
-      relatedTasks,
-      blockedBy,
-    });
   }
 
   return { tasks, unparsed, nearMissHeadings };

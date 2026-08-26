@@ -1,7 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import type { Task } from '../parser';
 import { PALETTES } from './constants';
-import { displaySection, rowOutlineClass, splitHighlight, versionCurrency } from './utils';
+import {
+  displaySection,
+  rowOutlineClass,
+  splitHighlight,
+  versionCurrency,
+  visibleProjects,
+} from './utils';
 
 const task = (overrides: Partial<Task> = {}): Task => ({
   id: 'CORE-1',
@@ -96,6 +102,35 @@ describe('splitHighlight', () => {
       { text: 'FE', matched: true },
       { text: '-042 task', matched: false },
     ]);
+  });
+});
+
+describe('visibleProjects', () => {
+  const projects = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
+
+  it('returns everything visible when under the cap', () => {
+    expect(visibleProjects(['a', 'b'], null, 5)).toEqual({ visible: ['a', 'b'], overflow: [] });
+  });
+
+  it('truncates at the cap when the active project is within it', () => {
+    expect(visibleProjects(projects, 'a', 5)).toEqual({
+      visible: ['a', 'b', 'c', 'd', 'e'],
+      overflow: ['f', 'g'],
+    });
+  });
+
+  it('truncates at the cap when there is no active project', () => {
+    expect(visibleProjects(projects, null, 5)).toEqual({
+      visible: ['a', 'b', 'c', 'd', 'e'],
+      overflow: ['f', 'g'],
+    });
+  });
+
+  it('pins an overflowed active project into the last visible slot', () => {
+    expect(visibleProjects(projects, 'g', 5)).toEqual({
+      visible: ['a', 'b', 'c', 'd', 'g'],
+      overflow: ['e', 'f'],
+    });
   });
 });
 

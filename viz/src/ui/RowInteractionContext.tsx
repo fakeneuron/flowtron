@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react';
 import type { Tasknote } from '../tasknote';
 
-export interface RowInteraction {
+interface RowInteraction {
   tasknotesById: Map<string, Tasknote>;
   expandedId: string | null;
   setExpandedId: (id: string | null) => void;

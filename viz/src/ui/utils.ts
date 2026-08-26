@@ -51,7 +51,7 @@ export function versionCurrency(
 // The three row kinds share one highlight → selection → neutral decision and
 // differ only in which palette tokens it picks: subtask rows use the narrower
 // ring-1 variants, epic rows a heavier neutral border.
-export type RowVariant = 'task' | 'epic' | 'subtask';
+type RowVariant = 'task' | 'epic' | 'subtask';
 
 const ROW_OUTLINE_TOKENS: Record<RowVariant, (p: PaletteTokens) => [string, string, string]> = {
   task: (p) => [p.ROW_HIGHLIGHT, p.ROW_SELECTION, p.ROW_NEUTRAL],
@@ -69,6 +69,25 @@ export function rowOutlineClass(
   if (isHighlighted) return highlight;
   if (isSelected) return selection;
   return neutral;
+}
+
+// Caps the project chip row at `maxVisible`, pinning the active project into
+// the visible set (swapping out the last slot) when it would otherwise fall
+// into overflow — so switching projects never hides the one you're on.
+export function visibleProjects(
+  projects: string[],
+  active: string | null,
+  maxVisible: number,
+): { visible: string[]; overflow: string[] } {
+  if (projects.length <= maxVisible) return { visible: projects, overflow: [] };
+  const activeIdx = active ? projects.indexOf(active) : -1;
+  if (activeIdx >= maxVisible) {
+    return {
+      visible: [...projects.slice(0, maxVisible - 1), active as string],
+      overflow: projects.filter((_, i) => i >= maxVisible - 1 && i !== activeIdx),
+    };
+  }
+  return { visible: projects.slice(0, maxVisible), overflow: projects.slice(maxVisible) };
 }
 
 export function splitHighlight(

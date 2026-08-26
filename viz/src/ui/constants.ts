@@ -5,20 +5,12 @@ import type { DensityMode, PaletteName } from '../visibilityPrefs';
 /**
  * Viz UI token registry — semantic mapping for typography, color, and density.
  *
- * **Typography scale (4-step, size-only).** Composition modifiers
- * (`font-mono`, `font-medium`, `font-semibold`, `tabular-nums`,
- * `uppercase`) apply alongside the role token at the use site.
- *
- * | Role       | Tailwind size  | Examples                                                            |
- * |------------|----------------|---------------------------------------------------------------------|
- * | `heading`  | `text-lg`      | H1 in App header                                                    |
- * | `subhead`  | `text-base`    | Section headers, search input, ⓘ button, ThemeToggle, error banner |
- * | `body`     | `text-sm`      | Task IDs, row titles, stats caption, filter pills, "No tasks"      |
- * | `caption`  | `text-xs`      | Chips, metadata rows, chevron, detail labels, subtask date         |
- *
- * Scale bumped one step at subhead/body/caption tiers (CORE-098.12).
+ * **Typography scale.** `heading`/`subhead`/`caption` sizes (`text-lg` /
+ * `text-base` / `text-xs`) are applied as literal Tailwind classes at their
+ * call sites rather than through this token — only `body` (`text-sm`) is
+ * referenced by name, so `TYPOGRAPHY` carries just that one role (FE-100).
  * Off-grid sizes (`text-[11px]`, `text-[9px]`) are deprecated — fold to
- * `body` and `caption` respectively (CORE-098.2).
+ * `body`/`text-sm` and `text-xs` respectively (CORE-098.2).
  *
  * **Color palettes (FE-033.2).** Colors live in `PALETTES`, a
  * `Record<PaletteName, PaletteTokens>` keyed by user-selectable palette
@@ -37,10 +29,7 @@ import type { DensityMode, PaletteName } from '../visibilityPrefs';
  */
 
 export const TYPOGRAPHY = {
-  heading: 'text-lg',
-  subhead: 'text-base',
   body: 'text-sm',
-  caption: 'text-xs',
 } as const;
 
 export const STATUS_LABEL: Record<TasknoteStatus, string> = {

@@ -32,6 +32,16 @@ import { AppHeader } from './AppHeader';
 
 const SECTIONS = PRIORITIES;
 
+// The three PLAN.md diagnostic banners below share this singular/plural
+// shape; `plural` takes the count so each caller can phrase its own noun.
+function diagnosticMessage(
+  count: number,
+  singular: string,
+  plural: (count: number) => string,
+): React.ReactNode {
+  return <>⚠ {count === 1 ? singular : plural(count)}</>;
+}
+
 // Layout, not domain: which priorities render as board columns is the one
 // section list this file still authors. Everything else falls below the board,
 // so a priority added to PRIORITIES stays visible without an edit here.
@@ -231,13 +241,11 @@ export const App: React.FC = () => {
 
       {!loading && unparsed.length > 0 && (
         <DiagnosticBanner
-          message={
-            <>
-              ⚠ {unparsed.length === 1
-                ? '1 line in PLAN.md looks like a task but failed to parse:'
-                : `${unparsed.length} lines in PLAN.md look like tasks but failed to parse:`}
-            </>
-          }
+          message={diagnosticMessage(
+            unparsed.length,
+            '1 line in PLAN.md looks like a task but failed to parse:',
+            (n) => `${n} lines in PLAN.md look like tasks but failed to parse:`,
+          )}
         >
           {unparsed.map((u) => (
             <li key={u.line}>
@@ -249,13 +257,12 @@ export const App: React.FC = () => {
 
       {!loading && duplicateEpics.length > 0 && (
         <DiagnosticBanner
-          message={
-            <>
-              ⚠ {duplicateEpics.length === 1
-                ? '1 epic ID appears under more than one PLAN.md heading; only its first occurrence is shown:'
-                : `${duplicateEpics.length} epic IDs appear under more than one PLAN.md heading; only each first occurrence is shown:`}
-            </>
-          }
+          message={diagnosticMessage(
+            duplicateEpics.length,
+            '1 epic ID appears under more than one PLAN.md heading; only its first occurrence is shown:',
+            (n) =>
+              `${n} epic IDs appear under more than one PLAN.md heading; only each first occurrence is shown:`,
+          )}
         >
           {duplicateEpics.map((d, i) => (
             <li key={`${d.id}-${i}`}>{d.id}</li>
@@ -265,13 +272,12 @@ export const App: React.FC = () => {
 
       {!loading && nearMissHeadings.length > 0 && (
         <DiagnosticBanner
-          message={
-            <>
-              ⚠ {nearMissHeadings.length === 1
-                ? "1 PLAN.md heading looks like a typo'd priority section and its tasks were skipped:"
-                : `${nearMissHeadings.length} PLAN.md headings look like typo'd priority sections and their tasks were skipped:`}
-            </>
-          }
+          message={diagnosticMessage(
+            nearMissHeadings.length,
+            "1 PLAN.md heading looks like a typo'd priority section and its tasks were skipped:",
+            (n) =>
+              `${n} PLAN.md headings look like typo'd priority sections and their tasks were skipped:`,
+          )}
         >
           {nearMissHeadings.map((h) => (
             <li key={h.line}>

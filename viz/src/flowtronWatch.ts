@@ -64,7 +64,7 @@ export function archiveWatchOptions(archiveRoots: readonly string[]) {
   } as const;
 }
 
-export interface ChangeBroadcaster {
+interface ChangeBroadcaster {
   schedule(projectName: string | undefined): void;
   flush(): void;
   dispose(): void;

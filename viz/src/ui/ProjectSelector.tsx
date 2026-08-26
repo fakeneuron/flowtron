@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { versionCurrency } from './utils';
+import { versionCurrency, visibleProjects } from './utils';
 
 interface Props {
   projects: string[];
@@ -41,18 +41,7 @@ export const ProjectSelector: React.FC<Props> = ({
 
   if (projects.length === 0) return null;
 
-  let visible = projects;
-  let overflow: string[] = [];
-  if (projects.length > MAX_VISIBLE) {
-    const activeIdx = active ? projects.indexOf(active) : -1;
-    if (activeIdx >= MAX_VISIBLE) {
-      visible = [...projects.slice(0, MAX_VISIBLE - 1), active as string];
-      overflow = projects.filter((_, i) => i >= MAX_VISIBLE - 1 && i !== activeIdx);
-    } else {
-      visible = projects.slice(0, MAX_VISIBLE);
-      overflow = projects.slice(MAX_VISIBLE);
-    }
-  }
+  const { visible, overflow } = visibleProjects(projects, active, MAX_VISIBLE);
   const hasOverflow = overflow.length > 0;
   const last = hasOverflow ? -1 : visible.length - 1;
 

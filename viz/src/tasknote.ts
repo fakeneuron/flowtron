@@ -261,7 +261,7 @@ export function activePhaseIndex(phases: ChecklistCounts[]): number {
 // rule existed (CORE-389.3 did, at 21:24). Excluding the landing day trades a
 // few unflagged hours for no false flags — the same "unknown is not drift" stance
 // the missing-stamp case takes.
-export const TICK_THROUGH_EFFECTIVE = '2026-08-01';
+const TICK_THROUGH_EFFECTIVE = '2026-08-01';
 
 const ARCHIVED_STAMP = /^\*\*Archived:\*\*\s+(\d{4}-\d{2}-\d{2})\s*$/m;
 

@@ -11,7 +11,7 @@ interface ProjectFetchOverride {
   fail?: { plan?: number; active?: number; archive?: number };
 }
 
-export interface FetchSeed {
+interface FetchSeed {
   plan: string;
   active?: Tasknote[];
   archive?: Tasknote[];
