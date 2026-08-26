@@ -19,6 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-480** [medium]🧩 | release v5.20.0 — Completed 2026-08-26.
 - [x] **FE-100** [light]🔧 | viz-orphan-and-shape-trim — Completed 2026-08-26.
 - [x] **CORE-479** [light]🔧 | updater-naming-dedup — Completed 2026-08-26.
 - [x] **CORE-478** [light]🔧 | viz-version-drop — Completed 2026-08-26.

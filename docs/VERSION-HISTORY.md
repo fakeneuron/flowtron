@@ -22,6 +22,23 @@ unless correcting a factual error.
 
 ---
 
+## v5.20.0 — the --unattended operator-less posture
+
+- New `--unattended` posture (CORE-EPIC-473): callers with no operator
+  present get a structured `status: blocked` park instead of a banner into
+  an empty session, wired across `/ft-task`, `/ft-micro-task`,
+  `/ft-goal-task`, and `/ft-close-epic`.
+- New `park-reason:` frontmatter key (six-code closed set) and an
+  interrupted-run resume path for a session stranded mid-flow.
+- New `docs/EXTERNAL-AGENTS.md` §"The Orchestration Contract" for
+  operator-less callers.
+- `/ft-release`'s version-edit recipe trimmed from 5 pins to 3 (dead
+  `VIZ_VERSION` constant removed); new Pair J drift gate for command
+  `argument-hint:` flags.
+
+Also: viz vitest-flake fix, `/api/plan` realpath-containment hardening, and
+an internal registry/orphan-code trim.
+
 ## v5.19.0 — viz App decomposition, /ft-refactor depth-planner, PLAN.md rotation contract
 
 - New `/ft-refactor` depth-planner skill: read-only survey (dependencies, seams, coverage) → sequenced, behavior-preserving refactor plan filed as an epic
