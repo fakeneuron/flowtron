@@ -11,8 +11,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **FE-95** [medium]🧩 | viz-suite-flake-structural — Fix the App.test.tsx full-suite flake structurally: cap vitest worker parallelism and/or split App.test.tsx per feature; acceptance = repeated clean full-suite runs under load, no further timeout bumps (FE-045/FE-053/FE-089.2 exhausted that approach). Surfaced by audit 2026-08-26 (Finding #2, High)
-
 ## Medium
 
 - [ ] **FE-96** [light]🔧 | plan-handler-request-containment — /api/plan: resolve planPath via safeRealpath + realpathWithin at request time, matching the FE-088.2 pattern on the sibling handlers; align the SECURITY.md sentence. Surfaced by audit 2026-08-26 (Finding #1, Medium)
@@ -31,6 +29,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-95** [medium]🧩 | viz-suite-flake-structural — Completed 2026-08-26.
 - [x] **CORE-477** [light]🔧 | claude-example-flag-drift — Completed 2026-08-25.
 - [x] **CORE-476** [medium]🧩 | capabilities-deep-row — Completed 2026-08-25.
 - [x] **CORE-475** [medium]🧩 | argument-hint-drift-gate — Completed 2026-08-25.

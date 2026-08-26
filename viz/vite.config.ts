@@ -161,5 +161,13 @@ export default defineConfig({
     // flake the /ft-release viz gate. 15s leaves headroom while still catching
     // genuine hangs. See FE-053.
     testTimeout: 15_000,
+    // Cap fork-pool workers at half the cores. The default (all cores) makes
+    // the suite compete with itself — 25 jsdom environments spinning up across
+    // 8 workers starves userEvent waits past even the raised timeouts above
+    // whenever the machine carries other load. Half leaves headroom for that
+    // load, kills the flake structurally instead of via further timeout bumps
+    // (FE-053/FE-089.2 exhausted that lever), and measured *faster* wall-clock
+    // under load than the default. See FE-95.
+    maxWorkers: '50%',
   },
 });
