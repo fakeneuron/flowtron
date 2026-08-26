@@ -543,6 +543,36 @@ Four properties are deliberate, and a future edit should preserve them:
 - **The row-shape anchor `^| **\`--`** selects flag rows only.** `CAPABILITIES.md`'s non-flag triggers (`Effort / thinking level`, `/model <name>`, `/clear`, `Structured ask`, `Sub-agent`) are correctly excluded: they are platform-native controls, not portable skill-body flags, and each agent documents its own spelling.
 - **`docs/AGENT-COMPAT.md` is deliberately *not* a mirror here.** Its own §"Scope of this matrix" declares the matrix structural and defers per-agent triggers to this table; CORE-460.3 de-enumerated its Grok/Cursor rows to a pointer rather than adding a third roster to police. Same for the thin `grok/` + `cursor/AGENTS-snippet.md`, which own wiring commands only. Recorded here so a later reader does not read their absence as an oversight.
 
+**Pair J — command-stub `argument-hint:` ↔ the flags that stub documents.** `claude/commands/ft-*.md`'s `argument-hint:` is the only flag roster Claude Code surfaces to the operator *at the moment they type the slash command*, and nothing binds it to the prose in the file it lives in. Every check above is blind here: Pairs B and E read `claude/skills/*/SKILL.md` `description:` frontmatter, Pair I reads `CAPABILITIES.md` ↔ `PLATFORMS.md`, and Pair F does glob `claude/commands/*.md` but only for the four park-priority flags. So a stub can document a flag in its own `description:` and its own Usage bullet while the hint never names it — or carry no `argument-hint:` at all, which is what `/ft-epic-discovery` had done with `--deep` since the flag shipped, alongside `/ft-stats --write` (CORE-475 found both on one pass). CORE-460.2 had already traced this exact class one field over: CORE-399's pattern survey named `ft-file-followup`'s `argument-hint` but not the two command stubs restating the same roster.
+
+Both halves derive from the stub itself — one file per skill, no cross-file join and no listed roster, so a stub added or a flag landed later is covered the day it lands:
+
+```sh
+for f in claude/commands/ft-*.md; do
+  s=$(basename "$f" .md)
+  own=$( { grep -m1 '^description:' "$f" | sed -E 's/"[^"]*"//g'
+           grep -o '`[^`]*`' "$f" | grep -E -- "/${s}[^a-z-]" ; } \
+         | grep -oE -e '--[a-z][a-z-]+' | sort -u | tr '\n' ' ')
+  [ -z "$own" ] && continue
+  hint=$(grep -m1 '^argument-hint:' "$f") \
+    || { echo "MISSING HINT $s :: $own"; continue; }
+  for fl in $(printf '%s' "$own"); do
+    case "$hint" in *"$fl"*) ;; *) echo "MISSING HINT FLAG $s $fl" ;; esac
+  done
+done
+```
+
+Must print nothing. `MISSING HINT` is a stub that documents at least one flag and carries no `argument-hint:` line at all; `MISSING HINT FLAG` is a documented flag the hint never names. Fix by adding or extending that stub's `argument-hint:` in the house shape — required positional first, optional segments bracketed, short alias joined with `|` (`<TASK-ID> [--fast | -f] [--unattended]`) — never by deleting the flag from the prose to quiet the check.
+
+Four properties are deliberate, and a future edit should preserve them:
+
+- **The flag source is stub-local and structural, which is what makes cross-references invisible.** A flag counts only from the stub's own `description:` line, or from a backticked span that invokes the stub's *own* slug. See-also sentences never reach `description:`, and every cross-reference in a body carries either a foreign slug inside the span (`` `/ft-task <TASK-ID> --debug` `` in `ft-goal-task.md`; `` `/ft-file-followup --park [--low|--med|--fut|--high]` `` in `ft-starter-task.md` and `ft-epic-discovery.md`) or no slug at all (`` `--fast` `` in both worktree stubs' "not applicable here" sentence, and in `ft-close-epic.md`'s "there is no `--fast` here"). The span rule excludes both shapes, so no phrase blocklist — `not applicable`, `there is no` — is needed or wanted; that version breaks the first time someone rewords a sentence.
+- **`${s}` braces and the trailing `[^a-z-]` are both load-bearing.** zsh parses a bare `$s[` as an array subscript and dies with `bad math expression`; `grep` then receives an empty pattern, matches every span, and the check quietly starts reporting cross-references as drift instead of failing loudly. The character class stops `/ft-audit` from swallowing `/ft-audit-repo` and `/ft-audit-context` — every span ends in a backtick, so a slug at the end of one still has a character to match.
+- **The quote-strip is Pair B's pipeline verbatim** — same `sed`, same load-bearing reason CORE-420.5 measured. A change to what counts as a *documented* flag belongs in B, E, and J together, or the three start disagreeing.
+- **It is one-directional (prose → hint), on purpose.** A hint may legitimately name more than the prose documents: short aliases (`-f` / `-d` / `-p`), which the `--[a-z]` extraction never sees, and `ft-file-followup`'s `--low`/`--med`/`--fut`/`--high` roster, which is Pair F's job. Checking the reverse would report every one of those as drift. The same asymmetry costs a little coverage — `ft-close-epic` names `--unattended` only inside that negation clause, so it derives an empty set and passes vacuously — which is Pair F's `continue` idiom one more time: a stub documenting no flag is skipped, not failed.
+
+Positional arguments are out of scope. `/ft-audit` (`<domain> [scope]`) and `/ft-audit-repo` (`all` / path) take arguments but no flags, so this pair is silent on their absent hints. Recorded here so a later reader does not read that silence as an oversight.
+
 ### 7.2 — Auto-draft annotated tag message
 
 Use CORE-048's structure as the template:
