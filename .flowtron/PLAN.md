@@ -17,7 +17,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-483.1** [medium] | screenshot-discipline discovery — Completed 2026-08-27.
   - [x] **CORE-483.2** [medium] | screenshot-policy-rewrite — Completed 2026-08-27.
   - [x] **CORE-483.3** [light] | natabula-deposit-alignment — Completed 2026-08-27.
-  - [ ] **CORE-483.4** [light] | screenshot-prune-sweep — Create ~/Code/_screenshots/; list then delete contents of every adopter's gitignored .flowtron/screenshots/ (~300MB across ~20 repos), keeping directories' gitignore entries and flowtron's tracked viz-board.png. Pure filesystem cleanup — no adopter commits or pushes.
+  - [x] **CORE-483.4** [light] | screenshot-prune-sweep — Completed 2026-08-27.
 
 ## Low
 
