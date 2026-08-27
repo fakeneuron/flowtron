@@ -21,21 +21,21 @@ Update natabula's `.gitignore` deposit comment (and any ADOPTION-OPTIONS/STACK-T
 
 ## ✅ Acceptance
 
-- [ ] `~/Code/natabula/configs/.gitignore`'s `.flowtron/screenshots/` line gains a comment naming it a gitignored ephemeral safety net for tools that still write there — not the global screenshot convention (which is `~/Code/_screenshots/<project>/` per the personal-layer policy `[[CORE-483.2]]` wrote)
-- [ ] `~/Code/natabula/.gitignore` (natabula's own dogfooded copy) gets the same comment treatment for consistency
-- [ ] `docs/ADOPTION-OPTIONS.md` and `docs/STACK-TENDENCIES.md` checked for any screenshot-convention framing that now contradicts `[[CORE-483.2]]`'s policy; edited only if a contradiction is found (Discovery found none — logged below)
-- [ ] Flowtron itself stays untouched — no flowtron contract doc gains a screenshot rule
-- [ ] Phase 4 doc-drift sweep across `.flowtron/tasknote/README.md` §"AI-referenced docs" run for the flowtron repo
+- [x] `~/Code/natabula/configs/.gitignore`'s `.flowtron/screenshots/` line gains a comment naming it a gitignored ephemeral safety net for tools that still write there — not the global screenshot convention (which is `~/Code/_screenshots/<project>/` per the personal-layer policy `[[CORE-483.2]]` wrote)
+- [x] `~/Code/natabula/.gitignore` (natabula's own dogfooded copy) gets the same comment treatment for consistency
+- [x] `docs/ADOPTION-OPTIONS.md` and `docs/STACK-TENDENCIES.md` checked for any screenshot-convention framing that now contradicts `[[CORE-483.2]]`'s policy; edited only if a contradiction is found (Discovery found none — logged below)
+- [x] Flowtron itself stays untouched — no flowtron contract doc gains a screenshot rule
+- [x] Phase 4 doc-drift sweep across `.flowtron/tasknote/README.md` §"AI-referenced docs" run for the flowtron repo
 
 ## 🧩 Subtasks
 
-- [ ] Draft the replacement comment line for the `.flowtron/screenshots/` gitignore entry (safety-net framing, points at the real convention)
-- [ ] Edit `~/Code/natabula/configs/.gitignore` — insert the comment above the existing bare `.flowtron/screenshots/` line in the "Test & coverage output" section
-- [ ] Edit `~/Code/natabula/.gitignore` — replace the existing bare `# Playwright / screenshots` header with the safety-net framing above its `.flowtron/screenshots/` line
-- [ ] Re-grep `docs/ADOPTION-OPTIONS.md` and `docs/STACK-TENDENCIES.md` for any prose that still frames `.flowtron/screenshots/` as the write destination; confirm no edit needed (both already read clean in Discovery) or fix if drift is found
-- [ ] Re-grep the flowtron repo for `screenshot` to confirm flowtron stays silent (no contract doc touched)
-- [ ] Phase 3: re-read both edited natabula files; confirm no other line changed
-- [ ] Phase 4: doc-drift sweep on the flowtron side, flip the `.3` PLAN line to stub form keeping 2-space nesting under the active parent, archive the tasknote, commit (flowtron-side deliverables only — natabula edits live outside this repo)
+- [x] Draft the replacement comment line for the `.flowtron/screenshots/` gitignore entry (safety-net framing, points at the real convention)
+- [x] Edit `~/Code/natabula/configs/.gitignore` — insert the comment above the existing bare `.flowtron/screenshots/` line in the "Test & coverage output" section
+- [x] Edit `~/Code/natabula/.gitignore` — replace the existing bare `# Playwright / screenshots` header with the safety-net framing above its `.flowtron/screenshots/` line
+- [x] Re-grep `docs/ADOPTION-OPTIONS.md` and `docs/STACK-TENDENCIES.md` for any prose that still frames `.flowtron/screenshots/` as the write destination; confirm no edit needed (both already read clean in Discovery) or fix if drift is found
+- [x] Re-grep the flowtron repo for `screenshot` to confirm flowtron stays silent (no contract doc touched)
+- [x] Phase 3: re-read both edited natabula files; confirm no other line changed
+- [x] Phase 4: doc-drift sweep on the flowtron side, flip the `.3` PLAN line to stub form keeping 2-space nesting under the active parent, archive the tasknote, commit (flowtron-side deliverables only — natabula edits live outside this repo)
 
 ## 🔗 Related
 

@@ -13,18 +13,18 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-483** [medium] | screenshot-discipline — Retire the keep-every-screenshot habit: SPEC already delegates visual acceptance to the operator's live view (👁️ CONFIRM), so screenshots stay an ephemeral agent-eyeball tool only. Rewrite the global CLAUDE.md path rule, reconcile the stale /tmp/playwright-mcp memory, align natabula deposit wording, and prune ~300MB of stale .flowtron/screenshots/ across ~20 repos (filed via /ft-epic-discovery; refined at .1 closure).
-  - [x] **CORE-483.1** [medium] | screenshot-discipline discovery — Completed 2026-08-27.
-  - [x] **CORE-483.2** [medium] | screenshot-policy-rewrite — Completed 2026-08-27.
-  - [x] **CORE-483.3** [light] | natabula-deposit-alignment — Completed 2026-08-27.
-  - [x] **CORE-483.4** [light] | screenshot-prune-sweep — Completed 2026-08-27.
-
 ## Low
 
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-EPIC-483** [medium] | screenshot-discipline — Completed 2026-08-27.
+  - [x] **CORE-483.1** [medium] | screenshot-discipline discovery — Completed 2026-08-27.
+  - [x] **CORE-483.2** [medium] | screenshot-policy-rewrite — Completed 2026-08-27.
+  - [x] **CORE-483.3** [light] | natabula-deposit-alignment — Completed 2026-08-27.
+  - [x] **CORE-483.4** [light] | screenshot-prune-sweep — Completed 2026-08-27.
+  - [x] **CORE-483.N** [light] | screenshot-discipline audit — Completed 2026-08-27.
 - [x] **CORE-EPIC-482** [heavy] | model-tier-recalibration — Completed 2026-08-27.
   - [x] **CORE-482.1** [heavy] | model-tier-recalibration discovery — Completed 2026-08-27.
   - [x] **CORE-482.2** [heavy] | model-effort-inventory — Completed 2026-08-27.
