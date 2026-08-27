@@ -32,7 +32,7 @@ Alphabetized. ~71 entries. Maintained via epic children and audits.
 
 **Conditional skip rule** — The deterministic privileged-ops path/keyword test plus bundled-prompt override that decides whether the 📦 ready-to-commit gate fires or the closure auto-commits. Frontend diffs and perf-narrative reasoning do not trip the gate. See SPEC/gates.md §"Conditional skip rule".
 
-**copy-paste line** — The post-closure "suggest next" helper: emoji primary label (`[heavy]🧠` / `[medium]🧩` / `[light]🔧`) + "design / moderate / mechanical" prose + shortname, followed by a tight "Clear your session, then run: /ft-task <next-ID>" cue whose label-line glyph matches the chosen candidate's 🔧/🧩/🧠 (never a default 🔧). Never emits literal `/model` or `/clear` commands.
+**copy-paste line** — The post-closure "suggest next" helper: emoji primary label (`[heavy]🧠` / `[medium]🧩` / `[light]🔧` / `[xheavy]🔭`) + "design / moderate / mechanical / exploratory" prose + shortname, followed by a tight "Clear your session, then run: /ft-task <next-ID>" cue whose label-line glyph matches the chosen candidate's 🔧/🧩/🧠/🔭 (never a default 🔧). Never emits literal `/model` or `/clear` commands.
 
 **CORE-** — The canonical area prefix for cross-cutting, orchestration, and meta tasks (used by flowtron self and every adopter).
 

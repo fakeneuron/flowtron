@@ -74,7 +74,7 @@ unattended mode removes **pauses**, never **proof** — all three parts of
 variant. Resume is the ordinary blocked path in
 [`SPEC/blocked.md`](../blocked.md), which also clears `park-reason:`.
 
-The **operator-cue vocabulary** (🛠️ 📦 🟢 👁️ 🏁 ✅ 🔧 🧩 🧠 👇 🗄️ ▶️ 📡 💻 ✋ 🔍 and
+The **operator-cue vocabulary** (🛠️ 📦 🟢 👁️ 🏁 ✅ 🔧 🧩 🧠 🔭 👇 🗄️ ▶️ 📡 💻 ✋ 🔍 and
 their UPPERCASE labels) is contract-layer, not Claude-specific — emit it
 **verbatim**. The glyph is the fast-scan signal; the UPPERCASE label is the
 fallback if your surface strips emoji. Full vocabulary:
@@ -378,7 +378,8 @@ Run the three-step protocol in
    emit the 🏁 state-marker with that real SHA and a 1-2 sentence
    accomplishment summary — never without a SHA. Then suggest the next task.
    Use the emoji primary label inline per candidate —
-   `[heavy]🧠` (design), `[medium]🧩` (moderate), or `[light]🔧` (mechanical),
+   `[heavy]🧠` (design), `[medium]🧩` (moderate), `[light]🔧` (mechanical), or
+   (rare — manual-only filings) `[xheavy]🔭` (exploratory),
    never the bare `[model]` token. Prefix any `/ft-audit*` candidate with 🔍.
    **Terminal case:** if the fresh PLAN.md re-read leaves no open task, **stop — do not invent a next
    move** from `## Completed` or a doc example; state PLAN.md is exhausted and
@@ -387,10 +388,11 @@ Run the three-step protocol in
    protocol" step 2's **PLAN exhausted (terminal)** form.
 3. **Offer the copy-paste line.** The label-line glyph is copied from the
    chosen candidate line just printed in step 2 — 🧠 when it showed 🧠, 🧩 when
-   it showed 🧩, 🔧 when it showed 🔧; never default to 🔧. A session-reset
+   it showed 🧩, 🔧 when it showed 🔧, 🔭 when it showed 🔭; never default to 🔧.
+   A session-reset
    label line, then the next invocation alone on its own line as inline code
    **with no trailing punctuation** (a trailing `.` collides with the `.N`
-   epic-subtask grammar). Shape, where `<glyph>` is the candidate's 🔧/🧩/🧠:
+   epic-subtask grammar). Shape, where `<glyph>` is the candidate's 🔧/🧩/🧠/🔭:
 
    ```markdown
    <glyph> Clear your session, then run:

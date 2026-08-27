@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-482.1** [heavy] | model-tier-recalibration discovery — Completed 2026-08-27.
   - [x] **CORE-482.2** [heavy] | model-effort-inventory — Completed 2026-08-27.
   - [x] **CORE-482.3** [heavy] | xheavy-rung-round-up — Completed 2026-08-27.
-  - [ ] **CORE-482.4** [light] | emitter-glyph-propagation — Propagate the [xheavy]🔭 glyph and four-rung label-lists into the hard-coded next-move emitters: ft-task Step 6, ft-micro-task, ft-close-epic, ft-epic-discovery, ft-refactor, ft-audit family, codex mirrors, SPEC/procedures/ft-task.md, docs/GLOSSARY.md, docs/PLATFORMS.md + claude/CAPABILITIES.md label rows, and the micro/goal Step 1.5 trio restatements. Filed by CORE-482.3 downstream-impact scan.
+  - [x] **CORE-482.4** [light] | emitter-glyph-propagation — Completed 2026-08-27.
   - [ ] **CORE-482.5** [light] | viz-xheavy-glyph-tolerance — Widen viz/src/parser.ts SUGGESTION_GLYPH alternation (🧠|🔧|🧩) to also accept 🔭 after the model token, plus a decorated-row test; mirrors CORE-353.6. Filed by CORE-482.3 downstream-impact scan.
   - [ ] **CORE-482.N** [heavy] | model-tier-recalibration audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line).
 

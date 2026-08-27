@@ -3,7 +3,7 @@ description: Create an isolated git worktree for an independent epic child taskn
 argument-hint: <TASK-ID>
 ---
 
-Invoke the `ft-worktree-start` skill with `args="$ARGUMENTS"`. The skill performs the four mechanical steps from the convention (create `wt-<ID>` branch, `git worktree add` at the canonical sibling location, copy the live `.flowtron/tasknote/<ID>.md` into the worktree, and print a precise handoff block with the `cd` target + "Clear your session, then use 🔧/🧩/🧠 /ft-task <ID>" line, emoji chosen to match the task's [model] tag per the skill's copy-paste rule).
+Invoke the `ft-worktree-start` skill with `args="$ARGUMENTS"`. The skill performs the four mechanical steps from the convention (create `wt-<ID>` branch, `git worktree add` at the canonical sibling location, copy the live `.flowtron/tasknote/<ID>.md` into the worktree, and print a precise handoff block with the `cd` target + "Clear your session, then use 🔧/🧩/🧠/🔭 /ft-task <ID>" line, emoji chosen to match the task's [model] tag per the skill's copy-paste rule).
 
 The skill enforces preconditions (main checkout, clean-ish status preferred, tasknote already exists for the ID) and collision checks (existing branch or worktree dir). It never mutates the source tasknote in the main checkout.
 

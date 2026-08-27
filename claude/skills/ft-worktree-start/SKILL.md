@@ -128,7 +128,7 @@ The worktree list should show both the main tree and the new `wt-...` entry poin
 
 ## Step 4 — Handoff to the operator (the critical UX step)
 
-Surface a clear, copy-paste-ready block. `${GLYPH}` is 🧠 when the PLAN.md line for `${TASK_ID}` carries a heavy-appropriate `[model]` tag, 🧩 when medium-appropriate, 🔧 when light — the same glyph the post-closure candidate line would have emitted for this task; never default to 🔧. Substitute it like the other `${...}` values when printing:
+Surface a clear, copy-paste-ready block. `${GLYPH}` is 🧠 when the PLAN.md line for `${TASK_ID}` carries a heavy-appropriate `[model]` tag, 🧩 when medium-appropriate, 🔧 when light, 🔭 when xheavy-appropriate (rare — manual-only filings) — the same glyph the post-closure candidate line would have emitted for this task; never default to 🔧. Substitute it like the other `${...}` values when printing:
 
 ```
 ✅ Worktree created for ${TASK_ID}
