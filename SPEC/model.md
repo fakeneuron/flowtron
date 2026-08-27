@@ -13,7 +13,7 @@ identifier representing the cognitive load of the task.
 Flowtron's recommended primary labels are `[heavy]` (design, multi-file,
 high ambiguity, or exploratory work), `[medium]` (multi-step, well-scoped),
 and `[light]` (mechanical, well-scoped, clear-diff implementation). Adopters MAY use any short token they prefer
-(e.g. `fable`, `opus`, `sonnet`, `haiku`, `gpt-5`, `gemini-pro`, project-specific names).
+(e.g. `fable`, `opus`, `sonnet`, `haiku`, `grok`, `codex`, `gpt-5`, `gemini-pro`, project-specific names).
 The visualizer parser accepts any short lowercase token (`[a-z][\w.-]*`), and
 `/ft-stats` buckets unknown tokens as `other`.
 
@@ -66,10 +66,11 @@ matching logic is identical whether the ladder holds two rungs or three — a
 deliberate tier-count-agnostic design. The middle `medium` rung was added in
 CORE-259 with zero change to the comparison logic.
 
-Each concrete model has an inherent tier. This is **guidance for the agent to
-self-assess at gate time, not a frozen lookup table** — flowtron does not pin a
-cross-provider model→tier table that needs maintenance every release. Calibration
-baseline:
+Each concrete model has an inherent tier. This remains **guidance for the agent
+to self-assess at gate time** — the gate never requires a lookup. A maintained
+cross-provider reference now backs that self-assessment: see
+§"Platform×model×effort calibration table" below, refreshed at releases.
+Calibration baseline:
 
 - **`heavy`** — deep-reasoning, large/long-context models at their default
   (unadjusted) effort setting: Anthropic's current top tier (`fable`, with
@@ -102,18 +103,20 @@ The match compares the active model's tier against the tag's tier:
 Vendor APIs now commonly expose a second axis alongside the choice of named
 model: a reasoning-*effort* setting (Claude's `low` / `medium` / `high` /
 `xhigh` / `max` — the full ladder across the current Claude 5 family, with
-`xhigh` the recommended setting for coding and agentic work; Grok's `none` /
-`low` / `medium` / `high`; Codex's `none` / `low` / `medium` / `high` /
-`xhigh` / `max`, with `minimal` as an even lighter CLI-only rung). This is
-orthogonal to the tier
+`xhigh` the recommended setting for coding and agentic work; Grok's `low` /
+`medium` / `high` / `xhigh` — the `xhigh` rung arrived with Grok 4.6, and
+earlier 4.x silently treat it as `high`; Codex's `none` / `low` / `medium` /
+`high` / `xhigh` / `max`, with `minimal` as an even lighter CLI-only rung).
+This is orthogonal to the tier
 ladder above: the *same* named model can be pushed toward `heavy`-band output
 by raising its effort setting, or throttled toward `light`-band output by
 lowering it.
 
-Flowtron's tier stays a **cognitive-load label for the task**, not a frozen
-model→tier lookup table — a `[heavy]` task is satisfied equally by a big
-model at low effort or a small model at high effort, whichever the operator's
-session is actually running. The Step 1.5 gate reads the *active model's*
+Flowtron's tier stays a **cognitive-load label for the task** — a `[heavy]`
+task is satisfied equally by a big model at low effort or a small model at
+high effort, whichever the operator's session is actually running. The
+§"Platform×model×effort calibration table" below is the maintained reference
+for where those combinations land. The Step 1.5 gate reads the *active model's*
 self-assessed tier at gate time (this section); it does not separately read
 or require an effort parameter.
 
@@ -139,6 +142,43 @@ running model. `[heavy]` stays `[heavy]` even when it runs on opus — the categ
 carries the task's cognitive-load signal (feeding `/ft-stats` buckets and
 scannable, agent-neutral filing), which a silent rewrite to the run's model would
 destroy.
+
+## Platform×model×effort calibration table
+
+The tier bands above are calibrated against real vendor rosters. This table is
+the **maintained cross-provider reference** — refreshed at releases (the
+release cut's `/ft-audit docs` subroutine surfaces a stale table via the
+dated as-of stamp below) and stamped with its as-of date. It exists so any chooser — the operator, or an automated orchestrator
+picking a model for a tagged task — can map "what is this session actually
+running, at what effort" to a tier band without guessing. It *calibrates* the
+Step 1.5 self-assessment; it never replaces it, and the gate still requires no
+lookup. Rows stay family-level tokens per §"Effort axis" — the `@effort`
+notation below is prose shorthand for "this family at that effort setting",
+never a PLAN.md token shape.
+
+Maintaining this table supersedes CORE-353.2's no-maintained-table decision
+(recorded on the superseding tasknote): the un-tabled version of the same
+knowledge kept going stale as scattered prose; one dated table is cheaper to
+keep honest.
+
+**As of 2026-08-27:**
+
+| Platform | Token | Current roster (top of family) | Effort ladder | Band at default effort | Effort-shifted equivalences |
+|---|---|---|---|---|---|
+| Anthropic | `fable` | Fable 5 (`mythos` limited-access sibling) | `low`/`medium`/`high`/`xhigh`/`max` (default `high`; `xhigh` recommended for coding/agentic) | heavy | heavy-band at every effort — `fable@low` often still exceeds prior-generation `xhigh` |
+| Anthropic | `opus` | Opus 5 (4.8 / 4.7 supported prior) | `low`/`medium`/`high`/`xhigh`/`max` | heavy | `opus@low` ≈ medium-band throughput work |
+| Anthropic | `sonnet` | Sonnet 5 | `low`/`medium`/`high`/`xhigh`/`max` | medium | `sonnet@xhigh` ≈ heavy-band |
+| Anthropic | `haiku` | Haiku 4.5 | no effort parameter | light | — |
+| OpenAI | `gpt-5` | GPT-5.5 flagship · GPT-5.4 workhorse (+ mini / nano) | per-model thinking tiers (Pro / Extended variants think longest) | heavy (5.5 / Pro) · medium (5.4) · light (mini / nano) | `gpt-5.4@extended` ≈ heavy-band |
+| OpenAI | `codex` | GPT-5.3 Codex (coding/agentic line) | `none`/`low`/`medium`/`high`/`xhigh`/`max` (+ CLI-only `minimal`) | medium at its recommended default | `codex@xhigh`–`@max` ≈ heavy-band |
+| xAI | `grok` | Grok 4.6 (`grok-build` coding sibling) | `low`/`medium`/`high` (default) /`xhigh` (4.6+; earlier 4.x treat `xhigh` as `high`) | medium | `grok@xhigh` ≈ heavy-band |
+| Google | `gemini-pro` | Gemini 3.1 Pro (Deep Think variant above it) | `thinking_level` `low`/`high` | heavy | `gemini-pro@low` ≈ medium-band |
+| Google | `gemini-flash` | Gemini 3.7 Flash (Flash-Lite below it) | `thinking_level` `low`/`high` | medium (Flash) · light (Flash-Lite) | `gemini-flash@high` ≈ upper medium-band |
+
+A row's "band at default effort" is what the Step 1.5 gate should read for
+that family absent other signal; the equivalences column is the effort axis in
+action — the same token earning a different band when the session runs it at a
+non-default effort setting.
 
 ## Practical guidance and agent-aware defaults
 
