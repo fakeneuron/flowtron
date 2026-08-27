@@ -19,6 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-481** [light] | security-doc line-cite trim — Dropped the ten brittle line-number citations in SECURITY.md §"Fleet updater" (7 of 10 had drifted 7–26 lines through CORE-473/478/479); function names remain as the stable locators, behavioral claims unchanged. Surfaced by audit-docs 2026-08-26 (Finding #1, Medium), fixed inline.
 - [x] **CORE-480** [medium]🧩 | release v5.20.0 — Completed 2026-08-26.
 - [x] **FE-100** [light]🔧 | viz-orphan-and-shape-trim — Completed 2026-08-26.
 - [x] **CORE-479** [light]🔧 | updater-naming-dedup — Completed 2026-08-26.
