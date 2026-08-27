@@ -260,9 +260,9 @@ See §"Glyph layers and reuse".
 👇 (`HERE`) replaces the model glyph on the copy-paste **label line** when the
 next-skill is context-dependent (`/ft-file-followup` in either mode / `/ft-epic-discovery` —
 clearing the session destroys the context they draw on). It signals *where* to
-run, not task weight — the 🔧/🧩/🧠 model signal stays on the candidate line just
+run, not task weight — the 🔧/🧩/🧠/🔭 model signal stays on the candidate line just
 printed above. 👇 is a separate one-glyph widening of the CORE-254 vocabulary
-(CORE-308), orthogonal to the 🔧/🧩/🧠 weight glyphs.
+(CORE-308), orthogonal to the 🔧/🧩/🧠/🔭 weight glyphs.
 
 ### Destructive-action escalation
 

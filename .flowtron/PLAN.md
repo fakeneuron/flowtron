@@ -11,14 +11,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-EPIC-482** [heavy] | model-tier-recalibration — Recalibrate the model-labeling vocabulary so any chooser (operator or orchestrator) picks a strong-enough model: platform×model×effort inventory, err-heavier default bias, tier-fit review of light/medium/heavy, and a Discovery-gated decision on a fourth manual-only exploratory rung (filed via /ft-epic-discovery; refined at .1 closure).
-  - [x] **CORE-482.1** [heavy] | model-tier-recalibration discovery — Completed 2026-08-27.
-  - [x] **CORE-482.2** [heavy] | model-effort-inventory — Completed 2026-08-27.
-  - [x] **CORE-482.3** [heavy] | xheavy-rung-round-up — Completed 2026-08-27.
-  - [x] **CORE-482.4** [light] | emitter-glyph-propagation — Completed 2026-08-27.
-  - [x] **CORE-482.5** [light] | viz-xheavy-glyph-tolerance — Completed 2026-08-27.
-  - [ ] **CORE-482.N** [heavy] | model-tier-recalibration audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line).
-
 ## Medium
 
 ## Low
@@ -27,6 +19,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-482** [heavy] | model-tier-recalibration — Completed 2026-08-27.
+  - [x] **CORE-482.1** [heavy] | model-tier-recalibration discovery — Completed 2026-08-27.
+  - [x] **CORE-482.2** [heavy] | model-effort-inventory — Completed 2026-08-27.
+  - [x] **CORE-482.3** [heavy] | xheavy-rung-round-up — Completed 2026-08-27.
+  - [x] **CORE-482.4** [light] | emitter-glyph-propagation — Completed 2026-08-27.
+  - [x] **CORE-482.5** [light] | viz-xheavy-glyph-tolerance — Completed 2026-08-27.
+  - [x] **CORE-482.N** [heavy] | model-tier-recalibration audit — Completed 2026-08-27.
 - [x] **CORE-481** [light] | security-doc line-cite trim — Dropped the ten brittle line-number citations in SECURITY.md §"Fleet updater" (7 of 10 had drifted 7–26 lines through CORE-473/478/479); function names remain as the stable locators, behavioral claims unchanged. Surfaced by audit-docs 2026-08-26 (Finding #1, Medium), fixed inline.
 - [x] **CORE-480** [medium]🧩 | release v5.20.0 — Completed 2026-08-26.
 - [x] **FE-100** [light]🔧 | viz-orphan-and-shape-trim — Completed 2026-08-26.
