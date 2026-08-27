@@ -59,7 +59,7 @@ For each candidate line in either file:
    - [x] **<TASK-ID>** [<model>] | <shortname> — … Surfaced by <label> <YYYY-MM-DD> …, fixed inline.
    ```
 
-   - `[<model>]` is the model token per SPEC §"Task-line format". Bucket: primary recommended tiers `[heavy]` / `[medium]` / `[light]` (from CORE-256); named concrete buckets `fable` / `opus` / `sonnet` / `haiku` — the current Claude roster per SPEC/model.md (`opus`/`sonnet` also carry historical entries; `fable` added in CORE-303, `haiku` in CORE-373); any other (e.g. limited-access `mythos`, agent-specific `grok`, `gpt-5`, or historical) → `other`; absent `[<model>]` → `legacy`.
+   - `[<model>]` is the model token per SPEC §"Task-line format". Bucket: primary recommended tiers `[heavy]` / `[medium]` / `[light]` (from CORE-256) plus the manual-only `[xheavy]` tier (from CORE-482.3); named concrete buckets `fable` / `opus` / `sonnet` / `haiku` — the current Claude roster per SPEC/model.md (`opus`/`sonnet` also carry historical entries; `fable` added in CORE-303, `haiku` in CORE-373); any other (e.g. limited-access `mythos`, agent-specific `grok`, `gpt-5`, or historical) → `other`; absent `[<model>]` → `legacy`.
    - `| <shortname>` is optional (legacy entries may omit it).
    - **Date resolution** (same order as `SPEC/tasknote-selection.md`
      §"`## Completed` rotation"): prefer the trailing `Completed <YYYY-MM-DD>.`
@@ -78,7 +78,7 @@ For each parsed entry, capture:
 |---|---|
 | `task_id` | bold ID (e.g., `CORE-097.2`, `FE-EPIC-033`) |
 | `area` | prefix before the first `-` (`CORE`, `FE`, `BE`, `DB`, `DEPLOY`, `TEST`, or an adopter domain prefix) |
-| `model` | `heavy` \| `medium` \| `light` \| `fable` \| `opus` \| `sonnet` \| `haiku` \| `other` \| `legacy` |
+| `model` | `xheavy` \| `heavy` \| `medium` \| `light` \| `fable` \| `opus` \| `sonnet` \| `haiku` \| `other` \| `legacy` |
 | `date` | `YYYY-MM-DD` from date resolution above |
 | `is_subtask` | true if `task_id` matches `<AREA>-<N>.<SUB>` |
 | `is_epic_parent` | true if `task_id` matches `<AREA>-EPIC-<N>` |
@@ -97,6 +97,7 @@ Compute against the parsed entries from Step 1. Two windows per section:
 
 | Model  | All | % | Last 30d | % (30d) |
 |---|---:|---:|---:|---:|
+| `xheavy` | N | X% | M | X% |
 | `heavy` | N | X% | M | X% |
 | `medium` | N | X% | M | X% |
 | `light` | N | X% | M | X% |
@@ -110,8 +111,9 @@ Compute against the parsed entries from Step 1. Two windows per section:
 Percentage denominator is total parsed entries in that window. Round to the
 nearest integer percent. Omit the `other` and `legacy` rows entirely if their
 count is 0 in **both** windows; otherwise show them (zero counts render as
-`0` / `0%`). The primary tiers (`heavy`/`medium`/`light`) and
-`fable`/`opus`/`sonnet`/`haiku` are always shown if present in the data.
+`0` / `0%`). The tier buckets (`xheavy`/`heavy`/`medium`/`light`) and
+`fable`/`opus`/`sonnet`/`haiku` are always shown if present in the data (the
+rare `xheavy` row, like the rest, appears only when the data carries it).
 
 ### Section B — Completion velocity
 
@@ -149,7 +151,7 @@ Source: `.flowtron/PLAN.md` `## Completed`[+ `.flowtron/PLAN-ARCHIVE.md`] — <N
 Last 30d window: <today − 30> → <today> (inclusive)
 
 ## Model distribution
-<Section A table (expanded for current tiers: heavy/medium/light + fable/opus/sonnet/haiku + other/legacy)>
+<Section A table (expanded for current tiers: xheavy/heavy/medium/light + fable/opus/sonnet/haiku + other/legacy)>
 
 ## Completion velocity
 <Section B table>

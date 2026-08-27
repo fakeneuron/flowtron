@@ -682,7 +682,7 @@ reliability. Full contract (emission shapes, escalation, conventions):
 | 📦 | — | ready-to-commit approval banner |
 | 🏁 | — | committed state-marker (carries the work summary) |
 | ✅ | — | phase / closure-complete marker |
-| 🔧 / 🧩 / 🧠 | `LIGHT` / `MEDIUM` / `HEAVY` | next-task suggestion: mechanical / moderate / design |
+| 🔧 / 🧩 / 🧠 / 🔭 | `LIGHT` / `MEDIUM` / `HEAVY` / `XHEAVY` | next-task suggestion: mechanical / moderate / design / exploratory (manual-only) |
 | 👇 | `HERE` | run the suggested invocation in this session (don't clear) |
 
 A destructive 🗄️/▶️/📡/💻 action may escalate from its inline prefix to a
@@ -930,7 +930,7 @@ After a tasknote is archived, run the three-step protocol (commit / mark landed 
    <1-2 sentence plain-English description of what was accomplished in this commit>
    ```
 
-   Then surface candidates with emoji primary label inline per option — emit `[heavy]🧠`, `[medium]🧩`, or `[light]🔧` (never the bare `[model]` token) followed by "design / moderate / mechanical" prose and shortname. The glyph mirrors the model tier 1:1 (`[light]`→🔧, `[medium]`→🧩, `[heavy]`→🧠; concrete tokens bucket to their inherent tier — see [`SPEC/model.md` §"Tier ladder vs. the next-move suggestion glyph"](SPEC/model.md)):
+   Then surface candidates with emoji primary label inline per option — emit `[heavy]🧠`, `[medium]🧩`, `[light]🔧`, or (rare — manual-only filings) `[xheavy]🔭` (never the bare `[model]` token) followed by "design / moderate / mechanical / exploratory" prose and shortname. The glyph mirrors the model tier 1:1 (`[light]`→🔧, `[medium]`→🧩, `[heavy]`→🧠, `[xheavy]`→🔭; concrete tokens bucket to their inherent tier — see [`SPEC/model.md` §"Tier ladder vs. the next-move suggestion glyph"](SPEC/model.md)):
 
    ```markdown
    - **<TASK-ID>** [heavy]🧠 | shortname — one-sentence "why now" (design)
@@ -946,7 +946,7 @@ After a tasknote is archived, run the three-step protocol (commit / mark landed 
 
    **Audit-family flag.** When a next-move candidate is an `/ft-audit*` slash command, prefix the candidate line (this step) and the copy-paste line (step 3) with 🔍. Audit-family skills are forked per project per `docs/MIGRATION.md` §1.2.1 — in adopter context the local fork is unprefixed (e.g., `/audit`), not `/ft-audit`. The 🔍 marker doubles as a self-check for any AI about to emit `/ft-audit*` as next move.
 
-3. **Offer the copy-paste line.** The label-line glyph is **copied from the chosen candidate line just printed in step 2** — 🧠 when the candidate showed 🧠, 🧩 when it showed 🧩, 🔧 when it showed 🔧; never default to 🔧. Emit the session-reset **label line**, then put the skill invocation **on its own line as inline-code with no trailing punctuation** — a trailing `.` after the ID collides with the `.N` epic-subtask grammar (`FE-132.3.`) and breaks copy/paste. Shape, where `<glyph>` is the candidate's 🔧/🧩/🧠:
+3. **Offer the copy-paste line.** The label-line glyph is **copied from the chosen candidate line just printed in step 2** — 🧠 when the candidate showed 🧠, 🧩 when it showed 🧩, 🔧 when it showed 🔧, 🔭 when it showed 🔭; never default to 🔧. Emit the session-reset **label line**, then put the skill invocation **on its own line as inline-code with no trailing punctuation** — a trailing `.` after the ID collides with the `.N` epic-subtask grammar (`FE-132.3.`) and breaks copy/paste. Shape, where `<glyph>` is the candidate's 🔧/🧩/🧠/🔭:
 
    ```markdown
    <glyph> Clear your session, then run:

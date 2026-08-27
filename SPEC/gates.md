@@ -73,7 +73,7 @@ to the **first** one:
    enforced here.
 2. **Tasknote structure** — body-section headings and nav-header status chips
    ([`SPEC.md`](../SPEC.md) §"Tasknote body shape").
-3. **Model tier** — 🔧 / 🧩 / 🧠 ([`SPEC/model.md`](model.md)).
+3. **Model tier** — 🔧 / 🧩 / 🧠 / 🔭 ([`SPEC/model.md`](model.md)).
 
 **Cross-layer reuse is permitted when the two meanings are semantically
 coherent, and is not a collision.** A heading is not a cue and a chip is not a
@@ -89,7 +89,7 @@ deliberate:
 | ✅ | phase / closure-complete marker | `## ✅ Acceptance` heading · `✅ Completed` chip |
 | 🟢 | `GO` commit-ask | `🟢 In progress` chip |
 | 🌱 | — | `## 🌱 Starter context` heading · `🌱 Starter` chip |
-| 🔧 / 🧠 | `LIGHT` / `HEAVY` next-task | `[light]` / `[heavy]` tier |
+| 🔧 / 🧠 / 🔭 | `LIGHT` / `HEAVY` / `XHEAVY` next-task | `[light]` / `[heavy]` / `[xheavy]` tier |
 
 Every row above is *coherent* reuse — the cue and the structure name the same
 underlying concept. The 🛠️ banner approves entry into the phase the 🛠️
@@ -238,17 +238,22 @@ glyphs and label text.
 | Light next-task | 🔧 | `LIGHT` (mechanical) | Next-move suggestion + copy-paste line |
 | Medium next-task | 🧩 | `MEDIUM` (moderate) | Next-move suggestion + copy-paste line |
 | Heavy next-task | 🧠 | `HEAVY` (design) | Next-move suggestion + copy-paste line |
+| Xheavy next-task | 🔭 | `XHEAVY` (exploratory — manual-only) | Next-move suggestion + copy-paste line |
 | In-session next-task | 👇 | `HERE` (run here — do not clear) | Copy-paste label line, context-dependent skills only |
 
-The bare 🔧/🧩/🧠 glyphs are the emitted form in next-move suggestions; the
-optional `LIGHT`/`MEDIUM`/`HEAVY` labels are available for non-render fallback.
-The three glyphs **mirror the model tier ladder 1:1** (`[light]`→🔧,
-`[medium]`→🧩, `[heavy]`→🧠; concrete tokens bucket to their inherent tier — see
+The bare 🔧/🧩/🧠/🔭 glyphs are the emitted form in next-move suggestions; the
+optional `LIGHT`/`MEDIUM`/`HEAVY`/`XHEAVY` labels are available for non-render fallback.
+The four glyphs **mirror the model tier ladder 1:1** (`[light]`→🔧,
+`[medium]`→🧩, `[heavy]`→🧠, `[xheavy]`→🔭; concrete tokens bucket to their inherent tier — see
 [`SPEC/model.md` §"Tier ladder vs. the next-move suggestion glyph"](model.md)).
 The 🧩 `MEDIUM` glyph was added by CORE-353.3, reversing CORE-254's two-glyph
-lock — a one-glyph widening in the same spirit as CORE-308's 👇 `HERE` addition.
+lock — a one-glyph widening in the same spirit as CORE-308's 👇 `HERE` addition;
+the 🔭 `XHEAVY` glyph was added by CORE-482.3 for the manual-only `[xheavy]`
+rung, by the same precedent. A 🔭 candidate is rare by design — `[xheavy]` is
+an operator-only filing, never a chooser default
+([`SPEC/model.md`](model.md) §"Category-vs-concrete matching").
 
-All three also serve as tier glyphs, and 🧩 additionally heads the
+All four also serve as tier glyphs, and 🧩 additionally heads the
 `## 🧩 Subtasks` section — coherent cross-layer reuse, not a table collision.
 See §"Glyph layers and reuse".
 
@@ -303,7 +308,7 @@ narrow so cues stay inline by default:
   add a recurring checkpoint to the phase flow.
 - The two standing phase-gate banners (🛠️ / 📦) remain capped at two and are
   orthogonal to this escalation. All non-command cues (✋ / 🟢 / 👁️ / 🔍 /
-  🔧 / 🧩 / 🧠 / 👇) never escalate.
+  🔧 / 🧩 / 🧠 / 🔭 / 👇) never escalate.
 
 **`--fast` interaction.** `--fast` does not suppress a destructive-action
 banner — the escalation is a safety control on irreversible actions, not a

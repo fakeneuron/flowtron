@@ -12,14 +12,18 @@ identifier representing the cognitive load of the task.
 
 Flowtron's recommended primary labels are `[heavy]` (design, multi-file,
 high ambiguity, or exploratory work), `[medium]` (multi-step, well-scoped),
-and `[light]` (mechanical, well-scoped, clear-diff implementation). Adopters MAY use any short token they prefer
+and `[light]` (mechanical, well-scoped, clear-diff implementation). A fourth,
+**manual-only** rung — `[xheavy]`, glyph 🔭 — sits above `heavy` for
+operator-driven exploratory work; it is deliberately **not** a primary filing
+label, and automated choosers cap at `[heavy]` (see §"Category-vs-concrete
+matching"). Adopters MAY use any short token they prefer
 (e.g. `fable`, `opus`, `sonnet`, `haiku`, `grok`, `codex`, `gpt-5`, `gemini-pro`, project-specific names).
 The visualizer parser accepts any short lowercase token (`[a-z][\w.-]*`), and
 `/ft-stats` buckets unknown tokens as `other`.
 
 `/ft-task` reads the model BEFORE scaffolding (see `claude/skills/ft-task/SKILL.md`
 Step 1.5). The gate matches a **concrete** tag (`opus`/`sonnet`/`grok`/…) by exact
-identity and a **category** tag (`[heavy]`/`[light]`) by *tier* — see
+identity and a **category** tag (`[xheavy]`/`[heavy]`/`[medium]`/`[light]`) by *tier* — see
 §"Category-vs-concrete matching" below:
 
 - Tag satisfied — concrete tag equals the active model, OR category tag whose
@@ -54,17 +58,35 @@ exact identity. The operator filed a specific assignment, so a different concret
 active model is a hard mismatch (block + offer switch-or-retag). Unchanged from
 the original gate.
 
-**Category tag** (`[heavy]` / `[light]`) — matched by **tier**, not string. Tiers
-form an ordered ladder:
+**Category tag** (`[xheavy]` / `[heavy]` / `[medium]` / `[light]`) — matched by
+**tier**, not string. Tiers form an ordered ladder:
 
 ```text
-light  <  medium  <  heavy
+light  <  medium  <  heavy  <  xheavy
 ```
 
-Three tiers. The rule reads the ladder **by position, not by count**, so the
-matching logic is identical whether the ladder holds two rungs or three — a
+Four tiers. The rule reads the ladder **by position, not by count**, so the
+matching logic is identical whether the ladder holds two rungs or four — a
 deliberate tier-count-agnostic design. The middle `medium` rung was added in
-CORE-259 with zero change to the comparison logic.
+CORE-259, and the top `xheavy` rung in CORE-482.3, each with zero change to
+the comparison logic.
+
+**The `xheavy` rung is manual-only.** `[xheavy]` marks open-ended exploratory
+work — multi-session research, greenfield architecture, high-uncertainty
+design — that an operator drives by hand. Two properties follow:
+
+- **Automated choosers cap at `[heavy]`.** An orchestrator or any other
+  automated chooser must never assign `[xheavy]` to a task nor pick up an
+  `[xheavy]`-tagged one; the tag is the operator's deliberate opt-in. This is
+  prose contract, not gate machinery — no lock, no park, per
+  [`docs/VISION.md`](../docs/VISION.md) §"What we won't accept".
+- **No roster model self-assesses at the `xheavy` band by default.** The rung
+  labels the *task's* cognitive load, above what any default-effort
+  configuration in the §"Platform×model×effort calibration table" bands at. An
+  `[xheavy]` tag therefore always lands the gate's ⚠️ under-tier advisory —
+  note-then-proceed, never a block — which is expected, not an error: the note
+  marks the deliberate entry into exploratory territory, and the operator (who
+  is present by definition) decides how to run it.
 
 Each concrete model has an inherent tier. This remains **guidance for the agent
 to self-assess at gate time** — the gate never requires a lookup. A maintained
@@ -97,6 +119,7 @@ The match compares the active model's tier against the tag's tier:
 | equal (`[light]` on light-tier, `[heavy]` on heavy-tier) | proceed silently |
 | active **heavier** than tag (`[light]` on a heavy- or medium-tier model) | proceed — overkill is harmless, no flag |
 | active **lighter** than tag (`[heavy]` on a lower-tier model, e.g. `grok`) | ⚠️ inline advisory note, then proceed — operator decides whether to escalate; **not** a block |
+| tag is `[xheavy]` (any active model) | **always** the ⚠️ inline advisory — no roster model bands at `xheavy` by default, so the tag is above every active tier; note-then-proceed, expected rather than exceptional (see "The `xheavy` rung is manual-only" above) |
 
 ## Effort axis (orthogonal to model choice)
 
@@ -184,15 +207,25 @@ non-default effort setting.
 
 The labels exist to let the operator (and the agent) match the *cognitive shape*
 of the work to the model's "thinking budget" for that turn. They are
-observations from real usage, not rigid policy.
+observations from real usage, not rigid policy — with one standing bias:
 
-**Typical `[light]` work** (start here by default for most flowtron tasks):
+**The round-up default.** `[medium]` is the default tag for a new filing.
+Escalate freely to `[heavy]` on any ambiguity or design smell; reserve
+`[light]` for work that is **provably mechanical** — a clear diff already in
+mind, no judgment calls left. **When in doubt, round up.** This rule binds
+automated choosers especially: an under-powered pick wastes a whole session
+before anyone notices, while an over-powered one merely costs a little
+headroom — the asymmetry is the argument. (This flips the pre-CORE-482
+"start `[light]` by default" bias, which calibrated against an older,
+weaker-model era of the roster.)
+
+**Typical `[light]` work** (only when provably mechanical — clear diff in mind):
 
 - Single-file edits, small refactors with a clear local pattern, adding tests
   or assertions, doc patches, config tweaks, simple bug fixes with obvious
   root cause.
 
-**Typical `[medium]` work** (the common middle of flowtron development):
+**Typical `[medium]` work** (the default — the common middle of flowtron development):
 
 - Multi-step but well-scoped changes with a clear shape: a feature spanning two
   or three known files, a refactor with a discoverable pattern, a bug fix whose
@@ -214,6 +247,14 @@ observations from real usage, not rigid policy.
   the PLAN line and re-invoke rather than pushing a light model past its
   useful horizon.
 
+**When to choose `[xheavy]`** (manual-only — never a default):
+
+- Open-ended exploratory sessions the operator drives by hand: multi-session
+  research, greenfield architecture with no precedent, design work whose
+  scope is genuinely unknown at filing time. Filed deliberately by the
+  operator, never by an automated chooser (which caps at `[heavy]`), and
+  never reached by rounding up — round-up stops at `[heavy]`.
+
 **Cross-provider calibration** (real capability differences exist):
 
 - Different agents have different cost/quality curves on long context and
@@ -226,9 +267,9 @@ observations from real usage, not rigid policy.
   tagged `[sonnet]`, active assistant Grok 4.3 → user chose retag to `[grok]`)
   is a live demonstration of the Step 1.5 mismatch gate working as intended
   across providers.
-- When in doubt, start with the label that matches the *actual cognitive
-  shape* surfaced in Discovery. Escalate only when the work proves heavier
-  than the filing description suggested.
+- When in doubt, round up (the standing bias above). Match the label to the
+  *actual cognitive shape* surfaced in Discovery, and resolve any residual
+  uncertainty toward the heavier tag rather than the lighter one.
 
 The primary labels `[heavy]` / `[medium]` / `[light]` are the recommended
 starting vocabulary for new filers and for keeping PLAN.md scannable. Specific
@@ -237,18 +278,22 @@ for a particular agent on a particular class of task.
 
 ## Tier ladder vs. the next-move suggestion glyph
 
-The three-rung tier ladder governs the **Step 1.5 gate**. The **next-move
-suggestion glyph** (🔧 `LIGHT` / 🧩 `MEDIUM` / 🧠 `HEAVY`) in the post-closure
-protocol (SPEC.md cue glossary + `SPEC/gates.md`) **mirrors that ladder 1:1**:
-`[light]`→🔧, `[medium]`→🧩, `[heavy]`→🧠. Concrete `[model]` tokens bucket to
-their inherent tier's glyph (e.g. `sonnet`/`grok`→🧩, `opus`/`fable`→🧠,
-`haiku`→🔧). The glyph stays a coarse design↔mechanical fast-scan hint — three
-values, not two.
+The four-rung tier ladder governs the **Step 1.5 gate**. The **next-move
+suggestion glyph** (🔧 `LIGHT` / 🧩 `MEDIUM` / 🧠 `HEAVY` / 🔭 `XHEAVY`) in the
+post-closure protocol (SPEC.md cue glossary + `SPEC/gates.md`) **mirrors that
+ladder 1:1**: `[light]`→🔧, `[medium]`→🧩, `[heavy]`→🧠, `[xheavy]`→🔭. Concrete
+`[model]` tokens bucket to their inherent tier's glyph (e.g. `sonnet`/`grok`→🧩,
+`opus`/`fable`→🧠, `haiku`→🔧) — no concrete token buckets to 🔭, since no
+roster model is inherently `xheavy`-band (§"Category-vs-concrete matching").
+The glyph stays a coarse design↔mechanical fast-scan hint — four values, not
+two.
 
 **History.** The glyph set was deliberately **binary** (🔧/🧠) through CORE-254,
 which locked the cue vocabulary at two next-task values; a `[medium]` candidate
 took the *nearer* glyph. CORE-353.3 reverses that lock and adds the third
 `[medium]` glyph — a one-glyph widening in the same spirit as CORE-308's 👇
-`HERE` addition — so the suggestion cue and the gate ladder share the same three
-rungs. Aligning the two just removes the medium-collapses-to-nearest special
-case; it does not turn the coarse hint into a second copy of the gate.
+`HERE` addition — so the suggestion cue and the gate ladder share the same
+rungs. CORE-482.3 adds the fourth, 🔭 for the manual-only `[xheavy]` rung, by
+the same one-glyph-widening precedent. Aligning the two just removes the
+medium-collapses-to-nearest special case; it does not turn the coarse hint
+into a second copy of the gate.
