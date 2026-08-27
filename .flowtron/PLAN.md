@@ -16,7 +16,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-EPIC-483** [medium] | screenshot-discipline — Retire the keep-every-screenshot habit: SPEC already delegates visual acceptance to the operator's live view (👁️ CONFIRM), so screenshots stay an ephemeral agent-eyeball tool only. Rewrite the global CLAUDE.md path rule, reconcile the stale /tmp/playwright-mcp memory, align natabula deposit wording, and prune ~300MB of stale .flowtron/screenshots/ across ~20 repos (filed via /ft-epic-discovery; refined at .1 closure).
   - [x] **CORE-483.1** [medium] | screenshot-discipline discovery — Completed 2026-08-27.
   - [x] **CORE-483.2** [medium] | screenshot-policy-rewrite — Completed 2026-08-27.
-  - [ ] **CORE-483.3** [light] | natabula-deposit-alignment — Update natabula's .gitignore deposit comment (plus any ADOPTION-OPTIONS/STACK-TENDENCIES mentions) to document .flowtron/screenshots/ as a gitignored ephemeral safety net, not "the global convention"; flowtron stays silent; adopter comment drift rides /natabula-layer-drift per-repo.
+  - [x] **CORE-483.3** [light] | natabula-deposit-alignment — Completed 2026-08-27.
   - [ ] **CORE-483.4** [light] | screenshot-prune-sweep — Create ~/Code/_screenshots/; list then delete contents of every adopter's gitignored .flowtron/screenshots/ (~300MB across ~20 repos), keeping directories' gitignore entries and flowtron's tracked viz-board.png. Pure filesystem cleanup — no adopter commits or pushes.
 
 ## Low
