@@ -11,6 +11,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
+- [ ] **CORE-EPIC-482** [heavy] | model-tier-recalibration — Recalibrate the model-labeling vocabulary so any chooser (operator or orchestrator) picks a strong-enough model: platform×model×effort inventory, err-heavier default bias, tier-fit review of light/medium/heavy, and a Discovery-gated decision on a fourth manual-only exploratory rung (filed via /ft-epic-discovery; refined at .1 closure).
+  - [x] **CORE-482.1** [heavy] | model-tier-recalibration discovery — Completed 2026-08-27.
+  - [ ] **CORE-482.2** [heavy] | model-effort-inventory — Build the platform×model×effort calibration table in SPEC/model.md — current rosters and effort ladders (Claude, OpenAI, xAI, Google peers), each row mapped to a tier-band equivalence (e.g. sonnet@xhigh ≈ heavy-band); refresh the hard-coded roster in step-1.5-model-edge.md and SPEC.md token examples.
+  - [ ] **CORE-482.3** [heavy] | xheavy-rung-round-up — Add the manual-only [xheavy]🔭 exploratory rung above heavy across SPEC/model.md, SPEC.md cue glossary + post-closure protocol, SPEC/gates.md glyph tables, the step-1.5 gate, and /ft-stats buckets; flip practical guidance to the round-up default (medium default; light only for provably mechanical work).
+  - [ ] **CORE-482.N** [heavy] | model-tier-recalibration audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line).
+
 ## Medium
 
 ## Low
