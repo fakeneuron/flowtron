@@ -77,8 +77,8 @@ const COMPLETED_MONTH_HEADING = /^Completed\s+\d{4}-\d{2}$/;
 //      the FIRST is captured as `model`; trailing bracket tokens are
 //      tolerated and dropped.
 //   3. SUGGESTION_GLYPH — a model-suggestion glyph after `[model]`
-//      (`[medium]🧠` / `[medium] 🔧` / `[medium]🧩`, space-optional) —
-//      decorative, redundant with the model tier, dropped.
+//      (`[medium]🧠` / `[medium] 🔧` / `[medium]🧩` / `[medium]🔭`,
+//      space-optional) — decorative, redundant with the model tier, dropped.
 // Emoji are matched via alternation (not a char class) so astral-plane glyphs
 // match correctly without the `u` flag; an optional trailing VS16 is tolerated.
 //
@@ -97,7 +97,7 @@ const TASK_ID = String.raw`\*\*(${TASK_ID_BODY})\*\*`;
 const CRITICAL_FLAG = String.raw`(?:\s+\[(!critical)\])?`;
 const MODEL_TOKEN = String.raw`(?:\s+\[([a-z][\w.-]*)\])?`;
 const STACKED_MODEL_TOKENS = String.raw`(?:\s+\[[a-z][\w.-]*\])*`;
-const SUGGESTION_GLYPH = String.raw`(?:\s*(?:🧠|🔧|🧩)\uFE0F?)?`;
+const SUGGESTION_GLYPH = String.raw`(?:\s*(?:🧠|🔧|🧩|🔭)\uFE0F?)?`;
 const CRITICAL_FLAG_AFTER = CRITICAL_FLAG;
 const SHORTNAME = String.raw`(?:\s+\|\s+([^\n]+?))?`;
 const LONG_DESCRIPTION = String.raw`(?:\s+[—-]\s+([^\n]+?))?\s*$`;

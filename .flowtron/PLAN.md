@@ -16,7 +16,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-482.2** [heavy] | model-effort-inventory — Completed 2026-08-27.
   - [x] **CORE-482.3** [heavy] | xheavy-rung-round-up — Completed 2026-08-27.
   - [x] **CORE-482.4** [light] | emitter-glyph-propagation — Completed 2026-08-27.
-  - [ ] **CORE-482.5** [light] | viz-xheavy-glyph-tolerance — Widen viz/src/parser.ts SUGGESTION_GLYPH alternation (🧠|🔧|🧩) to also accept 🔭 after the model token, plus a decorated-row test; mirrors CORE-353.6. Filed by CORE-482.3 downstream-impact scan.
+  - [x] **CORE-482.5** [light] | viz-xheavy-glyph-tolerance — Completed 2026-08-27.
   - [ ] **CORE-482.N** [heavy] | model-tier-recalibration audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line).
 
 ## Medium

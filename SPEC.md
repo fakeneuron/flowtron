@@ -212,9 +212,9 @@ additionally accepts three real-board decorations without parsing them into
 `Task` fields — they are dropped, not stored:
 
 - **Model-suggestion glyph after `[model]`** — a `🧠` (heavy) / `🔧` (light) /
-  `🧩` (medium) glyph appended to the model token (`[medium]🧩`,
-  space-optional), mirroring the next-move suggestion label. Redundant with
-  the model tier; ignored.
+  `🧩` (medium) / `🔭` (xheavy) glyph appended to the model token
+  (`[medium]🧩`, space-optional), mirroring the next-move suggestion label.
+  Redundant with the model tier; ignored.
 - **Stacked `[model]` tokens** — `[fable] [light]`: the first bracket token is
   captured as `model`; trailing bracket tokens are tolerated and dropped.
 - **Leading status glyph** — a nav-header chip (`🟢`/`⏸`/`✅`/`⚪`/`🌱`) between

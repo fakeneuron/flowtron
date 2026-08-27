@@ -290,6 +290,13 @@ describe('parsePlan', () => {
     expect(t.description).toBe('long desc');
   });
 
+  it('parses an [xheavy] suggestion glyph (🔭)', () => {
+    const md = `## High\n\n- [ ] **CORE-482** [xheavy]🔭 | xheavy glyph — long desc\n`;
+    const t = parsePlan(md)[0];
+    expect(t).toMatchObject({ id: 'CORE-482', model: 'xheavy', shortname: 'xheavy glyph' });
+    expect(t.description).toBe('long desc');
+  });
+
   it('does not flag glyph-decorated rows as unparsed diagnostics', () => {
     const md = [
       '## High',
