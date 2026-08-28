@@ -1071,7 +1071,8 @@ To prevent scope creep, flowtron deliberately omits:
 - A database backend (markdown files in git are the database)
 - Cross-project query API (each project owns its history; the read-only
   visualizer is a single global instance — a multi-project query API is
-  not)
+  not; like the CLI carve-out above, it is the singular exception, not a
+  precedent)
 - Per-project CI hooks (those belong in the adopting project)
 
 If you find yourself wanting these, write a project-side helper. Do not add

@@ -15,7 +15,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-486** [light] | cross-project-carveouts-note — Decide whether the Engine's two sanctioned cross-project surfaces (tools/update-adopters.mjs singular CLI carve-out; global viz ~/code workspace default) deserve one consolidated bounded-carve-outs statement reconciling the fleet-blind tier claim, or ratify the current per-doc declarations as-is. Routed by natabula NAT-182.3.
 - [ ] **CORE-487** [medium] | no-runtime-mirror-consolidation — The no-runtime rule is restated as self-labeled mirrors across four surfaces (docs/VISION.md, SPEC.md, docs/EXTERNAL-AGENTS.md, SPEC/gates.md). Decide consolidate-to-pointers vs ratify the labeled-mirror pattern; if kept, consider a drift guard pairing the mirrors. Routed by natabula NAT-182.3.
 - [ ] **CORE-488** [light] | cross-repo-tasknote-remit — CORE-483.3 executed its whole deliverable as direct edits to natabula files from a flowtron task cycle (deliberate, recorded, committed flowtron-side only). Decide whether to record a cross-repo-edit remit rule or ratify the scoped precedent as-is. Routed by natabula NAT-182.3.
 
@@ -23,6 +22,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-486** [light] | cross-project-carveouts-note — Completed 2026-08-28.
 - [x] **CORE-485** [medium]🧩 | fleet-name-leakage-sweep — Completed 2026-08-28.
 - [x] **CORE-484** [medium]🧩 | release v5.21.0 — Completed 2026-08-27.
 - [x] **CORE-EPIC-483** [medium] | screenshot-discipline — Completed 2026-08-27.
