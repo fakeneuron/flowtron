@@ -32,7 +32,7 @@ Running two external agents at once on the same checkout means two agents steppi
 
 For each independent epic child you want to run in parallel:
 
-1. `/ft-worktree-start <TASK-ID>` creates a `wt-<TASK-ID>` branch + worktree at `~/code/<project>-worktrees/wt-<TASK-ID>/` and copies the active tasknote into it.
+1. `/ft-worktree-start <TASK-ID>` creates a `wt-<TASK-ID>` branch + worktree at `<project>-worktrees/wt-<TASK-ID>/` (sibling of the project checkout) and copies the active tasknote into it.
 2. Open a fresh session for **one** external agent in that worktree directory and hand it `<TASK-ID>`.
 3. `/ft-worktree-end <TASK-ID>` verifies the merge (or explicit discard), removes the worktree, and archives the tasknote from the main checkout.
 

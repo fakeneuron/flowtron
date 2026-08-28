@@ -47,8 +47,8 @@ the runtime's tool allowlist is.
 **Adopter mitigations (Claude Code).**
 
 - **Recommended three-layer hygiene:** global `~/.claude/settings.json` (base
-  allowlists) + personal base layer (e.g. dedicated repo like natabula for
-  reusable personal standards) + per-project `.claude/settings.local.json`
+  allowlists) + personal base layer (e.g. a dedicated repo for reusable
+  personal standards) + per-project `.claude/settings.local.json`
   kept tiny and high-signal only (or empty). Use `defaultMode: "acceptEdits"`
   (or `plan`) plus periodic `/fewer-permission-prompts` rather than growing
   long one-off allowlists. Broad globs (`Bash(curl *)`, whole-home `Read(**)`,

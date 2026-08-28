@@ -39,7 +39,7 @@ Compute the project slug and target paths (portable across flowtron-self and ado
 PROJECT_ROOT=$(git rev-parse --show-toplevel)
 PROJECT_SLUG=$(basename "$PROJECT_ROOT")
 BRANCH="wt-${TASK_ID}"
-WT_ROOT="$HOME/code/${PROJECT_SLUG}-worktrees"
+WT_ROOT="$(dirname "$PROJECT_ROOT")/${PROJECT_SLUG}-worktrees"
 WT_DIR="${WT_ROOT}/${BRANCH}"
 ```
 
@@ -196,4 +196,4 @@ Do **not** attempt to `cd` or change the current agent's working directory. The 
 - **No SPEC contract impact.** The 4-phase workflow, relevance gate, 🛠️/📦 cues, and post-closure protocol are completely unchanged inside any tasknote that happened to run inside a worktree. Worktrees are an execution accelerator only.
 - **Standalone safety.** This SKILL is designed to be invoked directly once the flowtron bundle (including the two new command symlinks) is wired. It does not require any other ft- skill beyond the shared docs and the prior existence of the worktree created by `/ft-worktree-start <ID>`.
 
-If any step fails or the operator hits an edge case not covered here (exotic git layouts, worktrees with submodules, permission problems on `~/code/`), surface the exact command that failed + the output and ask for guidance before retrying. Record the resolution in the current conversation so it can inform a future refinement of this skill or the WORKTREES.md doc.
+If any step fails or the operator hits an edge case not covered here (exotic git layouts, worktrees with submodules, permission problems on the project's parent directory), surface the exact command that failed + the output and ask for guidance before retrying. Record the resolution in the current conversation so it can inform a future refinement of this skill or the WORKTREES.md doc.

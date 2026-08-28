@@ -133,7 +133,7 @@ export default defineConfig({
   // CSP's script-src can omit 'unsafe-inline' (see DEV_CSP above).
   html: { cspNonce: DEV_CSP_NONCE },
   // Pin the dev port and refuse to auto-bump. 5120 is well outside the 5173+
-  // Vite default cluster used by sibling projects (BananaPeel, Invisipaw).
+  // Vite default cluster other projects in the same workspace tend to use.
   // Without strictPort, vite climbs 5120 → 5121 → ... and can collide
   // unexpectedly. Better to fail loudly so the user can free the port.
   // The single-port discipline also enforces the "one global viz" model:

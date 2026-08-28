@@ -1,6 +1,6 @@
 ---
 name: ft-worktree-start
-description: Create an isolated git worktree for an independent epic child tasknote. Use when the user asks to isolate an independent epic-child tasknote into its own worktree. Branches `wt-<TASK-ID>`, adds a worktree under ~/code/<project>-worktrees/wt-<TASK-ID>/, copies the active tasknote, and hands off for execution in a fresh session. Thin procedural skill; no tasknote driving. Pair with /ft-worktree-end. See docs/WORKTREES.md for the full convention.
+description: Create an isolated git worktree for an independent epic child tasknote. Use when the user asks to isolate an independent epic-child tasknote into its own worktree. Branches `wt-<TASK-ID>`, adds a worktree under <project>-worktrees/wt-<TASK-ID>/ alongside the project checkout, copies the active tasknote, and hands off for execution in a fresh session. Thin procedural skill; no tasknote driving. Pair with /ft-worktree-end. See docs/WORKTREES.md for the full convention.
 ---
 
 # worktree-start — isolated worktree for epic-child tasknotes
@@ -51,11 +51,11 @@ Compute the project slug and target paths (portable across flowtron-self and ado
 PROJECT_ROOT=$(git rev-parse --show-toplevel)
 PROJECT_SLUG=$(basename "$PROJECT_ROOT")
 BRANCH="wt-${TASK_ID}"
-WT_ROOT="$HOME/code/${PROJECT_SLUG}-worktrees"
+WT_ROOT="$(dirname "$PROJECT_ROOT")/${PROJECT_SLUG}-worktrees"
 WT_DIR="${WT_ROOT}/${BRANCH}"
 ```
 
-Echo the computed values for the operator to see. Confirm they look sane (especially the `~/code/...` expansion).
+Echo the computed values for the operator to see. Confirm they look sane (especially the `WT_ROOT` expansion — it should be a sibling of the project checkout).
 
 ## Step 1 — Safety checks for collisions
 
@@ -69,7 +69,7 @@ git worktree list | grep "${BRANCH}" || echo "not a live worktree"
 - If the target `WT_DIR` already exists on disk → this is almost certainly a left-over from a prior run that wasn't cleaned with `/ft-worktree-end`. Offer to `rm -rf` it (after manual inspection) or abort. Never auto-clobber.
 - If `git worktree list` shows the branch already registered as a live worktree (branch exists but the `WT_DIR` may have been manually deleted, leaving a stale registration) → surface the worktree path from the list output and ask whether to (a) run `git worktree prune` and proceed, (b) use a different ID, or (c) abort. `git worktree add` will refuse anyway in this state; explicit guidance is better than a cryptic git error.
 
-Also verify that `~/code/` is writable and the parent `*-worktrees/` dir can be created.
+Also verify that the project checkout's parent directory is writable and the `*-worktrees/` dir can be created.
 
 ## Step 2 — Create the branch and worktree (the core 4 conceptual steps)
 
@@ -174,4 +174,4 @@ Print the absolute path with `~` expanded for easy copy-paste (run `realpath "${
 - **No SPEC contract impact.** The 4-phase workflow, relevance gate, 🛠️/📦 cues, and post-closure protocol are completely unchanged inside any tasknote that happens to run inside a worktree. Worktrees are an execution accelerator only.
 - **Standalone safety.** This SKILL is designed to be invoked directly once the flowtron bundle (including the two new command symlinks) is wired. It does not require any other ft- skill beyond the shared docs and the existence of a tasknote for the target ID.
 
-If any step fails or the operator hits an edge case not covered here (exotic git layouts, NFS home dirs, permission problems on `~/code/`), surface the exact command that failed + the output and ask for guidance before retrying. Record the resolution in the current conversation so it can inform a future refinement of this skill or the WORKTREES.md doc.
+If any step fails or the operator hits an edge case not covered here (exotic git layouts, NFS home dirs, permission problems on the project's parent directory), surface the exact command that failed + the output and ask for guidance before retrying. Record the resolution in the current conversation so it can inform a future refinement of this skill or the WORKTREES.md doc.

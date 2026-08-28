@@ -1,5 +1,5 @@
 ---
-description: Create an isolated git worktree for an independent epic child tasknote. Branches `wt-<TASK-ID>`, adds the worktree under ~/code/<project>-worktrees/wt-<TASK-ID>/, copies the active tasknote for context continuity, and hands off to a fresh session. Thin utility skill; does not drive tasknotes itself. Pair with /ft-worktree-end. See docs/WORKTREES.md for the full convention and when to use.
+description: Create an isolated git worktree for an independent epic child tasknote. Branches `wt-<TASK-ID>`, adds the worktree under <project>-worktrees/wt-<TASK-ID>/ alongside the project checkout, copies the active tasknote for context continuity, and hands off to a fresh session. Thin utility skill; does not drive tasknotes itself. Pair with /ft-worktree-end. See docs/WORKTREES.md for the full convention and when to use.
 argument-hint: <TASK-ID>
 ---
 
