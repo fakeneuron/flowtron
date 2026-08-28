@@ -19,6 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-484** [medium]🧩 | release v5.21.0 — Completed 2026-08-27.
 - [x] **CORE-EPIC-483** [medium] | screenshot-discipline — Completed 2026-08-27.
   - [x] **CORE-483.1** [medium] | screenshot-discipline discovery — Completed 2026-08-27.
   - [x] **CORE-483.2** [medium] | screenshot-policy-rewrite — Completed 2026-08-27.

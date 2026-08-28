@@ -22,6 +22,17 @@ unless correcting a factual error.
 
 ---
 
+## v5.21.0 — the [xheavy] exploratory model tier
+
+- New manual-only `[xheavy]🔭` rung above `[heavy]` for deliberate
+  exploratory-depth work, always surfacing an under-tier advisory rather
+  than blocking; automated choosers stay capped at `[heavy]`.
+- Practical model-tag guidance flips to a round-up default (`[medium]`
+  default, `[light]` reserved for provably mechanical work).
+- New maintained platform×model×effort calibration table in `SPEC/model.md`.
+
+Also: screenshot-discipline epic (personal policy only, no flowtron-shipped surface).
+
 ## v5.20.0 — the --unattended operator-less posture
 
 - New `--unattended` posture (CORE-EPIC-473): callers with no operator
