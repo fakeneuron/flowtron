@@ -564,6 +564,44 @@ Four properties are deliberate, and a future edit should preserve them:
 
 Positional arguments are out of scope. `/ft-audit` (`<domain> [scope]`) and `/ft-audit-repo` (`all` / path) take arguments but no flags, so this pair is silent on their absent hints. Recorded here so a later reader does not read that silence as an oversight.
 
+**Pair K — no-runtime mirror labels ↔ the canonical section they cite.** `docs/VISION.md` §"What we won't accept" is the canonical justification for flowtron's rejections; several surfaces restate one of them where it bears locally, and each restatement is a *labeled* mirror that names its source (`docs/CONVENTIONS.md` §"Canonical source with labeled mirrors" ratifies the pattern). Nothing binds the label to the thing it labels. Rename or delete a canonical bullet and every citation to it silently becomes a pointer to nothing; drop a pointer in an unrelated edit and the restatement reads as unsourced duplication to the next auditor — which is exactly what happened, from outside the repo, in the cross-repo sweep that routed CORE-487. Every pair above is blind here: B, E, and J are frontmatter- and flag-derived, I reads `CAPABILITIES.md` ↔ `PLATFORMS.md`, and the Phase 4 cold-start doc sweep never walks `docs/VISION.md` at all (deliberately — `.flowtron/tasknote/README.md` §"AI-referenced docs"; CORE-194.1 Q3).
+
+**K1 — every citation resolves to a real canonical bullet.** `SPEC.md`'s PR-archetype bullets each carry `PR-rejection mirror of "<title>" in `docs/VISION.md`` or `… "<title>" above`. The cited title must still lead a bullet in the section named:
+
+```sh
+grep -oE 'PR-rejection mirror of "[^"]+" (in `docs/VISION\.md`|above)' SPEC.md |
+while IFS= read -r cite; do
+  title=$(printf '%s\n' "$cite" | sed -E 's/^PR-rejection mirror of "([^"]+)".*/\1/')
+  case "$cite" in
+    *'docs/VISION.md'*) src="docs/VISION.md"; sec="^## What we won.t accept$" ;;
+    *)                  src="SPEC.md";        sec="^## What flowtron does NOT provide$" ;;
+  esac
+  awk -v s="$sec" '$0~s{f=1;next} f&&/^#/{exit} f&&/^- /' "$src" |
+    grep -qF -- "$title" || echo "K1 MISS: \"$title\" not a bullet lead in $src"
+done
+```
+
+**K2 — every point-of-use restatement still names its source.** Three sections restate one rejection as it applies to their own surface; each must still name `VISION.md`:
+
+```sh
+printf '%s\n' \
+  'docs/EXTERNAL-AGENTS.md|^## Not an Orchestration Runtime|12' \
+  'SPEC/gates.md|^\*\*Runtime stays out\.\*\*|6' \
+  'SPEC/loop.md|^## Runtime vs\. contract|12' |
+while IFS='|' read -r file pat n; do
+  grep -A"$n" -e "$pat" "$file" | grep -q 'VISION\.md' \
+    || echo "K2 MISS: $file — section '$pat' no longer names VISION.md"
+done
+```
+
+Both must print nothing. Fix a K1 miss by updating the citation in `SPEC.md` to the canonical bullet's current lead — never by renaming the canonical bullet back to satisfy the check. Fix a K2 miss by restoring the pointer in that section's own established shape.
+
+- **It guards labels, not prose — on purpose.** Every pair above compares *derivable* rosters: a flag set, a directory listing, a command list. Paraphrase is not derivable, and the restatements legitimately differ in shape because each applies the rule to a different surface. A byte-match across them would be brittle and would push authors toward one flattened wording, which is the value the pattern exists to keep. Wording drift stays with "markdown is the schema; the assistant catches drift" (`docs/VISION.md` §"Schema validators") — the same reason flowtron declines a validator. What is mechanical is the *label*, and that is all this pair claims.
+- **The two halves are asymmetric because the surfaces are.** `SPEC.md`'s mirror is a per-bullet list with a quoted title, so K1 can resolve each citation exactly. The other three are prose sections with no quoted title, so K2 falls back to presence-of-pointer — weaker, and the weaker half is the one that catches the drift CORE-487 was filed for. Pair F's "counts presence, not byte identity" idiom, one surface over.
+- **`grep -qF --` and the `^- ` filter are both load-bearing.** `-F` stops `/` and `.` in a title like `Graph / multi-agent execution runtimes` from being read as a pattern; `--` stops a future title beginning with `-` from being parsed as a flag. Restricting to `^- ` means a title mentioned in surrounding prose cannot satisfy the check — only an actual bullet lead does. Titles are cited as *prefixes* of the canonical lead (`"Loop runners"` ⊂ `**Loop runners, schedulers, and session tooling.**`), so the assertion is substring-within-a-bullet-line, not equality.
+- **`docs/PHILOSOPHY.md`, `docs/WORKTREES.md`, and `README.md` are deliberately not in K2.** PHILOSOPHY and README state the rule as narrative identity rather than as a sourced restatement, and WORKTREES carries a one-clause caveat rather than a section. Adding them would police three surfaces whose job is not to be a mirror. Recorded here so a later reader does not read their absence as an oversight.
+- **Release-gate only, like D and F–J.** The `drift` CI job runs the release-context-free subset (A, B, C, E) per `docs/CONVENTIONS.md` §"GitHub Actions CI"; promoting K there is a separate call, not implied by minting it.
+
 ### 7.2 — Auto-draft annotated tag message
 
 Use CORE-048's structure as the template:

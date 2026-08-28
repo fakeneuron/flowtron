@@ -15,12 +15,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-487** [medium] | no-runtime-mirror-consolidation — The no-runtime rule is restated as self-labeled mirrors across four surfaces (docs/VISION.md, SPEC.md, docs/EXTERNAL-AGENTS.md, SPEC/gates.md). Decide consolidate-to-pointers vs ratify the labeled-mirror pattern; if kept, consider a drift guard pairing the mirrors. Routed by natabula NAT-182.3.
-
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-487** [medium]🧩 | no-runtime-mirror-consolidation — Completed 2026-08-28.
 - [x] **CORE-488** [light] | cross-repo-tasknote-remit — Completed 2026-08-28.
 - [x] **CORE-486** [light] | cross-project-carveouts-note — Completed 2026-08-28.
 - [x] **CORE-485** [medium]🧩 | fleet-name-leakage-sweep — Completed 2026-08-28.

@@ -27,7 +27,9 @@ Recap of [SPEC.md](../SPEC.md) §"Core principles" — outward-facing. The contr
 
 ## What we won't accept
 
-Future flowtron contributions — AI-suggested or human-PR'd — get filtered against this list. The AI-facing terse mirror lives in [SPEC.md](../SPEC.md) §"What flowtron does NOT provide" → "PR / suggestion archetypes flowtron does not accept" for mid-task discipline.
+Future flowtron contributions — AI-suggested or human-PR'd — get filtered against this list. The AI-facing terse mirror lives in [SPEC.md](../SPEC.md) §"What flowtron does NOT provide" → "PR / suggestion archetypes flowtron does not accept" for mid-task discipline, one bullet per rejection, each naming the entry here that it mirrors.
+
+This section is the **canonical** statement: the justification is written once, here, and every restatement elsewhere is a deliberate labeled mirror that points back to it. Beyond the SPEC list, several docs restate a *single* rejection as it applies to their own surface — [`SPEC/loop.md`](../SPEC/loop.md) §"Runtime vs. contract — the boundary" for loop runners, [`SPEC/gates.md`](../SPEC/gates.md) §"`--unattended` operator posture" for the operator-less posture, [EXTERNAL-AGENTS.md](EXTERNAL-AGENTS.md) §"Not an Orchestration Runtime" for multi-agent conventions, and [WORKTREES.md](WORKTREES.md) for fan-out. Those are *applications*, not duplicates: each is read in place by someone deciding something local, so the prose stays where the decision is made rather than collapsing into a link. The pattern is ratified in [CONVENTIONS.md](CONVENTIONS.md) §"Canonical source with labeled mirrors" and guarded at release time by `/ft-release` §7.1 Pair K, which checks that the citations and pointers still resolve.
 
 - **Schema validators.** Markdown is the schema; the assistant catches drift. Adding a JSON-schema validator (or equivalent runtime checker) reintroduces the friction flowtron was built to remove — see the v0.1.0 history in [PHILOSOPHY.md](PHILOSOPHY.md). PRs that ship validation tooling are rejected; if drift is recurring, the answer is a sharper SPEC clause, not a validator.
 
