@@ -13,6 +13,23 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
+- [ ] **CORE-EPIC-489** [light] | tier-mirror-and-sweep-coverage — Propagate the v5.21.0 [xheavy] tier to the human/cold-start mirrors the rollout missed (DOGFOOD cue checklist, GLOSSARY ladder) and close the drift-sweep coverage gaps the miss exposed (VISION.md absent from the closure sweep list; adopter-facing template miscount). Discovery supplied by audit-repo 2026-08-28. Surfaced by audit-repo 2026-08-28 (Theme: v5.21.0 rollout stopped one mirror short).
+  - [ ] **CORE-489.2** [light]🔧 | xheavy-mirror-sweep — Add 🔭 XHEAVY to docs/DOGFOOD.md §"Next-task cues" cue checklist; extend docs/GLOSSARY.md:85 [model] entry to the four-rung ladder with a manual-only note for [xheavy]; refresh the GLOSSARY maintenance footer stamp.
+  - [ ] **CORE-489.3** [light]🔧 | sweep-coverage-gaps — Add docs/VISION.md (naming its mirrors: SPEC.md §"What flowtron does NOT provide", docs/CONVENTIONS.md, docs/EXTERNAL-AGENTS.md) to .flowtron/tasknote/README.md §"AI-referenced docs"; append SPEC/procedures/ to the SPEC/ bullet in AGENTS.md §Repo Layout.
+  - [ ] **CORE-489.4** [light]🔧 | adopter-template-reconcile — Fix templates/tasknote-README.md "Three variants:" lead-in (four bullets follow) and reconcile the variant list with ls templates/ (sidequest stub unlisted).
+  - [ ] **CORE-489.N** [light] | tier-mirror-and-sweep-coverage audit — Close-out audit per SPEC/epic.md.
+- [ ] **FE-EPIC-101** [medium] | viz-archive-scale — Bound the viz archive path's cost by structure instead of archive size: /api/archive currently ships ~9.4 MB of unconsumed tasknote bodies for flowtron's 782 archives, refresh() refetches all four endpoints per SSE change, collapsed sections mount ~780 row subtrees that re-render per search keystroke, and archiveCache is unbounded. Discovery supplied by audit-repo 2026-08-28. Surfaced by audit-repo 2026-08-28 (Theme: success outgrew the archive path).
+  - [ ] **FE-101.2** [medium]🧩 | archive-wire-slim — Drop the unconsumed body field from the /api/archive wire type (keep derived goal/acceptance/subtasks/phases; only test/fixtures.ts reads body today); adjust fixtures.
+  - [ ] **FE-101.3** [medium]🧩 | targeted-sse-refetch — Refetch only the endpoint whose watched path fired instead of all four in useProjectData refresh(), including the 5s degraded-mode polling path.
+  - [ ] **FE-101.4** [light]🔧 | collapsed-section-unmount — Early-return collapsed sections in PrioritySection instead of CSS-only grid-rows collapse; wrap TaskRow/EpicRow in React.memo.
+  - [ ] **FE-101.5** [light]🔧 | archive-cache-bound — LRU-cap archiveCache (3–5 projects); moot-check after .2 lands — the slimmed shape may bound retention structurally.
+  - [ ] **FE-101.N** [medium] | viz-archive-scale audit — Close-out audit per SPEC/epic.md.
+- [ ] **CORE-EPIC-490** [medium] | updater-failure-honesty — Make tools/update-adopters.mjs report failure as failure and keep adopter hooks out of the sweep: gitlinkDrift conflates "git failed to resolve" with "no drift" and reports ✓ current; applyBump commits without --no-verify so adopter pre-commit hooks run unattended; per-adopter re-queries of FLOWTRON_REPO repeat ~2,700 subprocess spawns on a large sweep. Discovery supplied by audit-repo 2026-08-28. Surfaced by audit-repo 2026-08-28 (Theme: updater trusts git to succeed).
+  - [ ] **CORE-490.2** [medium]🧩 | gitlink-drift-unresolved-sentinel — Have recordedGitlinkSha/canonicalTagSha return a distinguishable unresolved sentinel; surface as status skip with the git error instead of falling through to current; cover with an injected-failure test.
+  - [ ] **CORE-490.3** [light]🔧 | no-verify-bump-commit — Pass --no-verify on the bump commit (pure gitlink move — nothing for hooks to lint) and document it in the header rollback contract.
+  - [ ] **CORE-490.4** [light]🔧 | tag-pair-memoization — Memoize migrationBearingTags and newSkillWiringSurfaces by (fromTag, toTag) key; FLOWTRON_REPO is not mutated during a sweep.
+  - [ ] **CORE-490.N** [light] | updater-failure-honesty audit — Close-out audit per SPEC/epic.md.
+
 ## Low
 
 ## Future Opportunities
