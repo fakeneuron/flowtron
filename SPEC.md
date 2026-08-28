@@ -893,6 +893,26 @@ until that commit succeeds. Full rules: §"Paper-complete guard".
 
 Canonical contract: see [`SPEC/blocked.md`](SPEC/blocked.md).
 
+## Cross-repo edit remit
+
+A tasknote's deliverable lands in the repo whose session opened it. When
+Discovery surfaces work that belongs in a different repo — a doc, config,
+or code change outside this checkout — **file it there** (a PLAN.md line,
+a starter tasknote, or a routed ticket) rather than editing it directly
+from this task cycle. The target repo's own `/ft-task` cycle (or
+equivalent) executes it, with its own Discovery, Acceptance, and closure
+commit. This makes the boundary symmetric with the routing convention
+adopting projects already enforce in the other direction — a task that
+finds a flowtron-side issue files a `CORE-` ticket and routes it, rather
+than fixing flowtron directly from that project's session.
+
+**CORE-483.3 exception.** One tasknote predates this rule: it edited two
+`natabula` `.gitignore` files directly as its whole deliverable —
+deliberate, recorded, flowtron-side commit only. That precedent stands as
+the single documented exception, not a license — like the CLI and
+cross-project-query carve-outs in §"What flowtron does NOT provide", it
+does not extend to future tasks.
+
 ## Loop tasks
 
 A tasknote run under an iteration loop (goal loops, heartbeats) — the
