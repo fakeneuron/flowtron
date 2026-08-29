@@ -64,10 +64,23 @@ CORE-194.1 Q3's correct lazy-loading decision (settled by CORE-491).
 - `docs/WORKTREES.md` — the locked isolation convention for parallel epic children (`wt-<ID>` branch + worktree pair); named by `docs/EXTERNAL-AGENTS.md` as the isolation layer and cited wherever parallelism is discussed
 - `docs/VISION.md` — canonical statement of flowtron's scope boundaries; mirrored by SPEC.md §"What flowtron does NOT provide", `docs/CONVENTIONS.md`, and `docs/EXTERNAL-AGENTS.md`. Lazy-loaded: swept, not cold-start
 
-`SPEC/*.md` (lazy modules) and `claude/skills/*/SKILL.md` are loaded on
-demand by skill stubs — authoritative when fired, but outside this sweep set.
-They are excluded on both counts, so the distinction above does not arise for
-them.
+`SPEC/*.md` (lazy modules) and `claude/skills/*/SKILL.md` sit outside this
+sweep set, excluded on both counts, so the distinction above does not arise for
+them. **Their exclusion is a volume decision, not a laziness one** — the
+paragraph above severs lazy-loading from sweep membership, so it cannot also be
+the reason these are excluded. The two trees run ~6,200 lines against a
+~4,100-line sweep set, and walking them at every closure would roughly double a
+per-task step Core Principle #3 exists to keep small.
+
+**Accepted residual risk.** Skill bodies state facts *about* swept docs, so a
+contract change can falsify one with no sweep reaching it —
+`claude/skills/ft-release/SKILL.md:567` asserted a stale claim about this very
+list for a day after CORE-489.3 added `docs/VISION.md` to it. The catch layer is
+the epic-audit sweep, which is where CORE-489.N found it; per-task closure is
+not expected to. CORE-492 weighed a release-time citation guard for this and
+declined: all 63 skill-body `§"…"` citations resolve today, and a resolution
+check would not have caught that miss anyway — the section it cited never moved,
+only the truth of what was said about it.
 
 ## Project quick commands
 
