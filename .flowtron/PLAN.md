@@ -13,14 +13,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-496** [medium]🧩 | sop-ft-task-resync — Re-verify `SPEC/procedures/ft-task.md` against its watched surfaces (`SPEC.md` + `claude/skills/ft-task/`): mirror the CORE-494 `[unattended]` task-line marker into the §Steps parse description, mirror the CORE-488 cross-repo edit remit, absorb CORE-486 wording; bump `last-verified:`. Surfaced by audit-docs 2026-08-29 (Finding #3, High)
-
 ## Low
 
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-496** [medium]🧩 | sop-ft-task-resync — Completed 2026-08-29.
 - [x] **CORE-497** [light] | plan-archive-contract-link — Fixed dead adopter-shaped contract link in `.flowtron/PLAN-ARCHIVE.md` header (`../core/SPEC/tasknote-selection.md` → `../SPEC/tasknote-selection.md`; flowtron-self has no `.flowtron/core/`). Surfaced by audit-docs 2026-08-29 (Finding #2, Medium), fixed inline.
 - [x] **CORE-498** [light] | ft-flowtron-seed-files-clause — Appended the `PLAN.md` / `tasknote-README.md` seed-files tail to the templates-roster line in `claude/skills/ft-flowtron/SKILL.md`, matching SPEC.md:58 and README.md:278. Surfaced by audit-docs 2026-08-29 (Finding #1, Medium), fixed inline.
 - [x] **CORE-493** [light]🔧 | canonical-tag-sha-reuse — Completed 2026-08-29.

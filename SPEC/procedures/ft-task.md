@@ -2,7 +2,7 @@
 procedure: ft-task
 source: claude/skills/ft-task/ templates/tasknote-template.md
 restates: SPEC.md
-last-verified: v5.19.0 · 2026-08-25
+last-verified: v5.21.0 · 2026-08-29
 ---
 
 # Procedure SOP — `ft-task`
@@ -74,6 +74,21 @@ unattended mode removes **pauses**, never **proof** — all three parts of
 variant. Resume is the ordinary blocked path in
 [`SPEC/blocked.md`](../blocked.md), which also clears `park-reason:`.
 
+**Cross-repo work, in one paragraph.** A tasknote's deliverable lands in the
+repo whose session opened it. When Discovery — or later execution — surfaces
+work belonging to a *different* repo (a doc, config, or code change outside
+this checkout), **file it there** (a PLAN.md line, a starter tasknote, or a
+routed ticket) rather than editing it directly from this task cycle; the
+target repo's own procedure run executes it, with its own Discovery,
+Acceptance, and closure commit. This is symmetric with the routing adopting
+projects already use in the other direction — a project task that finds a
+flowtron-side issue files a `CORE-` ticket and routes it rather than fixing
+flowtron from its own session. One tasknote (CORE-483.3) predates the rule and
+edited another repo's files directly as its whole deliverable; it stands as
+the **single documented exception, not a precedent**, in the same sense as the
+carve-outs in [`SPEC.md` §"What flowtron does NOT provide"](../../SPEC.md).
+Full contract: [`SPEC.md` §"Cross-repo edit remit"](../../SPEC.md).
+
 The **operator-cue vocabulary** (🛠️ 📦 🟢 👁️ 🏁 ✅ 🔧 🧩 🧠 🔭 👇 🗄️ ▶️ 📡 💻 ✋ 🔍 and
 their UPPERCASE labels) is contract-layer, not Claude-specific — emit it
 **verbatim**. The glyph is the fast-scan signal; the UPPERCASE label is the
@@ -99,9 +114,23 @@ surface the conflict, and ask whether the operator meant a different ID.
 Never infer status from earlier conversation; read the line.
 
 Otherwise capture, per [`SPEC.md` §"Task-line format"](../../SPEC.md): the
-optional `[model]` tag, the `| shortname`, the long description, the section
-heading the line lives under (its **Priority**), and an optional `[!critical]`
-flag.
+optional `[model]` tag, an optional `[unattended]` marker, the `| shortname`,
+the long description, the section heading the line lives under (its
+**Priority**), and an optional `[!critical]` flag. Canonical ordering when the
+flags are present: `[!critical]` **before** `[model]`, `[unattended]`
+**after** it.
+
+**The `[unattended]` marker is not unattended mode.** The marker is the
+*operator's* per-row declaration that this task is safe to drive with nobody
+present; the mode in the primitives table above is the *caller's*
+per-invocation declaration that nobody is. **Neither implies the other** —
+reading the marker does not put you in the mode, and running in the mode does
+not require the row to carry it. Flowtron never writes the marker; seeding it
+is an operator act, so a caller choosing work autonomously treats an
+**unmarked row as undecided, not approved**. Grammar, position, and the two
+ways authors mis-write it:
+[`SPEC.md` §"Task-line format"](../../SPEC.md); the dispatch posture that
+consumes it: [`docs/EXTERNAL-AGENTS.md`](../../docs/EXTERNAL-AGENTS.md).
 
 **`## Completed`-rotation advisory.** While `PLAN.md` is open, count the
 checked rows under `## Completed` (nested epic children included). Past
