@@ -20,7 +20,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [ ] **FE-101.5** [light]🔧 | archive-cache-bound — LRU-cap archiveCache (3–5 projects); moot-check after .2 lands — the slimmed shape may bound retention structurally.
   - [ ] **FE-101.N** [medium] | viz-archive-scale audit — Close-out audit per SPEC/epic.md.
 - [ ] **CORE-EPIC-490** [medium] | updater-failure-honesty — Make tools/update-adopters.mjs report failure as failure and keep adopter hooks out of the sweep: gitlinkDrift conflates "git failed to resolve" with "no drift" and reports ✓ current; applyBump commits without --no-verify so adopter pre-commit hooks run unattended; per-adopter re-queries of FLOWTRON_REPO repeat ~2,700 subprocess spawns on a large sweep. Discovery supplied by audit-repo 2026-08-28. Surfaced by audit-repo 2026-08-28 (Theme: updater trusts git to succeed).
-  - [ ] **CORE-490.2** [medium]🧩 | gitlink-drift-unresolved-sentinel — Have recordedGitlinkSha/canonicalTagSha return a distinguishable unresolved sentinel; surface as status skip with the git error instead of falling through to current; cover with an injected-failure test.
+  - [x] **CORE-490.2** [medium]🧩 | gitlink-drift-unresolved-sentinel — Completed 2026-08-29.
   - [ ] **CORE-490.3** [light]🔧 | no-verify-bump-commit — Pass --no-verify on the bump commit (pure gitlink move — nothing for hooks to lint) and document it in the header rollback contract.
   - [ ] **CORE-490.4** [light]🔧 | tag-pair-memoization — Memoize migrationBearingTags and newSkillWiringSurfaces by (fromTag, toTag) key; FLOWTRON_REPO is not mutated during a sweep.
   - [ ] **CORE-490.N** [light] | updater-failure-honesty audit — Close-out audit per SPEC/epic.md.

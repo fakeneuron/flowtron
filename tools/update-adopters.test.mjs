@@ -291,6 +291,20 @@ describe('checkAdopter classification (fixtures)', () => {
     assert.match(result.reason, /nothing to commit/i);
   });
 
+  it('skip: committed gitlink unresolvable — never reported current (CORE-490.2)', async () => {
+    const adopter = await makeAdopter(root, 'unresolved-gitlink-repo', latest);
+    // Injected failure: the submodule (what pinnedVersion reads off disk) stays
+    // intact, but the superproject's own git dir is gone, so `rev-parse
+    // HEAD:.flowtron/core` fails. This lands in the `current === latest` branch,
+    // which used to early-return `current` off that failure.
+    await rm(join(adopter.repo, '.git'), { recursive: true, force: true });
+    const result = await checkAdopter(adopter, latest);
+    assert.equal(result.status, 'skip');
+    assert.equal(result.current, latest);
+    assert.match(result.reason, /could not resolve the committed gitlink/i);
+    assert.match(result.reason, /pin left unverified/i);
+  });
+
   it('skip: staged changes in adopter index', async () => {
     const adopter = await makeAdopter(root, 'staged-repo', previous);
     await writeFile(join(adopter.repo, 'extra.txt'), 'staged\n');
@@ -399,6 +413,17 @@ describe('gitlinkDrift / describePin', () => {
     const root = await mkdtemp(join(tmpdir(), 'ft-upd-gl-'));
     const adopter = await makeAdopter(root, 'ok', latest);
     assert.equal(await gitlinkDrift(adopter.repo, latest), null);
+    await rm(root, { recursive: true, force: true });
+  });
+
+  it('returns the unresolved sentinel — not null — when the gitlink lookup fails (CORE-490.2)', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'ft-upd-gl-unres-'));
+    const adopter = await makeAdopter(root, 'broken', latest);
+    await rm(join(adopter.repo, '.git'), { recursive: true, force: true });
+    const drift = await gitlinkDrift(adopter.repo, latest);
+    assert.notEqual(drift, null, 'a failed lookup must not read as "no drift"');
+    assert.equal(drift.unresolved, true);
+    assert.match(drift.error, /could not resolve the committed gitlink/i);
     await rm(root, { recursive: true, force: true });
   });
 

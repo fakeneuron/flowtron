@@ -37,6 +37,9 @@
 //     rather than assume non-breaking; see migrationBearingTags
 //   - staged changes in the adopter's index → a commit here would surprise
 //   - dirty .flowtron/core submodule worktree
+//   - the committed gitlink (or the latest tag's commit) can't be resolved at
+//     all → the pin can't be verified either way, so report the git error
+//     rather than the ✓ current this used to fall through to
 //
 // Gitlink-drift detection: even when the checked-out .flowtron/core/SPEC.md reads
 // the latest release, the superproject's committed submodule pin can still record
@@ -44,7 +47,10 @@
 // never committed). The submodule worktree is clean, so the dirty-worktree gate
 // misses it — a fresh clone would revert to the stale pin. Such a repo is reported
 // as `drift` (not `current`); the fix is `git add .flowtron/core` + commit, or
-// /ft-update. Report-only — never auto-committed.
+// /ft-update. Report-only — never auto-committed. When either side of that
+// comparison can't be resolved, the lookup returns an unresolved sentinel and
+// the adopter is skipped with git's message: an unverifiable pin is reported as
+// unverified, never as current.
 //
 // The reverse also happens: the committed pin already matches the latest tag,
 // but the checked-out .flowtron/core worktree (what SPEC.md reads) is behind —
@@ -254,35 +260,62 @@ export async function describePin(sha) {
   return sha.slice(0, 12);
 }
 
-// The superproject's committed submodule gitlink SHA at HEAD, or null when
-// there's no committed gitlink to compare against (e.g. no commits yet).
+// Sentinel the two SHA resolvers below return when git could not answer. It
+// used to be a bare `null`, which read identically to "resolved, nothing to
+// compare" — so a failed `rev-parse` reached gitlinkDrift as "no drift" and
+// checkAdopter reported the adopter as ✓ current off a git failure (CORE-490.2).
+// git's exit code can't separate "no committed gitlink yet" from "broken repo"
+// (both exit 128), so the sentinel carries git's message and the caller decides;
+// it is an object, distinguishable from the SHA string a success returns.
+function unresolved(error) {
+  return { unresolved: true, error };
+}
+
+function isUnresolved(value) {
+  return value !== null && typeof value === 'object' && value.unresolved === true;
+}
+
+// First line of git's own complaint — the useful half of a rev-parse failure.
+function gitErrorLine(e) {
+  return ((e.stderr || e.message) ?? '').trim().split('\n')[0] || 'git failed';
+}
+
+// The superproject's committed submodule gitlink SHA at HEAD, or the unresolved
+// sentinel when git can't answer (no committed gitlink yet, unreadable repo).
 async function recordedGitlinkSha(repo) {
   try {
     return (await git(repo, 'rev-parse', `HEAD:${SUBMODULE_PATH}`)).trim();
-  } catch {
-    return null;
+  } catch (e) {
+    return unresolved(gitErrorLine(e));
   }
 }
 
-// The canonical commit SHA a release tag resolves to in FLOWTRON_REPO, or
-// null when the tag can't be resolved locally. Commit SHAs are
+// The canonical commit SHA a release tag resolves to in FLOWTRON_REPO, or the
+// unresolved sentinel when the tag can't be resolved locally. Commit SHAs are
 // content-identical across clones, so FLOWTRON_REPO is the canonical source —
 // no adopter-side fetch needed.
 async function canonicalTagSha(tag) {
   try {
     return (await git(FLOWTRON_REPO, 'rev-parse', `${tag}^{commit}`)).trim();
-  } catch {
-    return null;
+  } catch (e) {
+    return unresolved(gitErrorLine(e));
   }
 }
 
 // Compare the superproject's committed submodule gitlink against the latest
-// release commit. Returns a reason string when they diverge (drift), else null.
+// release commit. Returns a reason string when they diverge (drift), the
+// unresolved sentinel when either lookup failed (the comparison never
+// happened — deliberately NOT null, which the caller reads as "no drift"),
+// else null.
 export async function gitlinkDrift(repo, latest) {
   const recorded = await recordedGitlinkSha(repo);
-  if (recorded === null) return null; // no committed gitlink to compare — nothing to report
+  if (isUnresolved(recorded)) {
+    return unresolved(`could not resolve the committed gitlink: ${recorded.error}`);
+  }
   const latestSha = await canonicalTagSha(latest);
-  if (latestSha === null) return null; // can't resolve the latest tag locally — skip the cross-check
+  if (isUnresolved(latestSha)) {
+    return unresolved(`could not resolve ${latest} in ${FLOWTRON_REPO}: ${latestSha.error}`);
+  }
   if (recorded === latestSha) return null;
   return `committed gitlink at ${await describePin(recorded)}, worktree SPEC.md at ${latest} — commit the pin (git add ${SUBMODULE_PATH}) or run /ft-update`;
 }
@@ -455,6 +488,12 @@ export async function checkAdopter(adopter, latest) {
   if (current === null) return { status: 'skip', reason: 'unreadable pinned SPEC.md version' };
   if (current === latest) {
     const drift = await gitlinkDrift(repo, latest);
+    // Unresolved is not "no drift": this branch returns without touching git
+    // again, so reporting `current` here would render a git failure as a clean
+    // bill of health. Skip and hand the operator git's own message instead.
+    if (isUnresolved(drift)) {
+      return { status: 'skip', current, reason: `${drift.error} — pin left unverified` };
+    }
     if (drift) return { status: 'drift', current, reason: drift };
     return { status: 'current', current };
   }
@@ -467,10 +506,14 @@ export async function checkAdopter(adopter, latest) {
   // commit it ("nothing to commit"), and the resulting rollback resets the
   // worktree back to the stale SHA it was already recovering from. Detect it
   // up front and report it the same way the forward direction is reported.
+  // An unresolved lookup falls through rather than skipping here: unlike the
+  // early return above, this path continues into the detached-HEAD and
+  // staged-diff gates, which rethrow any non-exit-1 git failure (CORE-366) —
+  // a broken repo still fails loudly, it just fails there.
   const recordedGitlink = await recordedGitlinkSha(repo);
-  if (recordedGitlink !== null) {
+  if (!isUnresolved(recordedGitlink)) {
     const latestSha = await canonicalTagSha(latest);
-    if (latestSha !== null && recordedGitlink === latestSha) {
+    if (!isUnresolved(latestSha) && recordedGitlink === latestSha) {
       return {
         status: 'drift',
         current,
@@ -511,7 +554,7 @@ export async function checkAdopter(adopter, latest) {
   // `tagsInRange` below would compute a numeric range against a boundary
   // that was never actually released — silently wrong rather than a clear
   // signal. Verify it resolves before doing any range work.
-  if ((await canonicalTagSha(current)) === null) {
+  if (isUnresolved(await canonicalTagSha(current))) {
     return {
       status: 'skip',
       current,
