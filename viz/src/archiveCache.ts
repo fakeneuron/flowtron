@@ -51,18 +51,33 @@ export interface ArchiveCache {
   clear(): void;
 }
 
+// Bounds fleet-wide retention by structure rather than by how many projects a
+// session happens to visit (FE-101.5) — precedent: devApi.ts's MAX_SSE_CLIENTS.
+const MAX_CACHED_PROJECTS = 5;
+
 export function createArchiveCache(): ArchiveCache {
   const cache = new Map<string, Promise<Tasknote[]>>();
 
   return {
     get(project) {
       let cached = cache.get(project.name);
-      if (!cached) {
-        cached = readArchive(project).catch((err) => {
-          if (cache.get(project.name) === cached) cache.delete(project.name);
-          throw err;
-        });
+      if (cached) {
+        // Touch: re-insert to move this key to the Map's most-recently-used
+        // (last) position in iteration order.
+        cache.delete(project.name);
         cache.set(project.name, cached);
+        return cached;
+      }
+      cached = readArchive(project).catch((err) => {
+        if (cache.get(project.name) === cached) cache.delete(project.name);
+        throw err;
+      });
+      cache.set(project.name, cached);
+      if (cache.size > MAX_CACHED_PROJECTS) {
+        // Map iterates in insertion order and every hit re-inserts, so the
+        // first key is always the least-recently-used one.
+        const oldest = cache.keys().next().value;
+        if (oldest !== undefined) cache.delete(oldest);
       }
       return cached;
     },

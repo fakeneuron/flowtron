@@ -260,6 +260,46 @@ describe('createArchiveCache', () => {
     expect(notes.map((t) => t.id)).toEqual(['CORE-001']);
   });
 
+  it('evicts the least-recently-used project once more than 5 are cached', async () => {
+    const cache = createArchiveCache();
+    const projects = await Promise.all(
+      ['p1', 'p2', 'p3', 'p4', 'p5', 'p6'].map((name) =>
+        makeProject(name, { [`frontend/FE-${name}.md`]: tasknote(`FE-${name}`, name) }),
+      ),
+    );
+    const firsts = [];
+    for (const project of projects) firsts.push(await cache.get(project));
+
+    // p1 was the least-recently touched when p6 (the 6th distinct project)
+    // was inserted, so it should have been evicted; the next get() re-reads.
+    const p1Again = await cache.get(projects[0]);
+    expect(p1Again).not.toBe(firsts[0]);
+    // p6 (most recently inserted) and p2..p5 stay cached.
+    const p6Again = await cache.get(projects[5]);
+    expect(p6Again).toBe(firsts[5]);
+  });
+
+  it('get() touches a project, protecting it from being the next eviction', async () => {
+    const cache = createArchiveCache();
+    const projects = await Promise.all(
+      ['p1', 'p2', 'p3', 'p4', 'p5'].map((name) =>
+        makeProject(name, { [`frontend/FE-${name}.md`]: tasknote(`FE-${name}`, name) }),
+      ),
+    );
+    const firsts = [];
+    for (const project of projects) firsts.push(await cache.get(project));
+
+    // Touch p1 so p2 becomes the least-recently-used instead.
+    await cache.get(projects[0]);
+    const p6 = await makeProject('p6', { 'frontend/FE-p6.md': tasknote('FE-p6', 'p6') });
+    await cache.get(p6);
+
+    const p1Again = await cache.get(projects[0]);
+    expect(p1Again).toBe(firsts[0]);
+    const p2Again = await cache.get(projects[1]);
+    expect(p2Again).not.toBe(firsts[1]);
+  });
+
   it('clear() drops every cached project', async () => {
     const a = await makeProject('alpha', { 'frontend/FE-001.md': tasknote('FE-001', 'a') });
     const b = await makeProject('beta', { 'frontend/FE-001.md': tasknote('FE-001', 'b') });

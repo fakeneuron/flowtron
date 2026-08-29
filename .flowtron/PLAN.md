@@ -17,7 +17,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **FE-101.2** [medium]🧩 | archive-wire-slim — Completed 2026-08-29.
   - [x] **FE-101.3** [medium]🧩 | targeted-sse-refetch — Completed 2026-08-29.
   - [x] **FE-101.4** [light]🔧 | collapsed-section-unmount — Completed 2026-08-29.
-  - [ ] **FE-101.5** [light]🔧 | archive-cache-bound — LRU-cap archiveCache (3–5 projects); moot-check after .2 lands — the slimmed shape may bound retention structurally.
+  - [x] **FE-101.5** [light]🔧 | archive-cache-bound — Completed 2026-08-29.
   - [ ] **FE-101.N** [medium] | viz-archive-scale audit — Close-out audit per SPEC/epic.md.
 
 - [ ] **CORE-494** [medium] | unattended-marker-grammar — Formalize the `[unattended]` task-line marker: capture it in SPEC §Task-line format and `viz/src/parser.ts` instead of dropping it as a stacked-`[model]` tolerance. Must sit after `[model]`; `[!unattended]` drops the whole line and a pre-`[model]` token is captured as the model. Reference implementation: caobunga CBN-EPIC-17.2.
