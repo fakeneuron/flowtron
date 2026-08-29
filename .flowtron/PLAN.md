@@ -13,6 +13,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
+- [ ] **CORE-501** [medium]🧩 | stamp-write-ownership-gap — `/ft-release` §5's stamp-write-ownership rule assumes a parallel dogfooding session reports back rather than writes; CORE-500 hit one that wrote all eight stamp locations mid-cut, and two rows arrived with rationale that failed checking. No detector exists — decide between a check and harder wording.
+
 ## Low
 
 ## Future Opportunities
