@@ -58,12 +58,17 @@ Project-specific prefixes archive the same way (e.g., `OCR-*` → `archive/ocr/`
 
 ## AI-referenced docs
 
-Canonical docs that AI sessions consume as cold-start ground truth — the
-project-declared doc set walked at every Phase 4 closure (per
+The project-declared doc set walked at every Phase 4 closure (per
 `.flowtron/core/SPEC.md` §"🚀 Phase 4: Closure") and at every
-epic-audit subtask (per `.flowtron/core/SPEC/epic.md`). Flat list,
-one-line purpose each. Extend as the architecture matures (architecture
-notes, API specs, DB schema docs, ADRs, inventories).
+epic-audit subtask (per `.flowtron/core/SPEC/epic.md`) for the
+doc-drift sweep. Flat list, one-line purpose each. Extend as the
+architecture matures (architecture notes, API specs, DB schema docs,
+ADRs, inventories).
+
+Membership means **swept for drift** — it does not mean **loaded at
+cold start**. The two are independent per-doc properties: a lazy doc
+that drifts belongs on this list; an always-loaded doc that never
+drifts need not.
 
 - `README.md` — project overview, current shipped feature surface
 - `AGENTS.md` — assistant-facing project guide; includes the flowtron paste-block (read by Claude Code, Codex, Cursor, Amp, Aider, Grok)

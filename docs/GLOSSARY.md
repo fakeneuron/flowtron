@@ -10,7 +10,7 @@ Alphabetized. ~71 entries. Maintained via epic children and audits.
 
 **AGENTS.md** — The agent-neutral block adopters paste into their project `AGENTS.md`; defines the adopter-facing assistant surface (skills, commands, one-time wiring). Source: `claude/AGENTS-snippet.md`. See docs/MIGRATION.md §1.3.
 
-**AI-referenced docs** — The flat list in `.flowtron/tasknote/README.md` §"AI-referenced docs" that every Phase 4 closure and epic-audit subtask walks for the doc-drift sweep. `SPEC/` lazy modules and `claude/skills/*` are deliberately excluded from the default cold-start set.
+**AI-referenced docs** — The flat list in `.flowtron/tasknote/README.md` §"AI-referenced docs" that every Phase 4 closure and epic-audit subtask walks for the doc-drift sweep. Membership means *swept for drift*, not *loaded at cold start* — the two are independent per-doc properties (CORE-491). `SPEC/` lazy modules and `claude/skills/*` are excluded on both counts.
 
 **area prefix** — The leading token of a TASK-ID (e.g. `CORE-`, `FE-`, `BE-`); declares the scope bucket per SPEC §"Task ID convention". Adopters declare extra domain prefixes in their `.flowtron/tasknote/README.md`.
 

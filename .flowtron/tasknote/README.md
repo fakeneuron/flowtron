@@ -33,11 +33,17 @@ Other area folders are created when the first tasknote in that area lands.
 
 ## AI-referenced docs
 
-Canonical docs that AI sessions consume as cold-start ground truth — the
-project-declared doc set walked at every Phase 4 closure (per
+The project-declared doc set walked at every Phase 4 closure (per
 [`SPEC.md` §"🚀 Phase 4: Closure"](../../SPEC.md)) and at every epic-audit
-subtask (per [`SPEC/epic.md`](../../SPEC/epic.md)). Flat list, one-line
-purpose each.
+subtask (per [`SPEC/epic.md`](../../SPEC/epic.md)) for the doc-drift sweep.
+Flat list, one-line purpose each.
+
+Membership means **swept for drift** — it does not mean **loaded at cold
+start**. The two are independent per-doc properties: `SPEC.md` is the primary
+cold-start surface *and* is swept; `docs/VISION.md` is lazy-loaded *and* is
+swept, because it drifts against the surfaces that mirror it. Conflating them
+is what made CORE-489.3's correct sweep-coverage fix look like a reversal of
+CORE-194.1 Q3's correct lazy-loading decision (settled by CORE-491).
 
 - `README.md` — public-facing flowtron repo overview
 - `AGENTS.md` — flowtron-self agent guide: repo layout, validation commands, workflow pointers, and platform wiring notes
@@ -56,11 +62,12 @@ purpose each.
 - `docs/AGENT-COMPAT.md` — living agent-compatibility matrix: per-agent consume-mode, context entry-point, skill/command primitive, and last-verified currency
 - `docs/EXTERNAL-AGENTS.md` — one-agent-per-tasknote rule, the handoff contract for external CLI agents, the orchestration contract an operator-less caller reports to, and the not-an-orchestration-runtime boundary; contract edits that touch delegation, handoff, or the unattended posture routinely drift against it
 - `docs/WORKTREES.md` — the locked isolation convention for parallel epic children (`wt-<ID>` branch + worktree pair); named by `docs/EXTERNAL-AGENTS.md` as the isolation layer and cited wherever parallelism is discussed
-- `docs/VISION.md` — canonical statement of flowtron's scope boundaries; mirrored by SPEC.md §"What flowtron does NOT provide", `docs/CONVENTIONS.md`, and `docs/EXTERNAL-AGENTS.md`
+- `docs/VISION.md` — canonical statement of flowtron's scope boundaries; mirrored by SPEC.md §"What flowtron does NOT provide", `docs/CONVENTIONS.md`, and `docs/EXTERNAL-AGENTS.md`. Lazy-loaded: swept, not cold-start
 
 `SPEC/*.md` (lazy modules) and `claude/skills/*/SKILL.md` are loaded on
-demand by skill stubs — authoritative when fired, but not part of the
-default cold-start sweep.
+demand by skill stubs — authoritative when fired, but outside this sweep set.
+They are excluded on both counts, so the distinction above does not arise for
+them.
 
 ## Project quick commands
 
