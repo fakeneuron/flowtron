@@ -72,7 +72,7 @@ A lightweight, project-agnostic tasknote system for solo AI-assisted coding. The
 - `docs/PLATFORMS.md` — multi-platform wiring pattern: two-layer model (agent-neutral contract / per-platform wiring) and the symmetric plug-in shape for shipped siblings (`codex/` full wrappers, `cursor/` and `grok/` thin; future platforms plug in the same way)
 - `CONTRIBUTING.md` — solo-maintenance model; issue and PR guidance
 - `SECURITY.md` — threat model (prompt injection, submodule supply-chain trust, viz dev-server scope) and vulnerability reporting
-- `templates/` — tasknote templates (full, micro, starter, sidequest) plus spec, loop-heartbeat, audit-overlay, and subagent-probe templates
+- `templates/` — tasknote templates (full, micro, starter, sidequest) plus spec, loop-heartbeat, audit-overlay, and subagent-probe templates, and the `PLAN.md` / `tasknote-README.md` seed files
 
 ---
 

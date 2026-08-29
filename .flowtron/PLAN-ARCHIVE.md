@@ -15,7 +15,7 @@ no such tasknote — for those, the line here *is* the record.
 A row sits under its **parent cohort's** month: a nested epic child travels
 with its parent even when its own date falls in an earlier month.
 
-Contract: [`SPEC/tasknote-selection.md`](../core/SPEC/tasknote-selection.md)
+Contract: [`SPEC/tasknote-selection.md`](../SPEC/tasknote-selection.md)
 §"`## Completed` rotation".
 
 ## Completed 2026-07
