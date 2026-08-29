@@ -20,6 +20,10 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [ ] **FE-101.5** [light]🔧 | archive-cache-bound — LRU-cap archiveCache (3–5 projects); moot-check after .2 lands — the slimmed shape may bound retention structurally.
   - [ ] **FE-101.N** [medium] | viz-archive-scale audit — Close-out audit per SPEC/epic.md.
 
+- [ ] **CORE-494** [medium] | unattended-marker-grammar — Formalize the `[unattended]` task-line marker: capture it in SPEC §Task-line format and `viz/src/parser.ts` instead of dropping it as a stacked-`[model]` tolerance. Must sit after `[model]`; `[!unattended]` drops the whole line and a pre-`[model]` token is captured as the model. Reference implementation: caobunga CBN-EPIC-17.2.
+
+- [ ] **CORE-495** [medium] | visual-confirm-park — Add a 👁️→park conversion row to `unattended-mode.md` §Conversion map plus a `visual-confirm` code in SPEC's `park-reason` closed set, so a Phase 3 visual ask parks instead of vanishing. Requires narrowing the strict `--fast`-superset claim, which currently suppresses it. Found by caobunga CBN-EPIC-17.1.
+
 ## Low
 
 - [ ] **CORE-493** [light]🔧 | canonical-tag-sha-reuse — Memoize canonicalTagSha by tag — it re-spawns git rev-parse per adopter for a sweep-constant latest (via gitlinkDrift) and a commonly-shared current (missing-pinned-tag guard); and reconcile applyBump's hand-inlined duplicate of that lookup with CORE-490.2's sentinel contract. Surfaced by CORE-490.N audit 2026-08-29.
