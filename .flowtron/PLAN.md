@@ -28,6 +28,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
+- [ ] **CORE-492** [medium]🧩 | skill-layer-sweep-blindspot — claude/skills/*/SKILL.md is excluded from the AI-referenced-docs sweep but carries factual claims about swept docs, so contract changes strand skill-body rationale indefinitely (ft-release/SKILL.md:567 was one). Consider a /ft-release §7.1 pair or targeted grep guard; accept-as-is is a valid outcome. Surfaced by CORE-489.N audit.
+
 ## Future Opportunities
 
 ## Completed
