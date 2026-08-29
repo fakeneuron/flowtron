@@ -511,13 +511,14 @@ export function cachedNewSkillWiringSurfaces(fromTag, toTag) {
   return skillWiringCache.get(key);
 }
 
-// Eight sequential skip/drift gates below (unreadable version, reverse
-// gitlink-drift, detached HEAD, pinned-ahead, missing-tag, migration-bearing,
-// staged changes, dirty submodule). Considered extracting them to an ordered
-// array (CORE-479) but each later gate consumes state a prior gate computed
-// (current, recordedGitlink, currentVersion/latestVersion, range/bearing) —
-// an array of independent gate functions would need a threaded context
-// object, a larger refactor than this naming cleanup's scope. Left inline.
+// Nine sequential skip/drift gates below (unreadable version, unresolved
+// gitlink, reverse gitlink-drift, detached HEAD, pinned-ahead, missing-tag,
+// migration-bearing, staged changes, dirty submodule). Considered extracting
+// them to an ordered array (CORE-479) but each later gate consumes state a
+// prior gate computed (current, recordedGitlink, currentVersion/latestVersion,
+// range/bearing) — an array of independent gate functions would need a
+// threaded context object, a larger refactor than this naming cleanup's
+// scope. Left inline.
 export async function checkAdopter(adopter, latest) {
   const { repo } = adopter;
   const sub = join(repo, SUBMODULE_PATH);

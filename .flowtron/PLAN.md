@@ -19,11 +19,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [ ] **FE-101.4** [light]🔧 | collapsed-section-unmount — Early-return collapsed sections in PrioritySection instead of CSS-only grid-rows collapse; wrap TaskRow/EpicRow in React.memo.
   - [ ] **FE-101.5** [light]🔧 | archive-cache-bound — LRU-cap archiveCache (3–5 projects); moot-check after .2 lands — the slimmed shape may bound retention structurally.
   - [ ] **FE-101.N** [medium] | viz-archive-scale audit — Close-out audit per SPEC/epic.md.
-- [ ] **CORE-EPIC-490** [medium] | updater-failure-honesty — Make tools/update-adopters.mjs report failure as failure and keep adopter hooks out of the sweep: gitlinkDrift conflates "git failed to resolve" with "no drift" and reports ✓ current; applyBump commits without --no-verify so adopter pre-commit hooks run unattended; per-adopter re-queries of FLOWTRON_REPO repeat ~2,700 subprocess spawns on a large sweep. Discovery supplied by audit-repo 2026-08-28. Surfaced by audit-repo 2026-08-28 (Theme: updater trusts git to succeed).
-  - [x] **CORE-490.2** [medium]🧩 | gitlink-drift-unresolved-sentinel — Completed 2026-08-29.
-  - [x] **CORE-490.3** [light]🔧 | no-verify-bump-commit — Completed 2026-08-29.
-  - [x] **CORE-490.4** [light]🔧 | tag-pair-memoization — Completed 2026-08-29.
-  - [ ] **CORE-490.N** [light] | updater-failure-honesty audit — Close-out audit per SPEC/epic.md.
 
 ## Low
 
@@ -31,6 +26,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-490** [medium] | updater-failure-honesty — Completed 2026-08-29.
+  - [x] **CORE-490.2** [medium]🧩 | gitlink-drift-unresolved-sentinel — Completed 2026-08-29.
+  - [x] **CORE-490.3** [light]🔧 | no-verify-bump-commit — Completed 2026-08-29.
+  - [x] **CORE-490.4** [light]🔧 | tag-pair-memoization — Completed 2026-08-29.
+  - [x] **CORE-490.N** [light] | updater-failure-honesty audit — Completed 2026-08-29.
 - [x] **CORE-492** [medium]🧩 | skill-layer-sweep-blindspot — Completed 2026-08-29.
 - [x] **CORE-491** [medium]🧩 | vision-sweep-role-split — Completed 2026-08-29.
 - [x] **CORE-EPIC-489** [light] | tier-mirror-and-sweep-coverage — Completed 2026-08-29.

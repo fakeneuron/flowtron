@@ -42,7 +42,7 @@ Make `tools/update-adopters.mjs` report an unresolvable gitlink or canonical tag
 - [x] Map the sentinel to a `skip` in `checkAdopter`'s `current === latest` branch; adapt the reverse-drift and missing-pinned-tag predicates without changing their behaviour, with a comment saying why they stay fall-through
 - [x] Update the header comment's "Per-adopter safety gates" list + gitlink-drift paragraph
 - [x] Add a fixture test: adopter pinned at `latest` with its own `.git` removed → `skip` naming the git error (currently reports `current`)
-- [ ] Run `node --test tools/update-adopters.test.mjs` and `node --check tools/update-adopters.mjs`
+- [x] Run `node --test tools/update-adopters.test.mjs` and `node --check tools/update-adopters.mjs`
 
 ## 🔗 Related
 
