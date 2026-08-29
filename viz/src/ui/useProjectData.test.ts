@@ -291,6 +291,219 @@ describe('useProjectData — SSE branches', () => {
   });
 });
 
+// FE-101.3: an attributed change carries the scopes its watched path can have
+// invalidated, so the board fetches one endpoint instead of four. Everything
+// that cannot be attributed to a scope still fetches all four.
+describe('useProjectData — scoped refetch', () => {
+  const ALL = [
+    '/api/plan?project=p1',
+    '/api/plan-archive?project=p1',
+    '/api/active?project=p1',
+    '/api/archive?project=p1',
+  ];
+
+  const mountScoped = () => {
+    const fetchMock = vi.fn((url: string) => {
+      if (routeIs(url, '/api/plan')) return Promise.resolve(planRes(planWith('FE-1')));
+      if (routeIs(url, '/api/plan-archive')) return Promise.resolve(planRes(''));
+      return Promise.resolve(jsonRes([]));
+    });
+    vi.stubGlobal('fetch', fetchMock);
+    return { hook: renderHook(() => useProjectData('p1')), fetchMock };
+  };
+
+  // Fetches made after the initial load settled.
+  const since = (fetchMock: ReturnType<typeof vi.fn>, from: number) =>
+    fetchMock.mock.calls.slice(from).map((c) => c[0] as string);
+
+  const emitAndSettle = async (payload: string) => {
+    await act(async () => {
+      latestES().emit('change', payload);
+      await new Promise((r) => setTimeout(r, 0));
+    });
+  };
+
+  it('fetches only /api/archive for an archive-scoped change', async () => {
+    const { hook, fetchMock } = mountScoped();
+    await waitFor(() => expect(hook.result.current.loading).toBe(false));
+    const after = fetchMock.mock.calls.length;
+
+    await emitAndSettle('{"project":"p1","scopes":["archive"]}');
+
+    expect(since(fetchMock, after)).toEqual(['/api/archive?project=p1']);
+  });
+
+  it('fetches only /api/active for an active-scoped change', async () => {
+    const { hook, fetchMock } = mountScoped();
+    await waitFor(() => expect(hook.result.current.loading).toBe(false));
+    const after = fetchMock.mock.calls.length;
+
+    await emitAndSettle('{"project":"p1","scopes":["active"]}');
+
+    expect(since(fetchMock, after)).toEqual(['/api/active?project=p1']);
+  });
+
+  // PLAN-ARCHIVE.md is unwatched (FE-094): rotation always edits PLAN.md in the
+  // same motion, so the plan scope has to carry both or rotated history staleds.
+  it('fetches both plan endpoints for a plan-scoped change', async () => {
+    const { hook, fetchMock } = mountScoped();
+    await waitFor(() => expect(hook.result.current.loading).toBe(false));
+    const after = fetchMock.mock.calls.length;
+
+    await emitAndSettle('{"project":"p1","scopes":["plan"]}');
+
+    expect(since(fetchMock, after)).toEqual([
+      '/api/plan?project=p1',
+      '/api/plan-archive?project=p1',
+    ]);
+  });
+
+  it('fetches the union when a window coalesced two scopes', async () => {
+    const { hook, fetchMock } = mountScoped();
+    await waitFor(() => expect(hook.result.current.loading).toBe(false));
+    const after = fetchMock.mock.calls.length;
+
+    await emitAndSettle('{"project":"p1","scopes":["active","archive"]}');
+
+    expect(since(fetchMock, after)).toEqual([
+      '/api/active?project=p1',
+      '/api/archive?project=p1',
+    ]);
+  });
+
+  it('fails open to all four on an unattributed payload', async () => {
+    const { hook, fetchMock } = mountScoped();
+    await waitFor(() => expect(hook.result.current.loading).toBe(false));
+    const after = fetchMock.mock.calls.length;
+
+    await emitAndSettle('{}');
+
+    expect(since(fetchMock, after)).toEqual(ALL);
+  });
+
+  it('fails open to all four when the payload carries no scopes (older server)', async () => {
+    const { hook, fetchMock } = mountScoped();
+    await waitFor(() => expect(hook.result.current.loading).toBe(false));
+    const after = fetchMock.mock.calls.length;
+
+    await emitAndSettle('{"project":"p1"}');
+
+    expect(since(fetchMock, after)).toEqual(ALL);
+  });
+
+  it('fails open to all four on a scope value it does not recognize', async () => {
+    const { hook, fetchMock } = mountScoped();
+    await waitFor(() => expect(hook.result.current.loading).toBe(false));
+    const after = fetchMock.mock.calls.length;
+
+    await emitAndSettle('{"project":"p1","scopes":["sidequest"]}');
+
+    expect(since(fetchMock, after)).toEqual(ALL);
+  });
+
+  it('keeps reconnect-after-drop and the degraded poll unscoped', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    try {
+      const { hook, fetchMock } = mountScoped();
+      await waitFor(() => expect(hook.result.current.loading).toBe(false));
+
+      latestES().readyState = 0;
+      await act(async () => {
+        latestES().emit('error');
+        await new Promise((r) => setTimeout(r, 0));
+      });
+
+      // The 5s poll fires precisely when the stream is down — no event to scope
+      // it by, so it must stay a full refetch.
+      const beforePoll = fetchMock.mock.calls.length;
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(LIVE_RECOVERY_MS);
+      });
+      expect(since(fetchMock, beforePoll)).toEqual(ALL);
+
+      // Reconnect reconciles a gap whose contents are unknowable (FE-064).
+      const beforeOpen = fetchMock.mock.calls.length;
+      await act(async () => {
+        latestES().emit('open');
+        await new Promise((r) => setTimeout(r, 0));
+      });
+      expect(since(fetchMock, beforeOpen)).toEqual(ALL);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  // The archived slice must survive an active-only refetch, and a tasknote that
+  // left /api/active must actually disappear — the two halves a single merged
+  // map updated in place could not both express.
+  it('replaces the active slice without dropping archived notes', async () => {
+    const note = (id: string) => ({ id, path: `${id}.md`, frontmatter: { title: id } });
+    let active: unknown[] = [note('FE-A')];
+    const fetchMock = vi.fn((url: string) => {
+      if (routeIs(url, '/api/plan')) return Promise.resolve(planRes(planWith('FE-1')));
+      if (routeIs(url, '/api/plan-archive')) return Promise.resolve(planRes(''));
+      if (routeIs(url, '/api/active')) return Promise.resolve(jsonRes(active));
+      return Promise.resolve(jsonRes([note('FE-Z')]));
+    });
+    vi.stubGlobal('fetch', fetchMock);
+    const hook = renderHook(() => useProjectData('p1'));
+
+    await waitFor(() =>
+      expect([...hook.result.current.tasknotesById.keys()].sort()).toEqual(['FE-A', 'FE-Z']),
+    );
+
+    // FE-A is archived: it leaves /api/active, and only the active slice refetches.
+    active = [];
+    await emitAndSettle('{"project":"p1","scopes":["active"]}');
+
+    await waitFor(() =>
+      expect([...hook.result.current.tasknotesById.keys()]).toEqual(['FE-Z']),
+    );
+  });
+
+  // FE-072's guard was safe with one counter only because every load was
+  // complete. With partial loads a later narrow load must not discard an
+  // in-flight broader one's other slices.
+  it('does not let a later archive-scoped load discard an in-flight active slice', async () => {
+    const note = (id: string) => ({ id, path: `${id}.md`, frontmatter: { title: id } });
+    let releaseActive!: () => void;
+    const activeGate = new Promise<void>((r) => {
+      releaseActive = r;
+    });
+    let activeCalls = 0;
+
+    const fetchMock = vi.fn((url: string) => {
+      if (routeIs(url, '/api/plan')) return Promise.resolve(planRes(planWith('FE-1')));
+      if (routeIs(url, '/api/plan-archive')) return Promise.resolve(planRes(''));
+      if (routeIs(url, '/api/active')) {
+        activeCalls++;
+        // Stall only the refresh's active fetch, not the initial load's.
+        if (activeCalls === 2) return activeGate.then(() => jsonRes([note('FE-A')]));
+        return Promise.resolve(jsonRes([]));
+      }
+      return Promise.resolve(jsonRes([note('FE-Z')]));
+    });
+    vi.stubGlobal('fetch', fetchMock);
+    const hook = renderHook(() => useProjectData('p1'));
+    await waitFor(() => expect(hook.result.current.loading).toBe(false));
+
+    // Active-scoped change lands first but resolves last.
+    await emitAndSettle('{"project":"p1","scopes":["active"]}');
+    // An archive-scoped change overtakes it and settles.
+    await emitAndSettle('{"project":"p1","scopes":["archive"]}');
+
+    await act(async () => {
+      releaseActive();
+      await new Promise((r) => setTimeout(r, 0));
+    });
+
+    // The active response is still the newest for its own scope, so it commits.
+    await waitFor(() =>
+      expect([...hook.result.current.tasknotesById.keys()].sort()).toEqual(['FE-A', 'FE-Z']),
+    );
+  });
+});
+
 // FE-094: rotated `## Completed` history reaches the board through a fourth
 // fetch that is never allowed to break it.
 describe('useProjectData — rotated PLAN-ARCHIVE.md', () => {

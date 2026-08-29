@@ -2,7 +2,7 @@ import type { Stats } from 'node:fs';
 import type { ServerResponse } from 'node:http';
 import { dirname } from 'node:path';
 import type { ArchiveCache } from './archiveCache.ts';
-import { formatChangePayload } from './sseChange.ts';
+import { formatChangePayload, type ChangeScope } from './sseChange.ts';
 import { projectForActiveTasknote, projectForPath } from './watchSet.ts';
 import type { ProjectDescriptor } from './workspace.ts';
 
@@ -64,8 +64,19 @@ export function archiveWatchOptions(archiveRoots: readonly string[]) {
   } as const;
 }
 
+/**
+ * One attributed watch hit: which project changed and which kind of path fired.
+ * Passed as a single value rather than two parameters so a half-attributed pair
+ * (a project with no scope) is unrepresentable — `undefined` is the only
+ * unattributed shape, and it fails open to a full refetch.
+ */
+export interface ChangeHit {
+  project: string;
+  scope: ChangeScope;
+}
+
 interface ChangeBroadcaster {
-  schedule(projectName: string | undefined): void;
+  schedule(hit: ChangeHit | undefined): void;
   flush(): void;
   dispose(): void;
 }
@@ -77,7 +88,11 @@ export function createChangeBroadcaster(opts: {
 }): ChangeBroadcaster {
   let debounceTimer: ReturnType<typeof setTimeout> | null = null;
   let maxWaitTimer: ReturnType<typeof setTimeout> | null = null;
-  const pendingProjects = new Set<string>();
+  // Project name → the scopes that fired for it during this window. A burst
+  // legitimately spans kinds (an archive move touches tasknoteDir and
+  // archiveDir), so the window accumulates a set per project rather than one
+  // scope per project.
+  const pendingScopes = new Map<string, Set<ChangeScope>>();
   let pendingUnattributed = false;
 
   const clearTimers = () => {
@@ -93,13 +108,16 @@ export function createChangeBroadcaster(opts: {
 
   const flush = () => {
     clearTimers();
-    const names = [...pendingProjects];
+    const entries = [...pendingScopes];
     const unattributed = pendingUnattributed;
-    pendingProjects.clear();
+    pendingScopes.clear();
     pendingUnattributed = false;
+    // One unattributable event in the window collapses the whole flush to `{}`
+    // (CORE-431.3 fail-open) — the scoped payloads would otherwise let a client
+    // skip an endpoint the unknown path may have invalidated.
     const payloads = unattributed
       ? [formatChangePayload(undefined)]
-      : names.map((name) => formatChangePayload(name));
+      : entries.map(([name, scopes]) => formatChangePayload(name, scopes));
     for (const res of opts.sseClients) {
       for (const data of payloads) {
         res.write(`event: change\ndata: ${data}\n\n`);
@@ -107,9 +125,15 @@ export function createChangeBroadcaster(opts: {
     }
   };
 
-  const schedule = (projectName: string | undefined) => {
-    if (projectName) pendingProjects.add(projectName);
-    else pendingUnattributed = true;
+  const schedule = (hit: ChangeHit | undefined) => {
+    if (hit) {
+      let scopes = pendingScopes.get(hit.project);
+      if (!scopes) {
+        scopes = new Set();
+        pendingScopes.set(hit.project, scopes);
+      }
+      scopes.add(hit.scope);
+    } else pendingUnattributed = true;
     if (!maxWaitTimer) {
       maxWaitTimer = setTimeout(flush, opts.maxWaitMs ?? SSE_MAX_WAIT_MS);
     }
@@ -150,6 +174,10 @@ export function createOnWatchEvent(opts: {
       const owner = projectForActiveTasknote(filepath, projects);
       if (owner) opts.archiveCache.invalidateProject(owner.name);
     }
-    opts.broadcast.schedule(projectForPath(filepath, projects)?.name);
+    const hit = projectForPath(filepath, projects);
+    // An unmatched path stays unattributed — and so unscoped — on purpose: not
+    // knowing which project it belongs to also means not knowing which of its
+    // endpoints it invalidated.
+    opts.broadcast.schedule(hit && { project: hit.project.name, scope: hit.scope });
   };
 }

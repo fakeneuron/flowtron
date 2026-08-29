@@ -1,4 +1,5 @@
 import { dirname } from 'node:path';
+import type { ChangeScope } from './sseChange.ts';
 import type { ProjectDescriptor } from './workspace.ts';
 
 interface WatchSets {
@@ -37,17 +38,22 @@ export function projectForActiveTasknote(
   return undefined;
 }
 
-// Owner of any watched path (PLAN.md, active tasknote, or archive file).
-// Used to attribute SSE change events; not a substitute for
+// Owner *and kind* of any watched path (PLAN.md, active tasknote, or archive
+// file). Used to attribute SSE change events; not a substitute for
 // projectForActiveTasknote, which must stay unlink-only.
+//
+// The scope is what lets the client refetch one endpoint instead of four
+// (FE-101.3). Precedence is load-bearing: archiveDir is tasknoteDir/archive, so
+// an archive file's dirname is `…/archive/<area>` and never equals tasknoteDir
+// — the active test can safely run first.
 export function projectForPath(
   filepath: string,
   projects: Iterable<ProjectDescriptor>,
-): ProjectDescriptor | undefined {
+): { project: ProjectDescriptor; scope: ChangeScope } | undefined {
   for (const p of projects) {
-    if (filepath === p.planPath) return p;
-    if (dirname(filepath) === p.tasknoteDir) return p;
-    if (filepath.startsWith(p.archiveDir)) return p;
+    if (filepath === p.planPath) return { project: p, scope: 'plan' };
+    if (dirname(filepath) === p.tasknoteDir) return { project: p, scope: 'active' };
+    if (filepath.startsWith(p.archiveDir)) return { project: p, scope: 'archive' };
   }
   return undefined;
 }

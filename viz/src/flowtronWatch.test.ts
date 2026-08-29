@@ -15,6 +15,7 @@ import {
   SSE_MAX_WAIT_MS,
   WATCH_HOT_OPTIONS,
   WATCH_POLL_MS,
+  type ChangeHit,
 } from './flowtronWatch';
 import type { ProjectDescriptor } from './workspace';
 
@@ -157,16 +158,16 @@ created: 2026-05-01
     const firstPromise = cache.get(alpha);
     await firstPromise;
 
-    const scheduled: Array<string | undefined> = [];
+    const scheduled: Array<ChangeHit | undefined> = [];
     const onWatchEvent = createOnWatchEvent({
       projects: [alpha],
       archiveCache: cache,
-      broadcast: { schedule: (name) => scheduled.push(name) },
+      broadcast: { schedule: (hit) => scheduled.push(hit) },
     });
 
     onWatchEvent('change', archivePath);
 
-    expect(scheduled).toEqual(['alpha']);
+    expect(scheduled).toEqual([{ project: 'alpha', scope: 'archive' }]);
     expect(cache.get(alpha)).not.toBe(firstPromise);
     const after = await cache.get(alpha);
     expect(after.map((t) => t.id)).toEqual(['CORE-001']);
@@ -178,16 +179,16 @@ created: 2026-05-01
     const firstPromise = cache.get(alpha);
     await firstPromise;
 
-    const scheduled: Array<string | undefined> = [];
+    const scheduled: Array<ChangeHit | undefined> = [];
     const onWatchEvent = createOnWatchEvent({
       projects: [alpha],
       archiveCache: cache,
-      broadcast: { schedule: (name) => scheduled.push(name) },
+      broadcast: { schedule: (hit) => scheduled.push(hit) },
     });
 
     onWatchEvent('change', alpha.planPath);
 
-    expect(scheduled).toEqual(['alpha']);
+    expect(scheduled).toEqual([{ project: 'alpha', scope: 'plan' }]);
     expect(cache.invalidate(alpha.planPath, [alpha])).toBe(false);
     expect(cache.get(alpha)).toBe(firstPromise);
   });
@@ -211,16 +212,16 @@ created: 2026-05-18
     const firstPromise = cache.get(alpha);
     await firstPromise;
 
-    const scheduled: Array<string | undefined> = [];
+    const scheduled: Array<ChangeHit | undefined> = [];
     const onWatchEvent = createOnWatchEvent({
       projects: [alpha],
       archiveCache: cache,
-      broadcast: { schedule: (name) => scheduled.push(name) },
+      broadcast: { schedule: (hit) => scheduled.push(hit) },
     });
 
     onWatchEvent('unlink', activePath);
 
-    expect(scheduled).toEqual(['alpha']);
+    expect(scheduled).toEqual([{ project: 'alpha', scope: 'active' }]);
     expect(cache.get(alpha)).not.toBe(firstPromise);
     const repopulated = await cache.get(alpha);
     expect(repopulated.map((t) => t.id)).toEqual(['CORE-001']);
@@ -228,11 +229,11 @@ created: 2026-05-18
 
   it('ignores non-string filepath', async () => {
     const alpha = await makeProject('alpha');
-    const scheduled: Array<string | undefined> = [];
+    const scheduled: Array<ChangeHit | undefined> = [];
     const onWatchEvent = createOnWatchEvent({
       projects: [alpha],
       archiveCache: createArchiveCache(),
-      broadcast: { schedule: (name) => scheduled.push(name) },
+      broadcast: { schedule: (hit) => scheduled.push(hit) },
     });
 
     onWatchEvent('change', null);
@@ -250,11 +251,11 @@ describe('createOnWatchEvent survives a one-shot iterator (FE-091)', () => {
     const alpha = await makeProject('alpha');
     const map = new Map<string, ProjectDescriptor>([[alpha.name, alpha]]);
 
-    const scheduled: Array<string | undefined> = [];
+    const scheduled: Array<ChangeHit | undefined> = [];
     const onWatchEvent = createOnWatchEvent({
       projects: map.values(),
       archiveCache: createArchiveCache(),
-      broadcast: { schedule: (name) => scheduled.push(name) },
+      broadcast: { schedule: (hit) => scheduled.push(hit) },
     });
 
     // A PLAN.md path matches no archiveDir, so invalidate() walks the whole
@@ -262,7 +263,7 @@ describe('createOnWatchEvent survives a one-shot iterator (FE-091)', () => {
     // FE-088.3's attribution permanently unattributed.
     onWatchEvent('change', alpha.planPath);
 
-    expect(scheduled).toEqual(['alpha']);
+    expect(scheduled).toEqual([{ project: 'alpha', scope: 'plan' }]);
   });
 
   it('keeps invalidating the archive cache after the first event', async () => {
@@ -272,11 +273,11 @@ describe('createOnWatchEvent survives a one-shot iterator (FE-091)', () => {
     const map = new Map<string, ProjectDescriptor>([[alpha.name, alpha]]);
 
     const cache = createArchiveCache();
-    const scheduled: Array<string | undefined> = [];
+    const scheduled: Array<ChangeHit | undefined> = [];
     const onWatchEvent = createOnWatchEvent({
       projects: map.values(),
       archiveCache: cache,
-      broadcast: { schedule: (name) => scheduled.push(name) },
+      broadcast: { schedule: (hit) => scheduled.push(hit) },
     });
 
     const firstPromise = cache.get(alpha);
@@ -294,7 +295,10 @@ describe('createOnWatchEvent survives a one-shot iterator (FE-091)', () => {
     expect(cache.get(alpha)).not.toBe(secondPromise);
     const repopulated = await cache.get(alpha);
     expect(repopulated.map((t) => t.id).sort()).toEqual(['CORE-001', 'CORE-002']);
-    expect(scheduled).toEqual(['alpha', 'alpha']);
+    expect(scheduled).toEqual([
+      { project: 'alpha', scope: 'archive' },
+      { project: 'alpha', scope: 'archive' },
+    ]);
   });
 
   it('still invalidates the owning project on a second unlink event', async () => {
@@ -307,11 +311,11 @@ describe('createOnWatchEvent survives a one-shot iterator (FE-091)', () => {
     const map = new Map<string, ProjectDescriptor>([[alpha.name, alpha]]);
 
     const cache = createArchiveCache();
-    const scheduled: Array<string | undefined> = [];
+    const scheduled: Array<ChangeHit | undefined> = [];
     const onWatchEvent = createOnWatchEvent({
       projects: map.values(),
       archiveCache: cache,
-      broadcast: { schedule: (name) => scheduled.push(name) },
+      broadcast: { schedule: (hit) => scheduled.push(hit) },
     });
 
     onWatchEvent('unlink', first);
@@ -321,7 +325,10 @@ describe('createOnWatchEvent survives a one-shot iterator (FE-091)', () => {
     onWatchEvent('unlink', second);
 
     expect(cache.get(alpha)).not.toBe(afterFirst);
-    expect(scheduled).toEqual(['alpha', 'alpha']);
+    expect(scheduled).toEqual([
+      { project: 'alpha', scope: 'active' },
+      { project: 'alpha', scope: 'active' },
+    ]);
   });
 });
 
@@ -332,14 +339,67 @@ describe('createChangeBroadcaster (CORE-431.3 debounce + attribution)', () => {
     sseClients.add(res);
     const broadcaster = createChangeBroadcaster({ sseClients, debounceMs: SSE_DEBOUNCE_MS });
 
-    broadcaster.schedule('alpha');
-    broadcaster.schedule('beta');
-    broadcaster.schedule('alpha');
+    broadcaster.schedule({ project: 'alpha', scope: 'plan' });
+    broadcaster.schedule({ project: 'beta', scope: 'archive' });
+    broadcaster.schedule({ project: 'alpha', scope: 'plan' });
     vi.advanceTimersByTime(SSE_DEBOUNCE_MS);
 
     expect(state.chunks).toEqual([
-      'event: change\ndata: {"project":"alpha"}\n\n',
-      'event: change\ndata: {"project":"beta"}\n\n',
+      'event: change\ndata: {"project":"alpha","scopes":["plan"]}\n\n',
+      'event: change\ndata: {"project":"beta","scopes":["archive"]}\n\n',
+    ]);
+  });
+
+  // A burst legitimately spans kinds — an archive move unlinks from tasknoteDir
+  // and adds under archiveDir — so the window accumulates a set per project
+  // rather than letting the last scope win (FE-101.3).
+  it('accumulates every scope that fired for a project in one window', () => {
+    const sseClients = new Set<ServerResponse>();
+    const { res, state } = makeRes();
+    sseClients.add(res);
+    const broadcaster = createChangeBroadcaster({ sseClients, debounceMs: SSE_DEBOUNCE_MS });
+
+    broadcaster.schedule({ project: 'alpha', scope: 'active' });
+    broadcaster.schedule({ project: 'alpha', scope: 'archive' });
+    broadcaster.schedule({ project: 'alpha', scope: 'active' });
+    vi.advanceTimersByTime(SSE_DEBOUNCE_MS);
+
+    expect(state.chunks).toEqual([
+      'event: change\ndata: {"project":"alpha","scopes":["active","archive"]}\n\n',
+    ]);
+  });
+
+  it('keeps scope sets separate per project', () => {
+    const sseClients = new Set<ServerResponse>();
+    const { res, state } = makeRes();
+    sseClients.add(res);
+    const broadcaster = createChangeBroadcaster({ sseClients, debounceMs: SSE_DEBOUNCE_MS });
+
+    broadcaster.schedule({ project: 'alpha', scope: 'plan' });
+    broadcaster.schedule({ project: 'beta', scope: 'active' });
+    broadcaster.schedule({ project: 'alpha', scope: 'archive' });
+    vi.advanceTimersByTime(SSE_DEBOUNCE_MS);
+
+    expect(state.chunks).toEqual([
+      'event: change\ndata: {"project":"alpha","scopes":["plan","archive"]}\n\n',
+      'event: change\ndata: {"project":"beta","scopes":["active"]}\n\n',
+    ]);
+  });
+
+  it('starts a fresh scope set after a flush', () => {
+    const sseClients = new Set<ServerResponse>();
+    const { res, state } = makeRes();
+    sseClients.add(res);
+    const broadcaster = createChangeBroadcaster({ sseClients, debounceMs: SSE_DEBOUNCE_MS });
+
+    broadcaster.schedule({ project: 'alpha', scope: 'archive' });
+    vi.advanceTimersByTime(SSE_DEBOUNCE_MS);
+    broadcaster.schedule({ project: 'alpha', scope: 'plan' });
+    vi.advanceTimersByTime(SSE_DEBOUNCE_MS);
+
+    expect(state.chunks).toEqual([
+      'event: change\ndata: {"project":"alpha","scopes":["archive"]}\n\n',
+      'event: change\ndata: {"project":"alpha","scopes":["plan"]}\n\n',
     ]);
   });
 
@@ -354,13 +414,15 @@ describe('createChangeBroadcaster (CORE-431.3 debounce + attribution)', () => {
     });
 
     for (let i = 0; i < 5; i++) {
-      broadcaster.schedule('alpha');
+      broadcaster.schedule({ project: 'alpha', scope: 'plan' });
       vi.advanceTimersByTime(SSE_DEBOUNCE_MS - 1);
     }
     expect(state.chunks).toEqual([]);
 
     vi.advanceTimersByTime(SSE_MAX_WAIT_MS - 5 * (SSE_DEBOUNCE_MS - 1));
-    expect(state.chunks).toEqual(['event: change\ndata: {"project":"alpha"}\n\n']);
+    expect(state.chunks).toEqual([
+      'event: change\ndata: {"project":"alpha","scopes":["plan"]}\n\n',
+    ]);
   });
 
   it('fail-opens to unattributed {} when any event in the window is unattributed', () => {
@@ -369,10 +431,12 @@ describe('createChangeBroadcaster (CORE-431.3 debounce + attribution)', () => {
     sseClients.add(res);
     const broadcaster = createChangeBroadcaster({ sseClients, debounceMs: SSE_DEBOUNCE_MS });
 
-    broadcaster.schedule('alpha');
+    broadcaster.schedule({ project: 'alpha', scope: 'active' });
     broadcaster.schedule(undefined);
     vi.advanceTimersByTime(SSE_DEBOUNCE_MS);
 
+    // The scoped payload is dropped too, not merged: an unattributable path may
+    // have invalidated an endpoint the accumulated scopes would let a client skip.
     expect(state.chunks).toEqual(['event: change\ndata: {}\n\n']);
   });
 
@@ -382,10 +446,12 @@ describe('createChangeBroadcaster (CORE-431.3 debounce + attribution)', () => {
     sseClients.add(res);
     const broadcaster = createChangeBroadcaster({ sseClients, debounceMs: SSE_DEBOUNCE_MS });
 
-    broadcaster.schedule('alpha');
+    broadcaster.schedule({ project: 'alpha', scope: 'plan' });
     broadcaster.flush();
 
-    expect(state.chunks).toEqual(['event: change\ndata: {"project":"alpha"}\n\n']);
+    expect(state.chunks).toEqual([
+      'event: change\ndata: {"project":"alpha","scopes":["plan"]}\n\n',
+    ]);
   });
 
   it('broadcasts to every registered SSE client', () => {
@@ -396,10 +462,10 @@ describe('createChangeBroadcaster (CORE-431.3 debounce + attribution)', () => {
     sseClients.add(second.res);
     const broadcaster = createChangeBroadcaster({ sseClients, debounceMs: SSE_DEBOUNCE_MS });
 
-    broadcaster.schedule('alpha');
+    broadcaster.schedule({ project: 'alpha', scope: 'plan' });
     broadcaster.flush();
 
-    const expected = 'event: change\ndata: {"project":"alpha"}\n\n';
+    const expected = 'event: change\ndata: {"project":"alpha","scopes":["plan"]}\n\n';
     expect(first.state.chunks).toEqual([expected]);
     expect(second.state.chunks).toEqual([expected]);
   });

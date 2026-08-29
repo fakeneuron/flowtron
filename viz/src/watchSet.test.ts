@@ -74,14 +74,34 @@ describe('projectForPath', () => {
   const projects = [alpha, beta];
 
   it('matches PLAN.md, active tasknotes, and archive files', () => {
-    expect(projectForPath(alpha.planPath, projects)).toBe(alpha);
-    expect(projectForPath(join(alpha.tasknoteDir, 'CORE-001.md'), projects)).toBe(alpha);
-    expect(projectForPath(join(alpha.archiveDir, 'core', 'CORE-001.md'), projects)).toBe(alpha);
+    expect(projectForPath(alpha.planPath, projects)?.project).toBe(alpha);
+    expect(projectForPath(join(alpha.tasknoteDir, 'CORE-001.md'), projects)?.project).toBe(alpha);
+    expect(projectForPath(join(alpha.archiveDir, 'core', 'CORE-001.md'), projects)?.project).toBe(
+      alpha,
+    );
+  });
+
+  // The scope is what lets a client refetch one endpoint instead of four
+  // (FE-101.3). `plan` covers /api/plan and /api/plan-archive together.
+  it('reports which kind of watched path fired', () => {
+    expect(projectForPath(alpha.planPath, projects)?.scope).toBe('plan');
+    expect(projectForPath(join(alpha.tasknoteDir, 'CORE-001.md'), projects)?.scope).toBe('active');
+    expect(projectForPath(join(alpha.archiveDir, 'core', 'CORE-001.md'), projects)?.scope).toBe(
+      'archive',
+    );
+  });
+
+  // archiveDir is tasknoteDir/archive, so the active test (dirname equality)
+  // must not swallow archive files even though it runs first.
+  it('does not misread an archive file as an active tasknote', () => {
+    expect(projectForPath(join(alpha.archiveDir, 'fe', 'FE-001.md'), projects)?.scope).toBe(
+      'archive',
+    );
   });
 
   it('is per-project', () => {
-    expect(projectForPath(beta.planPath, projects)).toBe(beta);
-    expect(projectForPath(join(beta.archiveDir, 'fe', 'FE-001.md'), projects)).toBe(beta);
+    expect(projectForPath(beta.planPath, projects)?.project).toBe(beta);
+    expect(projectForPath(join(beta.archiveDir, 'fe', 'FE-001.md'), projects)?.project).toBe(beta);
   });
 
   it('returns undefined for an unknown path', () => {
