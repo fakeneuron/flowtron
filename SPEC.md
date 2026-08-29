@@ -168,13 +168,13 @@ Canonical contract: see [`SPEC/epic.md`](SPEC/epic.md).
 Each entry under a priority heading in PLAN.md follows this grammar:
 
 ```markdown
-- [ ] **TASK-ID** [!critical] [model] | shortname — long description
+- [ ] **TASK-ID** [!critical] [model] [unattended] | shortname — long description
 ```
 
-All of `[!critical]`, `[model]`, and `| shortname` are optional. Canonical
-ordering when both flags are present: `[!critical]` BEFORE `[model]`. The
-legacy minimal form `- [ ] **TASK-ID** — description` still parses for
-backwards compatibility.
+All of `[!critical]`, `[model]`, `[unattended]`, and `| shortname` are
+optional. Canonical ordering when the flags are present: `[!critical]` BEFORE
+`[model]`, `[unattended]` AFTER it. The legacy minimal form
+`- [ ] **TASK-ID** — description` still parses for backwards compatibility.
 
 | Segment | Required | Notes |
 |---|---|---|
@@ -182,6 +182,7 @@ backwards compatibility.
 | `**TASK-ID**` | yes | Bold ID, matching the §"Task ID convention" pattern |
 | ` [!critical]` | optional | Urgency flag — orthogonal to priority bucket. Flagged tasks render a red marker chip and sort to the top of the High column. Filed under whatever priority heading the row already lives under (typically `## High`). |
 | ` [model]` | optional | Short identifier for the model assigned to this task. Recommended primary labels: `[heavy]` (design, multi-file, high-ambiguity, or exploratory work) \| `[medium]` (moderate, multi-step but well-scoped work) \| `[light]` (mechanical, clear-diff implementation). Specific names (`fable`, `opus`, `sonnet`, `haiku`, `grok`, `codex`, `gpt-5`, `gemini-pro`, etc.) are valid precision tokens; downstream tooling buckets unknown tokens as `other`. Owns the model assignment — `/ft-task` reads this BEFORE scaffolding (see §"Model field"). New entries should declare a model. |
+| ` [unattended]` | optional | Task-level opt-in marker declaring this row safe to dispatch with **no operator present** — the row-scoped counterpart to the `--unattended` invocation posture ([`SPEC/gates.md`](SPEC/gates.md)). Must sit AFTER `[model]`. Consumed by operator-less callers (see [`docs/EXTERNAL-AGENTS.md`](docs/EXTERNAL-AGENTS.md)), which are expected to **deny by default**: an unmarked row is undecided, not approved. Flowtron itself never writes it — seeding is an operator act. Parses into `Task.unattended: boolean`. |
 | ` \| shortname` | optional | Short label up to ~30 chars; rendered as the row title in visualizers when present. Falls back to the tasknote frontmatter `title:` for tasks that have a tasknote, or the long description otherwise. |
 | ` — long description` | optional | Full description. Carries `Completed YYYY-MM-DD.` markers, re-scope notes, and any rationale that doesn't fit in the shortname. |
 
@@ -190,6 +191,7 @@ Examples:
 ```markdown
 - [ ] **CORE-023** [heavy] | task-line grammar — Extend grammar to declare shortname + model.
 - [ ] **FE-200** [!critical] [heavy] | hotfix — Production breakage; floats to top of High.
+- [ ] **BE-041** [light] [unattended] | regen fixtures — Mechanical; operator marked it safe to drain unattended.
 - [ ] **CORE-016** [light] — Execute project adoption per CORE-008 playbook.
 - [ ] **FE-003** | wikilink resolution — Parse [[TASK-ID]] in tasknote body text and render as clickable links.
 - [ ] **CORE-024** [light] | quick housekeeping
@@ -216,7 +218,9 @@ additionally accepts three real-board decorations without parsing them into
   (`[medium]🧩`, space-optional), mirroring the next-move suggestion label.
   Redundant with the model tier; ignored.
 - **Stacked `[model]` tokens** — `[fable] [light]`: the first bracket token is
-  captured as `model`; trailing bracket tokens are tolerated and dropped.
+  captured as `model`; trailing bracket tokens are tolerated and dropped —
+  *except* `[unattended]`, which is canonical grammar and captured (see the
+  segment table above).
 - **Leading status glyph** — a nav-header chip (`🟢`/`⏸`/`✅`/`⚪`/`🌱`) between
   the checkbox and the bold ID (`- [ ] ⏸ **ID**`).
 
@@ -224,6 +228,23 @@ These keep hand-decorated rows from being silently dropped (they surface in
 the `parsePlanWithDiagnostics` diagnostics otherwise). They are tolerances,
 not canonical authoring grammar — new entries should still use the clean form
 above.
+
+**`[unattended]` mis-authoring footguns.** The marker rides the same trailing
+bracket-token run as the stacked-`[model]` tolerance, so two neighbouring
+shapes fail in ways worth naming rather than discovering. Neither is rescued:
+
+- **`[!unattended]`** — the `!` prefix belongs to `[!critical]` alone. A
+  bang-prefixed token matches no slot, so the **whole line fails the
+  grammar**: it is absent from the task list, and surfaces in
+  `parsePlanWithDiagnostics`'s `unparsed`. (Adopter readers with no
+  diagnostics channel drop it silently — which is the sharper edge, and the
+  reason this is documented rather than tolerated.)
+- **`[unattended]` before `[model]`, or with no `[model]` at all** — the model
+  slot takes the *first* bracket token it sees, so `[unattended] [heavy]` and a
+  bare `[unattended]` both parse with `model: 'unattended'` and
+  `unattended: false`. The row stays in the task list looking healthy while
+  silently mis-declaring its model and declaring no marker — write it after
+  `[model]`.
 
 **Parser tolerances (adopter near-misses).** `viz/src/parser.ts` also accepts
 three shapes that are not canonical authoring — they parse (or stay silent)

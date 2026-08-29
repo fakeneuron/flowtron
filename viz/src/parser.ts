@@ -18,6 +18,7 @@ export interface Task {
   description: string;
   priority: Priority;
   critical: boolean;
+  unattended: boolean;
   completed: boolean;
   completedDate?: string;
   model?: TaskModel;
@@ -57,28 +58,39 @@ const LEGACY_CRITICAL_HEADING = 'Critical';
 const COMPLETED_MONTH_HEADING = /^Completed\s+\d{4}-\d{2}$/;
 
 // Grammar (see SPEC §"Task-line format"):
-//   - [ ] **TASK-ID** [!critical] [model] | shortname — long description
-// All of `[!critical]`, `[model]`, and `| shortname` are optional. Canonical
-// ordering: `[!critical]` BEFORE `[model]`. The legacy minimal form
-// `- [ ] **TASK-ID** — desc` keeps parsing.
+//   - [ ] **TASK-ID** [!critical] [model] [unattended] | shortname — long description
+// All of `[!critical]`, `[model]`, `[unattended]`, and `| shortname` are
+// optional. Canonical ordering: `[!critical]` BEFORE `[model]`, `[unattended]`
+// AFTER it. The legacy minimal form `- [ ] **TASK-ID** — desc` keeps parsing.
 //
 // TASK_LINE is composed from named fragments (FE-084) so each piece of the
-// grammar — including the three FE-066 tolerances below — is independently
+// grammar — including the FE-066 tolerances below — is independently
 // readable and diffable. Fragment order below is left-to-right match order;
 // concatenation order in the `new RegExp(...)` call must match it exactly.
-// Capture groups, in order: mark, id, criticalRaw, modelRaw, criticalAfter,
-// shortnameRaw, longRaw. The three FE-066 tolerances are all non-capturing;
-// CRITICAL_FLAG_AFTER is the FE-087 swapped-order capture (canonical
-// CRITICAL_FLAG stays group 3; this is group 5 so a `[model] [!critical]`
-// row — including after a suggestion glyph — still sets `critical`):
+// Capture groups, in order: mark, id, criticalRaw, modelRaw, trailingTokens,
+// criticalAfter, shortnameRaw, longRaw. The two remaining FE-066 tolerances
+// are non-capturing; CRITICAL_FLAG_AFTER is the FE-087 swapped-order capture
+// (canonical CRITICAL_FLAG stays group 3; this is group 6 so a
+// `[model] [!critical]` row — including after a suggestion glyph — still sets
+// `critical`):
 //   1. STATUS_GLYPH — leading status glyph between the checkbox and the ID
 //      (`- [ ] ⏸ **ID**`) — the nav-header chip set 🟢/⏸/✅/⚪/🌱.
-//   2. STACKED_MODEL_TOKENS — stacked `[model]` tokens (`[fable] [light]`) —
-//      the FIRST is captured as `model`; trailing bracket tokens are
-//      tolerated and dropped.
-//   3. SUGGESTION_GLYPH — a model-suggestion glyph after `[model]`
+//   2. SUGGESTION_GLYPH — a model-suggestion glyph after `[model]`
 //      (`[medium]🧠` / `[medium] 🔧` / `[medium]🧩` / `[medium]🔭`,
 //      space-optional) — decorative, redundant with the model tier, dropped.
+//
+// TRAILING_TOKENS is the run of bracket tokens after `[model]`. It began as
+// the FE-066 stacked-`[model]` tolerance (`[fable] [light]` — first captured
+// as `model`, rest dropped) and is now CAPTURED (CORE-494) because one member
+// of that run is canonical grammar: `[unattended]`, the operator's task-level
+// opt-in marker. Membership is tested against the captured run, so the marker
+// may sit anywhere in it; every other trailing token stays a dropped
+// tolerance. Two mis-authoring shapes are deliberately NOT rescued here, and
+// SPEC §"Task-line format" documents both: `[!unattended]` matches no slot and
+// fails TASK_LINE outright (the row surfaces as an unparsed diagnostic), and
+// an `[unattended]` written before `[model]` — or with no `[model]` at all —
+// is captured as the model, because MODEL_TOKEN takes the first bracket token
+// it sees.
 // Emoji are matched via alternation (not a char class) so astral-plane glyphs
 // match correctly without the `u` flag; an optional trailing VS16 is tolerated.
 //
@@ -96,7 +108,7 @@ const TASK_ID_BODY = String.raw`[A-Z]+(?:-EPIC)?-\d+(?:\.(?:\d+[a-z]?|N))*`;
 const TASK_ID = String.raw`\*\*(${TASK_ID_BODY})\*\*`;
 const CRITICAL_FLAG = String.raw`(?:\s+\[(!critical)\])?`;
 const MODEL_TOKEN = String.raw`(?:\s+\[([a-z][\w.-]*)\])?`;
-const STACKED_MODEL_TOKENS = String.raw`(?:\s+\[[a-z][\w.-]*\])*`;
+const TRAILING_TOKENS = String.raw`((?:\s+\[[a-z][\w.-]*\])*)`;
 const SUGGESTION_GLYPH = String.raw`(?:\s*(?:🧠|🔧|🧩|🔭)\uFE0F?)?`;
 const CRITICAL_FLAG_AFTER = CRITICAL_FLAG;
 const SHORTNAME = String.raw`(?:\s+\|\s+([^\n]+?))?`;
@@ -107,12 +119,15 @@ const TASK_LINE = new RegExp(
     TASK_ID +
     CRITICAL_FLAG +
     MODEL_TOKEN +
-    STACKED_MODEL_TOKENS +
+    TRAILING_TOKENS +
     SUGGESTION_GLYPH +
     CRITICAL_FLAG_AFTER +
     SHORTNAME +
     LONG_DESCRIPTION
 );
+// The one canonical member of TRAILING_TOKENS — the task-level opt-in marker
+// an operator-less runner reads before dispatching a task unattended.
+const UNATTENDED_MARKER = /\[unattended\]/;
 const COMPLETED_DATE = /\bCompleted\s+(\d{4}-\d{2}-\d{2})\.?/;
 const HEADING_LINE = /^##\s+(.+?)\s*$/;
 
@@ -393,7 +408,8 @@ function parseTaskLine(
     return null;
   }
 
-  const [, mark, id, criticalRaw, modelRaw, criticalAfter, shortnameRaw, longRaw] = m;
+  const [, mark, id, criticalRaw, modelRaw, trailingTokens, criticalAfter, shortnameRaw, longRaw] =
+    m;
   const completed = mark === 'x' || mark === 'X';
   const longText = longRaw ?? '';
   const dateMatch = COMPLETED_DATE.exec(longText);
@@ -406,6 +422,7 @@ function parseTaskLine(
       description: longText ? cleanDescription(longText) : '',
       priority: currentPriority,
       critical: criticalRaw === '!critical' || criticalAfter === '!critical' || legacyCriticalSection,
+      unattended: UNATTENDED_MARKER.test(trailingTokens ?? ''),
       completed,
       completedDate: dateMatch ? dateMatch[1] : undefined,
       model: modelRaw as TaskModel | undefined,

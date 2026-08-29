@@ -13,8 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-494** [medium] | unattended-marker-grammar — Formalize the `[unattended]` task-line marker: capture it in SPEC §Task-line format and `viz/src/parser.ts` instead of dropping it as a stacked-`[model]` tolerance. Must sit after `[model]`; `[!unattended]` drops the whole line and a pre-`[model]` token is captured as the model. Reference implementation: caobunga CBN-EPIC-17.2.
-
 - [ ] **CORE-495** [medium] | visual-confirm-park — Add a 👁️→park conversion row to `unattended-mode.md` §Conversion map plus a `visual-confirm` code in SPEC's `park-reason` closed set, so a Phase 3 visual ask parks instead of vanishing. Requires narrowing the strict `--fast`-superset claim, which currently suppresses it. Found by caobunga CBN-EPIC-17.1.
 
 ## Low
@@ -25,6 +23,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-494** [medium] | unattended-marker-grammar — Completed 2026-08-29.
 - [x] **FE-EPIC-101** [medium] | viz-archive-scale — Completed 2026-08-29.
   - [x] **FE-101.2** [medium]🧩 | archive-wire-slim — Completed 2026-08-29.
   - [x] **FE-101.3** [medium]🧩 | targeted-sse-refetch — Completed 2026-08-29.

@@ -17,6 +17,7 @@ describe('parsePlan', () => {
         description: 'Hello world',
         priority: 'High',
         critical: false,
+        unattended: false,
         completed: false,
         completedDate: undefined,
         model: undefined,
@@ -264,6 +265,59 @@ describe('parsePlan', () => {
     expect(t.description).toBe('desc');
   });
 
+  // CORE-494: `[unattended]` is canonical grammar, not a dropped tolerance.
+  it('captures [unattended] after [model] into Task.unattended', () => {
+    const md = `## High\n\n- [ ] **CORE-494** [medium] [unattended] | marker — desc\n`;
+    const t = parsePlan(md)[0];
+    expect(t).toMatchObject({ id: 'CORE-494', model: 'medium', unattended: true });
+    expect(t.shortname).toBe('marker');
+    expect(t.description).toBe('desc');
+  });
+
+  it('captures [unattended] alongside stacked [model] tokens and a suggestion glyph', () => {
+    const md = `## High\n\n- [ ] **CORE-494** [!critical] [fable] [light] [unattended]🔧 | mixed — desc\n`;
+    const t = parsePlan(md)[0];
+    expect(t).toMatchObject({ critical: true, model: 'fable', unattended: true });
+    expect(t.shortname).toBe('mixed');
+  });
+
+  it('leaves unattended false on rows without the marker', () => {
+    const md = `## High\n\n- [ ] **CORE-001** [fable] [light] | stacked — desc\n`;
+    expect(parsePlan(md)[0].unattended).toBe(false);
+  });
+
+  // Footgun 1 (SPEC §"Task-line format"): the `!` prefix belongs to
+  // `[!critical]` alone, so `[!unattended]` matches no slot and the WHOLE line
+  // fails the grammar. Pinned so a future grammar change has to move the docs
+  // with it — flowtron surfaces the row as a diagnostic, but adopter readers
+  // with no diagnostics channel drop it silently.
+  it('drops the whole line for [!unattended] and surfaces it as an unparsed diagnostic', () => {
+    const md = [
+      '## High',
+      '',
+      '- [ ] **CORE-001** [medium] [unattended] | control — parses',
+      '- [ ] **CORE-002** [medium] [!unattended] | footgun — does not',
+    ].join('\n');
+    const { tasks, unparsed } = parsePlanWithDiagnostics(md);
+    expect(tasks.map((t) => t.id)).toEqual(['CORE-001']);
+    expect(unparsed).toHaveLength(1);
+    expect(unparsed[0]).toMatchObject({ line: 4 });
+  });
+
+  // Footgun 2: the model slot takes the FIRST bracket token it sees, so a
+  // marker written before `[model]` (or with none) silently becomes the model.
+  it('captures a pre-[model] or model-less [unattended] as the model, not the marker', () => {
+    const md = [
+      '## High',
+      '',
+      '- [ ] **CORE-001** [unattended] [heavy] | before — desc',
+      '- [ ] **CORE-002** [unattended] | alone — desc',
+    ].join('\n');
+    const tasks = parsePlan(md);
+    expect(tasks[0]).toMatchObject({ model: 'unattended', unattended: false });
+    expect(tasks[1]).toMatchObject({ model: 'unattended', unattended: false });
+  });
+
   it('parses a leading status glyph between the checkbox and the bold ID', () => {
     const md = `## High\n\n- [ ] ⏸ **CORE-042** [heavy] | parked — blocked work\n`;
     const t = parsePlan(md)[0];
@@ -454,6 +508,7 @@ describe('rotated `## Completed <YYYY-MM>` history', () => {
         description: '',
         priority: 'Completed',
         critical: false,
+        unattended: false,
         completed: true,
         completedDate: '2026-07-14',
         model: 'light',
@@ -855,6 +910,7 @@ describe('groupTasks', () => {
     description: id,
     priority,
     critical: false,
+    unattended: false,
     completed,
     relatedTasks: [],
     blockedBy: [],

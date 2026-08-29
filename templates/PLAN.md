@@ -10,15 +10,18 @@ See [.flowtron/core/SPEC.md](core/SPEC.md) for the canonical workflow contract.
 <!--
 Task-line grammar (see .flowtron/core/SPEC.md §"Task-line format"):
 
-  - [ ] **TASK-ID** [!critical] [model] | shortname — long description
+  - [ ] **TASK-ID** [!critical] [model] [unattended] | shortname — long description
 
 All of `[!critical]`, `[model]` (see `SPEC/model.md` §"Model field" and its
 "Practical guidance and agent-aware defaults" subsection for examples,
 realistic defaults such as mid-tier models like Grok/Sonnet often `[medium]`
 (or `[light]` for mechanical work), and the full agent-aware notes; any short
-token is valid), and `| shortname` are optional. Canonical ordering:
-`[!critical]` BEFORE `[model]`. Flagged tasks float to the top of the High
-column with a red marker chip. The minimal legacy form
+token is valid), `[unattended]`, and `| shortname` are optional. Canonical
+ordering: `[!critical]` BEFORE `[model]`, `[unattended]` AFTER it. Flagged
+tasks float to the top of the High column with a red marker chip.
+`[unattended]` marks a row safe to dispatch with no operator present — an
+opt-in an operator seeds deliberately; most projects never use it. The
+minimal legacy form
 `- [ ] **TASK-ID** — description` keeps parsing for backwards compatibility,
 but new entries should declare a model so /ft-task can gate on it without
 re-asking at scaffold time.

@@ -14,6 +14,7 @@ const task = (overrides: Partial<Task> = {}): Task => ({
   description: 'x',
   priority: 'Medium',
   critical: false,
+  unattended: false,
   completed: false,
   relatedTasks: [],
   blockedBy: [],

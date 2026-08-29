@@ -29,6 +29,7 @@ const epicTask: Task = {
   description: 'epic',
   priority: 'Medium',
   critical: false,
+  unattended: false,
   completed: false,
   relatedTasks: [],
   blockedBy: [],

@@ -8,6 +8,7 @@ const task = (id: string, priority: Priority, completed = false): Task => ({
   description: `desc ${id}`,
   priority,
   critical: false,
+  unattended: false,
   completed,
   relatedTasks: [],
   blockedBy: [],
