@@ -11,7 +11,7 @@ interface TaskRowProps {
   task: Task;
 }
 
-export const TaskRow: React.FC<TaskRowProps> = ({ task }) => {
+export const TaskRow = React.memo(function TaskRow({ task }: TaskRowProps) {
   const { expandedId, setExpandedId, highlightId, selectedId } = useRowInteraction();
   const isSelected = selectedId === task.id;
   const visibility = useVisibilityPrefs();
@@ -36,4 +36,4 @@ export const TaskRow: React.FC<TaskRowProps> = ({ task }) => {
     <TaskDetailPanel task={task} />
   </div>
   );
-};
+});

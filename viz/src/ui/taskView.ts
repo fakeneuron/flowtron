@@ -42,8 +42,14 @@ export function pruneMatchingNodes(
   matches: (task: Task) => boolean,
 ): TaskNode[] {
   return nodes.flatMap((n) => {
-    const children = n.children.filter(matches);
+    const filteredChildren = n.children.filter(matches);
+    // Reuse the original children/node references when filtering removed
+    // nothing, so a re-render triggered by an unrelated query change doesn't
+    // also invalidate React.memo on every unaffected row (FE-101.4).
+    const children =
+      filteredChildren.length === n.children.length ? n.children : filteredChildren;
     if (!matches(n.task) && children.length === 0) return [];
+    if (children === n.children && matches(n.task)) return [n];
     return [{ task: n.task, children }];
   });
 }

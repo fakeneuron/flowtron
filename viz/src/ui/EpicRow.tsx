@@ -12,10 +12,14 @@ import { rowOutlineClass } from './utils';
 interface EpicRowProps {
   node: TaskNode;
   expanded: boolean;
-  toggleExpanded: () => void;
+  onToggleExpanded: (id: string) => void;
 }
 
-export const EpicRow: React.FC<EpicRowProps> = ({ node, expanded, toggleExpanded }) => {
+export const EpicRow = React.memo(function EpicRow({
+  node,
+  expanded,
+  onToggleExpanded,
+}: EpicRowProps) {
   const { expandedId, setExpandedId, highlightId, selectedId } = useRowInteraction();
   const { task, children } = node;
   const isSelected = selectedId === task.id;
@@ -39,7 +43,7 @@ export const EpicRow: React.FC<EpicRowProps> = ({ node, expanded, toggleExpanded
       <div className={`flex items-center gap-2 ${tokens.rowPad} rounded transition-colors hover:bg-black/[0.03] dark:hover:bg-white/[0.03]`}>
         <button
           type="button"
-          onClick={toggleExpanded}
+          onClick={() => onToggleExpanded(task.id)}
           aria-expanded={expanded}
           aria-label={expanded ? 'Collapse subtasks' : 'Expand subtasks'}
           className="flex h-5 w-5 shrink-0 items-center justify-center rounded hover:bg-slate-100 focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:hover:bg-slate-800 dark:focus:ring-slate-500"
@@ -81,4 +85,4 @@ export const EpicRow: React.FC<EpicRowProps> = ({ node, expanded, toggleExpanded
       <TaskDetailPanel task={task} />
     </div>
   );
-};
+});

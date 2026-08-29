@@ -16,7 +16,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **FE-EPIC-101** [medium] | viz-archive-scale — Bound the viz archive path's cost by structure instead of archive size: /api/archive currently ships ~9.4 MB of unconsumed tasknote bodies for flowtron's 782 archives, refresh() refetches all four endpoints per SSE change, collapsed sections mount ~780 row subtrees that re-render per search keystroke, and archiveCache is unbounded. Discovery supplied by audit-repo 2026-08-28. Surfaced by audit-repo 2026-08-28 (Theme: success outgrew the archive path).
   - [x] **FE-101.2** [medium]🧩 | archive-wire-slim — Completed 2026-08-29.
   - [x] **FE-101.3** [medium]🧩 | targeted-sse-refetch — Completed 2026-08-29.
-  - [ ] **FE-101.4** [light]🔧 | collapsed-section-unmount — Early-return collapsed sections in PrioritySection instead of CSS-only grid-rows collapse; wrap TaskRow/EpicRow in React.memo.
+  - [x] **FE-101.4** [light]🔧 | collapsed-section-unmount — Completed 2026-08-29.
   - [ ] **FE-101.5** [light]🔧 | archive-cache-bound — LRU-cap archiveCache (3–5 projects); moot-check after .2 lands — the slimmed shape may bound retention structurally.
   - [ ] **FE-101.N** [medium] | viz-archive-scale audit — Close-out audit per SPEC/epic.md.
 

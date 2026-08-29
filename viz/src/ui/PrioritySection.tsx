@@ -36,34 +36,28 @@ export const PrioritySection: React.FC<PrioritySectionProps> = ({
         <span className="text-base font-medium">{priority}</span>
         <span className="text-sm text-slate-600 dark:text-slate-400">{totalCount}</span>
       </button>
-      <div
-        className={`grid transition-[grid-template-rows] duration-200 motion-reduce:transition-none ${
-          collapsed ? 'grid-rows-[0fr]' : 'grid-rows-[1fr]'
-        }`}
-      >
-        <div className="overflow-hidden">
-          <div
-            className={`flex flex-col ${tokens.interRowGap} border-t border-slate-200/70 bg-white/60 ${tokens.sectionInteriorPad} dark:border-slate-800/70 dark:bg-slate-900/60`}
-          >
-            {nodes.length === 0 && (
-              <div className="px-2 py-1 text-sm text-slate-500 dark:text-slate-400">No tasks</div>
-            )}
-            {nodes.map((node) => {
-              if (isEpic(node)) {
-                return (
-                  <EpicRow
-                    key={node.task.id}
-                    node={node}
-                    expanded={expandedEpicIds.has(node.task.id)}
-                    toggleExpanded={() => toggleEpic(node.task.id)}
-                  />
-                );
-              }
-              return <TaskRow key={node.task.id} task={node.task} />;
-            })}
-          </div>
+      {!collapsed && (
+        <div
+          className={`flex flex-col ${tokens.interRowGap} border-t border-slate-200/70 bg-white/60 ${tokens.sectionInteriorPad} dark:border-slate-800/70 dark:bg-slate-900/60`}
+        >
+          {nodes.length === 0 && (
+            <div className="px-2 py-1 text-sm text-slate-500 dark:text-slate-400">No tasks</div>
+          )}
+          {nodes.map((node) => {
+            if (isEpic(node)) {
+              return (
+                <EpicRow
+                  key={node.task.id}
+                  node={node}
+                  expanded={expandedEpicIds.has(node.task.id)}
+                  onToggleExpanded={toggleEpic}
+                />
+              );
+            }
+            return <TaskRow key={node.task.id} task={node.task} />;
+          })}
         </div>
-      </div>
+      )}
     </section>
   );
 };

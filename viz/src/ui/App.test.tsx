@@ -1184,11 +1184,16 @@ describe('App — completed-bucket grouping (FE-086)', () => {
 - [x] **CORE-1** | done — Completed 2026-08-01.
 - [ ] **CORE-2** | open — Still open
 `;
+    const user = userEvent.setup();
     renderApp({ plan });
-    await waitFor(() => expect(screen.getByText('CORE-1')).toBeInTheDocument());
-
-    expect(sectionHeadingOf('CORE-1')).toBe('Completed');
+    await waitFor(() => expect(screen.getByText('CORE-2')).toBeInTheDocument());
     expect(sectionHeadingOf('CORE-2')).toBe('Medium');
+
+    // Completed starts collapsed (useBoardSelection); its rows aren't mounted
+    // until expanded (FE-101.4 replaced the always-mounted CSS collapse).
+    await user.click(screen.getByRole('button', { name: /^Completed/ }));
+    await waitFor(() => expect(screen.getByText('CORE-1')).toBeInTheDocument());
+    expect(sectionHeadingOf('CORE-1')).toBe('Completed');
   });
 
   it('keeps a mixed epic in its heading; completed children stay nested, not top-level Completed', async () => {
@@ -1217,6 +1222,7 @@ describe('App — completed-bucket grouping (FE-086)', () => {
 - [x] **CORE-1** | done — Completed 2026-08-01.
 - [ ] **CORE-2** | open — Still open
 `;
+    const user = userEvent.setup();
     renderApp({ plan });
     await waitFor(() => expect(screen.getByText('CORE-2')).toBeInTheDocument());
 
@@ -1224,7 +1230,10 @@ describe('App — completed-bucket grouping (FE-086)', () => {
     expect(boardContainer).not.toBeNull();
     expect(within(boardContainer).queryByText('CORE-1')).toBeNull();
     expect(within(boardContainer).getByText('CORE-2')).toBeInTheDocument();
-    expect(sectionHeadingOf('CORE-1')).toBe('Completed');
+
+    // Completed (below-board) starts collapsed; expand before checking its row.
+    await user.click(screen.getByRole('button', { name: /^Completed/ }));
+    await waitFor(() => expect(sectionHeadingOf('CORE-1')).toBe('Completed'));
   });
 
   it('navigateToTask uncollapses Completed when jumping to a checked standalone still filed under Medium', async () => {
@@ -1241,10 +1250,10 @@ describe('App — completed-bucket grouping (FE-086)', () => {
     renderApp({ plan });
     await waitFor(() => expect(screen.getByText('CORE-2')).toBeInTheDocument());
 
-    const completedToggle = document
-      .getElementById('row-CORE-1')!
-      .closest('section')!
-      .querySelector('button');
+    // Completed starts collapsed, so CORE-1's row isn't mounted yet
+    // (FE-101.4) — locate the section's own toggle by its header text instead
+    // of via the (not-yet-rendered) row.
+    const completedToggle = screen.getByRole('button', { name: /^Completed/ });
     expect(completedToggle).toHaveAttribute('aria-expanded', 'false');
 
     await user.click(screen.getByRole('button', { name: /CORE-2/, expanded: false }));

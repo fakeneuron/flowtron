@@ -109,6 +109,33 @@ describe('pruneMatchingNodes', () => {
     expect(out.map((n) => n.task.id)).toEqual(['A', 'FE-EPIC-1']);
     expect(b.children).toHaveLength(2);
   });
+
+  // FE-101.4: React.memo(EpicRow) only bails when its `node` prop is
+  // referentially stable — a fresh object/array on every call (regardless of
+  // whether anything was actually filtered) would make the memo a no-op.
+  it('reuses the input node and children references when nothing is filtered out', () => {
+    const a = node(task({ id: 'A' }));
+    const b = node(parent, [kid1, kid2]);
+    const out = pruneMatchingNodes([a, b], () => true);
+    expect(out[0]).toBe(a);
+    expect(out[1]).toBe(b);
+    expect(out[1].children).toBe(b.children);
+  });
+
+  it('allocates a fresh node, but still reuses the children reference, when only the parent itself does not match', () => {
+    const b = node(parent, [kid1, kid2]);
+    const out = pruneMatchingNodes([b], (t) => t.id !== parent.id);
+    expect(out[0]).not.toBe(b);
+    expect(out[0].children).toBe(b.children);
+  });
+
+  it('allocates a fresh children array when filtering actually removes a child', () => {
+    const b = node(parent, [kid1, kid2]);
+    const out = pruneMatchingNodes([b], (t) => t.id !== kid2.id);
+    expect(out[0]).not.toBe(b);
+    expect(out[0].children).not.toBe(b.children);
+    expect(out[0].children.map((c) => c.id)).toEqual(['FE-1.2']);
+  });
 });
 
 describe('groupBySection', () => {
