@@ -595,11 +595,14 @@ supersedes:
   it('returns null frontmatter for an archived tasknote with no YAML block', () => {
     const text = `# OLD-1 | Old tasknote
 
+## 🎯 Goal
+
 Some legacy content with no frontmatter.
 `;
     const tn = parseTasknote('OLD-1', '/abs/path/OLD-1.md', text);
     expect(tn.frontmatter).toBeNull();
-    expect(tn.body).toContain('# OLD-1');
+    // A missing frontmatter block must not stop section scanning of what follows.
+    expect(tn.goal).toBe('Some legacy content with no frontmatter.');
   });
 
   it('returns null frontmatter for malformed YAML missing required fields', () => {

@@ -32,7 +32,6 @@ export interface Tasknote {
   id: string;
   path: string;
   frontmatter: TasknoteFrontmatter | null;
-  body: string;
   goal: string;
   acceptance: string;
   subtasks: string;

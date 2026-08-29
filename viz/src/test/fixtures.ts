@@ -32,7 +32,6 @@ export function makeTasknote(partial: Partial<Tasknote> & Pick<Tasknote, 'id'>):
       created: '2026-05-07',
       relatedTasks: [],
     },
-    body: partial.body ?? '',
     goal: partial.goal ?? '',
     acceptance: partial.acceptance ?? '',
     subtasks: partial.subtasks ?? '',

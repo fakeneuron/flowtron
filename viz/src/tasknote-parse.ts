@@ -44,7 +44,6 @@ export function parseTasknote(id: string, path: string, text: string): Tasknote 
     id,
     path,
     frontmatter: parseFrontmatter(parsed.data),
-    body,
     goal: extractSection(body, 'Goal'),
     acceptance,
     subtasks,
