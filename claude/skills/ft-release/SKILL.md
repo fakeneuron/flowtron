@@ -9,13 +9,13 @@ You are cutting a flowtron release. The recipe is canonical (CORE-048 / CORE-046
 
 This skill is **flowtron-self only**. It is symlinked under `~/.claude/skills/ft-release` and `~/.claude/commands/ft-release.md` for global invocation, but it never runs in adopter projects. Step 0 enforces this.
 
-The release task ID must already be filed in `.flowtron/PLAN.md` as a one-line entry — for example:
+The release task is normally filed in `.flowtron/PLAN.md` as a one-line entry before `/ft-release` runs — for example:
 
 ```text
 - [ ] **<TASK-ID>** [model] | release vX.Y.Z — Cut vX.Y.Z minor release tagging <FEAT-A> + <FEAT-B> since v<prev>.
 ```
 
-`/ft-release` then scans PLAN for the entry and drives it. The skill takes **no arguments**.
+`/ft-release` scans PLAN for the entry and drives it. If no such entry exists, Step 1 offers to draft and file one itself (task ID, version, and description all self-computed from repo state) rather than just bouncing the user to file it by hand. The skill takes **no arguments**.
 
 ## Step 0 — Verify cwd is the flowtron repo
 
@@ -31,11 +31,22 @@ If any check fails, stop. Tell the user `/ft-release` only runs from inside the 
 
 Read `.flowtron/PLAN.md`. Scan un-checked task lines under `## High | Medium | Low` (and `## Critical` if a legacy heading is still present — see SPEC §"Task-line format"; skip `## Completed` and `## Future Opportunities`) whose `| <shortname>` segment matches `release v*` (case-insensitive — e.g., `release vX.Y.Z`).
 
-- **Zero matches.** Stop. Tell the user "No pending `release v*` task in PLAN.md. File a one-liner first (e.g., `**<TASK-ID>** [model] | release vX.Y.Z — ...`), then run `/ft-release` again." Do not scaffold.
+- **Zero matches.** Don't just bounce the user to file it by hand — offer to draft and file the line now (Step 1.1 below), same as if it had already existed. Only fall back to stopping if the user declines.
 - **Multiple matches.** Stop. List the matches and tell the user `/ft-release` requires exactly one pending release task. Ask them to close/de-scope the duplicates or restructure to a single line. Do not scaffold.
 - **Exactly one match.** Capture the `<TASK-ID>`, the `[model]` segment, the `| <shortname>` segment, the long description, and the section heading (priority). Continue.
 
 Parse the **target version** from the shortname: `release v<X.Y.Z>` → `vX.Y.Z`. If the shortname doesn't conform, stop and ask the user to fix the line.
+
+### Step 1.1 — Zero-matches fallback: draft and file the line
+
+Runs only when Step 1 found no pending `release v*` line. Computes the same version/bump-kind facts Step 2 would, just earlier, so the two never disagree — this step does not replace Step 2's own confirmation, it just gets the PLAN line in place first.
+
+1. **Compute the proposed version.** Read `SPEC.md:3` for the current version. Run `git describe --tags --abbrev=0` and confirm it matches — if it doesn't, stop and surface the drift exactly as Step 2 would (don't file a new release line over an already-broken state). Run `git log <last-tag>..HEAD --oneline`, classify each commit by Conventional-Commits prefix (same rule as Step 2: `feat!:`/`BREAKING CHANGE:` → major, `feat:` → minor, everything else → patch), and take the highest-rank classification as the proposed bump kind. Apply it to the current version for the proposed new version. If there are zero commits since the last tag, stop and tell the user there is nothing to release yet.
+2. **Suggest a task ID.** Flowtron-self release tasknotes always use the `CORE` area (every prior `release v*` entry does). Scan `.flowtron/PLAN.md`, `.flowtron/tasknote/`, and `.flowtron/tasknote/archive/core/` for the highest existing `CORE-<N>` and suggest `CORE-<N+1>`.
+3. **Draft the shortname, model, and description.** Shortname: `release v<A.B.C>`. Model: `[medium]🧩` (matches every prior release entry). Long description: `Cut v<A.B.C> <bump-kind> release tagging <FEAT-A> + <FEAT-B> since v<prev>.` — name the feature-level task IDs found in the classified commit log (e.g. from `feat: <TASK-ID> — ...` subjects), not every individual commit.
+4. **Surface the draft and ask.** AskUserQuestion with the fully drafted line shown verbatim (e.g. `- [ ] **CORE-<N>** [medium]🧩 | release vA.B.C — ...`) and options: **File it and continue** (default) / **Let me edit the task ID, version, or description first** / **I'll file it myself — stop here**. Honor edits before filing.
+5. **On accept, append the line** under `## Medium` in `.flowtron/PLAN.md` (bottom of the section, or replacing a `(none)` placeholder) using the canonical task-line grammar. Do **not** commit this edit separately — flowtron's own release history shows the pending line and its Step 7.3 flip-to-Completed have always landed in the single release commit together, never as a standalone filing commit, so this follows the same pattern. Then proceed exactly as if Step 1 had found this line as its one match — capture the same fields, and skip re-deriving the bump proposal in Step 2 since it was already computed here.
+6. **On decline ("I'll file it myself"),** stop with the original message: "No pending `release v*` task in PLAN.md. File a one-liner first (e.g., `**<TASK-ID>** [model] | release vX.Y.Z — ...`), then run `/ft-release` again." Do not scaffold.
 
 ## Step 2 — Verify state and propose bump kind
 
@@ -741,5 +752,5 @@ The post-closure protocol is canonical in SPEC §"Post-closure protocol" (steps 
 
 - **Flowtron-self only.** This skill is never symlinked into adopter projects. Adopters consume flowtron via submodule pin and the manual bump procedure in `docs/MIGRATION.md` §"Pinning and bumping".
 - **Context-budget escape hatch (Step 2.5).** A full cut is a long session. If the remaining context budget looks tight at invocation, the skill offers to defer the whole cut to a fresh `/ft-release` chat (re-entry is `/ft-release`, not `/ft-task <TASK-ID>` — the recipe lives here) rather than driving inline on thin headroom. Comfortable budgets skip the hatch and drive inline as before.
-- **Why no args.** A flowtron release is a coordinated cut — there is at most one pending `release v*` task in PLAN at a time. The PLAN-line filing happens before `/ft-release` runs; the skill scans for the line. Multiple un-cut releases queued is a process smell; the skill bails to surface it.
+- **Why no args.** A flowtron release is a coordinated cut — there is at most one pending `release v*` task in PLAN at a time. The PLAN-line filing normally happens before `/ft-release` runs, or Step 1.1 drafts and files it on the spot when none exists yet (still gated by an AskUserQuestion review — never a silent write). Multiple un-cut releases queued is a process smell; the skill bails to surface it.
 - **Tag-message review is mandatory.** The auto-draft seeds the structure; the user is expected to review and edit. CORE-048's deviation from CORE-046's `No required project-side edits` boilerplate (calling out CORE-047's adopter action item) is the canonical example of context-sensitive editing — a rote auto-draft would have missed it.
