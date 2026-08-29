@@ -319,7 +319,7 @@ export async function gitlinkDrift(repo, latest) {
   if (isUnresolved(recorded)) {
     return unresolved(`could not resolve the committed gitlink: ${recorded.error}`);
   }
-  const latestSha = await canonicalTagSha(latest);
+  const latestSha = await cachedCanonicalTagSha(latest);
   if (isUnresolved(latestSha)) {
     return unresolved(`could not resolve ${latest} in ${FLOWTRON_REPO}: ${latestSha.error}`);
   }
@@ -511,6 +511,20 @@ export function cachedNewSkillWiringSurfaces(fromTag, toTag) {
   return skillWiringCache.get(key);
 }
 
+// Single-tag counterpart to the (fromTag, toTag) caches above: `canonicalTagSha`
+// is called once per adopter for the sweep-constant `latest` (via gitlinkDrift
+// and the reverse-drift guard) and again for a commonly-shared `current` (the
+// missing-pinned-tag guard) — a large sweep otherwise repeats identical
+// FLOWTRON_REPO git spawns per adopter for tags that never change mid-run
+// (CORE-493). Same safety argument as above: one short-lived process per sweep.
+const canonicalShaCache = new Map();
+export function cachedCanonicalTagSha(tag) {
+  if (!canonicalShaCache.has(tag)) {
+    canonicalShaCache.set(tag, canonicalTagSha(tag));
+  }
+  return canonicalShaCache.get(tag);
+}
+
 // Nine sequential skip/drift gates below (unreadable version, unresolved
 // gitlink, reverse gitlink-drift, detached HEAD, pinned-ahead, missing-tag,
 // migration-bearing, staged changes, dirty submodule). Considered extracting
@@ -550,7 +564,7 @@ export async function checkAdopter(adopter, latest) {
   // a broken repo still fails loudly, it just fails there.
   const recordedGitlink = await recordedGitlinkSha(repo);
   if (!isUnresolved(recordedGitlink)) {
-    const latestSha = await canonicalTagSha(latest);
+    const latestSha = await cachedCanonicalTagSha(latest);
     if (!isUnresolved(latestSha) && recordedGitlink === latestSha) {
       return {
         status: 'drift',
@@ -592,7 +606,7 @@ export async function checkAdopter(adopter, latest) {
   // `tagsInRange` below would compute a numeric range against a boundary
   // that was never actually released — silently wrong rather than a clear
   // signal. Verify it resolves before doing any range work.
-  if (isUnresolved(await canonicalTagSha(current))) {
+  if (isUnresolved(await cachedCanonicalTagSha(current))) {
     return {
       status: 'skip',
       current,
@@ -677,7 +691,13 @@ export async function applyBump(adopter, latest) {
       throw new Error(`post-checkout SPEC.md reads ${confirmed}, expected ${latest}`);
     }
     const checkedOutSha = (await git(sub, 'rev-parse', 'HEAD')).trim();
-    const canonicalSha = (await git(FLOWTRON_REPO, 'rev-parse', `${latest}^{commit}`)).trim();
+    // Reuses canonicalTagSha's sentinel contract (CORE-490.2) instead of a second
+    // hand-inlined `git rev-parse` — and the cache (CORE-493) means this is
+    // usually already warm from checkAdopter's own resolution of `latest`.
+    const canonicalSha = await cachedCanonicalTagSha(latest);
+    if (isUnresolved(canonicalSha)) {
+      throw new Error(`could not resolve canonical SHA for ${latest} in ${FLOWTRON_REPO}: ${canonicalSha.error}`);
+    }
     verifyPinnedSha(checkedOutSha, canonicalSha, latest);
     await git(repo, 'add', SUBMODULE_PATH);
     staged = true;

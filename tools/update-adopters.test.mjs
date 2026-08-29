@@ -14,6 +14,7 @@ import {
   FLOWTRON_REPO,
   SUBMODULE_PATH,
   applyBump,
+  cachedCanonicalTagSha,
   cachedMigrationBearingTags,
   cachedNewSkillWiringSurfaces,
   checkAdopter,
@@ -703,6 +704,66 @@ describe('(fromTag, toTag) memoization (CORE-490.4)', () => {
         afterFirst,
         afterSecond,
         'a second checkAdopter call sharing (current, latest) must not repopulate the cache entry',
+      );
+    } finally {
+      await rm(root, { recursive: true, force: true });
+    }
+  });
+});
+
+describe('canonicalTagSha memoization (CORE-493)', () => {
+  it('cachedCanonicalTagSha returns the exact same promise for a repeated tag', async () => {
+    const p1 = cachedCanonicalTagSha(latest);
+    const p2 = cachedCanonicalTagSha(latest);
+    assert.equal(p1, p2, 'repeated tag call must reuse the in-flight/cached promise');
+    assert.deepEqual(await p1, await p2);
+  });
+
+  it('cachedCanonicalTagSha does not share a cache entry across different tags', async () => {
+    const forLatest = cachedCanonicalTagSha(latest);
+    const forPrevious = cachedCanonicalTagSha(previous);
+    assert.notEqual(forLatest, forPrevious);
+    assert.notEqual(await forLatest, await forPrevious);
+  });
+
+  it('checkAdopter reuses the cached promise for `latest` across adopters', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'ft-upd-sha-memo-'));
+    try {
+      const a1 = await makeAdopter(root, 'shared-latest-1', previous);
+      const a2 = await makeAdopter(root, 'shared-latest-2', previous);
+
+      await checkAdopter(a1, latest);
+      const afterFirst = cachedCanonicalTagSha(latest);
+
+      await checkAdopter(a2, latest);
+      const afterSecond = cachedCanonicalTagSha(latest);
+
+      assert.equal(
+        afterFirst,
+        afterSecond,
+        'a second checkAdopter call for the same `latest` must not repopulate the cache entry',
+      );
+    } finally {
+      await rm(root, { recursive: true, force: true });
+    }
+  });
+
+  it('applyBump reuses the cache checkAdopter already warmed for `latest`', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'ft-upd-sha-memo-apply-'));
+    try {
+      const adopter = await makeAdopter(root, 'apply-reuses-cache', previous);
+
+      const result = await checkAdopter(adopter, latest);
+      assert.equal(result.status, 'bump');
+      const afterCheck = cachedCanonicalTagSha(latest);
+
+      await applyBump({ ...adopter, current: result.current }, latest);
+      const afterApply = cachedCanonicalTagSha(latest);
+
+      assert.equal(
+        afterCheck,
+        afterApply,
+        'applyBump must resolve `latest` through the same cache entry checkAdopter warmed, not a fresh git spawn',
       );
     } finally {
       await rm(root, { recursive: true, force: true });
