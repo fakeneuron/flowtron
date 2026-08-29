@@ -22,6 +22,23 @@ unless correcting a factual error.
 
 ---
 
+## v5.22.0 — [unattended] grammar, cross-repo remit, and portable worktrees
+
+- `[unattended]` is now canonical task-line grammar rather than a parser
+  tolerance: SPEC names it, fixes its position after `[model]`, and the viz
+  parser captures it into `Task.unattended`.
+- New `SPEC.md` §"Cross-repo edit remit" — a tasknote's deliverable lands in
+  the repo whose session opened it; cross-repo work gets filed there instead.
+- `/ft-worktree-start` and `/ft-worktree-end` derive the worktree parent from
+  the project root instead of hardcoding `~/code`, so they work for adopters
+  whose repos live anywhere.
+- Fleet updater stops reporting an unresolvable git lookup as `✓ current`,
+  skips adopter hooks on the bump commit, and memoizes tag-SHA lookups.
+
+Also: viz archive-scale performance (bounded cache, targeted SSE refetch,
+collapsed-section unmount); the no-runtime mirror pattern ratified with a
+release-time guard; `/ft-release` now files its own release line.
+
 ## v5.21.0 — the [xheavy] exploratory model tier
 
 - New manual-only `[xheavy]🔭` rung above `[heavy]` for deliberate

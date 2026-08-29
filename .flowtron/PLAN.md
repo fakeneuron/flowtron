@@ -19,6 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-500** [medium]🧩 | release v5.22.0 — Completed 2026-08-29.
 - [x] **CORE-499** [medium]🧩 | ft-release-self-file-line — Completed 2026-08-29.
 - [x] **CORE-496** [medium]🧩 | sop-ft-task-resync — Completed 2026-08-29.
 - [x] **CORE-497** [light] | plan-archive-contract-link — Fixed dead adopter-shaped contract link in `.flowtron/PLAN-ARCHIVE.md` header (`../core/SPEC/tasknote-selection.md` → `../SPEC/tasknote-selection.md`; flowtron-self has no `.flowtron/core/`). Surfaced by audit-docs 2026-08-29 (Finding #2, Medium), fixed inline.

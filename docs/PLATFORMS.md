@@ -113,7 +113,9 @@ Two agent behaviours make this a correctness rule rather than tidiness:
   is listed twice in the session's skill roster. Globbing the shipped inventory
   into an agent home *and* wiring it repo-scoped therefore doubles flowtron's
   footprint in every session before any work starts — measured at 36 roster
-  entries for 18 skills in a flowtron-self session ([[CORE-439]]).
+  entries for 18 skills in a flowtron-self session (measured 2026-08-11,
+  [[CORE-439]]; the shipped inventory has grown since — the doubling is the
+  point, not the absolute count).
 - **User-scope collisions resolve by slug, not by body.** Where an agent reads
   more than one home directory, a same-named skill in one shadows the other with
   no regard for which platform authored it. `~/.agents/skills/` is read by Codex,
@@ -395,7 +397,7 @@ This mirrors the pre-adoption framing in §"Grok Build adoption notes" above._
 
 First-use verification 2026-06-01 (CORE-257). /ft-task skill invocation, model gate (with retag), AskUserQuestion render, and cue emissions (✅ marker + post-closure expectations) exercised under Grok. Structured ask support observed (see trigger table note). Matrix currency lives in docs/AGENT-COMPAT.md.
 
-**Last verified:** `v5.20.0 · 2026-08-26 (dogfooded; skipped @ v5.21.0)`
+**Last verified:** `v5.22.0 · 2026-08-29 (dogfooded)`
 
 ### Codex CLI
 
@@ -430,10 +432,10 @@ rows, the `/model` and `/clear` rows, the structured-ask row, and the rewritten
 sub-agent row were backfilled 2026-08-21 (CORE-460.4) from vendor documentation
 (`learn.chatgpt.com/docs/developer-commands`,
 `learn.chatgpt.com/docs/agent-configuration/subagents`) read alongside the
-shipped `codex/skills/` wrappers — desk research under Claude Code, not a new
-Codex session, so the stamp below is deliberately unmoved.
+shipped `codex/skills/` wrappers — desk research under Claude Code, not a
+standalone Codex verification session.
 
-**Last verified:** `v5.20.0 · 2026-08-26 (dogfooded; skipped @ v5.21.0)`
+**Last verified:** `v5.22.0 · 2026-08-29 (dogfooded)`
 
 ### Cursor
 
@@ -461,7 +463,7 @@ Cursor-only projects (see §"Worked example: Cursor" and
 
 First-use verification 2026-08-12 ([[CORE-438.5]]): `/ft-task` under Cursor (Grok 4.5) ran DOGFOOD.md's three steps (contract comprehension at `v5.16.0`, full cue-render vocabulary, Phase-1 drive on CORE-438.N with clean Step-3 write boundary). Skill dispatch via `.claude/skills/` compat, Task subagent tool, modes, and `/model`+`/clear` cues confirmed; structured ask confirmed earlier under Cursor in [[CORE-438.1]]. Matrix currency lives in docs/AGENT-COMPAT.md.
 
-**Last verified:** `v5.20.0 · 2026-08-26 (dogfooded; skipped @ v5.21.0)`
+**Last verified:** `v5.22.0 · 2026-08-29 (dogfooded)`
 
 ### Gemini CLI (stub)
 
