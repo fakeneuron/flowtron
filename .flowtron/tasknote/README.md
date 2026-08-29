@@ -56,6 +56,7 @@ purpose each.
 - `docs/AGENT-COMPAT.md` — living agent-compatibility matrix: per-agent consume-mode, context entry-point, skill/command primitive, and last-verified currency
 - `docs/EXTERNAL-AGENTS.md` — one-agent-per-tasknote rule, the handoff contract for external CLI agents, the orchestration contract an operator-less caller reports to, and the not-an-orchestration-runtime boundary; contract edits that touch delegation, handoff, or the unattended posture routinely drift against it
 - `docs/WORKTREES.md` — the locked isolation convention for parallel epic children (`wt-<ID>` branch + worktree pair); named by `docs/EXTERNAL-AGENTS.md` as the isolation layer and cited wherever parallelism is discussed
+- `docs/VISION.md` — canonical statement of flowtron's scope boundaries; mirrored by SPEC.md §"What flowtron does NOT provide", `docs/CONVENTIONS.md`, and `docs/EXTERNAL-AGENTS.md`
 
 `SPEC/*.md` (lazy modules) and `claude/skills/*/SKILL.md` are loaded on
 demand by skill stubs — authoritative when fired, but not part of the
