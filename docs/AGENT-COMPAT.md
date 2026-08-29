@@ -106,6 +106,15 @@ for its Grok Build notes. The agent-neutral workflow contract itself
   the real result and had to be reconciled by hand before tagging (CORE-406,
   surfaced during the v5.15.0 cut).
 
+  **Mechanical backstop (CORE-501).** The rule above depends on a session
+  correctly judging its own role, which failed one release later (v5.22.0):
+  a parallel session wrote all eight stamp locations anyway, two with
+  rationale that didn't survive checking. `ft-release` §5's walk now runs a
+  `git status --porcelain` check on the three stamp files immediately before
+  writing and stops for operator reconciliation if they're already dirty —
+  neither side commits mid-cut, so a second writer sees the first writer's
+  uncommitted edits before it can overwrite them.
+
 ## Pre-adoption verification
 
 Claude Code is verified by continuous dogfooding; Grok, Codex, and Cursor carry
