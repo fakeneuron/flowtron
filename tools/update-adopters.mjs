@@ -73,6 +73,13 @@
 // still propagates to the ✗ report line; a rollback that itself fails is appended
 // to it rather than swallowed.
 //
+// The bump commit itself passes --no-verify: it is a pathspec commit touching only
+// the .flowtron/core gitlink, a pure pin move with no adopter-authored content for a
+// pre-commit or commit-msg hook to lint. Running an adopter's own hooks unattended
+// during a fleet-wide sweep would let unrelated hook failures (or side effects) abort
+// an otherwise-clean bump; --no-verify keeps the commit's success contingent only on
+// the gitlink move that produced it.
+//
 // Not covered (by design — run /ft-update in the repo for these): per-project
 // symlink wiring for newly shipped skills, and audit-fork drift scans. When a
 // bumped range ships a new *per-project-wired* skill (one named in a platform
@@ -645,8 +652,19 @@ export async function applyBump(adopter, latest) {
     await git(repo, 'add', SUBMODULE_PATH);
     staged = true;
     // Pathspec commit: only the submodule gitlink lands, never unrelated work.
+    // --no-verify: see the "Mid-bump rollback" note above for why adopter hooks
+    // are skipped here.
     const current = adopter.current;
-    await git(repo, 'commit', '--quiet', '-m', `chore: bump flowtron ${current} → ${latest}`, '--', SUBMODULE_PATH);
+    await git(
+      repo,
+      'commit',
+      '--quiet',
+      '--no-verify',
+      '-m',
+      `chore: bump flowtron ${current} → ${latest}`,
+      '--',
+      SUBMODULE_PATH,
+    );
   } catch (e) {
     const residue = await rollbackBump(repo, sub, priorSha, staged);
     // Rethrow the original failure — reportResult renders it as the ✗ line — with

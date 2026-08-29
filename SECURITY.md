@@ -190,6 +190,10 @@ out to `git` across many repos, and can commit inside them.
   and the only other network call is `fetch --tags` — there is no
   `git push` anywhere in the script. Every bump commit stays local until
   the operator reviews and pushes it themselves, per repo.
+- **Bump commit passes `--no-verify`.** The commit is a pathspec commit
+  touching only the `.flowtron/core` gitlink, so an adopter's own
+  `pre-commit`/`commit-msg` hooks — arbitrary adopter-authored code — never
+  run as a side effect of an unattended fleet sweep.
 - **Dry-run default.** The script only reports what it would do unless
   invoked with `--apply` (`parseArgs`); a bare
   `node tools/update-adopters.mjs` mutates nothing.

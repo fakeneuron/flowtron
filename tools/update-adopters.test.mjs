@@ -533,6 +533,26 @@ describe('sandboxed --apply', () => {
     await rm(root, { recursive: true, force: true });
   });
 
+  // CORE-490.3 — the bump commit is a pure gitlink move; adopter-authored
+  // pre-commit/commit-msg hooks must not be able to block it.
+  it('bumps past a rejecting pre-commit hook (--no-verify)', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'ft-upd-noverify-'));
+    const adopter = await makeAdopter(root, 'hooked', previous);
+
+    const hooks = join(adopter.repo, '.git', 'hooks');
+    await mkdir(hooks, { recursive: true });
+    await writeFile(join(hooks, 'pre-commit'), '#!/bin/sh\nexit 1\n', { mode: 0o755 });
+    await gitQuiet(adopter.repo, 'config', 'core.hooksPath', hooks);
+
+    const result = await checkAdopter(adopter, latest);
+    assert.equal(result.status, 'bump');
+    await applyBump({ ...adopter, current: result.current }, latest);
+
+    assert.equal(await pinnedVersion(join(adopter.sub, 'SPEC.md')), latest);
+
+    await rm(root, { recursive: true, force: true });
+  });
+
   // CORE-424.4 — mid-fleet apply failure must not abort the sweep or exit 0.
   it('continues past a mid-fleet bump failure, counts 1 failed, exits 1', async () => {
     const root = await mkdtemp(join(tmpdir(), 'ft-upd-midfail-'));
@@ -541,10 +561,12 @@ describe('sandboxed --apply', () => {
     const failing = await makeAdopter(root, 'b-fail', previous);
     await makeAdopter(root, 'c-ok', previous);
 
-    // Guaranteed apply-path failure (same pre-commit injection as CORE-419.3).
+    // Guaranteed apply-path failure (same hook-injection shape as CORE-419.3, but
+    // prepare-commit-msg rather than pre-commit — the bump commit now passes
+    // --no-verify (CORE-490.3), which skips pre-commit/commit-msg but not this one).
     const hooks = join(failing.repo, '.git', 'hooks');
     await mkdir(hooks, { recursive: true });
-    await writeFile(join(hooks, 'pre-commit'), '#!/bin/sh\nexit 1\n', { mode: 0o755 });
+    await writeFile(join(hooks, 'prepare-commit-msg'), '#!/bin/sh\nexit 1\n', { mode: 0o755 });
     await gitQuiet(failing.repo, 'config', 'core.hooksPath', hooks);
 
     const { code, stdout, stderr } = await runCli(['--apply', '--root', root], {
@@ -609,10 +631,12 @@ describe('applyBump rollback (CORE-419.3)', () => {
 
     // Fail at the last step — after `git add` staged the gitlink — so both halves
     // of the rollback have to run. core.hooksPath is pinned explicitly so a global
-    // override on the host cannot silently disarm the injection.
+    // override on the host cannot silently disarm the injection. prepare-commit-msg
+    // rather than pre-commit — the bump commit passes --no-verify (CORE-490.3),
+    // which skips pre-commit/commit-msg but not this one.
     const hooks = join(adopter.repo, '.git', 'hooks');
     await mkdir(hooks, { recursive: true });
-    await writeFile(join(hooks, 'pre-commit'), '#!/bin/sh\nexit 1\n', { mode: 0o755 });
+    await writeFile(join(hooks, 'prepare-commit-msg'), '#!/bin/sh\nexit 1\n', { mode: 0o755 });
     await gitQuiet(adopter.repo, 'config', 'core.hooksPath', hooks);
 
     await assert.rejects(() => applyBump({ ...adopter, current: previous }, latest));
