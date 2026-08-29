@@ -14,7 +14,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Medium
 
 - [ ] **CORE-EPIC-489** [light] | tier-mirror-and-sweep-coverage — Propagate the v5.21.0 [xheavy] tier to the human/cold-start mirrors the rollout missed (DOGFOOD cue checklist, GLOSSARY ladder) and close the drift-sweep coverage gaps the miss exposed (VISION.md absent from the closure sweep list; adopter-facing template miscount). Discovery supplied by audit-repo 2026-08-28. Surfaced by audit-repo 2026-08-28 (Theme: v5.21.0 rollout stopped one mirror short).
-  - [ ] **CORE-489.2** [light]🔧 | xheavy-mirror-sweep — Add 🔭 XHEAVY to docs/DOGFOOD.md §"Next-task cues" cue checklist; extend docs/GLOSSARY.md:85 [model] entry to the four-rung ladder with a manual-only note for [xheavy]; refresh the GLOSSARY maintenance footer stamp.
+  - [x] **CORE-489.2** [light]🔧 | xheavy-mirror-sweep — Completed 2026-08-29.
   - [ ] **CORE-489.3** [light]🔧 | sweep-coverage-gaps — Add docs/VISION.md (naming its mirrors: SPEC.md §"What flowtron does NOT provide", docs/CONVENTIONS.md, docs/EXTERNAL-AGENTS.md) to .flowtron/tasknote/README.md §"AI-referenced docs"; append SPEC/procedures/ to the SPEC/ bullet in AGENTS.md §Repo Layout.
   - [ ] **CORE-489.4** [light]🔧 | adopter-template-reconcile — Fix templates/tasknote-README.md "Three variants:" lead-in (four bullets follow) and reconcile the variant list with ls templates/ (sidequest stub unlisted).
   - [ ] **CORE-489.N** [light] | tier-mirror-and-sweep-coverage audit — Close-out audit per SPEC/epic.md.

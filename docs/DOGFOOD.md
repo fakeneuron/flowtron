@@ -75,6 +75,7 @@ authoritative cross-agent fallback; note any glyph that fails to render.
 - 🔧 LIGHT (mechanical)
 - 🧩 MEDIUM (moderate)
 - 🧠 HEAVY (design)
+- 🔭 XHEAVY (exploratory — manual-only)
 - 👇 HERE (run here — do not clear)
 
 Log: `Cue-render check complete. [Note any non-rendering glyphs and

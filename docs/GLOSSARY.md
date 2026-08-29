@@ -82,7 +82,7 @@ Alphabetized. ~71 entries. Maintained via epic children and audits.
 
 **lazy-loaded** — Contract for `SPEC/*.md` modules and `claude/skills/*/SKILL.md` implementations: loaded on demand by the calling stub rather than read at every cold start. The glossary itself follows this pattern to protect one-task-per-window.
 
-**[model]** — Optional short token in a task-line declaring the recommended cognitive-load tier for the work (primary labels `[heavy]` / `[medium]` / `[light]`; specific names `fable`, `opus`, `grok`, etc. remain valid). Read by `/ft-task` Step 1.5 before scaffolding. See SPEC §"Model field".
+**[model]** — Optional short token in a task-line declaring the recommended cognitive-load tier for the work. Four rungs, matched by position rather than count: `[light]` < `[medium]` < `[heavy]` < `[xheavy]`. The primary trio is `[light]` / `[medium]` / `[heavy]`; `[xheavy]` (glyph 🔭) is a **manual-only** exploratory rung the operator files deliberately — an automated chooser must never assign it nor pick up an `[xheavy]`-tagged task, and it always lands the Step 1.5 ⚠️ under-tier advisory because no roster model bands at `xheavy` by default. Specific names `fable`, `opus`, `grok`, etc. remain valid. Read by `/ft-task` Step 1.5 before scaffolding. See SPEC §"Model field" and SPEC/model.md.
 
 **micro-tasknote** — A single-section tasknote (do-the-work + recap only) used for work that exceeds the skip-the-tasknote threshold but is too small for the full 4-phase ceremony. Uses `templates/tasknote-micro-template.md`.
 
@@ -148,6 +148,6 @@ Alphabetized. ~71 entries. Maintained via epic children and audits.
 
 ---
 
-**Maintenance.** This file is the survivor slice of the GSD-Pi `CONTEXT.md` pattern (see CORE-194.1). It is deliberately lazy-loaded and must never be added to the AI-referenced docs list. New terms are introduced only by epic children or audit follow-ups that also update the authoritative SPEC anchors. Last significant update: CORE-463.5 (2026-08-23) — added `/ft-refactor`.
+**Maintenance.** This file is the survivor slice of the GSD-Pi `CONTEXT.md` pattern (see CORE-194.1). It is deliberately lazy-loaded and must never be added to the AI-referenced docs list. New terms are introduced only by epic children or audit follow-ups that also update the authoritative SPEC anchors. Last significant update: CORE-489.2 (2026-08-29) — extended the `[model]` entry to the four-rung tier ladder (`[xheavy]` manual-only).
 
 See [SPEC.md](../SPEC.md) for the contract and [.flowtron/PLAN.md](../.flowtron/PLAN.md) for the current epic context.
