@@ -24,6 +24,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [ ] **CORE-490.3** [light]🔧 | no-verify-bump-commit — Pass --no-verify on the bump commit (pure gitlink move — nothing for hooks to lint) and document it in the header rollback contract.
   - [ ] **CORE-490.4** [light]🔧 | tag-pair-memoization — Memoize migrationBearingTags and newSkillWiringSurfaces by (fromTag, toTag) key; FLOWTRON_REPO is not mutated during a sweep.
   - [ ] **CORE-490.N** [light] | updater-failure-honesty audit — Close-out audit per SPEC/epic.md.
+- [ ] **CORE-491** [medium]🧩 | vision-sweep-role-split — Decide whether docs/VISION.md belongs on the AI-referenced-docs list and split that list's two conflated roles (cold-start ground truth vs. Phase 4 sweep set); CORE-489.3 added it, reversing CORE-194.1 Q3's deliberate exclusion. Reword the two stranded claims (docs/CONVENTIONS.md:70, ft-release/SKILL.md:567) to match. Surfaced by CORE-489.N audit.
 
 ## Low
 
