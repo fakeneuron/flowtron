@@ -481,6 +481,36 @@ export async function discoverAdopters(root) {
   return { adopters, legacy };
 }
 
+// Per-process caches keyed by the `(fromTag, toTag)` pair checkAdopter calls
+// them with. `latest` is fixed for a whole sweep and adopters commonly share
+// the same `current` pin, so a large sweep would otherwise repeat identical
+// FLOWTRON_REPO git spawns per adopter (CORE-490). Safe without invalidation:
+// a sweep is one short-lived process and FLOWTRON_REPO's tags don't change
+// mid-run. Cache and return the in-flight promise itself (not an async
+// wrapper around it) so concurrent callers on the same key — and tests
+// asserting memoization via promise identity — share the exact same
+// underlying computation rather than each awaiting a fresh wrapper promise.
+const bearingTagsCache = new Map();
+export function cachedMigrationBearingTags(fromTag, toTag) {
+  const key = `${fromTag}::${toTag}`;
+  if (!bearingTagsCache.has(key)) {
+    bearingTagsCache.set(
+      key,
+      tagsInRange(fromTag, toTag).then((range) => migrationBearingTags(range)),
+    );
+  }
+  return bearingTagsCache.get(key);
+}
+
+const skillWiringCache = new Map();
+export function cachedNewSkillWiringSurfaces(fromTag, toTag) {
+  const key = `${fromTag}::${toTag}`;
+  if (!skillWiringCache.has(key)) {
+    skillWiringCache.set(key, newSkillWiringSurfaces(fromTag, toTag));
+  }
+  return skillWiringCache.get(key);
+}
+
 // Eight sequential skip/drift gates below (unreadable version, reverse
 // gitlink-drift, detached HEAD, pinned-ahead, missing-tag, migration-bearing,
 // staged changes, dirty submodule). Considered extracting them to an ordered
@@ -569,8 +599,7 @@ export async function checkAdopter(adopter, latest) {
     };
   }
 
-  const range = await tagsInRange(current, latest);
-  const bearing = await migrationBearingTags(range);
+  const bearing = await cachedMigrationBearingTags(current, latest);
   if (bearing.length > 0) {
     return {
       status: 'skip',
@@ -593,7 +622,7 @@ export async function checkAdopter(adopter, latest) {
     return { status: 'skip', current, reason: 'dirty .flowtron/core worktree' };
   }
 
-  const skillsNote = formatSkillsNote(await newSkillWiringSurfaces(current, latest));
+  const skillsNote = formatSkillsNote(await cachedNewSkillWiringSurfaces(current, latest));
   return { status: 'bump', current, skillsNote };
 }
 

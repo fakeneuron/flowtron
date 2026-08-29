@@ -14,6 +14,8 @@ import {
   FLOWTRON_REPO,
   SUBMODULE_PATH,
   applyBump,
+  cachedMigrationBearingTags,
+  cachedNewSkillWiringSurfaces,
   checkAdopter,
   compareSemver,
   describePin,
@@ -654,5 +656,56 @@ describe('tagsInRange', () => {
     const range = await tagsInRange(previous, latest);
     assert.ok(range.includes(latest));
     assert.ok(!range.includes(previous));
+  });
+});
+
+describe('(fromTag, toTag) memoization (CORE-490.4)', () => {
+  it('cachedMigrationBearingTags returns the exact same promise for a repeated pair', async () => {
+    const p1 = cachedMigrationBearingTags(previous, latest);
+    const p2 = cachedMigrationBearingTags(previous, latest);
+    assert.equal(p1, p2, 'repeated (fromTag, toTag) call must reuse the in-flight/cached promise');
+    assert.deepEqual(await p1, await p2);
+  });
+
+  it('cachedMigrationBearingTags matches the uncached tagsInRange + migrationBearingTags result', async () => {
+    const cached = await cachedMigrationBearingTags(previous, latest);
+    const range = await tagsInRange(previous, latest);
+    const uncached = await migrationBearingTags(range);
+    assert.deepEqual(cached, uncached);
+  });
+
+  it('cachedMigrationBearingTags does not share a cache entry across different pairs', async () => {
+    const shared = cachedMigrationBearingTags(previous, latest);
+    const distinct = cachedMigrationBearingTags(latest, latest);
+    assert.notEqual(shared, distinct);
+  });
+
+  it('cachedNewSkillWiringSurfaces returns the exact same promise for a repeated pair', async () => {
+    const p1 = cachedNewSkillWiringSurfaces(previous, latest);
+    const p2 = cachedNewSkillWiringSurfaces(previous, latest);
+    assert.equal(p1, p2, 'repeated (fromTag, toTag) call must reuse the in-flight/cached promise');
+    assert.deepEqual(await p1, await p2);
+  });
+
+  it('checkAdopter reuses the cached promise across adopters sharing the same (current, latest) pair', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'ft-upd-memo-'));
+    try {
+      const a1 = await makeAdopter(root, 'shared-pin-1', previous);
+      const a2 = await makeAdopter(root, 'shared-pin-2', previous);
+
+      await checkAdopter(a1, latest);
+      const afterFirst = cachedMigrationBearingTags(previous, latest);
+
+      await checkAdopter(a2, latest);
+      const afterSecond = cachedMigrationBearingTags(previous, latest);
+
+      assert.equal(
+        afterFirst,
+        afterSecond,
+        'a second checkAdopter call sharing (current, latest) must not repopulate the cache entry',
+      );
+    } finally {
+      await rm(root, { recursive: true, force: true });
+    }
   });
 });
