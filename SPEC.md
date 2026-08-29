@@ -448,10 +448,11 @@ this table, never a free-form value:
 | `prerequisite` | A ✋ `ACTION` that must be performed before the run can continue |
 | `model-mismatch` | The Step 1.5 concrete-`[model]` STOP |
 | `input-needed` | A question autonomous execution cannot answer — a queued bundled in-📦 prompt, or `/ft-close-epic`'s Phase 1→2 clarification ask |
+| `visual-confirm` | A Phase 3 👁️ `CONFIRM` visual ask — the check an operator-less run has nobody to hand to |
 | `dependency` | A hard dependency surfaced mid-Phase-2 — the park that predates the posture |
 | `interrupted` | The run ended without reaching closure *or* a gate — killed, out of context, session lost |
 
-The first five are the gate conversions in [`SPEC/gates.md`](SPEC/gates.md)
+The first six are the gate conversions in [`SPEC/gates.md`](SPEC/gates.md)
 §"`--unattended` operator posture"; `dependency` is the mid-Phase-2 park
 [`SPEC/blocked.md`](SPEC/blocked.md) has always had. `interrupted` is neither
 — nothing stopped the run, it simply ended — and it is the one code a *caller*
@@ -833,7 +834,11 @@ contract, including why the fix is structural rather than chromatic:
 When `/ft-task` is invoked with `--fast`, the 👁️ ask is suppressed
 (lint/type-check on changed code still runs). See
 [`SPEC/gates.md` §"`--fast` operator override"](SPEC/gates.md) for the
-flag's full surface.
+flag's full surface. Under `--unattended` the ask is **not** suppressed —
+suppression hands the visual check to a present operator, and the posture
+declares there is none, so the ask converts to a park
+(`park-reason: visual-confirm — …`; see
+[`SPEC/gates.md` §"`--unattended` operator posture"](SPEC/gates.md)).
 
 ### 🚀 Phase 4: Closure
 

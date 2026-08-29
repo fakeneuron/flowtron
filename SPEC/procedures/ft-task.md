@@ -53,7 +53,7 @@ equivalent where a step calls for one (full ledger:
 | **trigger** | The operator's conversational request to start the task — there is no slash dispatch to rely on. |
 | **autonomous mode** | The operator may ask you to run without stopping at the conditional gates (Claude Code exposes this as `--fast`). Honor it as described under each gate; the concept is platform-neutral, the flag syntax is not. |
 | **debug mode** | The operator may ask you to drive the task hypothesis-first because the root cause is not yet known (Claude Code exposes this as `--debug`). **Explicit opt-in only** — never infer it from a bug-shaped task description. It adds *content* to Phases 1–4 and no mechanics: no new phase, template, banner, or gate. See Step 4 and Step 5. |
-| **unattended mode** | The caller may declare that **no operator is present to answer a gate** (Claude Code exposes this as `--unattended`). A strict superset of autonomous mode — everything that mode suppresses stays suppressed — plus exactly one added behavior: the five gates an operator-less run cannot answer **park the tasknote** instead of firing a banner into an empty session. Full contract, including which five and what a park writes: [`SPEC/gates.md` §"`--unattended` operator posture"](../gates.md). |
+| **unattended mode** | The caller may declare that **no operator is present to answer a gate** (Claude Code exposes this as `--unattended`). It supersets autonomous mode's *autonomy* — nothing ever blocks waiting for an answer — plus exactly one added behavior: the six gates an operator-less run cannot answer **park the tasknote** instead of firing a banner into an empty session. It does **not** inherit autonomous mode's one *delegating* suppression: the visual-confirmation ask is suppressed there because a present operator owns the check, so with nobody present it converts to a park rather than vanishing. Full contract, including which six and what a park writes: [`SPEC/gates.md` §"`--unattended` operator posture"](../gates.md). |
 
 Autonomous mode and debug mode are **orthogonal and compose**: a run can be
 both, in which case the hypothesis scaffolding is written without stopping to
@@ -307,7 +307,10 @@ time (Step 6).
   ([`SPEC/gates.md` §"Emphasized inline ask shape"](../gates.md)). Still inline
   prose, **not** a banner: the emphasis is raised within the ask, not promoted
   out of it. Under autonomous mode,
-  suppress the 👁️ ask but still run lint/type-check. **Under debug mode**, also
+  suppress the 👁️ ask but still run lint/type-check. **Under unattended mode**
+  do not suppress it: there is no operator to hand the check to, so the ask
+  parks the tasknote with `park-reason: visual-confirm — …` and the run stops.
+  **Under debug mode**, also
   re-execute the *exact* minimal repro from Phase 1 and record the outcome in
   Testing Notes. This is debug mode's one non-negotiable addition and it runs
   **even under autonomous mode** — a fast debug run still has to prove the

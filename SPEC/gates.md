@@ -188,7 +188,10 @@ the same shape. Inside 📦, the banner already carries it.
 
 **`--fast` is unchanged.** The flag still suppresses the 👁️ ask entirely
 (§"`--fast` operator override"). A suppressed ask has no shape; this section
-governs only the asks that are actually emitted.
+governs only the asks that are actually emitted. **`--unattended` does not
+suppress it** — it converts the ask to a park (§"`--unattended` operator
+posture"), which likewise emits no ask and so is likewise out of this
+section's scope.
 
 ### Accepted gate replies
 
@@ -420,7 +423,11 @@ touches three surfaces:
   `--fast`, since autonomous-commit cannot resolve user-input questions.
 - **👁️ frontend visual-confirmation (suppressed).** The 👁️ ask is
   suppressed; lint/type-check on changed code still runs. The operator
-  owns the visual-confirmation responsibility on fast-mode runs.
+  owns the visual-confirmation responsibility on fast-mode runs. This
+  surface is a **delegation, not a removed pause** — which is why
+  `--unattended` is the one caller that does not inherit it
+  (§"`--unattended` operator posture" → "What is inherited, and what is
+  not").
 - **🛠️ Phase 1→2 (no-op for routine trips).** Under `/ft-task`'s
   `default-skip` flavor the default already skips routine trips, so
   `--fast` adds nothing there. The **drift carve-out is preserved**:
@@ -436,17 +443,18 @@ above.
 
 `--fast` assumes an operator who is present but does not want to be
 asked. For the stronger claim — that no operator is present at all — see
-§"`--unattended` operator posture" below, which is a strict superset of
-this flag.
+§"`--unattended` operator posture" below, which supersets this flag's
+**autonomy** while declining the one surface that depends on the operator
+being there.
 
 ## `--unattended` operator posture
 
 `--unattended` declares something `--fast` never claims: that **no
-operator is present to answer a gate**. It is a strict superset of
-`--fast` — passing it never requires also passing `--fast` — and it adds
-exactly one behavior on top. Where `--fast` still lets a gate fire,
-`--unattended` **parks the tasknote** instead of firing a banner into an
-empty session.
+operator is present to answer a gate**. It supersets `--fast`'s autonomy —
+passing it never requires also passing `--fast`, and no gate ever blocks
+waiting for an answer — and it adds exactly one behavior on top. Where
+`--fast` still lets a gate fire, `--unattended` **parks the tasknote**
+instead of firing a banner into an empty session.
 
 **Runtime stays out.** Flowtron ships no orchestrator, scheduler,
 dispatcher, or session daemon (see [`docs/VISION.md`](../docs/VISION.md)
@@ -455,13 +463,31 @@ reports to** — the same boundary [`SPEC/loop.md`](loop.md) draws for loop
 runners, widened from one runner to any operator-less caller. Contract in
 flowtron, runtime in the caller.
 
-**Inherited from `--fast`, unchanged.** All three surfaces in §"`--fast`
-operator override" apply exactly as written: 📦 force-skip, 👁️
-suppression, and 🛠️ no-op for routine trips.
+### What is inherited, and what is not
+
+`--fast`'s three surfaces are not the same kind of thing, and the
+distinction is what this posture turns on:
+
+| `--fast` surface | What it does | Under `--unattended` |
+|---|---|---|
+| 📦 force-skip | **Removes a pause.** The run proceeds; the operator reviews the commit afterwards | **Inherited**, exactly as written |
+| 🛠️ no-op for routine trips | **Removes a pause.** The `default-skip` flavor already skips them | **Inherited**, exactly as written |
+| 👁️ suppression | **Transfers an obligation** — *"the operator owns the visual-confirmation responsibility on fast-mode runs"* (§"`--fast` operator override") | **Not inherited.** Converts to a park instead |
+
+A transfer needs a transferee. `--unattended` exists to declare there is
+none, so inheriting the third surface would inherit a **transfer to
+nobody**: the obligation is not deferred, it is dropped — silently, on the
+one cue §"Emphasized inline ask shape" calls the only one that *gates task
+completion*. Converting it costs no autonomy (a park is not a pause) and
+buys the caller a readable stop where it previously got a closed task whose
+UI nobody looked at.
+
+Stated in one line: **`--unattended` supersets `--fast`'s autonomy, not its
+delegations.**
 
 ### Park conversions
 
-Five gates cannot be answered by a caller that is not there. Under
+Six gates cannot be answered by a caller that is not there. Under
 `--unattended` each converts from *ask and wait* to *park and stop*:
 
 | Gate | Attended behavior | Under `--unattended` |
@@ -471,6 +497,16 @@ Five gates cannot be answered by a caller that is not there. Under
 | ✋ `ACTION` that is a **prerequisite** for continuing | Inline cue; out-of-band, does not block the assistant | **Park.** An advisory ✋ is recorded and the run continues — only a prerequisite parks |
 | Step 1.5 **concrete-model mismatch** STOP | STOP + a structured ask (switch model, or retag the PLAN line) | **Scaffold, then park** — see §"Pre-scaffold stops" below |
 | A queued **bundled in-📦 prompt** | Forces the 📦 banner to fire even under `--fast` (§"Conditional skip rule") | **Park.** The override exists because autonomous-commit cannot resolve a user-input question; with no operator, neither can a banner |
+| 👁️ `CONFIRM` **visual ask** (Phase 3) | Suppressed by `--fast`, which hands the check to the present operator | **Park.** The one row that converts a `--fast` *suppression* rather than a surviving gate — see §"What is inherited, and what is not" |
+
+**The 👁️ trigger is the emission condition, not a second judgment.**
+Whenever Phase 3 would emit a 👁️ ask, the run parks with
+`park-reason: visual-confirm — …`. Whether a change needs visual
+confirmation at all is decided upstream, where it always was: a task with no
+rendered surface records the Phase 3 box `N/A`, emits no ask, and never
+parks. There is deliberately **no** gating-vs-corroborating split here — an
+`--fast`-style "the tests probably cover it" judgment is exactly the
+rationalization this conversion exists to remove.
 
 **The ✋ split is biased conservative — park on doubt.** Same asymmetry as
 the destructive-action predicate: an over-park costs one resume, an
@@ -488,7 +524,7 @@ The park is [`SPEC/blocked.md`](blocked.md)'s existing parked state,
 entered from a gate rather than from a hard dependency:
 
 - Flip YAML `status:` to `blocked` and the nav chip to `⏸ Blocked`.
-- Record a **structured reason** distinguishing the five stop causes
+- Record a **structured reason** distinguishing the six stop causes
   above — a caller reading the tasknote must be able to tell a drift park
   from a destructive-action park without a transcript. The reason key and
   its code tokens live in [`SPEC.md`](../SPEC.md) §"Tasknote frontmatter".
@@ -618,6 +654,8 @@ matching. Shortcuts against the Phase 1 / Phase 3 checklists belong to
 | "They said `looks good` on the 👁️ ask, so the 📦 is approved too." | `looks good` is 👁️'s natural reply and is excluded from the closed commit-go set for that reason. Approval is per-cue; a visual confirmation is not commit-go. | §"Accepted gate replies"; §"Conditional skip rule" → bundled-prompt override |
 | "`--unattended` was passed, so nothing is allowed to stop the run." | It converts pauses into **parks** — and a park *is* a stop. Five named gates halt the run rather than wave it through, and the paper-complete guard is untouched in all three parts. The flag removes pauses, never proof. | §"`--unattended` operator posture" → "What `--unattended` never relaxes" |
 | "Nobody is watching, so parking and finishing look the same from here." | Exactly backwards. A park is the **only** honest report of a gate that went unanswered; committing past one manufactures a paper-complete with no operator left to catch it. | §"`--unattended` operator posture" → "Park conversions" |
+| "`--fast` suppresses 👁️, and `--unattended` is a superset — so 👁️ is suppressed here too." | The superset is over `--fast`'s **autonomy**, not its delegations. 📦 force-skip and 🛠️ no-op *remove a pause*; 👁️ suppression *hands the visual check to the operator who is standing there* — and this posture's entire premise is that nobody is. Inheriting it drops the obligation instead of transferring it. The ask converts to a `visual-confirm` park. | §"`--unattended` operator posture" → "What is inherited, and what is not" |
+| "The change is frontend, but the tests are green and it *probably* looks fine unattended." | There is no gating-vs-corroborating split on 👁️ — the trigger is the emission condition. If you judged the change needs a look, park; if it needs no look, the Phase 3 box is `N/A` and no ask exists to convert. "Probably fine" is the third judgment call this conversion deleted on purpose. | §"`--unattended` operator posture" → "Park conversions" |
 | "That ✋ was *probably* advisory — keep going." | "Probably" is the doubt the ✋ split is biased against, the same asymmetry as the destructive-action predicate: an over-park costs one resume, an under-park closes a task whose prerequisite was never performed. | §"`--unattended` operator posture" → "Park conversions" |
 | "Recap is done, so I can suggest next-move while waiting for commit-go." | Next-move and the copy-paste line are **post-SHA**. The fire-branch turn emits 📦 (or 🟢 GO) and waits; 🏁 / next-move / copy-paste land only after a deliverable-covering SHA. Motivating case: CORE-432.2 (micro closed + next-task cue with uncommitted App/PLAN dirt). | §"Conditional skip rule" → On fire; [`SPEC.md`](../SPEC.md) §"Post-closure protocol" step 2 |
 
@@ -663,3 +701,6 @@ finding to report or a box to tick.
   override" already refuses.
 - An `--unattended` run reached Phase 4 and its ✋ `ACTION` prerequisite was
   never performed.
+- An `--unattended` run changed a rendered surface, wrote nothing to the
+  Phase 3 👁️ box but `N/A`, and committed — with no `visual-confirm` park and
+  no operator who ever saw the result.

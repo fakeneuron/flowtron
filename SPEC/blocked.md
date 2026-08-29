@@ -64,7 +64,7 @@ not run Phase 3 or Phase 4. The tasknote sits at
 **Parked state.** A blocked tasknote is paused, not closed — Phase 4 is
 reserved for actual completion (or a Phase 1 De-scope). The tasknote is not
 archived, the PLAN.md task line stays unchecked, and Phase 1 + partial
-Phase 2 work are preserved verbatim. `park-reason:` states which of the seven
+Phase 2 work are preserved verbatim. `park-reason:` states which of the eight
 stop causes put the note here, so a caller reading the file alone can tell a
 drift park from a destructive-action park without a transcript.
 

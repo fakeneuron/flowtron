@@ -240,9 +240,11 @@ the discipline the sizing principle depends on. The safe patterns:
 - **`--unattended` for when nobody's there to ask.** `--fast` still
   assumes an operator who could answer a gate if one fired; `--unattended`
   declares that no one is — an orchestrator's child, a scheduled run, a
-  session with no one watching. It's a strict superset of `--fast`, and
-  where `--fast` would still let a gate fire, `--unattended` parks the
-  tasknote instead of firing a banner into an empty session
+  session with no one watching. It supersets `--fast`'s autonomy — not
+  its delegations, so the 👁️ visual check `--fast` hands to a present
+  operator is one of the gates that converts — and where `--fast` would
+  still let a gate fire, `--unattended` parks the tasknote instead of
+  firing a banner into an empty session
   ([`SPEC/gates.md`](SPEC/gates.md) §"`--unattended` operator posture").
   The contract lives in flowtron; the runtime that decides *when* to run
   unattended is still the caller's.

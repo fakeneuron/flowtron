@@ -10,7 +10,9 @@
 
 ## What the posture adds
 
-`--unattended` declares that **no operator is present to answer a gate**. On the three runners it is a strict superset of `--fast`: setting `unattended-mode = true` also sets `fast-mode = true`, so all three `--fast` surfaces (📦 force-skip, 👁️ suppression, 🛠️ no-op for routine trips) apply exactly as written — the operator does not pass both flags. On `/ft-close-epic` there is no `--fast` to be a superset of, and the flag carries the posture directly.
+`--unattended` declares that **no operator is present to answer a gate**. On the three runners it supersets `--fast`'s *autonomy*: setting `unattended-mode = true` also sets `fast-mode = true` — the operator does not pass both flags — and **two** of the three `--fast` surfaces apply exactly as written (📦 force-skip, 🛠️ no-op for routine trips). On `/ft-close-epic` there is no `--fast` to superset, and the flag carries the posture directly.
+
+**The third surface is not inherited.** `--fast`'s 👁️ suppression *delegates* the visual check to the operator standing there (`SPEC/gates.md` §"`--fast` operator override": *"the operator owns the visual-confirmation responsibility on fast-mode runs"*); the other two merely *remove a pause*. A delegation to nobody drops the obligation rather than transferring it, so under this posture the 👁️ ask **converts to a park** like any other unanswerable gate — see the last row of the map below. Contract: `SPEC/gates.md` §"`--unattended` operator posture" → "What is inherited, and what is not". In one line: **the posture supersets `--fast`'s autonomy, not its delegations.**
 
 On top of that, it adds **exactly one behavior**: where `--fast` still lets a gate fire, `--unattended` **parks the tasknote** instead of firing a banner into an empty session. A conversion *removes* a banner and never adds one. Mint no new cue glyph; the CORE-065 two-banner cap is untouched.
 
@@ -39,7 +41,7 @@ Every conversion below performs the same four writes, then stops:
 
 ## Conversion map
 
-Five gates convert from *ask and wait* to *park and stop*. The sixth row is the mid-execution dependency park that predates the posture, listed here because the posture changes what the runners do about it.
+Six gates convert from *ask and wait* to *park and stop*. The seventh row is the mid-execution dependency park that predates the posture, listed here because the posture changes what the runners do about it.
 
 | Gate | `park-reason` code | `/ft-task` | `/ft-micro-task` | `/ft-goal-task` |
 |---|---|---|---|---|
@@ -48,7 +50,12 @@ Five gates convert from *ask and wait* to *park and stop*. The sixth row is the 
 | **Destructive-action escalation** 🗄️/▶️/📡/💻 | `destructive` | Step 5 Phase 2 | Step 3 execution | Step 5 loop (already parks — add the key) |
 | ✋ `ACTION` that is a **prerequisite** for continuing | `prerequisite` | wherever it surfaces | wherever it surfaces | wherever it surfaces |
 | A queued **bundled in-📦 prompt** | `input-needed` | Step 6 | Step 5 | Step 6 |
+| 👁️ `CONFIRM` **visual ask** | `visual-confirm` | Step 5 Phase 3 | — *(no separate 👁️ ask)* | Step 6 one-time post-loop ask |
 | Hard dependency mid-execution *(pre-existing park)* | `dependency` | Step 5 Phase 2 | Step 3 — park + promote note | Step 5 loop |
+
+**The 👁️ trigger is the emission condition, not a second judgment.** Wherever the run would emit a 👁️ ask, park with `park-reason: visual-confirm — <what needs looking at, and where>` instead. Whether the change needs a visual check at all is decided upstream, exactly where it always was: a task with no rendered surface records the Phase 3 box `N/A`, emits no ask, and never parks. Do **not** invent a gating-vs-corroborating split — "the tests probably cover it" is the judgment this conversion deletes. `/ft-micro-task` has no separate 👁️ ask (`SKILL.md` §Step 0), so the row is n/a there rather than a park.
+
+**`/ft-goal-task`'s one-time ask.** Per-cycle 👁️ suppression inside the loop is unchanged — taste criteria were split out to the one-time post-loop ask at Step 6, so the loop never had an ask to convert (`SPEC/loop.md` §"Gate collapse"). It is that **one-time** ask that parks. A loop that converged is not a loop that finished: park before closure, and record the split-out criteria in the reason prose.
 
 **The ✋ split is biased conservative — park on doubt.** An *advisory* ✋ is recorded and the run continues; only a **prerequisite** ✋ parks. "It is probably advisory" is exactly the doubt this bias exists to refuse: an over-park costs one resume, an under-park reaches closure with the prerequisite never performed.
 

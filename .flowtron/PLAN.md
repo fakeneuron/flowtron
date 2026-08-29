@@ -13,8 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-495** [medium] | visual-confirm-park — Add a 👁️→park conversion row to `unattended-mode.md` §Conversion map plus a `visual-confirm` code in SPEC's `park-reason` closed set, so a Phase 3 visual ask parks instead of vanishing. Requires narrowing the strict `--fast`-superset claim, which currently suppresses it. Found by caobunga CBN-EPIC-17.1.
-
 ## Low
 
 - [ ] **CORE-493** [light]🔧 | canonical-tag-sha-reuse — Memoize canonicalTagSha by tag — it re-spawns git rev-parse per adopter for a sweep-constant latest (via gitlinkDrift) and a commonly-shared current (missing-pinned-tag guard); and reconcile applyBump's hand-inlined duplicate of that lookup with CORE-490.2's sentinel contract. Surfaced by CORE-490.N audit 2026-08-29.
@@ -23,6 +21,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-495** [medium] | visual-confirm-park — Completed 2026-08-29.
 - [x] **CORE-494** [medium] | unattended-marker-grammar — Completed 2026-08-29.
 - [x] **FE-EPIC-101** [medium] | viz-archive-scale — Completed 2026-08-29.
   - [x] **FE-101.2** [medium]🧩 | archive-wire-slim — Completed 2026-08-29.

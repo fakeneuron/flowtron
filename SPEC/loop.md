@@ -59,10 +59,14 @@ semantics** (see [`SPEC/gates.md`](gates.md) §"`--fast` operator override"):
   `✅` skip-marker, per the `--fast` force-skip); a cycle that fails
   verification does **not** commit — it retries or terminates. There is no
   per-cycle operator approval; the verify command is the gate.
-- **👁️ visual-confirmation ask** — suppressed, exactly as under `--fast`.
-  A criterion that can only be judged by eye is not loop-verifiable; split
-  it out to a one-time 👁️ ask outside the loop (the `/ft-goal-task`
-  Acceptance-criterion rule, `.4`).
+- **👁️ visual-confirmation ask** — suppressed *inside* the loop, exactly as
+  under `--fast`. A criterion that can only be judged by eye is not
+  loop-verifiable; split it out to a one-time 👁️ ask outside the loop (the
+  `/ft-goal-task` Acceptance-criterion rule, `.4`). Under `--unattended` that
+  one-time ask does not vanish — it **parks** with
+  `park-reason: visual-confirm — …`, per [`SPEC/gates.md`](gates.md)
+  §"`--unattended` operator posture". The per-cycle suppression is unaffected:
+  the loop never had an ask to convert.
 
 **Destructive-action carve-out.** The one thing that does **not** collapse
 is the destructive 🗄️/▶️/📡/💻 escalation ([`SPEC/gates.md`](gates.md)
