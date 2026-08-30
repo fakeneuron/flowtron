@@ -13,8 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-517** [light]🔧 | repo-layout-stale — Add the four missing root surfaces to `AGENTS.md` §Repo Layout (`README.md`, `SECURITY.md`, `CONTRIBUTING.md`, `.github/`); `CONTRIBUTING.md` was edited in CORE-511 without the map picking it up. Surfaced by audit-context 2026-08-30 (Pass d, Medium).
-
 ## Low
 
 - [ ] **CORE-518** [light]🔧 | roster-utility-skills — Note the six non-tasknote skills wired into this checkout but named nowhere in `AGENTS.md` (`/ft-audit`, `/ft-audit-context`, `/ft-audit-repo`, `/ft-flowtron`, `/ft-stats`, `/ft-new-project`) as a separate line, leaving the `KEEP IN SYNC`-guarded peer-skill roster untouched. Surfaced by audit-context 2026-08-30 (Pass d, Low).
@@ -24,6 +22,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-517** [light]🔧 | repo-layout-stale — Completed 2026-08-30.
 - [x] **CORE-516** [light]🔧 | model-bullet-duplicate — Completed 2026-08-30.
 - [x] **CORE-515** [medium]🧩 | adopter-claude-md-docs — Completed 2026-08-30.
 - [x] **CORE-514** [light]🔧 | self-host-claude-md — Completed 2026-08-30.

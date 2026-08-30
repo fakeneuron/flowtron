@@ -42,6 +42,10 @@ unless the user explicitly asks for a small direct change.
 
 ## Repo Layout
 
+- `README.md` — top-level project overview and entry point.
+- `SECURITY.md` — security policy and vulnerability reporting.
+- `CONTRIBUTING.md` — contributor guide: maintenance model, filing issues, PR process.
+- `.github/` — GitHub-specific config (CI workflow: `workflows/ci.yml`).
 - `SPEC.md` — canonical workflow contract.
 - `SPEC/` — lazy modules for epics, starter tasks, blocked tasks, model
   routing, gates, versioning, tasknote selection, loop tasks, and
