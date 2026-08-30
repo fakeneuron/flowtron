@@ -112,7 +112,7 @@ Gate on the `[model]` segment captured in Step 1 before any source reads — hea
 
 ## Step 3a — Promote a starter (existing file with `status: starter`)
 
-Read `<SPEC_DIR>/starter.md` (lifecycle contract) and `<SKILL_DIR>/step-3a-promote-starter.md` (executable steps), then continue at **Step 4 (Phase 1: Discovery)**.
+Read `<SPEC_DIR>/starter.md` (lifecycle contract) and `<SKILL_DIR>/step-3a-promote-starter.md` (executable steps), then emit the **Step 3d purpose blurb** and continue at **Step 4 (Phase 1: Discovery)**.
 
 ## Step 3b — Scaffold a fresh tasknote (no existing file)
 
@@ -128,9 +128,24 @@ Copy the template (path resolved in Step 0) to `.flowtron/tasknote/<TASK-ID>.md`
 
 🎯 Goal is derived from the PLAN.md line at scaffold; ask the user if it's too terse for a clear one-sentence goal. ✅ Acceptance and 🧩 Subtasks are empty checklists at scaffold, populated during Phase 1 Discovery.
 
+Then emit the **Step 3d purpose blurb** and continue at **Step 4 (Phase 1: Discovery)**.
+
 ## Step 3c — Resume a blocked tasknote (existing file with `status: blocked`)
 
-Read `<SPEC_DIR>/blocked.md` (lifecycle contract) and `<SKILL_DIR>/step-3c-resume-blocked.md` (executable steps), then continue at **Step 5** at Phase 2 (the lazy fragment's step 5 directs there; Phase 1 is already complete on a parked tasknote).
+Read `<SPEC_DIR>/blocked.md` (lifecycle contract) and `<SKILL_DIR>/step-3c-resume-blocked.md` (executable steps), then emit the **Step 3d purpose blurb** and continue at **Step 5** at Phase 2 (the lazy fragment's step 5 directs there; Phase 1 is already complete on a parked tasknote).
+
+## Step 3d — Emit the purpose blurb (all three paths)
+
+Whichever of 3a / 3b / 3c ran, the tasknote is now open and the operator has seen only tool calls. Before the first phase step, emit the scaffold-time purpose blurb per SPEC §"🎯 Scaffold-time purpose blurb" — two lines, ID + shortname, then 1-2 sentences of purpose from the PLAN.md long description and the `🎯 Goal` just written:
+
+```text
+🎯 <TASK-ID> — <shortname>
+<1-2 sentences of plain-English purpose.>
+```
+
+On the 3c resume path, also name the `park-reason:` being cleared — the operator lands directly in Phase 2 with no Discovery to orient them, so the blurb is carrying more weight there than anywhere else.
+
+Emit it and keep going in the same turn. It is **not a cue and not a gate**: no reply is expected, nothing blocks on it, and neither `--fast` nor `--unattended` suppresses it (there is nothing to answer). The bounds — including why `🎯` is not a new glyph and why the two-banner cap is untouched — are canonical in SPEC.
 
 ## Step 4 — Phase 1: Discovery (drive now)
 

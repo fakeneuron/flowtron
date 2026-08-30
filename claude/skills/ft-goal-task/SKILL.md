@@ -94,6 +94,19 @@ Base mechanics identical to `/ft-task`:
 
 (On the 3c resume path the keys + section already exist; do not re-add them.)
 
+## Step 3d — Emit the purpose blurb (all three paths)
+
+Identical to `/ft-task` Step 3d. Whichever of 3a / 3b / 3c ran, emit the scaffold-time purpose blurb per SPEC §"🎯 Scaffold-time purpose blurb" before the first phase step — two lines, ID + shortname, then 1-2 sentences of purpose from the PLAN.md long description and the `🎯 Goal` just written:
+
+```text
+🎯 <TASK-ID> — <shortname>
+<1-2 sentences of plain-English purpose.>
+```
+
+Goal-loop flavor: name the loop in the blurb, since the operator is about to watch an execute→verify cycle rather than a single pass (e.g. `… will run as a goal loop against machine-checkable criteria, budget <loop-max>`). On the 3c resume path also name the `park-reason:` being cleared; the `## 🔁 Iterations` log carries what already ran.
+
+Not a cue and not a gate — no reply expected, nothing blocks, and neither `--fast` nor `--unattended` suppresses it. Bounds are canonical in SPEC.
+
 ## Step 4 — Phase 1: Discovery (standard checklist + the verify-command rule)
 
 Work through the Phase 1 checklist in the scaffolded tasknote **exactly as `/ft-task` does** (tick boxes, archive skim via `ls` + `grep -l`, drift check, AskUserQuestion for genuine ambiguity, populate 🧩 Subtasks, Relevance Assessment). The 🛠️ Phase 1→2 exit gate uses the `default-skip` flavor (same as `/ft-task`): skip on routine clarifications, fire only on significant scope deviation (Re-scope/De-scope always fire). This gate is a **one-time pre-loop event** — it is not re-run each cycle.

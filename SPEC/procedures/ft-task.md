@@ -201,6 +201,24 @@ Check `.flowtron/tasknote/<TASK-ID>.md` and branch on its existence / YAML
   / `parallel-safe-with:` so a worktree copy still sees the claim
   ([`SPEC/epic.md`](../epic.md) §"Fan-out").
 
+**Purpose blurb (all three opening paths).** Whether you promoted, scaffolded,
+or resumed, the tasknote is now open and the operator has seen only tool
+activity. Before step 4 begins, emit a short plain-English statement of what
+the task is — two lines, the ID and shortname, then 1-2 sentences of purpose
+drawn from the `PLAN.md` long description and the `🎯 Goal`:
+
+```text
+🎯 <TASK-ID> — <shortname>
+<1-2 sentences of plain-English purpose.>
+```
+
+On a resume, also name the `park-reason:` being cleared — Phase 1 is already
+complete there, so the operator lands directly in Phase 2 with no Discovery to
+orient them. Emit it and continue in the same turn: it expects no reply, blocks
+nothing, and is suppressed by neither `--fast` nor `--unattended`. It is **not**
+an operator cue and adds no gate. Full contract:
+[`SPEC.md` §"🎯 Scaffold-time purpose blurb"](../../SPEC.md).
+
 ### 4 — Phase 1: Discovery
 
 Work the Phase 1 checklist in [`SPEC.md` §"📝 Phase 1: Discovery"](../../SPEC.md),

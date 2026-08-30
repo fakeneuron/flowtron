@@ -89,6 +89,7 @@ deliberate:
 | ✅ | phase / closure-complete marker | `## ✅ Acceptance` heading · `✅ Completed` chip |
 | 🟢 | `GO` commit-ask | `🟢 In progress` chip |
 | 🌱 | — | `## 🌱 Starter context` heading · `🌱 Starter` chip |
+| 🎯 | — (**not a cue**; scaffold-time purpose blurb) | `## 🎯 Goal` heading |
 | 🔧 / 🧠 / 🔭 | `LIGHT` / `HEAVY` / `XHEAVY` next-task | `[light]` / `[heavy]` / `[xheavy]` tier |
 
 Every row above is *coherent* reuse — the cue and the structure name the same
@@ -96,6 +97,18 @@ underlying concept. The 🛠️ banner approves entry into the phase the 🛠️
 heading names; the 🟢 ask lands the work the 🟢 chip marks as in progress.
 Reuse across *unrelated* concepts is not permitted; that would be a genuine
 collision.
+
+The 🎯 row is the one entry with an **empty layer-1 cell**, and that is the
+point. The scaffold-time purpose blurb ([`SPEC.md`](../SPEC.md) §"🎯
+Scaffold-time purpose blurb") emits 🎯 conversationally — the position an
+operator cue would occupy — while being no cue at all: it bears no obligation,
+accepts no reply, and gates nothing. It is listed here rather than left silent
+so that the glyph is documented at the surface it is emitted from; it is
+deliberately **not** listed in §"Operator-cue vocabulary" below, because the
+cue table is for cues, and adding to it is a vocabulary change of the kind
+CORE-254.2 / CORE-308 / CORE-353.3 each deliberated. The reuse is coherent by
+the same rule as every other row: the blurb *is* the Goal, spoken instead of
+filed.
 
 **Non-cue glyphs.** A small residual sits outside all three layers — ⚡
 (`--fast` active), 🔬 (`--debug` active), 🧭 (deep pre-pass), 🌳 (worktree

@@ -88,6 +88,15 @@ Copy the micro template (path resolved in Step 0) to `.flowtron/tasknote/<TASK-I
 - 🎯 Goal — derived from the PLAN.md line; ask if too terse for a one-sentence goal.
 - ⚡ Notes ships with bold-prefix prompts in place (filled in Step 3); ✅ Recap is placeholder (filled in Step 4).
 
+**Then emit the purpose blurb** per SPEC §"🎯 Scaffold-time purpose blurb", before Step 3 touches anything — two lines, ID + shortname, then 1-2 sentences of purpose from the PLAN.md long description and the `🎯 Goal` just written:
+
+```text
+🎯 <TASK-ID> — <shortname>
+<1-2 sentences of plain-English purpose.>
+```
+
+This skill has a single scaffold path (no promote / resume branch), so the blurb fires here and nowhere else. Emit it and keep going in the same turn — it is **not a cue and not a gate**: no reply expected, nothing blocks, and neither `--fast` nor `--unattended` suppresses it. It matters most in a one-shot run, where the blurb and the ✅ Recap are the only two plain-English reads the operator gets. Bounds are canonical in SPEC.
+
 ## Step 3 — Drive execution inline
 
 Fill the five bold-prefix prompts in `## ⚡ Notes` before touching code. They mirror SPEC §"📝 Phase 1: Discovery" (Relevance / Best Practices Review / Drift / Archive skim) + §"🛠️ Phase 2: Execution" (Pattern survey).
