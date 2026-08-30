@@ -13,7 +13,26 @@ in `SPEC.md`; read it before starting non-trivial work.
 - Tasknote templates live in `templates/`.
 - Lazy workflow modules live in `SPEC/` and are loaded when the task shape
   calls for them.
-- Start a task with `/ft-task <TASK-ID>`; peer skills: `/ft-spec`, `/ft-micro-task`, `/ft-starter-task`, `/ft-file-followup` (`--park [--low|--med|--fut|--high]`), `/ft-epic-discovery`, `/ft-close-epic`, `/ft-task --debug`, `/ft-goal-task`, `/ft-refactor`, `/ft-worktree-start`, `/ft-worktree-end`, `/ft-release`. <!-- KEEP IN SYNC: this peer-skill roster is a names-only list except `/ft-file-followup`'s park-priority flags (Pair F release gate); richer detail (stubs, gates) lives in SPEC/tasknote-selection.md and SPEC/gates.md, not in claude/AGENTS-snippet.md's paste-block, which since CORE-510 names the skills and points there — adding/removing a tasknote-family skill still requires editing both rosters. Version-bump skills are checkout-specific: this self-host guide names `/ft-release`; the adopter paste-block names `/ft-update`. This pairing also covers the path-convention bullets just above (Plans/tasknotes/archive locations) — both files describe the same layout in slightly different prose; editing one requires checking the other. -->
+- Start a task with `/ft-task <TASK-ID>`; peer skills: `/ft-spec`,
+  `/ft-micro-task`, `/ft-starter-task`,
+  `/ft-file-followup` (`--park [--low|--med|--fut|--high]`),
+  `/ft-epic-discovery`, `/ft-close-epic`, `/ft-task --debug`,
+  `/ft-goal-task`, `/ft-refactor`, `/ft-worktree-start`,
+  `/ft-worktree-end`, `/ft-release`.
+  <!-- KEEP IN SYNC — guards the roster above AND the path-convention bullets
+       (Plans / tasknotes / archive locations) further up this section. Mirror:
+       claude/AGENTS-snippet.md:9.
+       1. The roster is names-only, except `/ft-file-followup`'s park-priority
+          flags, which the Pair F release gate requires on both surfaces.
+       2. Richer detail (stubs, gates) lives in SPEC/tasknote-selection.md and
+          SPEC/gates.md — not in claude/AGENTS-snippet.md's paste-block, which
+          since CORE-510 names the skills and points there.
+       3. Adding or removing a tasknote-family skill still requires editing
+          both rosters.
+       4. Version-bump skills are checkout-specific: this self-host guide names
+          `/ft-release`; the adopter paste-block names `/ft-update`.
+       5. The path-convention bullets are described in both files in slightly
+          different prose; editing one requires checking the other. -->
 - Each PLAN.md task line carries a `[model]` segment (see `SPEC/model.md` §"Model field" for practical/agent-aware guidance and the model-mismatch surface cue). The task runs end-to-end on the tagged model.
 
 Flowtron self-hosts its own roadmap. For non-trivial edits, follow the
