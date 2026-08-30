@@ -11,8 +11,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-507** [medium]🧩 | ft-release-context-split — `claude/skills/ft-release/SKILL.md` is 76,766 chars (~2× the ~40k load threshold); Step 7.1 alone is 40,750. Extract 7.1 doc-drift sweep and 7.2 tag-message drafting into sub-files following the `ft-task/` + `ft-audit/passes/` pattern, then re-evaluate whether Step 2.5's context-budget escape hatch is still needed. Surfaced by audit-context 2026-08-30 (Pass a, High).
-
 ## Medium
 
 - [ ] **CORE-508** [medium]🧩 | skill-30k-band-split — `ft-task` (33,747), `ft-epic-discovery` (31,097), and `ft-close-epic` (30,231) all sit in the 30–40k band; only `ft-task` has sub-files. Split the two flat monoliths before they cross the cap. Surfaced by audit-context 2026-08-30 (Pass a, Medium).
@@ -28,6 +26,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-507** [medium]🧩 | ft-release-context-split — Completed 2026-08-30.
 - [x] **CORE-505** [light] | completed-rotation — Completed 2026-08-30.
 - [x] **CORE-506** [medium]🧩 | release v5.23.0 — Completed 2026-08-30.
 - [x] **CORE-503** [medium]🧩 | visual-baseline-vs-park — Completed 2026-08-30.

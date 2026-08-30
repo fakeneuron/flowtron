@@ -74,7 +74,7 @@ per-task step Core Principle #3 exists to keep small.
 
 **Accepted residual risk.** Skill bodies state facts *about* swept docs, so a
 contract change can falsify one with no sweep reaching it —
-`claude/skills/ft-release/SKILL.md:567` asserted a stale claim about this very
+`/ft-release` §7.1 asserted a stale claim about this very
 list for a day after CORE-489.3 added `docs/VISION.md` to it. The catch layer is
 the epic-audit sweep, which is where CORE-489.N found it; per-task closure is
 not expected to. CORE-492 weighed a release-time citation guard for this and
