@@ -13,7 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-509** [light]🔧 | keep-in-sync-scope — The `KEEP IN SYNC` comments in `AGENTS.md:16` and `claude/AGENTS-snippet.md:9` guard only the peer-skill roster, but `AGENTS.md:8-12` (path conventions) and `:19-22` (4-phase list) are duplicated in the paste-block too and can drift unguarded. Widen the comment's scope sentence, or point the lifecycle line at `SPEC.md` instead of restating it. Surfaced by audit-context 2026-08-30 (Pass b, Medium).
 - [ ] **CORE-510** [medium]🧩 | paste-block-restatement — The adopter paste-block is 7,282 chars every adopter carries permanently in their own `AGENTS.md`; bullet 23 (`--unattended`) is 1,498 chars re-deriving the gate-parking contract it then cites `SPEC/gates.md` for, with bullets 19/27/26/24 the same shape. Cut each to a one-line what-it-is plus its existing SPEC path — reference, not restate. Surfaced by audit-context 2026-08-30 (Pass d, Medium).
 
 ## Low
@@ -25,6 +24,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-509** [light]🔧 | keep-in-sync-scope — Completed 2026-08-30.
 - [x] **CORE-513** [light]🔧 | ft-release-7.2-extract — Completed 2026-08-30.
 - [x] **CORE-508** [medium]🧩 | skill-30k-band-split — Completed 2026-08-30.
 - [x] **CORE-507** [medium]🧩 | ft-release-context-split — Completed 2026-08-30.

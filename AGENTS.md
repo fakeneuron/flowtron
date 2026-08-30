@@ -13,13 +13,12 @@ in `SPEC.md`; read it before starting non-trivial work.
 - Tasknote templates live in `templates/`.
 - Lazy workflow modules live in `SPEC/` and are loaded when the task shape
   calls for them.
-- Start a task with `/ft-task <TASK-ID>`; peer skills: `/ft-spec`, `/ft-micro-task`, `/ft-starter-task`, `/ft-file-followup` (`--park [--low|--med|--fut|--high]`), `/ft-epic-discovery`, `/ft-close-epic`, `/ft-task --debug`, `/ft-goal-task`, `/ft-refactor`, `/ft-worktree-start`, `/ft-worktree-end`, `/ft-release`. <!-- KEEP IN SYNC: this peer-skill roster is a names-only list except `/ft-file-followup`'s park-priority flags (Pair F release gate); richer detail (stubs, gates) lives in claude/AGENTS-snippet.md's paste-block and SPEC/tasknote-selection.md — adding/removing a tasknote-family skill requires editing both. Version-bump skills are checkout-specific: this self-host guide names `/ft-release`; the adopter paste-block names `/ft-update`. -->
+- Start a task with `/ft-task <TASK-ID>`; peer skills: `/ft-spec`, `/ft-micro-task`, `/ft-starter-task`, `/ft-file-followup` (`--park [--low|--med|--fut|--high]`), `/ft-epic-discovery`, `/ft-close-epic`, `/ft-task --debug`, `/ft-goal-task`, `/ft-refactor`, `/ft-worktree-start`, `/ft-worktree-end`, `/ft-release`. <!-- KEEP IN SYNC: this peer-skill roster is a names-only list except `/ft-file-followup`'s park-priority flags (Pair F release gate); richer detail (stubs, gates) lives in claude/AGENTS-snippet.md's paste-block and SPEC/tasknote-selection.md — adding/removing a tasknote-family skill requires editing both. Version-bump skills are checkout-specific: this self-host guide names `/ft-release`; the adopter paste-block names `/ft-update`. This pairing also covers the path-convention bullets just above (Plans/tasknotes/archive locations) — both files describe the same layout in slightly different prose; editing one requires checking the other. -->
 - Each PLAN.md task line carries a `[model]` segment (see `SPEC/model.md` §"Model field" for practical/agent-aware guidance and the model-mismatch surface cue). The task runs end-to-end on the tagged model.
 
 Flowtron self-hosts its own roadmap. For non-trivial edits, follow the
-tasknote lifecycle from `SPEC.md`: Discovery -> Execution -> Testing &
-Linting -> Closure. Do not skip phases unless the user explicitly asks for a
-small direct change.
+tasknote lifecycle: `SPEC.md` §"The 4-phase workflow". Do not skip phases
+unless the user explicitly asks for a small direct change.
 
 ## Repo Layout
 
