@@ -30,6 +30,12 @@ This project uses **flowtron** for task tracking. The canonical workflow contrac
 - The `.flowtron/core/` submodule is read-only here. Edits go upstream to flowtron and arrive via deliberate version bumps — see `.flowtron/core/SPEC/versioning.md` and `.flowtron/tasknote/README.md` for the pinned version.
 ```
 
+### Check that Claude Code loads it
+
+Pasting is not loading. In a fresh session, confirm `AGENTS.md` is in context — ask the assistant to quote the `## Workflow` heading you just pasted, or check the context files the session reports loading. If it isn't there, don't paste the block a second time into `CLAUDE.md`; make `CLAUDE.md` resolve to the same file by running `ln -s AGENTS.md CLAUDE.md` from the project root.
+
+If the project already has a real `CLAUDE.md` with Claude-only directives, keep it and add `@AGENTS.md` as an import line instead. Either way `AGENTS.md` stays the single source of the contract. Full rationale, the verification steps, and the same check for other agents' native context files: [`docs/MIGRATION.md`](../docs/MIGRATION.md) §1.3.
+
 ---
 
 ## One-time symlink wiring

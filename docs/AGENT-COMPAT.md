@@ -55,7 +55,10 @@ for its Grok Build notes. The agent-neutral workflow contract itself
   the open-standard `AGENTS.md` paste-block. Several agents also read a
   native context file (`CLAUDE.md`, `GROK.md`, `GEMINI.md`, `.cursorrules`,
   Aider's `CONVENTIONS.md`); those are orthogonal to flowtron, which
-  targets `AGENTS.md` so one paste-block serves all agents.
+  targets `AGENTS.md` so one paste-block serves all agents. Orthogonal in
+  *content* — an agent that turns out not to load `AGENTS.md` is pointed at
+  it (symlink or import) rather than given a second copy of the block; see
+  [`MIGRATION.md`](MIGRATION.md) §1.3.
 - **Skill / command primitive** — whether the agent exposes a slash-command
   or skill mechanism, and whether flowtron ships a bundle for it. Claude Code
   and Codex CLI have full shipped inventories today; Cursor and Grok are

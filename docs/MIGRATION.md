@@ -250,6 +250,30 @@ Globally installing a slug the repo-scoped wiring above already provides makes i
 
 Open `.flowtron/core/claude/AGENTS-snippet.md` and copy the markdown block from the "Block to paste into AGENTS.md" section into your project's `AGENTS.md` (create the file if it doesn't exist). `AGENTS.md` is the open-standard memory file read by Claude Code, Codex CLI, Cursor, Sourcegraph Amp, Aider, and Grok Build — pasting here makes the flowtron contract visible to whatever assistant the adopter uses. Project-specific instructions for a single assistant (e.g., `CLAUDE.md` for Claude-only directives) stay where they are; flowtron's block is agent-neutral.
 
+**Confirm your assistant actually loads it.** Which context files an agent reads at cold start is that agent's behavior, not flowtron's — and it varies by version and by configuration. A pasted block in a file nobody loads is the worst outcome of this step, because nothing looks wrong. Verify once, in a fresh session, before moving on:
+
+- Ask the assistant to quote a line that exists **only** in `AGENTS.md` (the flowtron `## Workflow` heading you just pasted works). If it can't, `AGENTS.md` is not in its context.
+- Claude Code additionally lists the context files it loaded at session start — check that `AGENTS.md` (or a `CLAUDE.md` resolving to it) appears there.
+
+If `AGENTS.md` doesn't load, do **not** copy the block into a second file — two copies of the contract drift apart. Point the agent's native context file at the one you already have:
+
+```sh
+# No CLAUDE.md yet — make CLAUDE.md *be* AGENTS.md
+ln -s AGENTS.md CLAUDE.md
+```
+
+The symlink is relative and one file deep, so it survives `git clone` and stays correct on Windows checkouts that materialize symlinks as copies (worst case, a stale copy of a file the agent would otherwise not read at all). Commit it — §1.6 stages it.
+
+If the project already has a real `CLAUDE.md` holding Claude-only directives, leave it alone and add an import line to it instead:
+
+```markdown
+@AGENTS.md
+```
+
+Then re-run the verification above. Both routes leave `AGENTS.md` the single source of the contract; `CLAUDE.md` only ever carries the loading shim plus whatever Claude-only directives already lived there. Flowtron's own repo uses the symlink route — see its root `CLAUDE.md`.
+
+The same applies to any other agent with a native context file (`GROK.md`, `GEMINI.md`, Aider's `CONVENTIONS.md`): verify, and shim to `AGENTS.md` only if the verification fails. See [`AGENT-COMPAT.md`](AGENT-COMPAT.md) §"Reading the cells" for the per-agent entry points.
+
 ### 1.4 Create `.flowtron/PLAN.md`
 
 ```sh
@@ -281,6 +305,8 @@ git add .gitmodules .flowtron/core .flowtron/PLAN.md .flowtron/tasknote/ AGENTS.
 grep '^ln -s' .flowtron/core/claude/AGENTS-snippet.md | awk '{print $NF}' | xargs git add
 git commit -m "chore: adopt flowtron at vX.Y.Z"
 ```
+
+If §1.3's verification sent you to the `CLAUDE.md` shim, add it to the first line (`… AGENTS.md CLAUDE.md`) — git stores the symlink itself, not a copy of `AGENTS.md`.
 
 The second line stages exactly the symlinks §1.2 created, read back from the snippet that created them. That snippet is the single source of truth for the adopter-wiring roster ([`claude/AGENTS-snippet.md`](../claude/AGENTS-snippet.md) §"One-time symlink wiring"), so this block restates no path list and cannot fall behind a newly shipped skill. Explicit paths — not `git add .` — keep the migration commit scoped to the flowtron wiring even if your project already has other files under `.claude/` (settings, other skills).
 
@@ -436,7 +462,7 @@ Helper scripts (`create_tasknote.py`, `archive_tasknote.py`, `validate_plan.py`)
 
 ### 3.7 Create `AGENTS.md` from the paste-block
 
-Create `AGENTS.md` and paste the flowtron block from §1.3. If a legacy workflow block lived inside `CLAUDE.md` (or another assistant-specific memory file) under the prior system, remove it — flowtron's contract now lives in `AGENTS.md` and is read by Claude Code, Codex, Cursor, Amp, Aider, and Grok. Project-specific instructions (architecture notes, non-negotiables, quick commands) stay in whatever file they already live in — they're orthogonal to flowtron.
+Create `AGENTS.md` and paste the flowtron block from §1.3, then run §1.3's loading check — a migrated project is the likeliest place to find an agent that was only ever reading the legacy file. If a legacy workflow block lived inside `CLAUDE.md` (or another assistant-specific memory file) under the prior system, remove it — flowtron's contract now lives in `AGENTS.md` and is read by Claude Code, Codex, Cursor, Amp, Aider, and Grok. Removing that block may leave `CLAUDE.md` empty; if so, deleting it and running §1.3's `ln -s AGENTS.md CLAUDE.md` is cleaner than keeping a stub. Project-specific instructions (architecture notes, non-negotiables, quick commands) stay in whatever file they already live in — they're orthogonal to flowtron.
 
 ### 3.8 Post-migration cleanup
 

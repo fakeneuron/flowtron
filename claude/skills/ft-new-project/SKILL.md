@@ -69,6 +69,20 @@ Reference: `claude/AGENTS-snippet.md` §"One-time symlink wiring" (canonical) ·
 
 Read `.flowtron/core/claude/AGENTS-snippet.md` and extract the markdown block under the "Block to paste into AGENTS.md" heading (the fenced ```markdown ... ``` block). If `AGENTS.md` doesn't exist in the project root, create it with the block's *contents* (without the outer fences) as initial content. If it exists, append the contents at the end of the file — do not overwrite or insert mid-file (project-specific instructions in `AGENTS.md` must be preserved).
 
+**Then make sure the block will load.** A contract in a file the session never reads fails silently, so wire the Claude Code entry point now rather than leaving it to the Step 8 hand-off. Branch on what's at the project root:
+
+- **No `CLAUDE.md`** — create the compatibility symlink; it is one file deep and relative, so it survives `git clone`:
+
+  ```sh
+  ln -s AGENTS.md CLAUDE.md
+  ```
+
+- **`CLAUDE.md` is already a symlink to `AGENTS.md`** — nothing to do.
+
+- **`CLAUDE.md` is a real file** (the Step 1 precondition accepts this) — do **not** replace it; it holds the project's Claude-only directives. Offer to append a single `@AGENTS.md` import line to it, and say why. If the user declines, note in the Step 8 hand-off that `AGENTS.md` may not be loaded and point at `docs/MIGRATION.md` §1.3's verification.
+
+Never paste the workflow block into `CLAUDE.md` as a second copy — two copies of the contract drift apart. `AGENTS.md` stays the single source.
+
 Reference: `docs/MIGRATION.md` §1.3.
 
 ## Step 5 — Create .flowtron/PLAN.md
@@ -100,6 +114,10 @@ Stage the bootstrap files explicitly. Do **not** use `git add .` or `git add -A`
 git add .gitmodules .flowtron/core .flowtron/PLAN.md .flowtron/tasknote/ AGENTS.md
 grep '^ln -s' .flowtron/core/claude/AGENTS-snippet.md | awk '{print $NF}' | xargs git add
 ```
+
+Add `CLAUDE.md` to the first line when Step 4 created or modified it (the
+symlink, or the `@AGENTS.md` import appended to an existing file). Skip it when
+Step 4 left an existing `CLAUDE.md` untouched.
 
 The second line stages exactly the symlinks Step 3 created, read back from the
 snippet that created them — no roster is restated here, so a skill added
