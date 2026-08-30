@@ -11,9 +11,18 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
+- [ ] **CORE-514** [light]🔧 | self-host-claude-md — Add a repo-root `CLAUDE.md` compatibility symlink to `AGENTS.md` so flowtron's own agent guide auto-loads in Claude Code sessions here; `CLAUDE.md` has never been tracked in this repo and `AGENTS.md` was absent from the auto-loaded project-instruction layer in an observed session, so the validation commands, editing rules, and the "this repo is not an adopter checkout" guard at `AGENTS.md:106-107` never reach the assistant. Surfaced by audit-context 2026-08-30 (Pass d, High).
+
 ## Medium
 
+- [ ] **CORE-515** [medium]🧩 | adopter-claude-md-docs — Document the `CLAUDE.md` → `AGENTS.md` compatibility symlink for adopters; `docs/MIGRATION.md:251` asserts `AGENTS.md` is "read by Claude Code" and no doc offers a way to verify that or a fallback when it isn't, so an adopter can paste the flowtron contract into a file their assistant never loads. Covers `docs/MIGRATION.md`, `claude/AGENTS-snippet.md`, and the `/ft-new-project` bootstrap. Surfaced by audit-context 2026-08-30 (Pass d, Medium).
+- [ ] **CORE-516** [light]🔧 | model-bullet-duplicate — Dereference the `[model]` bullet at `AGENTS.md:36`, which restates `claude/AGENTS-snippet.md:29` without a `KEEP IN SYNC` pairing and has already drifted (the paste-block carries "surface the mismatch before continuing"; the self-host guide compresses it to a pointer). Follow CORE-510's pattern — name the concept, point at `SPEC/model.md`. Surfaced by audit-context 2026-08-30 (Pass b, Medium).
+- [ ] **CORE-517** [light]🔧 | repo-layout-stale — Add the four missing root surfaces to `AGENTS.md` §Repo Layout (`README.md`, `SECURITY.md`, `CONTRIBUTING.md`, `.github/`); `CONTRIBUTING.md` was edited in CORE-511 without the map picking it up. Surfaced by audit-context 2026-08-30 (Pass d, Medium).
+
 ## Low
+
+- [ ] **CORE-518** [light]🔧 | roster-utility-skills — Note the six non-tasknote skills wired into this checkout but named nowhere in `AGENTS.md` (`/ft-audit`, `/ft-audit-context`, `/ft-audit-repo`, `/ft-flowtron`, `/ft-stats`, `/ft-new-project`) as a separate line, leaving the `KEEP IN SYNC`-guarded peer-skill roster untouched. Surfaced by audit-context 2026-08-30 (Pass d, Low).
+- [ ] **CORE-519** [light]🔧 | ft-update-selfhost-wiring — Decide whether `/ft-update` should stay wired in flowtron's own `.claude/`; the skill is adopter-only and bails immediately in flowtron-self, so it is a menu entry guaranteed to no-op in the one repo where `/ft-release` is the real verb. Also reconcile the phase-skip divergence between `AGENTS.md:38-40` ("unless the user explicitly asks for a small direct change") and `claude/AGENTS-snippet.md:28` (flat "Do not skip phases") by pointing both at `SPEC/tasknote-selection.md`. Surfaced by audit-context 2026-08-30 (Pass d + Pass b, Low).
 
 ## Future Opportunities
 
