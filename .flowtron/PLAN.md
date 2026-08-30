@@ -13,7 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-516** [light]🔧 | model-bullet-duplicate — Dereference the `[model]` bullet at `AGENTS.md:36`, which restates `claude/AGENTS-snippet.md:29` without a `KEEP IN SYNC` pairing and has already drifted (the paste-block carries "surface the mismatch before continuing"; the self-host guide compresses it to a pointer). Follow CORE-510's pattern — name the concept, point at `SPEC/model.md`. Surfaced by audit-context 2026-08-30 (Pass b, Medium).
 - [ ] **CORE-517** [light]🔧 | repo-layout-stale — Add the four missing root surfaces to `AGENTS.md` §Repo Layout (`README.md`, `SECURITY.md`, `CONTRIBUTING.md`, `.github/`); `CONTRIBUTING.md` was edited in CORE-511 without the map picking it up. Surfaced by audit-context 2026-08-30 (Pass d, Medium).
 
 ## Low
@@ -25,6 +24,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-516** [light]🔧 | model-bullet-duplicate — Completed 2026-08-30.
 - [x] **CORE-515** [medium]🧩 | adopter-claude-md-docs — Completed 2026-08-30.
 - [x] **CORE-514** [light]🔧 | self-host-claude-md — Completed 2026-08-30.
 - [x] **CORE-511** [light]🔧 | contributor-wiring-gap — Completed 2026-08-30.
