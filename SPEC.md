@@ -216,7 +216,10 @@ additionally accepts three real-board decorations without parsing them into
 - **Model-suggestion glyph after `[model]`** — a `🧠` (heavy) / `🔧` (light) /
   `🧩` (medium) / `🔭` (xheavy) glyph appended to the model token
   (`[medium]🧩`, space-optional), mirroring the next-move suggestion label.
-  Redundant with the model tier; ignored.
+  Redundant with the model tier; ignored. It is accepted on **either side** of
+  the trailing bracket-token run below, so a row carrying both a glyph and
+  `[unattended]` parses whichever order it was written in
+  (`[xheavy]🔭 [unattended]` and `[xheavy] [unattended]🔭` are equivalent).
 - **Stacked `[model]` tokens** — `[fable] [light]`: the first bracket token is
   captured as `model`; trailing bracket tokens are tolerated and dropped —
   *except* `[unattended]`, which is canonical grammar and captured (see the

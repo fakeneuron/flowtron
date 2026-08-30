@@ -281,6 +281,31 @@ describe('parsePlan', () => {
     expect(t.shortname).toBe('mixed');
   });
 
+  // CORE-502: the suggestion glyph is accepted on either side of the
+  // trailing-token run. Before the fix the glyph sat only after the run, so
+  // the shape below — the likelier one, since a board renders the glyph onto
+  // the model token and the marker is appended last — failed TASK_LINE and
+  // dropped the whole row.
+  it('captures [unattended] written after a glyph-decorated [model]', () => {
+    const md = `## High\n\n- [ ] **CORE-502** [xheavy]🔭 [unattended] | glyph first — desc\n`;
+    const t = parsePlan(md)[0];
+    expect(t).toMatchObject({ id: 'CORE-502', model: 'xheavy', unattended: true });
+    expect(t.shortname).toBe('glyph first');
+    expect(t.description).toBe('desc');
+  });
+
+  it('captures [unattended] after a space-separated glyph', () => {
+    const md = `## High\n\n- [ ] **CORE-502** [medium] 🧩 [unattended] | spaced glyph — desc\n`;
+    const t = parsePlan(md)[0];
+    expect(t).toMatchObject({ id: 'CORE-502', model: 'medium', unattended: true });
+    expect(t.shortname).toBe('spaced glyph');
+  });
+
+  it('does not flag a glyph-before-marker row as an unparsed diagnostic', () => {
+    const md = `## High\n\n- [ ] **CORE-502** [xheavy]🔭 [unattended] | glyph first — desc\n`;
+    expect(parsePlanWithDiagnostics(md).unparsed).toEqual([]);
+  });
+
   it('leaves unattended false on rows without the marker', () => {
     const md = `## High\n\n- [ ] **CORE-001** [fable] [light] | stacked — desc\n`;
     expect(parsePlan(md)[0].unattended).toBe(false);

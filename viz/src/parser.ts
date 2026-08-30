@@ -78,6 +78,15 @@ const COMPLETED_MONTH_HEADING = /^Completed\s+\d{4}-\d{2}$/;
 //   2. SUGGESTION_GLYPH — a model-suggestion glyph after `[model]`
 //      (`[medium]🧠` / `[medium] 🔧` / `[medium]🧩` / `[medium]🔭`,
 //      space-optional) — decorative, redundant with the model tier, dropped.
+//      Emitted in TWO slots (CORE-502), straddling TRAILING_TOKENS, so the
+//      glyph is accepted on either side of the trailing-token run:
+//      `[xheavy]🔭 [unattended]` and `[xheavy] [unattended]🔭` both parse.
+//      Before CORE-502 only the second did — the glyph sat after the run, so
+//      a glyph written between `[model]` and a trailing token left that token
+//      unconsumable and failed TASK_LINE outright. Moving the fragment would
+//      only have swapped which ordering breaks; both slots are optional and
+//      non-capturing, so carrying two costs no capture group. Same shape as
+//      CRITICAL_FLAG_AFTER below (FE-087).
 //
 // TRAILING_TOKENS is the run of bracket tokens after `[model]`. It began as
 // the FE-066 stacked-`[model]` tolerance (`[fable] [light]` — first captured
@@ -108,8 +117,9 @@ const TASK_ID_BODY = String.raw`[A-Z]+(?:-EPIC)?-\d+(?:\.(?:\d+[a-z]?|N))*`;
 const TASK_ID = String.raw`\*\*(${TASK_ID_BODY})\*\*`;
 const CRITICAL_FLAG = String.raw`(?:\s+\[(!critical)\])?`;
 const MODEL_TOKEN = String.raw`(?:\s+\[([a-z][\w.-]*)\])?`;
-const TRAILING_TOKENS = String.raw`((?:\s+\[[a-z][\w.-]*\])*)`;
 const SUGGESTION_GLYPH = String.raw`(?:\s*(?:🧠|🔧|🧩|🔭)\uFE0F?)?`;
+const TRAILING_TOKENS = String.raw`((?:\s+\[[a-z][\w.-]*\])*)`;
+const SUGGESTION_GLYPH_AFTER = SUGGESTION_GLYPH;
 const CRITICAL_FLAG_AFTER = CRITICAL_FLAG;
 const SHORTNAME = String.raw`(?:\s+\|\s+([^\n]+?))?`;
 const LONG_DESCRIPTION = String.raw`(?:\s+[—-]\s+([^\n]+?))?\s*$`;
@@ -119,8 +129,9 @@ const TASK_LINE = new RegExp(
     TASK_ID +
     CRITICAL_FLAG +
     MODEL_TOKEN +
-    TRAILING_TOKENS +
     SUGGESTION_GLYPH +
+    TRAILING_TOKENS +
+    SUGGESTION_GLYPH_AFTER +
     CRITICAL_FLAG_AFTER +
     SHORTNAME +
     LONG_DESCRIPTION
