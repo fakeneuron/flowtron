@@ -257,13 +257,13 @@ Walk the closure steps in order. Tag-message review (§7.2) and the bundled 📦
 
 ### 7.1 — Doc-drift sweep (via `/ft-audit docs` subroutine)
 
-Invoke the flowtron-self `ft-audit` skill in **subroutine mode** with the `docs` domain and the default scope (the AI-referenced docs set declared in `.flowtron/tasknote/README.md` §"AI-referenced docs"):
+Invoke the flowtron-self `ft-audit` skill in **subroutine mode** with the `docs` domain and the `ai-referenced` scope token. The bundled `passes/docs.md` leaves its default-scope slot a forker placeholder, so the AI-referenced docs set declared in `.flowtron/tasknote/README.md` §"AI-referenced docs" is reachable only by naming the token — a bare `docs` resolves to the unfilled default and stops to ask:
 
 ```text
-Skill(ft-audit) with args "docs"
+Skill(ft-audit) with args "docs ai-referenced"
 ```
 
-The `docs` domain walks its 5 passes (Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content) over the declared doc set and returns the report inline. Per the dispatcher's Subroutine-safe hard rule it does **not** write tickets to `.flowtron/PLAN.md`; the release skill is the orchestrator and decides per finding whether to absorb the fix into the current cut.
+That pass file keeps its placeholders whatever scope you pass, so the dispatcher's §1 step 3 scaffold bootstrap still stops the run before pass 1. Take its **run once** branch: rubric = the doc-set contract above, gates = none configured (this repo has no markdown linter or link checker). Then the `docs` domain walks its 5 passes (Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content) over the declared doc set and returns the report inline. Per the dispatcher's Subroutine-safe hard rule it does **not** write tickets to `.flowtron/PLAN.md`; the release skill is the orchestrator and decides per finding whether to absorb the fix into the current cut.
 
 For each returned finding:
 - **Critical / High** — fix inline as part of the release cut (the 3 version edits in Phase 2 normally clear the routine SPEC + MIGRATION + SECURITY version-pin drift; anything else surfaced here gets the same treatment).

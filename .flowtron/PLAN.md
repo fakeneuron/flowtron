@@ -11,8 +11,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-520** [medium]🧩 | audit-docs-default-scope — `docs/MIGRATION.md` §1.2.2 claims `/ft-audit docs` with no scope walks the AI-referenced doc set; the shipped `passes/docs.md` leaves that slot an unfilled placeholder and makes `ai-referenced` an opt-in token, so the bare invocation stops into `scaffold-bootstrap.md`. `/ft-release` §7.1 restates the same claim. Correct both surfaces to name `/ft-audit docs ai-referenced` explicitly (keeping the bundled scaffold stack-neutral), and fix the same paragraph's docs-domain gate claim. Surfaced by audit-docs 2026-08-30 (Finding #1, High).
-
 ## Medium
 
 - [ ] **CORE-521** [light]🔧 | neutrality-ledger-enumerations — `docs/AGENT-NEUTRALITY.md` ledger enumerations have drifted from what they index: the `--fast` row says "5 sites in SPEC.md" and omits `§"🎯 Scaffold-time purpose blurb"` (lines 765-766, inherited by the `--unattended` row), and the §"Out of scope" CAPABILITIES bullet omits `--deep` from its trigger list. Re-check the paired "1 site in SPEC/gates.md" while there. Surfaced by audit-docs 2026-08-30 (Findings #2 + #3, Medium).
@@ -23,6 +21,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-520** [medium]🧩 | audit-docs-default-scope — Completed 2026-08-30.
 - [x] **CORE-522** [light]🔧 | readme-quickstart-precondition — README §"Quickstart" said the per-project precondition was "a git repo with a `CLAUDE.md`"; corrected to `AGENTS.md` or `CLAUDE.md`, matching `ft-new-project` Step 1 and `docs/MIGRATION.md` §1.0. Surfaced by audit-docs 2026-08-30 (Finding #4, Medium), fixed inline.
 - [x] **CORE-523** [light]🔧 | codex-snippet-grok-omission — `codex/AGENTS-snippet.md` §"Pinning notes" listed `~/.agents/skills/` as read by "Codex, Claude Code, and Cursor"; added Grok, matching its own cited canonical `docs/PLATFORMS.md` §"One canonical install path per project" and `docs/MIGRATION.md`. Surfaced by audit-docs 2026-08-30 (Finding #5, Low), fixed inline.
 - [x] **CORE-524** [light]🔧 | platforms-guardrail-tense — `docs/PLATFORMS.md` §"Installed-surface policy" said release guardrails "are tracked by [[CORE-349.5]]" (pending-work framing for work closed 2026-07-08); rewritten to state the check ships in `/ft-release` §7.1. Surfaced by audit-docs 2026-08-30 (Finding #6, Low), fixed inline.
