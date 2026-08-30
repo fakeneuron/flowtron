@@ -15,12 +15,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-519** [light]🔧 | ft-update-selfhost-wiring — Decide whether `/ft-update` should stay wired in flowtron's own `.claude/`; the skill is adopter-only and bails immediately in flowtron-self, so it is a menu entry guaranteed to no-op in the one repo where `/ft-release` is the real verb. Also reconcile the phase-skip divergence between `AGENTS.md:38-40` ("unless the user explicitly asks for a small direct change") and `claude/AGENTS-snippet.md:28` (flat "Do not skip phases") by pointing both at `SPEC/tasknote-selection.md`. Surfaced by audit-context 2026-08-30 (Pass d + Pass b, Low).
-
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-519** [light]🔧 | ft-update-selfhost-wiring — Completed 2026-08-30.
 - [x] **CORE-518** [light]🔧 | roster-utility-skills — Completed 2026-08-30.
 - [x] **CORE-517** [light]🔧 | repo-layout-stale — Completed 2026-08-30.
 - [x] **CORE-516** [light]🔧 | model-bullet-duplicate — Completed 2026-08-30.

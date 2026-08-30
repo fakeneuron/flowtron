@@ -87,10 +87,11 @@ surfaces stay aligned are tracked by [[CORE-349.5]].
 above governs projects that consume flowtron through `.flowtron/core/`. Flowtron
 itself dogfoods everything it ships, so its repo-scoped `.claude/skills/` and
 `.claude/commands/` mirror the **full** shipped inventory one-for-one —
-including the global-only utilities and `ft-release`. A shipped `ft-*` slug with
-no `.claude/` symlink is a wiring miss, not a policy choice; that is the exact
-gap that left `/ft-spec` unrunnable in flowtron's own checkout for a month after
-it shipped. Machine-global `~/.claude/` installs stay discretionary per
+including the global-only utilities, `ft-release`, and `ft-update` (adopter-only
+and bails immediately here, but a no-op *wiring miss* would be its absence, not
+its presence). A shipped `ft-*` slug with no `.claude/` symlink is a wiring
+miss, not a policy choice; that is the exact gap that left `/ft-spec`
+unrunnable in flowtron's own checkout for a month after it shipped. Machine-global `~/.claude/` installs stay discretionary per
 [`MIGRATION.md`](MIGRATION.md) §1.0 — but *discretionary* governs **which**
 utilities you install, not how many copies of a slug exist; see the rule below.
 Only *broken* links there are drift. `/ft-release` §7.1 verifies both surfaces.
