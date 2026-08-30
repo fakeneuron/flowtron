@@ -26,6 +26,7 @@ Pull requests are rare and best preceded by an issue. Flowtron is small, opinion
 1. Open an issue first describing the problem and the proposed shape.
 2. Wait for a thumbs-up before investing in the diff.
 3. Match the repo's existing style — [docs/CONVENTIONS.md](docs/CONVENTIONS.md) covers commit format, semver, GFM, and Diátaxis alignment; [SPEC.md](SPEC.md) is the workflow contract.
+4. If your change touches a skill or command, wire `.claude/` locally so you can run it — see [docs/MIGRATION.md](docs/MIGRATION.md) §"1.2.2 Developing flowtron skills & commands" for the one-time symlink setup. `.claude/` is gitignored by design (per-machine wiring, never committed), so a fresh clone has no `/ft-*` commands until you run it.
 
 A PR that lands without prior discussion may be closed without merge even if the change itself is reasonable — the issue-first rule is about scope and direction, not code quality.
 

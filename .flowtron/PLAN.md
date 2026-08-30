@@ -15,12 +15,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-511** [light]🔧 | contributor-wiring-gap — `.gitignore:22` ignores `.claude/` wholesale, so a fresh clone of flowtron has no wired `ft-*` slash commands, and `CONTRIBUTING.md` never mentions wiring at all. Add a short wiring section to `CONTRIBUTING.md`, or narrow the ignore to `.claude/settings.local.json` + `.claude/*.lock` and track the symlinks. Surfaced by audit-context 2026-08-30 (Pass d, Low).
-
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-511** [light]🔧 | contributor-wiring-gap — Completed 2026-08-30.
 - [x] **CORE-512** [light]🔧 | agents-line-16-density — Completed 2026-08-30.
 - [x] **CORE-510** [medium]🧩 | paste-block-restatement — Completed 2026-08-30.
 - [x] **CORE-509** [light]🔧 | keep-in-sync-scope — Completed 2026-08-30.
