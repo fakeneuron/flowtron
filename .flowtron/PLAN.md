@@ -11,8 +11,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-514** [light]🔧 | self-host-claude-md — Add a repo-root `CLAUDE.md` compatibility symlink to `AGENTS.md` so flowtron's own agent guide auto-loads in Claude Code sessions here; `CLAUDE.md` has never been tracked in this repo and `AGENTS.md` was absent from the auto-loaded project-instruction layer in an observed session, so the validation commands, editing rules, and the "this repo is not an adopter checkout" guard at `AGENTS.md:106-107` never reach the assistant. Surfaced by audit-context 2026-08-30 (Pass d, High).
-
 ## Medium
 
 - [ ] **CORE-515** [medium]🧩 | adopter-claude-md-docs — Document the `CLAUDE.md` → `AGENTS.md` compatibility symlink for adopters; `docs/MIGRATION.md:251` asserts `AGENTS.md` is "read by Claude Code" and no doc offers a way to verify that or a fallback when it isn't, so an adopter can paste the flowtron contract into a file their assistant never loads. Covers `docs/MIGRATION.md`, `claude/AGENTS-snippet.md`, and the `/ft-new-project` bootstrap. Surfaced by audit-context 2026-08-30 (Pass d, Medium).
@@ -28,6 +26,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-514** [light]🔧 | self-host-claude-md — Completed 2026-08-30.
 - [x] **CORE-511** [light]🔧 | contributor-wiring-gap — Completed 2026-08-30.
 - [x] **CORE-512** [light]🔧 | agents-line-16-density — Completed 2026-08-30.
 - [x] **CORE-510** [medium]🧩 | paste-block-restatement — Completed 2026-08-30.
