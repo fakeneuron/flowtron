@@ -88,7 +88,7 @@ ln -s ../../codex/skills/* .agents/skills/
 ```
 
 Do **not** glob the inventory into `~/.agents/skills/`. That directory is read by
-Codex, Claude Code, and Cursor alike, and same-named skills resolve by slug
+Codex, Claude Code, Cursor, and Grok alike, and same-named skills resolve by slug
 without regard to which platform authored the body — so a globally installed
 Codex wrapper can be served to an agent it was not written for. The agent home
 carries only the global-only utilities, installed one at a time, and only on a

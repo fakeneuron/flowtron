@@ -37,7 +37,8 @@ ln -s ~/code/flowtron/claude/skills/ft-new-project      ~/.claude/skills/ft-new-
 ln -s ~/code/flowtron/claude/commands/ft-new-project.md ~/.claude/commands/ft-new-project.md
 ```
 
-**Once per project** — from the project root (a git repo with a `CLAUDE.md`):
+**Once per project** — from the project root (a git repo with an `AGENTS.md`
+or `CLAUDE.md`):
 
 ```sh
 /ft-new-project

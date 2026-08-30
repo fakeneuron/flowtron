@@ -80,8 +80,9 @@ The distinction is deliberate. Shipping a wrapper means flowtron can maintain,
 test, and dogfood a platform-equivalent recipe; it does not automatically mean
 every adopting project should expose that recipe as repo-scoped wiring. The
 per-platform `AGENTS-snippet.md` files are the executable install source and
-must be kept aligned to this policy. Release guardrails that verify these
-surfaces stay aligned are tracked by [[CORE-349.5]].
+must be kept aligned to this policy. Release guardrails verifying these
+surfaces stay aligned ship in `/ft-release` §7.1's installed-surface check
+([[CORE-349.5]]).
 
 **Flowtron's own checkout is not an adopter.** The adopter-installed subset
 above governs projects that consume flowtron through `.flowtron/core/`. Flowtron
