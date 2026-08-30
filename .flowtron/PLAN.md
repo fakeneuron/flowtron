@@ -21,6 +21,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-506** [medium]🧩 | release v5.23.0 — Completed 2026-08-30.
 - [x] **CORE-503** [medium]🧩 | visual-baseline-vs-park — Completed 2026-08-30.
 - [x] **CORE-502** [medium]🧩 | glyph-marker-ordering — Completed 2026-08-30.
 - [x] **CORE-504** [medium]🧩 | scaffold-purpose-blurb — Completed 2026-08-30.

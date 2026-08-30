@@ -22,6 +22,21 @@ unless correcting a factual error.
 
 ---
 
+## v5.23.0 — scaffold-time orientation, a parser footgun closed, and a release-race backstop
+
+- `/ft-task`, `/ft-micro-task`, and `/ft-goal-task` now emit a two-line
+  plain-English purpose blurb before Phase 1 begins, closing the cold-start
+  read gap after a bare `/ft-task <ID>` invocation.
+- Fixed a PLAN-line parser footgun: a row combining the model-suggestion
+  glyph with `[unattended]` (either order) now parses instead of silently
+  dropping from the board.
+- `/ft-release`'s dogfood-gate stamp writes now run a dirty-check before
+  writing, catching a parallel dogfooding session's uncommitted edits
+  instead of overwriting them.
+
+Also: settled a re-raised carve-out attempt against the `--unattended` 👁️
+visual-confirmation park (a passing visual baseline does not exempt a run).
+
 ## v5.22.0 — [unattended] grammar, cross-repo remit, and portable worktrees
 
 - `[unattended]` is now canonical task-line grammar rather than a parser
