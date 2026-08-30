@@ -19,6 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-525** [medium]🧩 | release v5.24.0 — Completed 2026-08-30.
 - [x] **CORE-521** [light]🔧 | neutrality-ledger-enumerations — Completed 2026-08-30.
 - [x] **CORE-520** [medium]🧩 | audit-docs-default-scope — Completed 2026-08-30.
 - [x] **CORE-522** [light]🔧 | readme-quickstart-precondition — README §"Quickstart" said the per-project precondition was "a git repo with a `CLAUDE.md`"; corrected to `AGENTS.md` or `CLAUDE.md`, matching `ft-new-project` Step 1 and `docs/MIGRATION.md` §1.0. Surfaced by audit-docs 2026-08-30 (Finding #4, Medium), fixed inline.

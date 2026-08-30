@@ -22,6 +22,12 @@ unless correcting a factual error.
 
 ---
 
+## v5.24.0 — self-hosting Claude Code, and a documentation drift sweep
+
+- Flowtron now self-hosts its own Claude Code agent guide via a repo-root `CLAUDE.md` → `AGENTS.md` symlink.
+- An audit-context sweep fixed 12 cross-reference, wording, and drift issues across the contract-layer docs.
+- Split `/ft-release` §7.1 and the epic-discovery/close-epic skills into lazy fragments for maintainability (no behavior change).
+
 ## v5.23.0 — scaffold-time orientation, a parser footgun closed, and a release-race backstop
 
 - `/ft-task`, `/ft-micro-task`, and `/ft-goal-task` now emit a two-line
