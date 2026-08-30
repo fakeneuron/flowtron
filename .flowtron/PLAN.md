@@ -13,14 +13,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-503** [medium] | visual-baseline-vs-park — CORE-495 converts the 👁️ ask to a park and rejects "the tests probably cover it". Narrower question: a visual baseline passing *unchanged* is evidence appearance did not change — a recorded human approval replayed, not an inference. Intentional changes fail it and still park. Worth a carve-out, or does it reintroduce the split CORE-495 deleted? Raised from caobunga.
-
 ## Low
 
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-503** [medium]🧩 | visual-baseline-vs-park — Completed 2026-08-30.
 - [x] **CORE-502** [medium]🧩 | glyph-marker-ordering — Completed 2026-08-30.
 - [x] **CORE-504** [medium]🧩 | scaffold-purpose-blurb — Completed 2026-08-30.
 - [x] **CORE-501** [medium]🧩 | stamp-write-ownership-gap — Completed 2026-08-29.

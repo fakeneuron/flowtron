@@ -521,6 +521,24 @@ parks. There is deliberately **no** gating-vs-corroborating split here — an
 `--fast`-style "the tests probably cover it" judgment is exactly the
 rationalization this conversion exists to remove.
 
+**A passing visual baseline does not convert it either.** The strongest form
+of the argument is not "probably fine": it is that a committed baseline
+passing *byte-identical* is a recorded human approval **replayed**, not an
+inference, and that an intentional visual change fails it and parks anyway.
+It still does not carve out, for two reasons. **The premise is unverifiable,
+and this posture is why** — nothing distinguishes a golden a human approved
+from one a `--update-snapshots`-style regeneration minted with nobody looking, and
+`--unattended` is the declaration that nobody is present to attest which it
+was. **And "does this baseline cover the surface I changed?" is the split
+above, renamed** — the same judgment, made by the assistant about its own
+diff, arriving one step earlier where no gate watches it. Note what the
+carve-out would actually buy: where output provably did not change, the
+Phase 3 box is *already* `N/A`, no ask is emitted, and nothing parks. It
+bites only where the baseline's relation to the change is a judgment —
+which is precisely where it stops being evidence. (Raised as CORE-503 after
+CORE-495 settled the trigger; refused on these grounds, and recorded here
+rather than in a closed tasknote so the next raise finds the answer.)
+
 **The ✋ split is biased conservative — park on doubt.** Same asymmetry as
 the destructive-action predicate: an over-park costs one resume, an
 under-park reaches closure with the prerequisite never performed. "It is
@@ -665,10 +683,11 @@ matching. Shortcuts against the Phase 1 / Phase 3 checklists belong to
 | "They haven't objected to an autonomous commit yet this session." | Approval is **per-cue**, not ambient. A cleared skip on an earlier diff says nothing about this one; a queued in-📦 prompt forces fire no matter how the previous four went. | §"Conditional skip rule" → bundled-prompt override |
 | "They said `okay` / `looks good`, but that's not `commit`/`go`/`yes`, so keep waiting." | On 🛠️ and 👁️, conversational assent **is** the approval. Waiting for the closed commit-go set on a non-commit cue is the under-accept this clause exists to stop. | §"Accepted gate replies" |
 | "They said `looks good` on the 👁️ ask, so the 📦 is approved too." | `looks good` is 👁️'s natural reply and is excluded from the closed commit-go set for that reason. Approval is per-cue; a visual confirmation is not commit-go. | §"Accepted gate replies"; §"Conditional skip rule" → bundled-prompt override |
-| "`--unattended` was passed, so nothing is allowed to stop the run." | It converts pauses into **parks** — and a park *is* a stop. Five named gates halt the run rather than wave it through, and the paper-complete guard is untouched in all three parts. The flag removes pauses, never proof. | §"`--unattended` operator posture" → "What `--unattended` never relaxes" |
+| "`--unattended` was passed, so nothing is allowed to stop the run." | It converts pauses into **parks** — and a park *is* a stop. Six named gates halt the run rather than wave it through, and the paper-complete guard is untouched in all three parts. The flag removes pauses, never proof. | §"`--unattended` operator posture" → "What `--unattended` never relaxes" |
 | "Nobody is watching, so parking and finishing look the same from here." | Exactly backwards. A park is the **only** honest report of a gate that went unanswered; committing past one manufactures a paper-complete with no operator left to catch it. | §"`--unattended` operator posture" → "Park conversions" |
 | "`--fast` suppresses 👁️, and `--unattended` is a superset — so 👁️ is suppressed here too." | The superset is over `--fast`'s **autonomy**, not its delegations. 📦 force-skip and 🛠️ no-op *remove a pause*; 👁️ suppression *hands the visual check to the operator who is standing there* — and this posture's entire premise is that nobody is. Inheriting it drops the obligation instead of transferring it. The ask converts to a `visual-confirm` park. | §"`--unattended` operator posture" → "What is inherited, and what is not" |
 | "The change is frontend, but the tests are green and it *probably* looks fine unattended." | There is no gating-vs-corroborating split on 👁️ — the trigger is the emission condition. If you judged the change needs a look, park; if it needs no look, the Phase 3 box is `N/A` and no ask exists to convert. "Probably fine" is the third judgment call this conversion deleted on purpose. | §"`--unattended` operator posture" → "Park conversions" |
+| "The visual baseline passes byte-identical — that is a recorded human approval **replayed**, not a guess like the row above." | Sharper, and still refused. Both premises fail here: flowtron defines no baseline and cannot tell a golden a human approved from one `--update-snapshots` minted with nobody looking — and this posture *is* the declaration that nobody is present to attest which it was. Then "does it cover the surface I changed?" is the gating-vs-corroborating split renamed, judged by you about your own diff. Where output provably did not change, the box is already `N/A` and there is no ask to convert; the carve-out bites only where the baseline is not evidence. | §"`--unattended` operator posture" → "Park conversions" |
 | "That ✋ was *probably* advisory — keep going." | "Probably" is the doubt the ✋ split is biased against, the same asymmetry as the destructive-action predicate: an over-park costs one resume, an under-park closes a task whose prerequisite was never performed. | §"`--unattended` operator posture" → "Park conversions" |
 | "Recap is done, so I can suggest next-move while waiting for commit-go." | Next-move and the copy-paste line are **post-SHA**. The fire-branch turn emits 📦 (or 🟢 GO) and waits; 🏁 / next-move / copy-paste land only after a deliverable-covering SHA. Motivating case: CORE-432.2 (micro closed + next-task cue with uncommitted App/PLAN dirt). | §"Conditional skip rule" → On fire; [`SPEC.md`](../SPEC.md) §"Post-closure protocol" step 2 |
 
@@ -717,3 +736,6 @@ finding to report or a box to tick.
 - An `--unattended` run changed a rendered surface, wrote nothing to the
   Phase 3 👁️ box but `N/A`, and committed — with no `visual-confirm` park and
   no operator who ever saw the result.
+- You are citing a green visual-regression suite as the reason a 👁️ park is
+  unnecessary, and the load-bearing step is your own judgment that the
+  baseline covers what you changed.
