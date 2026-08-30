@@ -13,8 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-510** [medium]🧩 | paste-block-restatement — The adopter paste-block is 7,282 chars every adopter carries permanently in their own `AGENTS.md`; bullet 23 (`--unattended`) is 1,498 chars re-deriving the gate-parking contract it then cites `SPEC/gates.md` for, with bullets 19/27/26/24 the same shape. Cut each to a one-line what-it-is plus its existing SPEC path — reference, not restate. Surfaced by audit-context 2026-08-30 (Pass d, Medium).
-
 ## Low
 
 - [ ] **CORE-511** [light]🔧 | contributor-wiring-gap — `.gitignore:22` ignores `.claude/` wholesale, so a fresh clone of flowtron has no wired `ft-*` slash commands, and `CONTRIBUTING.md` never mentions wiring at all. Add a short wiring section to `CONTRIBUTING.md`, or narrow the ignore to `.claude/settings.local.json` + `.claude/*.lock` and track the symlinks. Surfaced by audit-context 2026-08-30 (Pass d, Low).
@@ -24,6 +22,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-510** [medium]🧩 | paste-block-restatement — Completed 2026-08-30.
 - [x] **CORE-509** [light]🔧 | keep-in-sync-scope — Completed 2026-08-30.
 - [x] **CORE-513** [light]🔧 | ft-release-7.2-extract — Completed 2026-08-30.
 - [x] **CORE-508** [medium]🧩 | skill-30k-band-split — Completed 2026-08-30.
