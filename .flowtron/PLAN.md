@@ -15,6 +15,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
+- [ ] **CORE-505** [light] | completed-rotation — Rotate PLAN.md `## Completed` (284 rows vs the 100 bound) into `.flowtron/PLAN-ARCHIVE.md` per SPEC/tasknote-selection.md §rotation. Zero rows eligible before 2026-09: all 284 are current-month, so the whole August block rotates at once.
+
 ## Future Opportunities
 
 ## Completed
