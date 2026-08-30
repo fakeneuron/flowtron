@@ -11,9 +11,18 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
+- [ ] **CORE-507** [medium]🧩 | ft-release-context-split — `claude/skills/ft-release/SKILL.md` is 76,766 chars (~2× the ~40k load threshold); Step 7.1 alone is 40,750. Extract 7.1 doc-drift sweep and 7.2 tag-message drafting into sub-files following the `ft-task/` + `ft-audit/passes/` pattern, then re-evaluate whether Step 2.5's context-budget escape hatch is still needed. Surfaced by audit-context 2026-08-30 (Pass a, High).
+
 ## Medium
 
+- [ ] **CORE-508** [medium]🧩 | skill-30k-band-split — `ft-task` (33,747), `ft-epic-discovery` (31,097), and `ft-close-epic` (30,231) all sit in the 30–40k band; only `ft-task` has sub-files. Split the two flat monoliths before they cross the cap. Surfaced by audit-context 2026-08-30 (Pass a, Medium).
+- [ ] **CORE-509** [light]🔧 | keep-in-sync-scope — The `KEEP IN SYNC` comments in `AGENTS.md:16` and `claude/AGENTS-snippet.md:9` guard only the peer-skill roster, but `AGENTS.md:8-12` (path conventions) and `:19-22` (4-phase list) are duplicated in the paste-block too and can drift unguarded. Widen the comment's scope sentence, or point the lifecycle line at `SPEC.md` instead of restating it. Surfaced by audit-context 2026-08-30 (Pass b, Medium).
+- [ ] **CORE-510** [medium]🧩 | paste-block-restatement — The adopter paste-block is 7,282 chars every adopter carries permanently in their own `AGENTS.md`; bullet 23 (`--unattended`) is 1,498 chars re-deriving the gate-parking contract it then cites `SPEC/gates.md` for, with bullets 19/27/26/24 the same shape. Cut each to a one-line what-it-is plus its existing SPEC path — reference, not restate. Surfaced by audit-context 2026-08-30 (Pass d, Medium).
+
 ## Low
+
+- [ ] **CORE-511** [light]🔧 | contributor-wiring-gap — `.gitignore:22` ignores `.claude/` wholesale, so a fresh clone of flowtron has no wired `ft-*` slash commands, and `CONTRIBUTING.md` never mentions wiring at all. Add a short wiring section to `CONTRIBUTING.md`, or narrow the ignore to `.claude/settings.local.json` + `.claude/*.lock` and track the symlinks. Surfaced by audit-context 2026-08-30 (Pass d, Low).
+- [ ] **CORE-512** [light]🔧 | agents-line-16-density — `AGENTS.md:16` is a 756-char single line (3.6× the file's next longest) carrying the peer-skill roster plus a five-clause `KEEP IN SYNC` comment; the sync contract riding inside it is easy to scroll past during a release edit. Break it up. Surfaced by audit-context 2026-08-30 (Pass d, Low).
 
 ## Future Opportunities
 
