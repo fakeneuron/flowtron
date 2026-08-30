@@ -14,6 +14,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Medium
 
 - [ ] **CORE-502** [medium] | glyph-marker-ordering — `SUGGESTION_GLYPH` sits after `TRAILING_TOKENS`, so `[xheavy]🔭 [unattended]` fails TASK_LINE and the whole row drops, while `[xheavy] [unattended]🔭` parses. A third mis-authoring shape beside the two SPEC §"Task-line format" names — and the likeliest, since boards render glyphs and the natural seeding motion appends the marker last. 61 of 84 open rows across the ~/code fleet carry a glyph. Either document it or move the glyph fragment before the token run. Reported from caobunga (CBN-115) at the v5.22.0 pin bump.
+- [ ] **CORE-503** [medium] | visual-baseline-vs-park — CORE-495 converts the 👁️ ask to a park and rejects "the tests probably cover it". Narrower question: a visual baseline passing *unchanged* is evidence appearance did not change — a recorded human approval replayed, not an inference. Intentional changes fail it and still park. Worth a carve-out, or does it reintroduce the split CORE-495 deleted? Raised from caobunga.
 
 ## Low
 
