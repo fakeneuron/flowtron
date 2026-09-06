@@ -935,6 +935,13 @@ an `✅ Closure complete; …` marker followed by an autonomous commit.
 > **Recap is recap-only.** The next-task suggestion belongs in the
 > post-closure protocol, after the commit lands — not inside the recap.
 
+**Handoff persistence.** Anything handed to the operator at closure — a
+verbatim paste line (the post-closure protocol's copy-paste line), a proposed
+commit message, a filing command — is written into the tasknote (the Recap,
+or a `## 🔄 Handoff` for mid-task state) before archive. A terminal recap is
+not durable: once the session scrolls past or the terminal closes, nothing
+outside the tasknote file persists.
+
 **Acceptance tick-through.** Closure asserts the task against its own stated
 criteria, not against the agent's sense of being finished. Tick each
 `## ✅ Acceptance` box the work satisfied; for any box it did not, annotate the
