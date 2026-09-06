@@ -13,6 +13,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
+- [ ] **CORE-533** [medium]🧩 | narrow-caobunga-batch — Cold audit of CORE-527..531 (this session): shrink the Phase 4 blocked-by sweep to one SPEC/blocked.md sentence (no second-project need in this repo); put the dependency-clause grammar where rows get written (seed template + filing skills); drop CORE-528's copy-paste-line example; flip CORE-530's archived YAML status; strip adopter IDs from SPEC prose.
+
 ## Low
 
 ## Future Opportunities
