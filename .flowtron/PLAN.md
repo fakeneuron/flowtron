@@ -15,12 +15,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-534** [light]🔧 | adopter-filing-check — Name the adopter-filing failure class once (docs/CONVENTIONS.md or CONTRIBUTING.md): a consequence true of an adopter's runtime asserted as flowtron's, corrected twice (CORE-494 PLAN-line correction; CORE-531 "silently dispatches", fixed by CORE-533). A filer verifies each behavioral claim against viz/src/parser.ts before writing the line.
-
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-534** [light]🔧 | adopter-filing-check — Completed 2026-09-06.
 - [x] **CORE-533** [medium]🧩 | narrow-caobunga-batch — Completed 2026-09-06.
 - [x] **CORE-532** [light]🔧 | neutrality-ledger-gates-count — Completed 2026-09-06.
 - [x] **CORE-530** [light]🔧 | preserve-bracket-tokens — Completed 2026-09-06.

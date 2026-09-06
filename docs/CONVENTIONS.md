@@ -72,6 +72,14 @@ Two properties make this a convention rather than accumulated duplication:
 
 Consistent with §"Schema validators" in VISION.md, the prose is not machine-checked: markdown is the schema and the assistant catches wording drift. What *is* mechanical is the label — `/ft-release` §7.1 **Pair K** checks that each mirror's citation resolves to a real canonical bullet and that each point-of-use section still names VISION. That guards pointer rot and citation rot, and claims nothing about paraphrase.
 
+### Verify behavioral claims against flowtron's own source
+
+When filing a PLAN.md line or SPEC prose that asserts a *consequence* of flowtron's own behavior — not just restating a rule — verify the claim against flowtron's own canonical implementation (`viz/src/parser.ts` for grammar/parsing claims) before writing it. An adopter's independent reimplementation, or that adopter's own observed behavior, is not evidence of what flowtron itself does. Flowtron ships no runtime (`SPEC.md` §"PR / suggestion archetypes flowtron does not accept"), so a consequence phrased in terms one presupposes — "dispatches," "executes," "runs" — usually describes an adopter's execution model rather than flowtron's.
+
+The failure recurred twice before this was written down. CORE-494 corrected a PLAN.md line claiming `[!unattended]` "drops the whole line" — true of an adopter's reader, but flowtron's own parser instead fails `TASK_LINE` and surfaces the row in `parsePlanWithDiagnostics().unparsed`, not silently. CORE-531 then filed a "silently dispatches" consequence for a malformed `Blocked by` clause; CORE-533 replaced it with the flowtron-true consequence — "nothing that reads the field sees the dependency" (`SPEC.md` §"Long-description conventions") — since "dispatches" presupposed a runtime flowtron does not have.
+
+A filer verifies each behavioral claim against `viz/src/parser.ts` before writing the line.
+
 ## Declines
 
 ### CHANGELOG.md
