@@ -942,6 +942,16 @@ or a `## 🔄 Handoff` for mid-task state) before archive. A terminal recap is
 not durable: once the session scrolls past or the terminal closes, nothing
 outside the tasknote file persists.
 
+**Deferred hand-off filing.** When closure defers a real-world operator step
+past this task — a manual production action, a follow-up nobody has done
+yet — recording it as prose (in the Recap, a `## 🔄 Handoff`, or a README) is
+not enough: file it as its own unchecked PLAN.md row, and have any task
+whose work depends on that step done first carry a `Blocked by [[ID]]`
+clause pointing at it. This task's own PLAN.md line still flips to
+Completed — a closed row with the hand-off only in prose hides the pending
+step from every future reader; an open PLAN row keeps it visible (caobunga
+CBN-120.2 F4 / adppro DATA-13.3).
+
 **Acceptance tick-through.** Closure asserts the task against its own stated
 criteria, not against the agent's sense of being finished. Tick each
 `## ✅ Acceptance` box the work satisfied; for any box it did not, annotate the
