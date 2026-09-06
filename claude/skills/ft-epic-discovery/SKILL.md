@@ -77,7 +77,7 @@ The user may override the numeric suffix (e.g., to align with an externally-trac
 
 ## Step 4 — File the PLAN.md lines
 
-Append to `.flowtron/PLAN.md` under the chosen `## <Priority>` heading. Use the canonical task-line grammar (SPEC §"Task-line format"). Three lines (or two if N excludes audit), nested with 2-space indent under the parent for the subtask lines:
+Append to `.flowtron/PLAN.md` under the chosen `## <Priority>` heading. Use the canonical task-line grammar (SPEC §"Task-line format"; a dependency on another row is `Blocked by [[<ID>]]`, wikilink-only — SPEC §"Long-description conventions"). Three lines (or two if N excludes audit), nested with 2-space indent under the parent for the subtask lines:
 
 ```markdown
 - [ ] **<AREA>-EPIC-<next-N>** [<model>] | <shortname> — One-paragraph epic description (filed via /ft-epic-discovery; refined at .1 closure).

@@ -11,6 +11,8 @@ related-tasks: []
 
 [← PLAN.md](../PLAN.md) · ✅ Completed
 
+> **⚠️ Superseded by [[CORE-533]]** — the paragraph no longer names the post-closure copy-paste line as something written before archive: that line is emitted after the closure commit lands and names the next task, which the adjacent "Recap is recap-only" callout keeps out of the recap.
+
 ## 🎯 Goal
 
 Add a Phase 4 guidance line to `SPEC.md`: anything handed to the operator

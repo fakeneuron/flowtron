@@ -11,6 +11,8 @@ related-tasks: [CORE-528]
 
 [← PLAN.md](../PLAN.md) · ✅ Completed
 
+> **⚠️ Superseded by [[CORE-533]]** — the `(caobunga CBN-120.2 F4 / adppro DATA-13.3)` citation was removed from `SPEC.md`; adopter task IDs stay in tasknotes, not contract prose.
+
 ## 🎯 Goal
 
 Add guidance to SPEC.md that a real-world operator step deferred past a

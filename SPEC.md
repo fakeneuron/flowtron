@@ -255,7 +255,7 @@ task-line rewrite — a Re-scope note (§"📝 Phase 1: Discovery"), a model ret
 ([`SPEC/tasknote-selection.md`](SPEC/tasknote-selection.md) §"`## Completed`
 archive convention") — touches only the segment it means to change. It must
 copy every other bracket token already on the line (`[unattended]`, a stacked
-`[model]` tolerance, a model-suggestion glyph) verbatim from the original
+`[model]` tolerance) and any model-suggestion glyph verbatim from the original
 rather than reconstructing the line from scratch. A rewrite that preserves
 the visible shortname/description but drops a bracket token disarms it with
 no diagnostic — `[unattended]` disappearing silently turns an
@@ -311,7 +311,10 @@ on rows without tasknotes:
 | `[[TASK-ID]]` | Cross-reference / "see also" | `Task.relatedTasks: string[]` |
 | `Blocked by [[ID]]` | Hard dependency on another task | `Task.blockedBy: string[]` |
 
-Both are **wikilink-only** — bare-ID forms do not parse. Multiple
+Both are **wikilink-only** — bare-ID forms do not parse. `Blocked by` is a
+literal, case-sensitive match: `Blocked on [[ID]]`, `Depends on [[ID]]`, a
+bare ID, and free prose all leave `Task.blockedBy` empty, so nothing that
+reads the field sees the dependency. Multiple
 comma-separated wikilinks are supported in a single `Blocked by` clause.
 
 For illustrative wikilinks that shouldn't be parsed: use markdown inline
@@ -948,12 +951,14 @@ an `✅ Closure complete; …` marker followed by an autonomous commit.
 > **Recap is recap-only.** The next-task suggestion belongs in the
 > post-closure protocol, after the commit lands — not inside the recap.
 
-**Handoff persistence.** Anything handed to the operator at closure — a
-verbatim paste line (the post-closure protocol's copy-paste line), a proposed
-commit message, a filing command — is written into the tasknote (the Recap,
-or a `## 🔄 Handoff` for mid-task state) before archive. A terminal recap is
-not durable: once the session scrolls past or the terminal closes, nothing
-outside the tasknote file persists.
+**Handoff persistence.** Anything handed to the operator at closure that
+must outlive the session — a proposed commit message, a filing the operator
+is to run, a manual step — is written into the tasknote (the Recap, or a
+`## 🔄 Handoff` for mid-task state) before archive. A terminal recap is not
+durable: once the session scrolls past or the terminal closes, nothing
+outside the tasknote file persists. The post-closure copy-paste line is
+excluded: it is emitted after the closure commit lands and names the next
+task, which the callout above keeps out of the recap.
 
 **Deferred hand-off filing.** When closure defers a real-world operator step
 past this task — a manual production action, a follow-up nobody has done
@@ -962,8 +967,7 @@ not enough: file it as its own unchecked PLAN.md row, and have any task
 whose work depends on that step done first carry a `Blocked by [[ID]]`
 clause pointing at it. This task's own PLAN.md line still flips to
 Completed — a closed row with the hand-off only in prose hides the pending
-step from every future reader; an open PLAN row keeps it visible (caobunga
-CBN-120.2 F4 / adppro DATA-13.3).
+step from every future reader; an open PLAN row keeps it visible.
 
 **Acceptance tick-through.** Closure asserts the task against its own stated
 criteria, not against the agent's sense of being finished. Tick each
@@ -993,37 +997,6 @@ closures falsify nothing and write no pointer. The shape, the append-only rule,
 and the three cases it does *not* cover are canonical in §"Tasknote
 frontmatter"; this is the trigger, not a second copy of the contract. No new
 checkbox — the pointer rides the existing `Closed —` box.
-
-**Blocked-by sweep (conditional).** Closure also looks *outward*: grep
-`PLAN.md` for `Blocked by` clauses whose wikilink names the task being closed.
-Every hit is a dependency this closure just satisfied, and the row will keep
-asserting it until someone notices — the clause's other removal paths are all
-driven by the *dependent* (§"Blocked tasks" → resume), so nothing else in the
-lifecycle looks at it from the blocker's side. Surface the hits and let the
-operator decide; **clause removal is the operator's act**, never autonomous.
-Confirmed removals are staged in the same atomic closure commit.
-
-Two bounded edits, and no third:
-
-- The closing ID is the clause's **only** wikilink → strike the whole
-  `Blocked by …` clause.
-- The clause lists **several** blockers (`Blocked by [[<A>]], [[<B>]]`, per
-  §"Long-description conventions") → drop **only** that wikilink; the clause
-  stands, still naming the blockers that remain.
-
-This is the one sanctioned collateral `PLAN.md` write at closure, and it is
-narrow by construction: **clause text only** — never a checkbox flip, never a
-priority move, never any other edit to another row. §"Paper-complete guard"'s
-ban on collateral Completed flips is untouched and must not be read as
-licensed by this paragraph.
-
-The operator prompt is a **bundled in-📦 prompt**, not a banner — a hit
-force-fires the 📦 gate per [`SPEC/gates.md` §"Conditional skip rule"](SPEC/gates.md)
-(including under `--fast`, since autonomous commit cannot answer a user-input
-question), and under `--unattended` it parks as `input-needed` on that same
-override. No new cue is minted and the two-banner cap is untouched. No new
-checkbox either — like the pointer above, the sweep rides the existing
-`Closed —` box. Most closures find nothing and prompt for nothing.
 
 > **No nav-header chip flip here.** Phase 4 does **not** flip the markdown nav
 > chip to `✅ Completed`. CORE-042.4 retired that write deliberately (three

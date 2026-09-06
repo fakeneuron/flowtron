@@ -1,6 +1,6 @@
 ---
 title: preserve-bracket-tokens
-status: in-progress
+status: completed
 tags: []
 created: 2026-09-06
 due:

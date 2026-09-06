@@ -17,6 +17,8 @@ touches:
 
 [← PLAN.md](../PLAN.md) · 🟢 In progress · 🔗 [[CORE-393]] [[CORE-381]] [[CORE-473.2]]
 
+> **⚠️ Superseded by [[CORE-533]]** — the Phase 4 Blocked-by sweep block, the `SPEC/blocked.md` §"Blocker-side clearing" section, the gate/procedure/skill mirrors, and the ledger bump were withdrawn: flowtron's own history holds one parseable clause (CORE-280, cleared by its own run the day it was written) and the viz chip is off by default, so the sweep lacked two-project precedent. One sentence in `SPEC/blocked.md`'s Re-scope paragraph survives.
+
 ## 🎯 Goal
 
 Make Phase 4 closure sweep `PLAN.md` for `Blocked by [[ID]]` clauses naming the

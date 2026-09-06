@@ -13,14 +13,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-533** [medium]🧩 | narrow-caobunga-batch — Cold audit of CORE-527..531 (this session): shrink the Phase 4 blocked-by sweep to one SPEC/blocked.md sentence (no second-project need in this repo); put the dependency-clause grammar where rows get written (seed template + filing skills); drop CORE-528's copy-paste-line example; flip CORE-530's archived YAML status; strip adopter IDs from SPEC prose.
-
 ## Low
 
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-533** [medium]🧩 | narrow-caobunga-batch — Completed 2026-09-06.
 - [x] **CORE-532** [light]🔧 | neutrality-ledger-gates-count — Completed 2026-09-06.
 - [x] **CORE-530** [light]🔧 | preserve-bracket-tokens — Completed 2026-09-06.
 - [x] **CORE-529** [light]🔧 | deferred-handoff-filing-discipline — Completed 2026-09-06.

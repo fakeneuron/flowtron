@@ -20,7 +20,11 @@ token is valid), `[unattended]`, and `| shortname` are optional. Canonical
 ordering: `[!critical]` BEFORE `[model]`, `[unattended]` AFTER it. Flagged
 tasks float to the top of the High column with a red marker chip.
 `[unattended]` marks a row safe to dispatch with no operator present — an
-opt-in an operator seeds deliberately; most projects never use it. The
+opt-in an operator seeds deliberately; most projects never use it. A hard
+dependency on another row goes in the long description as
+`Blocked by [[TASK-ID]]` — wikilink-only, literal `Blocked by`; `Blocked on`,
+a bare ID, or free prose does not parse (see SPEC.md §"Long-description
+conventions"). The
 minimal legacy form
 `- [ ] **TASK-ID** — description` keeps parsing for backwards compatibility,
 but new entries should declare a model so /ft-task can gate on it without

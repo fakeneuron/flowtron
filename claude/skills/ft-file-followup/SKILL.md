@@ -130,7 +130,7 @@ In one continuous motion, after the user has confirmed the Step 3 review (includ
 
 1. **Filing-commit pre-check.** Run `git status --porcelain -- .flowtron/PLAN.md` **before any write** and record the result as `auto-commit`: clean output → `auto-commit = true`; any output → `auto-commit = false` (PLAN.md already carries foreign edits, so the filing rides along in the surrounding commit instead). It must run here, immediately before the append — Steps 2-3 span operator turns, so a reading taken at pre-flight can go stale. Not a gate: nothing stops either way; it only decides whether item 4 below runs. Contract: SPEC/tasknote-selection.md §"Filing commits".
 
-2. **Append the PLAN.md entry.** Append a new entry under the appropriate `## <Priority>` heading using the canonical task-line grammar (SPEC §"Task-line format"):
+2. **Append the PLAN.md entry.** Append a new entry under the appropriate `## <Priority>` heading using the canonical task-line grammar (SPEC §"Task-line format"; a dependency on another row is `Blocked by [[<ID>]]`, wikilink-only — SPEC §"Long-description conventions"):
 
    ```
    - [ ] **<TASK-ID>** [<model>] | <shortname> — <one-line long description>

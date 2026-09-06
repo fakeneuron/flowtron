@@ -360,21 +360,10 @@ same as the selection thresholds above.
 | Action | Effect |
 |---|---|
 | Merge | fold the entry into the new task (or vice versa); drop the absorbed line |
-| Nest | convert it into an epic subtask / dependency of the new task |
+| Nest | convert it into an epic subtask / dependency of the new task — a dependency is written `Blocked by [[<ID>]]` (wikilink-only; `SPEC.md` §"Long-description conventions") |
 | Edit | rewrite the entry's description to match the new direction |
 | Delete | remove an entry the new work makes obsolete |
 | Leave | no change — surfaced so the user sees it was considered |
-
-**Grammar discipline (Nest, and any dependency clause).** When the confirmed
-action is `Nest` — or any other motion in this contract that records a real,
-current blocker rather than a "see also" cross-reference — write the PLAN.md
-edit using the exact `Blocked by [[ID]]` wikilink grammar (`SPEC.md`
-§"Long-description conventions"). The parser matches that literal string:
-near misses don't parse. `Blocked on [[ID]]`, `Depends on [[ID]]`, and free
-prose describing the dependency all fail the match and leave
-`Task.blockedBy` empty, so the row silently dispatches as though unblocked —
-the opposite of what `Nest` intended. Bare IDs don't parse either; the
-convention is wikilink-only (`[[ID]]`, not `ID`).
 
 **User-confirm gate.** The scan **never auto-rewrites the plan.** It
 surfaces the impacted-entry list with one proposed action per line and waits

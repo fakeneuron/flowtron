@@ -36,9 +36,10 @@ PLAN.md long description (canonical wikilink form, see §"Long-description
 conventions"), delete the just-scaffolded tasknote, and halt. `status:
 blocked` is reserved for mid-Phase-2 parking — a Phase 1 blocker has no
 Phase 2 work to preserve. The task re-enters when the blocker clears
-(remove the `Blocked by` clause — or find it already gone, struck by the
-blocker's own Phase 4 sweep, see §"Blocker-side clearing" below; run
-`/ft-task <ID>` afresh). Blockers reuse
+(remove the `Blocked by` clause; run `/ft-task <ID>` afresh). A blocker's own
+Phase 4 closure may strike a `Blocked by` wikilink naming it, on operator
+confirmation, in the same closure commit; the dependent's resume path stays
+the fallback. Blockers reuse
 Re-scope rather than introducing a fourth Phase 1 verdict.
 
 **Phase 1→2 boundary park (`--unattended` only).** The reservation above holds
@@ -79,29 +80,6 @@ longer stopped), optionally remove the `Blocked by` clause from PLAN.md (or
 leave it as historical context), and continue Phase 2 from where parking
 left off.
 Phase 1 is already complete — do not re-run it.
-
-## Blocker-side clearing (Phase 4)
-
-Every motion above is driven by the **dependent** — the blocked task adds its
-own clause, and removes it when it resumes. That leaves the common case
-uncovered: a blocker closes while its dependents sit unstarted, and their
-clauses go on asserting a dependency that was satisfied long ago. Because
-`Blocked by [[ID]]` parses into `Task.blockedBy` and can surface as a viz row
-chip, a stale clause misreports readiness rather than merely reading oddly.
-
-So the **blocker's** Phase 4 closure closes the loop from the other side: it
-greps `PLAN.md` for clauses naming the closing ID and surfaces the hits, and
-the operator decides which to strike. Removal stays the operator's act, the
-edit is bounded to clause text (a whole clause when the closing ID is its only
-wikilink; a single wikilink when the clause lists several), and confirmed
-removals ride the same atomic closure commit. The prompt is a bundled in-📦
-prompt, so it force-fires that gate under `--fast` and parks as `input-needed`
-under `--unattended`. Full contract, including the collateral-write boundary:
-[`SPEC.md`](../SPEC.md) §"🚀 Phase 4: Closure" → **Blocked-by sweep**.
-
-The two sides are complementary, not redundant: the sweep catches clauses the
-operator would otherwise never revisit, while the resume-path removal still
-covers a task whose clause outlived its blocker for any other reason.
 
 ## Resuming an interrupted run
 

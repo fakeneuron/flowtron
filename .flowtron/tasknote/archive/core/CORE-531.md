@@ -11,6 +11,8 @@ related-tasks: []
 
 [← PLAN.md](../PLAN.md) · ✅ Completed
 
+> **⚠️ Superseded by [[CORE-533]]** — the **Grammar discipline** paragraph in `SPEC/tasknote-selection.md` was reduced to a clause on the `Nest` row; the near-miss list moved into the canonical `SPEC.md` §"Long-description conventions", and the discoverability fix landed where rows get written (`templates/PLAN.md` grammar comment + the three filing skills' grammar pointer). The "row silently dispatches" consequence described adopter-runtime behavior, not flowtron's.
+
 ## 🎯 Goal
 
 Add explicit grammar-discipline guidance to `SPEC/tasknote-selection.md` so
