@@ -249,6 +249,19 @@ shapes fail in ways worth naming rather than discovering. Neither is rescued:
   silently mis-declaring its model and declaring no marker — write it after
   `[model]`.
 
+**Rewrites must preserve the trailing bracket-token run verbatim.** A
+task-line rewrite — a Re-scope note (§"📝 Phase 1: Discovery"), a model retag
+(§"Model field"), or a Phase 4 stub flip
+([`SPEC/tasknote-selection.md`](SPEC/tasknote-selection.md) §"`## Completed`
+archive convention") — touches only the segment it means to change. It must
+copy every other bracket token already on the line (`[unattended]`, a stacked
+`[model]` tolerance, a model-suggestion glyph) verbatim from the original
+rather than reconstructing the line from scratch. A rewrite that preserves
+the visible shortname/description but drops a bracket token disarms it with
+no diagnostic — `[unattended]` disappearing silently turns an
+operator-approved row back into "undecided," with no visible sign on the
+rendered board.
+
 **Parser tolerances (adopter near-misses).** `viz/src/parser.ts` also accepts
 three shapes that are not canonical authoring — they parse (or stay silent)
 instead of surfacing as unparsed diagnostics. New entries should still follow
@@ -788,7 +801,7 @@ Mandatory steps:
 - [ ] Asked clarifying questions OR logged "No clarifications needed" with explicit assumptions
 - [ ] Subtasks above populated with concrete, ordered steps
 
-The Relevance Assessment is non-negotiable. `Re-scope` updates the PLAN.md line and tasknote header before continuing (if blocked prerequisite, see §"Blocked tasks"). `De-scope` jumps to Phase 4 closure with the de-scope rationale as the final summary.
+The Relevance Assessment is non-negotiable. `Re-scope` updates the PLAN.md line and tasknote header before continuing (if blocked prerequisite, see §"Blocked tasks") — preserve the full trailing bracket-token run verbatim (see §"Task-line format"). `De-scope` jumps to Phase 4 closure with the de-scope rationale as the final summary.
 
 The read step's **probe clause** exists because broad search is the one part
 of Discovery whose cost is mostly noise. Locating five relevant files can take

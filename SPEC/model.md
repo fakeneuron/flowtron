@@ -30,7 +30,10 @@ identity and a **category** tag (`[xheavy]`/`[heavy]`/`[medium]`/`[light]`) by *
   tier the active model meets or exceeds → proceed silently.
 - Concrete tag differs from the active model → block and offer two paths: switch
   the active model via `/model <X>` then re-invoke `/ft-task`, or retag the
-  PLAN.md line to the active model and proceed. No silent overrides.
+  PLAN.md line to the active model and proceed. No silent overrides. A retag
+  changes only the `[model]` token — copy any other trailing bracket token
+  (`[unattended]`, a stacked `[model]` tolerance) verbatim from the original
+  line (`SPEC.md` §"Task-line format").
 - Category tag tagged heavier than the active model's tier (e.g. `[heavy]` on a
   lower-tier model such as `grok` (medium) or `haiku` (light)) → emit a ⚠️ inline
   advisory note and proceed; the operator decides whether to escalate or keep the

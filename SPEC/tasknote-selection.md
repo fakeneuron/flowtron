@@ -220,7 +220,12 @@ never park anything durable there: a correction, caveat, or decision left in a
 long description is deleted on a schedule (`SPEC.md` §"Tasknote frontmatter" →
 factual corrections). Phase 4 closure rewrites the line to the stub form (not just the
 checkbox + date); `| shortname` is required so visualizers have a row
-title, `[model]` stays optional. Adopting projects pick up the
+title, `[model]` stays optional. The stub form above omits `[unattended]`
+and other trailing bracket tokens only because the example row never carried
+one — a row that does must keep it: the closure rewrite copies the full
+trailing bracket-token run verbatim from the original line (`SPEC.md`
+§"Task-line format"), it does not reconstruct the line from `[model]` alone.
+Adopting projects pick up the
 convention on their next bump (additive change; legacy paragraph-form
 entries continue to parse).
 
