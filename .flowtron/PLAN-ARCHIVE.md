@@ -18,6 +18,314 @@ with its parent even when its own date falls in an earlier month.
 Contract: [`SPEC/tasknote-selection.md`](../SPEC/tasknote-selection.md)
 §"`## Completed` rotation".
 
+## Completed 2026-08
+
+- [x] **CORE-525** [medium]🧩 | release v5.24.0 — Completed 2026-08-30.
+- [x] **CORE-521** [light]🔧 | neutrality-ledger-enumerations — Completed 2026-08-30.
+- [x] **CORE-520** [medium]🧩 | audit-docs-default-scope — Completed 2026-08-30.
+- [x] **CORE-522** [light]🔧 | readme-quickstart-precondition — README §"Quickstart" said the per-project precondition was "a git repo with a `CLAUDE.md`"; corrected to `AGENTS.md` or `CLAUDE.md`, matching `ft-new-project` Step 1 and `docs/MIGRATION.md` §1.0. Surfaced by audit-docs 2026-08-30 (Finding #4, Medium), fixed inline.
+- [x] **CORE-523** [light]🔧 | codex-snippet-grok-omission — `codex/AGENTS-snippet.md` §"Pinning notes" listed `~/.agents/skills/` as read by "Codex, Claude Code, and Cursor"; added Grok, matching its own cited canonical `docs/PLATFORMS.md` §"One canonical install path per project" and `docs/MIGRATION.md`. Surfaced by audit-docs 2026-08-30 (Finding #5, Low), fixed inline.
+- [x] **CORE-524** [light]🔧 | platforms-guardrail-tense — `docs/PLATFORMS.md` §"Installed-surface policy" said release guardrails "are tracked by [[CORE-349.5]]" (pending-work framing for work closed 2026-07-08); rewritten to state the check ships in `/ft-release` §7.1. Surfaced by audit-docs 2026-08-30 (Finding #6, Low), fixed inline.
+- [x] **CORE-519** [light]🔧 | ft-update-selfhost-wiring — Completed 2026-08-30.
+- [x] **CORE-518** [light]🔧 | roster-utility-skills — Completed 2026-08-30.
+- [x] **CORE-517** [light]🔧 | repo-layout-stale — Completed 2026-08-30.
+- [x] **CORE-516** [light]🔧 | model-bullet-duplicate — Completed 2026-08-30.
+- [x] **CORE-515** [medium]🧩 | adopter-claude-md-docs — Completed 2026-08-30.
+- [x] **CORE-514** [light]🔧 | self-host-claude-md — Completed 2026-08-30.
+- [x] **CORE-511** [light]🔧 | contributor-wiring-gap — Completed 2026-08-30.
+- [x] **CORE-512** [light]🔧 | agents-line-16-density — Completed 2026-08-30.
+- [x] **CORE-510** [medium]🧩 | paste-block-restatement — Completed 2026-08-30.
+- [x] **CORE-509** [light]🔧 | keep-in-sync-scope — Completed 2026-08-30.
+- [x] **CORE-513** [light]🔧 | ft-release-7.2-extract — Completed 2026-08-30.
+- [x] **CORE-508** [medium]🧩 | skill-30k-band-split — Completed 2026-08-30.
+- [x] **CORE-507** [medium]🧩 | ft-release-context-split — Completed 2026-08-30.
+- [x] **CORE-505** [light] | completed-rotation — Completed 2026-08-30.
+- [x] **CORE-506** [medium]🧩 | release v5.23.0 — Completed 2026-08-30.
+- [x] **CORE-503** [medium]🧩 | visual-baseline-vs-park — Completed 2026-08-30.
+- [x] **CORE-502** [medium]🧩 | glyph-marker-ordering — Completed 2026-08-30.
+- [x] **CORE-504** [medium]🧩 | scaffold-purpose-blurb — Completed 2026-08-30.
+- [x] **CORE-501** [medium]🧩 | stamp-write-ownership-gap — Completed 2026-08-29.
+- [x] **CORE-500** [medium]🧩 | release v5.22.0 — Completed 2026-08-29.
+- [x] **CORE-499** [medium]🧩 | ft-release-self-file-line — Completed 2026-08-29.
+- [x] **CORE-496** [medium]🧩 | sop-ft-task-resync — Completed 2026-08-29.
+- [x] **CORE-497** [light] | plan-archive-contract-link — Fixed dead adopter-shaped contract link in `.flowtron/PLAN-ARCHIVE.md` header (`../core/SPEC/tasknote-selection.md` → `../SPEC/tasknote-selection.md`; flowtron-self has no `.flowtron/core/`). Surfaced by audit-docs 2026-08-29 (Finding #2, Medium), fixed inline.
+- [x] **CORE-498** [light] | ft-flowtron-seed-files-clause — Appended the `PLAN.md` / `tasknote-README.md` seed-files tail to the templates-roster line in `claude/skills/ft-flowtron/SKILL.md`, matching SPEC.md:58 and README.md:278. Surfaced by audit-docs 2026-08-29 (Finding #1, Medium), fixed inline.
+- [x] **CORE-493** [light]🔧 | canonical-tag-sha-reuse — Completed 2026-08-29.
+- [x] **CORE-495** [medium] | visual-confirm-park — Completed 2026-08-29.
+- [x] **CORE-494** [medium] | unattended-marker-grammar — Completed 2026-08-29.
+- [x] **FE-EPIC-101** [medium] | viz-archive-scale — Completed 2026-08-29.
+  - [x] **FE-101.2** [medium]🧩 | archive-wire-slim — Completed 2026-08-29.
+  - [x] **FE-101.3** [medium]🧩 | targeted-sse-refetch — Completed 2026-08-29.
+  - [x] **FE-101.4** [light]🔧 | collapsed-section-unmount — Completed 2026-08-29.
+  - [x] **FE-101.5** [light]🔧 | archive-cache-bound — Completed 2026-08-29.
+  - [x] **FE-101.N** [medium]🧩 | viz-archive-scale audit — Completed 2026-08-29.
+- [x] **CORE-EPIC-490** [medium] | updater-failure-honesty — Completed 2026-08-29.
+  - [x] **CORE-490.2** [medium]🧩 | gitlink-drift-unresolved-sentinel — Completed 2026-08-29.
+  - [x] **CORE-490.3** [light]🔧 | no-verify-bump-commit — Completed 2026-08-29.
+  - [x] **CORE-490.4** [light]🔧 | tag-pair-memoization — Completed 2026-08-29.
+  - [x] **CORE-490.N** [light] | updater-failure-honesty audit — Completed 2026-08-29.
+- [x] **CORE-492** [medium]🧩 | skill-layer-sweep-blindspot — Completed 2026-08-29.
+- [x] **CORE-491** [medium]🧩 | vision-sweep-role-split — Completed 2026-08-29.
+- [x] **CORE-EPIC-489** [light] | tier-mirror-and-sweep-coverage — Completed 2026-08-29.
+  - [x] **CORE-489.2** [light]🔧 | xheavy-mirror-sweep — Completed 2026-08-29.
+  - [x] **CORE-489.3** [light]🔧 | sweep-coverage-gaps — Completed 2026-08-29.
+  - [x] **CORE-489.4** [light]🔧 | adopter-template-reconcile — Completed 2026-08-29.
+  - [x] **CORE-489.N** [light]🔧 | tier-mirror-and-sweep-coverage audit — Completed 2026-08-29.
+- [x] **CORE-487** [medium]🧩 | no-runtime-mirror-consolidation — Completed 2026-08-28.
+- [x] **CORE-488** [light] | cross-repo-tasknote-remit — Completed 2026-08-28.
+- [x] **CORE-486** [light] | cross-project-carveouts-note — Completed 2026-08-28.
+- [x] **CORE-485** [medium]🧩 | fleet-name-leakage-sweep — Completed 2026-08-28.
+- [x] **CORE-484** [medium]🧩 | release v5.21.0 — Completed 2026-08-27.
+- [x] **CORE-EPIC-483** [medium] | screenshot-discipline — Completed 2026-08-27.
+  - [x] **CORE-483.1** [medium] | screenshot-discipline discovery — Completed 2026-08-27.
+  - [x] **CORE-483.2** [medium] | screenshot-policy-rewrite — Completed 2026-08-27.
+  - [x] **CORE-483.3** [light] | natabula-deposit-alignment — Completed 2026-08-27.
+  - [x] **CORE-483.4** [light] | screenshot-prune-sweep — Completed 2026-08-27.
+  - [x] **CORE-483.N** [light] | screenshot-discipline audit — Completed 2026-08-27.
+- [x] **CORE-EPIC-482** [heavy] | model-tier-recalibration — Completed 2026-08-27.
+  - [x] **CORE-482.1** [heavy] | model-tier-recalibration discovery — Completed 2026-08-27.
+  - [x] **CORE-482.2** [heavy] | model-effort-inventory — Completed 2026-08-27.
+  - [x] **CORE-482.3** [heavy] | xheavy-rung-round-up — Completed 2026-08-27.
+  - [x] **CORE-482.4** [light] | emitter-glyph-propagation — Completed 2026-08-27.
+  - [x] **CORE-482.5** [light] | viz-xheavy-glyph-tolerance — Completed 2026-08-27.
+  - [x] **CORE-482.N** [heavy] | model-tier-recalibration audit — Completed 2026-08-27.
+- [x] **CORE-481** [light] | security-doc line-cite trim — Dropped the ten brittle line-number citations in SECURITY.md §"Fleet updater" (7 of 10 had drifted 7–26 lines through CORE-473/478/479); function names remain as the stable locators, behavioral claims unchanged. Surfaced by audit-docs 2026-08-26 (Finding #1, Medium), fixed inline.
+- [x] **CORE-480** [medium]🧩 | release v5.20.0 — Completed 2026-08-26.
+- [x] **FE-100** [light]🔧 | viz-orphan-and-shape-trim — Completed 2026-08-26.
+- [x] **CORE-479** [light]🔧 | updater-naming-dedup — Completed 2026-08-26.
+- [x] **CORE-478** [light]🔧 | viz-version-drop — Completed 2026-08-26.
+- [x] **FE-99** [light]🔧 | shared-fencemask — Completed 2026-08-26. De-scoped: duplication is a deliberate, twice-reaffirmed precedent ([[CORE-421.2]], [[CORE-423]]); no code changed.
+- [x] **FE-98** [medium]🧩 | derive-registries-single-source — Completed 2026-08-26.
+- [x] **FE-97** [light]🔧 | ui-tier-eslint-rule — Completed 2026-08-26.
+- [x] **FE-96** [light]🔧 | plan-handler-request-containment — Completed 2026-08-26.
+- [x] **FE-95** [medium]🧩 | viz-suite-flake-structural — Completed 2026-08-26.
+- [x] **CORE-477** [light]🔧 | claude-example-flag-drift — Completed 2026-08-25.
+- [x] **CORE-476** [medium]🧩 | capabilities-deep-row — Completed 2026-08-25.
+- [x] **CORE-475** [medium]🧩 | argument-hint-drift-gate — Completed 2026-08-25.
+- [x] **CORE-474** [light]🔧 | readme-unattended-bullet — Completed 2026-08-25.
+- [x] **CORE-EPIC-473** [heavy]🧠 | unattended-orchestration — Completed 2026-08-25.
+  - [x] **CORE-473.1** [heavy]🧠 | unattended-orchestration discovery — Completed 2026-08-25.
+  - [x] **CORE-473.2** [heavy]🧠 | unattended-posture — Completed 2026-08-25.
+  - [x] **CORE-473.3** [medium]🧩 | park-reason-key — Completed 2026-08-25.
+  - [x] **CORE-473.4** [medium]🧩 | unattended-wiring — Completed 2026-08-25.
+  - [x] **CORE-473.5** [heavy]🧠 | unreachable-entrypoints — Completed 2026-08-25.
+  - [x] **CORE-473.6** [medium]🧩 | orchestration-contract — Completed 2026-08-25.
+  - [x] **CORE-473.N** [light]🔧 | unattended-orchestration audit — Completed 2026-08-25.
+- [x] **CORE-472** [light]🔧 | ft-task-sop-rotation-mirror — Completed 2026-08-25.
+- [x] **CORE-471** [medium]🧩 | release v5.19.0 — Completed 2026-08-25.
+- [x] **CORE-466** [light]🔧 | neutrality-ledger-gaps — Completed 2026-08-24.
+- [x] **FE-092** [medium]🧩 | viz-row-dedup — Completed 2026-08-24.
+- [x] **CORE-470** [light]🔧 | ft-stats-plan-archive — Completed 2026-08-24.
+- [x] **FE-094** [medium]🧩 | viz-parser-plan-archive — Completed 2026-08-24.
+- [x] **CORE-467** [heavy]🧠 | plan-completed-rotation — Completed 2026-08-24.
+- [x] **CORE-468** [medium]🧩 | audit-bootstrap-lazy — Completed 2026-08-24.
+- [x] **CORE-465** [heavy]🧠 | wiring-roster-ssot — Completed 2026-08-24.
+- [x] **CORE-464** [medium]🧩 | ci-drift-checks — Completed 2026-08-24.
+- [x] **FE-093** [light]🔧 | viz-architecture-doc — Completed 2026-08-24.
+- [x] **FE-EPIC-94** [heavy]🧠 | viz-app-decompose — Completed 2026-08-24.
+  - [x] **FE-94.2** [light]🔧 | app-characterization-gaps — Completed 2026-08-23.
+  - [x] **FE-94.3** [medium]🧩 | app-derivation-extract — Completed 2026-08-24.
+  - [x] **FE-94.4** [light]🔧 | app-diagnostics-extract — Completed 2026-08-24.
+  - [x] **FE-94.5** [medium]🧩 | app-header-extract — Completed 2026-08-24.
+  - [x] **FE-94.6** [heavy]🧠 | app-state-hooks — Completed 2026-08-24.
+  - [x] **FE-94.N** [light]🔧 | viz-app-decompose audit — Completed 2026-08-24.
+- [x] **CORE-469** [light]🔧 | ft-refactor-fast-doc — Documented `--fast` outside the `args="…"` illustration in `claude/skills/ft-refactor/SKILL.md`'s `description:`, matching `/ft-spec`'s house style, so `/ft-release` §7.1 Pair B (Claude ↔ Codex description flags) passes. Surfaced by audit-structure 2026-08-23 (Finding #9, High), fixed inline.
+- [x] **CORE-EPIC-463** [heavy]🧠 | refactor-and-structure-audit — Completed 2026-08-23.
+  - [x] **CORE-463.1** [heavy]🧠 | refactor-and-structure-audit discovery — Completed 2026-08-23.
+  - [x] **CORE-463.2** [heavy]🧠 | structure-domain — Completed 2026-08-23.
+  - [x] **CORE-463.3** [heavy]🧠 | refactor-planner — Completed 2026-08-23.
+  - [x] **CORE-463.4** [heavy]🧠 | audit-scaffold-bootstrap — Completed 2026-08-23.
+  - [x] **CORE-463.5** [medium]🧩 | wiring-and-docs — Completed 2026-08-23.
+  - [x] **CORE-463.N** [light]🔧 | refactor-and-structure-audit audit — Completed 2026-08-23.
+- [x] **CORE-462** [light]🔧 | security-md updater section — Completed 2026-08-22.
+- [x] **CORE-461** [light]🔧 | release-publish-step — Completed 2026-08-22.
+- [x] **FE-091** [medium]🧩 | watch-event iterator fix — Completed 2026-08-22.
+- [x] **FE-EPIC-090** [medium]🧩 | viz major-bump wave — Completed 2026-08-22.
+  - [x] **FE-090.2** [medium]🧩 | toolchain pair — Completed 2026-08-22.
+  - [x] **FE-090.3** [heavy]🧠 | framework pair — Completed 2026-08-22.
+  - [x] **FE-090.4** [heavy]🧠 | Tailwind 4 migration — Completed 2026-08-22.
+  - [x] **FE-090.N** [light]🔧 | viz major-bump wave audit — Completed 2026-08-22.
+- [x] **FE-EPIC-089** [medium]🧩 | release-gate flake hardening — Completed 2026-08-22.
+  - [x] **FE-089.2** [medium]🧩 | deflake wikilink-nav waits — Completed 2026-08-22.
+  - [x] **FE-089.N** [light]🔧 | release-gate flake hardening audit — Completed 2026-08-22.
+- [x] **FE-EPIC-088** [medium]🧩 | viz containment & visible staleness — Completed 2026-08-22.
+  - [x] **FE-088.2** [medium]🧩 | realpath containment — Completed 2026-08-21.
+  - [x] **FE-088.3** [medium]🧩 | SSE disconnect visibility — Completed 2026-08-22.
+  - [x] **FE-088.4** [light]🔧 | debounce max-wait flush — Completed 2026-08-22.
+  - [x] **FE-088.N** [light]🔧 | viz containment & visible staleness audit — Completed 2026-08-22.
+- [x] **CORE-EPIC-460** [medium]🧩 | platform-parity gate widening — Completed 2026-08-21.
+  - [x] **CORE-460.2** [light]🔧 | command-stub `--high` + Pair F widening — Completed 2026-08-21.
+  - [x] **CORE-460.3** [medium]🧩 | `--park`/`--worktree` flag parity — Completed 2026-08-21.
+  - [x] **CORE-460.4** [medium]🧩 | Codex trigger-table backfill — Completed 2026-08-21.
+  - [x] **CORE-460.N** [light]🔧 | platform-parity gate widening audit — Completed 2026-08-21.
+- [x] **CORE-EPIC-459** [medium]🧩 | adopter-bump edge states — Completed 2026-08-21.
+  - [x] **CORE-459.2** [light]🔧 | detached-HEAD pre-flight gate — Completed 2026-08-21.
+  - [x] **CORE-459.3** [medium]🧩 | empty-stage no-op + gitlinkDrift on bump path — Completed 2026-08-21.
+  - [x] **CORE-459.4** [light]🔧 | missing-pinned-tag guard — Completed 2026-08-21.
+  - [x] **CORE-459.N** [light]🔧 | adopter-bump edge states audit — Completed 2026-08-21.
+- [x] **CORE-EPIC-457** [medium]🧩 | currency-surfaces — Completed 2026-08-20.
+  - [x] **CORE-457.2** [light]🔧 | stats-md-policy — Completed 2026-08-20.
+  - [x] **CORE-457.3** [medium]🧩 | new-project-agents-gate — Completed 2026-08-20.
+  - [x] **CORE-457.4** [light]🔧 | viz-devdep-audit — Completed 2026-08-20.
+  - [x] **CORE-457.N** [light]🔧 | currency-surfaces audit — Completed 2026-08-20.
+- [x] **CORE-458** [medium]🧩 | grok-trigger-table — Completed 2026-08-20.
+- [x] **CORE-EPIC-456** [medium]🧩 | grok-thin-wiring — Completed 2026-08-20.
+  - [x] **CORE-456.2** [medium]🧩 | grok-compat-docs — Completed 2026-08-20.
+  - [x] **CORE-456.3** [medium]🧩 | grok-agents-snippet — Completed 2026-08-20.
+  - [x] **CORE-456.4** [light]🔧 | grok-dogfood-restamp — Completed 2026-08-20.
+  - [x] **CORE-456.N** [medium]🧩 | grok-thin-wiring audit — Completed 2026-08-20.
+- [x] **CORE-455** [medium]🧩 | audit-write-step-commit — Completed 2026-08-19.
+- [x] **CORE-451** [medium]🧩 | install-path doc reconcile — Completed 2026-08-19.
+- [x] **CORE-454** [light]🔧 | audit-docs-default-scope — Rewrote `docs/MIGRATION.md` §1.2.2 so `/ft-audit docs` with no extra scope walks the AI-referenced set. Surfaced by audit-docs 2026-08-19 (Finding #1, Medium), fixed inline.
+- [x] **CORE-453** [light]🔧 | migration-cursor-dangling-find — Retired-skill dangling-symlink check in `docs/MIGRATION.md` now walks `.cursor` when that directory exists. Surfaced by audit-docs 2026-08-19 (Finding #3, Medium), fixed inline.
+- [x] **CORE-452** [light]🔧 | readme-task-counter — README closed-task count 689 → 691 (as of 2026-08-19). Surfaced by audit-docs 2026-08-19 (Finding #4, Medium), fixed inline.
+- [x] **CORE-450** [medium]🧩 | proceed-reply-vocab — Completed 2026-08-18.
+- [x] **CORE-449** [medium]🧩 | release v5.18.0 — Completed 2026-08-18.
+- [x] **CORE-446** [light]🔧 | public-index leftovers — Completed 2026-08-18.
+- [x] **CORE-447** [light]🔧 | migration-cursor-commit — Completed 2026-08-18.
+- [x] **CORE-448** [light]🔧 | security-reporting-surface — Narrowed SECURITY.md reporting sentence from "no networked attack surface" to no internet-facing service (viz localhost-only). Surfaced by audit-docs 2026-08-17 (Finding #3, Medium), fixed inline.
+- [x] **CORE-EPIC-445** [heavy] | graph-lite planning — Completed 2026-08-17.
+  - [x] **CORE-445.1** [heavy] | graph-lite planning discovery — Completed 2026-08-17.
+  - [x] **CORE-445.2** [medium] | graph-lite yaml surface — Completed 2026-08-17.
+  - [x] **CORE-445.3** [medium] | epic-worktree fan-out — Completed 2026-08-17.
+  - [x] **CORE-445.4** [medium] | archive decision links — Completed 2026-08-17.
+  - [x] **CORE-445.5** [light] | viz optional edges — Completed 2026-08-17.
+  - [x] **CORE-445.N** [heavy] | graph-lite planning audit — Completed 2026-08-17.
+- [x] **CORE-444** [heavy]🧠 | nas-term-cues — Completed 2026-08-17.
+- [x] **FE-087** [medium] | plan-parse-near-miss — Completed 2026-08-13.
+- [x] **FE-086** [medium]🧩 | viz-completed-bucket — Completed 2026-08-13.
+- [x] **CORE-443** [medium]🧩 | release v5.17.0 — Completed 2026-08-12.
+- [x] **CORE-442** [light]🔧 | local-stale-audit-docs — Completed 2026-08-12.
+- [x] **CORE-441** [light]🔧 | agents-roster-terse — Completed 2026-08-12.
+- [x] **CORE-440** [medium]🧩 | agents-release-skill — Completed 2026-08-12.
+- [x] **FE-085** [medium]🧩 | yaml-engine-override — Completed 2026-08-12.
+- [x] **CORE-435** [light]🔧 | duplication rationale — Completed 2026-08-12.
+- [x] **CORE-436** [light]🔧 | CI build badge — Completed 2026-08-12.
+- [x] **CORE-437** [medium]🧩 | loosen auto-commit gates — Completed 2026-08-12.
+- [x] **CORE-434** [medium]🧩 | CI workflow hardening — Completed 2026-08-12.
+- [x] **CORE-EPIC-433** [medium]🧩 | drift blind spots — Completed 2026-08-12.
+  - [x] **CORE-433.2** [light]🔧 | fix remaining flag + layout drift — Completed 2026-08-10.
+  - [x] **CORE-433.3** [medium]🧩 | widen gates — Completed 2026-08-12.
+  - [x] **CORE-433.4** [medium]🧩 | validation roster sync — Completed 2026-08-12.
+  - [x] **CORE-433.N** [light]🔧 | drift blind spots audit — Completed 2026-08-12.
+- [x] **CORE-EPIC-431** [heavy]🧠 | viz fleet-scale watcher + scoped events — Completed 2026-08-12.
+  - [x] **CORE-431.2** [heavy]🧠 | split watch set — Completed 2026-08-12.
+  - [x] **CORE-431.3** [medium]🧩 | project-attributed SSE change events; client ignores non-active projects — Completed 2026-08-12.
+  - [x] **CORE-431.4** [light]🔧 | tests pinning both behaviors — Completed 2026-08-12.
+  - [x] **CORE-431.N** [medium]🧩 | viz fleet-scale watcher + scoped events audit — Completed 2026-08-12.
+- [x] **CORE-EPIC-438** [heavy]🧠 | cursor-wiring — Completed 2026-08-12.
+  - [x] **CORE-438.1** [heavy]🧠 | cursor-wiring discovery — Completed 2026-08-12.
+  - [x] **CORE-438.2** [medium]🧩 | cursor-install-verify — Completed 2026-08-12.
+  - [x] **CORE-438.3** [heavy]🧠 | cursor-wiring-bundle — Completed 2026-08-12.
+  - [x] **CORE-438.4** [medium]🧩 | cursor-surface-integration — Completed 2026-08-12.
+  - [x] **CORE-438.5** [medium]🧩 | cursor-dogfood — Completed 2026-08-12.
+  - [x] **CORE-438.N** [heavy]🧠 | cursor-wiring audit — Completed 2026-08-12.
+- [x] **CORE-439** [medium]🧩 | install-path dedup — Completed 2026-08-12.
+- [x] **CORE-EPIC-432** [medium]🧩 | honest edge states — Completed 2026-08-10.
+  - [x] **CORE-432.2** [light]🔧 | header version — Completed 2026-08-10.
+  - [x] **CORE-432.3** [medium]🧩 | prune epic children under filter — Completed 2026-08-10.
+  - [x] **CORE-432.4** [light]🔧 | validate FLOWTRON_UPDATE_LATEST at the seam — Completed 2026-08-10.
+  - [x] **CORE-432.N** [light]🔧 | honest edge states audit — Completed 2026-08-10.
+- [x] **CORE-EPIC-430** [medium]🧩 | CI gate on push — Completed 2026-08-10.
+  - [x] **CORE-430.2** [light]🔧 | Actions workflow — Completed 2026-08-10.
+  - [x] **CORE-430.N** [light]🔧 | CI gate on push audit — Completed 2026-08-10.
+- [x] **CORE-429** [medium]🧩 | auto-commit filed tasks — Completed 2026-08-10.
+- [x] **CORE-428** [medium]🧩 | version-history highlights — Completed 2026-08-09.
+- [x] **CORE-427** [medium]🧩 | release v5.16.0 — Completed 2026-08-09.
+- [x] **CORE-426** [light]🔧 | SPEC templates cross-ref — Completed 2026-08-09.
+- [x] **CORE-EPIC-425** [medium]🧩 | viz near-miss diagnostics — Completed 2026-08-09.
+  - [x] **CORE-425.2** [medium]🧩 | Escape precedence fix — Completed 2026-08-09.
+  - [x] **CORE-425.3** [light]🔧 | near-miss heading diagnostic — Completed 2026-08-09.
+  - [x] **CORE-425.4** [light]🔧 | devApi error hygiene — Completed 2026-08-09.
+  - [x] **CORE-425.N** [medium]🧩 | viz near-miss diagnostics audit — Completed 2026-08-09.
+- [x] **CORE-EPIC-424** [medium]🧩 | fleet-updater failure signals — Completed 2026-08-09.
+  - [x] **CORE-424.2** [light]🔧 | exit-code + stderr — Completed 2026-08-09.
+  - [x] **CORE-424.3** [light]🔧 | fail-closed migration gate — Completed 2026-08-09.
+  - [x] **CORE-424.4** [medium]🧩 | mid-fleet failure test — Completed 2026-08-09.
+  - [x] **CORE-424.N** [medium]🧩 | fleet-updater failure signals audit — Completed 2026-08-09.
+- [x] **CORE-423** [light]🔧 | parser fence-awareness — Completed 2026-08-09.
+- [x] **CORE-422** [medium]🧩 | roster mirror-pair gate — Completed 2026-08-09.
+- [x] **CORE-EPIC-421** [heavy]🧠 | viz-robustness — Completed 2026-08-09.
+  - [x] **CORE-421.2** [medium]🧩 | fence-aware scanners — Completed 2026-08-09.
+  - [x] **CORE-421.3** [light]🔧 | duplicate-epic guard — Completed 2026-08-09.
+  - [x] **CORE-421.4** [light]🔧 | devApi response hardening — Completed 2026-08-09.
+  - [x] **CORE-421.5** [light]🔧 | modal-gated keyboard nav — Completed 2026-08-09.
+  - [x] **CORE-421.N** [heavy]🧠 | viz-robustness audit — Completed 2026-08-09.
+- [x] **CORE-EPIC-420** [heavy]🧠 | release-surface-sync — Completed 2026-08-09.
+  - [x] **CORE-420.2** [light]🔧 | README mirror fixes — Completed 2026-08-09.
+  - [x] **CORE-420.3** [light]🔧 | codex wrapper folds — Completed 2026-08-09.
+  - [x] **CORE-420.4** [light]🔧 | sidequest back-link depth — Completed 2026-08-09.
+  - [x] **CORE-420.5** [heavy]🧠 | release mirror-pair checklist — Completed 2026-08-09.
+  - [x] **CORE-420.N** [heavy]🧠 | release-surface-sync audit — Completed 2026-08-09.
+- [x] **CORE-EPIC-419** [heavy]🧠 | fleet-updater-safety — Completed 2026-08-09.
+  - [x] **CORE-419.2** [medium]🧩 | pinned-ahead guard — Completed 2026-08-08.
+  - [x] **CORE-419.3** [medium]🧩 | applyBump rollback — Completed 2026-08-08.
+  - [x] **CORE-419.4** [light]🔧 | root-arg validation — Completed 2026-08-08.
+  - [x] **CORE-419.N** [heavy]🧠 | fleet-updater-safety audit — Completed 2026-08-09.
+- [x] **CORE-417** [heavy]🧠 | superseded-claim-pointer — Completed 2026-08-08.
+- [x] **CORE-418** [light]🔧 | audit-shortname-flip — Completed 2026-08-08.
+- [x] **CORE-EPIC-416** [heavy]🧠 | closure-artifact-fidelity — Completed 2026-08-08.
+  - [x] **CORE-416.1** [heavy]🧠 | closure-artifact-fidelity discovery — Completed 2026-08-08.
+  - [x] **CORE-416.2** [heavy]🧠 | tick-through-contract — Completed 2026-08-08.
+  - [x] **CORE-416.3** [medium]🧩 | viz-closure-drift-surface — Completed 2026-08-08.
+  - [x] **CORE-416.N** [heavy]🧠 | closure-artifact-fidelity audit — Completed 2026-08-08.
+- [x] **CORE-EPIC-415** [heavy]🧠 | cue-emoji-legibility — Completed 2026-08-08.
+  - [x] **CORE-415.1** [heavy]🧠 | cue-emoji-legibility discovery — Completed 2026-08-08.
+  - [x] **CORE-415.2** [heavy]🧠 | emoji-surface-contract — Completed 2026-08-08.
+  - [x] **CORE-415.3** [medium]🧩 | emitter-propagation — Completed 2026-08-08.
+  - [x] **CORE-415.4** [light]🔧 | viz-glyph-tolerance — Completed 2026-08-08.
+  - [x] **CORE-415.N** [heavy]🧠 | cue-emoji-legibility audit — Completed 2026-08-08.
+- [x] **CORE-414** [light]🔧 | lowercase-path-rationale — Completed 2026-08-08.
+- [x] **CORE-412** [light]🔧 | archive-folder-naming-rule — Completed 2026-08-08.
+- [x] **CORE-411** [light]🔧 | readme-task-counter-currency — Completed 2026-08-08.
+- [x] **CORE-413** [light]🔧 | copied-dir-wiring-gap — Completed 2026-08-08.
+- [x] **CORE-EPIC-410** [heavy]🧠 | wiring-parity-check — Completed 2026-08-08.
+  - [x] **CORE-410.2** [heavy]🧠 | parity-check — Completed 2026-08-07.
+  - [x] **CORE-410.3** [light]🔧 | wire-ft-spec — Completed 2026-08-07.
+  - [x] **CORE-410.4** [light]🔧 | prune-stale-globals — Completed 2026-08-07.
+  - [x] **CORE-410.N** [heavy]🧠 | wiring-parity-check audit — Completed 2026-08-08.
+- [x] **CORE-409** [medium]🧩 | sop-drift-detector-gap — Completed 2026-08-06.
+- [x] **CORE-EPIC-408** [heavy]🧠 | subagent-isolation — Completed 2026-08-06.
+  - [x] **CORE-408.1** [heavy]🧠 | subagent-isolation discovery — Completed 2026-08-06.
+  - [x] **CORE-408.2** [heavy]🧠 | isolation-contract — Completed 2026-08-06.
+  - [x] **CORE-408.3** [heavy]🧠 | portable-handoff — Completed 2026-08-06.
+  - [x] **CORE-408.4** [heavy]🧠 | wiring-and-doc-sync — Completed 2026-08-06.
+  - [x] **CORE-408.N** [heavy]🧠 | subagent-isolation audit — Completed 2026-08-06.
+- [x] **FE-084** [light] | task-line-regex-compose — Completed 2026-08-04.
+- [x] **FE-083** [light] | row-props-context — Completed 2026-08-04.
+- [x] **FE-082** [medium] | wikilink-flake-fix — Completed 2026-08-04.
+- [x] **FE-079** [light] | selector-menu-aria — `ProjectSelector` overflow dropdown's `role="menu"` (no `menuitem` children, no arrow-key nav) changed to `role="group"`, matching the sibling inline chip-group's existing pattern. Surfaced by audit 2026-08-04 (Finding #2, Low), fixed inline. Completed 2026-08-04.
+- [x] **FE-078** [light] | model-chip-category-tokens — Completed 2026-08-04.
+- [x] **FE-080** [light] | theme-toggle-wording — ThemeToggle `aria-label`/`title` said "click to cycle" for a binary light↔dark toggle; reworded to "click to switch". Surfaced by audit 2026-08-04 (Finding #3, Low), fixed inline. Completed 2026-08-04.
+- [x] **FE-081** [light] | readme-kanban-wording — README described viz as a "Kanban view"/"Kanban visualizer"; the default has been the priority-grouped list since FE-005 with board mode opt-in. Reworded both mentions (§Visualizer + repo-layout list). Surfaced by audit 2026-08-04 (Finding #5, Low), fixed inline. Completed 2026-08-04.
+- [x] **CORE-407** [light]🔧 | ft-update-prune-check — Completed 2026-08-03.
+- [x] **TEST-003** [medium]🧩 | updater-fixture-tag-coupling — Completed 2026-08-03.
+- [x] **CORE-400** [light]🔧 | model-edge-fragment-strategy — Completed 2026-08-03.
+- [x] **CORE-406** [light]🔧 | parallel-dogfood-stamp-ownership — Completed 2026-08-03.
+- [x] **CORE-405** [medium]🧩 | release v5.15.0 — Completed 2026-08-03.
+- [x] **CORE-396** [medium]🧩 | release-v5.15.0 — Completed 2026-08-02. De-scoped: re-filed as [[CORE-405]] for `/ft-release`.
+- [x] **CORE-399** [light]🔧 | flag-surface-sync — Completed 2026-08-02.
+- [x] **CORE-398** [light]🔧 | wrapper-invoke-name-sweep — Completed 2026-08-02.
+- [x] **CORE-401** [light]🔧 | new-project-symlink-count — `ft-new-project` Step 8 said "Confirm all twenty-six symlinks" over a 22-link block; corrected to twenty-two. Surfaced by audit 2026-08-02 (Finding #4, Medium), fixed inline.
+- [x] **CORE-402** [light]🔧 | platforms-model-hint-drift — `docs/PLATFORMS.md` Grok "Model / session switch" cell claimed the post-closure line "emits a `/model` hint", contradicting SPEC.md's ban on emitting literal `/clear`/`/model`; reworded to the emoji-label signal. Surfaced by audit 2026-08-02 (Finding #7, Medium), fixed inline.
+- [x] **CORE-403** [light]🔧 | worktree-start-wrapper-typo — Fixed doubled `).)` + trailing whitespace in `claude/commands/ft-worktree-start.md` invoke sentence. Surfaced by audit 2026-08-02 (Finding #5, Low), fixed inline.
+- [x] **CORE-404** [light]🔧 | glossary-entry-count — `docs/GLOSSARY.md` header said "~57 entries" over 60 actual (README says ~60); corrected to ~60. Surfaced by audit 2026-08-02 (Finding #10, Low), fixed inline.
+- [x] **CORE-397** [medium]🧩 | sop-currency-gate — Completed 2026-08-02.
+- [x] **CORE-395** [medium]🧩 | sop-currency-recheck — Completed 2026-08-02.
+- [x] **CORE-394** [light]🔧 | self-symlink-sweep — Completed 2026-08-02.
+- [x] **CORE-387** [medium]🧩 | cross-artifact-consistency — Completed 2026-08-02.
+- [x] **CORE-391** [medium]🧩 | sidequest-fold — Completed 2026-08-02.
+- [x] **CORE-390** [medium]🧩 | debug-mode-fold — `/ft-debug` folded into `/ft-task --debug` via the `step-4-debug-mode.md` lazy fragment (149-line skill → 67-line fragment); 19 reference edits, roster 20→19. Added `docs/MIGRATION.md` §"Retired skills leave dangling symlinks". Completed 2026-08-02.
+- [x] **CORE-392** [light]🔧 | ft-quality-retire — Operator confirmed unused; no veto. Skill + command + Codex mirror deleted, 10 references stripped across 7 files, roster 21→20. Completed 2026-08-02.
+- [x] **CORE-393** [medium]🧩 | phase4-closure-hygiene — Re-scoped: nav-chip flip was not a gap ([[CORE-042.4]] retired it deliberately) — hardened `SPEC.md` instead; folded an Acceptance tick-through into the Phase 4 `Closed —` box; no backfill. Completed 2026-08-01.
+- [x] **CORE-386** [medium]🧩 | skill-rationalizations-redflags — Completed 2026-08-01.
+- [x] **CORE-EPIC-389** [heavy]🧠 | audit-family-consolidation — Completed 2026-08-01.
+  - [x] **CORE-389.1** [heavy]🧠 | discovery — Completed 2026-07-31.
+  - [x] **CORE-389.2** [heavy]🧠 | parameterized-survivor — Completed 2026-08-01.
+  - [x] **CORE-389.3** [light]🔧 | sibling-retirement — Completed 2026-08-01.
+  - [x] **CORE-389.4** [medium]🧩 | migration-and-docs — Completed 2026-08-01.
+  - [x] **CORE-389.N** [medium]🧩 | audit — Completed 2026-08-01.
+
 ## Completed 2026-07
 
 - [x] **CORE-388** [heavy]🧠 | skill-roster-utility-review — Completed 2026-07-31.
