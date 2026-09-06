@@ -964,6 +964,37 @@ and the three cases it does *not* cover are canonical in §"Tasknote
 frontmatter"; this is the trigger, not a second copy of the contract. No new
 checkbox — the pointer rides the existing `Closed —` box.
 
+**Blocked-by sweep (conditional).** Closure also looks *outward*: grep
+`PLAN.md` for `Blocked by` clauses whose wikilink names the task being closed.
+Every hit is a dependency this closure just satisfied, and the row will keep
+asserting it until someone notices — the clause's other removal paths are all
+driven by the *dependent* (§"Blocked tasks" → resume), so nothing else in the
+lifecycle looks at it from the blocker's side. Surface the hits and let the
+operator decide; **clause removal is the operator's act**, never autonomous.
+Confirmed removals are staged in the same atomic closure commit.
+
+Two bounded edits, and no third:
+
+- The closing ID is the clause's **only** wikilink → strike the whole
+  `Blocked by …` clause.
+- The clause lists **several** blockers (`Blocked by [[<A>]], [[<B>]]`, per
+  §"Long-description conventions") → drop **only** that wikilink; the clause
+  stands, still naming the blockers that remain.
+
+This is the one sanctioned collateral `PLAN.md` write at closure, and it is
+narrow by construction: **clause text only** — never a checkbox flip, never a
+priority move, never any other edit to another row. §"Paper-complete guard"'s
+ban on collateral Completed flips is untouched and must not be read as
+licensed by this paragraph.
+
+The operator prompt is a **bundled in-📦 prompt**, not a banner — a hit
+force-fires the 📦 gate per [`SPEC/gates.md` §"Conditional skip rule"](SPEC/gates.md)
+(including under `--fast`, since autonomous commit cannot answer a user-input
+question), and under `--unattended` it parks as `input-needed` on that same
+override. No new cue is minted and the two-banner cap is untouched. No new
+checkbox either — like the pointer above, the sweep rides the existing
+`Closed —` box. Most closures find nothing and prompt for nothing.
+
 > **No nav-header chip flip here.** Phase 4 does **not** flip the markdown nav
 > chip to `✅ Completed`. CORE-042.4 retired that write deliberately (three
 > status writes → two), and visualizers derive the chip from YAML `status:` at

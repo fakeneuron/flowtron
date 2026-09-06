@@ -383,7 +383,16 @@ time (Step 6).
   that note's nav header and stage it in the same commit — append-only, never
   rewriting the original text (`SPEC.md` §"Tasknote frontmatter" carries the
   contract and the three cases it excludes). Conditional: most closures write
-  no pointer. Flip **only this task's**
+  no pointer. **Blocked-by sweep (conditional):** grep `PLAN.md` for
+  `Blocked by` clauses whose wikilink names the closing ID — each is a
+  dependency this closure just satisfied — surface the hits, and strike the
+  ones the operator confirms in the same commit. Strike the whole clause when
+  the closing ID is its only wikilink; drop just that wikilink when the clause
+  lists several. Clause text only: never a checkbox flip or any other edit to
+  another row. The prompt is a **bundled in-📦 prompt**, so a hit force-fires
+  the 📦 gate (even under `--fast`) and parks as `input-needed` under
+  `--unattended`; removal stays the operator's act. Conditional: most closures
+  find nothing. Flip **only this task's**
   PLAN.md line to the stub form
   `[x] **<TASK-ID>** [model] | shortname — Completed YYYY-MM-DD.`. For a
   standalone task, move the row to the top of `## Completed`; for an epic
