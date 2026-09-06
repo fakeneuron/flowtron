@@ -360,6 +360,17 @@ same as the selection thresholds above.
 | Delete | remove an entry the new work makes obsolete |
 | Leave | no change — surfaced so the user sees it was considered |
 
+**Grammar discipline (Nest, and any dependency clause).** When the confirmed
+action is `Nest` — or any other motion in this contract that records a real,
+current blocker rather than a "see also" cross-reference — write the PLAN.md
+edit using the exact `Blocked by [[ID]]` wikilink grammar (`SPEC.md`
+§"Long-description conventions"). The parser matches that literal string:
+near misses don't parse. `Blocked on [[ID]]`, `Depends on [[ID]]`, and free
+prose describing the dependency all fail the match and leave
+`Task.blockedBy` empty, so the row silently dispatches as though unblocked —
+the opposite of what `Nest` intended. Bare IDs don't parse either; the
+convention is wikilink-only (`[[ID]]`, not `ID`).
+
 **User-confirm gate.** The scan **never auto-rewrites the plan.** It
 surfaces the impacted-entry list with one proposed action per line and waits
 for explicit confirmation; the user accepts, amends, or rejects each, and
