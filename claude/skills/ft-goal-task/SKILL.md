@@ -56,6 +56,15 @@ Paths this skill uses:
 
 Read PLAN.md. Find the line containing `**<TASK-ID>**`. Status gate (already-closed → stop and ask), model capture, `| shortname`, priority, `[!critical]`, filing-discipline word-count warning — all exactly as `/ft-task` Step 1.
 
+**Then emit the 🎯 purpose blurb**, exactly as `/ft-task` Step 1 does and for the same reason — per SPEC §"🎯 Purpose blurb", before the model gate, the pre-flight checks, and any scaffold write, since each of those can end the run:
+
+```text
+🎯 <TASK-ID> — <shortname>
+<1-2 sentences of plain-English purpose.>
+```
+
+Goal-loop flavor: name the loop, since the operator is about to watch an execute→verify cycle rather than a single pass. The `loop-max` budget is *not* named here — it is asked at scaffold (Step 3b) and stated there. Two lines drawn from the PLAN.md long description just captured, which is the only source read yet. Not a cue and not a gate — no reply expected, nothing blocks, and neither `--fast` nor `--unattended` suppresses it. It fires once, ahead of the 3a / 3b / 3c branch. Bounds are canonical in SPEC.
+
 ## Step 1.5 — Model gate (identical to /ft-task)
 
 Gate on the `[model]` segment before scaffolding. Satisfied → proceed. Category under-tier / concrete mismatch / legacy-absent → read `<SPEC_DIR>/model.md` + `<MODEL_EDGE>` in parallel and follow the matching branch. Same two-path AskUserQuestion; no silent overrides. **When `unattended-mode = true`**, a concrete mismatch takes `<UNATTENDED>` §"Pre-scaffold stops" instead — scaffold with `status: blocked` + `park-reason: model-mismatch — …` and halt, rather than offering the ask. `<MODEL_EDGE>` is shared across the three model-gate skills — substitute `/ft-goal-task` for its `<SKILL>` placeholder when surfacing a branch, so a re-invoke suggestion preserves the loop shape rather than sending the operator to `/ft-task`.
@@ -70,7 +79,7 @@ Base mechanics identical to `/ft-task`:
 
 - **3a Starter promotion** — read `SPEC/starter.md` + the promote fragment if present.
 - **3b Fresh scaffold** — copy `templates/tasknote-template.md` to `.flowtron/tasknote/<TASK-ID>.md`, fill title from shortname or description, `status: in-progress`, created date, related-tasks from context.
-- **3c Blocked resume** — read `SPEC/blocked.md` + resume fragment. A goal loop that parked mid-cycle (destructive step, or a surfaced hard dependency) resumes here; the `## 🔁 Iterations` log carries the loop's memory across the park.
+- **3c Blocked resume** — read `SPEC/blocked.md` + resume fragment. A goal loop that parked mid-cycle (destructive step, or a surfaced hard dependency) resumes here; the `## 🔁 Iterations` log carries the loop's memory across the park. Once the parked note is read, **name the `park-reason:` being cleared** in one plain prose line before Phase 2 starts — the Step 1 blurb could not have known it. Ordinary prose, not a second 🎯 emission.
 
 **Goal-loop scaffold addendum (3b — fresh scaffold only).** After copying the template, apply the loop shape per `SPEC/loop.md`:
 
@@ -93,19 +102,6 @@ Base mechanics identical to `/ft-task`:
 3. `loop-max` is asked at scaffold or during Phase 1 (default 10) — it is the runaway backstop, independent of the relevance gate.
 
 (On the 3c resume path the keys + section already exist; do not re-add them.)
-
-## Step 3d — Emit the purpose blurb (all three paths)
-
-Identical to `/ft-task` Step 3d. Whichever of 3a / 3b / 3c ran, emit the scaffold-time purpose blurb per SPEC §"🎯 Scaffold-time purpose blurb" before the first phase step — two lines, ID + shortname, then 1-2 sentences of purpose from the PLAN.md long description and the `🎯 Goal` just written:
-
-```text
-🎯 <TASK-ID> — <shortname>
-<1-2 sentences of plain-English purpose.>
-```
-
-Goal-loop flavor: name the loop in the blurb, since the operator is about to watch an execute→verify cycle rather than a single pass (e.g. `… will run as a goal loop against machine-checkable criteria, budget <loop-max>`). On the 3c resume path also name the `park-reason:` being cleared; the `## 🔁 Iterations` log carries what already ran.
-
-Not a cue and not a gate — no reply expected, nothing blocks, and neither `--fast` nor `--unattended` suppresses it. Bounds are canonical in SPEC.
 
 ## Step 4 — Phase 1: Discovery (standard checklist + the verify-command rule)
 

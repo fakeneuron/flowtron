@@ -132,6 +132,25 @@ ways authors mis-write it:
 [`SPEC.md` §"Task-line format"](../../SPEC.md); the dispatch posture that
 consumes it: [`docs/EXTERNAL-AGENTS.md`](../../docs/EXTERNAL-AGENTS.md).
 
+**Purpose blurb — emit it here.** With the line captured and nothing else read
+yet, emit a short plain-English statement of what the task is: two lines, the
+ID and shortname, then 1-2 sentences of purpose drawn from the `PLAN.md` long
+description.
+
+```text
+🎯 <TASK-ID> — <shortname>
+<1-2 sentences of plain-English purpose.>
+```
+
+This is the earliest point you know what the task is, and every check between
+here and Phase 1 — the model gate, the foreign-dirt gate, the collision checks
+— can end the run, so a later emission risks orienting the operator on nothing.
+It fires once, ahead of the promote / scaffold / resume branch, so there is no
+per-path variant to keep in sync. Emit it and continue in the same turn: it
+expects no reply, blocks nothing, and is suppressed by neither `--fast` nor
+`--unattended`. It is **not** an operator cue and adds no gate. Full contract:
+[`SPEC.md` §"🎯 Purpose blurb"](../../SPEC.md).
+
 **`## Completed`-rotation advisory.** While `PLAN.md` is open, count the
 checked rows under `## Completed` (nested epic children included). Past
 **150**, surface a one-line `⚠️` advisory naming the count and suggesting the
@@ -184,6 +203,10 @@ Check `.flowtron/tasknote/<TASK-ID>.md` and branch on its existence / YAML
   input. See [`SPEC/starter.md`](../starter.md).
 - **`status: blocked`** → resume from Phase 2; Phase 1 is already done on a
   parked tasknote. See [`SPEC/blocked.md`](../blocked.md).
+  Once the parked note is read, name the `park-reason:` you are clearing in
+  one plain prose line before Phase 2 begins — the step-1 blurb could not have
+  known it, and there is no Discovery here to orient the operator. Ordinary
+  prose, not a second 🎯 emission.
 - **`status: in-progress` / `not-started` / `completed`** → the file is in
   flight or closed; do not restart. Continue it conversationally. If the
   session that started it is gone, that is not possible — an `in-progress`
@@ -200,24 +223,6 @@ Check `.flowtron/tasknote/<TASK-ID>.md` and branch on its existence / YAML
   `## 🌳 Fan-out` claim that names it into omit-when-absent `blocked-by:`
   / `parallel-safe-with:` so a worktree copy still sees the claim
   ([`SPEC/epic.md`](../epic.md) §"Fan-out").
-
-**Purpose blurb (all three opening paths).** Whether you promoted, scaffolded,
-or resumed, the tasknote is now open and the operator has seen only tool
-activity. Before step 4 begins, emit a short plain-English statement of what
-the task is — two lines, the ID and shortname, then 1-2 sentences of purpose
-drawn from the `PLAN.md` long description and the `🎯 Goal`:
-
-```text
-🎯 <TASK-ID> — <shortname>
-<1-2 sentences of plain-English purpose.>
-```
-
-On a resume, also name the `park-reason:` being cleared — Phase 1 is already
-complete there, so the operator lands directly in Phase 2 with no Discovery to
-orient them. Emit it and continue in the same turn: it expects no reply, blocks
-nothing, and is suppressed by neither `--fast` nor `--unattended`. It is **not**
-an operator cue and adds no gate. Full contract:
-[`SPEC.md` §"🎯 Scaffold-time purpose blurb"](../../SPEC.md).
 
 ### 4 — Phase 1: Discovery
 

@@ -713,37 +713,45 @@ reliability. Full contract (emission shapes, escalation, conventions):
 A destructive 🗄️/▶️/📡/💻 action may escalate from its inline prefix to a
 blocking banner — see [`SPEC/gates.md` §"Operator-cue vocabulary" → "Destructive-action escalation"](SPEC/gates.md).
 
-### 🎯 Scaffold-time purpose blurb
+### 🎯 Purpose blurb
 
 A task-runner skill invoked with a bare task ID — `/ft-task CORE-504` — is
-normally the operator's *first* message after a `/clear`. The runner then opens
-a tasknote and begins the phase work, and everything the operator sees between
-those two points is tool calls. The `🎯 Goal` written into the tasknote at
-scaffold is a **file** write, not an operator-facing one; a file the operator
-has not opened states nothing to them.
+normally the operator's *first* message after a `/clear`. The runner then works
+through a model gate, pre-flight checks, and a tasknote write before any phase
+work begins, and everything the operator sees across that stretch is tool
+calls. The `🎯 Goal` written into the tasknote is a **file** write, not an
+operator-facing one; a file the operator has not opened states nothing to them.
+And any of those pre-phase checks can *end* the run — a model mismatch, foreign
+dirt in the tree, an archive collision, a tasknote already in flight — leaving
+an operator who never learned what the task was.
 
-So before the first phase step runs, the runner emits a short plain-English
-statement of what the task is:
+So the runner emits a short plain-English statement of what the task is at the
+**earliest point it can**: immediately after the `PLAN.md` task line is
+captured, before the model gate, before the pre-flight checks, and before any
+scaffold write.
 
 ```text
 🎯 CORE-504 — scaffold-purpose-blurb
-Adds a short plain-English statement of what a task is, emitted at scaffold
-before Phase 1 Discovery begins, so an operator invoking cold after a /clear
-gets an immediate read.
+Adds a short plain-English statement of what a task is, emitted as soon as the
+PLAN.md line is read, so an operator invoking cold after a /clear gets an
+immediate read — even on a run that stops before Phase 1.
 ```
 
 Two lines: the ID and shortname, then 1-2 sentences of purpose drawn from the
-`PLAN.md` long description and the `🎯 Goal` just written. Prose, not a
-checklist — this is the read the operator would otherwise have to reconstruct
-by opening the tasknote.
+`PLAN.md` long description. Prose, not a checklist — this is the read the
+operator would otherwise have to reconstruct by opening the tasknote. The
+`PLAN.md` line is the *only* source, because it is the only thing read yet;
+the `🎯 Goal` is derived from that same line at scaffold, so nothing is lost by
+speaking first and filing second.
 
 **Which invocations.** The three **ID-invoked runners** — `/ft-task`,
-`/ft-micro-task`, `/ft-goal-task` — on every path that opens a tasknote and
-proceeds: fresh scaffold, starter promotion, and blocked resume. The cold-start
-condition is the same in all three, and a resume needs it most: Phase 1 is
-already complete on a parked note, so the operator lands directly in Phase 2
-with no Discovery to orient them. On a resume, the blurb also names the
-`park-reason:` being cleared.
+`/ft-micro-task`, `/ft-goal-task` — once each, at that one point. It precedes
+the fresh-scaffold / starter-promotion / blocked-resume branch entirely, so
+there is no per-path variant to keep in sync: whichever path the run later
+takes, the operator has already been oriented. Where an opening path holds
+state the blurb could not know — the `park-reason:` a resume is clearing, a
+goal loop's `loop-max` budget — that path states it as ordinary prose when it
+reads it. Those are not a second blurb.
 
 `/ft-epic-discovery` and `/ft-close-epic` are **out of scope, deliberately**.
 Both are invoked in-session with the scoping conversation still live, so a

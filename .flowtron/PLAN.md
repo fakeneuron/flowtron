@@ -11,8 +11,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-526** [medium]🧩 | early-purpose-blurb — CORE-504's 🎯 blurb fires only at Step 3d, after the model gate, pre-flight checks and scaffold — a run stopping early orients the operator on nothing. Emit the goal read at Step 1, right after the PLAN.md line is captured, across all three ID-invoked runners.
-
 ## Medium
 
 ## Low
@@ -21,6 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-526** [medium]🧩 | early-purpose-blurb — Completed 2026-09-06.
 - [x] **CORE-525** [medium]🧩 | release v5.24.0 — Completed 2026-08-30.
 - [x] **CORE-521** [light]🔧 | neutrality-ledger-enumerations — Completed 2026-08-30.
 - [x] **CORE-520** [medium]🧩 | audit-docs-default-scope — Completed 2026-08-30.

@@ -58,6 +58,15 @@ Otherwise, capture from the line:
 
 The full task-line grammar is `- [ ] **TASK-ID** [!critical] [model] | shortname — long description`. See SPEC §"Task-line format" for the canonical grammar.
 
+**Emit the 🎯 purpose blurb now** — per SPEC §"🎯 Purpose blurb", before the model gate, before the pre-flight checks below, and before any scaffold write, since each of those can end the run:
+
+```text
+🎯 <TASK-ID> — <shortname>
+<1-2 sentences of plain-English purpose.>
+```
+
+Two lines: the ID and the `| shortname`, then 1-2 sentences of purpose drawn from the PLAN.md long description just captured — the only source read yet. This skill has a single scaffold path (no promote / resume branch), so the blurb fires here and nowhere else. Emit it and keep going in the same turn — it is **not a cue and not a gate**: no reply expected, nothing blocks, and neither `--fast` nor `--unattended` suppresses it. It matters most in a one-shot run, where the blurb and the ✅ Recap are the only two plain-English reads the operator gets. Bounds are canonical in SPEC.
+
 **Filing-discipline check (advisory).** Word-count the captured long description. If it exceeds the 70-word hard cap from SPEC/tasknote-selection.md §"PLAN.md filing-discipline thresholds", surface a one-line warning to the user — informational only; proceed.
 
 **Pre-flight checks:**
@@ -87,15 +96,6 @@ Copy the micro template (path resolved in Step 0) to `.flowtron/tasknote/<TASK-I
 - `status:` `in-progress`. `created:` today (`YYYY-MM-DD`). `tags:` / `due:` / `related-tasks:` from PLAN.md line context; default empty.
 - 🎯 Goal — derived from the PLAN.md line; ask if too terse for a one-sentence goal.
 - ⚡ Notes ships with bold-prefix prompts in place (filled in Step 3); ✅ Recap is placeholder (filled in Step 4).
-
-**Then emit the purpose blurb** per SPEC §"🎯 Scaffold-time purpose blurb", before Step 3 touches anything — two lines, ID + shortname, then 1-2 sentences of purpose from the PLAN.md long description and the `🎯 Goal` just written:
-
-```text
-🎯 <TASK-ID> — <shortname>
-<1-2 sentences of plain-English purpose.>
-```
-
-This skill has a single scaffold path (no promote / resume branch), so the blurb fires here and nowhere else. Emit it and keep going in the same turn — it is **not a cue and not a gate**: no reply expected, nothing blocks, and neither `--fast` nor `--unattended` suppresses it. It matters most in a one-shot run, where the blurb and the ✅ Recap are the only two plain-English reads the operator gets. Bounds are canonical in SPEC.
 
 ## Step 3 — Drive execution inline
 

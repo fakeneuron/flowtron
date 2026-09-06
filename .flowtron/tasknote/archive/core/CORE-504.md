@@ -21,6 +21,8 @@ related-tasks: []
 
 [← PLAN.md](../PLAN.md) · 🟢 In progress
 
+> **⚠️ Superseded by [[CORE-526]]** — the blurb no longer fires at scaffold time; it moved to step 1, immediately after the `PLAN.md` line is captured, so the SPEC section named here is `🎯 Purpose blurb` and no longer "sits at the point in the document where it fires". The `/ft-task` and `/ft-goal-task` Step 3d this note created were retired in the same move.
+
 ## 🎯 Goal
 
 Emit a short plain-English purpose blurb at tasknote scaffold — before Phase 1 Discovery begins — so the operator gets an immediate read on what the task is.

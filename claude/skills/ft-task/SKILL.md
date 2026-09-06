@@ -71,6 +71,15 @@ Otherwise, capture:
 
 The full task-line grammar is `- [ ] **TASK-ID** [!critical] [model] | shortname — long description`; all of `[!critical]`, `[model]`, and `| shortname` are optional. See SPEC §"Task-line format" for the canonical grammar.
 
+**Emit the 🎯 purpose blurb now** — per SPEC §"🎯 Purpose blurb", before the model gate, before the pre-flight checks, and before any scaffold write. This is the earliest point the runner knows what the task is, and every check between here and Phase 1 can end the run:
+
+```text
+🎯 <TASK-ID> — <shortname>
+<1-2 sentences of plain-English purpose.>
+```
+
+Two lines: the ID and the `| shortname`, then 1-2 sentences of purpose drawn from the PLAN.md long description just captured — that line is the only source, because it is the only thing read yet. Emit it and keep going in the same turn. It is **not a cue and not a gate**: no reply is expected, nothing blocks on it, and neither `--fast` nor `--unattended` suppresses it (there is nothing to answer). It fires once, here, ahead of the 3a / 3b / 3c branch — there is no per-path variant. The bounds — including why `🎯` is not a new glyph and why the two-banner cap is untouched — are canonical in SPEC.
+
 **Filing-discipline check (advisory).** Word-count the captured long description (after `— `). If it exceeds the 70-word hard cap from SPEC/tasknote-selection.md §"PLAN.md filing-discipline thresholds", surface a one-line warning to the user:
 
 ```text
@@ -112,7 +121,7 @@ Gate on the `[model]` segment captured in Step 1 before any source reads — hea
 
 ## Step 3a — Promote a starter (existing file with `status: starter`)
 
-Read `<SPEC_DIR>/starter.md` (lifecycle contract) and `<SKILL_DIR>/step-3a-promote-starter.md` (executable steps), then emit the **Step 3d purpose blurb** and continue at **Step 4 (Phase 1: Discovery)**.
+Read `<SPEC_DIR>/starter.md` (lifecycle contract) and `<SKILL_DIR>/step-3a-promote-starter.md` (executable steps), then continue at **Step 4 (Phase 1: Discovery)**.
 
 ## Step 3b — Scaffold a fresh tasknote (no existing file)
 
@@ -128,24 +137,13 @@ Copy the template (path resolved in Step 0) to `.flowtron/tasknote/<TASK-ID>.md`
 
 🎯 Goal is derived from the PLAN.md line at scaffold; ask the user if it's too terse for a clear one-sentence goal. ✅ Acceptance and 🧩 Subtasks are empty checklists at scaffold, populated during Phase 1 Discovery.
 
-Then emit the **Step 3d purpose blurb** and continue at **Step 4 (Phase 1: Discovery)**.
+Then continue at **Step 4 (Phase 1: Discovery)**.
 
 ## Step 3c — Resume a blocked tasknote (existing file with `status: blocked`)
 
-Read `<SPEC_DIR>/blocked.md` (lifecycle contract) and `<SKILL_DIR>/step-3c-resume-blocked.md` (executable steps), then emit the **Step 3d purpose blurb** and continue at **Step 5** at Phase 2 (the lazy fragment's step 5 directs there; Phase 1 is already complete on a parked tasknote).
+Read `<SPEC_DIR>/blocked.md` (lifecycle contract) and `<SKILL_DIR>/step-3c-resume-blocked.md` (executable steps), then continue at **Step 5** at Phase 2 (the lazy fragment's step 5 directs there; Phase 1 is already complete on a parked tasknote).
 
-## Step 3d — Emit the purpose blurb (all three paths)
-
-Whichever of 3a / 3b / 3c ran, the tasknote is now open and the operator has seen only tool calls. Before the first phase step, emit the scaffold-time purpose blurb per SPEC §"🎯 Scaffold-time purpose blurb" — two lines, ID + shortname, then 1-2 sentences of purpose from the PLAN.md long description and the `🎯 Goal` just written:
-
-```text
-🎯 <TASK-ID> — <shortname>
-<1-2 sentences of plain-English purpose.>
-```
-
-On the 3c resume path, also name the `park-reason:` being cleared — the operator lands directly in Phase 2 with no Discovery to orient them, so the blurb is carrying more weight there than anywhere else.
-
-Emit it and keep going in the same turn. It is **not a cue and not a gate**: no reply is expected, nothing blocks on it, and neither `--fast` nor `--unattended` suppresses it (there is nothing to answer). The bounds — including why `🎯` is not a new glyph and why the two-banner cap is untouched — are canonical in SPEC.
+Once the fragment has read the parked note, **name the `park-reason:` being cleared** in one plain prose line before Phase 2 starts. Phase 1 is already complete here, so the operator lands directly in Phase 2 with no Discovery to orient them, and the Step 1 blurb could not have known why the note was parked. Ordinary prose, not a second 🎯 emission.
 
 ## Step 4 — Phase 1: Discovery (drive now)
 
