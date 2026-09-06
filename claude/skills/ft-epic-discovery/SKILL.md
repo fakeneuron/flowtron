@@ -77,7 +77,7 @@ The user may override the numeric suffix (e.g., to align with an externally-trac
 
 ## Step 4 — File the PLAN.md lines
 
-Append to `.flowtron/PLAN.md` under the chosen `## <Priority>` heading. Use the canonical task-line grammar (SPEC §"Task-line format"; a dependency on another row is `Blocked by [[<ID>]]`, wikilink-only — SPEC §"Long-description conventions"). Three lines (or two if N excludes audit), nested with 2-space indent under the parent for the subtask lines:
+Append to `.flowtron/PLAN.md` under the chosen `## <Priority>` heading. Use the canonical task-line grammar (SPEC §"Task-line format"; a dependency on another row is `Blocked by [[<ID>]]`, wikilink-only — `SPEC/plan-parser.md` §"Long-description conventions"). Three lines (or two if N excludes audit), nested with 2-space indent under the parent for the subtask lines:
 
 ```markdown
 - [ ] **<AREA>-EPIC-<next-N>** [<model>] | <shortname> — One-paragraph epic description (filed via /ft-epic-discovery; refined at .1 closure).
@@ -149,7 +149,7 @@ Leave the standard 4-phase checklist sections from the template intact below the
 - **Synthesis:**
 ```
 
-Leave the rows blank at scaffold — Step 7 fills them when the child lines are filed. M=1 skips the heading (nothing to fan out). Contract: [`SPEC.md`](../../../SPEC.md) §"🌳 Fan-out" and [`SPEC/epic.md`](../../../SPEC/epic.md) §"Fan-out." The heading is an optional insert, not a template change.
+Leave the rows blank at scaffold — Step 7 fills them when the child lines are filed. M=1 skips the heading (nothing to fan out). Contract: [`SPEC/tasknote-inserts.md`](../../../SPEC/tasknote-inserts.md) and [`SPEC/epic.md`](../../../SPEC/epic.md) §"Fan-out." The heading is an optional insert, not a template change.
 
 ## Step 5.5 — Deep pre-pass (only on `--deep`)
 

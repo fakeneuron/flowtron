@@ -14,7 +14,7 @@ Alphabetized. ~71 entries. Maintained via epic children and audits.
 
 **area prefix** — The leading token of a TASK-ID (e.g. `CORE-`, `FE-`, `BE-`); declares the scope bucket per SPEC §"Task ID convention". Adopters declare extra domain prefixes in their `.flowtron/tasknote/README.md`.
 
-**audit-family** — The two audit skills and command stubs `/ft-audit{,-repo}`: the forkable stack scaffold `/ft-audit <domain>` — a parameterized dispatcher over a seven-file `passes/` library (`general` · `backend` · `frontend` · `security` · `performance` · `docs` · `structure`) — plus `/ft-audit-repo`, the no-fork first-contact holistic audit run by reference from the submodule. `/ft-audit-context` is a standalone context-surface skill, not part of the family (it follows its own recipe — see SPEC §"Skill namespace"). Forking rules and naming (no `ft-` prefix on forks) in docs/MIGRATION.md §1.2.1.
+**audit-family** — The two audit skills and command stubs `/ft-audit{,-repo}`: the forkable stack scaffold `/ft-audit <domain>` — a parameterized dispatcher over a seven-file `passes/` library (`general` · `backend` · `frontend` · `security` · `performance` · `docs` · `structure`) — plus `/ft-audit-repo`, the no-fork first-contact holistic audit run by reference from the submodule. `/ft-audit-context` is a standalone context-surface skill, not part of the family (it follows its own recipe — see `SPEC/layout.md` §"Skill namespace"). Forking rules and naming (no `ft-` prefix on forks) in docs/MIGRATION.md §1.2.1.
 
 **audit-family fork** — An adopter-owned audit skill created by forking an upstream one; must drop the `ft-` prefix so ownership is visible in resolution (e.g. `audit-payments`).
 
@@ -104,7 +104,7 @@ Alphabetized. ~71 entries. Maintained via epic children and audits.
 
 **post-closure protocol** — The three steps that run after a tasknote is archived: commit decision (per Conditional skip rule), suggest-next-move (model-aware), copy-paste line. See SPEC §"Post-closure protocol".
 
-**PR / suggestion archetypes** — The eight shapes flowtron deliberately rejects in contributions: schema validators, abstractions without two-project precedent, cross-project query layers beyond the read-only visualizer, multi-user/team features, runtime security scanners / audit daemons, LLM knowledge-base / "wiki layer" subsystems, loop runtimes (runners / schedulers / session daemons), and graph / multi-agent execution runtimes. Terse AI-facing list lives in SPEC; prose mirror in VISION.md. See SPEC §"What flowtron does NOT provide" and docs/VISION.md.
+**PR / suggestion archetypes** — The eight shapes flowtron deliberately rejects in contributions: schema validators, abstractions without two-project precedent, cross-project query layers beyond the read-only visualizer, multi-user/team features, runtime security scanners / audit daemons, LLM knowledge-base / "wiki layer" subsystems, loop runtimes (runners / schedulers / session daemons), and graph / multi-agent execution runtimes. Terse AI-facing list lives in SPEC; prose mirror in VISION.md. See `SPEC/scope-boundaries.md` §"What flowtron does NOT provide" and docs/VISION.md.
 
 **priority level** — The PLAN.md heading under which a task row lives (`## High`, `## Medium`, etc.). The `[!critical]` flag can float a row inside High. See SPEC §"Priority levels".
 

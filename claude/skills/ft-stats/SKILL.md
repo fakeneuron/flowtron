@@ -13,7 +13,7 @@ content to `.flowtron/STATS.md` (overwrite).
 
 The skill is markdown-only — the assistant does the parsing and aggregation
 inline at invocation time, like every other flowtron skill. No CLI, no
-executable surface (per `SPEC.md` §"What flowtron does NOT provide").
+executable surface (per `SPEC/scope-boundaries.md` §"What flowtron does NOT provide").
 
 ## Step 0 — Resolve inputs and args
 

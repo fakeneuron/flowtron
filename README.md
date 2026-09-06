@@ -206,8 +206,8 @@ model already is that layer:
   acceptance criteria, subtasks, and the phase log. A fresh session (or a
   sub-agent handed the task) reads one file and picks up where the last
   context window stopped — and a session ending mid-task can leave an
-  optional `## 🔄 Handoff` brief ([SPEC.md](SPEC.md) §"Tasknote body
-  shape") to make that read cheaper still.
+  optional `## 🔄 Handoff` brief
+  ([SPEC/tasknote-inserts.md](SPEC/tasknote-inserts.md)) to make that read cheaper still.
 - `archive/<area>/` — long-term memory: one file per completed task,
   preserving decisions, regressions, and rationale. The Phase 1 archive
   skim ([SPEC.md](SPEC.md) §"📝 Phase 1: Discovery") is the recall step —
@@ -278,7 +278,7 @@ runtime lives in the runner; the contract lives in flowtron.
 ## Repo layout
 
 - `SPEC.md` — workflow contract (authoritative)
-- `SPEC/` — lazy SPEC modules (epic, starter, blocked, model, versioning, gates, tasknote-selection, loop) plus `procedures/` (pasteable skill procedures); loaded on demand by skills
+- `SPEC/` — lazy SPEC modules (epic, starter, blocked, model, versioning, gates, tasknote-selection, loop, layout, plan-parser, scope-boundaries, tasknote-inserts, purpose-blurb, superseded-claims) plus `procedures/` (pasteable skill procedures); loaded on demand by skills
 - `templates/` — canonical tasknote templates (full, micro, starter, sidequest) plus spec, loop-heartbeat, audit-overlay, and subagent-probe templates, and the `PLAN.md` / `tasknote-README.md` seed files
 - `claude/` — Claude Code skills + slash commands (adopter-facing snippet plus the full shipped `ft-*` inventory; adopter projects wire the policy subset, while flowtron-self-only skills like `/ft-release` stay upstream-only)
 - `codex/` — Codex skill wrappers for the full `ft-*` inventory plus Codex-specific wiring notes
@@ -287,7 +287,7 @@ runtime lives in the runner; the contract lives in flowtron.
 - `docs/` — philosophy, vision, glossary, migration, conventions, version history, agent-neutrality, platforms, agent-compat, dogfood, worktrees, external-agents, and context-budget docs
 - `.flowtron/` — flowtron's own roadmap and tasknotes (self-hosted)
 - `viz/` — Vite/React visualizer (priority-grouped list + optional board mode)
-- `tools/` — operator-side fleet scripts (`update-adopters.mjs`, the singular CLI carve-out — see `SPEC.md` §"What flowtron does NOT provide" — plus its portable `update-adopters.test.mjs` suite)
+- `tools/` — operator-side fleet scripts (`update-adopters.mjs`, the singular CLI carve-out — see `SPEC/scope-boundaries.md` §"What flowtron does NOT provide" — plus its portable `update-adopters.test.mjs` suite)
 - `CONTRIBUTING.md` — solo-maintenance model; issue and PR guidance
 - `SECURITY.md` — threat model and vulnerability reporting
 - `LICENSE` — MIT

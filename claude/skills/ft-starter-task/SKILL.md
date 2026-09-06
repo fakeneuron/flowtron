@@ -103,7 +103,7 @@ In `.flowtron/tasknote/<TASK-ID>.md`:
 
 ## Step 5 — Append the PLAN.md entry
 
-Append a new entry under the appropriate `## <Priority>` heading. Use the canonical task-line grammar (SPEC §"Task-line format"; a dependency on another row is `Blocked by [[<ID>]]`, wikilink-only — SPEC §"Long-description conventions"):
+Append a new entry under the appropriate `## <Priority>` heading. Use the canonical task-line grammar (SPEC §"Task-line format"; a dependency on another row is `Blocked by [[<ID>]]`, wikilink-only — `SPEC/plan-parser.md` §"Long-description conventions"):
 
 ```text
 - [ ] **<TASK-ID>** [<model>] | <shortname> — <one-line long description>. Filed with starter at `.flowtron/tasknote/<TASK-ID>.md`.

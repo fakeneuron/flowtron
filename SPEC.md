@@ -23,117 +23,12 @@ to maintain.
 4. **Relevance before action.** Every task starts with a hard gate: is this still the right work?
 5. **Versioned and pinned.** Adopting projects pin a specific flowtron commit; updates are deliberate.
 
-## Layout in adopting projects
+## Layout, and working in the flowtron repo itself
 
-After adopting flowtron, a project looks like:
-
-```text
-<project>/
-├── AGENTS.md                       # references .flowtron/core/SPEC.md
-├── .flowtron/
-│   ├── PLAN.md                     # project-owned roadmap (this format)
-│   ├── tasknote/
-│   │   ├── README.md               # one-line pointer + project-specific notes
-│   │   ├── BE-014.md               # active tasknotes
-│   │   └── archive/<area>/         # completed tasknotes by area
-│   ├── specs/                      # optional; /ft-spec writes (created lazily)
-│   ├── sidequest/                  # optional; /ft-file-followup --park stubs
-│   ├── STATS.md                    # optional; /ft-stats --write regeneratable
-│   └── core/                       # git submodule pinned to a flowtron version
-└── ...
-```
-
-The `.flowtron/core/` submodule is **read-only** in adopting projects.
-Edits go upstream to the flowtron repo and are pulled via deliberate version
-bumps (see Versioning below).
-
-## Working in the flowtron repo itself
-
-Flowtron does not submodule itself. When working in `~/code/flowtron/`:
-
-- This `SPEC.md` IS the canonical reference.
-- `SPEC/` — lazy SPEC modules loaded on demand by skills.
-- `SPEC/procedures/` — agent-neutral procedure SOPs: the source-of-truth projection of execution procedures (e.g. the `/ft-task` 4-phase workflow) for non-Claude wiring and contract-only agents. Format + loading convention: [`SPEC/procedures/README.md`](SPEC/procedures/README.md).
-- The flowtron `.flowtron/PLAN.md` tracks flowtron's own development.
-- The `templates/` folder holds the canonical tasknote templates (full, micro, starter, sidequest) plus spec, loop-heartbeat, audit-overlay (usage: [`docs/MIGRATION.md`](docs/MIGRATION.md) §1.2.1), and subagent-probe templates, and the `PLAN.md` / `tasknote-README.md` seed files.
-- `claude/` — Claude Code commands + skills (`/ft-task`, `/ft-release`, `/ft-new-project`, ...); the adopter snippet lives at `claude/AGENTS-snippet.md`.
-- `codex/` — Codex skill wrappers for the full `ft-*` inventory plus Codex-specific wiring notes.
-- `cursor/` — Cursor thin wiring (`AGENTS-snippet.md` + `procedures/ft-task.md` pointer; no skill wrappers — adopters wire canonical `claude/skills/` bodies).
-- `grok/` — Grok thin wiring (`AGENTS-snippet.md` + `procedures/ft-task.md` pointer; no skill wrappers — adopters wire canonical `claude/skills/` bodies).
-- `tools/` — operator-side fleet scripts. Currently `update-adopters.mjs`, the singular CLI carve-out documented in §"What flowtron does NOT provide", plus its portable `update-adopters.test.mjs` suite (a registered release gate).
-
-Global-only utilities install per [`docs/MIGRATION.md`](docs/MIGRATION.md) §1.0. `/ft-release` is flowtron-self-only and stays repo-scoped in this checkout ([`docs/PLATFORMS.md`](docs/PLATFORMS.md) §"Installed-surface policy").
-
-### Lazy SPEC module frontmatter
-
-Each `SPEC/*.md` lazy module opens with optional YAML frontmatter
-carrying a `paths:` field — an array of bash-style globs naming the
-tasknote-filename shapes the module applies to:
-
-```yaml
----
-paths: ['*-EPIC-*.md', '*.[0-9]*.md']
----
-```
-
-The field is **populated only where a filename-based trigger applies**.
-`SPEC/epic.md` declares the parent-epic and epic-subtask filename shapes;
-the remaining modules (`starter` · `blocked` · `model` · `versioning` ·
-`gates` · `tasknote-selection` · `loop`) have status- or content-based triggers
-and declare `paths: []`. The
-leading `> Lazy-loaded SPEC module. Loaded by ...` prose line stays
-authoritative for status/content triggers.
-
-The contract is **declarative today**: the source of truth for which
-module loads when is still `claude/skills/ft-task/SKILL.md`'s explicit
-dispatch (Steps 1.5 / 2 / 3a / 3c / 5) — plus
-`claude/skills/ft-goal-task/SKILL.md`, which is the dispatch source for
-`SPEC/loop.md`. Future tooling MAY parse the
-frontmatter to drive dispatch dynamically.
-
-### Procedure SOPs (`SPEC/procedures/`)
-
-`SPEC/procedures/*.md` files are a distinct artifact from the lazy SPEC
-modules above: agent-neutral **procedure SOPs** that project an execution
-procedure (e.g. the `/ft-task` 4-phase workflow) for contract-only agents.
-They carry a different frontmatter shape — `procedure:` / `source:` /
-`restates:` / `last-verified:`, not `paths:` — and are loaded by thin per-agent pointer
-wrappers (`<platform>/procedures/<procedure>.md`) rather than by the
-`/ft-task` SKILL dispatch. Canonical schema + loading convention:
-[`SPEC/procedures/README.md`](SPEC/procedures/README.md).
-
-## Skill namespace
-
-Bundled flowtron skills carry the `ft-` prefix in their slug (`/ft-task`,
-`/ft-release`, `/ft-new-project`, `/ft-starter-task`,
-`/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`,
-`/ft-close-epic`, `/ft-goal-task`, `/ft-spec`, `/ft-refactor`,
-`/ft-worktree-start`, `/ft-worktree-end`,
-`/ft-flowtron`, `/ft-stats`,
-`/ft-audit-context`, `/ft-update`, and the audit family
-`/ft-audit{,-repo}`). The prefix
-reserves the `ft-` slug namespace for flowtron-owned skills so adopter
-projects can drop the bundle into `.claude/` without shadowing their own
-skill names.
-
-**Adopters MUST NOT use `ft-` for project-specific skills.** Reserve the
-prefix for upstream flowtron. When forking the audit family per
-[`docs/MIGRATION.md`](docs/MIGRATION.md) §1.2.1, name the fork **without**
-the prefix (e.g., `audit-payments`, not `ft-audit-payments`) — the fork is
-adopter-owned and the unprefixed name makes ownership clear in skill
-resolution.
-
-**Wrapper-name invariant (grep-able).** Every command wrapper
-`claude/commands/<name>.md` names its own basename in its invoke sentence
-(`` Invoke the `<name>` skill ``) — skill resolution must never depend on
-the model inferring a prefixed name from an unprefixed one. Check (prints
-nothing when clean):
-
-```sh
-for f in claude/commands/ft-*.md; do
-  grep -q "\`$(basename "$f" .md)\`" "$f" || echo "$f"
-done
-```
+The adopting-project directory layout, the flowtron repo's own layout, lazy
+SPEC module frontmatter, procedure SOPs, and the reserved `ft-` skill-name
+prefix (adopters MUST NOT use it for their own skills): see
+[`SPEC/layout.md`](SPEC/layout.md).
 
 ## Task ID convention
 
@@ -198,141 +93,16 @@ Examples:
 - [ ] **CORE-016** — Execute project adoption per CORE-008 playbook.    (legacy)
 ```
 
-**Legacy `## Critical` heading.** Pre-FE-044 PLAN.md files used a `## Critical`
-priority heading. The parser soft-migrates this: tasks under a `## Critical`
-heading parse with `priority: 'High'` and `critical: true` — equivalent to
-filing each row under `## High` with an explicit `[!critical]` flag. Adopters
-on older flowtron versions don't lose rows when they bump; migration of the
-PLAN.md heading itself is optional cleanup.
+The grammar is additive — flowtron bumps don't require migrating legacy
+entries. **A rewrite preserves the trailing bracket-token run verbatim:** it
+changes only the segment it means to change, copying every other bracket token
+and any model-suggestion glyph from the original. A dropped token disarms it
+with no diagnostic.
 
-Adopting projects' visualizers parse the line per `viz/src/parser.ts`
-(canonical reference). The grammar is additive — flowtron bumps don't
-require migrating legacy entries; new entries should use the extended form.
-
-**Parser tolerances (decorative, not captured).** `viz/src/parser.ts`
-additionally accepts three real-board decorations without parsing them into
-`Task` fields — they are dropped, not stored:
-
-- **Model-suggestion glyph after `[model]`** — a `🧠` (heavy) / `🔧` (light) /
-  `🧩` (medium) / `🔭` (xheavy) glyph appended to the model token
-  (`[medium]🧩`, space-optional), mirroring the next-move suggestion label.
-  Redundant with the model tier; ignored. It is accepted on **either side** of
-  the trailing bracket-token run below, so a row carrying both a glyph and
-  `[unattended]` parses whichever order it was written in
-  (`[xheavy]🔭 [unattended]` and `[xheavy] [unattended]🔭` are equivalent).
-- **Stacked `[model]` tokens** — `[fable] [light]`: the first bracket token is
-  captured as `model`; trailing bracket tokens are tolerated and dropped —
-  *except* `[unattended]`, which is canonical grammar and captured (see the
-  segment table above).
-- **Leading status glyph** — a nav-header chip (`🟢`/`⏸`/`✅`/`⚪`/`🌱`) between
-  the checkbox and the bold ID (`- [ ] ⏸ **ID**`).
-
-These keep hand-decorated rows from being silently dropped (they surface in
-the `parsePlanWithDiagnostics` diagnostics otherwise). They are tolerances,
-not canonical authoring grammar — new entries should still use the clean form
-above.
-
-**`[unattended]` mis-authoring footguns.** The marker rides the same trailing
-bracket-token run as the stacked-`[model]` tolerance, so two neighbouring
-shapes fail in ways worth naming rather than discovering. Neither is rescued:
-
-- **`[!unattended]`** — the `!` prefix belongs to `[!critical]` alone. A
-  bang-prefixed token matches no slot, so the **whole line fails the
-  grammar**: it is absent from the task list, and surfaces in
-  `parsePlanWithDiagnostics`'s `unparsed`. (Adopter readers with no
-  diagnostics channel drop it silently — which is the sharper edge, and the
-  reason this is documented rather than tolerated.)
-- **`[unattended]` before `[model]`, or with no `[model]` at all** — the model
-  slot takes the *first* bracket token it sees, so `[unattended] [heavy]` and a
-  bare `[unattended]` both parse with `model: 'unattended'` and
-  `unattended: false`. The row stays in the task list looking healthy while
-  silently mis-declaring its model and declaring no marker — write it after
-  `[model]`.
-
-**Rewrites must preserve the trailing bracket-token run verbatim.** A
-task-line rewrite — a Re-scope note (§"📝 Phase 1: Discovery"), a model retag
-(§"Model field"), or a Phase 4 stub flip
-([`SPEC/tasknote-selection.md`](SPEC/tasknote-selection.md) §"`## Completed`
-archive convention") — touches only the segment it means to change. It must
-copy every other bracket token already on the line (`[unattended]`, a stacked
-`[model]` tolerance) and any model-suggestion glyph verbatim from the original
-rather than reconstructing the line from scratch. A rewrite that preserves
-the visible shortname/description but drops a bracket token disarms it with
-no diagnostic — `[unattended]` disappearing silently turns an
-operator-approved row back into "undecided," with no visible sign on the
-rendered board.
-
-**Parser tolerances (adopter near-misses).** `viz/src/parser.ts` also accepts
-three shapes that are not canonical authoring — they parse (or stay silent)
-instead of surfacing as unparsed diagnostics. New entries should still follow
-§"Task ID convention" and the flag order above.
-
-- **Lettered subtask suffix** — a lowercase letter after digits on a decimal
-  segment (`FE-310.3a`). Parsed as a task; nests under the matching epic.
-- **Nested decimals** — more than one decimal segment (`FE-067.2.1`). Parsed
-  as a task; nests under the matching epic.
-- **`[!critical]` after `[model]`** — canonical order is `[!critical]` before
-  `[model]`; the parser also accepts the reverse (including after a
-  model-suggestion glyph) and still sets `critical: true`.
-
-**Bare checkbox bullets (excluded, not tolerated).** A checkbox line inside a
-recognized section that carries no markdown emphasis (`*` / `**`) is a prose
-checklist item, not a failed task — excluded from both the task list and
-`unparsed`. Lines that attempt an ID via emphasis but fail `TASK_LINE`
-(`*FE-064*`, `**fe-065**`) still surface (FE-063.2).
-
-**HTML comments are ignored.** Checkbox-shaped lines inside `<!-- ... -->`
-comment blocks are non-rendered content: the parser blanks the comment
-interior first, so such lines are neither parsed as tasks nor surfaced as
-diagnostics. This lets a grammar-reference example carrying a literal
-`**TASK-ID**` placeholder live in a comment block (see `templates/PLAN.md`)
-without polluting the task list.
-
-**Legacy label lines (excluded, not tolerated).** Some adopter PLAN.md files
-predate flowtron entirely and carry completed historical records whose bold
-token was never an `<AREA>-NNN` ID (`**P1**`, `**flowtron v5.2.0 bump**`).
-Unlike the decorative tolerances above, these aren't parsed into a `Task` at
-all — a completed (`[x]`) checkbox line with a bare `**token**` (optionally
-followed by an em/en-dash description, no `[!critical]`/`[model]`/
-`| shortname`) whose token has no letter-dash-digit ID shape (checked
-case-insensitively, so a case-typo like `**fe-065**` still surfaces as a
-diagnostic) is silently excluded from both the task list and
-`parsePlanWithDiagnostics`'s `unparsed` output. A pending (`[ ]`) line in this
-shape still surfaces as unparsed — new entries should get a real ID.
-
-### Long-description conventions
-
-The long description is free prose, but two machine-readable
-conventions are reserved so visualizers can surface cross-task signals
-on rows without tasknotes:
-
-| Convention | Meaning | Parses into |
-|---|---|---|
-| `[[TASK-ID]]` | Cross-reference / "see also" | `Task.relatedTasks: string[]` |
-| `Blocked by [[ID]]` | Hard dependency on another task | `Task.blockedBy: string[]` |
-
-Both are **wikilink-only** — bare-ID forms do not parse. `Blocked by` is a
-literal, case-sensitive match: `Blocked on [[ID]]`, `Depends on [[ID]]`, a
-bare ID, and free prose all leave `Task.blockedBy` empty, so nothing that
-reads the field sees the dependency. Multiple
-comma-separated wikilinks are supported in a single `Blocked by` clause.
-
-For illustrative wikilinks that shouldn't be parsed: use markdown inline
-code spans (treated as literal text) in PLAN.md, or angle-bracket
-placeholders (`[[<TASK-ID>]]`) in skill/doc files — both avoid the
-`[A-Z]+-[0-9]+` wikilink-integrity grep.
-
-A wikilink inside a `Blocked by` block lands in `blockedBy` only; the same
-ID elsewhere in the description is excluded from `relatedTasks` (blocker is
-the stronger signal).
-
-Examples:
-
-```markdown
-- [ ] **CORE-016** [opus] — Execute migration per [[<CORE-008>]] playbook. Blocked by [[<CORE-008>]] — wait for upstream signal.
-- [ ] **FE-003** [opus] | wikilink resolution — Builds on [[<FE-001>]]; pairs with [[<FE-004>]].
-- [ ] **FE-007** — Touches [[<FE-001>]], [[<FE-004>]]. Blocked by [[<CORE-008>]], [[<CORE-016>]] — needs both upstream.
-```
+Parser tolerances, `[unattended]` footguns, excluded shapes, the legacy
+`## Critical` heading, the reserved `[[TASK-ID]]` / `Blocked by [[ID]]`
+long-description conventions, and the canonical `viz/src/parser.ts` reference:
+see [`SPEC/plan-parser.md`](SPEC/plan-parser.md).
 
 ## Tasknote frontmatter
 
@@ -355,49 +125,11 @@ closure). Each of those writes happens while the tasknote is **active**, before
 any archive move. Do not cite write-once to justify leaving `status:` stale at
 closure — that reading is what produced the drift this carve-out closes.
 
-**Write-once does not cover factual corrections.** The policy protects the
-record of what was *believed*, not the accuracy of the claim. When a later task
-proves a **factual** claim in an archived tasknote false — something untrue
-about the repo at the time that note was written — the falsifying task appends
-a single pointer directly under the corrected note's nav header:
-
-```markdown
-> **⚠️ Superseded by [[<TASK-ID>]]** — <one line naming what was falsified>
-```
-
-**Append-only.** Never rewrite, delete, or soften the original text. The
-falsified claim stays readable, because a historical record that quietly agrees
-with the present is not a record. One blockquote, written by the *falsifying*
-task at its own Phase 4 closure (§"🚀 Phase 4: Closure") and staged in the same
-atomic commit — never by a third party tidying the archive later. The corrected
-note's `related-tasks:` is deliberately left alone; the wikilink already carries
-the edge.
-
-**Scope is narrow, and deliberately so.** Three neighbouring cases are *not*
-covered:
-
-- **A superseded decision.** CORE-159 overturned CORE-157's exclusion of
-  `docs/PLATFORMS.md`; CORE-157 remains an accurate record of what was decided
-  then. Decisions changing is the system working, not a defect. Record the
-  overturn on the *later* note with omit-when-absent YAML `supersedes:` (see
-  Optional planning keys below) — never by writing `superseded-by:` onto the
-  old note, and never via this ⚠️ pointer.
-- **Spec evolution.** The case the policy opens with — conventions move, legacy
-  archives stay as-is.
-- **Bulk backfill.** Reaching across many archived notes to normalize them
-  against a later rule remains an explicit operator decision, not something this
-  carve-out permits. CORE-381's 359-file `status:` backfill is the precedent,
-  and its own note records it as an operator override rather than a policy
-  allowance.
-
-**Never park a durable correction in a PLAN.md long description.** Phase 4
-collapses that line to a `Completed YYYY-MM-DD.` stub and the description drops
-([`SPEC/tasknote-selection.md`](SPEC/tasknote-selection.md) §"`## Completed`
-archive convention"), so a correction left there is deleted on a schedule. This
-is why the carve-out exists: CORE-416.2 falsified CORE-416.1's headline,
-honoured write-once, and recorded that "this note and the parent line carry the
-correction" — the epic close deleted the parent line two commits later.
-
+**Write-once does not cover factual corrections.** A task that proves a
+**factual** claim in an archived tasknote false appends an append-only
+`> **⚠️ Superseded by [[<TASK-ID>]]**` pointer under that note's nav header.
+Contract + the three excluded cases:
+[`SPEC/superseded-claims.md`](SPEC/superseded-claims.md).
 Every tasknote opens with a YAML frontmatter block carrying machine-parseable
 fields, followed by a Markdown body. The canonical schema lives in `templates/tasknote-template.md`. Valid `status:` values:
 `starter | not-started | in-progress | blocked | completed`.
@@ -517,8 +249,8 @@ section until promotion.
 ## ✅ Acceptance
 ## 🧩 Subtasks
 ## 🔗 Related
-## 🌳 Fan-out                                                ← optional (Discovery `.1` when M>1; see below)
-## 🔄 Handoff                                                ← optional (see below)
+## 🌳 Fan-out                                                ← optional (epic Discovery `.1`, M>1)
+## 🔄 Handoff                                                ← optional (mid-task resume state)
 
 ---
 
@@ -576,13 +308,16 @@ without them is complete, not incomplete:
 
 - **`## 🌳 Fan-out`** — epic-cohort parallelism declaration, written on a
   Discovery `.1` when the epic has more than one implementation child.
-  Documented below. Children echo the claim in YAML so a worktree copy
-  (which carries only the child note) still sees it.
+  Children echo the claim in YAML so a worktree copy (which carries only the
+  child note) still sees it.
 - **`## 🔄 Handoff`** — mid-task resume state, written when a session ends
-  with work unfinished. Documented below.
+  with work unfinished.
 - **`## 🔁 Iterations`** — the append-only per-cycle log a goal loop keeps
   between Phase 3 and Phase 4. Owned by
   [`SPEC/loop.md`](SPEC/loop.md) §"`## 🔁 Iterations` log"; not restated here.
+
+Fan-out and Handoff contract: see
+[`SPEC/tasknote-inserts.md`](SPEC/tasknote-inserts.md).
 
 **Cross-linking** — references to other tasknotes use
 `[[<TASK-ID>]]` wikilinks throughout. They render as plain text on GitHub but
@@ -592,89 +327,10 @@ cheap to write.
 **Backwards compatibility** — see §"Tasknote frontmatter" write-once policy.
 Adopting projects pick up the new shape on their next flowtron version bump.
 
-### 🌳 Fan-out (optional)
+### Optional inserts — Fan-out and Handoff
 
-An epic Discovery `.1` that files more than one implementation child
-(M>1) may declare how those children relate — which may run in parallel
-worktrees, which stay serial, which is synthesis. It sits in the top
-block after `## 🔗 Related`. `/ft-epic-discovery` pre-fills an empty
-placeholder at scaffold when M>1 and populates it when the child lines
-are filed; the default full template does not ship the heading, so a
-single-child or non-epic tasknote pays nothing. Fixed shape, three
-rows:
-
-```markdown
-## 🌳 Fan-out
-
-- **Parallel:** [[CORE-445.2]] · [[CORE-445.3]]
-- **Sequential:** [[CORE-445.4]] after .2
-- **Synthesis:** [[CORE-445.N]] (audit; no extra parent synthesis task)
-```
-
-Omit a row that does not apply. When Discovery does not classify,
-default every implementation child to Sequential and `.N` to Synthesis
-— that matches [`SPEC/epic.md`](SPEC/epic.md) "run children in order."
-M=1 epics skip the heading (nothing to fan out).
-
-Each named child **echoes** the claim on its own tasknote as omit-when-absent
-YAML `blocked-by:` / `parallel-safe-with:` (and a Related type-hint). A
-worktree copies only the child note, so the `.1` heading alone is not
-visible there. `/ft-task` scaffold for an epic implementation child
-copies any Fan-out claim that names it; omitted YAML still means
-*undeclared*, not "safe with everyone."
-
-**What Fan-out is not.** It is a markdown declaration, not a scheduler.
-It does not lock, refuse, auto-fan-out, or replace the serial default.
-`/ft-worktree-start` may **warn** if the child YAML `blocked-by` lists a
-still-open PLAN line; it must not refuse. Parent epics stay a PLAN
-checkbox — there is no parent planning tasknote. Full lifecycle:
-[`SPEC/epic.md`](SPEC/epic.md) §"Fan-out." Isolation convention:
-[`docs/WORKTREES.md`](docs/WORKTREES.md).
-
-### 🔄 Handoff (optional)
-
-A session ending mid-task — context exhausted, the operator stopping for the
-day, the work continuing in a different tool — can leave a **Handoff**: a
-short brief that lets the next reader resume without reconstructing state
-from Discovery Notes and a half-ticked Phase 2. It sits in the top block
-after `## 🔗 Related` (and after `## 🌳 Fan-out` when that heading is
-present), because a resuming reader should meet it before the
-execution record. Fixed shape, five parts:
-
-```markdown
-## 🔄 Handoff
-
-- **Goal + Acceptance status** — what is done, what is left, which criteria are green.
-- **Key decisions** — choices already made that the next session must not relitigate.
-- **Open questions** — what is genuinely undecided, and who decides it.
-- **Relevant paths** — the files actually in play, not the whole read set.
-- **Next step** — the single concrete action to take first.
-```
-
-Write one when it is cheaper than the cold read it replaces. A task that
-finishes in one session never needs one — which is exactly why this is
-documented rather than templated: the happy path pays nothing.
-
-**What a Handoff is not.** Three neighbouring surfaces already exist, and
-reaching for the wrong one loses information:
-
-- **Not a park.** A hard dependency parks the tasknote via `status: blocked`
-  ([`SPEC/blocked.md`](SPEC/blocked.md)), preserving Phase 1 and partial
-  Phase 2 verbatim and stopping the workflow. A Handoff has no blocker — the
-  work can continue, just not in this session.
-- **Not a sidequest.** A sidequest stub's `## Resume anchor` records where the
-  *main* session was when a tangential idea fired; it belongs to a different,
-  newly filed task. A Handoff belongs to *this* one.
-- **Not the handoff contract.**
-  [`docs/EXTERNAL-AGENTS.md`](docs/EXTERNAL-AGENTS.md) §"The Handoff Contract"
-  transfers a *whole tasknote* to another agent after Phase 1 — ownership
-  moves, and the three repo files already suffice with nothing extra written.
-  Same word, different concept: there, someone else takes the task; here, the
-  same task's next session picks it up.
-
-The tasknote stays the primary resume point either way
-([README.md](README.md) §"Agent memory"). A Handoff makes that read cheaper;
-it never replaces it.
+Canonical contract for both: see
+[`SPEC/tasknote-inserts.md`](SPEC/tasknote-inserts.md).
 
 ## The 4-phase workflow
 
@@ -691,7 +347,8 @@ gates; skill-level extensions (epic parent-flip, release push-go) bundle
 into 📦 rather than adding their own banners. Separate from these two phase
 gates, a destructive 🗄️/▶️/📡/💻 command cue may trigger a one-off
 destructive-action banner — a bounded safety escalation, not a third
-standing gate (see the glossary below).
+standing gate (see [`SPEC/gates.md`](SPEC/gates.md)
+§"Operator-cue vocabulary").
 
 Canonical gate contract — banner format, the trigger table, the Phase
 1→2 exit-gate flavors, the conditional skip rule, the `--fast`
@@ -701,95 +358,12 @@ firing a banner), the full operator-cue vocabulary, and the
 §"Rationalizations" / §"Red Flags" pair naming the excuses and symptoms
 that precede a skipped gate: see [`SPEC/gates.md`](SPEC/gates.md).
 
-### Operator-cue glossary
-
-Compact at-a-glance reference for the operator-facing cues skills emit.
-Every cue is `<glyph> <UPPERCASE-LABEL>` — the glyph is the fast-scan
-signal, the UPPERCASE label survives non-render for cross-agent
-reliability. Full contract (emission shapes, escalation, conventions):
-[`SPEC/gates.md` §"Operator-cue vocabulary"](SPEC/gates.md).
-
-| Glyph | Label | Means |
-|---|---|---|
-| 🗄️ | `DB` | run a database / migration command (inline) |
-| ▶️ | `RUN` | run a generic / agent-adjacent command (inline) |
-| 📡 | `NAS` | run a command on the NAS (inline) |
-| 💻 | `TERM` | paste a command into the operator TTY (inline) |
-| ✋ | `ACTION` | perform a manual, non-command action (inline) |
-| 🟢 | `GO` | commit-go approval ask |
-| 👁️ | `CONFIRM` | visual-confirmation ask (covers "visit a URL") — **emphasized** inline shape: own line, bold label |
-| 🔍 | `AUDIT` | `/ft-audit*` next-move flag |
-| 🛠️ | — | Phase 1→2 approval banner |
-| 📦 | — | ready-to-commit approval banner |
-| 🏁 | — | committed state-marker (carries the work summary) |
-| ✅ | — | phase / closure-complete marker |
-| 🔧 / 🧩 / 🧠 / 🔭 | `LIGHT` / `MEDIUM` / `HEAVY` / `XHEAVY` | next-task suggestion: mechanical / moderate / design / exploratory (manual-only) |
-| 👇 | `HERE` | run the suggested invocation in this session (don't clear) |
-
-A destructive 🗄️/▶️/📡/💻 action may escalate from its inline prefix to a
-blocking banner — see [`SPEC/gates.md` §"Operator-cue vocabulary" → "Destructive-action escalation"](SPEC/gates.md).
-
 ### 🎯 Purpose blurb
 
-A task-runner skill invoked with a bare task ID — `/ft-task CORE-504` — is
-normally the operator's *first* message after a `/clear`. The runner then works
-through a model gate, pre-flight checks, and a tasknote write before any phase
-work begins, and everything the operator sees across that stretch is tool
-calls. The `🎯 Goal` written into the tasknote is a **file** write, not an
-operator-facing one; a file the operator has not opened states nothing to them.
-And any of those pre-phase checks can *end* the run — a model mismatch, foreign
-dirt in the tree, an archive collision, a tasknote already in flight — leaving
-an operator who never learned what the task was.
-
-So the runner emits a short plain-English statement of what the task is at the
-**earliest point it can**: immediately after the `PLAN.md` task line is
-captured, before the model gate, before the pre-flight checks, and before any
-scaffold write.
-
-```text
-🎯 CORE-504 — scaffold-purpose-blurb
-Adds a short plain-English statement of what a task is, emitted as soon as the
-PLAN.md line is read, so an operator invoking cold after a /clear gets an
-immediate read — even on a run that stops before Phase 1.
-```
-
-Two lines: the ID and shortname, then 1-2 sentences of purpose drawn from the
-`PLAN.md` long description. Prose, not a checklist — this is the read the
-operator would otherwise have to reconstruct by opening the tasknote. The
-`PLAN.md` line is the *only* source, because it is the only thing read yet;
-the `🎯 Goal` is derived from that same line at scaffold, so nothing is lost by
-speaking first and filing second.
-
-**Which invocations.** The three **ID-invoked runners** — `/ft-task`,
-`/ft-micro-task`, `/ft-goal-task` — once each, at that one point. It precedes
-the fresh-scaffold / starter-promotion / blocked-resume branch entirely, so
-there is no per-path variant to keep in sync: whichever path the run later
-takes, the operator has already been oriented. Where an opening path holds
-state the blurb could not know — the `park-reason:` a resume is clearing, a
-goal loop's `loop-max` budget — that path states it as ordinary prose when it
-reads it. Those are not a second blurb.
-
-`/ft-epic-discovery` and `/ft-close-epic` are **out of scope, deliberately**.
-Both are invoked in-session with the scoping conversation still live, so a
-blurb there restates what the operator said a moment ago. The test is whether
-the invocation could arrive cold with nothing but an ID — which is what
-separates these two from the three above.
-
-**Bounds — this is not a cue and not a gate.** It bears no obligation, accepts
-no reply, and blocks nothing; the runner emits it and continues in the same
-turn. It adds no row to the operator-cue tables
-([`SPEC/gates.md`](SPEC/gates.md) §"Operator-cue vocabulary"), no checklist box,
-and no phase. The CORE-065 two-banner cap is **untouched** — 🛠️ and 📦 remain
-the only standing banners. `🎯` is not a new glyph: it is the `## 🎯 Goal`
-heading glyph reused on the conversational layer, where it names the same
-thing, recorded in [`SPEC/gates.md`](SPEC/gates.md) §"Glyph layers and reuse".
-Reading this section as license for a third gate inverts its purpose — the
-blurb exists to spend *less* of the operator's attention, not more.
-
-**`--fast` and `--unattended` do not suppress it.** Neither flag touches the
-blurb: `--fast` suppresses *asks*, and there is nothing here to answer. Under
-`--unattended` it costs an operator-less run two lines of transcript, which is
-the cheapest orientation a later reader of that transcript can get.
+An ID-invoked runner states in two plain-English lines what the task is, as
+soon as the `PLAN.md` line is captured — before the model gate, the pre-flight
+checks, and any scaffold write, each of which can end the run. Contract: see
+[`SPEC/purpose-blurb.md`](SPEC/purpose-blurb.md).
 
 ### 📝 Phase 1: Discovery
 
@@ -1029,37 +603,9 @@ Canonical contract: see [`SPEC/blocked.md`](SPEC/blocked.md).
 
 ## Cross-repo edit remit
 
-A tasknote's deliverable lands in the repo whose session opened it. When
-Discovery surfaces work that belongs in a different repo — a doc, config,
-or code change outside this checkout — **file it there** (a PLAN.md line,
-a starter tasknote, or a routed ticket) rather than editing it directly
-from this task cycle. The target repo's own `/ft-task` cycle (or
-equivalent) executes it, with its own Discovery, Acceptance, and closure
-commit. This makes the boundary symmetric with the routing convention
-adopting projects already enforce in the other direction — a task that
-finds a flowtron-side issue files a `CORE-` ticket and routes it, rather
-than fixing flowtron directly from that project's session.
-
-**CORE-483.3 exception.** One tasknote predates this rule: it edited two
-`natabula` `.gitignore` files directly as its whole deliverable —
-deliberate, recorded, flowtron-side commit only. That precedent stands as
-the single documented exception, not a license — like the CLI and
-cross-project-query carve-outs in §"What flowtron does NOT provide", it
-does not extend to future tasks.
+Canonical contract: see [`SPEC/scope-boundaries.md`](SPEC/scope-boundaries.md).
 
 ## Loop tasks
-
-A tasknote run under an iteration loop (goal loops, heartbeats) — the
-assistant repeats Phase 2 → Phase 3 against a fixed Acceptance target until
-it's met, a budget is exhausted, or a per-cycle relevance check says stop.
-The runtime (cadence, re-invocation, session lifetime) is Claude Code's
-`/loop` or any equivalent runner — flowtron ships no loop runner or
-scheduler (see [`docs/VISION.md`](docs/VISION.md) §"What we won't accept").
-Flowtron ships the **contract the loop reports to**: gate collapse to
-`--fast` semantics (commit-per-verified-iteration; destructive actions park
-via `status: blocked` rather than collapse), a per-cycle relevance gate, a
-`loop-max:` budget, the `## 🔁 Iterations` log, and the additive
-`loop:` / `loop-max:` / `loop-last-run:` frontmatter keys.
 
 Canonical contract: see [`SPEC/loop.md`](SPEC/loop.md).
 
@@ -1107,7 +653,7 @@ After a tasknote is archived, run the three-step protocol (commit / mark landed 
    `/<next-skill> <args>`
    ```
 
-   Never emit literal `/clear` or `/model` commands — the emoji on the label line carries the model signal; the cue carries the session-reset intent. The skill segment matches the appropriate flowtron skill for the next task — most commonly `/ft-task` (normal tasks), `/ft-micro-task` (micros), `/ft-starter-task` (filing-only), or `/ft-audit*` (audit follow-ups — adopters use the unprefixed local fork per §"Skill namespace"). `<args>` is the next task ID for tasknote-runner skills, or the skill's own argument shape otherwise.
+   Never emit literal `/clear` or `/model` commands — the emoji on the label line carries the model signal; the cue carries the session-reset intent. The skill segment matches the appropriate flowtron skill for the next task — most commonly `/ft-task` (normal tasks), `/ft-micro-task` (micros), `/ft-starter-task` (filing-only), or `/ft-audit*` (audit follow-ups — adopters use the unprefixed local fork per [`SPEC/layout.md`](SPEC/layout.md) §"Skill namespace"). `<args>` is the next task ID for tasknote-runner skills, or the skill's own argument shape otherwise.
 
    **Context-dependent skills flag.** When the next-skill is `/ft-file-followup` (in either mode) or `/ft-epic-discovery`, replace the label line with `👇 Run in this session:` — 👇 (`HERE`) replaces the model glyph and signals run-here-don't-clear; the 🔧/🧩/🧠/🔭 model signal stays on the candidate line just printed. These skills draw from current-conversation context to draft their output, so clearing the session destroys what they need. Keep the skill invocation line unchanged.
 
@@ -1212,35 +758,5 @@ Canonical contract: see [`SPEC/versioning.md`](SPEC/versioning.md).
 
 ## What flowtron does NOT provide
 
-To prevent scope creep, flowtron deliberately omits:
-
-- A CLI tool (use `cp`, `mv`, and your editor) — with one carved-out
-  exception: [`tools/update-adopters.mjs`](tools/update-adopters.mjs), the
-  operator-side batch updater that walks the workspace and moves each
-  adopter's pinned submodule to the latest non-breaking release (dry-run by
-  default, local commits only, never pushes). It maintains the fleet *around*
-  flowtron-adopting projects, not the workflow inside one — like viz under
-  the query-API exclusion, it is the singular exception, not a precedent.
-- Schema validation (markdown is the schema; the assistant catches drift)
-- A database backend (markdown files in git are the database)
-- Cross-project query API (each project owns its history; the read-only
-  visualizer is a single global instance — a multi-project query API is
-  not; like the CLI carve-out above, it is the singular exception, not a
-  precedent)
-- Per-project CI hooks (those belong in the adopting project)
-
-If you find yourself wanting these, write a project-side helper. Do not add
-them to flowtron.
-
-### PR / suggestion archetypes flowtron does not accept
-
-For future-AI mid-task discipline. Outward-facing prose version with full justification lives in [`docs/VISION.md`](docs/VISION.md) §"What we won't accept".
-
-- **Schema validators.** PR-rejection mirror of "Schema validation" above — markdown is the schema; runtime checkers reintroduce the friction the v0.1.0 cut removed.
-- **Abstractions without two-project precedent.** Promote a helper into flowtron only when ≥2 projects need the same shape. Three similar lines is cheaper than premature abstraction.
-- **Cross-project query layers beyond the read-only visualizer.** PR-rejection mirror of "Cross-project query API" above — viz is the singular exception; anything richer is out of scope.
-- **Multi-user / team features.** Solo system; teams use a different tool.
-- **Runtime security scanners / audit daemons.** PR-rejection mirror of "Runtime security scanners" in `docs/VISION.md` §"What we won't accept" — the control is the human at the gate, not a scorer; deterministic enforcement lives in per-project permission hooks. `ft-audit security` + `SECURITY.md` already cover the markdown-native need.
-- **LLM knowledge-base / "wiki layer" subsystems.** PR-rejection mirror of "LLM knowledge-base" in `docs/VISION.md` §"What we won't accept" — tasknotes + `PLAN.md` + `archive/` already are the clean LLM-maintained markdown layer; a parallel `raw/`+`wiki/` tree duplicates the SSOT. "Knowledge Gate" phase, `/ft-wiki-*` skills, and link-linters are rejected like schema validators.
-- **Loop runtime — runners, schedulers, session daemons.** PR-rejection mirror of "Loop runners" in `docs/VISION.md` §"What we won't accept" — the loop *runtime* (cadence, re-invocation, session lifetime) is Claude Code's `/loop` or any equivalent, not flowtron. Flowtron ships only the markdown *contract* the loop reports to (§"Loop tasks" → [`SPEC/loop.md`](SPEC/loop.md)); a scheduler, a session daemon, or a `loop-interval` tasknote field is rejected like a cross-project query layer.
-- **Graph / multi-agent execution runtimes.** PR-rejection mirror of "Graph / multi-agent execution runtimes" in `docs/VISION.md` §"What we won't accept" — declare fan-out, `blocked-by`, and `parallel-safe-with` in markdown; never schedule, lock, or auto-fan-out. Worktrees plus a fresh session per child remain the whole parallelism mechanism ([`docs/WORKTREES.md`](docs/WORKTREES.md)). A job graph, swarm runner, or lock over those declarations is rejected like a loop scheduler.
+Canonical contract: see [`SPEC/scope-boundaries.md`](SPEC/scope-boundaries.md),
+which also carries the PR / suggestion archetypes flowtron does not accept.

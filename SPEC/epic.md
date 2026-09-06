@@ -65,8 +65,9 @@ and its complete nested cohort atomically into `## Completed`.
 
 The parent epic stays a PLAN checkbox. There is no parent planning
 tasknote. When Discovery files M>1 implementation children, the `.1`
-note may carry an optional `## 🌳 Fan-out` insert (SPEC.md §"Tasknote
-body shape") naming Parallel / Sequential / Synthesis rows.
+note may carry an optional `## 🌳 Fan-out` insert
+([`SPEC/tasknote-inserts.md`](tasknote-inserts.md)) naming Parallel /
+Sequential / Synthesis rows.
 `/ft-epic-discovery` injects an empty placeholder at scaffold when M>1
 and fills it when the child lines are written. M=1 skips the heading.
 When Discovery does not classify, every implementation child defaults

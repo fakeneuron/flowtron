@@ -56,7 +56,7 @@ Paths this skill uses:
 
 Read PLAN.md. Find the line containing `**<TASK-ID>**`. Status gate (already-closed → stop and ask), model capture, `| shortname`, priority, `[!critical]`, filing-discipline word-count warning — all exactly as `/ft-task` Step 1.
 
-**Then emit the 🎯 purpose blurb**, exactly as `/ft-task` Step 1 does and for the same reason — per SPEC §"🎯 Purpose blurb", before the model gate, the pre-flight checks, and any scaffold write, since each of those can end the run:
+**Then emit the 🎯 purpose blurb**, exactly as `/ft-task` Step 1 does and for the same reason — per `SPEC/purpose-blurb.md`, before the model gate, the pre-flight checks, and any scaffold write, since each of those can end the run:
 
 ```text
 🎯 <TASK-ID> — <shortname>

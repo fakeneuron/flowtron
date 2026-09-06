@@ -62,7 +62,7 @@ CORE-194.1 Q3's correct lazy-loading decision (settled by CORE-491).
 - `docs/AGENT-COMPAT.md` — living agent-compatibility matrix: per-agent consume-mode, context entry-point, skill/command primitive, and last-verified currency
 - `docs/EXTERNAL-AGENTS.md` — one-agent-per-tasknote rule, the handoff contract for external CLI agents, the orchestration contract an operator-less caller reports to, and the not-an-orchestration-runtime boundary; contract edits that touch delegation, handoff, or the unattended posture routinely drift against it
 - `docs/WORKTREES.md` — the locked isolation convention for parallel epic children (`wt-<ID>` branch + worktree pair); named by `docs/EXTERNAL-AGENTS.md` as the isolation layer and cited wherever parallelism is discussed
-- `docs/VISION.md` — canonical statement of flowtron's scope boundaries; mirrored by SPEC.md §"What flowtron does NOT provide", `docs/CONVENTIONS.md`, and `docs/EXTERNAL-AGENTS.md`. Lazy-loaded: swept, not cold-start
+- `docs/VISION.md` — canonical statement of flowtron's scope boundaries; mirrored by `SPEC/scope-boundaries.md` §"What flowtron does NOT provide", `docs/CONVENTIONS.md`, and `docs/EXTERNAL-AGENTS.md`. Lazy-loaded: swept, not cold-start
 
 `SPEC/*.md` (lazy modules) and `claude/skills/*/SKILL.md` sit outside this
 sweep set, excluded on both counts, so the distinction above does not arise for

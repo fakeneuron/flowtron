@@ -38,7 +38,7 @@ in `SPEC.md`; read it before starting non-trivial work.
 - Six bundled skills are utility-only, not part of the tasknote lifecycle
   above: `/ft-audit`, `/ft-audit-context`, `/ft-audit-repo`, `/ft-flowtron`,
   `/ft-stats`, `/ft-new-project`. Full roster + naming convention: `SPEC.md`
-  §"Skill namespace".
+  §"Skill namespace" (contract in `SPEC/layout.md`).
 
 Flowtron self-hosts its own roadmap. For non-trivial edits, follow the
 tasknote lifecycle: `SPEC.md` §"The 4-phase workflow". Do not skip phases
@@ -57,7 +57,9 @@ not to)".
 - `.github/` — GitHub-specific config (CI workflow: `workflows/ci.yml`).
 - `SPEC.md` — canonical workflow contract.
 - `SPEC/` — lazy modules for epics, starter tasks, blocked tasks, model
-  routing, gates, versioning, tasknote selection, loop tasks, and
+  routing, gates, versioning, tasknote selection, loop tasks, repo layout,
+  PLAN parser tolerances, scope boundaries, optional tasknote inserts, the
+  purpose blurb, superseded claims, and
   `SPEC/procedures/` agent-neutral SOPs.
 - `.flowtron/` — flowtron's own plan and tasknotes.
 - `claude/` — Claude Code wiring: commands, skills, and the historical

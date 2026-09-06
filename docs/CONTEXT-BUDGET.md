@@ -62,9 +62,8 @@ and needs no later flip.
 
 | Surface | Measured | Budget | Owner |
 |---|---|---|---|
-| `SPEC.md` | 78,119 | 50,000 | [[CORE-535.3]] — move ~26k of narrow-use sections to lazy `SPEC/` modules |
-| `SPEC/gates.md` | 51,812 | 35,000 | [[CORE-535.5]] — flag×surface matrix, one precedence ladder, `SPEC/gate-discipline.md` extraction |
-| `claude/skills/ft-task/SKILL.md` | 33,944 | 30,000 | [[CORE-535.4]] — collapse restated contracts to citations |
+| `SPEC/gates.md` | 51,809 | 35,000 | [[CORE-535.5]] — flag×surface matrix, one precedence ladder, `SPEC/gate-discipline.md` extraction |
+| `claude/skills/ft-task/SKILL.md` | 33,940 | 30,000 | [[CORE-535.4]] — collapse restated contracts to citations |
 
 ## Ledger
 
@@ -76,43 +75,49 @@ its own standing check.
 
 | Surface | Chars |
 |---|---|
-| `SPEC.md` | 78,119 |
-| `claude/skills/ft-task/SKILL.md` | 33,944 |
-| `AGENTS.md` (`CLAUDE.md` is a symlink to it) | 6,628 |
-| `.flowtron/tasknote/README.md` | 6,540 |
+| `SPEC.md` | 49,005 |
+| `claude/skills/ft-task/SKILL.md` | 33,940 |
+| `AGENTS.md` (`CLAUDE.md` is a symlink to it) | 6,783 |
+| `.flowtron/tasknote/README.md` | 6,559 |
 | `templates/tasknote-template.md` | 4,935 |
-| `.flowtron/PLAN.md` | 3,638 |
+| `.flowtron/PLAN.md` | 3,271 |
 
 ### Lazy `SPEC/` modules
 
-`gates.md` 51,812 · `procedures/ft-task.md` 29,559 · `tasknote-selection.md`
-24,468 · `model.md` 18,681 · `blocked.md` 8,034 · `loop.md` 7,953 ·
-`procedures/README.md` 6,122 · `epic.md` 6,062 · `starter.md` 2,408 ·
+`gates.md` 51,809 · `procedures/ft-task.md` 29,608 ·
+`tasknote-selection.md` 24,480 · `model.md` 18,681 ·
+`plan-parser.md` 8,310 · `blocked.md` 8,034 · `loop.md` 7,953 ·
+`layout.md` 6,526 · `procedures/README.md` 6,128 ·
+`epic.md` 6,080 · `scope-boundaries.md` 5,116 ·
+`tasknote-inserts.md` 4,626 · `purpose-blurb.md` 4,013 ·
+`superseded-claims.md` 2,980 · `starter.md` 2,408 ·
 `versioning.md` 1,074.
 
 `gates.md` and `tasknote-selection.md` are lazy by declaration and near-universal
-in practice; the rest genuinely load only on their task shape.
+in practice; the rest genuinely load only on their task shape. [[CORE-535.3]]
+added six of the modules above by moving narrow-use sections out of `SPEC.md`
+— which is why the `SPEC/` total grew while the always-loaded set shrank.
 
 ### Skill bodies (`SKILL.md` only)
 
-ft-release 37,369 · ft-task 33,944 · ft-epic-discovery 28,152 · ft-close-epic
-26,926 · ft-goal-task 26,162 · ft-audit 21,707 · ft-micro-task 21,240 ·
-ft-update 16,078 · ft-file-followup 16,014 · ft-refactor 13,673 ·
-ft-starter-task 13,236 · ft-worktree-end 12,598 · ft-worktree-start 12,008 ·
-ft-new-project 11,425 · ft-audit-context 10,199 · ft-flowtron 9,134 · ft-stats
-8,857 · ft-audit-repo 8,166 · ft-spec 7,684.
+ft-release 37,369 · ft-task 33,940 · ft-epic-discovery 28,186 · ft-close-epic
+26,926 · ft-goal-task 26,158 · ft-audit 21,707 · ft-micro-task 21,265 ·
+ft-update 16,095 · ft-file-followup 16,031 · ft-refactor 13,673 ·
+ft-starter-task 13,253 · ft-worktree-end 12,598 · ft-worktree-start 12,008 ·
+ft-new-project 11,425 · ft-audit-context 10,209 · ft-flowtron 9,134 · ft-stats
+8,874 · ft-audit-repo 8,166 · ft-spec 7,684.
 
 Lazy fragments are not counted against a skill's row — they arrive later, and
 only on the branch that needs them. Whole-directory totals for the two largest:
-`ft-release` 83,273, `ft-task` 60,975. Splitting a body into fragments defers
+`ft-release` 83,421, `ft-task` 60,971. Splitting a body into fragments defers
 load; it does not remove it ([[CORE-507]] §2.5), so a skill that fragments its
 way under the cap without shedding content has gamed the number rather than met
 it.
 
 ### Adopter-side always-loaded
 
-`claude/AGENTS-snippet.md` 15,870 (pasted into the adopter's `AGENTS.md`) ·
-`templates/tasknote-README.md` 4,257 · `templates/PLAN.md` 2,724.
+`claude/AGENTS-snippet.md` 15,884 (pasted into the adopter's `AGENTS.md`) ·
+`templates/tasknote-README.md` 4,257 · `templates/PLAN.md` 2,736.
 
 ## How this is enforced
 

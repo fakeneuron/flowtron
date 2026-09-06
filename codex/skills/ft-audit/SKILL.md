@@ -10,7 +10,7 @@ description: Run the Flowtron parameterized audit workflow from Codex — `ft-au
 > is deliberately absent from `../../../codex/AGENTS-snippet.md` §"One-time skill
 > wiring". Fork the whole `claude/skills/ft-audit/` directory (`SKILL.md` +
 > `scaffold-bootstrap.md` + `passes/`) into an unprefixed adopter skill dir (`.agents/skills/audit/` under
-> Codex, per SPEC §"Skill namespace") and fill it in; symlinking this wrapper
+> Codex, per SPEC/layout.md §"Skill namespace") and fill it in; symlinking this wrapper
 > gets you the unfilled scaffold. Fork procedure: `../../../docs/MIGRATION.md`
 > §1.2.1 — its `cp -R` block is written in Claude paths, so translate the
 > destination the same way §"Translation rules" translates `.claude/`.

@@ -86,8 +86,9 @@ flowtron-side issue files a `CORE-` ticket and routes it rather than fixing
 flowtron from its own session. One tasknote (CORE-483.3) predates the rule and
 edited another repo's files directly as its whole deliverable; it stands as
 the **single documented exception, not a precedent**, in the same sense as the
-carve-outs in [`SPEC.md` §"What flowtron does NOT provide"](../../SPEC.md).
-Full contract: [`SPEC.md` §"Cross-repo edit remit"](../../SPEC.md).
+carve-outs in [`SPEC/scope-boundaries.md` §"What flowtron does NOT
+provide"](../scope-boundaries.md). Full contract:
+[`SPEC/scope-boundaries.md` §"Cross-repo edit remit"](../scope-boundaries.md).
 
 The **operator-cue vocabulary** (🛠️ 📦 🟢 👁️ 🏁 ✅ 🔧 🧩 🧠 🔭 👇 🗄️ ▶️ 📡 💻 ✋ 🔍 and
 their UPPERCASE labels) is contract-layer, not Claude-specific — emit it
@@ -149,7 +150,7 @@ It fires once, ahead of the promote / scaffold / resume branch, so there is no
 per-path variant to keep in sync. Emit it and continue in the same turn: it
 expects no reply, blocks nothing, and is suppressed by neither `--fast` nor
 `--unattended`. It is **not** an operator cue and adds no gate. Full contract:
-[`SPEC.md` §"🎯 Purpose blurb"](../../SPEC.md).
+[`SPEC/purpose-blurb.md`](../purpose-blurb.md).
 
 **`## Completed`-rotation advisory.** While `PLAN.md` is open, count the
 checked rows under `## Completed` (nested epic children included). Past

@@ -66,7 +66,7 @@ Goal: surface project-side `.claude/skills/` or `.claude/commands/` entries that
 
 Read flowtron's bundled skill names from `<flowtron-root>/claude/skills/` and command names from `<flowtron-root>/claude/commands/`. Walk project-side `.claude/skills/*` and `.claude/commands/*`:
 
-- **High** — any entry starting with `ft-` that is NOT a symlink into the flowtron submodule (adopter mode) or into a flowtron checkout (global-install mode). The `ft-` prefix is reserved for flowtron per SPEC §"Skill namespace"; adopter `ft-*` skills violate the namespace contract.
+- **High** — any entry starting with `ft-` that is NOT a symlink into the flowtron submodule (adopter mode) or into a flowtron checkout (global-install mode). The `ft-` prefix is reserved for flowtron per SPEC/layout.md §"Skill namespace"; adopter `ft-*` skills violate the namespace contract.
 - **Medium** — any entry with the same base name as a bundled `ft-*` skill, with or without the `ft-` prefix (e.g., a project `task` skill shadowing `/ft-task`'s mental model; or `audit` shadowing a forked audit-family member's expected slot). The user may invoke the wrong skill or get confused about which is which.
 - **Low** — adopter-defined names that loosely echo bundled skill semantics without colliding (judgment call; surface conservatively).
 

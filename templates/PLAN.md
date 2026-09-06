@@ -23,7 +23,7 @@ tasks float to the top of the High column with a red marker chip.
 opt-in an operator seeds deliberately; most projects never use it. A hard
 dependency on another row goes in the long description as
 `Blocked by [[TASK-ID]]` — wikilink-only, literal `Blocked by`; `Blocked on`,
-a bare ID, or free prose does not parse (see SPEC.md §"Long-description
+a bare ID, or free prose does not parse (see SPEC/plan-parser.md §"Long-description
 conventions"). The
 minimal legacy form
 `- [ ] **TASK-ID** — description` keeps parsing for backwards compatibility,

@@ -71,7 +71,7 @@ Otherwise, capture:
 
 The full task-line grammar is `- [ ] **TASK-ID** [!critical] [model] | shortname — long description`; all of `[!critical]`, `[model]`, and `| shortname` are optional. See SPEC §"Task-line format" for the canonical grammar.
 
-**Emit the 🎯 purpose blurb now** — per SPEC §"🎯 Purpose blurb", before the model gate, before the pre-flight checks, and before any scaffold write. This is the earliest point the runner knows what the task is, and every check between here and Phase 1 can end the run:
+**Emit the 🎯 purpose blurb now** — per `SPEC/purpose-blurb.md`, before the model gate, before the pre-flight checks, and before any scaffold write. This is the earliest point the runner knows what the task is, and every check between here and Phase 1 can end the run:
 
 ```text
 🎯 <TASK-ID> — <shortname>

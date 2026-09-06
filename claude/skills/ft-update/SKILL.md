@@ -12,7 +12,7 @@ and stages the result; it does **not** scaffold a 4-phase tasknote. The skill
 takes **no arguments**.
 
 The skill is markdown-only — the assistant runs git inline via its Bash tool, no
-shell scripts (per `SPEC.md` §"What flowtron does NOT provide").
+shell scripts (per `SPEC/scope-boundaries.md` §"What flowtron does NOT provide").
 
 ## Step 0 — Resolve the submodule path + verify cwd is an adopter project
 

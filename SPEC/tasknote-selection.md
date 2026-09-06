@@ -360,7 +360,7 @@ same as the selection thresholds above.
 | Action | Effect |
 |---|---|
 | Merge | fold the entry into the new task (or vice versa); drop the absorbed line |
-| Nest | convert it into an epic subtask / dependency of the new task — a dependency is written `Blocked by [[<ID>]]` (wikilink-only; `SPEC.md` §"Long-description conventions") |
+| Nest | convert it into an epic subtask / dependency of the new task — a dependency is written `Blocked by [[<ID>]]` (wikilink-only; `SPEC/plan-parser.md` §"Long-description conventions") |
 | Edit | rewrite the entry's description to match the new direction |
 | Delete | remove an entry the new work makes obsolete |
 | Leave | no change — surfaced so the user sees it was considered |

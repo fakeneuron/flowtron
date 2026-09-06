@@ -115,7 +115,7 @@ cp -R .flowtron/core/claude/skills/ft-audit/. .claude/skills/$SKILL/
 cp .flowtron/core/claude/commands/ft-audit.md   .claude/commands/$SKILL.md
 ```
 
-Upstream carries the `ft-` prefix (flowtron's owned namespace per SPEC §"Skill namespace"); the local fork drops it so ownership is clear in skill resolution. Open the fork's SKILL.md and walk the **§0 Forker checklist** — for each domain you keep, set glob, rubric files, verification commands, stack-specific pass examples, and sacred-invariant callouts under Critical *in that domain's `passes/<domain>.md`*. Delete pass files for surfaces your project doesn't have (no frontend → remove `passes/frontend.md`). Delete §0 when filled in.
+Upstream carries the `ft-` prefix (flowtron's owned namespace per `SPEC/layout.md` §"Skill namespace"); the local fork drops it so ownership is clear in skill resolution. Open the fork's SKILL.md and walk the **§0 Forker checklist** — for each domain you keep, set glob, rubric files, verification commands, stack-specific pass examples, and sacred-invariant callouts under Critical *in that domain's `passes/<domain>.md`*. Delete pass files for surfaces your project doesn't have (no frontend → remove `passes/frontend.md`). Delete §0 when filled in.
 
 **Two ways to fork: full copy vs. thin overlay.** The `cp -R` above is the
 **full-copy** path — you own a complete `SKILL.md` + `scaffold-bootstrap.md` + `passes/` tree and
@@ -535,7 +535,7 @@ Remove each hit with `rm`. The commands are safe: these are symlinks into the su
 
 A bump is itself a project-side task (e.g., `CORE-XXX: Bump flowtron to vX.Y.Z`), with a tasknote and the usual 4-phase flow. Don't bump in passing.
 
-For sweeping **non-breaking** releases across the whole workspace at once, flowtron's checkout ships `tools/update-adopters.mjs` (dry-run by default; see `SPEC.md` §"What flowtron does NOT provide" for the carve-out). It skips any repo whose release range carries real migration steps — or a tag whose notes it can't classify, which it treats as migration-bearing rather than assume safe — and flags ranges that shipped new Claude, Codex, or Cursor skill symlinks — those still go through the per-project flow above (or `/ft-update`).
+For sweeping **non-breaking** releases across the whole workspace at once, flowtron's checkout ships `tools/update-adopters.mjs` (dry-run by default; see `SPEC/scope-boundaries.md` §"What flowtron does NOT provide" for the carve-out). It skips any repo whose release range carries real migration steps — or a tag whose notes it can't classify, which it treats as migration-bearing rather than assume safe — and flags ranges that shipped new Claude, Codex, or Cursor skill symlinks — those still go through the per-project flow above (or `/ft-update`).
 
 ### Upgrading an existing adopter from v4.x (`_project/` → `.flowtron/`)
 

@@ -41,7 +41,7 @@ block carrying three required fields and one optional one:
 
 | Field | Required | Meaning |
 |---|---|---|
-| `procedure:` | yes | The procedure slug, matching the `ft-` skill/command name cross-platform per [`SPEC.md` §"Skill namespace"](../../SPEC.md) (e.g. `ft-task`). |
+| `procedure:` | yes | The procedure slug, matching the `ft-` skill/command name cross-platform per [`SPEC/layout.md` §"Skill namespace"](../layout.md) (e.g. `ft-task`). |
 | `source:` | yes | The surfaces this SOP **mirrors** and is kept in sync with — the canonical Claude wiring it is derived from, plus any other file it restates closely enough that a change there implies a change here. One or more **space-separated** paths; a directory covers everything beneath it, so a skill's lazy fragments stay watched without listing each (e.g. `claude/skills/ft-task/ templates/tasknote-template.md`). The drift-tracking anchor for tier 1 of the currency check below. |
 | `restates:` | no | Broad contract surfaces the SOP **paraphrases rather than mirrors** (e.g. `SPEC.md`). Same space-separated form. These feed tier 2 of the currency check — an advisory count, not per-commit candidates — because a file the whole repo edits changes far too often for commit-level adjudication to stay readable. Omit when the SOP restates nothing outside `source:`. |
 | `last-verified:` | yes | Currency stamp, mirroring the [`docs/PLATFORMS.md`](../../docs/PLATFORMS.md) / [`claude/CAPABILITIES.md`](../../claude/CAPABILITIES.md) convention — `<version> · <YYYY-MM-DD>`. Bumped when the SOP is re-checked against its watched surfaces (`source:` + `restates:`). |

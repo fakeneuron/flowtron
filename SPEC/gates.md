@@ -99,7 +99,7 @@ Reuse across *unrelated* concepts is not permitted; that would be a genuine
 collision.
 
 The 🎯 row is the one entry with an **empty layer-1 cell**, and that is the
-point. The purpose blurb ([`SPEC.md`](../SPEC.md) §"🎯 Purpose blurb") emits 🎯
+point. The purpose blurb ([`SPEC/purpose-blurb.md`](purpose-blurb.md)) emits 🎯
 conversationally — the position an operator cue would occupy — while being no
 cue at all: it bears no obligation, accepts no reply, and gates nothing. It is
 listed here rather than left silent so that the glyph is documented at the

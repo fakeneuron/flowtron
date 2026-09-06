@@ -58,7 +58,7 @@ Otherwise, capture from the line:
 
 The full task-line grammar is `- [ ] **TASK-ID** [!critical] [model] | shortname — long description`. See SPEC §"Task-line format" for the canonical grammar.
 
-**Emit the 🎯 purpose blurb now** — per SPEC §"🎯 Purpose blurb", before the model gate, before the pre-flight checks below, and before any scaffold write, since each of those can end the run:
+**Emit the 🎯 purpose blurb now** — per `SPEC/purpose-blurb.md`, before the model gate, before the pre-flight checks below, and before any scaffold write, since each of those can end the run:
 
 ```text
 🎯 <TASK-ID> — <shortname>
@@ -88,7 +88,7 @@ Gate on the `[model]` segment captured in Step 1 before any source reads — hea
 
 ## Step 2 — Scaffold the micro-tasknote
 
-Copy the micro template (path resolved in Step 0) to `.flowtron/tasknote/<TASK-ID>.md`. Frontmatter and body shape: see SPEC §"Tasknote frontmatter" + §"Tasknote body shape" + §"When to use a tasknote (and when not to)" micro carve-out for the `## ⚡ Notes` / `## ✅ Recap` skeleton.
+Copy the micro template (path resolved in Step 0) to `.flowtron/tasknote/<TASK-ID>.md`. Frontmatter and body shape: see SPEC §"Tasknote frontmatter" + §"Tasknote body shape" + `SPEC/tasknote-selection.md` §"When to use a tasknote (and when not to)" micro carve-out for the `## ⚡ Notes` / `## ✅ Recap` skeleton.
 
 **Skill-specific scaffold values:**
 

@@ -6,14 +6,14 @@
 
 **Standing mirror-pair check.** Some surfaces restate a fact that is *derived* from another surface — a roster that must list what a directory holds, a Codex description that must name the flags its Claude twin documents, a template's back-link that must resolve from the directory a skill writes it to. Nothing binds the two halves, so an edit to the source silently strands the mirror, and the gap only surfaces when a reader trips over it (CORE-EPIC-420 found four such pairs drifted at once). Each pair below is repo state — a commit in this cut can carry every fix — so all of them **block**: fix inline as Critical/High before cutting the release.
 
-**Pair A — templates roster ↔ `templates/` directory.** Three surfaces restate what `templates/` holds: `README.md`'s repo-layout bullet, `SPEC.md:55`, and `claude/skills/ft-flowtron/SKILL.md`'s "Key docs" list. Adding or removing a file in `templates/` without editing all three strands the ones left behind:
+**Pair A — templates roster ↔ `templates/` directory.** Three surfaces restate what `templates/` holds: `README.md`'s repo-layout bullet, `SPEC/layout.md` §"Working in the flowtron repo itself", and `claude/skills/ft-flowtron/SKILL.md`'s "Key docs" list. Adding or removing a file in `templates/` without editing all three strands the ones left behind:
 
 ```sh
 ls templates/
-grep -n 'tasknote templates (full' README.md SPEC.md claude/skills/ft-flowtron/SKILL.md
+grep -n 'tasknote templates (full' README.md SPEC/layout.md claude/skills/ft-flowtron/SKILL.md
 ```
 
-Three hits, one per file. **README + SPEC** carry a byte-identical roster clause: every file `ls` prints must be named in it (the seed files appear as `PLAN.md` / `tasknote-README.md`, the tasknote templates by their qualifier — `full`, `micro`, `starter`, `sidequest`). The **`ft-flowtron` hit is a deliberately compressed variant** — it is a one-line screen entry about templates, so the two seed files are exempt there; every *template* file must still be named. A file in the directory named by no clause, or a name in a clause with no file, is the drift.
+Three hits, one per file. **README + `SPEC/layout.md`** carry a byte-identical roster clause: every file `ls` prints must be named in it (the seed files appear as `PLAN.md` / `tasknote-README.md`, the tasknote templates by their qualifier — `full`, `micro`, `starter`, `sidequest`). The **`ft-flowtron` hit is a deliberately compressed variant** — it is a one-line screen entry about templates, so the two seed files are exempt there; every *template* file must still be named. A file in the directory named by no clause, or a name in a clause with no file, is the drift.
 
 The pattern is `tasknote templates (full`, not the narrower `canonical tasknote templates` this pair originally used: the `ft-flowtron` variant drops the word "canonical" and was outside the file list besides, so the pair missed that site from the day it shipped (CORE-422).
 
@@ -211,15 +211,15 @@ Positional arguments are out of scope. `/ft-audit` (`<domain> [scope]`) and `/ft
 
 **Pair K — no-runtime mirror labels ↔ the canonical section they cite.** `docs/VISION.md` §"What we won't accept" is the canonical justification for flowtron's rejections; several surfaces restate one of them where it bears locally, and each restatement is a *labeled* mirror that names its source (`docs/CONVENTIONS.md` §"Canonical source with labeled mirrors" ratifies the pattern). Nothing binds the label to the thing it labels. Rename or delete a canonical bullet and every citation to it silently becomes a pointer to nothing; drop a pointer in an unrelated edit and the restatement reads as unsourced duplication to the next auditor — which is exactly what happened, from outside the repo, in the cross-repo sweep that routed CORE-487. Every pair above is blind here: B, E, and J are frontmatter- and flag-derived, I reads `CAPABILITIES.md` ↔ `PLATFORMS.md`, and the Phase 4 doc-drift sweep walks `docs/VISION.md` for staleness but is blind to whether the *citations pointing at it* still resolve — reading a doc for drift says nothing about labels held in five other files (CORE-491; VISION.md joined the sweep set at CORE-489.3).
 
-**K1 — every citation resolves to a real canonical bullet.** `SPEC.md`'s PR-archetype bullets each carry `PR-rejection mirror of "<title>" in `docs/VISION.md`` or `… "<title>" above`. The cited title must still lead a bullet in the section named:
+**K1 — every citation resolves to a real canonical bullet.** `SPEC/scope-boundaries.md`'s PR-archetype bullets each carry `PR-rejection mirror of "<title>" in `docs/VISION.md`` or `… "<title>" above`. The cited title must still lead a bullet in the section named:
 
 ```sh
-grep -oE 'PR-rejection mirror of "[^"]+" (in `docs/VISION\.md`|above)' SPEC.md |
+grep -oE 'PR-rejection mirror of "[^"]+" (in `docs/VISION\.md`|above)' SPEC/scope-boundaries.md |
 while IFS= read -r cite; do
   title=$(printf '%s\n' "$cite" | sed -E 's/^PR-rejection mirror of "([^"]+)".*/\1/')
   case "$cite" in
     *'docs/VISION.md'*) src="docs/VISION.md"; sec="^## What we won.t accept$" ;;
-    *)                  src="SPEC.md";        sec="^## What flowtron does NOT provide$" ;;
+    *)                  src="SPEC/scope-boundaries.md"; sec="^## What flowtron does NOT provide$" ;;
   esac
   awk -v s="$sec" '$0~s{f=1;next} f&&/^#/{exit} f&&/^- /' "$src" |
     grep -qF -- "$title" || echo "K1 MISS: \"$title\" not a bullet lead in $src"
@@ -239,10 +239,10 @@ while IFS='|' read -r file pat n; do
 done
 ```
 
-Both must print nothing. Fix a K1 miss by updating the citation in `SPEC.md` to the canonical bullet's current lead — never by renaming the canonical bullet back to satisfy the check. Fix a K2 miss by restoring the pointer in that section's own established shape.
+Both must print nothing. Fix a K1 miss by updating the citation in `SPEC/scope-boundaries.md` to the canonical bullet's current lead — never by renaming the canonical bullet back to satisfy the check. Fix a K2 miss by restoring the pointer in that section's own established shape.
 
 - **It guards labels, not prose — on purpose.** Every pair above compares *derivable* rosters: a flag set, a directory listing, a command list. Paraphrase is not derivable, and the restatements legitimately differ in shape because each applies the rule to a different surface. A byte-match across them would be brittle and would push authors toward one flattened wording, which is the value the pattern exists to keep. Wording drift stays with "markdown is the schema; the assistant catches drift" (`docs/VISION.md` §"Schema validators") — the same reason flowtron declines a validator. What is mechanical is the *label*, and that is all this pair claims.
-- **The two halves are asymmetric because the surfaces are.** `SPEC.md`'s mirror is a per-bullet list with a quoted title, so K1 can resolve each citation exactly. The other three are prose sections with no quoted title, so K2 falls back to presence-of-pointer — weaker, and the weaker half is the one that catches the drift CORE-487 was filed for. Pair F's "counts presence, not byte identity" idiom, one surface over.
+- **The two halves are asymmetric because the surfaces are.** `SPEC/scope-boundaries.md`'s mirror is a per-bullet list with a quoted title, so K1 can resolve each citation exactly. The other three are prose sections with no quoted title, so K2 falls back to presence-of-pointer — weaker, and the weaker half is the one that catches the drift CORE-487 was filed for. Pair F's "counts presence, not byte identity" idiom, one surface over.
 - **`grep -qF --` and the `^- ` filter are both load-bearing.** `-F` stops `/` and `.` in a title like `Graph / multi-agent execution runtimes` from being read as a pattern; `--` stops a future title beginning with `-` from being parsed as a flag. Restricting to `^- ` means a title mentioned in surrounding prose cannot satisfy the check — only an actual bullet lead does. Titles are cited as *prefixes* of the canonical lead (`"Loop runners"` ⊂ `**Loop runners, schedulers, and session tooling.**`), so the assertion is substring-within-a-bullet-line, not equality.
 - **`docs/PHILOSOPHY.md`, `docs/WORKTREES.md`, and `README.md` are deliberately not in K2.** PHILOSOPHY and README state the rule as narrative identity rather than as a sourced restatement, and WORKTREES carries a one-clause caveat rather than a section. Adding them would police three surfaces whose job is not to be a mirror. Recorded here so a later reader does not read their absence as an oversight.
 - **Release-gate only, like D and F–J.** The `drift` CI job runs the release-context-free subset (A, B, C, E) per `docs/CONVENTIONS.md` §"GitHub Actions CI"; promoting K there is a separate call, not implied by minting it.

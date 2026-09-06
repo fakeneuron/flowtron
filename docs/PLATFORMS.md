@@ -157,7 +157,7 @@ non-negotiable per [[CORE-154.1]] Constitution.
   `codex` (OpenAI Codex CLI), `grok` (grok-cli), `cursor` (Cursor IDE),
   `aider` (Aider), `amp` (Sourcegraph Amp).
 - **Skill prefix**: the `ft-` namespace stays reserved across platforms
-  per SPEC §"Skill namespace". A platform's skill bundle uses the same
+  per `SPEC/layout.md` §"Skill namespace". A platform's skill bundle uses the same
   `ft-<name>` slugs as Claude Code (e.g., `ft-task`, `ft-micro-task`),
   even if file extensions or formats differ. Adopters wiring multiple
   platforms then have semantically equivalent commands across them.
@@ -365,7 +365,7 @@ the contract-layer-only path (see §"Today's surface").
 |---|---|---|
 | **Context-load semantics** | Grok Build reads three context files: `AGENTS.md` (open standard), `CLAUDE.md` (Anthropic-popularized; Grok-compat fallback), and `GROK.md` (Grok-canonical, at `.grok/GROK.md` with cwd walk-up + `~/.grok/GROK.md` global fallback) | Use `AGENTS.md` — already the paste-block target and the cross-vendor canonical entry point. `GROK.md` is orthogonal to flowtron. |
 | **AGENTS.md visibility** | Grok Build "picks up AGENTS.md before it does anything" per xAI launch coverage — same load-before-act semantic as Claude Code | Paste-block is visible without configuration; no truncation noted in launch narratives |
-| **Skill / command primitives** | Native: `.grok/skills/<name>/` (cwd-walk to repo root) + `~/.grok/skills/` + plugin paths + `[skills] paths` in `~/.grok/config.toml`. Compat (default on): `.claude/skills/` / `.claude/commands/`, `.cursor/skills/`, and `.agents/skills/` at each tier. Skill bodies are markdown; user-invocable skills auto-wire as `/<skill-name>` slash commands | If Claude, Codex, or Cursor is already wired, Grok is already served — no second install. Grok-only projects follow `grok/AGENTS-snippet.md` §"One-time symlink wiring". The `ft-` namespace per SPEC §"Skill namespace" reserves skill names cross-platform. Those bodies' trailing operator flags are available as soon as they load — see §"Non-Claude capability triggers". |
+| **Skill / command primitives** | Native: `.grok/skills/<name>/` (cwd-walk to repo root) + `~/.grok/skills/` + plugin paths + `[skills] paths` in `~/.grok/config.toml`. Compat (default on): `.claude/skills/` / `.claude/commands/`, `.cursor/skills/`, and `.agents/skills/` at each tier. Skill bodies are markdown; user-invocable skills auto-wire as `/<skill-name>` slash commands | If Claude, Codex, or Cursor is already wired, Grok is already served — no second install. Grok-only projects follow `grok/AGENTS-snippet.md` §"One-time symlink wiring". The `ft-` namespace per `SPEC/layout.md` §"Skill namespace" reserves skill names cross-platform. Those bodies' trailing operator flags are available as soon as they load — see §"Non-Claude capability triggers". |
 
 First-use verification 2026-06-01 (CORE-257 cue dogfood under Grok 4.3 interactive CLI). /ft-task + full 4-phase flow + AskUserQuestion structured prompt all rendered and executed successfully. Structured ask primitive observed to work (divergence from launch-coverage assumption in the triggers table below); other details matched. See docs/AGENT-COMPAT.md for the canonical matrix row currency. Sub-agent / `/model` / `/clear` rows refreshed 2026-08-20 (CORE-458), cross-referencing the native `spawn_subagent` tool observed under a Grok 4.6 session (CORE-456.N) against public vendor docs (`docs.x.ai/build/modes-and-commands`; `xai-org/grok-build` `docs/user-guide/16-subagents.md`).
 
@@ -522,7 +522,7 @@ This doc does **not**:
 
 ## Related
 
-- [`SPEC.md`](../SPEC.md) §"Working in the flowtron repo itself" — repo
+- [`SPEC/layout.md`](../SPEC/layout.md) §"Working in the flowtron repo itself" — repo
   layout including the `claude/` locator + this doc's forward-pointer
 - [`AGENT-NEUTRALITY.md`](AGENT-NEUTRALITY.md) — the content-layer
   ledger this doc operationalizes structurally
