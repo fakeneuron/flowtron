@@ -799,7 +799,7 @@ Mandatory steps:
 - [ ] **Relevance Assessment** — `Proceed` / `Re-scope` / `De-scope` with one-line rationale
 - [ ] Read relevant source files — when the read set is broad or its shape is unknown, consider isolating the search in a **probe** (see below) and recording only its distilled return in Discovery Notes
 - [ ] **Best Practices Review** — when code or module boundaries are in scope, identify the touched responsibilities, established dependency direction and abstractions, and nearby duplication; record any required in-scope refactor or deferred cleanup (otherwise `N/A` with a one-line reason)
-- [ ] **Archive skim** — surface prior decisions on the same files / area by skimming `.flowtron/tasknote/archive/<area>/` for tasknotes that touched the source paths in scope (if YAML `touches:` is set, prefer those paths for the path grep); also open IDs named by `## 🔗 Related`, YAML `supersedes:`, and any ⚠️ `Superseded by` pointer on the hits — still `grep` + read, no query engine; log relevant findings in Discovery Notes before re-interpreting the task
+- [ ] **Archive skim** — surface prior decisions on the same files / area by skimming `.flowtron/tasknote/archive/<area>/` for tasknotes that touched the source paths in scope (if YAML `touches:` is set, prefer those paths for the path grep); also open IDs named by `## 🔗 Related`, YAML `supersedes:`, and any ⚠️ `Superseded by` pointer on the hits — still `grep` + read, no query engine; when the grep returns more than a handful of notes (~3 is a fair line), prefer handing the reading to a **probe** (same clause as the read step above) rather than pulling every hit into this window; log relevant findings in Discovery Notes before re-interpreting the task
 - [ ] **Drift check** — verify file paths, line numbers, function names, and root-cause hypotheses cited in the task description still match current code, **and** cross-reference the plan this tasknote is forming against its `PLAN.md` line and the SPEC contracts it touches (read them, don't recall them); surface any drift to the user before re-interpreting the task
 - [ ] Asked clarifying questions OR logged "No clarifications needed" with explicit assumptions
 - [ ] Subtasks above populated with concrete, ordered steps
@@ -823,6 +823,15 @@ no machinery — spawning the probe is the operator's or the session's call, and
 skipping it is always correct for a narrow read set.
 
 Archive skim + drift check both exist because prior tasknotes record decisions (renames, regressions, rationales) and PLAN.md is a snapshot, not a spec. Surface findings before re-interpreting; don't silently "correct" the plan by executing a different task. When `touches:` is set, use it to narrow the path grep. After the path hits, follow typed Related lines, `supersedes:` IDs, and ⚠️ pointers as extra notes to open — they are edges to read, not a graph query.
+
+The skim's **probe clause** is the read step's, applied where it bites hardest: a
+path grep over a mature archive is the one Discovery step whose cost is set by
+how long the project has been running rather than by how big the task is, and a
+single common path can return dozens of notes. The `~3` is a judgment line, not a
+threshold that fires — nothing counts hits, nothing gates on the number, and
+reading four notes directly is always a correct call. It is there so the default
+on a large hit list is "brief a probe and keep its findings" rather than "read
+them all and keep the search too."
 
 The drift check's **cross-artifact half** catches a different failure than its
 code half: a plan that is fine against the code but contradicts a contract the

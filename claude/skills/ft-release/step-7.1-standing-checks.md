@@ -106,3 +106,51 @@ grep -rhoE '\*\*Archived:\*\* [0-9]{4}-[0-9]{2}-[0-9]{2}' .flowtron/tasknote/arc
 ```
 
 The first command is the closed-task count — one archived tasknote per closed task, standalone or epic child. The second prints the earliest and latest `**Archived:**` date; the earliest is stable (2026-04-28) and only the latest moves. Update `README.md:22-23`'s count and "as of" date to match. A handful of archived tasknotes carry an unfilled `**Archived:** YYYY-MM-DD` placeholder or omit the field (archive-hygiene misses, e.g. CORE-255), so the second command undercounts by that many; if the gap looks material, file a follow-up via `/ft-file-followup` rather than fixing archive hygiene mid-cut. This is a mechanical text substitution, same footing as the 3 version edits in Step 5 — fix inline as Critical/High before cutting the release.
+
+**Standing context-budget check.** Flowtron ships per-file byte budgets for the
+surfaces an agent loads to run one task. They live in
+[`docs/CONTEXT-BUDGET.md`](../../../docs/CONTEXT-BUDGET.md) §"Budgets" and are
+restated nowhere — this check measures, that doc decides. Measure from the
+repository root:
+
+```sh
+wc -c SPEC.md SPEC/gates.md claude/skills/*/SKILL.md | sort -rn
+```
+
+Read `docs/CONTEXT-BUDGET.md` §"Budgets" and compare each measured surface
+against its row, most specific row winning (`ft-release`'s own row governs it;
+every other skill body falls under the glob row). Then:
+
+- **Over budget with an open owner** — the surface is listed in that doc's
+  §"Known over budget" and its owning task line is still `- [ ]` in
+  `.flowtron/PLAN.md`. Informational: note it in the §7.4 closure review and
+  carry on. This is the in-flight case, not a failure.
+- **Over budget with no owner, or with an owner whose PLAN line is closed** —
+  blocking. Either the surface regrew past its budget, or a task that promised to
+  bring it under closed without doing so. Fix inline as Critical/High before
+  cutting the release: trim the surface, or — if the growth is deliberate and
+  defensible — raise the budget in `docs/CONTEXT-BUDGET.md` with the reason, in
+  this cut, as an explicit decision rather than a silent drift.
+- **Under budget** — nothing to do.
+
+**Refresh the ledger in this cut.** `docs/CONTEXT-BUDGET.md` §"Ledger" carries
+measured numbers and a `Measured YYYY-MM-DD at vX.Y.Z` stamp. Update both from
+the `wc -c` output above, the same mechanical substitution as the version edits
+in Step 5. The doc is deliberately absent from
+`.flowtron/tasknote/README.md` §"AI-referenced docs" (its own closing section
+says why), so this check is the *only* thing that keeps those numbers honest —
+skipping the refresh silently retires the ledger.
+
+**Why this check exists.** [[CORE-EPIC-223]] split `SPEC.md` at ~40,000 chars,
+verified the result with `wc -c` in its Phase 3, and wrote the number into no
+contract. Three months later `SPEC.md` had passed 77,000 — the split had no ratchet, and
+[[CORE-508]] later confirmed no byte cap was documented anywhere in the repo. This
+is that ratchet. It clears the [[CORE-487]] bar for a new standing check: a byte
+count is *derivable*, not a prose paraphrase, so it cannot cry wolf the way the
+citation guard [[CORE-492]] declined would have.
+
+**On the glob.** `claude/skills/*/SKILL.md` is safe here despite §"Glob-free by
+design" above. That note guards *unmatched* globs — zsh aborts a loop with
+`no matches found` before its body runs — and this pattern always matches the
+shipped skill inventory inside the repo. Do not "fix" it into a `find` loop;
+`wc -c`'s own multi-file output is what makes the result readable at a glance.

@@ -66,7 +66,8 @@ not to)".
 - `cursor/` — Cursor thin wiring (snippet + `ft-task` procedure pointer; no skill wrappers).
 - `grok/` — Grok thin wiring (snippet + `ft-task` procedure pointer; no skill wrappers).
 - `docs/` — supporting docs, conventions, migration, platform compatibility,
-  and design rationale.
+  design rationale, and `CONTEXT-BUDGET.md` (per-file byte budgets, enforced at
+  release).
 - `templates/` — canonical markdown templates.
 - `tools/` — operator-side fleet scripts (`update-adopters.mjs` + tests).
 - `viz/` — Vite/React/TypeScript visualizer (module tiers + no-Node-under-`src/ui/` rule: [`viz/README.md`](viz/README.md)).

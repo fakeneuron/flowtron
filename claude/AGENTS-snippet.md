@@ -38,6 +38,28 @@ Pasting is not loading. In a fresh session, confirm `AGENTS.md` is in context �
 
 If the project already has a real `CLAUDE.md` with Claude-only directives, keep it and add `@AGENTS.md` as an import line instead. Either way `AGENTS.md` stays the single source of the contract. Full rationale, the verification steps, and the same check for other agents' native context files: [`docs/MIGRATION.md`](../docs/MIGRATION.md) §1.3.
 
+### Keeping `AGENTS.md` small — `.claude/rules/`
+
+`AGENTS.md` is always loaded, so everything in it is paid for on every task — including the guidance that only matters in one subtree. Claude Code supports **path-scoped rules**: markdown files under `.claude/rules/` whose `paths:` frontmatter names globs, loaded only when a matching file is actually read (verified against Claude Code's docs 2026-09-06, [[CORE-535.1]]).
+
+If your project is carrying frontend-only conventions, a `tools/` directory's constraints, or per-language style notes in `AGENTS.md`, that content is a good candidate to move:
+
+```text
+---
+paths: ['frontend/**/*.tsx', 'frontend/**/*.ts']
+---
+
+Components use the design tokens in `frontend/src/styles/tokens.css`; never
+hardcode a hex value.
+```
+
+The shape will look familiar — flowtron's own lazy `SPEC/` modules carry the same `paths:` frontmatter for the same reason ([`SPEC.md`](../SPEC.md) §"Lazy SPEC module frontmatter"). Flowtron's per-file byte budgets for its own shipped surfaces are in [`docs/CONTEXT-BUDGET.md`](../docs/CONTEXT-BUDGET.md).
+
+Two limits worth knowing before you move anything:
+
+- **Do not move the paste-block.** It is the workflow contract and applies to every file in the project, so it is always relevant and belongs in `AGENTS.md`.
+- **`.claude/rules/` is Claude Code only.** Codex, Cursor, Grok and other agents reading `AGENTS.md` will not see it. Anything a non-Claude agent must obey stays in `AGENTS.md`, even at the cost of bytes.
+
 ---
 
 ## One-time symlink wiring

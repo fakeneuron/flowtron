@@ -102,6 +102,9 @@ serves it; Grok-only projects follow [`grok/AGENTS-snippet.md`](grok/AGENTS-snip
   epic children: the five locked decisions (location, branch naming, skill
   pair, tasknote handling, cleanup) behind `/ft-worktree-start` +
   `/ft-worktree-end`
+- [docs/CONTEXT-BUDGET.md](docs/CONTEXT-BUDGET.md) — per-file byte budgets for
+  the surfaces an agent loads to run one task, the measured ledger behind them,
+  and the release-time check that keeps them honest
 - [docs/EXTERNAL-AGENTS.md](docs/EXTERNAL-AGENTS.md) — handing a single
   tasknote off to an external CLI agent (Kiro / Claude Code / Codex): the
   one-agent-per-tasknote rule, the handoff contract, worktree isolation for
@@ -281,7 +284,7 @@ runtime lives in the runner; the contract lives in flowtron.
 - `codex/` — Codex skill wrappers for the full `ft-*` inventory plus Codex-specific wiring notes
 - `cursor/` — Cursor thin wiring (`AGENTS-snippet.md` + `procedures/ft-task.md` pointer; no skill wrappers — adopters wire canonical `claude/skills/` bodies)
 - `grok/` — Grok thin wiring (`AGENTS-snippet.md` + `procedures/ft-task.md` pointer; no skill wrappers — adopters wire canonical `claude/skills/` bodies)
-- `docs/` — philosophy, vision, glossary, migration, conventions, version history, agent-neutrality, platforms, agent-compat, dogfood, worktrees, and external-agents docs
+- `docs/` — philosophy, vision, glossary, migration, conventions, version history, agent-neutrality, platforms, agent-compat, dogfood, worktrees, external-agents, and context-budget docs
 - `.flowtron/` — flowtron's own roadmap and tasknotes (self-hosted)
 - `viz/` — Vite/React visualizer (priority-grouped list + optional board mode)
 - `tools/` — operator-side fleet scripts (`update-adopters.mjs`, the singular CLI carve-out — see `SPEC.md` §"What flowtron does NOT provide" — plus its portable `update-adopters.test.mjs` suite)

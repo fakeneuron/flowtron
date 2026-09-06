@@ -277,7 +277,9 @@ fragments so this skill stays under its load budget. Read them **in parallel**:
 
 - `claude/skills/ft-release/step-7.1-standing-checks.md` — wiring-consumer
   derivation · shipped-skill parity · installed-surface policy · self-wiring
-  parity (local blocking + machine-global advisory) · README task-counter.
+  parity (local blocking + machine-global advisory) · README task-counter ·
+  context budget (`docs/CONTEXT-BUDGET.md`; also refreshes that doc's ledger
+  in this cut).
 - `claude/skills/ft-release/step-7.1-mirror-pairs.md` — the Pair A–K
   mirror-pair catalogue.
 

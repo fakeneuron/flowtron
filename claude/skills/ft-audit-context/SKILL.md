@@ -24,7 +24,11 @@ This skill is the deliberate counterpart to `/ft-audit*` (forked, 5-pass, writes
 
 ## 1. Pass (a) — Context bloat
 
-Goal: surface size pressure against Claude Code's ~40,000-character context-load threshold (content past that cap silently doesn't reach the assistant).
+Goal: surface size pressure on the project's always-loaded context files against an **adherence budget** — the size past which an assistant reliably *reads* a directive but stops reliably *following* it.
+
+This is a budget, not a cliff. Claude Code loads a context file in full (its documented ceiling is measured in megabytes, not tens of kilobytes), and the published guidance is about keeping guidance short enough to be followed — not about content being dropped. An earlier version of this pass claimed content past ~40,000 chars "silently doesn't reach the assistant"; that claim was never sourced and is wrong. The bands below are attention budgets: past them, a long file's directives compete with each other and with everything else in the window, and the ones near the bottom quietly stop winning.
+
+Flowtron's own shipped surfaces are governed separately, by hard per-file byte budgets in [`docs/CONTEXT-BUDGET.md`](../../../docs/CONTEXT-BUDGET.md) enforced at release. Those numbers govern flowtron's files, not an adopter's — do not carry them into this pass.
 
 Measurements:
 
@@ -33,7 +37,7 @@ Measurements:
 
 Heuristics:
 
-- **>40,000 chars** → **High**: assistant context truncated; load-critical content beyond the cap is silently lost.
+- **>40,000 chars** → **High**: well past the adherence budget. The file is still read in full, but directives this deep in it compete with the whole rest of the window; treat late-file rules as unreliable until the file is cut down.
 - **30,000–40,000 chars** → **Medium**: trending high; identify lift candidates (large reference tables, registries, stack inventories that belong in per-project docs or external references).
 - **<30,000 chars** → no finding (skip).
 - **>30 commands or >25 skills** under `.claude/` → **Low**: slash-command surface bloat; consider trimming unused or rarely-invoked entries.
