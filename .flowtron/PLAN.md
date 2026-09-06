@@ -11,6 +11,14 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
+- [ ] **CORE-EPIC-535** [heavy] | context-load-diet — Bring flowtron's per-task context load back under an enforced budget. SPEC.md tripled since v5.0.0 (28k→77k chars) and SPEC/gates.md nearly tripled (19k→52k); flowtron-owned surfaces are ~half of the ~70k tokens (7%) present at Phase 1. Measure, set per-file byte budgets as a release gate, re-split/trim, and adopt progressive-disclosure loading (filed via /ft-epic-discovery; refined at .1 closure).
+  - [x] **CORE-535.1** [heavy] | context-load-diet discovery — Completed 2026-09-06.
+  - [ ] **CORE-535.2** [medium] | context-load-ledger — Record a per-file byte ledger and budgets (SPEC.md ≤50k, SPEC/gates.md ≤35k, a lifecycle-skill cap set here) in `docs/CONTEXT-BUDGET.md`; add a `wc -c` standing check to `/ft-release` §7.1; restate `ft-audit-context`'s false ">40k = truncated" wording as an adherence budget; note `.claude/rules/` in the adopter snippet; make the Phase 1 archive skim probe-by-default above ~3 hits.
+  - [ ] **CORE-535.3** [heavy] | spec-core-lazy-split — Move the ~26k of narrow-use SPEC.md sections (task-line parser tolerances, flowtron-self, purpose blurb, handoff, fan-out, skill namespace, cross-repo remit, loop pointer, not-provided archetypes) into lazy `SPEC/` modules with dispatch lines; drop the operator-cue glossary duplicate in favour of gates.md; repair every cross-reference; SPEC.md lands ≤50k.
+  - [ ] **CORE-535.4** [heavy] | skills-cite-dont-restate — Collapse the eight restated spans in ft-task, ft-micro-task, and ft-epic-discovery (copy-paste helper, model gate, next-move block, Phase 4 mega-bullet, downstream scan, exit-gate cases, skip-rule overrides, purpose-blurb bounds) to one-line citations of their canonical SPEC homes, keeping every skill-specific imperative; ~20k chars removed.
+  - [ ] **CORE-535.5** [heavy] | gate-logic-untangle — In SPEC/gates.md: one flag×surface matrix for `--fast` / `--unattended` / 👁️, one precedence ladder (bundled prompt > unattended park > `--fast` skip > signal), two-banner cap stated once; move §Rationalizations + §Red Flags to lazy `SPEC/gate-discipline.md`; resolve the five SPEC↔gates↔selection double-homes; gates.md ≤35k.
+  - [ ] **CORE-535.N** [heavy] | context-load-diet audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
+
 ## Medium
 
 ## Low
