@@ -16,10 +16,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-535.2** [medium] | context-load-ledger — Completed 2026-09-06.
   - [x] **CORE-535.3** [heavy] | spec-core-lazy-split — Completed 2026-09-06.
   - [x] **CORE-535.4** [heavy] | skills-cite-dont-restate — Completed 2026-09-07.
-  - [ ] **CORE-535.5** [heavy] | gate-logic-untangle — In SPEC/gates.md: one flag×surface matrix for `--fast` / `--unattended` / 👁️, one precedence ladder (bundled prompt > unattended park > `--fast` skip > signal), two-banner cap stated once; move §Rationalizations + §Red Flags to lazy `SPEC/gate-discipline.md`; resolve the five SPEC↔gates↔selection double-homes; gates.md ≤35k.
+  - [x] **CORE-535.5** [heavy] | gate-logic-untangle — Completed 2026-09-07.
   - [ ] **CORE-535.N** [heavy] | context-load-diet audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
 
 ## Medium
+
+- [ ] **CORE-536** [heavy] | gate-relaxation-pass — Relax gate behavior for easier passthrough under liberal conditions. Four candidates surfaced by [[CORE-535.5]]: path+content 📦 privileged-ops signal (so doc-only edits under `**/auth/**` stop firing); `--fast` treating Re-scope as an inline notice while De-scope still fires 🛠️; a wider closed commit-go set; `/ft-task` reading the `[unattended]` task-line marker. Behavior change — out of [[CORE-EPIC-535]]'s scope.
 
 ## Low
 

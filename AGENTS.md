@@ -57,7 +57,8 @@ not to)".
 - `.github/` — GitHub-specific config (CI workflow: `workflows/ci.yml`).
 - `SPEC.md` — canonical workflow contract.
 - `SPEC/` — lazy modules for epics, starter tasks, blocked tasks, model
-  routing, gates, versioning, tasknote selection, loop tasks, repo layout,
+  routing, gate machinery, the operator-cue vocabulary, gate discipline,
+  versioning, tasknote selection, loop tasks, repo layout,
   PLAN parser tolerances, scope boundaries, optional tasknote inserts, the
   purpose blurb, superseded claims, and
   `SPEC/procedures/` agent-neutral SOPs.

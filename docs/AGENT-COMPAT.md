@@ -135,7 +135,7 @@ triggers".
 ## Cross-agent cue fallback policy
 
 Flowtron's operator cues are `<glyph> <UPPERCASE-LABEL>` pairs — the canonical
-set lives in [`SPEC/gates.md` §"Operator-cue vocabulary"](../SPEC/gates.md). The
+set lives in [`SPEC/cue-vocabulary.md` §"Operator-cue vocabulary"](../SPEC/cue-vocabulary.md). The
 pairing *is* the cross-agent reliability mechanism: the glyph is a fast-scan
 accelerator; the UPPERCASE ASCII label is the authoritative, durable token.
 
@@ -155,7 +155,7 @@ token; the glyph never carries meaning alone.**
 A fourth, milder degradation applies to the one cue carrying markdown emphasis:
 the 👁️ `CONFIRM` ask is emitted in the **emphasized inline shape** (own line,
 blank-line isolated, `**CONFIRM**` bolded — see
-[`SPEC/gates.md` §"Emphasized inline ask shape"](../SPEC/gates.md)), and a
+[`SPEC/cue-vocabulary.md` §"Emphasized inline ask shape"](../SPEC/cue-vocabulary.md)), and a
 surface that renders no markdown will show literal asterisks or strip them
 entirely. Neither loses the cue: the line break and blank-line isolation are
 plain text and survive, and the UPPERCASE label still names it. The emphasis was

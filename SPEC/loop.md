@@ -69,7 +69,7 @@ semantics** (see [`SPEC/gates.md`](gates.md) §"`--fast` operator override"):
   the loop never had an ask to convert.
 
 **Destructive-action carve-out.** The one thing that does **not** collapse
-is the destructive 🗄️/▶️/📡/💻 escalation ([`SPEC/gates.md`](gates.md)
+is the destructive 🗄️/▶️/📡/💻 escalation ([`SPEC/cue-vocabulary.md`](cue-vocabulary.md)
 §"Operator-cue vocabulary" → "Destructive-action escalation"). `--fast`
 never suppresses it, and a loop cannot fire a blocking banner into an
 unattended session. So when a cycle needs a destructive or irreversible

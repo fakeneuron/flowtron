@@ -171,7 +171,7 @@ Walk the Phase 1 checklist per SPEC §"📝 Phase 1: Discovery". Tick boxes as e
 Do not enter Phase 2 until every Phase 1 box is ticked. Once ticked, apply the SPEC/gates.md §"Phase 1→2 exit gate"'s **`default-fire-on-clarifications` flavor** — the higher-checkpoint flavor, not `/ft-task`'s `default-skip`. That section's rule is authoritative for which asks fire; this skill only routes the two outcomes:
 
 - **"No clarifications needed" branch** — emit the inline marker `✅ Phase 1 Discovery complete; entering Phase 2 Execution.` and start Step 7 Phase 2 immediately. Plain prose, not a banner; not a new gate.
-- **Clarifications-surfaced branch** — surface the **🛠️ Phase 1→2 operator-gate cue** with the mandatory 1-2 sentence plain-English preview line (per SPEC/gates.md §"Operator-gate cues") and wait for the user's go (conversational assent — SPEC/gates.md §"Accepted gate replies") before starting Step 7 Phase 2.
+- **Clarifications-surfaced branch** — surface the **🛠️ Phase 1→2 operator-gate cue** with the mandatory 1-2 sentence plain-English preview line (per SPEC/gates.md §"Operator-gate cues") and wait for the user's go (conversational assent — SPEC/cue-vocabulary.md §"Accepted gate replies") before starting Step 7 Phase 2.
 
 ## Step 7 — Drive Phase 2: Execution
 

@@ -94,9 +94,9 @@ The **operator-cue vocabulary** (🛠️ 📦 🟢 👁️ 🏁 ✅ 🔧 🧩 �
 their UPPERCASE labels) is contract-layer, not Claude-specific — emit it
 **verbatim**. The glyph is the fast-scan signal; the UPPERCASE label is the
 fallback if your surface strips emoji. Full vocabulary:
-[`SPEC/gates.md` §"Operator-cue vocabulary"](../gates.md).
+[`SPEC/cue-vocabulary.md` §"Operator-cue vocabulary"](../cue-vocabulary.md).
 
-Before skipping a gate, read [`SPEC/gates.md` §"Rationalizations"](../gates.md)
+Before skipping a gate, read [`SPEC/gate-discipline.md` §"Rationalizations"](../gate-discipline.md)
 and [§"Red Flags"](../gates.md) — the excuses that precede a skipped gate and
 the observable symptoms that one already happened. They are advisory prose, not
 a checklist, and they are aimed at exactly this layer: an agent driving the
@@ -297,7 +297,7 @@ clarification that changed which file to edit, restructured the subtasks,
 added a cross-cutting concern, or changed the approach), surface the 🛠️
 banner with a mandatory 1-2 sentence plain-English preview and wait for the
 operator's go (conversational assent —
-[`SPEC/gates.md` §"Accepted gate replies"](../gates.md)). Full flavor rules
+[`SPEC/cue-vocabulary.md` §"Accepted gate replies"](../cue-vocabulary.md)). Full flavor rules
 and the autonomous-mode drift carve-out (Re-scope/De-scope always fire 🛠️
 even under autonomous mode):
 [`SPEC/gates.md` §"Phase 1→2 exit gate"](../gates.md). **Under unattended
@@ -357,7 +357,7 @@ time (Step 6).
   reason. For frontend changes, ask the operator for visual confirmation with a
   `👁️ **CONFIRM**` ask in the **emphasized inline shape** — its own line,
   blank-line isolated, label bolded
-  ([`SPEC/gates.md` §"Emphasized inline ask shape"](../gates.md)). Still inline
+  ([`SPEC/cue-vocabulary.md` §"Emphasized inline ask shape"](../cue-vocabulary.md)). Still inline
   prose, **not** a banner: the emphasis is raised within the ask, not promoted
   out of it. Under autonomous mode,
   suppress the 👁️ ask but still run lint/type-check. **Under unattended mode**
@@ -422,7 +422,7 @@ Run the three-step protocol in
    - **Fire** (privileged-ops signal trips, or a bundled prompt is queued) → surface the
      📦 banner with a mandatory preview line and a `🟢 GO` commit-go ask; wait
      for the closed set (`commit` / `go` / `yes` —
-     [`SPEC/gates.md` §"Accepted gate replies"](../gates.md)). Do **not** emit 🏁, next-move, or the copy-paste
+     [`SPEC/cue-vocabulary.md` §"Accepted gate replies"](../cue-vocabulary.md)). Do **not** emit 🏁, next-move, or the copy-paste
      line in this turn. Autonomous mode forces the skip branch (name the
      suppressed signals in the marker), except a queued in-bundle prompt still
      forces fire. Under **unattended mode** that exception has no operator to

@@ -49,7 +49,7 @@ My row: [paste current stamp from AGENT-COMPAT.md].`
 
 Emit each cue in the full operator-cue vocabulary below, one per line,
 using the canonical `<glyph> <UPPERCASE-LABEL>` form (per
-`SPEC/gates.md` §"Operator-cue vocabulary"). Confirm each renders —
+`SPEC/cue-vocabulary.md` §"Operator-cue vocabulary"). Confirm each renders —
 no tofu □, no stripped glyph, no mojibake. The UPPERCASE label is the
 authoritative cross-agent fallback; note any glyph that fails to render.
 
@@ -158,7 +158,7 @@ resolution; this procedure is the content a dogfood session runs.
 - [`docs/AGENT-COMPAT.md`](AGENT-COMPAT.md) — the compatibility
   matrix; carries the stamps this procedure refreshes and the full
   update-obligation contract (§"Reading the cells")
-- [`SPEC/gates.md`](../SPEC/gates.md) §"Operator-cue vocabulary" —
+- [`SPEC/cue-vocabulary.md`](../SPEC/cue-vocabulary.md) §"Operator-cue vocabulary" —
   the authoritative source for the Step 2 cue vocabulary
 - [`docs/PLATFORMS.md`](PLATFORMS.md) — per-agent structural notes;
   per-agent footers receive stamp updates from Step 3 for Grok/Codex/Cursor

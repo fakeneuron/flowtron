@@ -55,11 +55,11 @@ separates these two from the three above.
 **Bounds — this is not a cue and not a gate.** It bears no obligation, accepts
 no reply, and blocks nothing; the runner emits it and continues in the same
 turn. It adds no row to the operator-cue tables
-([`SPEC/gates.md`](gates.md) §"Operator-cue vocabulary"), no checklist box,
+([`SPEC/cue-vocabulary.md`](cue-vocabulary.md) §"Operator-cue vocabulary"), no checklist box,
 and no phase. The CORE-065 two-banner cap is **untouched** — 🛠️ and 📦 remain
 the only standing banners. `🎯` is not a new glyph: it is the `## 🎯 Goal`
 heading glyph reused on the conversational layer, where it names the same
-thing, recorded in [`SPEC/gates.md`](gates.md) §"Glyph layers and reuse".
+thing, recorded in [`SPEC/cue-vocabulary.md`](cue-vocabulary.md) §"Glyph layers and reuse".
 Reading this section as license for a third gate inverts its purpose — the
 blurb exists to spend *less* of the operator's attention, not more.
 

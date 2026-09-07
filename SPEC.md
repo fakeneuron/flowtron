@@ -338,25 +338,30 @@ Every tasknote follows four phases in strict serial order. Do not skip ahead.
 
 ### Operator-gate cues
 
-The 4-phase workflow surfaces **up to two** standing phase-gate banners —
-explicit-approval pauses, both conditional: 🛠️ Phase 1→2 (post-Discovery)
-and 📦 ready-to-commit. A fully mechanical task skips both and runs
-end-to-end with inline state markers. Once Phase 1 closes, Phase 2 →
-Phase 3 → Phase 4 closure ops flow continuously without intermediate
-gates; skill-level extensions (epic parent-flip, release push-go) bundle
-into 📦 rather than adding their own banners. Separate from these two phase
-gates, a destructive 🗄️/▶️/📡/💻 command cue may trigger a one-off
-destructive-action banner — a bounded safety escalation, not a third
-standing gate (see [`SPEC/gates.md`](SPEC/gates.md)
-§"Operator-cue vocabulary").
+The workflow surfaces **up to two** standing phase-gate banners: 🛠️ Phase 1→2
+(post-Discovery) and 📦 ready-to-commit. Both are conditional, so a fully
+mechanical task skips both and runs end-to-end with inline state markers.
+Once Phase 1 closes, Phase 2 → Phase 3 → Phase 4 closure ops flow
+continuously without intermediate gates, and skill-level extensions (epic
+parent-flip, release push-go) bundle into 📦 rather than adding their own
+banners.
 
-Canonical gate contract — banner format, the trigger table, the Phase
-1→2 exit-gate flavors, the conditional skip rule, the `--fast`
-operator override, the `--unattended` posture that supersets it (gates an
-operator-less run cannot answer park via `status: blocked` instead of
-firing a banner), the full operator-cue vocabulary, and the
-§"Rationalizations" / §"Red Flags" pair naming the excuses and symptoms
-that precede a skipped gate: see [`SPEC/gates.md`](SPEC/gates.md).
+That is the whole of the gate surface this core spec states. Everything that
+governs it is lazy, in three modules, so a run loads only what its decision
+needs:
+
+- [`SPEC/gates.md`](SPEC/gates.md) — the machinery. Banner format and trigger
+  table, the two-banner cap and its one bounded exception (a destructive
+  🗄️/▶️/📡/💻 command escalating in-execution), the Phase 1→2 exit-gate flavors,
+  the conditional skip rule, and the single flag×surface matrix and precedence
+  ladder settling every `--fast` / `--unattended` / 👁️ interaction — including
+  the `--unattended` posture, under which a gate an operator-less run cannot
+  answer parks via `status: blocked` rather than firing a banner.
+- [`SPEC/cue-vocabulary.md`](SPEC/cue-vocabulary.md) — the reference. Every
+  operator cue's glyph, UPPERCASE label, and emission shape.
+- [`SPEC/gate-discipline.md`](SPEC/gate-discipline.md) — the discipline. The
+  excuses and symptoms that precede a skipped gate, and the carve-outs raised
+  and refused.
 
 ### 🎯 Purpose blurb
 
@@ -489,20 +494,13 @@ line, blank-line isolated, with the label bolded:
 👁️ **CONFIRM** — does the new outline render correctly at http://localhost:5120?
 ```
 
-👁️ is the only cue that gates task completion, so it carries more emphasis
-than a bare prefix. Emphasis is raised *within* the inline shape — **no banner
-block, no operator-gate**; the standing phase-gate count is unaffected. Full
-contract, including why the fix is structural rather than chromatic:
-[`SPEC/gates.md` §"Emphasized inline ask shape"](SPEC/gates.md).
-
-When `/ft-task` is invoked with `--fast`, the 👁️ ask is suppressed
-(lint/type-check on changed code still runs). See
-[`SPEC/gates.md` §"`--fast` operator override"](SPEC/gates.md) for the
-flag's full surface. Under `--unattended` the ask is **not** suppressed —
-suppression hands the visual check to a present operator, and the posture
-declares there is none, so the ask converts to a park
-(`park-reason: visual-confirm — …`; see
-[`SPEC/gates.md` §"`--unattended` operator posture"](SPEC/gates.md)).
+👁️ is the only cue that gates task completion, which is why it carries more
+emphasis than a bare prefix — raised *within* the inline shape, so it is **not
+a banner** and the standing phase-gate count is unaffected. Full contract:
+[`SPEC/cue-vocabulary.md` §"Emphasized inline ask shape"](SPEC/cue-vocabulary.md).
+What `--fast` and `--unattended` do to this ask — suppress it, and convert it
+to a `visual-confirm` park, respectively — is one row of
+[`SPEC/gates.md` §"Flag precedence and surface matrix"](SPEC/gates.md).
 
 ### 🚀 Phase 4: Closure
 
@@ -517,10 +515,8 @@ gate. The
 line, archive move) and is what makes the YAML
 canonical claim in §"Tasknote body shape" true — it happens while the tasknote
 is still active, so it is a pre-archive closure write, **not** a retroactive
-edit of an archived record (see §"Tasknote frontmatter"). A standalone task moves to the top of
-`## Completed`; an epic child is checked and stubbed in place, preserving its
-2-space nesting beneath the active parent until `/ft-close-epic` atomically
-moves the parent and complete cohort. The recap drafts alongside — a two-pass
+edit of an archived record (see §"Tasknote frontmatter"). Where the flipped
+line lands is the checklist item's own citation above. The recap drafts alongside — a two-pass
 summary leading with 1-2 plain-English sentences of *what the task
 accomplished*, then evidence from the work: changed files and LOC where
 meaningful, verification commands and results, refactors made or consciously
@@ -619,7 +615,7 @@ After a tasknote is archived, run the three-step protocol (commit / mark landed 
    - **Recap (work summary)** — 1-2 sentence plain-English lede, then technical detail (file paths / LOC / key decisions + optional verification ask) per §"🚀 Phase 4: Closure".
    - **Proposed commit message** — `feat: <TASK-ID> — <title>` (or `fix:` / `docs:` / `chore:`). Multiple recently-closed tasknotes may bundle into one commit.
 
-   The commit-go prompt carries a `🟢` prefix (e.g., `🟢 Reply commit / go to land.`). Accepted replies are the closed set in [`SPEC/gates.md` §"Accepted gate replies"](SPEC/gates.md) (`commit` / `go` / `yes`); `okay` / `looks good` are not members. Skill-level extensions (e.g., parent-flip Yes/No) ride inside this bundle per the override above; the commit-go is the single approval authorizing recap + closure + bundled prompts + commit.
+   The commit-go prompt carries a `🟢` prefix (e.g., `🟢 Reply commit / go to land.`). Accepted replies are the closed set in [`SPEC/cue-vocabulary.md` §"Accepted gate replies"](SPEC/cue-vocabulary.md) (`commit` / `go` / `yes`); `okay` / `looks good` are not members. Skill-level extensions (e.g., parent-flip Yes/No) ride inside this bundle per the override above; the commit-go is the single approval authorizing recap + closure + bundled prompts + commit.
 
    **ft-micro-task carve-out.** `/ft-micro-task` carries no 📦 banner block on the fire branch — its commit-go is the emphasized 🟢 GO ask (own line, blank-line isolated, bold label) in place of the banner. The 📦 cue does not apply; the 🟢 prefix does. The same conditional skip rule governs both forms. See `/ft-micro-task` SKILL.md Step 5.
 

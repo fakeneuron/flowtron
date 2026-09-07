@@ -157,7 +157,7 @@ this section); they do not multiply the vocabulary.
 The ⚠️ note is an inline advisory only — not an operator-gate banner and not an
 approval pause; the standing phase-gate count is unaffected. ⚠️ is not an
 operator cue at all: it sits in the **non-cue residual** class
-([`SPEC/gates.md` §"Glyph layers and reuse"](gates.md)), so nothing in the cue
+([`SPEC/cue-vocabulary.md` §"Glyph layers and reuse"](cue-vocabulary.md)), so nothing in the cue
 vocabulary's emission contract governs it. In particular it is *not* the
 emphasized shape 👁️ `CONFIRM` carries — 👁️ is an obligation-bearing ask that
 gates task completion, while ⚠️ requires no operator response and stays a plain

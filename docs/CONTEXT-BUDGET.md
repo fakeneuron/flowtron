@@ -40,7 +40,7 @@ Checked at every release cut by `/ft-release` §7.1 (see "How this is enforced")
 | Surface | Budget (chars) | Why this number |
 |---|---|---|
 | `SPEC.md` | 50,000 | The always-loaded contract, read in full by every lifecycle skill. Set by [[CORE-535.1]] as the reachable target for the [[CORE-535.3]] lazy split — gentler than the 40,000 the same Discovery considered, trading a smaller cut for lower restructuring risk. |
-| `SPEC/gates.md` | 35,000 | Lazy in principle, per-task in practice: the first conditional gate loads it, and almost every task hits one. Set by [[CORE-535.1]]; [[CORE-535.5]] brings it under. |
+| `SPEC/gates.md` | 35,000 | Lazy in principle, per-task in practice: the first conditional gate loads it, and almost every task hits one. Set by [[CORE-535.1]]; brought under by [[CORE-535.5]], which split the cue vocabulary and the discipline prose into their own modules. |
 | `claude/skills/*/SKILL.md` | 30,000 | One skill body is loaded per task, on top of `SPEC.md`. At 30,000 every shipped skill except `ft-release` below passes today, so the cap bites on regrowth rather than demanding an unscoped rewrite. |
 | `claude/skills/ft-release/SKILL.md` | 40,000 | More specific row wins. A release cut is a whole-repo motion whose skill is loaded alone, never alongside a tasknote, and this body is already post-trim ([[CORE-507]] cut it from ~77,000 to 37,274). Budgeted rather than exempted so it still ratchets. |
 
@@ -60,14 +60,14 @@ at the release gate; a surface over budget **without** one blocks the cut. Each
 owning task deletes its own row at closure, so the exemption expires on its own
 and needs no later flip.
 
-| Surface | Measured | Budget | Owner |
-|---|---|---|---|
-| `SPEC/gates.md` | 51,809 | 35,000 | [[CORE-535.5]] — flag×surface matrix, one precedence ladder, `SPEC/gate-discipline.md` extraction |
+*Empty.* [[CORE-535.5]] deleted the last row (`SPEC/gates.md`, 51,809 → 31,771)
+at its own closure, as the rule above intends. Every budgeted surface is under
+its cap.
 
 ## Ledger
 
-Measured 2026-09-06 at v5.24.0; the three lifecycle-skill rows re-measured
-2026-09-07 by [[CORE-535.4]], the task that changed them. Refreshed by
+Measured 2026-09-07 at v5.24.0 by [[CORE-535.5]], the task that last changed
+the `SPEC/` surfaces. Refreshed by
 `/ft-release` §7.1 in the same cut that reads it — if these numbers are stale,
 the cut that made them stale skipped its own standing check.
 
@@ -75,21 +75,22 @@ the cut that made them stale skipped its own standing check.
 
 | Surface | Chars |
 |---|---|
-| `SPEC.md` | 49,005 |
-| `claude/skills/ft-task/SKILL.md` | 27,570 |
-| `AGENTS.md` (`CLAUDE.md` is a symlink to it) | 6,783 |
+| `SPEC.md` | 48,771 |
+| `claude/skills/ft-task/SKILL.md` | 27,588 |
+| `AGENTS.md` (`CLAUDE.md` is a symlink to it) | 6,840 |
 | `.flowtron/tasknote/README.md` | 6,559 |
 | `templates/tasknote-template.md` | 4,935 |
-| `.flowtron/PLAN.md` | 3,271 |
+| `.flowtron/PLAN.md` | 2,611 |
 
 ### Lazy `SPEC/` modules
 
-`gates.md` 51,809 · `procedures/ft-task.md` 29,608 ·
-`tasknote-selection.md` 24,480 · `model.md` 18,681 ·
-`plan-parser.md` 8,310 · `blocked.md` 8,034 · `loop.md` 7,953 ·
-`layout.md` 6,526 · `procedures/README.md` 6,128 ·
+`gates.md` 31,771 · `procedures/ft-task.md` 29,700 ·
+`tasknote-selection.md` 24,480 · `model.md` 18,699 ·
+`cue-vocabulary.md` 14,819 · `gate-discipline.md` 13,096 ·
+`plan-parser.md` 8,310 · `blocked.md` 8,034 · `loop.md` 7,971 ·
+`layout.md` 6,567 · `procedures/README.md` 6,128 ·
 `epic.md` 6,080 · `scope-boundaries.md` 5,116 ·
-`tasknote-inserts.md` 4,626 · `purpose-blurb.md` 4,013 ·
+`tasknote-inserts.md` 4,626 · `purpose-blurb.md` 4,049 ·
 `superseded-claims.md` 2,980 · `starter.md` 2,408 ·
 `versioning.md` 1,074.
 
@@ -97,11 +98,15 @@ the cut that made them stale skipped its own standing check.
 in practice; the rest genuinely load only on their task shape. [[CORE-535.3]]
 added six of the modules above by moving narrow-use sections out of `SPEC.md`
 — which is why the `SPEC/` total grew while the always-loaded set shrank.
+[[CORE-535.5]] added two more the same way, out of `gates.md`: neither
+`cue-vocabulary.md` (reference — loaded when composing or interpreting a cue)
+nor `gate-discipline.md` (loaded when about to skip a gate) is consulted by an
+ordinary run, which is why neither earns a budget row.
 
 ### Skill bodies (`SKILL.md` only)
 
-ft-release 37,369 · ft-task 27,570 · ft-close-epic 26,926 · ft-epic-discovery
-26,347 · ft-goal-task 26,158 · ft-audit 21,707 · ft-micro-task 18,533 ·
+ft-release 37,369 · ft-task 27,588 · ft-close-epic 26,935 · ft-epic-discovery
+26,356 · ft-goal-task 26,176 · ft-audit 21,707 · ft-micro-task 18,533 ·
 ft-update 16,095 · ft-file-followup 16,031 · ft-refactor 13,673 ·
 ft-starter-task 13,253 · ft-worktree-end 12,598 · ft-worktree-start 12,008 ·
 ft-new-project 11,425 · ft-audit-context 10,209 · ft-flowtron 9,134 · ft-stats
