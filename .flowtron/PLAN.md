@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-535.1** [heavy] | context-load-diet discovery — Completed 2026-09-06.
   - [x] **CORE-535.2** [medium] | context-load-ledger — Completed 2026-09-06.
   - [x] **CORE-535.3** [heavy] | spec-core-lazy-split — Completed 2026-09-06.
-  - [ ] **CORE-535.4** [heavy] | skills-cite-dont-restate — Collapse the eight restated spans in ft-task, ft-micro-task, and ft-epic-discovery (copy-paste helper, model gate, next-move block, Phase 4 mega-bullet, downstream scan, exit-gate cases, skip-rule overrides, purpose-blurb bounds) to one-line citations of their canonical SPEC homes, keeping every skill-specific imperative; ~20k chars removed.
+  - [x] **CORE-535.4** [heavy] | skills-cite-dont-restate — Completed 2026-09-07.
   - [ ] **CORE-535.5** [heavy] | gate-logic-untangle — In SPEC/gates.md: one flag×surface matrix for `--fast` / `--unattended` / 👁️, one precedence ladder (bundled prompt > unattended park > `--fast` skip > signal), two-banner cap stated once; move §Rationalizations + §Red Flags to lazy `SPEC/gate-discipline.md`; resolve the five SPEC↔gates↔selection double-homes; gates.md ≤35k.
   - [ ] **CORE-535.N** [heavy] | context-load-diet audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
 

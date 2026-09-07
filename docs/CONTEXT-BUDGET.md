@@ -41,7 +41,7 @@ Checked at every release cut by `/ft-release` §7.1 (see "How this is enforced")
 |---|---|---|
 | `SPEC.md` | 50,000 | The always-loaded contract, read in full by every lifecycle skill. Set by [[CORE-535.1]] as the reachable target for the [[CORE-535.3]] lazy split — gentler than the 40,000 the same Discovery considered, trading a smaller cut for lower restructuring risk. |
 | `SPEC/gates.md` | 35,000 | Lazy in principle, per-task in practice: the first conditional gate loads it, and almost every task hits one. Set by [[CORE-535.1]]; [[CORE-535.5]] brings it under. |
-| `claude/skills/*/SKILL.md` | 30,000 | One skill body is loaded per task, on top of `SPEC.md`. At 30,000 every shipped skill except the two below passes today, so the cap bites on regrowth rather than demanding an unscoped rewrite. |
+| `claude/skills/*/SKILL.md` | 30,000 | One skill body is loaded per task, on top of `SPEC.md`. At 30,000 every shipped skill except `ft-release` below passes today, so the cap bites on regrowth rather than demanding an unscoped rewrite. |
 | `claude/skills/ft-release/SKILL.md` | 40,000 | More specific row wins. A release cut is a whole-repo motion whose skill is loaded alone, never alongside a tasknote, and this body is already post-trim ([[CORE-507]] cut it from ~77,000 to 37,274). Budgeted rather than exempted so it still ratchets. |
 
 **Precedence:** the most specific matching row wins. `ft-release`'s own row
@@ -63,20 +63,20 @@ and needs no later flip.
 | Surface | Measured | Budget | Owner |
 |---|---|---|---|
 | `SPEC/gates.md` | 51,809 | 35,000 | [[CORE-535.5]] — flag×surface matrix, one precedence ladder, `SPEC/gate-discipline.md` extraction |
-| `claude/skills/ft-task/SKILL.md` | 33,940 | 30,000 | [[CORE-535.4]] — collapse restated contracts to citations |
 
 ## Ledger
 
-Measured 2026-09-06 at v5.24.0. Refreshed by `/ft-release` §7.1 in the same cut
-that reads it — if these numbers are stale, the cut that made them stale skipped
-its own standing check.
+Measured 2026-09-06 at v5.24.0; the three lifecycle-skill rows re-measured
+2026-09-07 by [[CORE-535.4]], the task that changed them. Refreshed by
+`/ft-release` §7.1 in the same cut that reads it — if these numbers are stale,
+the cut that made them stale skipped its own standing check.
 
 ### Always loaded to run one task
 
 | Surface | Chars |
 |---|---|
 | `SPEC.md` | 49,005 |
-| `claude/skills/ft-task/SKILL.md` | 33,940 |
+| `claude/skills/ft-task/SKILL.md` | 27,570 |
 | `AGENTS.md` (`CLAUDE.md` is a symlink to it) | 6,783 |
 | `.flowtron/tasknote/README.md` | 6,559 |
 | `templates/tasknote-template.md` | 4,935 |
@@ -100,8 +100,8 @@ added six of the modules above by moving narrow-use sections out of `SPEC.md`
 
 ### Skill bodies (`SKILL.md` only)
 
-ft-release 37,369 · ft-task 33,940 · ft-epic-discovery 28,186 · ft-close-epic
-26,926 · ft-goal-task 26,158 · ft-audit 21,707 · ft-micro-task 21,265 ·
+ft-release 37,369 · ft-task 27,570 · ft-close-epic 26,926 · ft-epic-discovery
+26,347 · ft-goal-task 26,158 · ft-audit 21,707 · ft-micro-task 18,533 ·
 ft-update 16,095 · ft-file-followup 16,031 · ft-refactor 13,673 ·
 ft-starter-task 13,253 · ft-worktree-end 12,598 · ft-worktree-start 12,008 ·
 ft-new-project 11,425 · ft-audit-context 10,209 · ft-flowtron 9,134 · ft-stats
@@ -109,7 +109,7 @@ ft-new-project 11,425 · ft-audit-context 10,209 · ft-flowtron 9,134 · ft-stat
 
 Lazy fragments are not counted against a skill's row — they arrive later, and
 only on the branch that needs them. Whole-directory totals for the two largest:
-`ft-release` 83,421, `ft-task` 60,971. Splitting a body into fragments defers
+`ft-release` 83,421, `ft-task` 54,601. Splitting a body into fragments defers
 load; it does not remove it ([[CORE-507]] §2.5), so a skill that fragments its
 way under the cap without shedding content has gamed the number rather than met
 it.

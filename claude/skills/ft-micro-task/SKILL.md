@@ -58,14 +58,14 @@ Otherwise, capture from the line:
 
 The full task-line grammar is `- [ ] **TASK-ID** [!critical] [model] | shortname — long description`. See SPEC §"Task-line format" for the canonical grammar.
 
-**Emit the 🎯 purpose blurb now** — per `SPEC/purpose-blurb.md`, before the model gate, before the pre-flight checks below, and before any scaffold write, since each of those can end the run:
+**Emit the 🎯 purpose blurb now** — before the model gate, the pre-flight checks below, and any scaffold write, each of which can end the run:
 
 ```text
 🎯 <TASK-ID> — <shortname>
 <1-2 sentences of plain-English purpose.>
 ```
 
-Two lines: the ID and the `| shortname`, then 1-2 sentences of purpose drawn from the PLAN.md long description just captured — the only source read yet. This skill has a single scaffold path (no promote / resume branch), so the blurb fires here and nowhere else. Emit it and keep going in the same turn — it is **not a cue and not a gate**: no reply expected, nothing blocks, and neither `--fast` nor `--unattended` suppresses it. It matters most in a one-shot run, where the blurb and the ✅ Recap are the only two plain-English reads the operator gets. Bounds are canonical in SPEC.
+Two lines: the ID and the `| shortname`, then 1-2 sentences of purpose drawn from the PLAN.md long description just captured — the only source read yet. This skill has a single scaffold path (no promote / resume branch), so the blurb fires here and nowhere else, and it matters most in a one-shot run: the blurb and the ✅ Recap are the only two plain-English reads the operator gets. Emit it and keep going in the same turn. Bounds — not a cue, not a gate, suppressed by neither flag: `SPEC/purpose-blurb.md`.
 
 **Filing-discipline check (advisory).** Word-count the captured long description. If it exceeds the 70-word hard cap from SPEC/tasknote-selection.md §"PLAN.md filing-discipline thresholds", surface a one-line warning to the user — informational only; proceed.
 
@@ -79,12 +79,12 @@ Two lines: the ID and the `| shortname`, then 1-2 sentences of purpose drawn fro
 
 ## Step 1.5 — Model gate (BEFORE scaffolding)
 
-Gate on the `[model]` segment captured in Step 1 before any source reads — heavy thinking shouldn't run on the wrong model. The active model is whatever the assistant is currently running as (ask the user if uncertain). A **concrete** tag (`opus`/`sonnet`/`grok`/…) is matched by exact identity; a **category** tag (`[xheavy]`/`[heavy]`/`[medium]`/`[light]`) is matched by *tier*, not string — see `<SPEC_DIR>/model.md` §"Category-vs-concrete matching" for the tier ladder + rule.
+Gate on the `[model]` segment captured in Step 1 before any source reads — heavy thinking shouldn't run on the wrong model. The active model is whatever the assistant is currently running as (ask the user if uncertain). Which tags match which active models — concrete by exact identity, category by tier, and `[xheavy]` always under-tier — is canonical in `<SPEC_DIR>/model.md` §"Category-vs-concrete matching". Branch on the verdict:
 
-- **Satisfied** — concrete tag equals the active model, OR a category tag whose tier the active model meets or exceeds (e.g. `[light]` on sonnet, `[heavy]` on opus) → proceed silently to Step 2.
-- **Category under-tier** — a category tag tagged heavier than the active model's tier (e.g. `[heavy]` on a lower-tier model such as grok (medium) or haiku (light)) → Read `<SPEC_DIR>/model.md` + `<MODEL_EDGE>` in parallel, then follow the "Category under-tier" branch (⚠️ inline note, then proceed — not a STOP, not an auto-retag). An `[xheavy]` tag (manual-only exploratory rung) **always** takes this branch — no roster model bands at `xheavy` by default, so the ⚠️ note is expected, not an error.
-- **Concrete mismatch** — a concrete tag differs from the active model → STOP. Read `<SPEC_DIR>/model.md` + `<MODEL_EDGE>` in parallel, then follow the "Mismatch" branch. **When `unattended-mode = true`**, take `<UNATTENDED>` §"Pre-scaffold stops" instead — scaffold with `status: blocked` + `park-reason: model-mismatch — …` and halt, rather than offering the two-path ask.
-- **Absent (legacy line)** → Read `<SPEC_DIR>/model.md` + `<MODEL_EDGE>` in parallel, then follow the "Legacy entry" branch.
+- **Satisfied** → proceed silently to Step 2.
+- **Category under-tier** → Read `<SPEC_DIR>/model.md` + `<MODEL_EDGE>` in parallel, then follow that fragment's "Category under-tier" branch (⚠️ inline note, then proceed — not a STOP, not an auto-retag).
+- **Concrete mismatch** → STOP. Read the same two in parallel, then follow the "Mismatch" branch. **When `unattended-mode = true`**, take `<UNATTENDED>` §"Pre-scaffold stops" instead — scaffold with `status: blocked` + `park-reason: model-mismatch — …` and halt, rather than offering the two-path ask.
+- **Absent (legacy line)** → Read the same two in parallel, then follow the "Legacy entry" branch.
 
 ## Step 2 — Scaffold the micro-tasknote
 
@@ -126,8 +126,8 @@ Closure flips three things — YAML `status:`, the PLAN.md line, and the tasknot
 
 Run the protocol per SPEC §"Post-closure protocol" + §"Paper-complete guard", branching on SPEC/gates.md §"Conditional skip rule". `/ft-micro-task` carries no 📦 banner — its commit-go is the emphasized 🟢 GO ask, not a banner block — but the same rule applies. Stage deliverables + PLAN + archive together; 🏁 only after a real deliverable-covering SHA (`git show --name-only`); never invent a SHA. Paper-complete guard is **not** suppressed by `--fast`.
 
-- **Skip branch** (signals clear) — emit `✅ Closure complete; committing autonomously (<concrete-signal-summary>).` (e.g., `single-file doc patch; no privileged-ops surface`), then run recap + commit + deliverable-covering check + 🏁 state-marker + suggest-next-move + copy-paste line in one response. Micro-tasknotes hit this branch often by design — their threshold aligns with the rule's clean-diff target.
-- **Fire branch** (privileged-ops signal hits) — surface the emphasized 🟢 GO ask and **wait** (closed commit-go set — SPEC/gates.md §"Accepted gate replies"). Do **not** emit 🏁, next-move, or the copy-paste line in this turn:
+- **Skip branch** (signals clear) — run that section's **autonomous-commit motion** end to end, naming the cleared signal in its marker (e.g., `single-file doc patch; no privileged-ops surface`). Micro-tasknotes hit this branch often by design — their threshold aligns with the rule's clean-diff target.
+- **Fire branch** (privileged-ops signal hits) — its **bundled-approval motion**, with the emphasized 🟢 GO ask in place of the 📦 banner. Surface it and wait:
 
   ```markdown
   🟢 **GO** — Ready to commit? Reply `commit` / `go` / `yes`.
@@ -135,14 +135,12 @@ Run the protocol per SPEC §"Post-closure protocol" + §"Paper-complete guard", 
 
   After commit + deliverable-covering check, same continuous flow as the skip branch's post-commit tail.
 
-**`--fast` override.** When `fast-mode = true` (from Step 0), force the Skip branch regardless of signal trips. Name the suppressed signals in the marker for transparency (e.g., `✅ Closure complete; committing autonomously (privileged-ops path touched; suppressed via --fast).`).
-
-**`--unattended` override.** `unattended-mode = true` implies `fast-mode = true`, so the Skip branch applies unchanged — except for a queued **bundled in-📦 prompt**, a question neither autonomous commit nor a banner can answer with no operator present: park with `park-reason: input-needed — …` per `<UNATTENDED>` §"Conversion map" instead of committing. The paper-complete guard is not suppressed by either flag.
+**`--fast` / `--unattended` overrides.** Both are canonical in SPEC/gates.md §"Conditional skip rule": `--fast` forces Skip regardless of signal trips (naming the suppressed signals in the marker), and `--unattended` inherits that but parks with `park-reason: input-needed — …` per `<UNATTENDED>` §"Conversion map" when a bundled in-📦 prompt is queued. The paper-complete guard is not suppressed by either flag.
 
 Skill-specific:
 - **Commit message:** `feat: <TASK-ID> — <title>` (or `fix:` / `docs:` / `chore:`). Scaffold + closure typically bundle into one commit alongside the code/doc change.
-- **Re-read PLAN.md now** (fresh Read tool call — do not rely on the Step 1 cached parse; stale-context next-task suggestions are a known hallucination source). For each candidate, verify its task line is `- [ ]` (unchecked) and lives in an open section (`## High`, `## Medium`, `## Low`, or `## Future Opportunities`), not under `## Completed`. Drop any candidate that fails this check. **If none survives — PLAN.md holds no open task — do NOT invent one from `## Completed` or a doc example; follow SPEC §"Post-closure protocol" step 2's PLAN exhausted (terminal) form: state PLAN.md is exhausted, offer in-session filing (`/ft-epic-discovery` / `/ft-file-followup`), and skip the copy-paste line below.** Otherwise, name the recommended model from the verified line's `[model]` field.
-- Copy-paste helper: emit a short visual cue that uses the same emoji primary label just printed for the chosen next-task candidate line (🔧 for [light] or light-appropriate tokens; 🧩 for [medium] or medium-appropriate tokens; 🧠 for [heavy] or heavy tokens; 🔭 for [xheavy]). Put the invocation on its **own line as inline-code with no trailing period** — a trailing `.` collides with the `.N` epic-subtask grammar (`FE-132.3.`) and breaks copy/paste. Shape: a label line `<glyph> Clear your session, then run:` followed by `` `/<next-skill> <ID>` `` alone on the next line — where `<glyph>` is the exact 🔧/🧩/🧠/🔭 just printed on the chosen candidate line; never default to 🔧. Never emit a literal `/clear then /model ...` instruction in the user-facing suggestion. When *printing the list to the user*, emit only the emoji primary label (`[heavy]🧠` / `[medium]🧩` / `[light]🔧` / (rare — manual-only filings) `[xheavy]🔭`) + "design / moderate / mechanical / exploratory" prose + shortname — drop the bare bracketed token from the visible suggestion output. **Exception — context-dependent skills:** when the next-skill is `/ft-file-followup` (in either mode) or `/ft-epic-discovery`, replace the label line with `👇 Run in this session:` — 👇 replaces the model glyph and signals run-here-don't-clear (the model signal stays on the candidate line); these skills draw from current-conversation context; clearing destroys what they need.
+- **Suggest next move:** run SPEC §"Post-closure protocol" step 2 as written — the **fresh PLAN.md re-read** (never the Step 1 cached parse), the unchecked-and-open-section verification that drops failing candidates, the **PLAN exhausted (terminal)** form when none survives, the emoji-primary-label print, and the 🔍 prefix on `/ft-audit*` candidates. On the terminal form, skip the copy-paste line below.
+- **Copy-paste helper:** run SPEC §"Post-closure protocol" step 3 as written — the glyph copied from the chosen candidate line, the own-line inline-code invocation with no trailing punctuation, and the 👇 `Run in this session:` exception for context-dependent skills. Here the invocation line is `` `/<next-skill> <ID>` ``.
 
 ## Notes
 
