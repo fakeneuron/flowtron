@@ -128,7 +128,7 @@ CORE-254.4 — this contract fixes the canonical label.
 
 | Cue | Glyph | Label | Shape | Notes |
 |---|---|---|---|---|
-| Commit-go | 🟢 | `GO` | inline ask prefix (**emphasized** when standalone) | The single commit-go approval. Emission example: `Reply commit / go to land.` Accepted replies: closed set in §"Accepted gate replies" (`commit` / `go` / `yes`). Normally bundled inside the 📦 banner, inheriting its salience; when emitted standalone it takes the emphasized shape below |
+| Commit-go | 🟢 | `GO` | inline ask prefix (**emphasized** when standalone) | The single commit-go approval. Emission example: `Reply commit / go to land.` Accepted replies: closed set in §"Accepted gate replies" (`commit` / `go` / `yes` and the other explicit commit verbs named there). Normally bundled inside the 📦 banner, inheriting its salience; when emitted standalone it takes the emphasized shape below |
 | Visual-confirm | 👁️ | `CONFIRM` | **emphasized** inline ask | Visual-confirmation ask; see "Emphasized inline ask shape" below. **Covers "visit / open a URL to confirm"** (e.g. `👁️ **CONFIRM** — does the new outline look right at http://localhost:5120?`) — there is no separate visit-URL cue. Accepted replies: conversational assent in §"Accepted gate replies" |
 | Audit-family flag | 🔍 | `AUDIT` | inline next-move flag | Prefixes `/ft-audit*` next-move + copy-paste lines |
 
@@ -183,13 +183,16 @@ Two layers. `SPEC/gates.md` is the cite-once owner; skills point here rather
 than forking a third token list.
 
 **Closed commit-go set** — 📦 ready-to-commit and standalone 🟢 `GO`.
-Accepted replies are `commit`, `go`, and `yes` (case-insensitive;
-surrounding punctuation ignored). This is the named set. `okay` and
-`looks good` are **not** members: `okay` is too weak to authorize a
-commit, and `looks good` is already the natural 👁️ `CONFIRM` reply —
-promoting it would let a visual confirmation bind as commit
+Accepted replies are `commit`, `commit it`, `go`, `yes`, `y`, `yep`,
+`yeah`, `ship`, `ship it`, `land`, `land it`, `approved`, and `do it`
+(case-insensitive; surrounding punctuation ignored). This is the named set —
+widened by CORE-536 from `commit` / `go` / `yes` to the explicit commit verbs
+an operator actually types, and still closed. `ok` / `okay` and
+`looks good` / `lgtm` are **not** members: `okay` is too weak to authorize a
+commit, and `looks good` / `lgtm` are already the natural 👁️ `CONFIRM`
+replies — promoting them would let a visual confirmation bind as commit
 authorization. The emission example stays `Reply commit / go to land.`;
-`yes` is accepted even when the prompt does not print it.
+every other member is accepted even when the prompt does not print it.
 
 **Conversational assent** — 🛠️ Phase 1→2 and 👁️ `CONFIRM`. Any clear
 proceed reply counts, including `go`, `okay`, `looks good`, `yep`, and
@@ -198,7 +201,7 @@ land a commit. Do **not** wait for a token from the closed commit-go
 set; that under-accept is the failure this clause exists to stop. The
 examples are not a closed list.
 
-`go` sits in both layers on purpose. The split is per-cue (see
+`go` and `yep` sit in both layers on purpose. The split is per-cue (see
 Rationalizations: approval is per-cue, not ambient), not per-word.
 
 **Destructive-action banners are out.** They remain a safety control

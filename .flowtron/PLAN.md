@@ -15,7 +15,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-536** [heavy] | gate-relaxation-pass — Relax gate behavior for easier passthrough under liberal conditions. Four candidates surfaced by [[CORE-535.5]]: path+content 📦 privileged-ops signal (so doc-only edits under `**/auth/**` stop firing); `--fast` treating Re-scope as an inline notice while De-scope still fires 🛠️; a wider closed commit-go set; `/ft-task` reading the `[unattended]` task-line marker. Behavior change — out of [[CORE-EPIC-535]]'s scope.
 
 ## Low
 
@@ -26,6 +25,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-536** [heavy] | gate-relaxation-pass — Completed 2026-09-07.
 - [x] **CORE-EPIC-535** [heavy] | context-load-diet — Completed 2026-09-07.
   - [x] **CORE-535.1** [heavy] | context-load-diet discovery — Completed 2026-09-06.
   - [x] **CORE-535.2** [medium] | context-load-ledger — Completed 2026-09-06.

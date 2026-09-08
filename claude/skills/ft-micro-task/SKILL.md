@@ -49,6 +49,8 @@ Read PLAN.md. Find the line containing `**<TASK-ID>**`. If the ID isn't in PLAN.
 
 **Status gate (non-negotiable).** Re-read the PLAN.md line. If it is checked (`- [x]`) or lives under `## Completed`, stop. The task is already closed. Surface the conflict and ask whether the user meant a different ID. Do this check by re-reading the PLAN.md line — never infer status from prior conversation context.
 
+**`[unattended]` row marker.** If the line carries `[unattended]` (after `[model]`) and no `--fast` / `--unattended` flag was passed, set `fast-mode = true` and emit `⚡ --fast implied by the [unattended] row marker — 📦 signal trips suppressed at Step 5; the --unattended posture is not implied.` The marker never sets `unattended-mode`. Contract: SPEC/gates.md §"`--fast` operator override" → "Implied by the `[unattended]` row marker".
+
 Otherwise, capture from the line:
 
 - The optional `[model]` segment (`[heavy]` / `[light]` primary recommended; specific names e.g. `opus` / `sonnet` / `grok` remain valid per SPEC §"Model field") — see Step 1.5

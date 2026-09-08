@@ -98,7 +98,7 @@ Alphabetized. ~71 entries. Maintained via epic children and audits.
 
 **Pattern survey** — The mandatory first sub-step of Phase 2 Execution: examine sibling modules / parallel components / adjacent docs for an existing shape to extend before inventing a new one. See SPEC §"🛠️ Phase 2: Execution".
 
-**Phase 1→2 (🛠️)** — The operator-gate cue emitted after Phase 1 Discovery when a significant scope deviation (Re-scope/De-scope always; certain clarifications) was surfaced. `/ft-task` uses the `default-skip` flavor. See SPEC §"Operator-gate cues".
+**Phase 1→2 (🛠️)** — The operator-gate cue emitted after Phase 1 Discovery when a significant scope deviation (Re-scope/De-scope always by default — under `--fast` a Re-scope downgrades to an inline ⚠️ notice; certain clarifications) was surfaced. `/ft-task` uses the `default-skip` flavor. See SPEC §"Operator-gate cues".
 
 **Phase 3: Testing & Linting** — Targeted tests + lint/type-check on changed files; frontend changes add an 👁️ visual-confirmation prose ask in the **emphasized inline shape** — its own line, blank-line isolated, bold `**CONFIRM**` label — never a banner. See SPEC §"🧪 Phase 3: Testing & Linting" and SPEC/cue-vocabulary.md §"Emphasized inline ask shape".
 
@@ -108,7 +108,7 @@ Alphabetized. ~71 entries. Maintained via epic children and audits.
 
 **priority level** — The PLAN.md heading under which a task row lives (`## High`, `## Medium`, etc.). The `[!critical]` flag can float a row inside High. See SPEC §"Priority levels".
 
-**privileged-ops** — The Conditional skip signal: any changed path under migrations/, auth/, security/secrets/, credentials/, or external integrations/, plus any diff containing uppercase credential keywords (`API_KEY`, `SECRET`, `TOKEN`, `PASSWORD`). See SPEC/gates.md §"Conditional skip rule".
+**privileged-ops** — The Conditional skip signal: any changed non-documentation file (`.md` / `.mdx` / `.txt` / `.rst` / `.adoc` are exempt from the path half) under migrations/, auth/, security/secrets/, credentials/, or external integrations/, plus any diff — documentation included — containing uppercase credential keywords (`API_KEY`, `SECRET`, `TOKEN`, `PASSWORD`). See SPEC/gates.md §"Conditional skip rule".
 
 **probe** — A bounded, read-only sub-agent that answers one stated question for the session holding the tasknote. It owns no tasknote, never runs Phase 1, never trips a gate, and never closes or archives anything — it reads, searches, returns a distilled summary, and ends, so the parent's Discovery Notes get the findings instead of fifty tool calls. Judgment prompt, not a gate: skipping is always correct for a narrow read set. Brief + fixed return shape at `templates/subagent-probe-template.md`; contrast delegate. See SPEC §"📝 Phase 1: Discovery" and README.md §"Sessions, loops, and sub-agents".
 

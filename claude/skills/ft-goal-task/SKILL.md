@@ -42,7 +42,7 @@ Paths this skill uses:
 **Parse `args`.** Split on whitespace into `(TASK-ID, rest...)`. Branch on the flag set in `rest`:
 
 - **No flags** → `fast-mode = false`, `worktree-mode = false`, `unattended-mode = false`. Continue to Step 1.
-- **`--fast` or `-f`** → `fast-mode = true`. Emit exactly one inline marker after path resolution: `⚡ --fast active — 👁️ frontend ask and 📦 signal trips suppressed; Re-scope/De-scope still fires 🛠️.` Continue to Step 1. (Note: a goal loop already runs with `--fast` semantics once the loop starts — see Step 5 gate collapse — so `--fast` is largely redundant here; accepted for parity and for the one-time pre-loop Phase 1 surface.)
+- **`--fast` or `-f`** → `fast-mode = true`. Emit exactly one inline marker after path resolution: `⚡ --fast active — 👁️ frontend ask and 📦 signal trips suppressed; Re-scope downgrades to an inline ⚠️ notice, De-scope still fires 🛠️.` Continue to Step 1. (Note: a goal loop already runs with `--fast` semantics once the loop starts — see Step 5 gate collapse — so `--fast` is largely redundant here; accepted for parity and for the one-time pre-loop Phase 1 surface.)
 - **`--worktree`** → `worktree-mode = true`. Emit: `🌳 --worktree active — Phase 1 Discovery runs here, then I hand off to /ft-worktree-start; the loop runs in the isolated worktree.` Continue to Step 1.
 - **`--unattended`** (no short alias) → `unattended-mode = true` **and** `fast-mode = true` — the posture supersets `--fast`'s autonomy, so the operator never passes both. Its marker replaces `--fast`'s: `⚡ --unattended active — no operator present: the loop's gate collapse applies as always, and the gates it cannot answer — the one-time 👁️ check included — park the tasknote with a park-reason instead of handing back.`
 - **Combinations** → set every flag named; order never matters. With `--worktree`, the worktree handoff (Step 4) takes precedence — the operator carries `--fast` / `--unattended` onto the in-worktree re-run if desired.
@@ -54,7 +54,7 @@ Paths this skill uses:
 
 ## Step 1 — Locate the task in PLAN.md (identical to /ft-task)
 
-Read PLAN.md. Find the line containing `**<TASK-ID>**`. Status gate (already-closed → stop and ask), model capture, `| shortname`, priority, `[!critical]`, filing-discipline word-count warning — all exactly as `/ft-task` Step 1.
+Read PLAN.md. Find the line containing `**<TASK-ID>**`. Status gate (already-closed → stop and ask), model capture, `| shortname`, priority, `[!critical]`, the `[unattended]` marker (sets `fast-mode = true` with its own ⚡ marker when no flag was passed; never sets `unattended-mode`), filing-discipline word-count warning — all exactly as `/ft-task` Step 1.
 
 **Then emit the 🎯 purpose blurb**, exactly as `/ft-task` Step 1 does and for the same reason — per `SPEC/purpose-blurb.md`, before the model gate, the pre-flight checks, and any scaffold write, since each of those can end the run:
 
@@ -128,7 +128,7 @@ Every `## ✅ Acceptance` criterion must be *loop-verifiable* — it carries a *
 
 **Set `loop-max`** here if not already set at scaffold (default 10). Populate `## 🧩 Subtasks` with the ordered per-cycle work.
 
-**When `fast-mode = true`:** write the verify commands + the taste-split directly, skipping extra AskUserQuestion pauses (the operator asserts the Acceptance shape).
+**When `fast-mode = true`:** write the verify commands + the taste-split directly, skipping extra AskUserQuestion pauses (the operator asserts the Acceptance shape). A `Re-scope` verdict downgrades to the inline ⚠️ notice exactly as `/ft-task` Step 4 (PLAN.md rewrite still made); `De-scope` still fires 🛠️.
 
 **When `unattended-mode = true`:** the same, plus the Phase 1→2 exit gate's drift carve-out converts — a `Re-scope` / `De-scope` verdict parks with `park-reason: drift — …` per `<UNATTENDED>` §"Conversion map" rather than firing 🛠️ into an empty session. The **no-machine-verifiable-criteria** edge case above is not a conversion: it is a wrong-skill stop with nothing yet worth preserving, so report it and halt without parking.
 

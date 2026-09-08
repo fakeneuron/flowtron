@@ -36,13 +36,13 @@ Subsequent steps name what to Read; the SPEC contract + matching SKILL fragment 
 
 After path resolution, emit one inline marker per active flag (all of them, when several are set) — except that `--unattended`'s marker replaces `--fast`'s, since it names the superset:
 
-- `fast-mode` → `⚡ --fast active — 👁️ frontend ask and 📦 signal trips suppressed; Re-scope/De-scope still fires 🛠️ (🛠️ banner is no-op for routine trips under default-skip flavor).`
+- `fast-mode` → `⚡ --fast active — 👁️ frontend ask and 📦 signal trips suppressed; Re-scope downgrades to an inline ⚠️ notice, De-scope still fires 🛠️ (🛠️ banner is no-op for routine trips under default-skip flavor).`
 - `debug-mode` → `🔬 --debug active — hypothesis-first Phase 1 scaffolding + Phase 3 repro re-verify. Guidance, not a gate; no new banners.`
 - `unattended-mode` → `⚡ --unattended active — no operator present: --fast's 📦 and 🛠️ suppressions apply, and the six gates an operator-less run cannot answer — 👁️ included — park the tasknote instead of firing a banner.`
 
 Then continue to Step 1.
 
-`fast-mode` is operator-side opt-in for routine runs where the conditional gates would fire but the operator wants autonomous execution; behavioral branches reference it at Step 4 (Phase 1 exit gate), Step 5 (Phase 3 👁️ ask), and Step 6 (Conditional skip rule). Default flow (`fast-mode = false`) is byte-identical to the pre-flag skill — see SPEC/gates.md §"Operator-gate cues" for the contract.
+`fast-mode` is operator-side opt-in for routine runs where the conditional gates would fire but the operator wants autonomous execution; behavioral branches reference it at Step 4 (Phase 1 exit gate), Step 5 (Phase 3 👁️ ask), and Step 6 (Conditional skip rule). It is also **implied by an `[unattended]` marker on the task's PLAN.md row** — read at Step 1, after the row is captured, when no flag was passed. Default flow (`fast-mode = false`, unmarked row) is byte-identical to the pre-flag skill — see SPEC/gates.md §"Operator-gate cues" for the contract.
 
 `debug-mode` is operator-side opt-in for bug / regression / unexpected-behavior work where the root cause is not yet known. **When `debug-mode = true`, Read `<SKILL_DIR>/step-4-debug-mode.md` now** — it carries the whole mode (four Phase 1 prompts, Phase 2 emphasis, Phase 3 repro re-verify) and is referenced at Step 4 and Step 5. The mode adds *content* only: scaffolding, gates, epic children, blocked handling, and closure are unchanged, and it creates no new banner. Per SPEC/tasknote-selection.md §"When to use a tasknote (and when not to)", debug mode is **explicit-opt-in only** — never infer it from a task description that sounds bug-shaped (CORE-042.5: the user picks the entry point at invocation time).
 
@@ -68,8 +68,9 @@ Otherwise, capture:
 - The one-line long description (everything after ` — `; may be empty)
 - The section heading the line lives under (`High` / `Medium` / `Low` / `Future Opportunities`) — this is the task's **Priority**
 - The optional `[!critical]` segment — sets the urgency flag (orthogonal to priority; floats the row to the top of High). Legacy `## Critical` sections are soft-migrated to `priority: 'High'` with the flag implicit (see SPEC §"Task-line format").
+- The optional `[unattended]` marker (after `[model]`). **When present and no `--fast` / `--unattended` flag was passed**, set `fast-mode = true` and emit `⚡ --fast implied by the [unattended] row marker — same suppressions as --fast; the --unattended posture is not implied.` The marker never sets `unattended-mode`; under an explicit `--unattended` it changes nothing. Contract: SPEC/gates.md §"`--fast` operator override" → "Implied by the `[unattended]` row marker".
 
-The full task-line grammar is `- [ ] **TASK-ID** [!critical] [model] | shortname — long description`; all of `[!critical]`, `[model]`, and `| shortname` are optional. See SPEC §"Task-line format" for the canonical grammar.
+The full task-line grammar is `- [ ] **TASK-ID** [!critical] [model] [unattended] | shortname — long description`; all of `[!critical]`, `[model]`, `[unattended]`, and `| shortname` are optional. See SPEC §"Task-line format" for the canonical grammar.
 
 **Emit the 🎯 purpose blurb now** — before the model gate, the pre-flight checks, and any scaffold write, each of which can end the run:
 
@@ -163,9 +164,11 @@ Skill-specific imperatives on top of the SPEC contract:
   - **Skip branch (default)** — emit the inline marker `✅ Phase 1 Discovery complete; entering Phase 2 Execution.` and start Step 5 Phase 2 immediately. Plain prose, not a banner; not a new gate.
   - **Fire branch** — surface the **🛠️ Phase 1→2 operator-gate cue** with the mandatory 1-2 sentence plain-English preview line (per SPEC/gates.md §"Operator-gate cues") and wait for the user's go (conversational assent — SPEC/cue-vocabulary.md §"Accepted gate replies") before starting Step 5 Phase 2. **When `unattended-mode = true`**, the fire branch has no operator to fire at: park instead of banner, per `<SKILL_DIR>/unattended-mode.md` §"Conversion map" (`park-reason: drift — …`), leaving the verdict's PLAN.md edit and any tasknote deletion to the resuming operator.
 
-  Record the judgment inline at the exit ("Discovery surfaced no significant deviation → skip 🛠️." or "Discovery surfaced <one-line reason> → fire 🛠️.") so the operator can spot misjudgments in the transcript.
+  - **Re-scope under `fast-mode = true`** — not a fire. Make the verdict's PLAN.md line + tasknote-header rewrite exactly as attended, emit `⚠️ Re-scope (--fast) — <what changed in the plan>; proceeding.` on its own line, then take the Skip branch's marker. De-scope still fires (or parks under `--unattended`). **When `unattended-mode = true`** the downgrade is not inherited — a Re-scope parks `drift` like any drift verdict.
 
-**`--fast` interaction.** The drift carve-out — Re-scope/De-scope always fires 🛠️, and `--unattended` converts that same verdict to a park rather than weakening it — is canonical in the gates.md section above. What it means here: on a `Proceed` verdict with `fast-mode = true`, the clarifying-questions step writes `No clarifications needed (--fast)` and the Skip branch fires. The flag stays meaningful for the 👁️ frontend ask (Step 5 Phase 3) and the 📦 ready-to-commit signal trips (Step 6).
+  Record the judgment inline at the exit ("Discovery surfaced no significant deviation → skip 🛠️." or "Discovery surfaced <one-line reason> → fire 🛠️." or "Discovery landed Re-scope → ⚠️ notice (--fast).") so the operator can spot misjudgments in the transcript.
+
+**`--fast` interaction.** The drift carve-out — De-scope always fires 🛠️, Re-scope downgrades to the ⚠️ notice, and `--unattended` parks both rather than inheriting the notice — is canonical in SPEC/gates.md §"Phase 1→2 exit gate" → Flag interaction. What it means here: on a `Proceed` verdict with `fast-mode = true`, the clarifying-questions step writes `No clarifications needed (--fast)` and the Skip branch fires. The flag stays meaningful for the 👁️ frontend ask (Step 5 Phase 3) and the 📦 ready-to-commit signal trips (Step 6).
 
 ## Step 5 — Phases 2-4 (drive conversationally)
 

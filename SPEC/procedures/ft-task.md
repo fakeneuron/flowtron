@@ -51,7 +51,7 @@ equivalent where a step calls for one (full ledger:
 | **structured ask** | A multi-option question to the operator (Claude Code's `AskUserQuestion`). Use your platform's structured-choice prompt, or fall back to a prose ask. |
 | **prose ask** | A free-text question to the operator. |
 | **trigger** | The operator's conversational request to start the task — there is no slash dispatch to rely on. |
-| **autonomous mode** | The operator may ask you to run without stopping at the conditional gates (Claude Code exposes this as `--fast`). Honor it as described under each gate; the concept is platform-neutral, the flag syntax is not. |
+| **autonomous mode** | The operator may ask you to run without stopping at the conditional gates (Claude Code exposes this as `--fast`). Honor it as described under each gate; the concept is platform-neutral, the flag syntax is not. It is also **implied by a PLAN.md row's `[unattended]` marker** when no mode was requested — see Step 1. |
 | **debug mode** | The operator may ask you to drive the task hypothesis-first because the root cause is not yet known (Claude Code exposes this as `--debug`). **Explicit opt-in only** — never infer it from a bug-shaped task description. It adds *content* to Phases 1–4 and no mechanics: no new phase, template, banner, or gate. See Step 4 and Step 5. |
 | **unattended mode** | The caller may declare that **no operator is present to answer a gate** (Claude Code exposes this as `--unattended`). It supersets autonomous mode's *autonomy* — nothing ever blocks waiting for an answer — plus exactly one added behavior: the six gates an operator-less run cannot answer **park the tasknote** instead of firing a banner into an empty session. It does **not** inherit autonomous mode's one *delegating* suppression: the visual-confirmation ask is suppressed there because a present operator owns the check, so with nobody present it converts to a park rather than vanishing. Full contract, including which six and what a park writes: [`SPEC/gates.md` §"`--unattended` operator posture"](../gates.md). |
 
@@ -124,9 +124,13 @@ flags are present: `[!critical]` **before** `[model]`, `[unattended]`
 **The `[unattended]` marker is not unattended mode.** The marker is the
 *operator's* per-row declaration that this task is safe to drive with nobody
 present; the mode in the primitives table above is the *caller's*
-per-invocation declaration that nobody is. **Neither implies the other** —
-reading the marker does not put you in the mode, and running in the mode does
-not require the row to carry it. Flowtron never writes the marker; seeding it
+per-invocation declaration that nobody is. **The marker never implies the
+mode** — reading it does not put you in unattended mode, and running in the
+mode does not require the row to carry it. What a marked row *does* imply, on
+an attended run where no mode was requested, is **autonomous mode**: a row
+declared safe with nobody present needs no pauses when somebody is, so treat
+it as an autonomous-mode run and say so inline
+([`SPEC/gates.md` §"`--fast` operator override"](../gates.md)). Flowtron never writes the marker; seeding it
 is an operator act, so a caller choosing work autonomously treats an
 **unmarked row as undecided, not approved**. Grammar, position, and the two
 ways authors mis-write it:
@@ -298,13 +302,15 @@ added a cross-cutting concern, or changed the approach), surface the 🛠️
 banner with a mandatory 1-2 sentence plain-English preview and wait for the
 operator's go (conversational assent —
 [`SPEC/cue-vocabulary.md` §"Accepted gate replies"](../cue-vocabulary.md)). Full flavor rules
-and the autonomous-mode drift carve-out (Re-scope/De-scope always fire 🛠️
-even under autonomous mode):
+and the autonomous-mode drift carve-out (De-scope always fires 🛠️ even under
+autonomous mode; a Re-scope under autonomous mode still rewrites the PLAN.md
+line and tasknote header, then announces it in a one-line ⚠️ notice and
+proceeds instead of firing):
 [`SPEC/gates.md` §"Phase 1→2 exit gate"](../gates.md). **Under unattended
-mode** the carve-out is not weakened either, but there is nobody to fire at:
-the verdict parks with `park-reason: drift — …` and stops, leaving the
-verdict's own PLAN.md edit and any tasknote deletion to the resuming
-operator.
+mode** neither verdict is weakened, and there is nobody to fire at or to
+read a notice: the verdict parks with `park-reason: drift — …` and stops,
+leaving the verdict's own PLAN.md edit and any tasknote deletion to the
+resuming operator.
 
 ### 5 — Phases 2-4
 
@@ -421,8 +427,8 @@ Run the three-step protocol in
      🏁 marker + next-move + copy-paste line in one response.
    - **Fire** (privileged-ops signal trips, or a bundled prompt is queued) → surface the
      📦 banner with a mandatory preview line and a `🟢 GO` commit-go ask; wait
-     for the closed set (`commit` / `go` / `yes` —
-     [`SPEC/cue-vocabulary.md` §"Accepted gate replies"](../cue-vocabulary.md)). Do **not** emit 🏁, next-move, or the copy-paste
+     for the closed set (`commit` / `go` / `yes` and the explicit commit verbs
+     named in [`SPEC/cue-vocabulary.md` §"Accepted gate replies"](../cue-vocabulary.md)). Do **not** emit 🏁, next-move, or the copy-paste
      line in this turn. Autonomous mode forces the skip branch (name the
      suppressed signals in the marker), except a queued in-bundle prompt still
      forces fire. Under **unattended mode** that exception has no operator to

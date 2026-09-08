@@ -82,9 +82,11 @@ any-AI-assistant threat model.
   message, branch name, or pushed file is itself an exfil surface (e.g. an
   injected instruction to append `$(… | base64)` to the commit body). The
   human 📦 ready-to-commit gate is the control that closes this when the
-  closure diff trips privileged-ops (migrations, auth, secrets, credential
-  keywords, external integrations) or a bundled in-📦 prompt is queued;
-  routine frontend and other non-privileged diffs auto-commit. Do not
+  closure diff trips privileged-ops (non-documentation files under
+  migrations, auth, secrets, or external integrations; credential keywords
+  in any file, documentation included) or a bundled in-📦 prompt is queued;
+  routine frontend, documentation, and other non-privileged diffs
+  auto-commit. Do not
   suppress the remaining pause (`--fast`, or the `--unattended` posture)
   on a first run against contributor-authored content.
 

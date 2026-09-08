@@ -84,9 +84,9 @@ the cut that made them stale skipped its own standing check.
 
 ### Lazy `SPEC/` modules
 
-`gates.md` 32,299 · `procedures/ft-task.md` 29,700 ·
+`gates.md` 34,866 · `procedures/ft-task.md` 30,315 ·
 `tasknote-selection.md` 24,480 · `model.md` 18,699 ·
-`cue-vocabulary.md` 14,819 · `gate-discipline.md` 13,096 ·
+`gate-discipline.md` 15,386 · `cue-vocabulary.md` 15,138 ·
 `plan-parser.md` 8,310 · `blocked.md` 8,034 · `loop.md` 7,971 ·
 `layout.md` 6,567 · `procedures/README.md` 6,128 ·
 `epic.md` 6,080 · `scope-boundaries.md` 5,116 ·

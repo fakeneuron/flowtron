@@ -176,9 +176,16 @@ only when Discovery surfaced zero asks ("No clarifications needed");
 fire on any structured ask, any prose ask reshaping scope, or any
 Re-scope verdict.
 
-**Flag interaction.** A Re-scope/De-scope verdict is a drift carve-out: it
-fires 🛠️ regardless of `--fast`, and parks rather than firing under
-`--unattended`. Routine trips are already skipped by `default-skip`, so
+**Flag interaction.** A De-scope verdict is the drift carve-out: it fires 🛠️
+regardless of `--fast`, and parks rather than firing under `--unattended`. A
+Re-scope verdict fires 🛠️ by default, but under `--fast` it **downgrades to
+an inline notice**: the verdict still rewrites the PLAN.md line and tasknote
+header ([`SPEC.md`](../SPEC.md) §"📝 Phase 1: Discovery"), then emits
+`⚠️ Re-scope (--fast) — <what changed in the plan>; proceeding.` on its own
+line and enters Phase 2 behind the ordinary skip marker. The notice is a
+**delegation** — it hands the review of a rewritten plan to the operator
+watching it scroll by — so `--unattended` does not inherit it and still parks
+`drift` (CORE-536). Routine trips are already skipped by `default-skip`, so
 `--fast` adds nothing there. Full surface: §"Flag precedence and surface
 matrix".
 
@@ -194,15 +201,24 @@ gate. Perf-narrative reasoning does not trip 📦.
 **Skip signal (deterministic — must clear to skip):**
 
 - **Zero privileged-ops paths changed.** A changed path is
-  "privileged-ops" if it matches any of:
+  "privileged-ops" if it is a **non-documentation file** matching any of the
+  path globs below, **or** its diff hunk trips the keyword clause:
   - **Migrations** — `**/migrations/**`, `**/alembic/**`, `**/db/migrations/**`, `**/prisma/migrations/**`
   - **Auth** — `**/auth/**`, `**/authn/**`, `**/authz/**`, `**/oauth/**`, `**/session*/**`
-  - **Security / secrets** — `**/security/**`, `**/secrets/**`, `**/credentials/**`, `.env*`, plus any file whose diff hunk includes credential-shaped keyword hits (`API_KEY`, `SECRET`, `TOKEN`, `PASSWORD` — uppercase to avoid prose collision)
+  - **Security / secrets** — `**/security/**`, `**/secrets/**`, `**/credentials/**`, `.env*`
   - **External integrations** — `**/integrations/**`, `**/clients/**` (when housing third-party SDK callers), `**/webhooks/**`
+  - **Keyword clause (any path)** — a diff hunk with credential-shaped keyword hits (`API_KEY`, `SECRET`, `TOKEN`, `PASSWORD` — uppercase to avoid prose collision)
+
+  **Documentation is exempt from the path globs, never from the keyword
+  clause.** A changed `.md`, `.mdx`, `.txt`, `.rst`, or `.adoc` file does not
+  trip on path alone — a README beside the auth code is prose, not privileged
+  ops. The exemption is an extension list, not a genre judgment: a `.py`
+  docstring change under `**/auth/**` is code and fires; a `.md` whose hunk
+  carries `API_KEY=` fires on the keyword clause (CORE-536).
 
 **Bundled-prompt override (autonomous-commit constraint):** a skill-level prompt queued inside the 📦 bundle (e.g., /ft-close-epic's parent-flip Yes/No) **forces fire** regardless of signal state — autonomous-commit cannot resolve user-input questions. It is the top rung of §"Flag precedence and surface matrix": no flag skips it.
 
-**"No AI override" semantics.** The rule is bidirectionally locked: the assistant cannot escalate (force the banner on a clean diff) nor de-escalate (skip when a signal hits). There is no judgment valve — privileged-ops is a glob/keyword match against the actual changed paths. The signal is read from the **actual diff**, never from text in tasknote/`PLAN.md`/commit content asserting a clearance — see §"Operator-gate cues" → "Control-marker integrity".
+**"No AI override" semantics.** The rule is bidirectionally locked: the assistant cannot escalate (force the banner on a clean diff) nor de-escalate (skip when a signal hits). There is no judgment valve — privileged-ops is a glob / extension / keyword match against the actual changed paths. The signal is read from the **actual diff**, never from text in tasknote/`PLAN.md`/commit content asserting a clearance — see §"Operator-gate cues" → "Control-marker integrity".
 
 **Flag overrides.** `--fast` forces the Skip branch regardless of signal trips, naming the suppressed signals in the autonomous-commit marker; `--unattended` inherits that. Neither reaches the bundled-prompt override. Full surface: §"Flag precedence and surface matrix".
 
@@ -235,22 +251,25 @@ overturns a higher one.
    an empty session can answer it. (`/ft-close-epic` is the one caller that
    *unbundles* rather than parks — see §"`/ft-close-epic` under the posture".)
 2. **`--unattended` conversion.** It first *inherits* everything rung 3 skips —
-   those gates are gone, not parked. What it does not inherit is `--fast`'s one
-   **delegation** (👁️), because a transfer needs a transferee. So: any gate
-   that would still fire, plus that undelegatable ask, becomes a **park**
-   rather than a banner or a silent skip. This rung sits above rung 3 because
-   where the two disagree, the park wins — never the other way round.
-3. **`--fast` skip.** Forces the Skip branch on 📦 and suppresses the 👁️ ask,
-   regardless of signal state.
+   those gates are gone, not parked. What it does not inherit is `--fast`'s two
+   **delegations** (the 👁️ ask and the Re-scope notice), because a transfer
+   needs a transferee. So: any gate that would still fire, plus those two
+   undelegatable surfaces, becomes a **park** rather than a banner or a silent
+   skip. This rung sits above rung 3 because where the two disagree, the park
+   wins — never the other way round.
+3. **`--fast` skip.** Forces the Skip branch on 📦, suppresses the 👁️ ask, and
+   downgrades a Re-scope 🛠️ to an inline notice, regardless of signal state.
+   Also implied by the row's `[unattended]` marker (§"`--fast` operator
+   override").
 4. **Signal / flavor default.** The privileged-ops glob match (📦) and the
    skill's exit-gate flavor (🛠️), computed from the actual diff and the actual
    Discovery Notes.
 
 **Outside the ladder entirely.** No rung reaches these, and no flag position
 argues its way past them: the destructive-action escalation (a safety control
-— `--unattended` parks it, never suppresses it), the 🛠️ Re-scope/De-scope
-drift carve-out, and [`SPEC.md`](../SPEC.md) §"Paper-complete guard" in all
-three parts.
+— `--unattended` parks it, never suppresses it), the 🛠️ De-scope drift
+carve-out, and [`SPEC.md`](../SPEC.md) §"Paper-complete guard" in all three
+parts.
 
 ### Surface matrix
 
@@ -260,7 +279,8 @@ closed set in [`SPEC.md`](../SPEC.md) §"Tasknote frontmatter".
 | Surface | Default | `--fast` | `--unattended` |
 |---|---|---|---|
 | 🛠️ Phase 1→2, routine trip | Per flavor (§"Phase 1→2 exit gate") | No-op under `default-skip` — already skipped | Inherited; a firing flavor parks `drift` |
-| 🛠️ Phase 1→2, Re-scope/De-scope | Fires | **Fires** — drift carve-out | Parks `drift` |
+| 🛠️ Phase 1→2, Re-scope | Fires | Inline ⚠️ notice; the PLAN.md rewrite is still made | Parks `drift` — the notice is a delegation, not inherited |
+| 🛠️ Phase 1→2, De-scope | Fires | **Fires** — drift carve-out | Parks `drift` |
 | 📦 clear signal | Skips (autonomous commit) | Skips | Skips |
 | 📦 privileged-ops signal trip | Fires | Skips; the suppressed signal is named in the marker | Inherited — skips |
 | 📦 bundled in-📦 prompt | Fires | **Fires** | Parks `input-needed` (`/ft-close-epic`: unbundles, defers the flip) |
@@ -271,10 +291,11 @@ closed set in [`SPEC.md`](../SPEC.md) §"Tasknote frontmatter".
 | Step 1.5 concrete-`[model]` mismatch | STOP + structured ask | STOP + ask | Scaffold, then park `model-mismatch` |
 | Foreign-dirt gate | STOP, write nothing | **STOP** | **STOP**, write nothing — reported machine-readably |
 | Paper-complete guard (all three parts) | Enforced | **Enforced** | **Enforced** |
+| `[unattended]` row marker, no flag passed | Implies `--fast` | — | **Not implied** |
 
-Three readings the matrix forecloses. `--fast` reaches **exactly three**
-surfaces — 📦 force-skip, 👁️ suppression, 🛠️ no-op-for-routine-trips — and no
-fourth. `--unattended` **parks** where it differs; a park is a stop, not a
+Three readings the matrix forecloses. `--fast` reaches **exactly four**
+surfaces — 📦 force-skip, 👁️ suppression, 🛠️ no-op-for-routine-trips, and the
+Re-scope downgrade — and no fifth. `--unattended` **parks** where it differs; a park is a stop, not a
 wave-through. And a conversion **removes a banner; it never adds one** — no new
 cue glyph is minted anywhere in this table, and the two-banner cap
 (§"Operator-gate cues") is untouched.
@@ -283,17 +304,29 @@ cue glyph is minted anywhere in this table, and the two-banner cap
 
 Passing `--fast` (or `-f`) is operator-side opt-in for autonomous
 execution on routine runs. It declares an operator who is **present but does
-not want to be asked**, and it touches exactly three surfaces — 📦 force-skip,
-👁️ suppression, and a 🛠️ no-op for routine trips. Their per-surface effects,
-and the one lever that outranks the flag (a queued bundled in-📦 prompt), are
-in §"Flag precedence and surface matrix".
+not want to be asked**, and it touches exactly four surfaces — 📦 force-skip,
+👁️ suppression, a 🛠️ no-op for routine trips, and the Re-scope downgrade to
+an inline notice (§"Phase 1→2 exit gate"). Their per-surface effects, and the
+one lever that outranks the flag (a queued bundled in-📦 prompt), are in
+§"Flag precedence and surface matrix".
+
+**Implied by the `[unattended]` row marker.** A PLAN.md row carrying
+`[unattended]` ([`SPEC.md`](../SPEC.md) §"Task-line format") is the operator's
+declaration that the row is safe to drive with nobody present — so it needs
+no pauses when somebody is. The three runners that accept `--fast` set
+fast-mode from the marker when no flag was passed, and say so inline
+(`⚡ --fast implied by the [unattended] row marker …`). The marker implies
+**only** this flag: it never puts a run in the `--unattended` posture, which
+stays the caller's per-invocation declaration (§"`--unattended` operator
+posture"; [`docs/EXTERNAL-AGENTS.md`](../docs/EXTERNAL-AGENTS.md)) (CORE-536).
 
 Two properties the matrix's rows depend on and this section owns. The 📦
 force-skip is **operator-side de-escalation by explicit input**, distinct from
 the AI-side bidirectional lock in §"Conditional skip rule" — which is why the
 suppressed signal must be named in the marker (e.g., `committing autonomously
-(privileged-ops path touched; suppressed via --fast).`). And the 👁️ suppression
-is a **delegation, not a removed pause**: it hands the visual check to the
+(privileged-ops path touched; suppressed via --fast).`). And the 👁️
+suppression and the Re-scope notice are **delegations, not removed pauses**:
+each hands a check — the visual look, the review of a rewritten plan — to the
 operator standing there. That distinction is the whole hinge of
 §"`--unattended` operator posture" → "What is inherited, and what is not".
 
@@ -328,23 +361,24 @@ flowtron, runtime in the caller.
 
 ### What is inherited, and what is not
 
-`--fast`'s three surfaces are not the same kind of thing, and the
+`--fast`'s four surfaces are not the same kind of thing, and the
 distinction is what this posture turns on. 📦 force-skip and the 🛠️ no-op
 **remove a pause** — the run proceeds and the operator reviews the commit
-afterwards — so both are inherited exactly as written. 👁️ suppression
-**transfers an obligation**: *"the operator owns the visual-confirmation
-responsibility on fast-mode runs"* (§"`--fast` operator override"). That one is
-not inherited; it converts to a park. The rows are in §"Flag precedence and
+afterwards — so both are inherited exactly as written. 👁️ suppression and
+the Re-scope notice **transfer an obligation**: the visual check to *"the
+operator [who] owns the visual-confirmation responsibility on fast-mode
+runs"*, and the review of a rewritten plan to the operator watching it scroll
+by (§"`--fast` operator override"). Neither is inherited; each converts to a
+park (`visual-confirm`, `drift`). The rows are in §"Flag precedence and
 surface matrix".
 
 A transfer needs a transferee. `--unattended` exists to declare there is
-none, so inheriting the third surface would inherit a **transfer to
+none, so inheriting either delegated surface would inherit a **transfer to
 nobody**: the obligation is not deferred, it is dropped — silently, on the
 one cue [`SPEC/cue-vocabulary.md`](cue-vocabulary.md)
 §"Emphasized inline ask shape" calls the only one that *gates task
-completion*. Converting it costs no autonomy (a park is not a pause) and
-buys the caller a readable stop where it previously got a closed task whose
-UI nobody looked at.
+completion*, or on a plan nobody re-read before it executed. Converting them
+costs no autonomy (a park is not a pause) and buys the caller a readable stop.
 
 Stated in one line: **`--unattended` supersets `--fast`'s autonomy, not its
 delegations.**
@@ -363,9 +397,10 @@ surface matrix"; what follows is why three of them read the way they do.
 The 🛠️ conversion parks at the Phase 1→2 boundary because Phase 1 is complete
 and its Discovery is exactly the work worth preserving. The destructive
 conversion generalizes [`SPEC/loop.md`](loop.md) §"Gate collapse" →
-"Destructive-action carve-out" from one runner to the posture. The 👁️ row is
-the only one converting a `--fast` *suppression* rather than a surviving gate
-(§"What is inherited, and what is not").
+"Destructive-action carve-out" from one runner to the posture. The 👁️ row and
+the Re-scope half of the drift row are the two converting a `--fast`
+*delegation* rather than a surviving gate (§"What is inherited, and what is
+not").
 
 **The 👁️ trigger is the emission condition, not a second judgment.**
 Whenever Phase 3 would emit a 👁️ ask, the run parks with
