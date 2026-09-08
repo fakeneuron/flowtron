@@ -102,6 +102,23 @@ const execFileAsync = promisify(execFile);
 
 const FLOWTRON_REPO = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const SUBMODULE_PATH = join('.flowtron', 'core');
+// Cursor and Grok are "thin bundle" wiring surfaces: neither ships its own
+// skills directory — both symlink canonical claude/skills/ bodies into their
+// own <platform>/skills/ path — so their surface config is identical bar
+// `label` and `snippetPath`.
+function thinClaudeSkillsSurface(label, snippetPath) {
+  return {
+    label,
+    snippetPath,
+    diffPaths: ['claude/skills/'],
+    snippetKeyPattern: /\.flowtron\/core\/(claude\/skills\/\S+)/,
+    addedKeyForFile(path) {
+      const skill = path.match(/^(claude\/skills\/[^/]+)/);
+      return skill ? skill[1] : null;
+    },
+  };
+}
+
 const WIRING_SURFACES = [
   {
     label: 'Claude .claude/',
@@ -126,35 +143,26 @@ const WIRING_SURFACES = [
       return skill ? skill[1] : null;
     },
   },
-  {
-    label: 'Cursor .cursor/skills',
-    snippetPath: 'cursor/AGENTS-snippet.md',
-    // Thin bundle: no cursor/skills/ — Cursor-only installs symlink
-    // canonical claude/skills/ bodies into .cursor/skills/.
-    diffPaths: ['claude/skills/'],
-    snippetKeyPattern: /\.flowtron\/core\/(claude\/skills\/\S+)/,
-    addedKeyForFile(path) {
-      const skill = path.match(/^(claude\/skills\/[^/]+)/);
-      return skill ? skill[1] : null;
-    },
-  },
-  {
-    label: 'Grok .grok/skills',
-    snippetPath: 'grok/AGENTS-snippet.md',
-    // Thin bundle: no grok/skills/ — Grok-only installs symlink
-    // canonical claude/skills/ bodies into .grok/skills/.
-    diffPaths: ['claude/skills/'],
-    snippetKeyPattern: /\.flowtron\/core\/(claude\/skills\/\S+)/,
-    addedKeyForFile(path) {
-      const skill = path.match(/^(claude\/skills\/[^/]+)/);
-      return skill ? skill[1] : null;
-    },
-  },
+  thinClaudeSkillsSurface('Cursor .cursor/skills', 'cursor/AGENTS-snippet.md'),
+  thinClaudeSkillsSurface('Grok .grok/skills', 'grok/AGENTS-snippet.md'),
 ];
 
 export async function git(cwd, ...args) {
   const { stdout } = await execFileAsync('git', args, { cwd });
   return stdout;
+}
+
+const USAGE = 'Usage: node tools/update-adopters.mjs [--apply] [--root <dir>]';
+
+function usageError(firstLine, exitOnError) {
+  if (exitOnError) {
+    console.error(firstLine);
+    console.error(USAGE);
+    process.exit(2);
+  }
+  const err = new Error(`${firstLine}\n${USAGE}`);
+  err.code = 'USAGE';
+  throw err;
 }
 
 export function parseArgs(argv, { exitOnError = true } = {}) {
@@ -164,28 +172,12 @@ export function parseArgs(argv, { exitOnError = true } = {}) {
     else if (argv[i] === '--root') {
       const value = argv[i + 1];
       if (value === undefined || value.startsWith('--')) {
-        const msg = `--root requires a value\nUsage: node tools/update-adopters.mjs [--apply] [--root <dir>]`;
-        if (exitOnError) {
-          console.error('--root requires a value');
-          console.error('Usage: node tools/update-adopters.mjs [--apply] [--root <dir>]');
-          process.exit(2);
-        }
-        const err = new Error(msg);
-        err.code = 'USAGE';
-        throw err;
+        usageError('--root requires a value', exitOnError);
       }
       args.root = value;
       i += 1;
     } else {
-      const msg = `Unknown arg: ${argv[i]}\nUsage: node tools/update-adopters.mjs [--apply] [--root <dir>]`;
-      if (exitOnError) {
-        console.error(`Unknown arg: ${argv[i]}`);
-        console.error('Usage: node tools/update-adopters.mjs [--apply] [--root <dir>]');
-        process.exit(2);
-      }
-      const err = new Error(msg);
-      err.code = 'USAGE';
-      throw err;
+      usageError(`Unknown arg: ${argv[i]}`, exitOnError);
     }
   }
   return args;
@@ -458,12 +450,7 @@ export function formatSkillsNote(surfaces) {
 }
 
 export async function discoverAdopters(root) {
-  let entries;
-  try {
-    entries = await readdir(root, { withFileTypes: true });
-  } catch {
-    return { adopters: [], legacy: [] };
-  }
+  const entries = await readdir(root, { withFileTypes: true });
   const adopters = [];
   const legacy = [];
   for (const entry of entries) {
@@ -797,7 +784,13 @@ async function main(argv = process.argv.slice(2)) {
   console.log(`  workspace: ${root}`);
   console.log(`  latest release: ${latest}\n`);
 
-  const { adopters, legacy } = await discoverAdopters(root);
+  let adopters, legacy;
+  try {
+    ({ adopters, legacy } = await discoverAdopters(root));
+  } catch (e) {
+    console.error(`Workspace root is not a readable directory: ${root} (${e.message})`);
+    process.exit(1);
+  }
   if (adopters.length === 0) {
     console.log('No .flowtron/core adopters found.');
     return;

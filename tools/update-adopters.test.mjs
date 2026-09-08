@@ -409,6 +409,14 @@ describe('discoverAdopters', () => {
     assert.deepEqual(legacyNames, ['legacy-proj']);
     await rm(root, { recursive: true, force: true });
   });
+
+  // CORE-540 — an unreadable root must surface as a failure, not a silent
+  // "no adopters" result: readdir rejects and the caller (main) is the one
+  // that turns that into an exit-1 guard, so this asserts the propagation.
+  it('rejects when root does not exist', async () => {
+    const root = join(tmpdir(), 'ft-upd-disc-missing-does-not-exist');
+    await assert.rejects(() => discoverAdopters(root), /ENOENT/);
+  });
 });
 
 describe('gitlinkDrift / describePin', () => {
@@ -493,6 +501,19 @@ describe('dry-run CLI (--root fixture)', () => {
     const { stdout } = await runCli(['--root', root]);
     assert.match(stdout, /No \.flowtron\/core adopters found/);
     await rm(root, { recursive: true, force: true });
+  });
+
+  // CORE-540 — a nonexistent/unreadable --root must fail loudly (exit 1), not
+  // report "no adopters" and exit 0 as if the workspace were merely empty.
+  it('nonexistent --root exits 1 instead of reporting no adopters', async () => {
+    const root = join(tmpdir(), 'ft-upd-cli-missing-does-not-exist');
+    const { code, stdout, stderr } = await runCli(['--root', root], {
+      expectFail: true,
+      env: { FLOWTRON_UPDATE_LATEST: latest },
+    });
+    assert.equal(code, 1);
+    assert.match(stderr, /not a readable directory/);
+    assert.doesNotMatch(stdout, /No \.flowtron\/core adopters found/);
   });
 });
 
