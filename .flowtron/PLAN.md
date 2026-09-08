@@ -18,12 +18,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-537** [light] | plan-row-ledger-churn — The ledger's `.flowtron/PLAN.md` row goes stale at every task closure — unlike the other 26 rows it tracks a file that changes by design. Decide: drop the row, replace it with an order-of-magnitude band, or mark it refreshed-only-at-release. Surfaced by [[CORE-535.N]].
 
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-537** [light] | plan-row-ledger-churn — Completed 2026-09-07.
 - [x] **CORE-538** [medium] | skill-citation-count-claim — Completed 2026-09-07.
 - [x] **CORE-536** [heavy] | gate-relaxation-pass — Completed 2026-09-07.
 - [x] **CORE-EPIC-535** [heavy] | context-load-diet — Completed 2026-09-07.

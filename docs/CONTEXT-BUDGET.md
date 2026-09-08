@@ -80,7 +80,25 @@ the cut that made them stale skipped its own standing check.
 | `AGENTS.md` (`CLAUDE.md` is a symlink to it) | 6,816 |
 | `.flowtron/tasknote/README.md` | 6,559 |
 | `templates/tasknote-template.md` | 4,935 |
-| `.flowtron/PLAN.md` | 2,253 |
+| `.flowtron/PLAN.md` | ~2–3k (band — see below) |
+
+**Why `.flowtron/PLAN.md` carries a band and not a number.** Every other surface
+in this ledger changes only when a task deliberately edits it, so a drifted
+figure there is *signal* — it says an always-loaded surface grew, which is what
+the ratchet exists to catch. PLAN.md changes on **every** closure regardless of
+what the task was about, because closure itself rewrites a task line. Its exact
+size therefore reports how many tasks happen to be open today, not the size of
+anything flowtron ships: an adopter receives `templates/PLAN.md` (measured under
+§"Adopter-side always-loaded") and then grows their own. A precise figure here
+would be falsifiable on every commit and informative on none.
+
+Do not "correct" the band back to a `wc -c` reading. [[CORE-537]] chose it over
+*dropping* the row — `/ft-task` really does read PLAN.md in full, so the section
+would understate its own total without it — and over *marking it
+release-refreshed*, which the §"Ledger" stamp above already says of every row
+and which would still leave this one stale between closures. The row stays
+unbudgeted for the same reason it is banded: flowtron cannot cap a file it does
+not ship.
 
 ### Lazy `SPEC/` modules
 
