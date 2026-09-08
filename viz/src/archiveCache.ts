@@ -1,7 +1,6 @@
-import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { parseTasknote } from './tasknote-parse.ts';
-import { realpathWithin, safeReaddir, safeRealpath } from './fsSafe.ts';
+import { safeReaddir, safeRealpath } from './fsSafe.ts';
+import { readTasknoteDir } from './tasknoteRead.ts';
 import type { Tasknote } from './tasknote.ts';
 import type { ProjectDescriptor } from './workspace.ts';
 
@@ -15,33 +14,9 @@ async function readArchive(project: ProjectDescriptor): Promise<Tasknote[]> {
   if (realRoot === null) return [];
   const areas = (await safeReaddir(project.archiveDir)).filter((e) => e.isDirectory());
   const nested = await Promise.all(
-    areas.map(async (area) => {
-      const areaDir = join(project.archiveDir, area.name);
-      const entries = await safeReaddir(areaDir);
-      const files = entries.filter((e) => e.isFile() && e.name.endsWith('.md'));
-      return Promise.all(
-        files.map(async (e) => {
-          const id = e.name.replace(/\.md$/, '');
-          const path = join(areaDir, e.name);
-          const realPath = await realpathWithin(realRoot, path);
-          // Resolves outside the project root — drop it silently, same shape as
-          // the malformed-YAML skip below. No user action is possible either way.
-          if (realPath === null) return null;
-          try {
-            const text = await readFile(realPath, 'utf8');
-            return parseTasknote(id, path, text);
-          } catch {
-            // Legacy archived tasknotes may have malformed YAML frontmatter (write-once policy in SPEC.md).
-            // These are historical records; we must tolerate them. Failures are non-fatal (file is skipped).
-            // Intentionally silent: emitting per-file warnings produces a wall of noise on every `npm run dev`
-            // for anyone with old adopter checkouts. No user action possible.
-            return null;
-          }
-        }),
-      );
-    }),
+    areas.map((area) => readTasknoteDir(realRoot, join(project.archiveDir, area.name))),
   );
-  return nested.flat().filter((t): t is Tasknote => t !== null);
+  return nested.flat();
 }
 
 export interface ArchiveCache {

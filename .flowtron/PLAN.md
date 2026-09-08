@@ -19,7 +19,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **FE-104** [medium]🧩 | node-tier-contained-read-dedup — One helper for the realpathWithin → read → parse → drop loop shared by /api/active and archiveCache.readArchive, plus a guarded() wrapper for the six-handler prelude in devApi.ts. Surfaced by audit 2026-09-08 (Finding #3, Medium; Finding #6, Low)
 - [ ] **CORE-540** [light]🔧 | updater-unreadable-root-exit — Fail with exit 1 when --root / FLOWTRON_VIZ_WORKSPACE is not a readable directory instead of reporting "no adopters" and exit 0; fold in the parseArgs usage-string and WIRING_SURFACES thin-bundle dedup. Surfaced by audit 2026-09-08 (Finding #4, Medium; Finding #7, Low)
 
 ## Future Opportunities
@@ -28,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-104** [medium] | node-tier-contained-read-dedup — Completed 2026-09-08.
 - [x] **FE-103** [light] | fence-mask-shared-module — Completed 2026-09-08.
 - [x] **FE-102** [medium] | api-cross-site-navigation-guard — Completed 2026-09-08.
 - [x] **CORE-539** [medium] | release-ledger-refresh-gap — Completed 2026-09-07.

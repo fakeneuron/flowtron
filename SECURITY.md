@@ -244,7 +244,9 @@ dev server:
   `archiveCache.readArchive` (`viz/src/archiveCache.ts`), and the
   `/api/plan`, `/api/active`, and `/api/plan-archive` handlers (`viz/src/devApi.ts`)
   resolve each candidate file through symlinks and drop it unless it lands
-  inside the project root's own resolved path, so a symlinked `PLAN.md`,
+  inside the project root's own resolved path — the two tasknote-directory
+  readers, `readArchive` and `/api/active`, sharing one implementation of that
+  check in `readTasknoteDir` (`viz/src/tasknoteRead.ts`) — so a symlinked `PLAN.md`,
   `PLAN-ARCHIVE.md`, `.flowtron/`, `tasknote/`, or `archive/` cannot pull an
   arbitrary readable file onto the wire. Project roots that are *themselves* symlinks stay supported
   — the root resolves first, and nothing below it may escape.

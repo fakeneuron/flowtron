@@ -30,13 +30,13 @@ table: a tier may import from tiers below it, never above.
 |---|---|---|
 | **Browser UI** | `src/ui/` | React components, hooks, and browser-view selectors. |
 | **Shared pure** | `src/*.ts` with no `node:` imports | Parsing (`parser`, `tasknote`, `tasknote-parse`) plus other Node-free shared modules (`fence`, `sseChange`, `viewMode`, `visibilityPrefs`, `projectStorage`). Usable from the browser bundle and, where relevant, from the Node plugin. |
-| **Node-only dev API** | `src/*.ts` with `node:` imports + `vite.config.ts` | Filesystem scan, archive cache, watchers, `/api/*` handlers, origin guard. Hosted only by the Vite plugin — never shipped to the browser. |
+| **Node-only dev API** | `src/*.ts` with `node:` imports + `vite.config.ts` | Filesystem scan, contained tasknote reads, archive cache, watchers, `/api/*` handlers, origin guard. Hosted only by the Vite plugin — never shipped to the browser. |
 
 ### Hard rule: no Node imports under `src/ui/`
 
 Files under `src/ui/` **must not** import `node:*` builtins or any Node-only
-tier module (`devApi`, `workspace`, `fsSafe`, `archiveCache`, `flowtronWatch`,
-`watchSet`, `originGuard`, `apiResponse`). They import shared pure modules via
+tier module (`devApi`, `workspace`, `fsSafe`, `tasknoteRead`, `archiveCache`,
+`flowtronWatch`, `watchSet`, `originGuard`, `apiResponse`). They import shared pure modules via
 `../…` and sibling UI modules via `./…` only.
 
 This is enforced by an eslint `no-restricted-imports` rule scoped to
@@ -84,6 +84,7 @@ viz/
     devApi.ts             Node-only (/api handlers)
     workspace.ts          Node-only (project discovery)
     fsSafe.ts             Node-only (path-safe fs helpers)
+    tasknoteRead.ts       Node-only (contained tasknote-dir reader)
     archiveCache.ts       Node-only
     flowtronWatch.ts      Node-only
     watchSet.ts           Node-only

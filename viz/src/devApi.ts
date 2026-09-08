@@ -1,13 +1,11 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { readFile } from 'node:fs/promises';
-import { join } from 'node:path';
 import { endPlain } from './apiResponse.ts';
 import { originGuard } from './originGuard.ts';
-import { parseTasknote } from './tasknote-parse.ts';
-import { realpathWithin, safeReaddir, safeRealpath } from './fsSafe.ts';
+import { realpathWithin, safeRealpath } from './fsSafe.ts';
+import { readTasknoteDir } from './tasknoteRead.ts';
 import type { ProjectDescriptor } from './workspace.ts';
 import type { ArchiveCache } from './archiveCache.ts';
-import type { Tasknote } from './tasknote.ts';
 
 type Handler = (req: IncomingMessage, res: ServerResponse) => void;
 type AsyncHandler = (req: IncomingMessage, res: ServerResponse) => Promise<void>;
@@ -43,6 +41,24 @@ function methodGuard(req: IncomingMessage, res: ServerResponse): boolean {
   return false;
 }
 
+// The prelude every /api/* handler runs before its own logic: security headers
+// on every response (error bodies included), then the method and origin guards.
+// Wrapping rather than repeating it makes shipping a handler without them a
+// structural impossibility instead of a review catch.
+//
+// Uniformly async, which widens the two synchronous handlers from `Handler` to
+// `AsyncHandler`. Their observable behavior is unchanged: an async body runs
+// synchronously up to its first suspension, and neither of those two contains
+// an `await`.
+function guarded(handler: Handler | AsyncHandler): AsyncHandler {
+  return async (req, res) => {
+    applyApiHeaders(res);
+    if (!methodGuard(req, res)) return;
+    if (!originGuard(req, res)) return;
+    await handler(req, res);
+  };
+}
+
 export function projectFromQuery(
   req: IncomingMessage,
   projects: Map<string, ProjectDescriptor>,
@@ -67,27 +83,21 @@ export function projectFromQuery(
 export function createProjectsHandler(
   projects: Map<string, ProjectDescriptor>,
   latestRelease: string | null,
-): Handler {
-  return (req, res) => {
-    applyApiHeaders(res);
-    if (!methodGuard(req, res)) return;
-    if (!originGuard(req, res)) return;
+): AsyncHandler {
+  return guarded((req, res) => {
     const list = Array.from(projects.values()).map((p) => ({
       name: p.name,
       flowtronVersion: p.flowtronVersion,
     }));
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify({ latestRelease, projects: list }));
-  };
+  });
 }
 
 export function createPlanHandler(
   projects: Map<string, ProjectDescriptor>,
 ): AsyncHandler {
-  return async (req, res) => {
-    applyApiHeaders(res);
-    if (!methodGuard(req, res)) return;
-    if (!originGuard(req, res)) return;
+  return guarded(async (req, res) => {
     const project = projectFromQuery(req, projects);
     if ('error' in project) {
       endPlain(res, 400, project.error);
@@ -110,7 +120,7 @@ export function createPlanHandler(
       console.error(`[devApi] Failed to read PLAN.md: ${(e as Error).message}`);
       endPlain(res, 500, 'Failed to read PLAN.md');
     }
-  };
+  });
 }
 
 // `.flowtron/PLAN-ARCHIVE.md` is optional history: it does not exist until a
@@ -125,10 +135,7 @@ export function createPlanHandler(
 export function createPlanArchiveHandler(
   projects: Map<string, ProjectDescriptor>,
 ): AsyncHandler {
-  return async (req, res) => {
-    applyApiHeaders(res);
-    if (!methodGuard(req, res)) return;
-    if (!originGuard(req, res)) return;
+  return guarded(async (req, res) => {
     const project = projectFromQuery(req, projects);
     if ('error' in project) {
       endPlain(res, 400, project.error);
@@ -153,16 +160,13 @@ export function createPlanArchiveHandler(
       console.error(`[devApi] Failed to read PLAN-ARCHIVE.md: ${(e as Error).message}`);
       res.end('');
     }
-  };
+  });
 }
 
 export function createActiveHandler(
   projects: Map<string, ProjectDescriptor>,
 ): AsyncHandler {
-  return async (req, res) => {
-    applyApiHeaders(res);
-    if (!methodGuard(req, res)) return;
-    if (!originGuard(req, res)) return;
+  return guarded(async (req, res) => {
     const project = projectFromQuery(req, projects);
     if ('error' in project) {
       endPlain(res, 400, project.error);
@@ -178,46 +182,21 @@ export function createActiveHandler(
         res.end('[]');
         return;
       }
-      const entries = await safeReaddir(project.tasknoteDir);
-      const files = entries.filter((e) => e.isFile() && e.name.endsWith('.md'));
-      const tasknotes = (
-        await Promise.all(
-          files.map(async (e) => {
-            const id = e.name.replace(/\.md$/, '');
-            const path = join(project.tasknoteDir, e.name);
-            const realPath = await realpathWithin(realRoot, path);
-            // Resolves outside the project root — drop it, same silent shape
-            // as the malformed-tasknote skip below.
-            if (realPath === null) return null;
-            try {
-              const text = await readFile(realPath, 'utf8');
-              return parseTasknote(id, path, text);
-            } catch {
-              // One unreadable/malformed tasknote (or a TOCTOU delete between readdir
-              // and readFile during live editing) must not 500 the whole active list.
-              // Mirror archiveCache.readArchive: skip the bad file, keep the rest.
-              return null;
-            }
-          }),
-        )
-      ).filter((t): t is Tasknote => t !== null);
+      const tasknotes = await readTasknoteDir(realRoot, project.tasknoteDir);
       res.setHeader('Content-Type', 'application/json');
       res.end(JSON.stringify(tasknotes));
     } catch (e) {
       console.error(`[devApi] Failed to list tasknotes: ${(e as Error).message}`);
       endPlain(res, 500, 'Failed to list tasknotes');
     }
-  };
+  });
 }
 
 export function createArchiveHandler(
   projects: Map<string, ProjectDescriptor>,
   archiveCache: ArchiveCache,
 ): AsyncHandler {
-  return async (req, res) => {
-    applyApiHeaders(res);
-    if (!methodGuard(req, res)) return;
-    if (!originGuard(req, res)) return;
+  return guarded(async (req, res) => {
     const project = projectFromQuery(req, projects);
     if ('error' in project) {
       endPlain(res, 400, project.error);
@@ -231,16 +210,13 @@ export function createArchiveHandler(
       console.error(`[devApi] Failed to list archived tasknotes: ${(e as Error).message}`);
       endPlain(res, 500, 'Failed to list archived tasknotes');
     }
-  };
+  });
 }
 
 const MAX_SSE_CLIENTS = 10;
 
-export function createEventsHandler(sseClients: Set<ServerResponse>): Handler {
-  return (req, res) => {
-    applyApiHeaders(res);
-    if (!methodGuard(req, res)) return;
-    if (!originGuard(req, res)) return;
+export function createEventsHandler(sseClients: Set<ServerResponse>): AsyncHandler {
+  return guarded((req, res) => {
     if (sseClients.size >= MAX_SSE_CLIENTS) {
       endPlain(res, 503, 'SSE capacity full');
       return;
@@ -260,5 +236,5 @@ export function createEventsHandler(sseClients: Set<ServerResponse>): Handler {
     res.on('error', () => {
       sseClients.delete(res);
     });
-  };
+  });
 }
