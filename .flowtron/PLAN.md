@@ -15,11 +15,17 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
+- [ ] **FE-102** [medium]🧩 | api-cross-site-navigation-guard — Add `frame-ancestors 'none'` to the /api/* CSP and reject `Sec-Fetch-Site: cross-site` in originGuard (absent header still passes, keeping curl), so a no-referrer iframe can't hold SSE slots; sanitize the unknown-project stderr line with JSON.stringify; update SECURITY.md §Visualizer and the devApi tests. Surfaced by audit 2026-09-08 (Finding #1, Medium; Finding #2, Low)
 
 ## Low
 
+- [ ] **FE-103** [light]🔧 | fence-mask-shared-module — Extract the byte-identical FENCE_DELIMITER + fenceMask from parser.ts and tasknote.ts into a shared-pure fence.ts. Surfaced by audit 2026-09-08 (Finding #5, Medium)
+- [ ] **FE-104** [medium]🧩 | node-tier-contained-read-dedup — One helper for the realpathWithin → read → parse → drop loop shared by /api/active and archiveCache.readArchive, plus a guarded() wrapper for the six-handler prelude in devApi.ts. Surfaced by audit 2026-09-08 (Finding #3, Medium; Finding #6, Low)
+- [ ] **CORE-540** [light]🔧 | updater-unreadable-root-exit — Fail with exit 1 when --root / FLOWTRON_VIZ_WORKSPACE is not a readable directory instead of reporting "no adopters" and exit 0; fold in the parseArgs usage-string and WIRING_SURFACES thin-bundle dedup. Surfaced by audit 2026-09-08 (Finding #4, Medium; Finding #7, Low)
 
 ## Future Opportunities
+
+- [ ] **FE-105** [heavy]🧠 | ui-shell-structure-pass — Run /ft-audit structure viz/src/ui (or /ft-refactor viz/src/ui/App.tsx) for a sequenced plan on the 286-line App and 227-line useProjectData. Surfaced by audit 2026-09-08 (Finding #8, Low)
 
 ## Completed
 
