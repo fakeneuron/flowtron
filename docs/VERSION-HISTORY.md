@@ -22,6 +22,22 @@ unless correcting a factual error.
 
 ---
 
+## v5.25.0 — a context-load diet for the contract layer
+
+- `SPEC.md` shed 647 lines into eight new lazy `SPEC/` modules that load only
+  on the task shape that needs them — every section stays reachable, only the
+  load timing moves.
+- The three largest lifecycle skills now cite their canonical SPEC homes
+  instead of restating them (83,391 → 72,450 bytes).
+- New `docs/CONTEXT-BUDGET.md`: per-file byte budgets with a measured ledger,
+  checked and refreshed by `/ft-release` at every cut — the ratchet the
+  earlier `SPEC.md` split never had.
+- Gate machinery untangled and relaxed where it was over-tight, with the cue
+  vocabulary and skip-discipline prose split into their own modules.
+
+Also: a cross-site navigation guard and three structural cleanups in the
+visualizer; the fleet updater now exits cleanly on an unreadable fleet root.
+
 ## v5.24.0 — self-hosting Claude Code, and a documentation drift sweep
 
 - Flowtron now self-hosts its own Claude Code agent guide via a repo-root `CLAUDE.md` → `AGENTS.md` symlink.

@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-(none)
+- [ ] **CORE-542** [medium]🧩 | ft-task-sop-probe-hint — Mirror CORE-535.2's probe-by-default-above-~3-hits hint into `SPEC/procedures/ft-task.md`'s Archive-skim step (line ~255); the tasknote template carries it, the agent-neutral SOP does not. Re-verify the SOP against `claude/skills/ft-task/` + `templates/tasknote-template.md` and bump its `last-verified:` stamp. Surfaced by the v5.25.0 release SOP-currency check ([[CORE-541]]).
 
 ## Future Opportunities
 
@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-541** [medium]🧩 | release v5.25.0 — Completed 2026-09-08.
 - [x] **FE-105** [heavy]🧠 | ui-shell-structure-pass — Completed 2026-09-08.
 - [x] **CORE-540** [light] | updater-unreadable-root-exit — Completed 2026-09-08.
 - [x] **FE-104** [medium] | node-tier-contained-read-dedup — Completed 2026-09-08.

@@ -66,8 +66,8 @@ its cap.
 
 ## Ledger
 
-Measured 2026-09-07 at v5.24.0, refreshed by [[CORE-535.N]] — the epic audit,
-which re-measured every row and corrected the two that had drifted. Refreshed by
+Measured 2026-09-08 at v5.25.0, refreshed by [[CORE-541]] — the release cut,
+which re-measured every row. Refreshed by
 `/ft-release` §7.1 in the same cut that reads it — if these numbers are stale,
 the cut that made them stale skipped its own standing check.
 
@@ -75,10 +75,10 @@ the cut that made them stale skipped its own standing check.
 
 | Surface | Chars |
 |---|---|
-| `SPEC.md` | 48,771 |
-| `claude/skills/ft-task/SKILL.md` | 27,588 |
+| `SPEC.md` | 49,002 |
+| `claude/skills/ft-task/SKILL.md` | 28,845 |
 | `AGENTS.md` (`CLAUDE.md` is a symlink to it) | 6,816 |
-| `.flowtron/tasknote/README.md` | 6,559 |
+| `.flowtron/tasknote/README.md` | 6,849 |
 | `templates/tasknote-template.md` | 4,935 |
 | `.flowtron/PLAN.md` | ~2–3k (band — see below) |
 
@@ -123,8 +123,8 @@ ordinary run, which is why neither earns a budget row.
 
 ### Skill bodies (`SKILL.md` only)
 
-ft-release 37,369 · ft-task 27,588 · ft-close-epic 26,935 · ft-epic-discovery
-26,356 · ft-goal-task 26,176 · ft-audit 21,707 · ft-micro-task 18,533 ·
+ft-release 37,369 · ft-task 28,845 · ft-close-epic 26,935 · ft-epic-discovery
+26,356 · ft-goal-task 26,497 · ft-audit 21,707 · ft-micro-task 18,981 ·
 ft-update 16,095 · ft-file-followup 16,031 · ft-refactor 13,673 ·
 ft-starter-task 13,253 · ft-worktree-end 12,598 · ft-worktree-start 12,008 ·
 ft-new-project 11,425 · ft-audit-context 10,209 · ft-flowtron 9,134 · ft-stats
@@ -132,7 +132,7 @@ ft-new-project 11,425 · ft-audit-context 10,209 · ft-flowtron 9,134 · ft-stat
 
 Lazy fragments are not counted against a skill's row — they arrive later, and
 only on the branch that needs them. Whole-directory totals for the two largest:
-`ft-release` 83,421, `ft-task` 54,601. Splitting a body into fragments defers
+`ft-release` 85,691, `ft-task` 56,378. Splitting a body into fragments defers
 load; it does not remove it ([[CORE-507]] §2.5), so a skill that fragments its
 way under the cap without shedding content has gamed the number rather than met
 it.
@@ -140,7 +140,7 @@ it.
 ### Adopter-side always-loaded
 
 `claude/AGENTS-snippet.md` 15,884 (pasted into the adopter's `AGENTS.md`) ·
-`templates/tasknote-README.md` 4,257 · `templates/PLAN.md` 2,736.
+`templates/tasknote-README.md` 4,257 · `templates/PLAN.md` 2,801.
 
 ## How this is enforced
 
