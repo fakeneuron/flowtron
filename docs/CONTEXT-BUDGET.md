@@ -60,14 +60,14 @@ at the release gate; a surface over budget **without** one blocks the cut. Each
 owning task deletes its own row at closure, so the exemption expires on its own
 and needs no later flip.
 
-*Empty.* [[CORE-535.5]] deleted the last row (`SPEC/gates.md`, 51,809 → 31,771)
+*Empty.* [[CORE-535.5]] deleted the last row (`SPEC/gates.md`, 51,809 → 32,299)
 at its own closure, as the rule above intends. Every budgeted surface is under
 its cap.
 
 ## Ledger
 
-Measured 2026-09-07 at v5.24.0 by [[CORE-535.5]], the task that last changed
-the `SPEC/` surfaces. Refreshed by
+Measured 2026-09-07 at v5.24.0, refreshed by [[CORE-535.N]] — the epic audit,
+which re-measured every row and corrected the two that had drifted. Refreshed by
 `/ft-release` §7.1 in the same cut that reads it — if these numbers are stale,
 the cut that made them stale skipped its own standing check.
 
@@ -77,14 +77,14 @@ the cut that made them stale skipped its own standing check.
 |---|---|
 | `SPEC.md` | 48,771 |
 | `claude/skills/ft-task/SKILL.md` | 27,588 |
-| `AGENTS.md` (`CLAUDE.md` is a symlink to it) | 6,840 |
+| `AGENTS.md` (`CLAUDE.md` is a symlink to it) | 6,816 |
 | `.flowtron/tasknote/README.md` | 6,559 |
 | `templates/tasknote-template.md` | 4,935 |
-| `.flowtron/PLAN.md` | 2,611 |
+| `.flowtron/PLAN.md` | 2,253 |
 
 ### Lazy `SPEC/` modules
 
-`gates.md` 31,771 · `procedures/ft-task.md` 29,700 ·
+`gates.md` 32,299 · `procedures/ft-task.md` 29,700 ·
 `tasknote-selection.md` 24,480 · `model.md` 18,699 ·
 `cue-vocabulary.md` 14,819 · `gate-discipline.md` 13,096 ·
 `plan-parser.md` 8,310 · `blocked.md` 8,034 · `loop.md` 7,971 ·
@@ -110,7 +110,7 @@ ft-release 37,369 · ft-task 27,588 · ft-close-epic 26,935 · ft-epic-discovery
 ft-update 16,095 · ft-file-followup 16,031 · ft-refactor 13,673 ·
 ft-starter-task 13,253 · ft-worktree-end 12,598 · ft-worktree-start 12,008 ·
 ft-new-project 11,425 · ft-audit-context 10,209 · ft-flowtron 9,134 · ft-stats
-8,874 · ft-audit-repo 8,166 · ft-spec 7,684.
+8,893 · ft-audit-repo 8,166 · ft-spec 7,684.
 
 Lazy fragments are not counted against a skill's row — they arrive later, and
 only on the branch that needs them. Whole-directory totals for the two largest:

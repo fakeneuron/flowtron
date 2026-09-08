@@ -37,8 +37,8 @@ in `SPEC.md`; read it before starting non-trivial work.
 - Each PLAN.md task line carries a `[model]` segment naming the model tier or name the task should run on end-to-end; on mismatch, surface it before continuing. Contract: `SPEC/model.md` §"Model field".
 - Six bundled skills are utility-only, not part of the tasknote lifecycle
   above: `/ft-audit`, `/ft-audit-context`, `/ft-audit-repo`, `/ft-flowtron`,
-  `/ft-stats`, `/ft-new-project`. Full roster + naming convention: `SPEC.md`
-  §"Skill namespace" (contract in `SPEC/layout.md`).
+  `/ft-stats`, `/ft-new-project`. Full roster + naming convention:
+  `SPEC/layout.md` §"Skill namespace".
 
 Flowtron self-hosts its own roadmap. For non-trivial edits, follow the
 tasknote lifecycle: `SPEC.md` §"The 4-phase workflow". Do not skip phases

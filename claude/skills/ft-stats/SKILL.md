@@ -50,8 +50,8 @@ zero rows.
 For each candidate line in either file:
 
 1. Strip optional leading indent (2-space child indent for epic subtasks).
-2. Match against the closure stub form from `SPEC.md` §"`## Completed` archive
-   convention" (inline-audit-fix rows use the self-contained description
+2. Match against the closure stub form from `SPEC/tasknote-selection.md`
+   §"`## Completed` archive convention" (inline-audit-fix rows use the self-contained description
    form from the same module's §"Exception — inline audit fixes"):
 
    ```text
