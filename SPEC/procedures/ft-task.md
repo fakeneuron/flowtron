@@ -2,7 +2,7 @@
 procedure: ft-task
 source: claude/skills/ft-task/ templates/tasknote-template.md
 restates: SPEC.md
-last-verified: v5.21.0 · 2026-08-29
+last-verified: v5.25.0 · 2026-09-08
 ---
 
 # Procedure SOP — `ft-task`
@@ -256,8 +256,12 @@ ticking each box in the tasknote as you go:
   prior tasknotes touching the files in scope (if YAML `touches:` is set,
   prefer those paths); also open IDs named by `## 🔗 Related`, YAML
   `supersedes:`, and any ⚠️ `Superseded by` pointer on the hits — still
-  grep + read, no query engine; log load-bearing findings (renames,
-  regressions, prior decisions) before re-interpreting the task.
+  grep + read, no query engine; when the grep returns more than a handful of
+  notes (~3 is a fair line), prefer handing the reading to a **probe** — the
+  read step's clause above, applied where it bites hardest, since a path grep
+  over a mature archive can return dozens of notes — rather than pulling every
+  hit into this window; log load-bearing findings (renames, regressions, prior
+  decisions) before re-interpreting the task.
 - **Drift check** — verify cited paths, line numbers, function names, and
   root-cause hypotheses still match the code, **and** cross-reference the plan
   you are forming against its `PLAN.md` line and the SPEC contracts it touches
