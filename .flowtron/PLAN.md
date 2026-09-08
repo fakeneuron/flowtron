@@ -20,6 +20,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Low
 
 - [ ] **CORE-537** [light] | plan-row-ledger-churn — The ledger's `.flowtron/PLAN.md` row goes stale at every task closure — unlike the other 26 rows it tracks a file that changes by design. Decide: drop the row, replace it with an order-of-magnitude band, or mark it refreshed-only-at-release. Surfaced by [[CORE-535.N]].
+- [ ] **CORE-538** [medium] | skill-citation-count-claim — `.flowtron/tasknote/README.md`'s "all 63 skill-body §"…" citations resolve today" cannot be re-derived: a naive count returns 254. Recover [[CORE-492]]'s counting rule and restate the claim, or drop the number and keep the resolution assertion. Surfaced by [[CORE-535.N]].
 
 ## Future Opportunities
 
