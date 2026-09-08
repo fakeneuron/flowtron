@@ -78,9 +78,13 @@ contract change can falsify one with no sweep reaching it —
 list for a day after CORE-489.3 added `docs/VISION.md` to it. The catch layer is
 the epic-audit sweep, which is where CORE-489.N found it; per-task closure is
 not expected to. CORE-492 weighed a release-time citation guard for this and
-declined: all 63 skill-body `§"…"` citations resolve today, and a resolution
-check would not have caught that miss anyway — the section it cited never moved,
-only the truth of what was said about it.
+declined: every citation of the shape `` `path.md` §"Section" `` from
+`claude/skills/` into a doc on this list resolved when it checked (2026-08-29;
+the count is deliberately not restated — it moves with every skill edit, and
+that shape is enough to re-run the scan, treating adopter-relative paths and
+bold-line or bullet-lead anchors as resolved), and a resolution check would
+not have caught that miss anyway — the section it cited never moved, only the
+truth of what was said about it.
 
 ## Project quick commands
 
