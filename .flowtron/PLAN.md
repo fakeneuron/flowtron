@@ -23,10 +23,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Future Opportunities
 
-- [ ] **FE-105** [heavy]🧠 | ui-shell-structure-pass — Run /ft-audit structure viz/src/ui (or /ft-refactor viz/src/ui/App.tsx) for a sequenced plan on the 286-line App and 227-line useProjectData. Surfaced by audit 2026-09-08 (Finding #8, Low)
+(none)
 
 ## Completed
 
+- [x] **FE-105** [heavy]🧠 | ui-shell-structure-pass — Completed 2026-09-08.
 - [x] **CORE-540** [light] | updater-unreadable-root-exit — Completed 2026-09-08.
 - [x] **FE-104** [medium] | node-tier-contained-read-dedup — Completed 2026-09-08.
 - [x] **FE-103** [light] | fence-mask-shared-module — Completed 2026-09-08.
