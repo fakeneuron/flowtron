@@ -1,3 +1,5 @@
+import { fenceMask } from './fence.ts';
+
 export type TasknoteStatus = 'starter' | 'not-started' | 'in-progress' | 'blocked' | 'completed';
 
 export interface TasknoteFrontmatter {
@@ -125,39 +127,6 @@ export function parseFrontmatter(raw: unknown): TasknoteFrontmatter | null {
 const SECTION_HEADING = /^##\s+(.+?)\s*$/;
 const SUBSECTION_HEADING = /^###\s+(.+?)\s*$/;
 const HORIZONTAL_RULE = /^---\s*$/;
-
-// A fenced code block is content the note is *showing*, not structure it *has*:
-// tasknotes routinely quote example PLAN.md rows, template bodies, and YAML
-// frontmatter, so a heading, checkbox, or `---` rule inside a fence must not end
-// a section, switch a sub-section, or count as a criterion. Every line-scanner
-// below consults this one mask so they agree on which lines are real structure.
-// CommonMark fence rules: up to 3 spaces of indent, the closing run is the same
-// character and at least as long as the opening one, and a backtick info string
-// may not itself contain a backtick. An unclosed fence runs to end-of-input,
-// also per CommonMark.
-const FENCE_DELIMITER = /^ {0,3}(`{3,}|~{3,})(.*)$/;
-
-function fenceMask(lines: string[]): boolean[] {
-  const mask: boolean[] = [];
-  let open: string | null = null;
-  for (const line of lines) {
-    const m = FENCE_DELIMITER.exec(line);
-    if (open === null) {
-      if (m !== null && !(m[1][0] === '`' && m[2].includes('`'))) {
-        open = m[1];
-        mask.push(true);
-      } else {
-        mask.push(false);
-      }
-      continue;
-    }
-    mask.push(true);
-    const closes =
-      m !== null && m[1][0] === open[0] && m[1].length >= open.length && m[2].trim() === '';
-    if (closes) open = null;
-  }
-  return mask;
-}
 
 function escapeRegExp(str: string): string {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
