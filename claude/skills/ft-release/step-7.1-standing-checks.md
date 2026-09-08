@@ -110,8 +110,8 @@ The first command is the closed-task count — one archived tasknote per closed 
 **Standing context-budget check.** Flowtron ships per-file byte budgets for the
 surfaces an agent loads to run one task. They live in
 [`docs/CONTEXT-BUDGET.md`](../../../docs/CONTEXT-BUDGET.md) §"Budgets" and are
-restated nowhere — this check measures, that doc decides. Measure from the
-repository root:
+restated nowhere — this check measures, that doc decides. Measure the budgeted
+surfaces from the repository root:
 
 ```sh
 wc -c SPEC.md SPEC/gates.md claude/skills/*/SKILL.md | sort -rn
@@ -134,12 +134,56 @@ every other skill body falls under the glob row). Then:
 - **Under budget** — nothing to do.
 
 **Refresh the ledger in this cut.** `docs/CONTEXT-BUDGET.md` §"Ledger" carries
-measured numbers and a `Measured YYYY-MM-DD at vX.Y.Z` stamp. Update both from
-the `wc -c` output above, the same mechanical substitution as the version edits
-in Step 5. The doc is deliberately absent from
+measured numbers and a `Measured YYYY-MM-DD at vX.Y.Z` stamp. The budget command
+above measures only the budgeted surfaces, which is a minority of the ledger, so
+it cannot refresh the ledger on its own. Run these four instead — one per
+§"Ledger" subsection, in the order that section presents them:
+
+```sh
+# Always loaded to run one task
+wc -c SPEC.md claude/skills/ft-task/SKILL.md AGENTS.md \
+      .flowtron/tasknote/README.md templates/tasknote-template.md
+
+# Lazy SPEC/ modules
+wc -c SPEC/*.md SPEC/procedures/*.md | sort -rn
+
+# Skill bodies (SKILL.md only)
+wc -c claude/skills/*/SKILL.md | sort -rn
+
+# Adopter-side always-loaded
+wc -c claude/AGENTS-snippet.md templates/tasknote-README.md templates/PLAN.md
+```
+
+Then the two whole-directory totals that §"Skill bodies" cites in prose, which
+the `SKILL.md`-only glob above does not reach:
+
+```sh
+find claude/skills/ft-release -type f -exec cat {} + | wc -c
+find claude/skills/ft-task    -type f -exec cat {} + | wc -c
+```
+
+Each command's output maps to exactly one §"Ledger" subsection, so the refresh
+is a mechanical substitution — the same footing as the version edits in Step 5.
+Update the stamp as well. A row these commands do not measure is one the doc has
+deliberately left unmeasured; §"Ledger" says which and why, and this check does
+not restate that decision.
+
+The doc is deliberately absent from
 `.flowtron/tasknote/README.md` §"AI-referenced docs" (its own closing section
 says why), so this check is the *only* thing that keeps those numbers honest —
 skipping the refresh silently retires the ledger.
+
+**Why the refresh commands are wider than the budget one.** They were the same
+command until [[CORE-539]]. It measured `SPEC.md`, `SPEC/gates.md`, and the skill
+bodies — exactly the budgeted set, which is right for the budget comparison but
+reached only 21 of the ledger's then-46 rows. "Refresh the ledger from that
+output" therefore covered under half of it, and the remaining rows decayed with
+no cut able to catch them: measured at HEAD against a ledger stamped the *same
+day*, `.flowtron/tasknote/README.md` was +290, `templates/PLAN.md` +65, and the
+`ft-task` whole-directory total +1,777. Do not re-narrow these back into one
+command — the two halves have different jobs. Widening what the budget gate
+*blocks on* is a separate decision and belongs in `docs/CONTEXT-BUDGET.md`
+§"Budgets", not here.
 
 **Why this check exists.** [[CORE-EPIC-223]] split `SPEC.md` at ~40,000 chars,
 verified the result with `wc -c` in its Phase 3, and wrote the number into no
@@ -149,8 +193,12 @@ is that ratchet. It clears the [[CORE-487]] bar for a new standing check: a byte
 count is *derivable*, not a prose paraphrase, so it cannot cry wolf the way the
 citation guard [[CORE-492]] declined would have.
 
-**On the glob.** `claude/skills/*/SKILL.md` is safe here despite §"Glob-free by
-design" above. That note guards *unmatched* globs — zsh aborts a loop with
-`no matches found` before its body runs — and this pattern always matches the
-shipped skill inventory inside the repo. Do not "fix" it into a `find` loop;
+**On the globs.** `claude/skills/*/SKILL.md`, `SPEC/*.md`, and
+`SPEC/procedures/*.md` are safe here despite §"Glob-free by design" above. That
+note guards *unmatched* globs — zsh aborts a loop with `no matches found` before
+its body runs — and each of these always matches shipped content inside the repo.
+Keeping them as globs is also what makes a newly shipped skill or `SPEC/` module
+measured with no edit to this check. Do not "fix" them into `find` loops;
 `wc -c`'s own multi-file output is what makes the result readable at a glance.
+The two whole-directory totals above do use `find`, on literal directory paths —
+no glob to go unmatched, and no loop.

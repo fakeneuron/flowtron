@@ -15,7 +15,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-539** [medium] | release-ledger-refresh-gap — `/ft-release` §7.1 measures only `SPEC.md`, `SPEC/gates.md`, and skill bodies, then says to refresh the whole ledger from that output — reaching 21 of 46 rows; the other 25 silently decay (`tasknote/README.md` drifted +290 on refresh day). Widen the command or shrink the ledger. Surfaced by [[CORE-537]].
 
 ## Low
 
@@ -24,6 +23,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-539** [medium] | release-ledger-refresh-gap — Completed 2026-09-07.
 - [x] **CORE-537** [light] | plan-row-ledger-churn — Completed 2026-09-07.
 - [x] **CORE-538** [medium] | skill-citation-count-claim — Completed 2026-09-07.
 - [x] **CORE-536** [heavy] | gate-relaxation-pass — Completed 2026-09-07.
