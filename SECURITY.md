@@ -226,6 +226,15 @@ dev server:
   header. Same-origin requests from the visualizer's own UI, and
   origin-less requests from the local terminal (e.g. `curl`), are
   allowed.
+- Rejects `/api/*` requests carrying `Sec-Fetch-Site: cross-site`
+  (`viz/src/originGuard.ts`), ahead of the `Origin` / `Referer` checks.
+  Those two headers are both absent from a cross-origin iframe navigation
+  sent with `referrerpolicy="no-referrer"`, so without this a page on any
+  site could frame `/api/events` and occupy SSE connection slots up to the
+  `MAX_SSE_CLIENTS` cap. Only the `cross-site` value is rejected: `none`
+  (address-bar navigation), `same-origin`, and `same-site` fall through to
+  the exact-origin checks, and an **absent** header still passes, so
+  non-browser clients such as `curl` are unaffected.
 - Rejects non-GET/HEAD `/api/*` requests with 405, ahead of origin
   validation and business logic (`viz/src/devApi.ts`).
 - Reads files only from projects discovered under
@@ -248,11 +257,14 @@ dev server:
   build-time nonce. `img-src 'self' data:` permits data-URI images.
   `connect-src` is limited to same-origin plus the local HMR websocket.
   Every `/api/*` response additionally carries its own locked-down
-  `Content-Security-Policy: default-src 'none'` and
-  `X-Content-Type-Options: nosniff` (`viz/src/devApi.ts`), set ahead of
+  `Content-Security-Policy: default-src 'none'; frame-ancestors 'none'`
+  and `X-Content-Type-Options: nosniff` (`viz/src/devApi.ts`), set ahead of
   any guard clause so even 403/400/405/500 error bodies carry them — these
   responses are JSON/text/SSE, never HTML, so they don't share the page
-  CSP's script/style tolerances.
+  CSP's script/style tolerances. `frame-ancestors` is spelled out because
+  `default-src` provides no fallback for it; it is the client-side half of
+  the anti-framing pair whose server-side half is the `Sec-Fetch-Site`
+  rejection above.
 - Declares `Content-Type: text/plain; charset=utf-8` on every `/api/*`
   error body — 400, 403, 405, 500, and the 503 SSE-capacity reject
   (`endPlain` in `viz/src/apiResponse.ts`, shared by `devApi.ts` and

@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **FE-102** [medium]🧩 | api-cross-site-navigation-guard — Add `frame-ancestors 'none'` to the /api/* CSP and reject `Sec-Fetch-Site: cross-site` in originGuard (absent header still passes, keeping curl), so a no-referrer iframe can't hold SSE slots; sanitize the unknown-project stderr line with JSON.stringify; update SECURITY.md §Visualizer and the devApi tests. Surfaced by audit 2026-09-08 (Finding #1, Medium; Finding #2, Low)
+(none)
 
 ## Low
 
@@ -29,6 +29,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-102** [medium] | api-cross-site-navigation-guard — Completed 2026-09-08.
 - [x] **CORE-539** [medium] | release-ledger-refresh-gap — Completed 2026-09-07.
 - [x] **CORE-537** [light] | plan-row-ledger-churn — Completed 2026-09-07.
 - [x] **CORE-538** [medium] | skill-citation-count-claim — Completed 2026-09-07.

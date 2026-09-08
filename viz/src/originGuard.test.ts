@@ -113,6 +113,50 @@ describe('originGuard', () => {
     expect(state.ended).toBe(true);
   });
 
+  it('blocks a Sec-Fetch-Site: cross-site request with 403', () => {
+    const { res, state } = makeRes();
+    const req = makeReq({ 'sec-fetch-site': 'cross-site' });
+
+    expect(originGuard(req, res)).toBe(false);
+    expect(state.statusCode).toBe(403);
+    expect(state.body).toBe('Forbidden: cross-site request');
+    expect(state.headers['content-type']).toBe('text/plain; charset=utf-8');
+    expect(state.ended).toBe(true);
+  });
+
+  it('blocks Sec-Fetch-Site: cross-site even with an otherwise-allowed Origin', () => {
+    const { res, state } = makeRes();
+    const req = makeReq({
+      'sec-fetch-site': 'cross-site',
+      origin: `http://localhost:${DEV_PORT}`,
+    });
+
+    expect(originGuard(req, res)).toBe(false);
+    expect(state.statusCode).toBe(403);
+    expect(state.body).toBe('Forbidden: cross-site request');
+  });
+
+  it.each(['same-origin', 'same-site', 'none'])(
+    'allows Sec-Fetch-Site: %s',
+    (site) => {
+      const { res, state } = makeRes();
+      const req = makeReq({ 'sec-fetch-site': site });
+
+      expect(originGuard(req, res)).toBe(true);
+      expect(state.ended).toBe(false);
+      expect(state.statusCode).toBe(200);
+    },
+  );
+
+  it('allows a request with no Sec-Fetch-Site header (terminal curl)', () => {
+    const { res, state } = makeRes();
+    const req = makeReq({ 'sec-fetch-site': undefined });
+
+    expect(originGuard(req, res)).toBe(true);
+    expect(state.ended).toBe(false);
+    expect(state.statusCode).toBe(200);
+  });
+
   it('exposes the loopback allowlist with exactly two entries', () => {
     expect(ALLOWED_ORIGINS.has(`http://localhost:${DEV_PORT}`)).toBe(true);
     expect(ALLOWED_ORIGINS.has(`http://127.0.0.1:${DEV_PORT}`)).toBe(true);

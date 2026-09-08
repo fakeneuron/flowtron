@@ -170,7 +170,7 @@ describe('projectFromQuery', () => {
 
     // The caller-supplied name is operator-facing diagnostics, not wire content.
     expect(result).toEqual({ error: 'unknown project' });
-    expect(logged).toHaveBeenCalledWith('[devApi] unknown project: ghost');
+    expect(logged).toHaveBeenCalledWith('[devApi] unknown project: "ghost"');
     logged.mockRestore();
   });
 });
@@ -216,7 +216,9 @@ describe('createProjectsHandler', () => {
 
     expect(state.headers['content-type']).toBe('application/json');
     expect(state.headers['x-content-type-options']).toBe('nosniff');
-    expect(state.headers['content-security-policy']).toBe("default-src 'none'");
+    expect(state.headers['content-security-policy']).toBe(
+      "default-src 'none'; frame-ancestors 'none'",
+    );
     expect(JSON.parse(state.body)).toEqual({
       latestRelease: 'v5.6.0',
       projects: [
@@ -286,7 +288,9 @@ describe('createPlanHandler', () => {
 
     expect(state.headers['content-type']).toBe('text/plain; charset=utf-8');
     expect(state.headers['x-content-type-options']).toBe('nosniff');
-    expect(state.headers['content-security-policy']).toBe("default-src 'none'");
+    expect(state.headers['content-security-policy']).toBe(
+      "default-src 'none'; frame-ancestors 'none'",
+    );
     expect(state.body).toBe(planText);
   });
 
@@ -381,7 +385,9 @@ describe('createPlanArchiveHandler', () => {
 
     expect(state.headers['content-type']).toBe('text/plain; charset=utf-8');
     expect(state.headers['x-content-type-options']).toBe('nosniff');
-    expect(state.headers['content-security-policy']).toBe("default-src 'none'");
+    expect(state.headers['content-security-policy']).toBe(
+      "default-src 'none'; frame-ancestors 'none'",
+    );
     expect(state.body).toBe(planArchiveText);
   });
 
@@ -525,7 +531,9 @@ created: 2026-05-18
 
     expect(state.headers['content-type']).toBe('application/json');
     expect(state.headers['x-content-type-options']).toBe('nosniff');
-    expect(state.headers['content-security-policy']).toBe("default-src 'none'");
+    expect(state.headers['content-security-policy']).toBe(
+      "default-src 'none'; frame-ancestors 'none'",
+    );
     const parsed = JSON.parse(state.body) as Array<{ id: string }>;
     expect(parsed.map((t) => t.id)).toEqual(['CORE-999']);
   });
@@ -689,7 +697,9 @@ created: 2026-05-01
 
     expect(state.headers['content-type']).toBe('application/json');
     expect(state.headers['x-content-type-options']).toBe('nosniff');
-    expect(state.headers['content-security-policy']).toBe("default-src 'none'");
+    expect(state.headers['content-security-policy']).toBe(
+      "default-src 'none'; frame-ancestors 'none'",
+    );
     const parsed = JSON.parse(state.body) as Array<{ id: string }>;
     expect(parsed.map((t) => t.id)).toEqual(['CORE-001']);
   });
@@ -732,7 +742,9 @@ describe('createEventsHandler', () => {
     handler(req, res);
 
     expect(state.headers['x-content-type-options']).toBe('nosniff');
-    expect(state.headers['content-security-policy']).toBe("default-src 'none'");
+    expect(state.headers['content-security-policy']).toBe(
+      "default-src 'none'; frame-ancestors 'none'",
+    );
     expect(state.headers['content-type']).toBe('text/event-stream');
     expect(state.headers['cache-control']).toBe('no-cache, no-transform');
     expect(state.headers['connection']).toBe('keep-alive');

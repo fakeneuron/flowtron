@@ -16,9 +16,13 @@ type AsyncHandler = (req: IncomingMessage, res: ServerResponse) => Promise<void>
 // rather than reuse vite.config.ts's HTML-page CSP (script-src/style-src
 // tolerances that make no sense for these payloads). Applied ahead of any
 // guard clause so even 403/400/500 error bodies carry it.
+// `frame-ancestors` is spelled out because `default-src` does not fall back to
+// it: without the directive nothing stops a hostile page framing /api/events to
+// occupy SSE slots. It pairs with originGuard's `Sec-Fetch-Site` reject — this
+// half needs the browser to honor CSP, that half does not.
 const API_SECURITY_HEADERS: Readonly<Record<string, string>> = {
   'X-Content-Type-Options': 'nosniff',
-  'Content-Security-Policy': "default-src 'none'",
+  'Content-Security-Policy': "default-src 'none'; frame-ancestors 'none'",
 };
 
 function applyApiHeaders(res: ServerResponse): void {
@@ -52,7 +56,9 @@ export function projectFromQuery(
     // place to reflect request input back. The name still reaches the operator
     // on server stderr, matching the log-detail/return-generic split FE-047
     // established for these handlers' 500 paths.
-    console.error(`[devApi] unknown project: ${name}`);
+    // JSON.stringify, not raw interpolation: a `?project=` value containing a
+    // newline would otherwise forge or split a line in the operator's stderr.
+    console.error(`[devApi] unknown project: ${JSON.stringify(name)}`);
     return { error: 'unknown project' };
   }
   return project;

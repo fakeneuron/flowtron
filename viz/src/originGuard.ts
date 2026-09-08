@@ -16,6 +16,20 @@ export const ALLOWED_ORIGINS: ReadonlySet<string> = new Set([
 // returns false. Origin-less requests (terminal `curl`, EventSource
 // fallbacks) are allowed — `server.allowedHosts` handles DNS-rebinding.
 export function originGuard(req: IncomingMessage, res: ServerResponse): boolean {
+  // Checked before Origin/Referer because it is the only signal present in the
+  // case those two miss: a cross-origin iframe navigation sends no `Origin`
+  // (it is a GET navigation, not a CORS request) and `referrerpolicy="no-referrer"`
+  // strips the `Referer`, so a hostile page could hold /api/events slots against
+  // the MAX_SSE_CLIENTS cap (FE-062) until the operator's own board takes the 503.
+  // Browsers always send this header; only `cross-site` is rejected — `none`
+  // (address-bar navigation), `same-origin`, and `same-site` fall through to the
+  // exact-origin checks below, and an absent header still passes so terminal
+  // `curl` and other non-browser clients keep working.
+  const fetchSite = req.headers['sec-fetch-site'];
+  if (fetchSite === 'cross-site') {
+    endPlain(res, 403, 'Forbidden: cross-site request');
+    return false;
+  }
   const origin = req.headers.origin;
   if (typeof origin === 'string' && origin.length > 0) {
     if (!ALLOWED_ORIGINS.has(origin)) {
