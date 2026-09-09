@@ -22,6 +22,23 @@ unless correcting a factual error.
 
 ---
 
+## v5.26.0 — the unattended posture reaches the filing motion
+
+- `/ft-file-followup --unattended` lets an operator-less closure discharge the
+  deferred-hand-off filing duty `SPEC.md` imposes on it — commit authority comes
+  from the duty itself, with every attended guardrail still binding.
+- The two skills that previously hung on the flag now terminate readably instead
+  of firing a question into an empty session.
+- `/ft-release` gained a blocking CI-status gate on the commit it builds on, after
+  v5.25.0 was tagged on a commit whose own CI run had concluded `failure` with
+  nothing reading it.
+- §7.1 Pair L binds the `drift` CI job to the release checks it hand-copies,
+  closing the gap that let that failure sit unnoticed through a whole cut.
+
+Also: five doc-accuracy fixes including the stale grep that reddened the CI badge;
+the agent-neutral `ft-task` SOP caught up with its source template; and
+`viz/package.json`'s version documented as deliberately unmaintained.
+
 ## v5.25.0 — a context-load diet for the contract layer
 
 - `SPEC.md` shed 647 lines into eight new lazy `SPEC/` modules that load only

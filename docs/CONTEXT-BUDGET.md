@@ -66,7 +66,7 @@ its cap.
 
 ## Ledger
 
-Measured 2026-09-08 at v5.25.0, refreshed by [[CORE-541]] — the release cut,
+Measured 2026-09-09 at v5.26.0, refreshed by [[CORE-553]] — the release cut,
 which re-measured every row. Refreshed by
 `/ft-release` §7.1 in the same cut that reads it — if these numbers are stale,
 the cut that made them stale skipped its own standing check.
@@ -75,10 +75,10 @@ the cut that made them stale skipped its own standing check.
 
 | Surface | Chars |
 |---|---|
-| `SPEC.md` | 49,002 |
+| `SPEC.md` | 49,285 |
 | `claude/skills/ft-task/SKILL.md` | 28,845 |
 | `AGENTS.md` (`CLAUDE.md` is a symlink to it) | 6,816 |
-| `.flowtron/tasknote/README.md` | 6,849 |
+| `.flowtron/tasknote/README.md` | 7,978 |
 | `templates/tasknote-template.md` | 4,935 |
 | `.flowtron/PLAN.md` | ~2–3k (band — see below) |
 
@@ -102,8 +102,8 @@ not ship.
 
 ### Lazy `SPEC/` modules
 
-`gates.md` 34,866 · `procedures/ft-task.md` 30,315 ·
-`tasknote-selection.md` 24,480 · `model.md` 18,699 ·
+`gates.md` 34,963 · `procedures/ft-task.md` 31,205 ·
+`tasknote-selection.md` 25,940 · `model.md` 18,699 ·
 `gate-discipline.md` 15,386 · `cue-vocabulary.md` 15,138 ·
 `plan-parser.md` 8,310 · `blocked.md` 8,034 · `loop.md` 7,971 ·
 `layout.md` 6,567 · `procedures/README.md` 6,128 ·
@@ -123,16 +123,16 @@ ordinary run, which is why neither earns a budget row.
 
 ### Skill bodies (`SKILL.md` only)
 
-ft-release 37,369 · ft-task 28,845 · ft-close-epic 26,935 · ft-epic-discovery
-26,356 · ft-goal-task 26,497 · ft-audit 21,707 · ft-micro-task 18,981 ·
-ft-update 16,095 · ft-file-followup 16,031 · ft-refactor 13,673 ·
+ft-release 39,315 · ft-task 28,845 · ft-epic-discovery 26,986 · ft-close-epic
+26,935 · ft-goal-task 26,497 · ft-file-followup 23,648 · ft-audit 21,707 ·
+ft-micro-task 18,981 · ft-update 16,095 · ft-refactor 13,673 ·
 ft-starter-task 13,253 · ft-worktree-end 12,598 · ft-worktree-start 12,008 ·
-ft-new-project 11,425 · ft-audit-context 10,209 · ft-flowtron 9,134 · ft-stats
+ft-new-project 11,425 · ft-audit-context 10,209 · ft-flowtron 9,287 · ft-stats
 8,893 · ft-audit-repo 8,166 · ft-spec 7,684.
 
 Lazy fragments are not counted against a skill's row — they arrive later, and
 only on the branch that needs them. Whole-directory totals for the two largest:
-`ft-release` 85,691, `ft-task` 56,378. Splitting a body into fragments defers
+`ft-release` 92,839, `ft-task` 57,186. Splitting a body into fragments defers
 load; it does not remove it ([[CORE-507]] §2.5), so a skill that fragments its
 way under the cap without shedding content has gamed the number rather than met
 it.
