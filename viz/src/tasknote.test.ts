@@ -821,4 +821,21 @@ evil: !!omap
 `;
     expect(() => parseTasknote('EVIL-2', '/abs/EVIL-2.md', text)).toThrow(/omap|unknown tag|unresolved tag/i);
   });
+
+  it('does not apply YAML merge keys under CORE_SCHEMA (GHSA-2883)', () => {
+    const text = `---
+title: kept
+status: in-progress
+created: 2026-01-01
+<<:
+  title: pwned
+  tags: [pwned]
+---
+
+# EVIL-3 | Evil
+`;
+    const note = parseTasknote('EVIL-3', '/abs/EVIL-3.md', text);
+    expect(note.frontmatter?.title).toBe('kept');
+    expect(note.frontmatter?.tags).toEqual([]);
+  });
 });

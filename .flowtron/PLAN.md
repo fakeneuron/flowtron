@@ -17,7 +17,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **FE-EPIC-106** [medium]🧩 | viz-tier-guardrail — Align the UI-tier eslint Node-only denylist with viz/README.md (including tasknoteRead and .ts suffixes), bump js-yaml past GHSA-2883, and bring @types/node in line with engines. Discovery supplied by audit-repo 2026-09-09. Surfaced by audit-repo 2026-09-09 (Theme: Labeled-mirror residual)
   - [x] **FE-106.2** [light]🔧 | eslint-node-tier-list — Completed 2026-09-09.
-  - [ ] **FE-106.3** [light]🔧 | js-yaml-merge-cve — Bump viz's js-yaml to ^4.3.2 and add a CORE_SCHEMA merge-key rejection test next to the existing !!omap case.
+  - [x] **FE-106.3** [light]🔧 | js-yaml-merge-cve — Completed 2026-09-09.
   - [ ] **FE-106.4** [light]🔧 | types-node-engines — Move @types/node off the v20 line onto a 22/24 line that matches viz engines and CI Node 24.
   - [ ] **FE-106.N** [medium]🧩 | viz-tier-guardrail audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line).
 

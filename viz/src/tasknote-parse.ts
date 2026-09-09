@@ -21,6 +21,7 @@ const DISABLED_JS_ENGINE = () => {
 // which registers `!!omap`. That resolver is O(n²) on 3.15.0 (GHSA-5p4m-2wfm-xmqj,
 // sibling of CVE-2026-59870). CORE_SCHEMA does not include the tag, so a crafted
 // omap is an unknown-tag throw — the same catch-and-skip path as malformed YAML.
+// CORE_SCHEMA also omits merge (`<<`), so GHSA-2883 merge-key CPU is not on this path.
 // `yml` aliases onto this same `yaml` key via gray-matter's engine-name aliasing.
 function parseYamlFrontmatter(input: string): object {
   const data = loadYaml(input, { schema: CORE_SCHEMA });
