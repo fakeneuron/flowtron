@@ -21,6 +21,14 @@ npm --prefix viz run lint
 
 Inside `viz/`, drop the `--prefix viz`.
 
+### `package.json`'s `version` field is not maintained
+
+It does not track the flowtron release version — the git tag is the sole
+version authority for viz. It briefly mirrored a runtime `VIZ_VERSION`
+constant (`FE-056`), which CORE-478 later deleted as dead code, dropping the
+`/ft-release` bump step along with it. Don't wire it back into the release
+recipe or treat its value as a pin to keep current.
+
 ## Architecture — three tiers
 
 `viz/src` is split into three tiers. Dependency direction is one-way down the

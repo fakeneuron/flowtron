@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-545** [light]🔧 | viz-version-lockstep — Decide whether `viz/package.json` tracks the flowtron version. It moved in lockstep through v5.19.0 then froze, reading `5.19.0` at every tag since (six releases). `/ft-release` codifies three version edits and never mentions `package.json`. Either add it as a fourth edit in Step 5 or record that viz versions independently. Surfaced by audit-docs 2026-09-09 (Exploratory Insight, Low).
+(none)
 
 ## Future Opportunities
 
@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-545** [light]🔧 | viz-version-lockstep — Completed 2026-09-09.
 - [x] **CORE-552** [light] | epic-discovery-unattended-hang — Completed 2026-09-09.
 - [x] **CORE-551** [heavy] | unattended-filing-authority — Completed 2026-09-09.
 - [x] **CORE-544** [light] | release-gate-line-cite-drift — Completed 2026-09-09.
