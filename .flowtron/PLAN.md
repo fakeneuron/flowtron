@@ -11,7 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-(none)
+- [ ] **CORE-551** [heavy] | unattended-filing-authority — `/ft-file-followup` rejects `--unattended` as an unknown arg and asks; §"Filing commits" grounds commit authority in operator acts; `unattended-mode.md`'s never-relaxes list omits §"Deferred hand-off filing". An unattended worker therefore cannot discharge a duty `SPEC.md` already imposes on it. Blocks caobunga CBN-138.2.
 
 ## Medium
 
