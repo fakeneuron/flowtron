@@ -15,7 +15,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-555** [light]🔧 | budget-ceiling-recalibration — Raise `SPEC.md` 50,000 → 55,000 and `SPEC/gates.md` 35,000 → 40,000 in `docs/CONTEXT-BUDGET.md`. Both prior figures were CORE-535.1 split *targets* reused as operating ceilings; CORE-535.3 hit them to within 998 and 134 chars, leaving no working margin. Post-diet growth is +283 and +97 per release, so the caps still bite. Record the target-vs-ceiling distinction in each “Why this number” cell.
 - [ ] **CORE-554** [medium]🧩 | micro-task-description-flags — `/ft-micro-task`'s `description:` names no flags on Claude or Codex, so `--unattended` is undiscoverable to description-dispatching agents despite being wired and documented on six other surfaces. Pairs B/E/J are blind — each skips a skill whose description yields an empty flag set. Fix both descriptions; consider whether the empty-set guards should distinguish "documents none" from "implements undocumented". Surfaced by audit-docs 2026-09-09 (Medium).
 
 ## Low
@@ -28,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-555** [light]🔧 | budget-ceiling-recalibration — Completed 2026-09-09.
 - [x] **CORE-553** [medium]🧩 | release v5.26.0 — Completed 2026-09-09.
 - [x] **CORE-545** [light]🔧 | viz-version-lockstep — Completed 2026-09-09.
 - [x] **CORE-552** [light] | epic-discovery-unattended-hang — Completed 2026-09-09.
