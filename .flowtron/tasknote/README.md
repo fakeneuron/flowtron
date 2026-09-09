@@ -86,6 +86,22 @@ bold-line or bullet-lead anchors as resolved), and a resolution check would
 not have caught that miss anyway — the section it cited never moved, only the
 truth of what was said about it.
 
+**Re-affirmed at CORE-543, on a wider scan.** The same guard was re-filed
+2026-09-09 after a lazy split (`CORE-535.3`) left two stale pointers behind. The
+scan was widened to every tracked file, both citation forms, and non-markdown
+surfaces: **every** `SPEC.md` section citation resolved but three, and all three
+were false positives — the ticket's own `PLAN.md` line quoting the pattern, and
+two `## Completed` rows *quoting the very drift they record*. That last shape is
+structural rather than tunable: a repo that documents its own drift history by
+quoting the broken citation makes a resolution gate flag its own archaeology,
+and "fixing" the finding corrupts the record. Measured against the three defects
+that split actually left, the guard reached one — a YAML comment — while missing
+both the bare filename in a shell loop that reddened CI and the ledger row whose
+file and section sit in different table cells. The declination stands; CORE-543
+was re-scoped to the detector the failure actually wanted (§7.1 **Pair L**,
+binding the `drift` CI job to the sources it lifts, plus a `/ft-release`
+CI-status gate).
+
 ## Project quick commands
 
 These assume you are at the repository root (parent of `viz/`). Use

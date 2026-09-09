@@ -251,6 +251,42 @@ node --check tools/update-adopters.mjs
 
 If a viz/code feature ships in this release, surface that the feature's own tasknote already ran its test pass — `/ft-release` does not re-run feature tests beyond these standing validation gates.
 
+### 6.1 — CI status on the commit being built on (blocking)
+
+The commands above prove the tree passes **on this machine**, and say nothing
+about GitHub Actions. The `drift` job is not in the local roster, so a
+CI-only failure is invisible to Step 6 — at [[CORE-546]] it had been failing on
+every push since [[CORE-535.3]], and v5.25.0 was tagged on a commit whose own run
+concluded `failure`, unread. Check it:
+
+```sh
+sha=$(git rev-parse HEAD)
+gh run list --commit "$sha" --json workflowName,status,conclusion \
+  --jq '.[] | "\(.workflowName)\t\(.status)\t\(.conclusion)"'
+```
+
+Every reported run must be `completed` + `success`. Read the result as:
+
+- **All green** — proceed to Step 7.
+- **Any `failure` / `cancelled` / `timed_out`** — **blocking.** Unlike §7.1's
+  machine-global wiring half, this is repo state a commit in this cut can fix,
+  so it takes the same Critical/High posture: fix inline, or stop and tell the
+  operator why the cut cannot proceed. Never tag over a red commit — the tag is
+  what adopters pin, and `/ft-update` moves the fleet onto it.
+- **Still `in_progress` / `queued`** — not a pass. Wait for it, or surface the
+  state and let the operator decide; never read "not yet failed" as green.
+- **No runs reported, `gh` missing, or `gh` not authenticated** — not a pass
+  either. Say so explicitly and hand the operator the verdict rather than
+  skipping the step silently. A check that fails open reports clean instead of
+  reporting the truth (§"Glob-free by design" in the standing checks is the same
+  lesson one surface over).
+
+**Scope: the commit this release builds on, not the release commit** — the
+latter does not exist until §7.5, so its run is only observable after the push.
+Deliberately not a wait-loop inside the cut: what failed at v5.25.0 was an
+*inherited* red `main`, which this step catches. Carry the post-push run into
+the §7.4 closure review as one line, flag-don't-block.
+
 ## Step 7 — Drive Phase 4: Closure
 
 Walk the closure steps in order. Tag-message review (§7.2) and the bundled 📦 commit-go (§7.4) are explicit gates — wait for the user.
@@ -280,7 +316,7 @@ fragments so this skill stays under its load budget. Read them **in parallel**:
   parity (local blocking + machine-global advisory) · README task-counter ·
   context budget (`docs/CONTEXT-BUDGET.md`; also refreshes that doc's ledger
   in this cut).
-- `claude/skills/ft-release/step-7.1-mirror-pairs.md` — the Pair A–K
+- `claude/skills/ft-release/step-7.1-mirror-pairs.md` — the Pair A–L
   mirror-pair catalogue.
 
 Walk them in that order, then continue to §7.2. Both fragments are part of this

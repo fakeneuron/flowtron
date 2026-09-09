@@ -247,3 +247,45 @@ Both must print nothing. Fix a K1 miss by updating the citation in `SPEC/scope-b
 - **`docs/PHILOSOPHY.md`, `docs/WORKTREES.md`, and `README.md` are deliberately not in K2.** PHILOSOPHY and README state the rule as narrative identity rather than as a sourced restatement, and WORKTREES carries a one-clause caveat rather than a section. Adding them would police three surfaces whose job is not to be a mirror. Recorded here so a later reader does not read their absence as an oversight.
 - **Release-gate only, like D and F–J.** The `drift` CI job runs the release-context-free subset (A, B, C, E) per `docs/CONVENTIONS.md` §"GitHub Actions CI"; promoting K there is a separate call, not implied by minting it.
 
+
+**Pair L — `drift` CI job ↔ the §7.1 sources it lifts.** `docs/CONVENTIONS.md` §"GitHub Actions CI" states the relationship plainly: the `drift` job's steps are *"lifted from §7.1, adapted only to fail the step on a finding."* That makes every step a hand-maintained second copy of a check whose original lives here (Pairs A, B, C, E), in `step-7.1-standing-checks.md` (shipped-skill parity), or in `SPEC/layout.md` §"Skill namespace" (wrapper-name invariant) — and **nothing bound the copies**. [[CORE-535.3]] repaired Pair A's roster grep from `SPEC.md` to `SPEC/layout.md` here and missed the CI twin, so the `drift` job failed on every push from that commit through the entire v5.25.0 cut, reddening the README badge with no gate reading it ([[CORE-546]]). Pair H binds the *`validate`* job's `run:` steps to `AGENTS.md` §"Validation"; the `drift` job had no equivalent. This is it.
+
+What is compared is the **set of repo paths each check reads** — derivable from both surfaces, and exactly what drifted. Byte identity is not available: the CI copy legitimately adds `bad=` accumulators, `|| exit 1`, and its own findings prose.
+
+```sh
+paths() { sed 's/echo "[^"]*"//g' \
+          | grep -oE '(\.?[A-Za-z0-9_-]+/)+[A-Za-z0-9_*.-]*|\b[A-Z][A-Za-z0-9_-]*\.(md|yml)\b' \
+          | sort -u; }
+
+printf '%s\n' \
+  'Wrapper-name invariant|SPEC/layout.md|^[*][*]Wrapper-name invariant' \
+  'Shipped-skill parity|claude/skills/ft-release/step-7.1-standing-checks.md|^[*][*]Standing shipped-skill parity check' \
+  'Pair A|claude/skills/ft-release/step-7.1-mirror-pairs.md|^[*][*]Pair A ' \
+  'Pair B|claude/skills/ft-release/step-7.1-mirror-pairs.md|^[*][*]Pair B ' \
+  'Pair C|claude/skills/ft-release/step-7.1-mirror-pairs.md|^[*][*]Pair C ' \
+  'Pair E|claude/skills/ft-release/step-7.1-mirror-pairs.md|^[*][*]Pair E ' |
+while IFS='|' read -r step src pat; do
+  ci=$(awk -v s="$step" '
+        index($0,"- name: "s)    {inb=1; next}
+        inb && /^      - name: / {inb=0}
+        inb' .github/workflows/ci.yml | paths)
+  s7=$(awk -v p="$pat" '
+        $0~p                     {ins=1; next}
+        ins && inf && /^```$/    {inf=0; next}
+        ins && !inf && /^```sh$/ {inf=1; next}
+        ins && !inf && /^[*][*]/ {ins=0}
+        ins && inf' "$src" | paths)
+  [ "$ci" = "$s7" ] || {
+    echo "PAIR L MISS: $step — CI drift job and its §7.1 source disagree on paths"
+    diff <(printf '%s\n' "$ci") <(printf '%s\n' "$s7") | sed 's/^/         /'
+  }
+done
+```
+
+Must print nothing. A `<` line is a path the CI copy reads and its §7.1 source does not; a `>` line is the reverse. **Fix direction is asymmetric: repair the CI copy to match §7.1, never the reverse.** §7.1 is the superset and the source — `docs/CONVENTIONS.md` says so — and the v5.25.0 failure was precisely a CI copy left behind by a correct §7.1 repair.
+
+- **The step-name prefix is the join key.** The mapping's first field matches `- name: ` by `index()` prefix, so a step keeps its binding when its parenthetical changes — at v5.25.0 the wrapper-name step read `(SPEC.md §"Skill namespace")` and still resolved. Both `Pair E` steps (row coverage, flag coverage) share the `Pair E` prefix and union against Pair E's two fenced blocks, which is why the key is a prefix and not the full name.
+- **Bracket classes, not `\*`, in the passed patterns.** The anchors travel through `-v p=` and are applied as *dynamic* regexes, where awk processes string escapes first: `^\*\*Pair B ` arrives as `^**Pair B ` — a malformed quantifier that silently matches far more than intended, which during development swallowed every later fence in the file. `[*][*]` has no escape to lose. Same family as §"Glob-free by design" in the standing checks: a matcher that fails open reports clean instead of reporting the truth.
+- **`echo`-argument text is stripped from both sides.** The adaptation delta lives in the findings messages, and Pair C's CI copy names `.flowtron/` inside one (`"skills write templates one level under .flowtron/"`). Stripping quoted `echo` arguments compares what each check *reads* rather than what it *says*. Every one of the six steps still yields at least one path after the strip, so no step is silently vacuous — check that property when adding a step.
+- **Coverage is the six lifted checks, and only those.** `docs/CONVENTIONS.md` §"GitHub Actions CI" deliberately keeps SOP currency, the README task counter, installed-surface policy, self-wiring, Pairs D and F–K, and Pair A's content half in §7.1 alone. Pair L claims nothing about them; a new step added to the `drift` job needs a new mapping row here, or it ships unbound.
+- **Release-gate only, like D and F–K.** Promoting L into the `drift` job would make the job the sole judge of its own fidelity to a source it would then also be lifting — recorded here so a later reader does not read its absence as an oversight.
