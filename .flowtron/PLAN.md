@@ -11,7 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-552** [light] | epic-discovery-unattended-hang — `/ft-epic-discovery`'s Step 0 unknown-arg branch fires AskUserQuestion on `--unattended`, hanging an operator-less caller, though `SPEC/gates.md` already states the skill does not accept it. Recognize-and-refuse terminally instead. Surfaced by [[CORE-551]].
+(none)
 
 ## Medium
 
@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-552** [light] | epic-discovery-unattended-hang — Completed 2026-09-09.
 - [x] **CORE-551** [heavy] | unattended-filing-authority — Completed 2026-09-09.
 - [x] **CORE-544** [light] | release-gate-line-cite-drift — Completed 2026-09-09.
 - [x] **CORE-543** [medium]🧩 | ci-drift-job-binding — Completed 2026-09-09.

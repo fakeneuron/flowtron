@@ -39,6 +39,12 @@ The skill recognizes one optional argument: `--deep`. Branch:
 
 - **Empty `$ARGUMENTS`** → default flow. Set internal flag `deep-mode = false` and continue to Step 2. Steps 5 and 5.5 are no-ops in this branch — flow is byte-identical to the pre-`--deep` skill.
 - **`--deep`** → set `deep-mode = true` and **Read `<SKILL_DIR>/step-5.5-deep-prepass.md` now** — it carries the whole of deep mode: what the flag is for, the Step 5 scaffold injection, and the three Step 5.5 stages (constitution → specify → clarify) that run before Phase 1 Discovery begins.
+- **`--unattended`** → this skill does not accept it (`SPEC/gates.md` §"`--unattended` operator posture"): filing an epic means having a scoping conversation, and there is none to have with nobody present. Terminate readably and write nothing — do not fall through to the "Any other arg" branch below:
+
+  ```markdown
+  ⏸ --unattended stop — unsupported-flag: `/ft-epic-discovery` requires an operator scoping conversation; it has no unattended mode. File the epic conversationally, or use a runner that accepts `--unattended` (`/ft-task`, `/ft-micro-task`, `/ft-goal-task`, `/ft-file-followup`, `/ft-close-epic`).
+  ```
+
 - **Any other arg** → surface a one-line usage notice ("Unknown arg `<arg>`. Usage: `/ft-epic-discovery` or `/ft-epic-discovery --deep`.") and ask via AskUserQuestion whether the user meant `--deep`, the default flow, or to abort. Do not proceed silently.
 
 `--deep` is opt-in for **high-uncertainty epics**; the fragment's §"What `--deep` is for" carries the judgment call.
