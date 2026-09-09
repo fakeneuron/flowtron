@@ -15,7 +15,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **FE-EPIC-106** [medium]🧩 | viz-tier-guardrail — Align the UI-tier eslint Node-only denylist with viz/README.md (including tasknoteRead and .ts suffixes), bump js-yaml past GHSA-2883, and bring @types/node in line with engines. Discovery supplied by audit-repo 2026-09-09. Surfaced by audit-repo 2026-09-09 (Theme: Labeled-mirror residual)
+  - [ ] **FE-106.2** [light]🔧 | eslint-node-tier-list — Add tasknoteRead plus .ts-suffixed globs for every Node-only module to viz/eslint.config.js so the README hard rule is actually enforced.
+  - [ ] **FE-106.3** [light]🔧 | js-yaml-merge-cve — Bump viz's js-yaml to ^4.3.2 and add a CORE_SCHEMA merge-key rejection test next to the existing !!omap case.
+  - [ ] **FE-106.4** [light]🔧 | types-node-engines — Move @types/node off the v20 line onto a 22/24 line that matches viz engines and CI Node 24.
+  - [ ] **FE-106.N** [medium]🧩 | viz-tier-guardrail audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line).
 
 ## Low
 
@@ -23,7 +27,9 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Future Opportunities
 
-(none)
+- [ ] **CORE-EPIC-556** [heavy]🧠 | release-skill-headroom — Split or trim claude/skills/ft-release/SKILL.md so it is not one edit from the 40,000-char release gate. Discovery supplied by audit-repo 2026-09-09. Surfaced by audit-repo 2026-09-09 (Theme: Context-budget ratchet)
+  - [ ] **CORE-556.2** [heavy]🧠 | ft-release-fragment-split — Extract the Step 5 dogfood/SOP-currency walk (or equivalent) into a lazy fragment so the SKILL body has ~two working units of margin.
+  - [ ] **CORE-556.N** [medium]🧩 | release-skill-headroom audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line).
 
 ## Completed
 
