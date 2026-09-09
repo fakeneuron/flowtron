@@ -198,6 +198,27 @@ Rules:
   and this adds none — the two-banner cap in `SPEC/gates.md` §"Operator-gate
   cues" is unaffected.
 
+**Unattended filing authority.** The grounding above assumes an operator act
+exists to point at. `/ft-file-followup --unattended` has none — no review gate
+was answered, no priority question, no write-step confirmation — yet
+`SPEC.md` §"Deferred hand-off filing" still obliges an operator-less closure to
+file the deferred step as its own unchecked PLAN.md row. The authorization is
+therefore **the duty itself**: the run is discharging an obligation the contract
+imposes, not exercising discretion, and the operator authorized it upstream by
+launching an unattended run against a SPEC that imposes it. Every rule above
+holds verbatim — explicit pathspecs, the pre-check and its skip-on-dirt, commit
+never push, no 🏁. What the posture removes is the *pause* before the commit,
+never the proof after it (`SPEC/gates.md` §"`--unattended` operator posture").
+
+Two limits come with it. **`--park` is out of scope:** park mode preserves an
+operator's tangential mid-session thought and resumes their interrupted work
+inline, and both halves presume an operator to have the thought — the
+combination is refused rather than given an unattended meaning. And
+**reconciliation applies nothing:** §"Downstream-impact reconciliation" is one
+of the things the posture never relaxes, so an unattended filing still runs the
+scan and still reports what it found, but confirms and applies no edit — a run
+with no operator never performs the operator's motion.
+
 **Execution skills keep their commit-go gate.** This section governs the four
 filing motions above and nothing else. `/ft-task`, `/ft-micro-task`,
 `/ft-goal-task`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release`,

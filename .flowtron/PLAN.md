@@ -11,7 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-551** [heavy] | unattended-filing-authority — `/ft-file-followup` rejects `--unattended` as an unknown arg and asks; §"Filing commits" grounds commit authority in operator acts; `unattended-mode.md`'s never-relaxes list omits §"Deferred hand-off filing". An unattended worker therefore cannot discharge a duty `SPEC.md` already imposes on it. Blocks caobunga CBN-138.2.
+- [ ] **CORE-552** [light] | epic-discovery-unattended-hang — `/ft-epic-discovery`'s Step 0 unknown-arg branch fires AskUserQuestion on `--unattended`, hanging an operator-less caller, though `SPEC/gates.md` already states the skill does not accept it. Recognize-and-refuse terminally instead. Surfaced by [[CORE-551]].
 
 ## Medium
 
@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-551** [heavy] | unattended-filing-authority — Completed 2026-09-09.
 - [x] **CORE-544** [light] | release-gate-line-cite-drift — Completed 2026-09-09.
 - [x] **CORE-543** [medium]🧩 | ci-drift-job-binding — Completed 2026-09-09.
 - [x] **CORE-546** [light] | ci-pair-a-spec-split-drift — `.github/workflows/ci.yml` drift job grepped `SPEC.md` for the templates-roster clause CORE-535.3 had moved to `SPEC/layout.md`, failing the job on every push since the v5.25.0 cut and reddening the README CI badge; fixed the Pair A target (line 73) plus two stale `SPEC.md §"Skill namespace"` labels (lines 35, 54). Surfaced by audit-docs 2026-09-09 (Finding #1, High), fixed inline.

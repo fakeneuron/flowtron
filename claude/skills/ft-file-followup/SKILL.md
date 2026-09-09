@@ -1,6 +1,6 @@
 ---
 name: ft-file-followup
-description: File a mid-flow follow-up task from inside an active tasknote — and, with `--park`, park an idea or quick fix mid-session without losing it (tiny stub + PLAN line, priority flags, resume inline). Use when the user asks to file a quick follow-up task discovered mid-flow without a full tasknote, or to park a tangential idea, quick fix, or "don't lose this" thought while staying on the current work. Invoke with an optional task ID as args (e.g., args="CORE-058", "CORE-058 --park", or "--park --low fix null guard"); when omitted, the default flow suggests the next available ID for review and park mode auto-allocates one. Default flow writes one PLAN.md line and delivers a short context paragraph conversationally only — no tasknote artifact. Lighter than `/ft-starter-task`. See SPEC/tasknote-selection.md §"When to use a tasknote" for the threshold.
+description: File a mid-flow follow-up task from inside an active tasknote — and, with `--park`, park an idea or quick fix mid-session without losing it (tiny stub + PLAN line, priority flags, resume inline). Use when the user asks to file a quick follow-up task discovered mid-flow without a full tasknote, or to park a tangential idea, quick fix, or "don't lose this" thought while staying on the current work. Invoke with an optional task ID as args (e.g., args="CORE-058", "CORE-058 --park", or "--park --low fix null guard"); when omitted, the default flow suggests the next available ID for review and park mode auto-allocates one. `--unattended` runs the operator-less posture for a closure discharging SPEC.md §"Deferred hand-off filing" — auto-allocates the ID, suppresses the collection and review gates, and terminates readably at anything it cannot answer. Default flow writes one PLAN.md line and delivers a short context paragraph conversationally only — no tasknote artifact. Lighter than `/ft-starter-task`. See SPEC/tasknote-selection.md §"When to use a tasknote" for the threshold.
 ---
 
 # file-followup — flowtron lightweight follow-up filer
@@ -34,13 +34,28 @@ If neither matches, bail. PLAN=`.flowtron/PLAN.md`, tasknote dir=`.flowtron/task
 
 **Parse `args`.** Treat `args` as an **unordered flag set** plus free text —
 recognize each token independently; order never matters. Initialize
-`park-mode = false`, then walk the tokens:
+`park-mode = false` and `unattended-mode = false`, then walk the tokens:
 
 - **`--park` or `-p`** → set `park-mode = true`.
+- **`--unattended`** (no short alias) → set `unattended-mode = true`.
 - **`--low` / `--med` / `--medium` / `--fut` / `--future` / `--high`** → a park-mode priority flag; strip and carry. Outside park mode these are meaningless — surface the usage notice below rather than silently ignoring them.
 - **A `<AREA>-<NUMBER>` token** → the proposed task ID.
-- **Any other `--`-prefixed token** → surface a one-line usage notice (``Unknown arg `<arg>`. Usage: `/ft-file-followup [TASK-ID] [--park [--low|--med|--fut|--high]]`.``) and ask whether the user meant `--park`, a priority flag, or the default flow. Do not proceed silently.
+- **Any other `--`-prefixed token** → surface a one-line usage notice (``Unknown arg `<arg>`. Usage: `/ft-file-followup [TASK-ID] [--park [--low|--med|--fut|--high]] [--unattended]`.``) and ask whether the user meant `--park`, a priority flag, `--unattended`, or the default flow. Do not proceed silently. **When `unattended-mode = true` there is nobody to ask** — emit the notice and stop, in the terminal shape below.
 - **Remaining free text** → the idea text (park mode) or drafting context (default flow).
+
+**`--park` and `--unattended` do not compose.** Park mode preserves an operator's
+tangential mid-session thought and resumes *their* interrupted work inline; both
+halves presume an operator to have the thought. Refuse the combination terminally
+rather than inventing an unattended park:
+
+```markdown
+⏸ --unattended stop — flag-conflict: `--park` presumes a present operator. Use the default flow to file the row; nothing written.
+```
+
+Every other terminal stop in this skill takes the same
+`⏸ --unattended stop — <cause>: <one line>` shape (`SPEC/gates.md`
+§"`--unattended` operator posture" → "Pre-scaffold stops"). `⏸` is the existing
+nav chip, not a new cue glyph; the two-banner cap is untouched.
 
 **When `park-mode = true`, Read `<SKILL_DIR>park-mode.md` now and follow it
 instead of Steps 2–5 below.** Park mode is a distinct filing contract — it keeps
@@ -51,7 +66,24 @@ scan, the conversational paragraph, and the Step 5 hand-off. It writes a stub at
 and continues the interrupted work inline. Emit the inline marker
 `📌 --park active — no review gate, no reconcile scan; stub + PLAN line, then resume inline.`
 
-Default flow (`park-mode = false`) is byte-identical to the pre-flag skill.
+**When `unattended-mode = true`** the caller declares that **no operator is
+present to answer a gate**. This skill has three: the Step 2 AskUserQuestion
+collection, the Step 3 review gate, and — inside Step 3 — the reconciliation
+scan's user-confirm. The posture suppresses the first two. It does **not**
+suppress the third: `SPEC/gates.md` §"What `--unattended` never relaxes" holds
+the reconciliation user-confirm, so the scan still runs — and because the
+confirm is unavailable rather than waived, an unconfirmed proposal is reported,
+never applied. What authorizes the Step 4 commit without any operator act is the duty in `SPEC.md`
+§"Deferred hand-off filing", not discretion — contract in
+`SPEC/tasknote-selection.md` §"Filing commits" → "Unattended filing authority".
+Emit the inline marker:
+
+```markdown
+⚡ --unattended active — no operator present: ID auto-allocated, collection + review gate suppressed, reconcile scan reports but applies nothing. Filing commits on the SPEC §"Deferred hand-off filing" duty.
+```
+
+Default flow (`park-mode = false`, `unattended-mode = false`) is byte-identical
+to the pre-flag skill.
 
 ## Step 1 — Resolve or suggest the task ID
 
@@ -76,6 +108,16 @@ collecting the rest of the fields (park mode auto-allocates instead — see
 
 If a task ID token was parsed in Step 0, use it as the proposed task ID.
 
+**When `unattended-mode = true`**, steps 1-3 run unchanged but step 4 does not:
+the scan is deterministic, so **auto-allocate** the ID it produces and carry it
+straight to Step 1a — there is no reviewable field, because there is no
+reviewer. If the area is genuinely ambiguous at step 1, the one short area
+question cannot be asked either; stop:
+
+```markdown
+⏸ --unattended stop — area-ambiguous: cannot infer the task-ID prefix. Pass an explicit `<AREA>-<NUMBER>`; nothing written.
+```
+
 ## Step 1a — Pre-flight checks
 
 - Resolve the **Area** from the task ID prefix per SPEC §"Task ID convention". Unknown prefix → read `.flowtron/tasknote/README.md`; if still unresolved, stop and ask.
@@ -84,9 +126,22 @@ If a task ID token was parsed in Step 0, use it as the proposed task ID.
 - `.flowtron/tasknote/archive/<area>/<TASK-ID>.md` must NOT already exist. If it does, stop — the ID has been used and archived; pick a fresh ID.
 - **Park mode only:** `.flowtron/sidequest/<TASK-ID>.md` must NOT already exist either. On conflict, stop and ask for a different ID.
 
+**When `unattended-mode = true`**, every check above still runs and still stops
+— but it **terminates and writes nothing** instead of asking for a different ID,
+in the Step 0 stop shape (`⏸ --unattended stop — id-conflict: …`, naming the
+colliding path). Do not auto-bump to the next free ID: a collision on a
+deterministically-allocated ID means the scan and the tree disagree, and picking
+a neighbouring number papers over that rather than surfacing it.
+
 ## Step 2 — Collect inputs
 
 Use AskUserQuestion to confirm the key fields. Pre-populate from conversation context where possible — the AI proposes; the user confirms or overrides.
+
+**When `unattended-mode = true`**, skip the AskUserQuestion call entirely and
+**draft all five fields** from the calling context — the closing tasknote's
+Recap, its `## 🔄 Handoff`, and the Acceptance criterion that deferred the step.
+The AI proposes and nobody overrides, so state the drafted values in the Step 5
+report where the absent operator will see them.
 
 0. **Task ID** — use `args` when provided; otherwise use the Suggested ID from
    Step 1. The user may override before filing. If the user changes the ID,
@@ -103,6 +158,18 @@ Use AskUserQuestion to confirm the key fields. Pre-populate from conversation co
 - **>70 words:** STOP. The description breaches the hard cap — `/ft-file-followup` is the wrong tool. Surface to the user: "The drafted description is `<N>` words (>70w cap). This belongs in a starter body, not a one-line PLAN.md entry. Recommend `/ft-starter-task <ID>` instead." Do not proceed unless the user trims the description below the cap.
 
 The 70w cap exists so PLAN.md stays scannable; rich context belongs in starter bodies (`/ft-starter-task`) or full tasknotes (`/ft-task`). `/ft-file-followup`'s niche is the ≤50w + ephemeral-context band only.
+
+**Under `unattended-mode = true` the cap binds harder, not softer.** The
+description is now self-drafted rather than operator-supplied, so a breach is
+self-inflicted and fixable in place: **redraft once**, tighter, targeting ≤50
+words. If the redraft still exceeds 70 words the context genuinely does not fit
+this tool — do **not** file an over-cap row (that would silently defeat the gate
+this skill exists to enforce). Stop instead, so the deferred step surfaces to
+the operator as a stop rather than as a bad row:
+
+```markdown
+⏸ --unattended stop — over-cap: description is <N> words after redraft (>70w). Belongs in a starter body; nothing written.
+```
 
 ## Step 3 — Draft, scan, and surface for review
 
@@ -124,9 +191,23 @@ Keep the paragraph under ~80 words. If the conversation has surfaced more contex
 
 Edit per their feedback before writing anything. Do not skip the review. The reconcile proposals fold into this same review gate — they are not a separate approval step.
 
+**When `unattended-mode = true`:**
+
+- **The review gate is suppressed** — there is nobody to surface it to, and a
+  gate that fires into an empty session is a hang, not a safeguard.
+- **The reconciliation scan still runs.** `SPEC/gates.md` §"What `--unattended`
+  never relaxes" holds it: it guards plan correctness rather than pacing, so the
+  posture may not skip it. On the three runners an unconfirmable direction change
+  parks as `drift`; here there is no tasknote to park, so the resolution is the
+  same principle in the shape this motion allows — **scan, report, apply
+  nothing.** Carry every classification and proposed action verbatim into the
+  Step 5 report so the operator can act on them under a real gate later. Step 4
+  item 3 becomes a no-op by construction: nothing was confirmed, so nothing is
+  applied. A run with no operator never performs the operator's motion.
+
 ## Step 4 — File the entry
 
-In one continuous motion, after the user has confirmed the Step 3 review (including any reconcile proposals):
+In one continuous motion, after the user has confirmed the Step 3 review (including any reconcile proposals) — or, under `unattended-mode = true`, immediately, since Step 3 surfaced no gate to confirm:
 
 1. **Filing-commit pre-check.** Run `git status --porcelain -- .flowtron/PLAN.md` **before any write** and record the result as `auto-commit`: clean output → `auto-commit = true`; any output → `auto-commit = false` (PLAN.md already carries foreign edits, so the filing rides along in the surrounding commit instead). It must run here, immediately before the append — Steps 2-3 span operator turns, so a reading taken at pre-flight can go stale. Not a gate: nothing stops either way; it only decides whether item 4 below runs. Contract: SPEC/tasknote-selection.md §"Filing commits".
 
@@ -142,7 +223,7 @@ In one continuous motion, after the user has confirmed the Step 3 review (includ
 
    No `Filed with starter at ...` pointer (that suffix is `/ft-starter-task`'s contract). The new line carries only the long description — no breadcrumb to a tasknote that doesn't exist.
 
-3. **Apply confirmed reconcile edits.** If the Step 3 scan surfaced impacted entries and the user accepted (or amended) any proposed actions, apply those PLAN.md edits in the same motion — merge / nest / edit / delete the affected lines per the confirmed action. Apply nothing the user rejected or didn't see. No impact (or scan skipped) → no-op.
+3. **Apply confirmed reconcile edits.** If the Step 3 scan surfaced impacted entries and the user accepted (or amended) any proposed actions, apply those PLAN.md edits in the same motion — merge / nest / edit / delete the affected lines per the confirmed action. Apply nothing the user rejected or didn't see. No impact (or scan skipped) → no-op. **Under `unattended-mode = true` this is always a no-op** — the scan ran but nothing was confirmed, and its findings travel in the Step 5 report instead.
 
 4. **Commit the filing** (when `auto-commit = true` from step 1 above). The filing's **last** write, so confirmed reconcile edits land with it. Stage the one path by name — never `git commit -a` / `git add .` / `git add -A`, since a mid-flow filing sits in a working tree carrying the parent `/ft-task`'s unfinished edits:
 
@@ -153,7 +234,19 @@ In one continuous motion, after the user has confirmed the Step 3 review (includ
 
    Commit only — never push. `auto-commit = false` → skip this step entirely and note it in Step 5. Full contract: SPEC/tasknote-selection.md §"Filing commits".
 
-5. **Deliver the conversational paragraph.** Surface the reviewed paragraph from Step 3 in the same response as the filing confirmation. The paragraph is **chat-only** — never persisted to disk, never written into the active tasknote.
+   **Under `unattended-mode = true` the commit still runs, and every rule above
+   still binds** — explicit pathspec, the item-1 pre-check and its skip-on-dirt,
+   commit-never-push, no 🏁. What changes is only what authorizes it: with no
+   review gate answered, the authorization is the duty in `SPEC.md` §"Deferred
+   hand-off filing" itself, per SPEC/tasknote-selection.md §"Filing commits" →
+   "Unattended filing authority". Note that the pre-check makes the two orderings
+   converge without special-casing: invoked from a closure that has already staged
+   its PLAN.md flip, it reads dirty, sets `auto-commit = false`, and the new row
+   simply rides into that atomic closure commit; invoked from a clean tree, it
+   commits standalone and closure follows. Both are already-supported behavior,
+   so `SPEC.md` §"Paper-complete guard" §2 is unaffected either way.
+
+5. **Deliver the conversational paragraph.** Surface the reviewed paragraph from Step 3 in the same response as the filing confirmation. The paragraph is **chat-only** — never persisted to disk, never written into the active tasknote. Under `unattended-mode = true` it is unreviewed rather than reviewed, and it folds into the Step 5 report — the sole surface an absent operator reads.
 
 ## Step 5 — Hand off
 
@@ -163,10 +256,20 @@ Surface to the user, in one short message:
 - The follow-up sits as a one-line PLAN.md entry until `/ft-task <TASK-ID>` (or `/ft-micro-task` / `/ft-starter-task` for promotion) fires.
 - (Conversational paragraph from Step 4.5 is included in this response.)
 
-The filing is committed by Step 4.4 — the Step 3 review approval **is** the commit authorization, so there is no separate commit-go ask. Report the SHA as plain text; emit **no 🏁 marker** (that glyph is reserved for a closure commit covering Acceptance deliverables — SPEC.md §"Paper-complete guard" §3). Never push. When the pre-check set `auto-commit = false`, the new PLAN.md line is instead bundled into whatever commit the surrounding conversation produces, exactly as before.
+**When `unattended-mode = true`**, the same message is the run's only output and
+the absent operator's only record, so it additionally carries: the five
+auto-drafted fields (ID, shortname, priority, model, description) marked as
+drafted-not-reviewed; every reconciliation finding from Step 3 with its
+classification and proposed action, marked **not applied**; and the unreviewed
+context paragraph. Keep the `⏸ --unattended stop — …` shape for the failure
+paths and this ordinary hand-off shape for success — a filing that worked is not
+a stop.
+
+The filing is committed by Step 4.4 — the Step 3 review approval **is** the commit authorization (under `--unattended`, the SPEC-imposed duty is, per §"Filing commits" → "Unattended filing authority"), so there is no separate commit-go ask. Report the SHA as plain text; emit **no 🏁 marker** (that glyph is reserved for a closure commit covering Acceptance deliverables — SPEC.md §"Paper-complete guard" §3). Never push. When the pre-check set `auto-commit = false`, the new PLAN.md line is instead bundled into whatever commit the surrounding conversation produces, exactly as before.
 
 ## Notes
 
 - **Filing-only — no design decisions in the skill flow itself.** All context (rationale, suspected files, recommended priority/model) comes from the prior conversation; the skill just records the line and surfaces the paragraph.
 - **Routing across the filing cohort:** see SPEC/tasknote-selection.md §"When to use a tasknote (and when not to)" for the full decision tree. The default flow's niche: ≤50w + ephemeral context only. Tangential idea + resume inline + no review gate → add `--park` (lighter; see `park-mode.md`). Above 50w → `/ft-starter-task`. Filing+executing in one shot → `/ft-micro-task`. Starting an existing PLAN.md entry → `/ft-task`.
+- **`--unattended` is the operator-less posture, not a speed flag.** Its one legitimate caller is a closure with no operator present discharging `SPEC.md` §"Deferred hand-off filing". It buys no autonomy an attended run lacks: the filing-discipline cap, the reconciliation scan, the pre-check, and the pathspec discipline all still bind, and every question it cannot answer terminates readably rather than being answered on the operator's behalf. Posture contract: `SPEC/gates.md` §"`--unattended` operator posture".
 - **No active-tasknote breadcrumb.** When invoked from inside `/ft-task`, `/ft-file-followup` does not write into the active tasknote — keeps the active tasknote a record of what it was for, not a coordination ledger. This is the strict reading of "only one PLAN.md line on disk."

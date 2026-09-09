@@ -521,7 +521,9 @@ write-nothing and 🏁 still requires a deliverable-covering SHA.
 
 **Applies to** the three runners `--fast` applies to — `/ft-task`,
 `/ft-micro-task`, `/ft-goal-task` — plus `/ft-close-epic`, on the terms
-above. `/ft-epic-discovery` does not accept it: it opens an epic by filing
+above, and `/ft-file-followup`, on
+[`tasknote-selection.md`](tasknote-selection.md) §"Filing commits".
+`/ft-epic-discovery` does not accept it: it opens an epic by filing
 PLAN.md lines from a scoping conversation, and there is no such conversation
 to have with nobody present.
 

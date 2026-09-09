@@ -546,7 +546,11 @@ not enough: file it as its own unchecked PLAN.md row, and have any task
 whose work depends on that step done first carry a `Blocked by [[ID]]`
 clause pointing at it. This task's own PLAN.md line still flips to
 Completed — a closed row with the hand-off only in prose hides the pending
-step from every future reader; an open PLAN row keeps it visible.
+step from every future reader; an open PLAN row keeps it visible. The duty
+binds an operator-less closure too — the posture *raises* the count of
+deferred steps, since whatever the run could not do falls to the absent
+operator — and `/ft-file-followup --unattended` is its discharge path there
+(`SPEC/tasknote-selection.md` §"Filing commits").
 
 **Acceptance tick-through.** Closure asserts the task against its own stated
 criteria, not against the agent's sense of being finished. Tick each
