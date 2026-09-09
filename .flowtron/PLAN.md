@@ -19,7 +19,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-544** [light]🔧 | release-gate-line-cite-drift — Replace the four drifted `path:NN` citations in `claude/skills/ft-release/step-7.1-standing-checks.md` with stable locators, per the CORE-481 precedent. `README.md:32-33` is now 35-37, `docs/MIGRATION.md:202-203` is now 243-244, `codex/AGENTS-snippet.md:57`'s cited text is gone from that file entirely, and the task-counter check cites `README.md:22-23` for a sentence starting at 23. Surfaced by audit-docs 2026-09-09 (Exploratory Insight, Low).
 - [ ] **CORE-545** [light]🔧 | viz-version-lockstep — Decide whether `viz/package.json` tracks the flowtron version. It moved in lockstep through v5.19.0 then froze, reading `5.19.0` at every tag since (six releases). `/ft-release` codifies three version edits and never mentions `package.json`. Either add it as a fourth edit in Step 5 or record that viz versions independently. Surfaced by audit-docs 2026-09-09 (Exploratory Insight, Low).
 
 ## Future Opportunities
@@ -28,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-544** [light] | release-gate-line-cite-drift — Completed 2026-09-09.
 - [x] **CORE-543** [medium]🧩 | ci-drift-job-binding — Completed 2026-09-09.
 - [x] **CORE-546** [light] | ci-pair-a-spec-split-drift — `.github/workflows/ci.yml` drift job grepped `SPEC.md` for the templates-roster clause CORE-535.3 had moved to `SPEC/layout.md`, failing the job on every push since the v5.25.0 cut and reddening the README CI badge; fixed the Pair A target (line 73) plus two stale `SPEC.md §"Skill namespace"` labels (lines 35, 54). Surfaced by audit-docs 2026-09-09 (Finding #1, High), fixed inline.
 - [x] **CORE-547** [light] | neutrality-ledger-sop-cite — `docs/AGENT-NEUTRALITY.md` ledger row cited `SPEC.md` §"Procedure SOPs (`SPEC/procedures/`)"; CORE-535.3 moved that section to `SPEC/layout.md` and updated sibling rows but missed this one. Only unresolvable section citation in the 18-doc set (490 citations checked). Surfaced by audit-docs 2026-09-09 (Finding #2, Medium), fixed inline.
