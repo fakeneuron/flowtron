@@ -32,7 +32,7 @@ jobs:
       - run: node --check tools/update-adopters.mjs
 
   # Cross-file drift checks — the release-context-free subset of /ft-release
-  # §7.1 (plus SPEC.md §"Skill namespace"), so drift is caught on the commit
+  # §7.1 (plus SPEC/layout.md §"Skill namespace"), so drift is caught on the commit
   # that lands it instead of at the next cut. §7.1 remains the release gate and
   # the broader superset; nothing here replaces it.
   #
@@ -51,7 +51,7 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
-      - name: Wrapper-name invariant (SPEC.md §"Skill namespace")
+      - name: Wrapper-name invariant (SPEC/layout.md §"Skill namespace")
         run: |
           bad=
           for f in claude/commands/ft-*.md; do
@@ -70,7 +70,7 @@ jobs:
           # every clause — needs a filename-to-token derivation that exists
           # nowhere in the repo, and stays a §7.1 judgment call.
           bad=
-          for f in README.md SPEC.md claude/skills/ft-flowtron/SKILL.md; do
+          for f in README.md SPEC/layout.md claude/skills/ft-flowtron/SKILL.md; do
             grep -q 'tasknote templates (full' "$f" || { echo "NO ROSTER CLAUSE  $f"; bad=1; }
           done
           [ -z "$bad" ] || exit 1
