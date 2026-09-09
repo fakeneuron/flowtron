@@ -44,13 +44,23 @@ export default tseslint.config(
             {
               group: [
                 '**/devApi',
+                '**/devApi.ts',
                 '**/workspace',
+                '**/workspace.ts',
                 '**/fsSafe',
+                '**/fsSafe.ts',
+                '**/tasknoteRead',
+                '**/tasknoteRead.ts',
                 '**/archiveCache',
+                '**/archiveCache.ts',
                 '**/flowtronWatch',
+                '**/flowtronWatch.ts',
                 '**/watchSet',
+                '**/watchSet.ts',
                 '**/originGuard',
+                '**/originGuard.ts',
                 '**/apiResponse',
+                '**/apiResponse.ts',
               ],
               message:
                 'src/ui/ must not import Node-only tier modules — see README.md §"Hard rule: no Node imports under src/ui/".',
