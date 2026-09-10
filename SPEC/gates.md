@@ -283,7 +283,7 @@ parts.
 ### Surface matrix
 
 **Bold** marks a cell the flag does **not** reach. `park-reason:` codes are the
-closed set in [`SPEC.md`](../SPEC.md) §"Tasknote frontmatter".
+closed set in [`SPEC/blocked.md`](blocked.md) §"Park reason".
 
 | Surface | Default | `--fast` | `--unattended` |
 |---|---|---|---|
@@ -447,7 +447,7 @@ entered from a gate rather than from a hard dependency:
 - Record a **structured reason** distinguishing the six stop causes
   above — a caller reading the tasknote must be able to tell a drift park
   from a destructive-action park without a transcript. The reason key and
-  its code tokens live in [`SPEC.md`](../SPEC.md) §"Tasknote frontmatter".
+  its code tokens live in [`SPEC/blocked.md`](blocked.md) §"Park reason".
 - **Stop.** Do not run Phase 3 or Phase 4. The tasknote stays at
   `.flowtron/tasknote/<TASK-ID>.md`, the PLAN.md line stays unchecked, and
   Phase 1 plus any partial Phase 2 work is preserved verbatim.

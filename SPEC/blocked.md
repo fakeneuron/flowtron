@@ -4,7 +4,7 @@ paths: []
 
 # Blocked tasks
 
-> Lazy-loaded SPEC module. Loaded by `/ft-task` Step 3c when an existing tasknote has `status: blocked`, and at Step 5 if a hard dependency surfaces mid-Phase-2. See `SPEC.md` for the always-loaded core spec.
+> Lazy-loaded SPEC module. Loaded by `/ft-task` Step 3c when an existing tasknote has `status: blocked`, at Step 5 if a hard dependency surfaces mid-Phase-2, and at Step 0 under `--unattended` (every gate conversion writes a park, and the `park-reason:` code set lives here). See `SPEC.md` for the always-loaded core spec.
 
 A task can be **blocked** at two distinct points in its lifecycle, and
 flowtron records each at a different layer. The two signals are independent
@@ -14,7 +14,7 @@ file ownership / predecessor), not a don't-start gate and not a park —
 see `SPEC.md` §"Tasknote frontmatter". It does not replace either signal
 below. A fourth key, `park-reason:`, **annotates** a park rather than
 declaring one — it records why `status: blocked` was set and is cleared on
-resume (`SPEC.md` §"Tasknote frontmatter"). With no `status: blocked` it has
+resume (§"Park reason" below). With no `status: blocked` it has
 nothing to annotate, so it is not a further signal.
 
 | Signal | Layer | Means | Entered when |
@@ -57,8 +57,8 @@ autonomously; the operator resumes and takes them under a real gate.
 **Mid-Phase-2 parking.** If a hard dependency surfaces during Execution,
 park the tasknote: flip YAML `status:` from `in-progress` to `blocked`,
 flip the nav-header chip from `🟢 In progress` to `⏸ Blocked`, write
-`park-reason: dependency — <the dependency>` (`SPEC.md` §"Tasknote
-frontmatter" — mandatory under `--unattended`, recommended otherwise),
+`park-reason: dependency — <the dependency>` (§"Park reason" below —
+mandatory under `--unattended`, recommended otherwise),
 optionally add `Blocked by [[ID]]` to the PLAN.md line (recommended for viz
 visibility, not required — the two signals stay independent), and stop. Do
 not run Phase 3 or Phase 4. The tasknote sits at
@@ -68,8 +68,9 @@ not run Phase 3 or Phase 4. The tasknote sits at
 reserved for actual completion (or a Phase 1 De-scope). The tasknote is not
 archived, the PLAN.md task line stays unchecked, and Phase 1 + partial
 Phase 2 work are preserved verbatim. `park-reason:` states which of the eight
-stop causes put the note here, so a caller reading the file alone can tell a
-drift park from a destructive-action park without a transcript.
+stop causes (§"Park reason" below) put the note here, so a caller reading the
+file alone can tell a drift park from a destructive-action park without a
+transcript.
 
 **Exit (resume).** Re-running `/ft-task <ID>` against a blocked tasknote enters
 the resume path: drift-check the parked work first (Phase 2 progress may
@@ -80,6 +81,60 @@ longer stopped), optionally remove the `Blocked by` clause from PLAN.md (or
 leave it as historical context), and continue Phase 2 from where parking
 left off.
 Phase 1 is already complete — do not re-run it.
+
+## Park reason
+
+One additive key, `park-reason:`, records *why* a tasknote sits at
+`status: blocked`. Omit-when-absent like the planning keys in `SPEC.md`
+§"Tasknote frontmatter": legacy parked notes omit it and tools ignore it when
+absent. It appears only while a note is parked.
+
+The value is a **stable code, then prose**, separated by the same ` — ` the
+spec uses on the PLAN.md task line (`SPEC.md` §"Task-line format"):
+
+```yaml
+status: blocked
+park-reason: destructive — needs a `git push` to the public remote before the tag can be verified
+```
+
+A caller splits on the first ` — ` to read the code and never parses the
+prose. The code comes from a **closed set** — a new stop cause adds a row to
+this table, never a free-form value:
+
+| Code | Records |
+|---|---|
+| `drift` | A Phase 1 `Re-scope` / `De-scope` verdict — the 🛠️ drift carve-out |
+| `destructive` | A 🗄️/▶️/📡/💻 destructive-action escalation |
+| `prerequisite` | A ✋ `ACTION` that must be performed before the run can continue |
+| `model-mismatch` | The Step 1.5 concrete-`[model]` STOP |
+| `input-needed` | A question autonomous execution cannot answer — a queued bundled in-📦 prompt, or `/ft-close-epic`'s Phase 1→2 clarification ask |
+| `visual-confirm` | A Phase 3 👁️ `CONFIRM` visual ask — the check an operator-less run has nobody to hand to |
+| `dependency` | A hard dependency surfaced mid-Phase-2 — the park that predates the posture |
+| `interrupted` | The run ended without reaching closure *or* a gate — killed, out of context, session lost |
+
+The first six are the gate conversions in [`SPEC/gates.md`](gates.md)
+§"`--unattended` operator posture"; `dependency` is the mid-Phase-2 park
+this module has always had. `interrupted` is neither — nothing stopped the
+run, it simply ended — and it is the one code a *caller* writes rather than a
+runner, to route a stranded note into the resume path (§"Resuming an
+interrupted run" below).
+
+**`drift` vs `dependency`.** The code names what *stopped* the run, not what
+motivated it. A `Re-scope` verdict parks as `drift` even when a dependency
+drove the verdict, because the verdict is the stop. `dependency` is reserved
+for the mid-Phase-2 park, where no verdict is involved.
+
+**Written on every `--unattended` park; optional on an attended one.** With no
+operator present the key is the only stop surface a caller has, so a park
+without one is a park it cannot classify. An attended park may write it — the
+same reason is useful to a human resuming a week later — but is not required to.
+
+**Cleared on resume.** The key describes a *current* stop, so the flip back to
+`status: in-progress` removes it, alongside the `⏸ Blocked` → `🟢 In progress`
+chip. That is an active-note lifecycle write, not a retroactive edit — the
+write-once carve-out in `SPEC.md` §"Tasknote frontmatter" already covers it. A
+note that parks twice writes the second reason fresh; a note that reaches
+Phase 4 closure carries none.
 
 ## Resuming an interrupted run
 

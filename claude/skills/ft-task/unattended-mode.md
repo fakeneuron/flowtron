@@ -2,7 +2,7 @@
 
 > Lazy-loaded SKILL fragment — **shared**. Loaded by `/ft-task`, `/ft-micro-task`, `/ft-goal-task`, and `/ft-close-epic` at their Step 0 when `unattended-mode = true`. The file is owned by `claude/skills/ft-task/`; the other three skills resolve it through their `<UNATTENDED>` path binding, the same way the runners resolve `step-1.5-model-edge.md` through `<MODEL_EDGE>`.
 >
-> **The contract lives in [`SPEC/gates.md`](../../../SPEC/gates.md) §"`--unattended` operator posture"** — this fragment is its executable interpretation across the three runners, not a second copy. Read the contract when this file is silent or in tension. The `park-reason:` key and its closed-set codes are canonical in [`SPEC.md`](../../../SPEC.md) §"Tasknote frontmatter"; the parked state and its resume path are canonical in [`SPEC/blocked.md`](../../../SPEC/blocked.md).
+> **The contract lives in [`SPEC/gates.md`](../../../SPEC/gates.md) §"`--unattended` operator posture"** — this fragment is its executable interpretation across the three runners, not a second copy. Read the contract when this file is silent or in tension. The `park-reason:` key and its closed-set codes (§"Park reason"), the parked state, and its resume path are canonical in [`SPEC/blocked.md`](../../../SPEC/blocked.md).
 >
 > **`<SKILL>` below stands for the invoking skill's own slash command** — `/ft-task`, `/ft-micro-task`, `/ft-goal-task`, or `/ft-close-epic`. Substitute it wherever it appears; never hard-code `/ft-task`.
 >
@@ -24,7 +24,7 @@ Every conversion below performs the same four writes, then stops:
 
 1. Flip the tasknote's YAML `status:` to `blocked`.
 2. Flip the nav-header chip from `🟢 In progress` to `⏸ Blocked`.
-3. Write `park-reason: <code> — <one-line prose>` into the frontmatter, where `<code>` comes from the closed set in `SPEC.md` §"Tasknote frontmatter". A caller splits on the first ` — ` to read the code and never parses the prose, so put the classification in the code and the detail in the prose.
+3. Write `park-reason: <code> — <one-line prose>` into the frontmatter, where `<code>` comes from the closed set in `SPEC/blocked.md` §"Park reason". A caller splits on the first ` — ` to read the code and never parses the prose, so put the classification in the code and the detail in the prose.
 4. Emit one inline marker and **stop**:
 
    ```markdown

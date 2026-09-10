@@ -64,7 +64,7 @@ autonomous mode plus parking, never a replacement for either.
 **Parking, in one paragraph.** Under unattended mode a converted gate flips the
 tasknote's YAML `status:` to `blocked`, flips the nav chip to `⏸ Blocked`,
 writes `park-reason: <code> — <one line>` from the closed set in
-[`SPEC.md` §"Tasknote frontmatter"](../../SPEC.md), and **stops** — no Phase 3,
+[`SPEC/blocked.md` §"Park reason"](../blocked.md), and **stops** — no Phase 3,
 no Phase 4, PLAN.md line unchanged, Phase 1 and any partial Phase 2 work
 preserved verbatim. A park never performs the operator's own motion (it does
 not make a verdict's PLAN edit, delete a tasknote, or re-file a task); it
