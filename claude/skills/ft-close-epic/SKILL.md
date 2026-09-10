@@ -34,7 +34,7 @@ When `unattended-mode = true`, Read `<SKILL_DIR>/unattended-close-epic.md`, `<UN
 - `.flowtron/PLAN.md` must exist (cwd is a flowtron-adopting project or flowtron itself).
 - **Foreign-dirt gate (paper-complete guard).** Before scaffold writes, run `git status --porcelain`. If non-empty: **STOP**, surface the dirt list, ask the operator to commit / stash / discard themselves, then re-invoke. Do not auto-clean. See SPEC §"Paper-complete guard". **`--unattended` does not relax this** — it terminates and writes nothing, per the fragment's §"Steps 1-2 — Pre-scaffold stops".
 - Parse `args` as `<AREA>-<NUMBER>.<SUB>` (where `.<SUB>` is a number or the reserved literal `.N` — both parse per SPEC §"Task ID convention"):
-  - **Area** must resolve per SPEC §"Task ID convention" or via `.flowtron/tasknote/README.md`'s project-specific prefixes. Unknown prefix → stop and ask.
+  - **Area** resolves by reading the `.flowtron/tasknote/README.md` §"Archive layout" table — every prefix, canonical ones included; `<area>` is **never derived from the ID** (SPEC §"Task ID convention"). No row for this prefix → stop and ask; do not guess a folder.
   - **`.<SUB>` segment is required** — `/ft-close-epic` only runs against epic subtasks, not standalone tasks. If the ID matches `<AREA>-<NUMBER>` (no `.<SUB>` suffix), stop and tell the user "`/ft-close-epic` runs against the audit `.N` subtask of an epic, not a standalone task. Use `/ft-task <ID>` for standalone tasks."
 - Check `<tasknote dir>/<AUDIT-SUBTASK-ID>.md`:
   - If the file already exists with `status: in-progress`, stop and tell the user the audit tasknote is already in flight. Recommend continuing conversationally (e.g., "continue CORE-057.6") rather than restarting — this skill is start-only by design.

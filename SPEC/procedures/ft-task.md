@@ -174,9 +174,13 @@ contract (the 100-row bound, month-block granularity, the never-split rules):
 
 ### 2 — Resolve the area and check the model
 
-Resolve the **Area** from the ID prefix per
-[`SPEC.md` §"Task ID convention"](../../SPEC.md); unknown prefixes are
-declared in `.flowtron/tasknote/README.md`.
+Resolve the **Area** by reading the `.flowtron/tasknote/README.md`
+§"Archive layout" table — every task, every prefix, canonical ones included.
+`<area>` is **never derived from the ID**: lowercasing the prefix is the
+adopter's declaration-time default, not a resolution you may perform, and a
+project may deliberately declare a folder it would not produce (`NAT-*` →
+`archive/natabula/`). See [`SPEC.md` §"Task ID convention"](../../SPEC.md). No
+row for this prefix → stop and ask; do not guess a folder.
 
 Check the `[model]` tag against the model you are running as, per
 [`SPEC/model.md`](../model.md). If the task is tagged for a heavier tier or a
@@ -269,7 +273,10 @@ ticking each box in the tasknote as you go:
   read step's clause above, applied where it bites hardest, since a path grep
   over a mature archive can return dozens of notes — rather than pulling every
   hit into this window; log load-bearing findings (renames, regressions, prior
-  decisions) before re-interpreting the task.
+  decisions) before re-interpreting the task. An absent or empty
+  `archive/<area>/` is a prompt to re-check `<area>` against the README table
+  before logging "no prior tasknotes" — a derived-and-wrong folder is
+  indistinguishable from a genuinely empty one.
 - **Drift check** — verify cited paths, line numbers, function names, and
   root-cause hypotheses still match the code, **and** cross-reference the plan
   you are forming against its `PLAN.md` line and the SPEC contracts it touches

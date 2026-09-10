@@ -48,6 +48,15 @@ Adopting projects may add domain prefixes (e.g., `OCR-` for a vision-heavy
 project's OCR pipeline). Domain prefixes must be declared in the project's
 `.flowtron/tasknote/README.md`.
 
+**`<area>` is looked up, never derived from the ID.** The archive folder for a
+prefix is whatever the project's `.flowtron/tasknote/README.md` §"Archive layout"
+table says — read it on every task, for every prefix, canonical ones included.
+Lowercasing the prefix is the *declaration-time default* for adding a row, not a
+resolution an agent may perform: a project may declare a folder the default would
+not produce (`NAT-*` → `archive/natabula/`), and the row wins. A prefix that
+"looks known" is the one that gets lowercased on autopilot, so the lookup carries
+no known/unknown branch.
+
 Numbering: sequential within prefix. Decimals only for epic subtasks (e.g.,
 `CORE-EPIC-009` parent + `CORE-009.1`, `CORE-009.2` children). The subtask
 slot accepts either a number (`\d+`) or the reserved literal `N` — `<AREA>-<N>.N`
@@ -390,7 +399,7 @@ Mandatory steps:
 - [ ] **Relevance Assessment** — `Proceed` / `Re-scope` / `De-scope` with one-line rationale
 - [ ] Read relevant source files — when the read set is broad or its shape is unknown, consider isolating the search in a **probe** (see below) and recording only its distilled return in Discovery Notes
 - [ ] **Best Practices Review** — when code or module boundaries are in scope, identify the touched responsibilities, established dependency direction and abstractions, and nearby duplication; record any required in-scope refactor or deferred cleanup (otherwise `N/A` with a one-line reason)
-- [ ] **Archive skim** — surface prior decisions on the same files / area by skimming `.flowtron/tasknote/archive/<area>/` for tasknotes that touched the source paths in scope (if YAML `touches:` is set, prefer those paths for the path grep); also open IDs named by `## 🔗 Related`, YAML `supersedes:`, and any ⚠️ `Superseded by` pointer on the hits — still `grep` + read, no query engine; when the grep returns more than a handful of notes (~3 is a fair line), prefer handing the reading to a **probe** (same clause as the read step above) rather than pulling every hit into this window; log relevant findings in Discovery Notes before re-interpreting the task
+- [ ] **Archive skim** — surface prior decisions on the same files / area by skimming `.flowtron/tasknote/archive/<area>/` for tasknotes that touched the source paths in scope (if YAML `touches:` is set, prefer those paths for the path grep); also open IDs named by `## 🔗 Related`, YAML `supersedes:`, and any ⚠️ `Superseded by` pointer on the hits — still `grep` + read, no query engine; when the grep returns more than a handful of notes (~3 is a fair line), prefer handing the reading to a **probe** (same clause as the read step above) rather than pulling every hit into this window; log relevant findings in Discovery Notes before re-interpreting the task; an absent or empty `archive/<area>/` is a prompt to re-check `<area>` against the README table (§"Task ID convention") before logging "no prior tasknotes" — a derived-and-wrong folder is indistinguishable from a genuinely empty one, and mistaking the two silently voids this step
 - [ ] **Drift check** — verify file paths, line numbers, function names, and root-cause hypotheses cited in the task description still match current code, **and** cross-reference the plan this tasknote is forming against its `PLAN.md` line and the SPEC contracts it touches (read them, don't recall them); surface any drift to the user before re-interpreting the task
 - [ ] Asked clarifying questions OR logged "No clarifications needed" with explicit assumptions
 - [ ] Subtasks above populated with concrete, ordered steps, and YAML `touches:` declared with the paths this task expects to edit (omit only on a task with no file deliverable — §"Tasknote frontmatter")

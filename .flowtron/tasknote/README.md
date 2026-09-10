@@ -16,9 +16,11 @@ Flowtron uses only the canonical prefixes defined in [`SPEC.md` §"Task ID conve
 
 ## Archive layout
 
-**Rule:** the archive folder for a prefix is the prefix lowercased, with the
-trailing `-` dropped — e.g. `<AREA>-*` → `archive/<area>/`. Applies uniformly
-to the canonical prefixes and any adopter-declared domain prefix.
+**This table is authoritative.** `<area>` is *looked up here* — never derived
+from the task ID. Read it on every task, for every prefix, canonical ones
+included: a prefix that "looks known" is precisely the one an agent lowercases
+on autopilot, and a folder that does not exist reads as an empty archive rather
+than as a failed lookup.
 
 | Prefix | Folder |
 |--------|--------|
@@ -29,7 +31,14 @@ to the canonical prefixes and any adopter-declared domain prefix.
 | `DEPLOY-*` | `archive/deploy/` |
 | `TEST-*` | `archive/test/` |
 
-Other area folders are created when the first tasknote in that area lands.
+**Declaration-time default — not a read-path rule.** When a project declares a
+new prefix, it names the folder the prefix lowercased with the trailing `-`
+dropped, then adds the row above; the folder is created when the first tasknote
+in that area lands. An adopter may deliberately declare a folder the default
+would not produce (e.g. `NAT-*` → `archive/natabula/`); the row wins. That is
+why `<area>` is read from the table rather than computed. Flowtron itself uses
+only the canonical prefixes, so its six rows happen to match the default — which
+is exactly the case that makes deriving look safe.
 
 ## AI-referenced docs
 

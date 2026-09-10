@@ -41,9 +41,11 @@ Project-specific prefixes (declare yours here, or delete this section if none):
 
 ## Archive layout
 
-**Rule:** the archive folder for a prefix is the prefix lowercased, with the
-trailing `-` dropped — e.g. `<AREA>-*` → `archive/<area>/`. Applies uniformly
-to the canonical prefixes and any project-specific prefix declared above.
+**This table is authoritative.** `<area>` is *looked up here* — never derived
+from the task ID. Read it on every task, for every prefix, canonical ones
+included: a prefix that "looks known" is precisely the one an agent lowercases
+on autopilot, and a folder that does not exist reads as an empty archive rather
+than as a failed lookup.
 
 | Prefix | Folder |
 |--------|--------|
@@ -54,7 +56,11 @@ to the canonical prefixes and any project-specific prefix declared above.
 | `DEPLOY-*` | `archive/deploy/` |
 | `TEST-*` | `archive/test/` |
 
-Project-specific prefixes archive the same way (e.g., `OCR-*` → `archive/ocr/`).
+**Declaration-time default — not a read-path rule.** When declaring a new
+prefix, name its folder the prefix lowercased with the trailing `-` dropped
+(`OCR-*` → `archive/ocr/`), then add the row above. A project may deliberately
+declare a folder the default would not produce (e.g. `NAT-*` → `archive/natabula/`);
+the row wins. That is why `<area>` is read from the table rather than computed.
 
 ## AI-referenced docs
 
