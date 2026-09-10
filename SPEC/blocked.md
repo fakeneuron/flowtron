@@ -91,10 +91,12 @@ siblings) stop on an in-flight tasknote and recommend continuing
 conversationally, because restarting a half-executed task from Step 1 would
 re-run Discovery over work already done.
 
-That recommendation presumes a session that still holds the task's context. An
-operator-less caller has neither the session nor a flag, so the state is a dead
-end. It does not need one: the parked state above already expresses "started,
-paused, resume from here." The stranded note simply never entered it.
+That recommendation presumes a session. An operator-less caller has none — but
+the tasknote itself holds the context, so the caller may either point a fresh
+agent at the note with a prose continue (the runner's own recommendation,
+carried out by a new session) or take the conversion below. The parked state
+above already expresses "started, paused, resume from here"; the stranded note
+simply never entered it.
 
 **The path is two frontmatter writes, then a normal invocation.** The caller —
 an operator by hand, or an orchestrator that noticed its child exited without a

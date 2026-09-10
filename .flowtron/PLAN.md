@@ -14,7 +14,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-EPIC-565** [heavy]🧠 | harness-value-review — Critical review pass after the v5.25–v5.26 shrink and `--unattended` work: does flowtron still act as a state-of-the-art vibe-coding harness that adds real value to users, and does it integrate optimally with caobunga? Surface gaps and file fixes (filed via /ft-epic-discovery; refined at .1 closure).
   - [x] **CORE-565.1** [heavy]🧠 | harness-value-review discovery — Completed 2026-09-10.
   - [x] **CORE-565.2** [heavy]🧠 | lifecycle-value — Completed 2026-09-10.
-  - [ ] **CORE-565.3** [heavy]🧠 | caobunga-contract-fit — Verify the caller contract against caobunga's reader and dispatcher (approved read-only paths). Declare capability-probe surfaces stable in docs/EXTERNAL-AGENTS.md; resolve in-progress continue vs `interrupted`, `[handoff]` and suggested-next tokens, PLAN-ARCHIVE blocker resolution, Final Summary / Verdict / Follow-up hooks, grammar parity. Flowtron declares; caobunga-side findings as ready-to-paste CBN rows in the Final Summary.
+  - [x] **CORE-565.3** [heavy]🧠 | caobunga-contract-fit — Completed 2026-09-10.
   - [ ] **CORE-565.4** [heavy]🧠 | roster-onboarding-value — Verdict per shipped ft-* skill (keep / merge / demote, with archive evidence) using .2's cost table; walk README Quickstart → /ft-new-project → first /ft-task, docs/MIGRATION.md, and /ft-flowtron as a new adopter; fix or file gaps; snippet and SPEC rosters agree (Pair K). Skill removals filed, not executed.
   - [ ] **CORE-565.N** [heavy]🧠 | harness-value-review audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
 
