@@ -24,7 +24,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Future Opportunities
 
 - [ ] **CORE-EPIC-556** [heavy]🧠 | release-skill-headroom — Split or trim claude/skills/ft-release/SKILL.md so it is not one edit from the 40,000-char release gate. Discovery supplied by audit-repo 2026-09-09. Surfaced by audit-repo 2026-09-09 (Theme: Context-budget ratchet)
-  - [ ] **CORE-556.2** [heavy]🧠 | ft-release-fragment-split — Extract the Step 5 dogfood/SOP-currency walk (or equivalent) into a lazy fragment so the SKILL body has ~two working units of margin.
+  - [x] **CORE-556.2** [heavy]🧠 | ft-release-fragment-split — Completed 2026-09-09.
   - [ ] **CORE-556.N** [medium]🧩 | release-skill-headroom audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line).
 
 ## Completed
