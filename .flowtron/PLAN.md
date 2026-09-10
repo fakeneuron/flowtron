@@ -11,12 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-EPIC-565** [heavy]🧠 | harness-value-review — Critical review pass after the v5.25–v5.26 shrink and `--unattended` work: does flowtron still act as a state-of-the-art vibe-coding harness that adds real value to users, and does it integrate optimally with caobunga? Surface gaps and file fixes (filed via /ft-epic-discovery; refined at .1 closure).
-  - [x] **CORE-565.1** [heavy]🧠 | harness-value-review discovery — Completed 2026-09-10.
-  - [x] **CORE-565.2** [heavy]🧠 | lifecycle-value — Completed 2026-09-10.
-  - [x] **CORE-565.3** [heavy]🧠 | caobunga-contract-fit — Completed 2026-09-10.
-  - [x] **CORE-565.4** [heavy]🧠 | roster-onboarding-value — Completed 2026-09-10.
-  - [ ] **CORE-565.N** [heavy]🧠 | harness-value-review audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
+(none)
 
 ## Medium
 
@@ -38,6 +33,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-565** [heavy]🧠 | harness-value-review — Completed 2026-09-10.
+  - [x] **CORE-565.1** [heavy]🧠 | harness-value-review discovery — Completed 2026-09-10.
+  - [x] **CORE-565.2** [heavy]🧠 | lifecycle-value — Completed 2026-09-10.
+  - [x] **CORE-565.3** [heavy]🧠 | caobunga-contract-fit — Completed 2026-09-10.
+  - [x] **CORE-565.4** [heavy]🧠 | roster-onboarding-value — Completed 2026-09-10.
+  - [x] **CORE-565.N** [heavy]🧠 | harness-value-review audit — Completed 2026-09-10.
 - [x] **CORE-561** [medium]🧩 | ft-audit-operator-action — Completed 2026-09-10.
 - [x] **CORE-562** [medium]🧩 | pair-k-spec-md-roster — Completed 2026-09-10.
 - [x] **CORE-563** [medium]🧩 | filing-precheck-race — Completed 2026-09-10.

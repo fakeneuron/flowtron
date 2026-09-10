@@ -248,5 +248,3 @@ The first operator-approved read of caobunga's source (`backend/caobunga/{flowtr
 **Evidence.** 2 files: `.flowtron/PLAN.md` (+6 lines, one cohort under `## High`) and this tasknote (scaffold → archive). Child long descriptions 56 / 51 / 48 words, all under the 70w cap. M unchanged at 3; `.N` as filed. No downstream impact (every other section was `(none)`). `touches:` reconciliation: declared `PLAN.md` + this note; `git diff --name-only` shows exactly those two paths.
 
 **Archived:** 2026-09-10
-
-**Archived:** YYYY-MM-DD
