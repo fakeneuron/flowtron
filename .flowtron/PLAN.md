@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-(none)
+- [ ] **CORE-557** [heavy]🧠 | acceptance-verify-receipt — Lift `/ft-goal-task`'s machine-checkable Acceptance rule into `/ft-task` (every non-visual criterion names a verify command), and replace Phase 3's self-ticked **Quality assertions** box with a command / exit-code / first-failure-line receipt recorded in Testing Notes. Net-neutral on budget: cut the box being replaced. Surface: `SPEC.md` §"🧪 Phase 3", `templates/tasknote-template.md`, and the Phase 3 restatements in the `ft-task` / `ft-goal-task` / `ft-micro-task` SKILLs — four copies of one box, so a split of the rule into `SPEC/` may be cheaper than four edits. Rationale: without it the fleet's static gates only speak after a push, and whether an agent actually ran its Phase 3 gates is currently unobservable. Routed from natabula **NAT-225** per `SPEC/scope-boundaries.md` §"Cross-repo edit remit"; evidence in that repo's `docs/QUALITY-STACK.md` §"Adopted" wave 1 #4 + §"Routed upstream". Check against `docs/CONTEXT-BUDGET.md` and [[CORE-EPIC-556]] before growing any always-loaded surface.
 
 ## Low
 
