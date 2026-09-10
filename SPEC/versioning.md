@@ -18,8 +18,10 @@ projects via submodule checkout.
   and the annotated tag message list explicit migration steps. Adopting
   projects must follow them when bumping.
 
-Each adopting project's `.flowtron/tasknote/README.md` records the
-currently-pinned flowtron version. Bumping is a project-side task (e.g.,
+The pin is the submodule gitlink itself — `git -C .flowtron/core describe --tags`
+reads it, and `.flowtron/core/SPEC.md`'s `**Version:**` line carries the same
+value on the contract side. No adopter file restates it, so there is nothing
+to keep in sync on a bump. Bumping is a project-side task (e.g.,
 `CORE-XYZ: Bump flowtron to vX.Y.Z`) that runs the migration steps from the
 bump's annotated tag message (`git show vX.Y.Z` in the flowtron submodule)
 and commits the new submodule SHA.

@@ -27,7 +27,7 @@ Print the following block in the conversation (fill in `VERSION` from Step 0). D
 A lightweight, project-agnostic tasknote system for solo AI-assisted coding. The four phases, the Relevance Assessment, and the Acceptance criteria are the checkpoints that catch the agent before it wastes a session — with no scripts, daemons, or databases.
 
 **Spec:** `SPEC.md` (adopters: `.flowtron/core/SPEC.md`)
-**Adoption guide:** `docs/MIGRATION.md`
+**Adoption guide:** `docs/MIGRATION.md` (adopters: `.flowtron/core/docs/MIGRATION.md` — every `docs/` path below sits under `.flowtron/core/` in an adopting project)
 
 ## Core principles
 

@@ -102,7 +102,7 @@ mkdir -p .flowtron/tasknote/archive
 cp .flowtron/core/templates/tasknote-README.md .flowtron/tasknote/README.md
 ```
 
-The README includes a description of the current tasknote template shape: YAML frontmatter (`title`, `status`, `tags`, `created`, `due`, `related-tasks`) and a spec-on-top + log-below body. The `/ft-task` skill scaffolds all new tasknotes in this shape automatically; the canonical layout is at `.flowtron/core/templates/tasknote-template.md`.
+The README lists the five tasknote variants and carries the §"Archive layout" table that `/ft-task` reads on every run to resolve `<area>`. The skills scaffold new tasknotes from `.flowtron/core/templates/` automatically; the canonical shapes live there.
 
 Reference: `docs/MIGRATION.md` §1.5.
 

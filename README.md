@@ -33,6 +33,7 @@ standalone or epic child) — see `claude/skills/ft-release/SKILL.md`.
 
 ```sh
 git clone https://github.com/fakeneuron/flowtron.git ~/code/flowtron
+mkdir -p ~/.claude/skills ~/.claude/commands
 ln -s ~/code/flowtron/claude/skills/ft-new-project      ~/.claude/skills/ft-new-project
 ln -s ~/code/flowtron/claude/commands/ft-new-project.md ~/.claude/commands/ft-new-project.md
 ```

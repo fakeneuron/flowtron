@@ -15,18 +15,22 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-565.1** [heavy]🧠 | harness-value-review discovery — Completed 2026-09-10.
   - [x] **CORE-565.2** [heavy]🧠 | lifecycle-value — Completed 2026-09-10.
   - [x] **CORE-565.3** [heavy]🧠 | caobunga-contract-fit — Completed 2026-09-10.
-  - [ ] **CORE-565.4** [heavy]🧠 | roster-onboarding-value — Verdict per shipped ft-* skill (keep / merge / demote, with archive evidence) using .2's cost table; walk README Quickstart → /ft-new-project → first /ft-task, docs/MIGRATION.md, and /ft-flowtron as a new adopter; fix or file gaps; snippet and SPEC rosters agree (Pair K). Skill removals filed, not executed.
+  - [x] **CORE-565.4** [heavy]🧠 | roster-onboarding-value — Completed 2026-09-10.
   - [ ] **CORE-565.N** [heavy]🧠 | harness-value-review audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
 
 ## Medium
 
 - [ ] **CORE-567** [heavy]🧠 | park-reason-table-home — Decide whether the `park-reason:` code table (~2,900 always-loaded chars in `SPEC.md` §"Tasknote frontmatter", needed only at a park) moves to `SPEC/blocked.md` with a one-line pointer left behind. Caller-facing contract: run after CORE-565.3 declares the stable surfaces. Filed by CORE-565.2.
 - [ ] **CORE-566** [medium]🧩 | model-md-history-trim — Trim `SPEC/model.md` (18,699 chars, loaded on every non-Satisfied model gate) of decision history and anecdotes: tier-ladder rationale, the CORE-353.2 supersession note, the pre-CORE-482 bias, the first-person Grok edge case, the §"Tier ladder" History block. Rules and the dated calibration table stay. Filed by CORE-565.2.
+- [ ] **CORE-570** [heavy]🧠 | starter-followup-merge — Decide whether `/ft-starter-task` folds into `/ft-file-followup --starter` (one filer, three weights: line / `--park` stub / starter body). Evidence: 6 promotions in 880 archived notes since 2026-05-17, last 2026-08-08; adopter uptake 0; four paragraphs duplicated across the two bodies. Must keep the no-`SPEC.md`-load property. Filed by CORE-565.4.
+- [ ] **CORE-571** [heavy]🧠 | goal-task-demote — Decide whether `/ft-goal-task` demotes to a `/ft-task --loop` flag (contract `SPEC/loop.md` stays; the 28k body, `--worktree` / Pair G, the heartbeat roster row, and two symlinks go) or retires. Evidence: zero `## 🔁 Iterations` logs in 10 weeks; the adopter wires it and never runs it. Filed by CORE-565.4.
+- [ ] **CORE-572** [heavy]🧠 | worktree-pair-demote — Decide whether `/ft-worktree-start` + `/ft-worktree-end` demote to the procedure in `docs/WORKTREES.md` (convention stays; two bodies, four symlinks, two roster rows go). Evidence: no `wt-` branch, reflog entry, or merge commit has ever existed here, none in the adopter, 3.5 months shipped. Sequence with CORE-571 (`--worktree`). Filed by CORE-565.4.
 
 ## Low
 
 - [ ] **CORE-568** [light]🔧 | template-test-strategy-pointer — Replace the "Choosing a test strategy" blockquote in `templates/tasknote-template.md` (a verbatim copy of `SPEC.md` §Phase 3, ~600 chars scaffolded into every tasknote) with a one-line pointer. Adopter-visible; lands with a release. Filed by CORE-565.2.
-- [ ] **CORE-569** [light]🔧 | goal-task-closure-restatement — `claude/skills/ft-goal-task/SKILL.md` Steps 4–5 say "identical to `/ft-task`" and then restate Phase 4 closure and the post-closure protocol in full; collapse each to the cite. Filed by CORE-565.2.
+- [ ] **CORE-569** [light]🔧 | goal-task-closure-restatement — `claude/skills/ft-goal-task/SKILL.md` Steps 4–5 say "identical to `/ft-task`" and then restate Phase 4 closure and the post-closure protocol in full; collapse each to the cite. Filed by CORE-565.2. Blocked by [[CORE-571]] — moot if the demote lands.
+- [ ] **CORE-573** [medium]🧩 | ft-spec-demote — Decide whether `/ft-spec` demotes to `templates/spec-template.md` plus the routing paragraph in `SPEC/tasknote-selection.md`. Evidence: one spec ever written (its own dogfood, 2026-07-12), no adopter `specs/` dir; the skill adds a slug, a stub, a Codex wrapper, two symlinks, and a roster row. Filed by CORE-565.4.
 
 ## Future Opportunities
 

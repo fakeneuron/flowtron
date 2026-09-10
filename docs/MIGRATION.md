@@ -32,9 +32,10 @@ The skill verifies preconditions (cwd is a git repo with `AGENTS.md` or `CLAUDE.
 | `/ft-audit-context` | Adopters (+ flowtron-self) | Adopter-context audit — 4 conversational passes over `CLAUDE.md`, `AGENTS.md`, `.claude/{commands,skills}` for bloat / paste-block redundancy / `ft-*` namespace conflicts / lean-context drift; soft prose recommendations with an offer to file PLAN tickets (no auto-write) |
 | `/ft-audit-repo` | Adopters (+ flowtron-self) | First-contact holistic repo audit — Repo Map discovery, one thin capped sweep, 3–5 thematic synthesis, milestone-sequenced plan filed as flowtron epics, plus delegation hints for focused `/ft-audit <domain>` runs; strictly read-only, no fork. Global install lets you run it on a repo before flowtron is wired in (see §1.2.1) |
 
-Install each you want with the same shape (substitute `<skill>`):
+Install each you want with the same shape (substitute `<skill>`; the `mkdir -p` is needed once — a machine that has never had a user-scope skill has neither directory, and `ln -s` does not create them):
 
 ```sh
+mkdir -p ~/.claude/skills ~/.claude/commands
 ln -s <path-to-flowtron-checkout>/claude/skills/<skill>       ~/.claude/skills/<skill>
 ln -s <path-to-flowtron-checkout>/claude/commands/<skill>.md  ~/.claude/commands/<skill>.md
 ```
@@ -240,6 +241,7 @@ The canonical `claude/skills/ft-audit/` directory (`SKILL.md` + `scaffold-bootst
 Do **not** glob the shipped inventory into an agent home. `~/.claude/skills/` and `~/.agents/skills/` carry only the global-only utilities — the skills you need *before* a project is wired, or *outside* any flowtron checkout — installed one at a time with the §1.0 shape:
 
 ```sh
+mkdir -p ~/.claude/skills ~/.claude/commands
 ln -s ~/code/flowtron/claude/skills/<skill>       ~/.claude/skills/<skill>
 ln -s ~/code/flowtron/claude/commands/<skill>.md  ~/.claude/commands/<skill>.md
 ```

@@ -93,7 +93,9 @@ Report the added symlinks per platform (or "no new skills to wire"). Note: globa
 
 Scan the adopter's `.claude/skills/` for local audit forks that carry fork-provenance markers — these signal which bundled scaffold a fork was last reconciled against so that silent upstream drift becomes visible.
 
-For each file matching `.claude/skills/*/SKILL.md` that is a **regular file** (not a symlink — `test ! -L <path>`) and contains a `flowtron-reconciled:` frontmatter field:
+For each file matching `.claude/skills/*/SKILL.md` whose skill **directory** is not a symlink and whose `SKILL.md` is a regular file (`test ! -L "$(dirname <path>)" && test ! -L <path>`) and that contains a `flowtron-reconciled:` frontmatter field:
+
+The directory test is the one that matters: every adopter-wired skill directory is a symlink into the submodule, and the `SKILL.md` reached *through* that link is itself a regular file, so testing the file alone passes for all of them and classifies submodule-owned skills as local forks.
 
 1. Parse the file's YAML frontmatter to read:
    - `flowtron-reconciled:` — the version tag the fork was last reconciled against (e.g. `v5.2.0`).

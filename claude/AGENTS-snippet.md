@@ -29,7 +29,7 @@ This project uses **flowtron** for task tracking. The canonical workflow contrac
 <!-- KEEP IN SYNC (CORE-519): mirrors AGENTS.md's "Do not skip phases" sentence — same claim, same SPEC/tasknote-selection.md pointer. Editing one requires checking the other. -->
 <!-- KEEP IN SYNC (CORE-516): mirrors AGENTS.md:36 — same `[model]` concept, same SPEC/model.md pointer. Editing one requires checking the other. -->
 - Each PLAN.md task line carries a `[model]` segment naming the model tier or name the task should run on end-to-end; adopters may use any short token. If the loaded model doesn't match, surface the mismatch before continuing. Contract: `.flowtron/core/SPEC/model.md` §"Model field".
-- The `.flowtron/core/` submodule is read-only here. Edits go upstream to flowtron and arrive via deliberate version bumps — see `.flowtron/core/SPEC/versioning.md` and `.flowtron/tasknote/README.md` for the pinned version.
+- The `.flowtron/core/` submodule is read-only here. Edits go upstream to flowtron and arrive via deliberate version bumps — see `.flowtron/core/SPEC/versioning.md`. The pin is the submodule gitlink (`git -C .flowtron/core describe --tags`), also readable as the `**Version:**` line of `.flowtron/core/SPEC.md`; no project file restates it.
 ```
 
 ### Check that Claude Code loads it
