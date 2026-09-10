@@ -82,8 +82,11 @@ Keep the description (there is no tasknote/archive file to be the canonical reco
 
    ```sh
    git add .flowtron/PLAN.md [<inline-fix-path> ...]
+   git diff --cached -- .flowtron/PLAN.md [<inline-fix-path> ...]
    git commit -m "chore: audit file tickets — <domain>"
    ```
+
+   **Post-stage verification.** Read that staged diff before committing. Step 2's pre-check read the working tree; the commit publishes the index, and a staged path can gain a foreign write in between — an editor autosave, a concurrent session — that `git add` then stages unseen. Every hunk must be one this filing wrote: the appended ticket rows, and each §5 trivial inline fix. An unrecognized hunk → `git restore --staged` the staged pathspecs, skip the commit, and report it exactly as the `auto-commit = false` case below. Never unstage the foreign hunk and commit the rest. This audit's inline-fix carve-out makes the check wider here than on the other filing motions — a source path is far likelier than `PLAN.md` to be open in an editor while the audit runs.
 
    `<domain>` is the domain token resolved in §1. Commit only — never push. `auto-commit = false` → skip this step entirely and note it in the response (`left uncommitted (PLAN.md already carried other edits)`). Full contract: `SPEC/tasknote-selection.md` §"Filing commits". Not a closure commit — report `committed <sha>` as plain text, **no 🏁** (`SPEC.md` §"Paper-complete guard" §3).
 

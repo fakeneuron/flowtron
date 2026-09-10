@@ -229,13 +229,17 @@ In one continuous motion, after the user has confirmed the Step 3 review (includ
 
    ```sh
    git add .flowtron/PLAN.md
+   git diff --cached -- .flowtron/PLAN.md   # post-stage verification — read before committing
    git commit -m "chore: file <TASK-ID> follow-up — <shortname>"
    ```
+
+   **Post-stage verification is not optional.** The item-1 pre-check reads the working tree; the commit publishes the index, and PLAN.md can gain a foreign write in between (an editor autosave, a concurrent session) that `git add` then stages unseen. Read the staged diff and confirm every hunk is one this filing wrote — the appended row, plus any confirmed reconcile edit from item 3. An unrecognized hunk → `git restore --staged .flowtron/PLAN.md`, skip the commit, and report it exactly as the `auto-commit = false` case at Step 5. Never unstage the foreign hunk and commit the rest. Because `git commit -m` publishes the index as it stands, nothing landing after `git add` can reach the commit — so this read closes the window rather than narrowing it.
 
    Commit only — never push. `auto-commit = false` → skip this step entirely and note it in Step 5. Full contract: SPEC/tasknote-selection.md §"Filing commits".
 
    **Under `unattended-mode = true` the commit still runs, and every rule above
    still binds** — explicit pathspec, the item-1 pre-check and its skip-on-dirt,
+   the post-stage verification and its skip-on-a-foreign-hunk,
    commit-never-push, no 🏁. What changes is only what authorizes it: with no
    review gate answered, the authorization is the duty in `SPEC.md` §"Deferred
    hand-off filing" itself, per SPEC/tasknote-selection.md §"Filing commits" →

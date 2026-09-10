@@ -183,6 +183,26 @@ Rules:
   between those two points (the AskUserQuestion collection and review gate, or
   park mode's priority question), and the tree can gain PLAN.md edits while it
   waits — a reading taken before the pause can be stale by the time it is used.
+- **Post-stage verification, then skip on a foreign hunk.** Correct placement
+  shrinks the pre-check's staleness window to agent-only time; it does not close
+  it. A write landing between the pre-check and `git add` — an editor autosave, a
+  format-on-save, a concurrent session — is staged unseen and published under a
+  `chore: file` message. So after staging and **before** committing, read the
+  staged diff (`git diff --cached -- <the filing's pathspecs>`). Every hunk must
+  be one this filing wrote: the appended PLAN row, any confirmed reconcile edit,
+  the starter/sidequest file, each named inline fix. **An unrecognized hunk →
+  do not commit:** `git restore --staged` the filing's own pathspecs, then take
+  the skip-on-dirt branch above — one line saying so, filing left for the
+  surrounding commit. This is the same outcome, not a new one; it adds no gate,
+  no report shape, and no 🏁. Do not unstage the foreign hunk and commit the
+  rest — that resolves the operator's dirt on their behalf, which the bullet
+  above forbids. **Why this closes the window rather than narrowing it:**
+  `git commit -m` with no pathspec publishes the index as it stands, so a write
+  landing *after* `git add` cannot reach the commit. The exposure is exactly the
+  pre-check → `git add` span, and the staged diff is the very content the commit
+  will publish — so every write that could have slipped in is visible to this
+  read. Re-running the pre-check nearer the stage only makes the same window
+  smaller and is not a substitute.
 - **Commit, never push.** Pushing stays the operator's call in their own
   session.
 - **Confirmed reconcile edits ride along.** Where the operator confirmed edits
@@ -206,8 +226,9 @@ file the deferred step as its own unchecked PLAN.md row. The authorization is
 therefore **the duty itself**: the run is discharging an obligation the contract
 imposes, not exercising discretion, and the operator authorized it upstream by
 launching an unattended run against a SPEC that imposes it. Every rule above
-holds verbatim — explicit pathspecs, the pre-check and its skip-on-dirt, commit
-never push, no 🏁. What the posture removes is the *pause* before the commit,
+holds verbatim — explicit pathspecs, the pre-check and its skip-on-dirt, the
+post-stage verification and its skip-on-a-foreign-hunk, commit never push,
+no 🏁. What the posture removes is the *pause* before the commit,
 never the proof after it (`SPEC/gates.md` §"`--unattended` operator posture").
 
 Two limits come with it. **`--park` is out of scope:** park mode preserves an

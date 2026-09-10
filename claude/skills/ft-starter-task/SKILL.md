@@ -122,8 +122,11 @@ Placement:
 
 ```sh
 git add .flowtron/PLAN.md .flowtron/tasknote/<TASK-ID>.md
+git diff --cached -- .flowtron/PLAN.md .flowtron/tasknote/<TASK-ID>.md
 git commit -m "chore: file <TASK-ID> starter — <shortname>"
 ```
+
+**Post-stage verification.** Read that staged diff before committing. The Step 4 pre-check read the working tree; the commit publishes the index, and PLAN.md can gain a foreign write in between — an editor autosave, a concurrent session — that `git add` then stages unseen. Every hunk must be one this filing wrote: the appended row, any confirmed reconcile edit, and the whole starter file as a new file. An unrecognized hunk → `git restore --staged` both paths, skip the commit, and note it at Step 6 exactly as the `auto-commit = false` case. Never unstage the foreign hunk and commit the rest. Contract: SPEC/tasknote-selection.md §"Filing commits".
 
 Commit only — never push. The Step 3 review approval **is** the commit authorization; there is no separate commit-go ask. `auto-commit = false` → skip and note it at Step 6. Full contract: SPEC/tasknote-selection.md §"Filing commits".
 
