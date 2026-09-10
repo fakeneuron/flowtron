@@ -330,6 +330,13 @@ each hands a check — the visual look, the review of a rewritten plan — to th
 operator standing there. That distinction is the whole hinge of
 §"`--unattended` operator posture" → "What is inherited, and what is not".
 
+**Each delegation is bounded to its own check.** `--fast` suppresses the 👁️
+**ask**, not the phase around it: the targeted tests and the lint / type-check
+on changed code still run, and the operator owns only the visual confirmation.
+Likewise the Re-scope notice delegates the *review* of the rewritten plan, not
+the rewrite — the PLAN.md line and tasknote header are still updated
+(§"Phase 1→2 exit gate").
+
 `--fast` applies to `/ft-task`, `/ft-micro-task`, and
 `/ft-goal-task` — the epic skills (`/ft-epic-discovery`,
 `/ft-close-epic`) do not accept it. `/ft-spec` has its own,
