@@ -23,12 +23,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Future Opportunities
 
-- [ ] **CORE-EPIC-556** [heavy]🧠 | release-skill-headroom — Split or trim claude/skills/ft-release/SKILL.md so it is not one edit from the 40,000-char release gate. Discovery supplied by audit-repo 2026-09-09. Surfaced by audit-repo 2026-09-09 (Theme: Context-budget ratchet)
-  - [x] **CORE-556.2** [heavy]🧠 | ft-release-fragment-split — Completed 2026-09-09.
-  - [ ] **CORE-556.N** [medium]🧩 | release-skill-headroom audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line).
+(none)
 
 ## Completed
 
+- [x] **CORE-EPIC-556** [heavy]🧠 | release-skill-headroom — Completed 2026-09-09.
+  - [x] **CORE-556.2** [heavy]🧠 | ft-release-fragment-split — Completed 2026-09-09.
+  - [x] **CORE-556.N** [medium]🧩 | release-skill-headroom audit — Completed 2026-09-09.
 - [x] **FE-EPIC-106** [medium]🧩 | viz-tier-guardrail — Completed 2026-09-09.
   - [x] **FE-106.2** [light]🔧 | eslint-node-tier-list — Completed 2026-09-09.
   - [x] **FE-106.3** [light]🔧 | js-yaml-merge-cve — Completed 2026-09-09.
