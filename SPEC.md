@@ -603,9 +603,31 @@ Canonical contract: see [`SPEC/blocked.md`](SPEC/blocked.md).
 
 ## Cross-repo edit remit
 
-Canonical contract: see [`SPEC/scope-boundaries.md`](SPEC/scope-boundaries.md).
+A tasknote's deliverable lands in the repo whose session opened it. When
+Discovery surfaces work that belongs in a **different** repo — a doc, config,
+or code change outside this checkout — file it there (a `PLAN.md` line, a
+starter tasknote, or a routed ticket) rather than editing it directly from
+this task cycle. The target repo's own `/ft-task` cycle executes it, with its
+own Discovery, Acceptance, and closure commit. The boundary is symmetric with
+the routing adopting projects already run in the other direction: a task that
+finds a flowtron-side issue files a `CORE-` ticket and routes it, rather than
+fixing flowtron from that project's session.
+
+Canonical contract, including the single documented precedent exception: see
+[`SPEC/scope-boundaries.md`](SPEC/scope-boundaries.md).
 
 ## Loop tasks
+
+A tasknote run under an iteration loop (goal loops, heartbeats): the assistant
+repeats Phase 2 → Phase 3 against a fixed Acceptance target until it is met, a
+budget is exhausted, or a per-cycle relevance check says stop. The runtime —
+cadence, re-invocation, session lifetime — is Claude Code's `/loop` or any
+equivalent runner; flowtron ships no loop runner or scheduler. What flowtron
+does ship is the **contract the loop reports to**: gate collapse to `--fast`
+semantics (commit per verified iteration; destructive actions park via
+`status: blocked` rather than collapse), a per-cycle relevance gate, a
+`loop-max:` budget, the `## 🔁 Iterations` log, and the additive `loop:` /
+`loop-max:` / `loop-last-run:` frontmatter keys.
 
 Canonical contract: see [`SPEC/loop.md`](SPEC/loop.md).
 
@@ -757,6 +779,22 @@ Canonical contract: see [`SPEC/model.md`](SPEC/model.md).
 Canonical contract: see [`SPEC/versioning.md`](SPEC/versioning.md).
 
 ## What flowtron does NOT provide
+
+To prevent scope creep, flowtron deliberately omits:
+
+- A CLI tool (use `cp`, `mv`, and your editor) — one carved-out exception:
+  [`tools/update-adopters.mjs`](tools/update-adopters.mjs), the operator-side
+  batch updater that maintains the fleet *around* adopting projects, not the
+  workflow inside one.
+- Schema validation (markdown is the schema; the assistant catches drift)
+- A database backend (markdown files in git are the database)
+- Cross-project query API (each project owns its history; the read-only
+  visualizer is a single global instance — a multi-project query API is not)
+- Per-project CI hooks (those belong in the adopting project)
+
+Both carve-outs above are singular exceptions, not precedents. If you find
+yourself wanting any of these, write a project-side helper — do not add them
+to flowtron.
 
 Canonical contract: see [`SPEC/scope-boundaries.md`](SPEC/scope-boundaries.md),
 which also carries the PR / suggestion archetypes flowtron does not accept.
