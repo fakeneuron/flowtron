@@ -39,7 +39,7 @@
 
 ## Specialist additions
 
-- **Finding format:** tie "Why it matters" to the attack scenario or data-exposure surface.
+- **Finding format:** tie "Why it matters" to the attack scenario or data-exposure surface. The `Operator action:` line must dispatch through the leaked-secret path or a normal ticket — never "apply the fix inline", which the carve-out adjustment below forbids for auth, validation, crypto, and secret rotation.
 - **Write-step exception** (dispatcher §5 step 4): a secret currently leaked in a tracked file → surface immediately and ask whether to rotate/scrub now, before the normal report flow continues.
 - **Carve-out adjustment** (dispatcher §5): the trivial-fix carve-out is for trivial *hygiene* only — never apply an actual security fix (auth, validation, crypto, secret rotation) inline; those are above the skip threshold and follow the leaked-secret path above or a normal `/ft-task` ticket.
 - **Hard rules:**

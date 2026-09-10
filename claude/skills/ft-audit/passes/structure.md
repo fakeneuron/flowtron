@@ -47,7 +47,7 @@ needs a *sequenced multi-step restructuring* of one target, recommend an
 
 ## Specialist additions
 
-- **Finding-format note** (dispatcher §3): `Location:` may name a file *pair or cluster* (`a.py ↔ b.py ↔ c.py`) or a module boundary (`domain/ → adapters/`), not just one line; list every site a fix must touch.
+- **Finding-format note** (dispatcher §3): `Location:` may name a file *pair or cluster* (`a.py ↔ b.py ↔ c.py`) or a module boundary (`domain/ → adapters/`), not just one line; list every site a fix must touch. The `Operator action:` line must name **every** one of them — a structural fix applied to one copy of a diverged pair leaves the divergence in place while reporting it closed, so an action naming a single site is incomplete rather than concise.
 - **Carve-out adjustment** (dispatcher §5): the trivial-fix carve-out narrows to **non-code nits only** (comment/doc tweaks). No code move is trivial here — even a one-line dedup changes call sites, which is exactly what needs characterization coverage first. Structural fixes always go through tickets or an `/ft-refactor` plan.
 - **Hard rules:**
   - **Judge against the repo's own declared structure.** A pattern an ADR or rubric doc sanctions is a decision, not drift — findings must cite the declared boundary they violate, or explicitly note the repo declares none (that gap may itself be the finding).

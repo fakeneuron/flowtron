@@ -42,7 +42,7 @@ Use the family finding format:
 - Recommended fix: concrete suggestion or ≤5-line snippet
 ```
 
-Sweep findings feed §4 synthesis and §5 delegation — they do not become standalone tickets outside the milestone plan.
+This block deliberately **omits** the parameterized skill's `Operator action:` line and its disqualification filter (`ft-audit` §3, §6). Sweep findings feed §4 synthesis and §5 delegation — they do not become standalone tickets outside the milestone plan, so a sweep finding is theme evidence, not a dispatch unit, and a diagnostic observation that no single agent instruction resolves is exactly what first contact is looking for. Dispatchability is required one level down instead: §6's milestone children are written in flowtron's task-line grammar and are dispatchable by construction.
 
 ## 4. Thematic synthesis (3–5 themes)
 

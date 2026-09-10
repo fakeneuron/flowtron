@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-561** [medium]🧩 | ft-audit-operator-action — Add an `Operator action: tell the agent to …` line to `/ft-audit`'s §3 finding format, and make a finding that cannot produce one **disqualified** for this workflow. Rationale: the existing `Recommended fix:` line states *what* should change but not who executes it or how it is dispatched — an audit's output earns its keep only when each finding converts into an instruction an operator can hand to an agent verbatim, and a finding that resists that conversion is an observation rather than an actionable finding. The disqualification is the load-bearing half and is a **detection filter, not a formatting rule**, so it belongs with the §6 hard rules (beside "Targeted, not exhaustive" and "Don't repeat the gates") and in §"Failure modes", not only in the format block. Surface: `claude/skills/ft-audit/SKILL.md` §3 (the fenced format block), §6, and §"Failure modes"; plus the seven `claude/skills/ft-audit/passes/*.md` — note `performance` already declares an extra finding line (`Measured impact:`) and §3 says *"Insert any extra finding-format lines the pass file declares"*, so the format is a per-pass extension point and each pass file's severity guide may need to say what disqualification means for its domain. Also check `templates/audit-overlay-template.md`, whose §"Deltas" preamble lists "finding format" as inherited verbatim, and decide whether `/ft-audit-repo` (same family, no §0 checklist, no fork) carries the line too. Routed from natabula **NAT-221** per `SPEC/scope-boundaries.md` §"Cross-repo edit remit"; evidence in that repo's `docs/QUALITY-STACK.md` §"Open questions" + §"Routed upstream". The proposal's second half — fork-per-repo vs one shared overlay — is deliberately **not** routed: `docs/MIGRATION.md` §1.2.1 already prefers the thin overlay, and the shared-overlay variant was refused natabula-side because every `## Deltas` slot is per-stack by construction.
+(none)
 
 ## Low
 
@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-561** [medium]🧩 | ft-audit-operator-action — Completed 2026-09-10.
 - [x] **CORE-562** [medium]🧩 | pair-k-spec-md-roster — Completed 2026-09-10.
 - [x] **CORE-563** [medium]🧩 | filing-precheck-race — Completed 2026-09-10.
 - [x] **CORE-564** [medium]🧩 | ft-task-area-resolution — Completed 2026-09-10.

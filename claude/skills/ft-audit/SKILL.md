@@ -50,7 +50,10 @@ Run the pass file's five passes **in its exact order**. **Cap each pass at 5 fin
 - Issue: one sentence
 - Why it matters: brief — tie to safety / correctness / maintenance cost
 - Recommended fix: concrete suggestion or ≤5-line snippet
+- Operator action: tell the agent to … — one imperative sentence an operator can hand to an agent verbatim
 ```
+
+`Operator action:` is not a restatement of `Recommended fix:`. The fix line says *what* should change; this line says *who executes it and how it is dispatched* — "tell the agent to add `response_model=PaymentOut` to the three handlers in `api/payments.py` and extend `test_payments.py` to assert the envelope". Write it so pasting it into a fresh session is enough to start. A finding that cannot produce one is **disqualified** — see §6 "Every finding names an operator action".
 
 Severity is judged against the pass file's severity guide — authoritative for the domain. Insert any extra finding-format lines the pass file declares (e.g. `performance` adds a `Measured impact:` line).
 
@@ -95,6 +98,7 @@ Keep the description (there is no tasknote/archive file to be the canonical reco
 - **Targeted, not exhaustive.** Five findings per pass is a *ceiling*, not a target. A clean pass gets zero findings and moves on.
 - **Write tickets, not fixes.** `.flowtron/PLAN.md` gets updated (§5 above). Source files do NOT — any code change needs a separate explicit user request. Do not open files in edit mode for fixes, do not run formatters, do not "fix while I'm in here." **Exceptions:** the §5 trivial-fix carve-out, the scaffold-bootstrap fork-install carve-out below, plus any domain exception the pass file declares.
 - **Fork-install carve-out (`scaffold-bootstrap.md` only).** The one write this skill may make outside `.flowtron/PLAN.md` is installing a fork of *itself* — `.claude/skills/audit/SKILL.md` plus its `.claude/commands/` wrapper, from `templates/audit-overlay-template.md`, and only on an explicit confirm at that fragment's step 4. It is an install, not a source edit: it touches nothing inside the scope resolved in §1 step 2. Never write it unprompted, never as a side effect of a run the operator started to get findings, and never overwrite an existing `.claude/skills/audit/`.
+- **Every finding names an operator action.** A finding whose `Operator action:` line cannot be written — because no one could act on it, or because the action would be "look into it" / "consider whether" / "monitor this" — is **disqualified**: drop it, or reframe it until the action is concrete. This is a **detection filter, not a formatting rule** — it decides what counts as a finding at all, so apply it while forming the finding, not while writing it up. A disqualified item is an observation; if it is worth keeping, §4's *Exploratory Insights* is where observations belong, and a pass whose whole yield is observations reports zero findings.
 - **Don't repeat the gates.** If a §1 verification gate (linter, type-checker, build tool, scanner) already flagged it, surface the aggregate once and move on — don't enumerate each gate row as a separate finding.
 - **Don't audit adjacent code.** Stay inside the resolved scope.
 - **Subroutine-safe.** Any domain may be invoked from another skill (notably `/ft-release` §7.1 → `/ft-audit docs`). When invoked as a subroutine with an explicit scope: skip §0 forker prompts, surface the report inline rather than blocking on `AskUserQuestion` for non-blocker items, and do **not** write PLAN.md tickets — the invoking skill is the orchestrator and owns per-finding decisions.
@@ -120,6 +124,8 @@ your own draft sentence in the left column is the whole mechanism.
 | "It's technically outside the resolved scope, but it's clearly related." | Scope was resolved in §1 — and if it was ambiguous, the instruction was to **stop and ask**, not to widen silently. An audit whose footprint exceeds what was requested stops being reviewable. | §6 "Don't audit adjacent code"; §1 step 2 |
 | "The report is thorough and the operator read it — writing PLAN tickets is bookkeeping." | §5 is titled *required, not optional* for this reason: **a report that gets forgotten isn't useful.** The tickets are the deliverable; the prose is the argument for them. | §5 |
 | "Every pass returning findings looks more thorough than a pass returning none." | Five per pass is a **ceiling, not a target**. A clean pass gets zero and moves on. Padding to look thorough corrupts the severity scale for every real finding in the same report. | §6 "Targeted, not exhaustive" |
+| "This one's too diffuse to write an action for, but the operator should know about it." | Then it is an **observation**, and §4 *Exploratory Insights* is the section that carries observations. Smuggling it in as a finding with a vague action ("review the error handling across the service") hands the operator something no agent can execute, which is the exact conversion failure the line exists to catch. | §6 "Every finding names an operator action"; §3 |
+| "The action is obvious from the recommended fix — writing it out is duplication." | The two lines answer different questions: `Recommended fix:` is *what changes*, `Operator action:` is *the instruction that dispatches it*. If restating it is genuinely trivial, the cost is one sentence; if it is **not** trivial, you have just found a finding whose fix nobody can be told to make — which is the disqualification firing, not a redundancy. | §3; §6 "Every finding names an operator action" |
 | "The linter flagged 30 of these, and each one is a real issue." | They are — collectively, once. Enumerating gate output as individual findings crowds out the analysis only a human-shaped read produces. Surface the aggregate and move on. | §6 "Don't repeat the gates" |
 | "I was invoked as a subroutine, but these tickets are too valuable to drop." | Under subroutine invocation the **calling skill owns per-finding decisions**. Writing PLAN tickets from inside another skill's run puts filings on the board that its operator never approved. | §6 "Subroutine-safe" |
 | "The scaffold is unfilled, but I can pick this project's conventions up from the code as I read it." | Inferring the rubric from the code under audit is the exact substitution the scaffold bootstrap exists to prevent — you would be grading the code against itself and calling the result a finding. Derivation reads what the project *declares* (manifests, CI config, rubric docs) and cites a source for every value; "I'll pick it up as I go" cites none. | §1 step 3; `scaffold-bootstrap.md` step 3 |
@@ -155,6 +161,11 @@ report.
 - A derived gate command is about to run for a slot the loaded pass file
   never declared, or its intent is deploy / publish / release / migrate /
   seed / reset / push.
+- An `Operator action:` line reads "investigate", "consider", "review",
+  "keep an eye on", or names no actor — the finding was disqualified and got
+  written up anyway.
+- An `Operator action:` line is `Recommended fix:` reworded, with no actor and
+  no dispatchable instruction.
 - A "Why it matters" line would read identically in any codebase — a sign
   the project rubric was never loaded.
 - A severity was assigned by feel and doesn't trace to the pass file's
