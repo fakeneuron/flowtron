@@ -296,7 +296,8 @@ section until promotion.
   CORE-042.4 on the strength of this list alone.
 - **🎯 Goal** — one-sentence description of what this task accomplishes.
 - **✅ Acceptance** — checklist of concrete, testable criteria for "done."
-  Populated during Phase 1 Discovery.
+  Populated during Phase 1 Discovery, each criterion naming the **verify
+  command** that decides it where one exists (§"🧪 Phase 3: Testing & Linting").
 - **🧩 Subtasks** — checklist of the ordered, concrete steps to complete the
   task. Populated during Phase 1 Discovery (replaces the legacy Phase-1-internal
   "Execution Steps" block). A working plan, not a contract — **exempt from the
@@ -480,14 +481,36 @@ banner in §"Post-closure protocol".
 
 - [ ] Ran targeted test suite for changed code
 - [ ] Ran lint/type-check on changed code
-- [ ] **Quality assertions** — for changed code, confirmed no avoidable duplication, dead code, unexplained complexity, unnecessary public-surface growth, or stale code-facing documentation (`N/A` with a one-line reason when no code changed)
+- [ ] **Verification receipt** — recorded each Acceptance verify command in Testing Notes as `command → exit code`, with the first failure line when non-zero; and, for changed code, confirmed no avoidable duplication, dead code, unexplained complexity, unnecessary public-surface growth, or stale code-facing documentation (`N/A` with a one-line reason when no code changed)
 - [ ] (frontend) Asked the user for visual confirmation (emphasized `👁️ **CONFIRM**` ask on its own line)
 
 Run the full test suite only when changes are broad or cross-cutting.
 
-Record the Quality Assertions in Testing Notes as review evidence from the
-actual diff and changed path. They complement tests and static checks; they do
-not require a scorecard, arbitrary threshold, or new validation tool.
+**The verify-command rule.** Each `## ✅ Acceptance` criterion names the command
+that decides it — a test run, a lint or type-check, a `grep -q` on a contract
+file, a `curl -sf` against an endpoint. A criterion only judgeable by eye or by
+reading marks itself `judgment` (or `👁️`) with a one-line reason instead; do not
+invent a command for it. [`SPEC/loop.md`](SPEC/loop.md) requires the stronger
+form — *every* criterion loop-verifiable, since the union of the commands **is**
+the loop's termination condition. Weaker here on purpose: contract and
+documentation tasks are ordinary work, and a contrived command on a prose
+criterion buys a tick, not evidence.
+
+**The receipt.** Phase 3 runs those commands and writes what happened into
+Testing Notes — the command as invoked, its exit code, and the first line of
+failure output when non-zero:
+
+```text
+npm --prefix viz test       → 0
+npm --prefix viz run lint   → 1
+    src/ui/Graph.tsx:42:7  'nodeId' is assigned a value but never used
+```
+
+A ticked box asserts a check ran; a receipt shows it. Nothing parses it — plain
+text, read by whoever opens the note next. The structural assertions folded into
+the same box stay review evidence from the actual diff and changed path: they
+complement tests and static checks, and require no scorecard, arbitrary
+threshold, or new validation tool.
 
 **Choosing a test strategy (guidance, not a gate).** Default to targeted
 tests on the changed behavior. Where the input space is wide — parsers,

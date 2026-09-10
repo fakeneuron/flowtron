@@ -27,8 +27,8 @@ One-sentence goal of what this task accomplishes.
 
 ## ✅ Acceptance
 
-- [ ] Criterion 1
-- [ ] Criterion 2
+- [ ] Criterion 1 — `verify command`
+- [ ] Criterion 2 — `judgment` (or `👁️`) + one-line reason when no command decides it
 
 ## 🧩 Subtasks
 
@@ -82,7 +82,7 @@ One-sentence goal of what this task accomplishes.
 
 - [ ] Ran lint/type-check on changed code
 
-- [ ] **Quality assertions** — for changed code, confirmed no avoidable duplication, dead code, unexplained complexity, unnecessary public-surface growth, or stale code-facing documentation (otherwise `N/A` with reason)
+- [ ] **Verification receipt** — recorded each Acceptance verify command in Testing Notes as `command → exit code`, with the first failure line when non-zero; and, for changed code, confirmed no avoidable duplication, dead code, unexplained complexity, unnecessary public-surface growth, or stale code-facing documentation (otherwise `N/A` with reason)
 
 - [ ] (frontend) Asked the user for visual confirmation (emphasized `👁️ **CONFIRM**` ask on its own line)
 
