@@ -15,11 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **FE-EPIC-106** [medium]🧩 | viz-tier-guardrail — Align the UI-tier eslint Node-only denylist with viz/README.md (including tasknoteRead and .ts suffixes), bump js-yaml past GHSA-2883, and bring @types/node in line with engines. Discovery supplied by audit-repo 2026-09-09. Surfaced by audit-repo 2026-09-09 (Theme: Labeled-mirror residual)
-  - [x] **FE-106.2** [light]🔧 | eslint-node-tier-list — Completed 2026-09-09.
-  - [x] **FE-106.3** [light]🔧 | js-yaml-merge-cve — Completed 2026-09-09.
-  - [x] **FE-106.4** [light]🔧 | types-node-engines — Completed 2026-09-09.
-  - [ ] **FE-106.N** [medium]🧩 | viz-tier-guardrail audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line).
+(none)
 
 ## Low
 
@@ -33,6 +29,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-EPIC-106** [medium]🧩 | viz-tier-guardrail — Completed 2026-09-09.
+  - [x] **FE-106.2** [light]🔧 | eslint-node-tier-list — Completed 2026-09-09.
+  - [x] **FE-106.3** [light]🔧 | js-yaml-merge-cve — Completed 2026-09-09.
+  - [x] **FE-106.4** [light]🔧 | types-node-engines — Completed 2026-09-09.
+  - [x] **FE-106.N** [medium]🧩 | viz-tier-guardrail audit — Completed 2026-09-09.
 - [x] **CORE-554** [medium]🧩 | micro-task-description-flags — Completed 2026-09-09.
 - [x] **CORE-555** [light]🔧 | budget-ceiling-recalibration — Completed 2026-09-09.
 - [x] **CORE-553** [medium]🧩 | release v5.26.0 — Completed 2026-09-09.
