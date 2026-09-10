@@ -150,7 +150,7 @@ globs.
 
 | Key | Value | Meaning |
 |---|---|---|
-| `touches:` | list of path strings / globs | Files or trees this task expects to edit |
+| `touches:` | list of path strings / globs | **Declared scope** — files or trees this task expects to edit. Filled at Phase 1, reconciled against the diff at Phase 4 |
 | `blocked-by:` | list of bare task IDs | Durable planning dependency. Distinct from PLAN `Blocked by [[ID]]` (the don't-start / park-visible gate; see [`SPEC/blocked.md`](SPEC/blocked.md)) and from `status: blocked` (mid-Phase-2 park). Survives the Phase 4 PLAN stub. |
 | `parallel-safe-with:` | list of bare task IDs | Claimed-safe concurrent siblings (typically worktree isolation) |
 | `supersedes:` | list of bare task IDs | This later note replaces that prior *decision*. Written only on the later note. Distinct from the ⚠️ `Superseded by` pointer (factual-false forward write on the old note; see the write-once carve-out above). Never `superseded-by:` on the corrected note. |
@@ -174,6 +174,17 @@ parallel-safe-with:
 supersedes:
   - CORE-157
 ```
+
+**`touches:` carries a lifecycle duty the other three do not.** It is the
+task's *declared scope*: Phase 1 fills it with the paths the task expects to
+edit — code or markdown, this repo's own contract edits included — and Phase 4
+reconciles it against `git diff --name-only` (§"📝 Phase 1: Discovery",
+§"🚀 Phase 4: Closure"). Only a task with **no file deliverable** is exempt —
+a Discovery or audit child whose whole product is a `PLAN.md` filing — and an
+exempt note writes nothing rather than an empty list. Exempt and undeclared
+therefore read alike in the YAML, which is the price of shipping no validator
+and the right price: the reconciliation reports what it finds and never
+refuses.
 
 **Park reason.** One additive key, `park-reason:`, records *why* a tasknote
 sits at `status: blocked`. Omit-when-absent like the planning keys above:
@@ -381,7 +392,7 @@ Mandatory steps:
 - [ ] **Archive skim** — surface prior decisions on the same files / area by skimming `.flowtron/tasknote/archive/<area>/` for tasknotes that touched the source paths in scope (if YAML `touches:` is set, prefer those paths for the path grep); also open IDs named by `## 🔗 Related`, YAML `supersedes:`, and any ⚠️ `Superseded by` pointer on the hits — still `grep` + read, no query engine; when the grep returns more than a handful of notes (~3 is a fair line), prefer handing the reading to a **probe** (same clause as the read step above) rather than pulling every hit into this window; log relevant findings in Discovery Notes before re-interpreting the task
 - [ ] **Drift check** — verify file paths, line numbers, function names, and root-cause hypotheses cited in the task description still match current code, **and** cross-reference the plan this tasknote is forming against its `PLAN.md` line and the SPEC contracts it touches (read them, don't recall them); surface any drift to the user before re-interpreting the task
 - [ ] Asked clarifying questions OR logged "No clarifications needed" with explicit assumptions
-- [ ] Subtasks above populated with concrete, ordered steps
+- [ ] Subtasks above populated with concrete, ordered steps, and YAML `touches:` declared with the paths this task expects to edit (omit only on a task with no file deliverable — §"Tasknote frontmatter")
 
 The Relevance Assessment is non-negotiable. `Re-scope` updates the PLAN.md line and tasknote header before continuing (if blocked prerequisite, see §"Blocked tasks") — preserve the full trailing bracket-token run verbatim (see §"Task-line format"). `De-scope` jumps to Phase 4 closure with the de-scope rationale as the final summary.
 
@@ -506,7 +517,7 @@ to a `visual-confirm` park, respectively — is one row of
 
 - [ ] **Doc-drift sweep** — for each entry in `.flowtron/tasknote/README.md` §"AI-referenced docs", state "no change" or the update
 - [ ] Closed — every `## ✅ Acceptance` criterion ticked or explicitly annotated (`N/A` / not-met with a one-line reason), tasknote YAML `status:` flipped to `completed`, PLAN.md line flipped to stub form `Completed YYYY-MM-DD.` and placed per [`SPEC/tasknote-selection.md` §"`## Completed` archive convention"](SPEC/tasknote-selection.md) (standalone → top of `## Completed`; epic child → kept nested beneath its active parent), then tasknote moved to `.flowtron/tasknote/archive/<area>/`
-- [ ] **Evidence-based recap** drafted — changed files and LOC where meaningful, verification commands and results, refactors made or deferred with rationale, documentation verdict, and concrete maintainability effect (surfaces at the 📦 ready-to-commit gate, or inline on conditional skip)
+- [ ] **Evidence-based recap** drafted — changed files and LOC where meaningful, verification commands and results, refactors made or deferred with rationale, documentation verdict, the `touches:` scope reconciliation, and concrete maintainability effect (surfaces at the 📦 ready-to-commit gate, or inline on conditional skip)
 
 Phase 4 closure ops (Acceptance tick-through, doc-drift sweep, YAML `status:`
 flip, PLAN.md flip/placement, archive move) auto-run without an intermediate
@@ -526,6 +537,28 @@ items `N/A` rather than inventing metrics. It bundles into the 📦
 ready-to-commit motion (see §"Post-closure protocol") — fire branch:
 behind the 📦 banner for one bundled approval; skip branch: inline behind
 an `✅ Closure complete; …` marker followed by an autonomous commit.
+
+**Scope reconciliation.** One line of the recap compares the `touches:` the
+task declared at Phase 1 against `git diff --name-only`, and names what was
+edited without being declared:
+
+```text
+Declared 3 files, changed 11. Undeclared: src/api/client.ts, src/api/types.ts, …
+```
+
+The task's own tasknote and its `PLAN.md` row are excluded: closure rewrites
+both by construction, so they carry no scope signal and reporting them every
+time would bury the paths that do.
+
+Read in five seconds, no diff required — that is the whole point. It is a
+**recorded fact, not a check**: nothing refuses, nothing re-opens a phase, and
+a mismatch is not a finding. A task that legitimately grew says so on the same
+line and closes. Declaring intended scope is what narrows a task; the
+reconciliation only makes the narrowing visible to the operator at 📦, which
+is why it lives in the recap and not in a gate
+([`SPEC/gates.md`](SPEC/gates.md) §"Phase 1→2 exit gate" says so from its
+side). A task exempt from declaring (§"Tasknote frontmatter") writes
+`N/A — no file deliverable` and is done.
 
 > **Recap is recap-only.** The next-task suggestion belongs in the
 > post-closure protocol, after the commit lands — not inside the recap.

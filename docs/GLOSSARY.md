@@ -138,7 +138,7 @@ Alphabetized. ~71 entries. Maintained via epic children and audits.
 
 **Testing & Linting (Phase 3)** — See Phase 3.
 
-**touches** — Optional omit-when-absent tasknote frontmatter array of path/glob strings naming the files this task expects to edit. Distinct from a starter's `### Files to touch` prose survey. See SPEC §"Tasknote frontmatter".
+**touches** — Tasknote frontmatter array of path/glob strings naming the files this task expects to edit: its **declared scope**. Filled at Phase 1 on any task with file deliverables, reconciled against `git diff --name-only` in the Phase 4 recap as a recorded fact, never a gate. Omit-when-absent in shape (no validator) but omitted only when the task has no file deliverable. Distinct from a starter's `### Files to touch` prose survey. See SPEC §"Tasknote frontmatter".
 
 **VISION.md** — The outward-facing identity document (who it's for, principles recap including Extension-first, "what we won't accept", why this exists). Lazy-loaded; cross-linked with the SPEC PR-archetypes subsection. Companion to PHILOSOPHY.md (history). See docs/VISION.md.
 

@@ -277,7 +277,7 @@ ticking each box in the tasknote as you go:
 - **Clarify** — use a **structured ask** for anything genuinely ambiguous; if
   nothing is ambiguous, write `No clarifications needed` with the explicit
   assumptions.
-- **Populate 🧩 Subtasks** with concrete, ordered steps.
+- **Populate 🧩 Subtasks** with concrete, ordered steps, and **declare YAML `touches:`** with the paths this task expects to edit. Contract — exemptions, and why it is never a gate: `SPEC.md` §"Tasknote frontmatter".
 
 **Under debug mode**, work four extra prompts *inside* this checklist —
 after the Relevance Assessment, alongside the archive skim and drift check.
@@ -413,7 +413,9 @@ time (Step 6).
   if you cannot proceed to commit). Ban collateral Completed flips. Draft an
   evidence-based recap: 1-2 plain-English sentences, then changed paths/LOC
   where meaningful, verification commands/results, refactors made or deferred
-  with rationale, documentation verdict, and concrete maintainability effect.
+  with rationale, documentation verdict, the `touches:` scope reconciliation
+  (`git diff --name-only` vs declared; name undeclared paths), and concrete
+  maintainability effect.
   **Do not** surface a banner here — the recap bundles into Step 6. Recap is
   recap-only; the next-task suggestion lands after the commit. **Under debug
   mode**, the recap also names the top hypothesis the fix ultimately addressed

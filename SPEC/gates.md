@@ -164,6 +164,15 @@ clarifications skip; deviations fire. Concrete guidance:
   by definition — Re-scope rewrites the plan; De-scope changes
   trajectory entirely).
 
+**`touches:` is not a gate condition.** The declared-scope claim Phase 1 fills
+([`SPEC.md`](../SPEC.md) §"Tasknote frontmatter") is reconciled at Phase 4 and
+reported in the recap — it is never checked here. Absent, partial, or later
+proved wrong, it does not fire 🛠️, does not hold Phase 2, and is not a
+deviation to judge. A Phase 1→2 refusal over a declaration would be the
+schema-validator archetype
+[`SPEC/scope-boundaries.md`](scope-boundaries.md) rejects; the recorded-fact
+form is what keeps this a scope signal rather than a checker.
+
 The assistant judges from Discovery Notes content. The judgment is
 recorded inline at the exit ("Discovery surfaced no significant
 deviation → skip 🛠️" or "Discovery surfaced <one-line reason> → fire
