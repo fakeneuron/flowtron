@@ -16,13 +16,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Medium
 
 - [ ] **CORE-557** [heavy]🧠 | acceptance-verify-receipt — Lift `/ft-goal-task`'s machine-checkable Acceptance rule into `/ft-task` (every non-visual criterion names a verify command), and replace Phase 3's self-ticked **Quality assertions** box with a command / exit-code / first-failure-line receipt recorded in Testing Notes. Net-neutral on budget: cut the box being replaced. Surface: `SPEC.md` §"🧪 Phase 3", `templates/tasknote-template.md`, and the Phase 3 restatements in the `ft-task` / `ft-goal-task` / `ft-micro-task` SKILLs — four copies of one box, so a split of the rule into `SPEC/` may be cheaper than four edits. Rationale: without it the fleet's static gates only speak after a push, and whether an agent actually ran its Phase 3 gates is currently unobservable. Routed from natabula **NAT-225** per `SPEC/scope-boundaries.md` §"Cross-repo edit remit"; evidence in that repo's `docs/QUALITY-STACK.md` §"Adopted" wave 1 #4 + §"Routed upstream". Check against `docs/CONTEXT-BUDGET.md` and [[CORE-EPIC-556]] before growing any always-loaded surface.
-- [ ] **CORE-EPIC-558** [heavy]🧠 | post-shrink-fidelity — Review post-CORE-EPIC-535 shrink for lost or over-tightened process across SPEC.md (.2), gates+unattended (.3), unattended-critical runners (.4); raise CONTEXT-BUDGET ceilings if restores need room (.5). Keep CORE-551/552. Lazy split and cite-don't-restate stay.
-  - [x] **CORE-558.1** [heavy]🧠 | post-shrink-fidelity discovery — Completed 2026-09-10.
-  - [x] **CORE-558.2** [heavy]🧠 | spec-md-fidelity — Completed 2026-09-10.
-  - [x] **CORE-558.3** [heavy]🧠 | gates-unattended-fidelity — Completed 2026-09-10.
-  - [x] **CORE-558.4** [heavy]🧠 | skill-runner-fidelity — Completed 2026-09-10.
-  - [x] **CORE-558.5** [heavy]🧠 | budget-ceilings — Completed 2026-09-10.
-  - [ ] **CORE-558.N** [heavy]🧠 | post-shrink-fidelity audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
 - [ ] **CORE-559** [heavy]🧠 | touches-scope-contract — Make YAML `touches:` required before the Phase 1→2 gate on code tasks, and at Phase 4 compare it against `git diff --name-only`, recording undeclared paths in the evidence-based recap. **Adopt the recorded-fact form, not a hard gate:** surface the reconciliation at 📦, since a Phase 1→2 refusal reads as the schema-validator archetype `SPEC/scope-boundaries.md` refuses. Signal shape: `Declared 3 files, changed 11. Undeclared: src/api/client.ts, …` — read in five seconds, no diff required. Rationale: declaring intended scope *narrows* a task, where a committed code index only speeds up discovery inside an already-sprawling one; this was the one item all three review agents converged on for scope sprawl. Surface: `SPEC.md` §"Tasknote frontmatter" (the `touches:` row + the omit-when-absent paragraph that today reads *"omitted means undeclared"*), `SPEC/gates.md` §"Phase 1→2 exit gate", `SPEC.md` §"🚀 Phase 4" evidence-based recap, `templates/tasknote-template.md`, the Phase 1 / Phase 4 restatements in the `ft-task` / `ft-micro-task` / `ft-goal-task` SKILLs, and `SPEC/procedures/ft-task.md` — six copies of the same prose, so a split into `SPEC/` may be cheaper than six edits. Routed from natabula **NAT-228** per `SPEC/scope-boundaries.md` §"Cross-repo edit remit"; evidence in that repo's `docs/QUALITY-STACK.md` §"Adopted" wave 2 #7 + §"Routed upstream". **Sequence after [[CORE-EPIC-558]]** — `.2`/`.3`/`.4` are actively restoring these exact files and would collide. Check `docs/CONTEXT-BUDGET.md` before growing any always-loaded surface; pairs naturally with [[CORE-557]] (same Phase 3/4 evidence theme).
 
 ## Low
@@ -34,6 +27,14 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 (none)
 
 ## Completed
+
+- [x] **CORE-EPIC-558** [heavy]🧠 | post-shrink-fidelity — Completed 2026-09-10.
+  - [x] **CORE-558.1** [heavy]🧠 | post-shrink-fidelity discovery — Completed 2026-09-10.
+  - [x] **CORE-558.2** [heavy]🧠 | spec-md-fidelity — Completed 2026-09-10.
+  - [x] **CORE-558.3** [heavy]🧠 | gates-unattended-fidelity — Completed 2026-09-10.
+  - [x] **CORE-558.4** [heavy]🧠 | skill-runner-fidelity — Completed 2026-09-10.
+  - [x] **CORE-558.5** [heavy]🧠 | budget-ceilings — Completed 2026-09-10.
+  - [x] **CORE-558.N** [heavy]🧠 | post-shrink-fidelity audit — Completed 2026-09-10.
 
 - [x] **CORE-EPIC-556** [heavy]🧠 | release-skill-headroom — Completed 2026-09-09.
   - [x] **CORE-556.2** [heavy]🧠 | ft-release-fragment-split — Completed 2026-09-09.
