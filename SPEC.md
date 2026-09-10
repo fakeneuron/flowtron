@@ -288,21 +288,17 @@ section until promotion.
 
   **The chip is hand-authored at exactly four transitions — scaffold,
   promotion, park, resume — and is deliberately NOT flipped at Phase 4
-  closure.** CORE-042.4 (SPEC v0.8.0) retired that flip on purpose, cutting
-  closure from three status writes to two. Visualizers compute the canonical
-  chip from YAML `status:` at render time, so archived tasknotes may show
-  chip text that lags the YAML state. This is intentional: YAML stays
-  canonical for tasknote-bearing rows, the PLAN.md checkbox stays canonical
-  for the roadmap binary, and the chip is render-derived.
+  closure** (CORE-042.4, SPEC v0.8.0: three closure status writes cut to
+  two). Visualizers compute the chip from YAML `status:` at render time, so
+  an archived tasknote may show chip text that lags the YAML; YAML stays
+  canonical for tasknote-bearing rows, the PLAN.md checkbox for the roadmap
+  binary.
 
   **Chip vocabulary** — `🟢 In progress` / `✅ Completed` / `⏸ Blocked` /
-  `⚪ Not started` / `🌱 Starter`. This enumerates the values a *renderer* may
-  produce; it is **not** a list of writes closure should perform. `✅ Completed`
-  appears here because visualizers render it from YAML, not because Phase 4
-  writes it into the markdown. Reading this list as license for a closure-time
-  chip flip is the specific misreading that produced the CORE-042.5
-  contradiction and, three months later, CORE-393 — a ticket filed to undo
-  CORE-042.4 on the strength of this list alone.
+  `⚪ Not started` / `🌱 Starter`. This enumerates what a *renderer* may
+  produce, not writes closure performs: `✅ Completed` is rendered from YAML,
+  never written by Phase 4. Reading the list as license for a closure-time
+  chip flip is the misreading behind CORE-042.5 and CORE-393.
 - **🎯 Goal** — one-sentence description of what this task accomplishes.
 - **✅ Acceptance** — checklist of concrete, testable criteria for "done."
   Populated during Phase 1 Discovery, each criterion naming the **verify
@@ -407,44 +403,34 @@ Mandatory steps:
 The Relevance Assessment is non-negotiable. `Re-scope` updates the PLAN.md line and tasknote header before continuing (if blocked prerequisite, see §"Blocked tasks") — preserve the full trailing bracket-token run verbatim (see §"Task-line format"). `De-scope` jumps to Phase 4 closure with the de-scope rationale as the final summary.
 
 The read step's **probe clause** exists because broad search is the one part
-of Discovery whose cost is mostly noise. Locating five relevant files can take
-fifty tool calls, and every one of them lands in the same context window that
-has to hold the task's entire scope (Core Principle #3) through Phase 4. A
-**probe** is the release valve: a bounded, read-only sub-agent that owns no
-tasknote, answers one stated question, returns a distilled summary, and ends —
-so the parent keeps the findings and discards the search. It never runs Phase
-1, never trips a gate, and never closes or archives anything; a delegated
-context that *does* own a tasknote is a **delegate**, and the distinction is
-drawn in [README.md](README.md) §"Sessions, loops, and sub-agents". The brief
-and the fixed return shape ship as
-[`templates/subagent-probe-template.md`](templates/subagent-probe-template.md).
-This is a judgment prompt, not a gate: it adds no checklist box, no phase, and
-no machinery — spawning the probe is the operator's or the session's call, and
+of Discovery whose cost is mostly noise: locating five relevant files can take
+fifty tool calls, all landing in the window that must hold the task through
+Phase 4 (Core Principle #3). A **probe** is a bounded, read-only sub-agent that
+owns no tasknote, answers one stated question, returns a distilled summary, and
+ends — it never runs Phase 1, trips a gate, or closes anything. A delegated
+context that *does* own a tasknote is a **delegate**
+([README.md](README.md) §"Sessions, loops, and sub-agents"). Brief and return
+shape: [`templates/subagent-probe-template.md`](templates/subagent-probe-template.md).
+A judgment prompt, not a gate: no checklist box, no phase, no machinery, and
 skipping it is always correct for a narrow read set.
 
-Archive skim + drift check both exist because prior tasknotes record decisions (renames, regressions, rationales) and PLAN.md is a snapshot, not a spec. Surface findings before re-interpreting; don't silently "correct" the plan by executing a different task. When `touches:` is set, use it to narrow the path grep. After the path hits, follow typed Related lines, `supersedes:` IDs, and ⚠️ pointers as extra notes to open — they are edges to read, not a graph query.
+Archive skim + drift check both exist because prior tasknotes record decisions and PLAN.md is a snapshot, not a spec. Surface findings before re-interpreting; never "correct" the plan by executing a different task. `touches:` narrows the path grep; typed Related lines, `supersedes:` IDs, and ⚠️ pointers are extra notes to open — edges to read, not a graph query.
 
-The skim's **probe clause** is the read step's, applied where it bites hardest: a
-path grep over a mature archive is the one Discovery step whose cost is set by
-how long the project has been running rather than by how big the task is, and a
-single common path can return dozens of notes. The `~3` is a judgment line, not a
-threshold that fires — nothing counts hits, nothing gates on the number, and
-reading four notes directly is always a correct call. It is there so the default
-on a large hit list is "brief a probe and keep its findings" rather than "read
-them all and keep the search too."
+The skim's **probe clause** is the same one, applied where it bites hardest: a
+path grep over a mature archive scales with project age, not task size, and one
+common path can return dozens of notes. The `~3` is a judgment line, not a
+threshold — nothing counts hits, and reading four notes directly is always
+correct; the default on a large hit list is "brief a probe and keep its
+findings" rather than "read them all and keep the search too."
 
-The drift check's **cross-artifact half** catches a different failure than its
-code half: a plan that is fine against the code but contradicts a contract the
-SPEC already settled, or that has quietly drifted from the `PLAN.md` line it
-was filed as. Here is the cheapest place to catch either — Phase 4 collapses
-that line to a `Completed YYYY-MM-DD.` stub, discarding the description the
-tasknote could still have been compared against. It is a **cross-reference,
-not a judgment call**: open the `PLAN.md` line and the SPEC section and read
-them. The Relevance Assessment above already tests staleness by judgment; this
-step exists because judgment alone let CORE-393 — a ticket filed to undo a
-contract CORE-042.4 deliberately settled, and documented as settled in
-§"Tasknote body shape" — survive filing and reach a full tasknote before anyone
-reread the clause.
+The drift check's **cross-artifact half** catches what its code half cannot: a
+plan that contradicts a contract the SPEC already settled, or that has drifted
+from the `PLAN.md` line it was filed as. This is the last cheap place to catch
+either — Phase 4 collapses that line to a `Completed YYYY-MM-DD.` stub. It is a
+**cross-reference, not a judgment call**: open the `PLAN.md` line and the SPEC
+section and read them. Judgment alone let CORE-393 — a ticket to undo the
+contract CORE-042.4 settled in §"Tasknote body shape" — reach a full tasknote
+before anyone reread the clause.
 
 The Best Practices Review is a focused pre-change check, not a repository
 audit. Use it to understand the changed path well enough to preserve clear
@@ -527,8 +513,7 @@ encoders, round-trips, invariants that must hold across many inputs — a
 property-based test earns its keep; reach for one when example tests would
 leave large gaps. Visual confirmation covers UI surfaces that assertions
 can't. This is engineering judgment folded into Phase 3, never a new
-lifecycle phase or a schema/validator — the same framing the `/ft-spec`
-spec template's "Validation Approach" section carries into planning.
+lifecycle phase or a schema/validator.
 
 The visual-confirmation ask uses the **emphasized inline ask** shape — its own
 line, blank-line isolated, with the label bolded:
@@ -555,20 +540,16 @@ Phase 4 closure ops (Acceptance tick-through, doc-drift sweep, YAML `status:`
 flip, PLAN.md flip/placement, archive move) auto-run without an intermediate
 gate. The
 `status:` flip is the **first** of the three closure writes (`status:`, PLAN.md
-line, archive move) and is what makes the YAML
-canonical claim in §"Tasknote body shape" true — it happens while the tasknote
-is still active, so it is a pre-archive closure write, **not** a retroactive
-edit of an archived record (see §"Tasknote frontmatter"). Where the flipped
-line lands is the checklist item's own citation above. The recap drafts alongside — a two-pass
-summary leading with 1-2 plain-English sentences of *what the task
-accomplished*, then evidence from the work: changed files and LOC where
-meaningful, verification commands and results, refactors made or consciously
-deferred with rationale, the documentation verdict, and the concrete
-maintainability effect. This is evidence, not a scorecard; mark irrelevant
-items `N/A` rather than inventing metrics. It bundles into the 📦
-ready-to-commit motion (see §"Post-closure protocol") — fire branch:
-behind the 📦 banner for one bundled approval; skip branch: inline behind
-an `✅ Closure complete; …` marker followed by an autonomous commit.
+line, archive move) and is what makes the YAML canonical claim in §"Tasknote
+body shape" true — it happens while the tasknote is still active, so it is a
+pre-archive closure write, **not** a retroactive edit of an archived record
+(see §"Tasknote frontmatter"). Where the flipped line lands is the checklist
+item's own citation above. The recap drafts alongside: 1-2 plain-English
+sentences of *what the task accomplished*, then the evidence the checklist item
+names — `N/A` for irrelevant items, never invented metrics. It bundles into the
+📦 ready-to-commit motion (§"Post-closure protocol"): behind the banner on the
+fire branch, inline behind an `✅ Closure complete; …` marker followed by an
+autonomous commit on the skip branch.
 
 **Scope reconciliation.** One line of the recap compares the `touches:` the
 task declared at Phase 1 against `git diff --name-only`, and names what was
@@ -582,14 +563,12 @@ The task's own tasknote and its `PLAN.md` row are excluded: closure rewrites
 both by construction, so they carry no scope signal and reporting them every
 time would bury the paths that do.
 
-Read in five seconds, no diff required — that is the whole point. It is a
-**recorded fact, not a check**: nothing refuses, nothing re-opens a phase, and
-a mismatch is not a finding. A task that legitimately grew says so on the same
-line and closes. Declaring intended scope is what narrows a task; the
-reconciliation only makes the narrowing visible to the operator at 📦, which
-is why it lives in the recap and not in a gate
-([`SPEC/gates.md`](SPEC/gates.md) §"Phase 1→2 exit gate" says so from its
-side). A task exempt from declaring (§"Tasknote frontmatter") writes
+A **recorded fact, not a check**: nothing refuses, nothing re-opens a phase,
+and a mismatch is not a finding — a task that legitimately grew says so on the
+same line and closes. Declaring scope narrows a task; the reconciliation only
+makes the narrowing visible at 📦, which is why it lives in the recap and not
+in a gate ([`SPEC/gates.md`](SPEC/gates.md) §"Phase 1→2 exit gate"). A task
+exempt from declaring (§"Tasknote frontmatter") writes
 `N/A — no file deliverable` and is done.
 
 > **Recap is recap-only.** The next-task suggestion belongs in the
@@ -628,14 +607,11 @@ Discovery sometimes stop applying by Phase 4, and forcing a tick would make the
 box a rubber stamp.
 
 **`## 🧩 Subtasks` is exempt.** Tick-through governs `## ✅ Acceptance` and
-nothing else. Subtasks are a working plan, not a contract: the ordered steps
-drafted in Discovery legitimately churn as execution finds a better route, and
-a step abandoned for a reason recorded in Implementation Notes is a normal
-outcome rather than an unnoticed miss. Unticked Subtasks boxes at archive time
-are therefore **correct, not drift** — an archived tasknote is judged on its
-Acceptance block alone. This is stated here so the silence cannot be re-read as
-an implied obligation; it is a scope clarification, not a new rule, and the
-surfaces that restate tick-through already name `## ✅ Acceptance` explicitly.
+nothing else. Subtasks are a working plan, not a contract: the steps drafted in
+Discovery legitimately churn as execution finds a better route, and a step
+abandoned for a reason recorded in Implementation Notes is a normal outcome.
+Unticked Subtasks boxes at archive time are **correct, not drift** — an
+archived tasknote is judged on its Acceptance block alone.
 
 **Superseded-claim pointer (conditional).** If this task falsified a factual
 claim in an archived tasknote — the Phase 1 drift check is where that usually
@@ -729,7 +705,7 @@ After a tasknote is archived, run the three-step protocol (commit / mark landed 
    One of three forms:
    - **Epic continuation:** closed task is in an active epic with cleared dependencies → name the single most natural next task ID.
    - **Open menu:** 2-3 candidates from PLAN.md mixing priority and readiness; user picks.
-   - **PLAN exhausted (terminal):** the fresh re-read leaves no surviving candidate — every open-section task is checked, or the only entries live under `## Completed`. **Stop. Do not invent a next move.** Naming a task from the `## Completed` archive, a doc example, or the cached Step-1 parse is exactly the confabulation this branch prevents — the two forms above both presuppose ≥1 open task and do not apply. State plainly that PLAN.md holds no open work, then — *in this session, before any clear* — offer to file new work: `/ft-epic-discovery` for a new epic, `/ft-file-followup` for a standalone follow-up. Skip step 3's copy-paste session-reset line: there is no queued task to run after a clear. (This canonizes `/ft-close-epic`'s long-standing empty-PLAN handling.)
+   - **PLAN exhausted (terminal):** the fresh re-read leaves no surviving candidate — every open-section task is checked, or the only entries live under `## Completed`. **Stop. Do not invent a next move.** Naming a task from the `## Completed` archive, a doc example, or the cached Step-1 parse is exactly the confabulation this branch prevents — the two forms above both presuppose ≥1 open task and do not apply. State plainly that PLAN.md holds no open work, then — *in this session, before any clear* — offer to file new work: `/ft-epic-discovery` for a new epic, `/ft-file-followup` for a standalone follow-up. Skip step 3's copy-paste session-reset line: there is no queued task to run after a clear.
 
    **Audit-family flag.** When a next-move candidate is an `/ft-audit*` slash command, prefix the candidate line (this step) and the copy-paste line (step 3) with 🔍. Audit-family skills are forked per project per `docs/MIGRATION.md` §1.2.1 — in adopter context the local fork is unprefixed (e.g., `/audit`), not `/ft-audit`. The 🔍 marker doubles as a self-check for any AI about to emit `/ft-audit*` as next move.
 
@@ -747,8 +723,7 @@ After a tasknote is archived, run the three-step protocol (commit / mark landed 
 ## Paper-complete guard
 
 Closes the hole where PLAN.md / archive show **Completed** but deliverables
-never landed in git (motivated by external paper-completes such as InvisiPaw
-FE-64). Contract only — **not** a general git UX (no auto-stash, no clean
+never landed in git. Contract only — **not** a general git UX (no auto-stash, no clean
 automation, no multi-repo tooling). Skills and procedures implement the
 checks; this section is authoritative.
 
