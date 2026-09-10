@@ -1154,7 +1154,8 @@ describe('App — SSE disconnect visibility (FE-088.3)', () => {
     renderApp({ plan });
     await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
 
-    const es = esRegistry().at(-1)!;
+    const instances = esRegistry();
+    const es = instances[instances.length - 1]!;
     await act(async () => {
       es.emit('error');
       await new Promise((r) => setTimeout(r, 0));

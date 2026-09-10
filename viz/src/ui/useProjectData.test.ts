@@ -4,7 +4,9 @@ import { LIVE_RECOVERY_MS, useProjectData } from './useProjectData';
 
 // The upgraded MockEventSource (src/test/setup.ts) records every instance and
 // exposes emit(type). Reach the EventSource a hook mounted to drive its SSE
-// branches. Tests clear the registry in beforeEach so `.at(-1)` is the current one.
+// branches. Tests clear the registry in beforeEach so the last instance is the
+// current one. Index (not Array.at) — tsconfig lib is ES2020; @types/node 24
+// no longer leaks ES2022 Array.at onto that lib (FE-106.4).
 interface MockES {
   url: string;
   readyState: number;
@@ -12,7 +14,10 @@ interface MockES {
 }
 const esRegistry = () =>
   (globalThis.EventSource as unknown as { instances: MockES[] }).instances;
-const latestES = () => esRegistry().at(-1)!;
+const latestES = () => {
+  const all = esRegistry();
+  return all[all.length - 1]!;
+};
 
 const planRes = (md: string) => ({ ok: true, status: 200, text: async () => md });
 const jsonRes = (body: unknown) => ({ ok: true, status: 200, json: async () => body });
