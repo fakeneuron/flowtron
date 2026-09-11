@@ -15,7 +15,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-566** [medium]🧩 | model-md-history-trim — Trim `SPEC/model.md` (18,699 chars, loaded on every non-Satisfied model gate) of decision history and anecdotes: tier-ladder rationale, the CORE-353.2 supersession note, the pre-CORE-482 bias, the first-person Grok edge case, the §"Tier ladder" History block. Rules and the dated calibration table stay. Filed by CORE-565.2.
 - [ ] **CORE-570** [heavy]🧠 | starter-followup-merge — Decide whether `/ft-starter-task` folds into `/ft-file-followup --starter` (one filer, three weights: line / `--park` stub / starter body). Evidence: 6 promotions in 880 archived notes since 2026-05-17, last 2026-08-08; adopter uptake 0; four paragraphs duplicated across the two bodies. Must keep the no-`SPEC.md`-load property. Filed by CORE-565.4.
 - [ ] **CORE-571** [heavy]🧠 | goal-task-demote — Decide whether `/ft-goal-task` demotes to a `/ft-task --loop` flag (contract `SPEC/loop.md` stays; the 28k body, `--worktree` / Pair G, the heartbeat roster row, and two symlinks go) or retires. Evidence: zero `## 🔁 Iterations` logs in 10 weeks; the adopter wires it and never runs it. Filed by CORE-565.4.
 - [ ] **CORE-572** [heavy]🧠 | worktree-pair-demote — Decide whether `/ft-worktree-start` + `/ft-worktree-end` demote to the procedure in `docs/WORKTREES.md` (convention stays; two bodies, four symlinks, two roster rows go). Evidence: no `wt-` branch, reflog entry, or merge commit has ever existed here, none in the adopter, 3.5 months shipped. Sequence with CORE-571 (`--worktree`). Filed by CORE-565.4.
@@ -32,6 +31,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-566** [medium]🧩 | model-md-history-trim — Completed 2026-09-10.
 - [x] **CORE-567** [heavy]🧠 | park-reason-table-home — Completed 2026-09-10.
 - [x] **CORE-EPIC-565** [heavy]🧠 | harness-value-review — Completed 2026-09-10.
   - [x] **CORE-565.1** [heavy]🧠 | harness-value-review discovery — Completed 2026-09-10.

@@ -68,12 +68,6 @@ the original gate.
 light  <  medium  <  heavy  <  xheavy
 ```
 
-Four tiers. The rule reads the ladder **by position, not by count**, so the
-matching logic is identical whether the ladder holds two rungs or four — a
-deliberate tier-count-agnostic design. The middle `medium` rung was added in
-CORE-259, and the top `xheavy` rung in CORE-482.3, each with zero change to
-the comparison logic.
-
 **The `xheavy` rung is manual-only.** `[xheavy]` marks open-ended exploratory
 work — multi-session research, greenfield architecture, high-uncertainty
 design — that an operator drives by hand. Two properties follow:
@@ -182,11 +176,6 @@ lookup. Rows stay family-level tokens per §"Effort axis" — the `@effort`
 notation below is prose shorthand for "this family at that effort setting",
 never a PLAN.md token shape.
 
-Maintaining this table supersedes CORE-353.2's no-maintained-table decision
-(recorded on the superseding tasknote): the un-tabled version of the same
-knowledge kept going stale as scattered prose; one dated table is cheaper to
-keep honest.
-
 **As of 2026-08-27:**
 
 | Platform | Token | Current roster (top of family) | Effort ladder | Band at default effort | Effort-shifted equivalences |
@@ -218,9 +207,7 @@ Escalate freely to `[heavy]` on any ambiguity or design smell; reserve
 mind, no judgment calls left. **When in doubt, round up.** This rule binds
 automated choosers especially: an under-powered pick wastes a whole session
 before anyone notices, while an over-powered one merely costs a little
-headroom — the asymmetry is the argument. (This flips the pre-CORE-482
-"start `[light]` by default" bias, which calibrated against an older,
-weaker-model era of the roster.)
+headroom — the asymmetry is the argument.
 
 **Typical `[light]` work** (only when provably mechanical — clear diff in mind):
 
@@ -266,10 +253,6 @@ weaker-model era of the roster.)
   current Grok stays crisp and reliable across `[light]`/`[medium]` for the
   majority of well-scoped implementation even when the initial description
   sounds moderately complex.
-- The model edge case exercised at the very start of *this* task (PLAN.md
-  tagged `[sonnet]`, active assistant Grok 4.3 → user chose retag to `[grok]`)
-  is a live demonstration of the Step 1.5 mismatch gate working as intended
-  across providers.
 - When in doubt, round up (the standing bias above). Match the label to the
   *actual cognitive shape* surfaced in Discovery, and resolve any residual
   uncertainty toward the heavier tag rather than the lighter one.
@@ -290,13 +273,3 @@ ladder 1:1**: `[light]`→🔧, `[medium]`→🧩, `[heavy]`→🧠, `[xheavy]`�
 roster model is inherently `xheavy`-band (§"Category-vs-concrete matching").
 The glyph stays a coarse design↔mechanical fast-scan hint — four values, not
 two.
-
-**History.** The glyph set was deliberately **binary** (🔧/🧠) through CORE-254,
-which locked the cue vocabulary at two next-task values; a `[medium]` candidate
-took the *nearer* glyph. CORE-353.3 reverses that lock and adds the third
-`[medium]` glyph — a one-glyph widening in the same spirit as CORE-308's 👇
-`HERE` addition — so the suggestion cue and the gate ladder share the same
-rungs. CORE-482.3 adds the fourth, 🔭 for the manual-only `[xheavy]` rung, by
-the same one-glyph-widening precedent. Aligning the two just removes the
-medium-collapses-to-nearest special case; it does not turn the coarse hint
-into a second copy of the gate.
