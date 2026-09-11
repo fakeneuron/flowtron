@@ -36,7 +36,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-576** [light]🔧 | stale-spec-draft-cleanup — Delete or mark `status: superseded` on `.flowtron/specs/spec-to-work-handoff.md` (the only spec in the dir; `status: draft` from 2026-07-12, parent CORE-EPIC-352 closed the same day; cites the retired `/ft-spec` and `/ft-starter-task`). Surfaced by audit-repo 2026-09-11 (Theme: Fast retirement leaves small residue).
+- [ ] **CORE-576** [light] [unattended]🔧 | stale-spec-draft-cleanup — Delete or mark `status: superseded` on `.flowtron/specs/spec-to-work-handoff.md` (the only spec in the dir; `status: draft` from 2026-07-12, parent CORE-EPIC-352 closed the same day; cites the retired `/ft-spec` and `/ft-starter-task`). Surfaced by audit-repo 2026-09-11 (Theme: Fast retirement leaves small residue).
 
 ## Future Opportunities
 
