@@ -36,6 +36,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
+- [ ] **CORE-578** [light]🔧 | gitleaks-ci-step — Add secret-scanning: deposit `.gitleaks.toml` + `.pre-commit-config.yaml` (copy natabula's canonical templates at `configs/.gitleaks.toml` / `configs/.pre-commit-config.yaml`) and wire a `gitleaks` step into `.github/workflows/ci.yml`'s `validate` job (curl-fetch pinned `gitleaks v8.30.1`, run `gitleaks dir . --config .gitleaks.toml --no-banner --redact` — natabula's own `ci.yml` is the canonical shape). Neither deposit exists here yet, unlike most other fleet repos. Routed by natabula `NAT-245` (lazy fleet backfill per `NAT-103.4`).
 - [ ] **CORE-576** [light] [unattended]🔧 | stale-spec-draft-cleanup — Delete or mark `status: superseded` on `.flowtron/specs/spec-to-work-handoff.md` (the only spec in the dir; `status: draft` from 2026-07-12, parent CORE-EPIC-352 closed the same day; cites the retired `/ft-spec` and `/ft-starter-task`). Surfaced by audit-repo 2026-09-11 (Theme: Fast retirement leaves small residue).
 
 ## Future Opportunities
