@@ -80,7 +80,11 @@ closure with nobody present still files each deferred real-world operator step
 as its own unchecked PLAN.md row rather than leaving it as prose (Claude Code
 exposes the filing motion as `/ft-file-followup --unattended`; the concept is
 platform-neutral, the flag syntax is not). The duty binds *harder* here, since
-whatever the run could not do falls to the absent operator. A run that parks
+whatever the run could not do falls to the absent operator. The filing's
+`unattended-candidates:` report line is copied into the closing tasknote's
+Final Summary before the archive move
+([`SPEC/unattended-candidacy.md` §"Persistence"](../unattended-candidacy.md)) —
+the run marks no row itself. A run that parks
 files nothing — a park is paused, not closed, and its `park-reason:` already
 carries what to take up. Resume is the ordinary blocked path in
 [`SPEC/blocked.md`](../blocked.md), which also clears `park-reason:`.

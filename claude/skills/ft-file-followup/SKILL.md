@@ -75,7 +75,9 @@ Step 1a's pre-flight checks and this step's path resolution, then bypasses the
 AskUserQuestion collection, the review gate, the downstream-impact reconciliation
 scan, the conversational paragraph, and the Step 5 hand-off. It writes a stub at
 `.flowtron/sidequest/<ID>.md` alongside the PLAN.md line, replies in ≤70 words,
-and continues the interrupted work inline. Emit the inline marker
+and continues the interrupted work inline. It also runs **no `[unattended]`
+candidacy** (Step 3 below): the proposal is a review-gate motion and park has no
+review gate; the row is judged when the stub is promoted or run. Emit the inline marker
 `📌 --park active — no review gate, no reconcile scan; stub + PLAN line, then resume inline.`
 
 **When `starter-mode = true`, Read `<SKILL_DIR>starter-mode.md` now** (it Reads
@@ -208,18 +210,27 @@ Keep the paragraph under ~80 words. If the conversation has surfaced more contex
 
 **Downstream-impact reconciliation scan** (per SPEC/tasknote-selection.md §"Downstream-impact reconciliation" — authoritative for triggers, scan steps, and vocabulary). After drafting the new line, scan **active** PLAN entries (`High` / `Medium` / `Low` / `Future Opportunities`; `## Completed` is out of scope) for ones that share a surface with the new follow-up — same files, subsystem, contract, or a cited `[[wikilink]]` dependency. For each, classify impact (stale / contradictory / redundant / unaffected) and propose one reconcile action (merge / nest / edit / delete / leave). Routine filings that obviously touch nothing downstream (first task in a fresh area, a self-contained ticket) skip the scan — apply judgment, then note "no downstream impact" in the review surface. **Propose only — never edit an existing line before the user confirms** (the user-confirm gate is the existing review below, not a separate approval).
 
+**`[unattended]` candidacy** (mirror of `SPEC/unattended-candidacy.md` §"Three postures" — Read that module now, at this write step). Run its §"Candidacy predicate" over the drafted line exactly as Step 4 will append it — `[model]`, any `[!critical]`, the description, any `Blocked by` clause; clause 6 applies only when the ID is an epic subtask the user asked for. Every clause must hold; when one is uncertain the row is not a candidate. A candidate is **proposed, never seeded**: it is shown in the review below with the token in place, and the token is written at Step 4 only if the operator's confirmation keeps it. Flowtron itself never writes `[unattended]` on its own discretion (SPEC §"Task-line format").
+
 **Surface for review.** Show the user, in one short message:
 
-- The proposed PLAN.md line, exactly as it will be appended.
+- The proposed PLAN.md line, exactly as it will be appended — **with `[unattended]` in place after `[<model>]` when the predicate admitted the row**, and one clause saying so (`candidate for [unattended] — <clause-6 predecessor, if any>`). The operator's assent keeps the token; an edit that drops it drops it. A row the predicate declined shows no token and says nothing.
 - The drafted conversational paragraph.
 - **Any proposed reconcile actions** — one impacted entry per line with its classification and proposed action (or "no downstream impact" when the scan found none or was skipped).
 
-Edit per their feedback before writing anything. Do not skip the review. The reconcile proposals fold into this same review gate — they are not a separate approval step.
+Edit per their feedback before writing anything. Do not skip the review. The reconcile proposals and the candidacy proposal fold into this same review gate — neither is a separate approval step, and neither adds a cue, banner, or checklist box.
 
 **When `unattended-mode = true`:**
 
 - **The review gate is suppressed** — there is nobody to surface it to, and a
   gate that fires into an empty session is a hang, not a safeguard.
+- **The candidacy predicate still runs, and its result is reported, never
+  written.** With no operator act there is nothing to confirm a token against,
+  so Step 4 writes every row *without* `[unattended]` and the Step 5 report
+  carries, on its own line, `unattended-candidates: <ID>` — or
+  `unattended-candidates: none` when the predicate declined the row. The line
+  always emits under this posture, so a later reader can tell "ran, found none"
+  from "never ran". A run with no operator never marks its own rows.
 - **The reconciliation scan still runs.** `SPEC/gates.md` §"What `--unattended`
   never relaxes" holds it: it guards plan correctness rather than pacing, so the
   posture may not skip it. On the three runners an unconfirmable direction change
@@ -242,7 +253,10 @@ In one continuous motion, after the user has confirmed the Step 3 review (includ
 
    ```
    - [ ] **<TASK-ID>** [<model>] | <shortname> — <one-line long description>
+   - [ ] **<TASK-ID>** [<model>] [unattended] | <shortname> — <one-line long description>   ← only when the Step 3 review kept the token
    ```
+
+   `[unattended]` sits after `[<model>]` and any model-suggestion glyph (SPEC §"Task-line format"; position footgun in `SPEC/plan-parser.md`). It is written **only** on a row the operator confirmed as a candidate at Step 3 — never under `unattended-mode = true`, where the candidate is reported at Step 5 instead.
 
    Placement:
    - If the priority section already has entries, append to the bottom of that section.
@@ -293,10 +307,22 @@ Surface to the user, in one short message:
 the absent operator's only record, so it additionally carries: the five
 auto-drafted fields (ID, shortname, priority, model, description) marked as
 drafted-not-reviewed; every reconciliation finding from Step 3 with its
-classification and proposed action, marked **not applied**; and the unreviewed
-context paragraph. Keep the `⏸ --unattended stop — …` shape for the failure
-paths and this ordinary hand-off shape for success — a filing that worked is not
-a stop.
+classification and proposed action, marked **not applied**; the unreviewed
+context paragraph; and, on its own line, the Step 3 candidacy result:
+
+```text
+unattended-candidates: <TASK-ID>
+```
+
+(or `unattended-candidates: none`). No token was written — the line names a row
+an operator may later mark in an attended session. A closure that invoked this
+skill to discharge `SPEC.md` §"Deferred hand-off filing" copies that line
+verbatim into its own tasknote's Final Summary before the archive move
+(`SPEC/unattended-candidacy.md` §"Persistence"; the runner-side hook lives in
+`/ft-task`'s shared `unattended-mode.md`); a standalone invocation has no
+tasknote, and this report is its only record. Keep the
+`⏸ --unattended stop — …` shape for the failure paths and this ordinary
+hand-off shape for success — a filing that worked is not a stop.
 
 The filing is committed by Step 4.4 — the Step 3 review approval **is** the commit authorization (under `--unattended`, the SPEC-imposed duty is, per §"Filing commits" → "Unattended filing authority"), so there is no separate commit-go ask. Report the SHA as plain text; emit **no 🏁 marker** (that glyph is reserved for a closure commit covering Acceptance deliverables — SPEC.md §"Paper-complete guard" §3). Never push. When the pre-check set `auto-commit = false`, the new PLAN.md line is instead bundled into whatever commit the surrounding conversation produces, exactly as before.
 

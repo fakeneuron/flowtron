@@ -172,6 +172,10 @@ SKILL's Step 5 hand-off, which ends its turn.
   hook, or viz-specific label. The board shows a normal open task; rich context
   lives in the stub (`## Idea`, `## Resume anchor`). Viz parity is intentionally
   out of scope for this ephemeral parking state.
+- **No `[unattended]` candidacy:** the host's Step 3 proposal rides a review
+  gate, and park has none by design — the row is written without the token and
+  without a candidates line, and is judged for the marker when the stub is
+  promoted or run. Not a suppression to un-suppress; there is no gate to host it.
 - **Promotion:** fresh session → read stub; `/ft-micro-task <ID>` (quick fix),
   `/ft-task <ID>` (normal), or expand the stub by hand into a starter from
   `tasknote-starter-template.md` (the row already exists, so the `--starter`

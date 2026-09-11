@@ -54,13 +54,17 @@ drop any sub-heading with nothing genuine to capture, per
 `## 🌱 Starter context` section — no 🎯 / ✅ / 🧩 spec sections, no phase
 scaffolding; promotion adds those.
 
-The host's **downstream-impact reconciliation scan** runs unchanged.
+The host's **downstream-impact reconciliation scan** and its **`[unattended]`
+candidacy** proposal both run unchanged — the predicate is evaluated over the
+line *without* the `Filed with starter at …` suffix, which carries no signal.
 
 **Surface for review** — the host's Step 3 review gate, with the body in place
 of the paragraph: the drafted starter body, the proposed PLAN.md line exactly
-as it will be appended (Step S4 shape), and any reconcile proposals (or "no
-downstream impact"). Edit per feedback before writing anything. Do not skip
-the review; it is the commit authorization.
+as it will be appended (Step S4 shape — with `[unattended]` in place after
+`[<model>]` when the host's predicate admitted the row), and any reconcile
+proposals (or "no downstream impact"). Edit per feedback before writing
+anything. Do not skip the review; it is the commit authorization, and the
+operator's assent is the only act that keeps a proposed token.
 
 ## Step S4 — Write the starter file and the PLAN.md line
 
@@ -93,7 +97,10 @@ Host Step 4 runs with these substitutions, in the same continuous motion:
    - [ ] **<TASK-ID>** [<model>] | <shortname> — <one-line long description>. Filed with starter at `.flowtron/tasknote/<TASK-ID>.md`.
    ```
 
-   The Step S2 word count excludes the suffix.
+   The Step S2 word count excludes the suffix. A token the S3 review kept
+   sits after `[<model>]` exactly as in host Step 4 item 2
+   (`[<model>] [unattended] | <shortname>`); a declined or dropped candidate
+   leaves the line as shown.
 
 4. **Apply confirmed reconcile edits** — unchanged (host Step 4 item 3).
 
