@@ -90,7 +90,7 @@ wrappers (`<platform>/procedures/<procedure>.md`) rather than by the
 ## Skill namespace
 
 Bundled flowtron skills carry the `ft-` prefix in their slug (`/ft-task`,
-`/ft-release`, `/ft-new-project`, `/ft-starter-task`,
+`/ft-release`, `/ft-new-project`,
 `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`,
 `/ft-close-epic`, `/ft-spec`, `/ft-refactor`,
 `/ft-flowtron`, `/ft-stats`,

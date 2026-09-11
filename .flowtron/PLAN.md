@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-570** [heavy]🧠 | starter-followup-merge — Decide whether `/ft-starter-task` folds into `/ft-file-followup --starter` (one filer, three weights: line / `--park` stub / starter body). Evidence: 6 promotions in 880 archived notes since 2026-05-17, last 2026-08-08; adopter uptake 0; four paragraphs duplicated across the two bodies. Must keep the no-`SPEC.md`-load property. Filed by CORE-565.4.
+(none)
 
 ## Low
 
@@ -28,6 +28,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-570** [heavy]🧠 | starter-followup-merge — Completed 2026-09-10.
 - [x] **CORE-572** [heavy]🧠 | worktree-pair-demote — Completed 2026-09-10.
 - [x] **CORE-571** [heavy]🧠 | goal-task-demote — Completed 2026-09-10.
 - [x] **CORE-566** [medium]🧩 | model-md-history-trim — Completed 2026-09-10.

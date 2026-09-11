@@ -10,7 +10,7 @@ conversation, surfacing it for operator review, and — only on the operator's
 go — optionally writing it to `.flowtron/specs/<slug>.md`.
 
 `/ft-spec` is a **planning peer**, not a task driver. It sits alongside
-`/ft-starter-task` and `/ft-epic-discovery`: it produces a reviewable
+`/ft-file-followup --starter` and `/ft-epic-discovery`: it produces a reviewable
 artifact and stops. It **never** files a PLAN.md line, scaffolds a tasknote,
 or commits — those conversions stay operator-driven. A spec is **optional**:
 it is never required before `/ft-task` or `/ft-epic-discovery`.
@@ -120,7 +120,7 @@ In one short message:
   the conversation only.
 - Point at the **🧩 Tasks** section as the actionable next step, and name the
   conversion skills the operator runs to file that work: `/ft-epic-discovery`
-  (epics), `/ft-starter-task` (rich-context filings), `/ft-task` /
+  (epics), `/ft-file-followup --starter` (rich-context filings), `/ft-task` /
   `/ft-micro-task` (single tasks), `/ft-file-followup --park` (park an idea). `/ft-spec`
   files none of these — the operator drives the conversion.
 - Note the spec is living markdown: edit `.flowtron/specs/<slug>.md` in place
@@ -140,7 +140,7 @@ format is `docs: add <slug> spec` (or `docs: update <slug> spec`).
   Gate" and not a schema checker (VISION §"What we won't accept").
 - **Routing:** reach for `/ft-spec` when a design has been worked out in
   conversation and is worth capturing before it's decomposed into tasks. For
-  filing a single not-yet-ready task with rich context, use `/ft-starter-task`.
+  filing a single not-yet-ready task with rich context, use `/ft-file-followup --starter`.
   For opening an epic directly, use `/ft-epic-discovery`. For starting an
   existing task, use `/ft-task`. A one-liner idea needs neither a spec nor a
   starter — write the PLAN.md line directly.

@@ -1,6 +1,6 @@
 ---
 name: ft-file-followup
-description: File a mid-flow follow-up task from inside an active tasknote — and, with `--park`, park an idea or quick fix mid-session without losing it (tiny stub + PLAN line, priority flags, resume inline). Use when the user asks to file a quick follow-up task discovered mid-flow without a full tasknote, or to park a tangential idea, quick fix, or "don't lose this" thought while staying on the current work. Invoke with an optional task ID as args (e.g., args="CORE-058", "CORE-058 --park", or "--park --low fix null guard"); when omitted, the default flow suggests the next available ID for review and park mode auto-allocates one. `--unattended` runs the operator-less posture for a closure discharging SPEC.md §"Deferred hand-off filing" — auto-allocates the ID, suppresses the collection and review gates, and terminates readably at anything it cannot answer. Default flow writes one PLAN.md line and delivers a short context paragraph conversationally only — no tasknote artifact. Lighter than `/ft-starter-task`. See SPEC/tasknote-selection.md §"When to use a tasknote" for the threshold.
+description: File a mid-flow follow-up task from inside an active tasknote — with `--park`, park an idea or quick fix mid-session without losing it (tiny stub + PLAN line, priority flags, resume inline); with `--starter`, file a starter tasknote carrying rich AI-captured context (file survey, design decisions, open questions) for a task not ready to start. Use when the user asks to file a quick follow-up task discovered mid-flow without a full tasknote, to park a tangential idea, quick fix, or "don't lose this" thought while staying on the current work, or to file a starter tasknote for a task that isn't ready to start yet. Invoke with an optional task ID as args (e.g., args="CORE-058", "CORE-058 --park", "--park --low fix null guard", or "CORE-058 --starter"); when omitted, the default and starter flows suggest the next available ID for review and park mode auto-allocates one. `--unattended` runs the operator-less posture for a closure discharging SPEC.md §"Deferred hand-off filing" — auto-allocates the ID, suppresses the collection and review gates, and terminates readably at anything it cannot answer. Default flow writes one PLAN.md line and delivers a short context paragraph conversationally only — no tasknote artifact. See SPEC/tasknote-selection.md §"When to use a tasknote" for the threshold.
 ---
 
 # file-followup — flowtron lightweight follow-up filer
@@ -14,9 +14,9 @@ tension.
 
 A default `/ft-file-followup` filing produces **zero artifacts on disk beyond a single PLAN.md task line**. The "short context paragraph" — rationale + suspected scope + recommended priority/model — is delivered conversationally only, in the same response as the filing confirmation. There is no tasknote file. Active tasknotes (if `/ft-file-followup` runs mid-flow inside `/ft-task`) are **not** edited — no breadcrumb, no log entry. The active tasknote stays a record of what it was for, not a coordination ledger.
 
-This skill is **filing-only and lighter than `/ft-starter-task`**: use it when the description fits in ≤50 words and no rich context (file survey / open questions / design decisions) needs to persist. If the description would breach 70 words or rich context warrants preserving, escalate to `/ft-starter-task` instead — the SKILL surfaces this gate at Step 2.
+This skill is **filing-only**, and its default flow is the lightest of its three weights: use it as-is when the description fits in ≤50 words and no rich context (file survey / open questions / design decisions) needs to persist. If the description would breach 70 words or rich context warrants preserving, re-invoke with `--starter` — the SKILL surfaces this gate at Step 2.
 
-**Park mode (`--park`)** is the one deviation from both paragraphs above: it writes a tiny stub at `.flowtron/sidequest/<ID>.md` in addition to the PLAN.md line, skips the review gate and the reconciliation scan, and resumes the interrupted work inline instead of handing off. Full flow: `park-mode.md` (Step 0 loads it when the flag is present).
+Two flags deviate from both paragraphs above. **Park mode (`--park`)** writes a tiny stub at `.flowtron/sidequest/<ID>.md` in addition to the PLAN.md line, skips the review gate and the reconciliation scan, and resumes the interrupted work inline instead of handing off — full flow: `park-mode.md`. **Starter mode (`--starter`)** writes a starter tasknote at `.flowtron/tasknote/<ID>.md` carrying the rich context, keeps every gate, and suffixes the PLAN.md line with a pointer to it — full flow: `starter-mode.md`. Step 0 loads whichever fragment its flag names.
 
 If the task ID is missing, suggest one during input collection instead of
 requiring it up front. If a non-flag token is present but doesn't match
@@ -27,21 +27,23 @@ the user for a valid task ID.
 
 Two layouts. Pick by which file exists:
 
-- **Adopter project:** `.flowtron/core/SPEC.md` exists → SPEC=`.flowtron/core/SPEC.md`, SKILL_DIR=`.flowtron/core/claude/skills/ft-file-followup/`, template=`.flowtron/core/templates/sidequest-template.md`.
-- **Flowtron self-host:** repo-root `SPEC.md` with heading `# Flowtron — Workflow Specification` → SPEC=`SPEC.md`, SKILL_DIR=`claude/skills/ft-file-followup/`, template=`templates/sidequest-template.md`.
+- **Adopter project:** `.flowtron/core/SPEC.md` exists → SPEC=`.flowtron/core/SPEC.md`, SPEC_DIR=`.flowtron/core/SPEC/`, SKILL_DIR=`.flowtron/core/claude/skills/ft-file-followup/`, templates=`.flowtron/core/templates/` (`sidequest-template.md` for park mode, `tasknote-starter-template.md` for starter mode).
+- **Flowtron self-host:** repo-root `SPEC.md` with heading `# Flowtron — Workflow Specification` → SPEC=`SPEC.md`, SPEC_DIR=`SPEC/`, SKILL_DIR=`claude/skills/ft-file-followup/`, templates=`templates/`.
 
 If neither matches, bail. PLAN=`.flowtron/PLAN.md`, tasknote dir=`.flowtron/tasknote/`, sidequest dir=`.flowtron/sidequest/` either way.
 
 **Parse `args`.** Treat `args` as an **unordered flag set** plus free text —
 recognize each token independently; order never matters. Initialize
-`park-mode = false` and `unattended-mode = false`, then walk the tokens:
+`park-mode = false`, `starter-mode = false`, and `unattended-mode = false`, then
+walk the tokens:
 
 - **`--park` or `-p`** → set `park-mode = true`.
+- **`--starter`** (no short alias) → set `starter-mode = true`.
 - **`--unattended`** (no short alias) → set `unattended-mode = true`.
 - **`--low` / `--med` / `--medium` / `--fut` / `--future` / `--high`** → a park-mode priority flag; strip and carry. Outside park mode these are meaningless — surface the usage notice below rather than silently ignoring them.
 - **A `<AREA>-<NUMBER>` token** → the proposed task ID.
-- **Any other `--`-prefixed token** → surface a one-line usage notice (``Unknown arg `<arg>`. Usage: `/ft-file-followup [TASK-ID] [--park [--low|--med|--fut|--high]] [--unattended]`.``) and ask whether the user meant `--park`, a priority flag, `--unattended`, or the default flow. Do not proceed silently. **When `unattended-mode = true` there is nobody to ask** — emit the notice and stop, in the terminal shape below.
-- **Remaining free text** → the idea text (park mode) or drafting context (default flow).
+- **Any other `--`-prefixed token** → surface a one-line usage notice (``Unknown arg `<arg>`. Usage: `/ft-file-followup [TASK-ID] [--park [--low|--med|--fut|--high]] [--starter] [--unattended]`.``) and ask whether the user meant `--park`, a priority flag, `--starter`, `--unattended`, or the default flow. Do not proceed silently. **When `unattended-mode = true` there is nobody to ask** — emit the notice and stop, in the terminal shape below.
+- **Remaining free text** → the idea text (park mode) or drafting context (default and starter flows).
 
 **`--park` and `--unattended` do not compose.** Park mode preserves an operator's
 tangential mid-session thought and resumes *their* interrupted work inline; both
@@ -50,6 +52,16 @@ rather than inventing an unattended park:
 
 ```markdown
 ⏸ --unattended stop — flag-conflict: `--park` presumes a present operator. Use the default flow to file the row; nothing written.
+```
+
+**`--starter` composes with neither `--park` nor `--unattended`.** A starter body
+is AI-drafted rich context that exists to be reviewed, so it keeps the review
+gate `--unattended` suppresses; and a filing writes one artifact, not a stub
+and a starter. Refuse both terminally, in the same shape:
+
+```markdown
+⏸ --unattended stop — flag-conflict: `--starter` presumes a reviewer. Use the default flow to file the row; nothing written.
+⏸ stop — flag-conflict: `--starter` and `--park` write different artifacts. Pick one; nothing written.
 ```
 
 Every other terminal stop in this skill takes the same
@@ -65,6 +77,17 @@ scan, the conversational paragraph, and the Step 5 hand-off. It writes a stub at
 `.flowtron/sidequest/<ID>.md` alongside the PLAN.md line, replies in ≤70 words,
 and continues the interrupted work inline. Emit the inline marker
 `📌 --park active — no review gate, no reconcile scan; stub + PLAN line, then resume inline.`
+
+**When `starter-mode = true`, Read `<SKILL_DIR>starter-mode.md` now** (it Reads
+`<SPEC_DIR>starter.md` in turn) **and apply it as an overlay on Steps 2–5
+below.** Starter mode is the same filing contract with a heavier artifact: Steps
+1–1a, the collection, the review gate, the reconciliation scan, and the
+pre-check / post-stage commit discipline all run as written here; the fragment
+substitutes the `## 🌱 Starter context` body for the conversational paragraph,
+the starter-file write plus the `Filed with starter at …` PLAN suffix for the
+bare line, a two-path `chore: file <ID> starter` commit for the one-path one,
+and the promotion hand-off for the default one. Emit the inline marker
+`🌱 --starter active — every gate kept; starter file + PLAN line with pointer, then hand off.`
 
 **When `unattended-mode = true`** the caller declares that **no operator is
 present to answer a gate**. This skill has three: the Step 2 AskUserQuestion
@@ -82,8 +105,8 @@ Emit the inline marker:
 ⚡ --unattended active — no operator present: ID auto-allocated, collection + review gate suppressed, reconcile scan reports but applies nothing. Filing commits on the SPEC §"Deferred hand-off filing" duty.
 ```
 
-Default flow (`park-mode = false`, `unattended-mode = false`) is byte-identical
-to the pre-flag skill.
+Default flow (`park-mode = false`, `starter-mode = false`,
+`unattended-mode = false`) is byte-identical to the pre-flag skill.
 
 ## Step 1 — Resolve or suggest the task ID
 
@@ -122,7 +145,7 @@ question cannot be asked either; stop:
 
 - Resolve the **Area** by reading the `.flowtron/tasknote/README.md` §"Archive layout" table — every task, every prefix, canonical ones included. `<area>` is **never derived from the task ID**: lowercasing the prefix is the adopter's declaration-time default, not a resolution you may perform, and a project may deliberately declare a folder it would not produce (`NAT-*` → `archive/natabula/`). See SPEC §"Task ID convention". If the table has no row for this prefix, stop and ask — do not guess a folder.
 - The task ID must NOT already exist in PLAN.md. If it does, stop and ask whether the user meant a different ID — `/ft-file-followup` files NEW tasks; reusing an existing entry is out of scope.
-- `.flowtron/tasknote/<TASK-ID>.md` must NOT already exist. If it does, stop. Surface the conflict (could be in-flight, blocked, completed, starter, or already a follow-up that was promoted).
+- `.flowtron/tasknote/<TASK-ID>.md` must NOT already exist. If it does, stop. Surface the conflict (could be in-flight, blocked, completed, starter, or already a follow-up that was promoted). In starter mode this is the path being written, so the check is load-bearing rather than defensive.
 - `.flowtron/tasknote/archive/<area>/<TASK-ID>.md` must NOT already exist. If it does, stop — the ID has been used and archived; pick a fresh ID.
 - **Park mode only:** `.flowtron/sidequest/<TASK-ID>.md` must NOT already exist either. On conflict, stop and ask for a different ID.
 
@@ -155,9 +178,9 @@ report where the absent operator will see them.
 
 - **≤50 words:** proceed.
 - **51-70 words:** trim if practical; otherwise proceed with a yellow-flag note in the review surface (Step 3).
-- **>70 words:** STOP. The description breaches the hard cap — `/ft-file-followup` is the wrong tool. Surface to the user: "The drafted description is `<N>` words (>70w cap). This belongs in a starter body, not a one-line PLAN.md entry. Recommend `/ft-starter-task <ID>` instead." Do not proceed unless the user trims the description below the cap.
+- **>70 words:** STOP. The description breaches the hard cap — the default flow is the wrong weight. Surface to the user: "The drafted description is `<N>` words (>70w cap). This belongs in a starter body, not a one-line PLAN.md entry. Recommend re-invoking as `/ft-file-followup <ID> --starter`." Do not proceed unless the user trims the description below the cap. **When `starter-mode = true`** the cap is not a stop — `starter-mode.md` Step S2 owns the override.
 
-The 70w cap exists so PLAN.md stays scannable; rich context belongs in starter bodies (`/ft-starter-task`) or full tasknotes (`/ft-task`). `/ft-file-followup`'s niche is the ≤50w + ephemeral-context band only.
+The 70w cap exists so PLAN.md stays scannable; rich context belongs in starter bodies (`--starter`) or full tasknotes (`/ft-task`). The default flow's niche is the ≤50w + ephemeral-context band only.
 
 **Under `unattended-mode = true` the cap binds harder, not softer.** The
 description is now self-drafted rather than operator-supplied, so a breach is
@@ -168,10 +191,12 @@ this skill exists to enforce). Stop instead, so the deferred step surfaces to
 the operator as a stop rather than as a bad row:
 
 ```markdown
-⏸ --unattended stop — over-cap: description is <N> words after redraft (>70w). Belongs in a starter body; nothing written.
+⏸ --unattended stop — over-cap: description is <N> words after redraft (>70w). Belongs in a starter body (an attended `--starter` filing); nothing written.
 ```
 
 ## Step 3 — Draft, scan, and surface for review
+
+**When `starter-mode = true`**, `starter-mode.md` Step S3 substitutes the `## 🌱 Starter context` body for the paragraph drafted here; the scan and the review gate below run unchanged.
 
 Draft the conversational paragraph from prior conversation context. **Free-form prose**, no fixed schema or bold-prefix prompts; the SKILL prescribes intent only:
 
@@ -179,7 +204,7 @@ Draft the conversational paragraph from prior conversation context. **Free-form 
 - **Suspected scope** (files / paths / hypotheses, when the conversation has surfaced any).
 - **Why this priority and model** (one short clause when non-obvious; skip if obvious from the line itself).
 
-Keep the paragraph under ~80 words. If the conversation has surfaced more context than fits, that is itself a signal to use `/ft-starter-task` instead — surface to the user.
+Keep the paragraph under ~80 words. If the conversation has surfaced more context than fits, that is itself a signal to re-invoke with `--starter` — surface to the user.
 
 **Downstream-impact reconciliation scan** (per SPEC/tasknote-selection.md §"Downstream-impact reconciliation" — authoritative for triggers, scan steps, and vocabulary). After drafting the new line, scan **active** PLAN entries (`High` / `Medium` / `Low` / `Future Opportunities`; `## Completed` is out of scope) for ones that share a surface with the new follow-up — same files, subsystem, contract, or a cited `[[wikilink]]` dependency. For each, classify impact (stale / contradictory / redundant / unaffected) and propose one reconcile action (merge / nest / edit / delete / leave). Routine filings that obviously touch nothing downstream (first task in a fresh area, a self-contained ticket) skip the scan — apply judgment, then note "no downstream impact" in the review surface. **Propose only — never edit an existing line before the user confirms** (the user-confirm gate is the existing review below, not a separate approval).
 
@@ -207,6 +232,8 @@ Edit per their feedback before writing anything. Do not skip the review. The rec
 
 ## Step 4 — File the entry
 
+**When `starter-mode = true`**, `starter-mode.md` Step S4 runs this motion with its substitutions: the starter file is written before the line, the line carries the `Filed with starter at …` suffix, the commit stages two paths under `chore: file <ID> starter — <shortname>`, and item 5 does not run.
+
 In one continuous motion, after the user has confirmed the Step 3 review (including any reconcile proposals) — or, under `unattended-mode = true`, immediately, since Step 3 surfaced no gate to confirm:
 
 1. **Filing-commit pre-check.** Run `git status --porcelain -- .flowtron/PLAN.md` **before any write** and record the result as `auto-commit`: clean output → `auto-commit = true`; any output → `auto-commit = false` (PLAN.md already carries foreign edits, so the filing rides along in the surrounding commit instead). It must run here, immediately before the append — Steps 2-3 span operator turns, so a reading taken at pre-flight can go stale. Not a gate: nothing stops either way; it only decides whether item 4 below runs. Contract: SPEC/tasknote-selection.md §"Filing commits".
@@ -221,7 +248,7 @@ In one continuous motion, after the user has confirmed the Step 3 review (includ
    - If the priority section already has entries, append to the bottom of that section.
    - If the section carries a `(none)` placeholder, replace the placeholder with the new entry.
 
-   No `Filed with starter at ...` pointer (that suffix is `/ft-starter-task`'s contract). The new line carries only the long description — no breadcrumb to a tasknote that doesn't exist.
+   No `Filed with starter at ...` pointer (that suffix is starter mode's — `starter-mode.md` Step S4). The new line carries only the long description — no breadcrumb to a tasknote that doesn't exist.
 
 3. **Apply confirmed reconcile edits.** If the Step 3 scan surfaced impacted entries and the user accepted (or amended) any proposed actions, apply those PLAN.md edits in the same motion — merge / nest / edit / delete the affected lines per the confirmed action. Apply nothing the user rejected or didn't see. No impact (or scan skipped) → no-op. **Under `unattended-mode = true` this is always a no-op** — the scan ran but nothing was confirmed, and its findings travel in the Step 5 report instead.
 
@@ -254,10 +281,12 @@ In one continuous motion, after the user has confirmed the Step 3 review (includ
 
 ## Step 5 — Hand off
 
+**When `starter-mode = true`**, `starter-mode.md` Step S5 supplies the message (starter path, PLAN entry, promotion pointer); the SHA / no-🏁 / never-push rules below hold.
+
 Surface to the user, in one short message:
 
 - `<TASK-ID>` filed at `.flowtron/PLAN.md` under `## <Priority>` with model `<model>`, `committed <sha>` — or, when Step 4.4 was skipped, `left uncommitted (PLAN.md already carried other edits)`.
-- The follow-up sits as a one-line PLAN.md entry until `/ft-task <TASK-ID>` (or `/ft-micro-task` / `/ft-starter-task` for promotion) fires.
+- The follow-up sits as a one-line PLAN.md entry until `/ft-task <TASK-ID>` (or `/ft-micro-task` for a one-shot) fires.
 - (Conversational paragraph from Step 4.5 is included in this response.)
 
 **When `unattended-mode = true`**, the same message is the run's only output and
@@ -274,6 +303,6 @@ The filing is committed by Step 4.4 — the Step 3 review approval **is** the co
 ## Notes
 
 - **Filing-only — no design decisions in the skill flow itself.** All context (rationale, suspected files, recommended priority/model) comes from the prior conversation; the skill just records the line and surfaces the paragraph.
-- **Routing across the filing cohort:** see SPEC/tasknote-selection.md §"When to use a tasknote (and when not to)" for the full decision tree. The default flow's niche: ≤50w + ephemeral context only. Tangential idea + resume inline + no review gate → add `--park` (lighter; see `park-mode.md`). Above 50w → `/ft-starter-task`. Filing+executing in one shot → `/ft-micro-task`. Starting an existing PLAN.md entry → `/ft-task`.
+- **Routing across the filing cohort:** see SPEC/tasknote-selection.md §"When to use a tasknote (and when not to)" for the full decision tree. One filer, three weights: the default flow's niche is ≤50w + ephemeral context only. Tangential idea + resume inline + no review gate → add `--park` (lighter; see `park-mode.md`). Above 50w, or a file survey / open questions / design decisions worth persisting → add `--starter` (heavier; see `starter-mode.md`). Filing+executing in one shot → `/ft-micro-task`. Starting an existing PLAN.md entry → `/ft-task`.
 - **`--unattended` is the operator-less posture, not a speed flag.** Its one legitimate caller is a closure with no operator present discharging `SPEC.md` §"Deferred hand-off filing". It buys no autonomy an attended run lacks: the filing-discipline cap, the reconciliation scan, the pre-check, and the pathspec discipline all still bind, and every question it cannot answer terminates readably rather than being answered on the operator's behalf. Posture contract: `SPEC/gates.md` §"`--unattended` operator posture".
 - **No active-tasknote breadcrumb.** When invoked from inside `/ft-task`, `/ft-file-followup` does not write into the active tasknote — keeps the active tasknote a record of what it was for, not a coordination ledger. This is the strict reading of "only one PLAN.md line on disk."

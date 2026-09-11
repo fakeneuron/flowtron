@@ -43,7 +43,7 @@ the named skill yourself; `/ft-spec` never files PLAN entries or tasknotes.
 
 - **[epic]** `<scope>` — file via `/ft-epic-discovery`
 - **[task]** `<scope>` — add a PLAN.md line, then `/ft-task <ID>`
-- **[starter]** `<scope>` — `/ft-starter-task` (rich context, not ready to start)
+- **[starter]** `<scope>` — `/ft-file-followup --starter` (rich context, not ready to start)
 - **[micro]** `<scope>` — `/ft-micro-task <ID>`
 - **[sidequest]** `<scope>` — `/ft-file-followup --park` (park mid-flow)
 

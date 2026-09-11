@@ -4,7 +4,7 @@ paths: []
 
 # Tasknote selection
 
-> Lazy-loaded SPEC module. Loaded by the filing/runner skills (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release`) when they need the use/skip thresholds, filing-discipline word budget, filing-commit contract, or the `## Completed` archive + rotation conventions. See `SPEC.md` for the always-loaded core spec.
+> Lazy-loaded SPEC module. Loaded by the filing/runner skills (`/ft-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release`) when they need the use/skip thresholds, filing-discipline word budget, filing-commit contract, or the `## Completed` archive + rotation conventions. See `SPEC.md` for the always-loaded core spec.
 
 ## When to use a tasknote (and when not to)
 
@@ -28,12 +28,12 @@ paths: []
 - The brief spans an epic or multi-task-shaped body of work and you want one reviewable artifact to derive filing decisions from
 - You want operator review of the design before any PLAN.md line or tasknote artifact exists
 
-`/ft-spec` is a planning peer, not a filer — it never writes a PLAN.md line or scaffolds a tasknote. Review-first by default (`--fast` skips the review pause but still never auto-writes PLAN/tasknotes); on your go it optionally writes to `.flowtron/specs/<slug>.md`. Convert its Tasks section to real work via `/ft-epic-discovery`, `/ft-starter-task`, `/ft-task`, or a direct PLAN.md line.
+`/ft-spec` is a planning peer, not a filer — it never writes a PLAN.md line or scaffolds a tasknote. Review-first by default (`--fast` skips the review pause but still never auto-writes PLAN/tasknotes); on your go it optionally writes to `.flowtron/specs/<slug>.md`. Convert its Tasks section to real work via `/ft-epic-discovery`, `/ft-file-followup --starter`, `/ft-task`, or a direct PLAN.md line.
 
 **Skip the spec (go straight to filing) when:**
 
 - A one-liner idea needs neither a spec nor a starter — write the PLAN.md line directly
-- The design is already clear and decomposed — file directly with `/ft-starter-task` or `/ft-epic-discovery`
+- The design is already clear and decomposed — file directly with `/ft-file-followup --starter` or `/ft-epic-discovery`
 
 **Plan a refactor (`/ft-refactor <target> [--fast]`) when:**
 
@@ -43,7 +43,7 @@ paths: []
 
 `/ft-refactor` is read-only on source: it surveys dependencies, seams, and test coverage, surfaces a sequenced plan for review, and on your go files a parent epic + implementation children from `.2` + a `.N` audit, each child a starter carrying behavior-preservation acceptance seeds. Execution happens through normal `/ft-task` cycles on those children. No target means you want the breadth sweep (`/ft-audit structure`), not this; genuinely open scope means `/ft-epic-discovery`.
 
-**File a starter (`/ft-starter-task [ID]`) when:**
+**File a starter (`/ft-file-followup [ID] --starter`) when:**
 
 - The PLAN.md long description would exceed **~50 words (target) or 70 words (hard cap)** — richer context belongs in the starter body, not on the line
 - A task is discovered mid-flow with rich context (rationale, design decisions, file survey, open questions) but isn't ready to start now
@@ -71,9 +71,9 @@ A `/ft-file-followup` filing produces **no tasknote file** — the rationale par
 If the ID is omitted, the skill suggests the next available task ID for review
 before writing the PLAN.md line.
 
-**Skip the follow-up (use `/ft-starter-task` or just inline a PLAN.md line) when:**
+**Skip the default follow-up (add `--starter`, or just inline a PLAN.md line) when:**
 
-- The description would breach 50 words — use `/ft-starter-task`; rich context belongs in the starter body
+- The description would breach 50 words — add `--starter`; rich context belongs in the starter body
 - Persistent context (file survey, open questions, design decisions) is worth preserving to disk — same call
 - You're outside any active conversation that produced the rationale — write the PLAN.md line directly
 
@@ -85,7 +85,7 @@ before writing the PLAN.md line.
 
 **Priority flags** (skip the question): `--low` → `## Low` (`pickup: next-chat`); `--med` / `--medium` → `## Medium`; `--fut` / `--future` → `## Future Opportunities`; `--high` → `## High`. **No flag** → one short question (`Low · Medium · Future?`) before any disk write; the AI may parenthesize its best read but does not auto-file.
 
-Park mode skips the review gate and the downstream-impact reconciliation scan, auto-allocates an ID rather than surfacing one for confirmation, and replies in ≤70 words (park confirmation + priority + resume anchor) before **continuing the main session inline**. Where it conflicts with the default follow-up contract, park mode wins; the cadence lives in the `park-mode.md` lazy fragment the flag loads. Drop the flag when you want the review gate, the reconciliation scan, or a conversational rationale paragraph; escalate to `/ft-starter-task` when a file survey, open questions, or design decisions need to persist beyond a stub; and use `/ft-micro-task` or `/ft-task` when you're ready to execute now.
+Park mode skips the review gate and the downstream-impact reconciliation scan, auto-allocates an ID rather than surfacing one for confirmation, and replies in ≤70 words (park confirmation + priority + resume anchor) before **continuing the main session inline**. Where it conflicts with the default follow-up contract, park mode wins; the cadence lives in the `park-mode.md` lazy fragment the flag loads. Drop the flag when you want the review gate, the reconciliation scan, or a conversational rationale paragraph; escalate to `--starter` (dropping `--park` — the two do not compose) when a file survey, open questions, or design decisions need to persist beyond a stub; and use `/ft-micro-task` or `/ft-task` when you're ready to execute now.
 
 **File a micro-tasknote (`/ft-micro-task <ID>`) when:**
 
@@ -129,21 +129,21 @@ line stays scannable, and rich context routes into starter bodies:
 |---|---|---|
 | ≤50 words | Target — comfortably scannable | Keep the one-liner |
 | 51-70 words | Yellow flag | Trim if practical; otherwise consider promoting to a starter |
-| >70 words | Hard cap — exceeded | Move the rich context into a starter body via `/ft-starter-task [ID]`; PLAN.md line keeps a ≤50w summary |
+| >70 words | Hard cap — exceeded | Move the rich context into a starter body via `/ft-file-followup [ID] --starter`; PLAN.md line keeps a ≤50w summary |
 
 The thresholds apply to **active** task lines (`High` / `Medium` /
 `Low` / `Future Opportunities`). Lines under `## Completed`
 are governed by §"`## Completed` archive convention" below.
 
-`/ft-starter-task`, `/ft-file-followup`, and `/ft-task` flag filings that
-breach the cap at filing/scaffold time — see the respective skill files
-for the mechanism. `/ft-file-followup` declines at >70w and routes to
-`/ft-starter-task`.
+`/ft-file-followup` and `/ft-task` flag filings that breach the cap at
+filing/scaffold time — see the respective skill files for the mechanism.
+`/ft-file-followup`'s default flow declines at >70w and routes to its own
+`--starter` mode, where the cap is a recorded override rather than a stop.
 
 ## Filing commits
 
 The filing motions — `/ft-file-followup` (default flow), its `--park`
-mode, `/ft-starter-task`, and `/ft-audit` — **commit their own filing** at
+and `--starter` modes, and `/ft-audit` — **commit their own filing** at
 hand-off. Filing approval *is* commit authorization: the operator already
 confirmed at the review gate (follow-up / starter), by passing the park flag
 and answering the priority question (park mode), or at `/ft-audit`'s write-step
@@ -159,7 +159,7 @@ Message shape, one per filing motion:
 |---|---|
 | `/ft-file-followup` (default) | `chore: file <ID> follow-up — <shortname>` |
 | `/ft-file-followup --park` | `chore: file <ID> park — <shortname>` |
-| `/ft-starter-task` | `chore: file <ID> starter — <shortname>` |
+| `/ft-file-followup --starter` | `chore: file <ID> starter — <shortname>` |
 | `/ft-audit` | `chore: audit file tickets — <domain>` |
 
 Rules:
@@ -231,10 +231,14 @@ post-stage verification and its skip-on-a-foreign-hunk, commit never push,
 no 🏁. What the posture removes is the *pause* before the commit,
 never the proof after it (`SPEC/gates.md` §"`--unattended` operator posture").
 
-Two limits come with it. **`--park` is out of scope:** park mode preserves an
+Three limits come with it. **`--park` is out of scope:** park mode preserves an
 operator's tangential mid-session thought and resumes their interrupted work
 inline, and both halves presume an operator to have the thought — the
-combination is refused rather than given an unattended meaning. And
+combination is refused rather than given an unattended meaning. **`--starter`
+is out of scope too:** a starter body is AI-drafted rich context that exists
+to be reviewed, so it keeps the review gate this posture suppresses — the
+over-cap stop routes the absent operator to an attended `--starter` filing
+rather than the run drafting one unreviewed. And
 **reconciliation applies nothing:** §"Downstream-impact reconciliation" is one
 of the things the posture never relaxes, so an unattended filing still runs the
 scan and still reports what it found, but confirms and applies no edit — a run
@@ -368,7 +372,7 @@ the old shape, and nobody notices until that task is picked up. The
 **Triggers.** Run the scan at two moments:
 
 - **New-task filing** — whenever a filing skill writes a new PLAN.md line
-  (`/ft-file-followup`, `/ft-starter-task`, the `/ft-epic-discovery` child
+  (`/ft-file-followup` in its default or `--starter` mode, the `/ft-epic-discovery` child
   cohort, or a direct inline addition).
 - **Mid-flow direction-changing decision** — whenever a decision inside an
   active task (typically `/ft-task` Phase 2) changes the approach, contract,

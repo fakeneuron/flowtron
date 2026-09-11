@@ -53,7 +53,6 @@ ln -s ../../.flowtron/core/claude/skills/ft-file-followup .grok/skills/ft-file-f
 ln -s ../../.flowtron/core/claude/skills/ft-micro-task .grok/skills/ft-micro-task
 ln -s ../../.flowtron/core/claude/skills/ft-refactor .grok/skills/ft-refactor
 ln -s ../../.flowtron/core/claude/skills/ft-spec .grok/skills/ft-spec
-ln -s ../../.flowtron/core/claude/skills/ft-starter-task .grok/skills/ft-starter-task
 ln -s ../../.flowtron/core/claude/skills/ft-task .grok/skills/ft-task
 ln -s ../../.flowtron/core/claude/skills/ft-update .grok/skills/ft-update
 ```

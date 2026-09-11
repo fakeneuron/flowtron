@@ -16,7 +16,7 @@ This project uses **flowtron** for task tracking. The canonical workflow contrac
 - Plans live in `.flowtron/PLAN.md`.
 - Tasknotes live in `.flowtron/tasknote/<TASK-ID>.md` while active and `.flowtron/tasknote/archive/<area>/<TASK-ID>.md` once closed.
 - Start a task with `/ft-task <TASK-ID>` (e.g., `/ft-task BE-014`). The slash command scaffolds the tasknote from the flowtron template and drives Phase 1 Discovery before any code is written. Contract-only agents without `/ft-task`: load `.flowtron/core/<platform>/procedures/ft-task.md` (if one exists for your platform) — it routes to the agent-neutral SOP at `.flowtron/core/SPEC/procedures/ft-task.md`.
-- Other filing skills for non-task-shaped work: `/ft-starter-task [ID]`, `/ft-micro-task <ID>`, `/ft-file-followup [ID]` (`--park [--low|--med|--fut|--high]`), `/ft-epic-discovery`, `/ft-close-epic <ID>`. Which shape fits which work: `.flowtron/core/SPEC/tasknote-selection.md` §"When to use a tasknote (and when not to)"; epic lifecycle: `.flowtron/core/SPEC/epic.md`.
+- Other filing skills for non-task-shaped work: `/ft-micro-task <ID>`, `/ft-file-followup [ID]` (`--park [--low|--med|--fut|--high]`, `--starter`), `/ft-epic-discovery`, `/ft-close-epic <ID>`. Which shape fits which work: `.flowtron/core/SPEC/tasknote-selection.md` §"When to use a tasknote (and when not to)"; epic lifecycle: `.flowtron/core/SPEC/epic.md`.
 - Filing a new task and mid-flow direction-changing decisions run a **downstream-impact reconciliation** scan so the plan stays cohesive as it grows: the new task/decision is checked against existing active PLAN entries for stale / contradictory / redundant overlap, and one reconcile action (merge / nest / edit / delete / leave) is proposed per impacted entry behind a user-confirm gate — the plan is never auto-rewritten. Contract: `.flowtron/core/SPEC/tasknote-selection.md` §"Downstream-impact reconciliation".
 - For independent children of a multi-child epic, the optional worktree convention (location `<p>-worktrees/wt-<ID>/` alongside the project checkout, branch `wt-<ID>`, tasknote copy) lets you execute siblings in parallel isolated checkouts. Convention and the four-command start / end procedure: `.flowtron/core/docs/WORKTREES.md` — no skill; run it by hand or ask the agent to.
 - For bugs and unexpected behavior, `/ft-task <TASK-ID> --debug` adds a hypothesis-first cadence (expected/observed → ranked hypotheses → minimal repro → re-verify) inside Phase 1 Discovery, plus a Phase 3 obligation to re-run that exact repro after the fix. Soft scaffolding, not a gate; composes with `--fast` in either order.
@@ -90,13 +90,11 @@ Run these from the project root after adding the flowtron submodule at `.flowtro
 ```sh
 mkdir -p .claude/commands .claude/skills
 ln -s ../../.flowtron/core/claude/commands/ft-task.md            .claude/commands/ft-task.md
-ln -s ../../.flowtron/core/claude/commands/ft-starter-task.md    .claude/commands/ft-starter-task.md
 ln -s ../../.flowtron/core/claude/commands/ft-micro-task.md      .claude/commands/ft-micro-task.md
 ln -s ../../.flowtron/core/claude/commands/ft-file-followup.md   .claude/commands/ft-file-followup.md
 ln -s ../../.flowtron/core/claude/commands/ft-epic-discovery.md  .claude/commands/ft-epic-discovery.md
 ln -s ../../.flowtron/core/claude/commands/ft-close-epic.md      .claude/commands/ft-close-epic.md
 ln -s ../../.flowtron/core/claude/skills/ft-task            .claude/skills/ft-task
-ln -s ../../.flowtron/core/claude/skills/ft-starter-task    .claude/skills/ft-starter-task
 ln -s ../../.flowtron/core/claude/skills/ft-micro-task      .claude/skills/ft-micro-task
 ln -s ../../.flowtron/core/claude/skills/ft-file-followup   .claude/skills/ft-file-followup
 ln -s ../../.flowtron/core/claude/skills/ft-epic-discovery  .claude/skills/ft-epic-discovery

@@ -165,14 +165,18 @@ SKILL's Step 5 hand-off, which ends its turn.
 
 - **Routing:** see `SPEC/tasknote-selection.md`. `--park` = park idea or quick
   fix, ≤80w, resume inline. Need a review gate or reconcile scan → drop the flag
-  and run the default `/ft-file-followup` flow. Rich context → `/ft-starter-task`.
-  Execute now → `/ft-micro-task` or `/ft-task`.
+  and run the default `/ft-file-followup` flow. Rich context → `--starter`
+  instead (the two flags do not compose). Execute now → `/ft-micro-task` or
+  `/ft-task`.
 - **PLAN row shape:** standard task-line grammar only — no park suffix, badge
   hook, or viz-specific label. The board shows a normal open task; rich context
   lives in the stub (`## Idea`, `## Resume anchor`). Viz parity is intentionally
   out of scope for this ephemeral parking state.
 - **Promotion:** fresh session → read stub; `/ft-micro-task <ID>` (quick fix),
-  `/ft-task <ID>` (normal), or `/ft-starter-task <ID>` (expand context).
+  `/ft-task <ID>` (normal), or expand the stub by hand into a starter from
+  `tasknote-starter-template.md` (the row already exists, so the `--starter`
+  filer's must-not-exist pre-flight refuses the ID — a manual edit, PLAN row
+  untouched).
   **Delete `.flowtron/sidequest/<ID>.md` after promotion** — CORE-359.3 cleaned
   up an orphan stub left by a promotion that skipped this step.
 - **Context-dependent:** draws from the current conversation — run in-session,

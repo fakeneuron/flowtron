@@ -14,8 +14,8 @@ in `SPEC.md`; read it before starting non-trivial work.
 - Lazy workflow modules live in `SPEC/` and are loaded when the task shape
   calls for them.
 - Start a task with `/ft-task <TASK-ID>`; peer skills: `/ft-spec`,
-  `/ft-micro-task`, `/ft-starter-task`,
-  `/ft-file-followup` (`--park [--low|--med|--fut|--high]`),
+  `/ft-micro-task`,
+  `/ft-file-followup` (`--park [--low|--med|--fut|--high]`, `--starter`),
   `/ft-epic-discovery`, `/ft-close-epic`, `/ft-task --debug`,
   `/ft-task --loop`, `/ft-refactor`, `/ft-release`.
   <!-- KEEP IN SYNC — guards the roster above AND the path-convention bullets

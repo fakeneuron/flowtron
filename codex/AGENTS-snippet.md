@@ -34,7 +34,6 @@ ln -s ../../.flowtron/core/codex/skills/ft-file-followup .agents/skills/ft-file-
 ln -s ../../.flowtron/core/codex/skills/ft-micro-task .agents/skills/ft-micro-task
 ln -s ../../.flowtron/core/codex/skills/ft-refactor .agents/skills/ft-refactor
 ln -s ../../.flowtron/core/codex/skills/ft-spec .agents/skills/ft-spec
-ln -s ../../.flowtron/core/codex/skills/ft-starter-task .agents/skills/ft-starter-task
 ln -s ../../.flowtron/core/codex/skills/ft-task .agents/skills/ft-task
 ln -s ../../.flowtron/core/codex/skills/ft-update .agents/skills/ft-update
 ```

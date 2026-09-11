@@ -18,4 +18,4 @@ Usage:
 
 The flags are orthogonal and compose in any order: `/ft-task <TASK-ID> --debug --fast` runs the hypothesis scaffolding without AskUserQuestion pauses, and the repro re-verify still runs. `--debug --unattended` does the same and parks rather than asking. `--loop --unattended` runs the loop operator-less — the one-time post-loop 👁️ ask parks instead of being suppressed.
 
-For small file + execute one-shots, use `/ft-micro-task <TASK-ID>`. For filing rich-context starters mid-flow, use `/ft-starter-task [TASK-ID]`. For lightweight follow-up filings (no tasknote artifact), use `/ft-file-followup [TASK-ID]`. For opening a new epic, use `/ft-epic-discovery`. For closing one, use `/ft-close-epic`. For bootstrapping a fresh repo with flowtron, use `/ft-new-project`.
+For small file + execute one-shots, use `/ft-micro-task <TASK-ID>`. For lightweight follow-up filings, use `/ft-file-followup [TASK-ID]` (no tasknote artifact; `--starter` files a rich-context starter instead). For opening a new epic, use `/ft-epic-discovery`. For closing one, use `/ft-close-epic`. For bootstrapping a fresh repo with flowtron, use `/ft-new-project`.

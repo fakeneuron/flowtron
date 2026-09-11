@@ -37,10 +37,11 @@ in `templates/tasknote-starter-template.md`.
 **Lifecycle:**
 
 1. **Filing** (mid-flow): when AI surfaces rich context that warrants
-   preserving, the `/ft-starter-task [ID]` skill writes the starter file at
+   preserving, `/ft-file-followup [ID] --starter` writes the starter file at
    `.flowtron/tasknote/<ID>.md` and appends the PLAN.md entry under the
    appropriate priority section. If the ID is omitted, the skill suggests one
-   for review before writing.
+   for review before writing. (`/ft-refactor` writes its child starters from
+   the template directly, one per implementation child.)
 2. **Sitting**: visualizers render a 🌱 chip on the row and exclude starters
    from "in progress" counts.
 3. **Promotion** at `/ft-task <ID>`: the `/ft-task` skill detects `status: starter`,
