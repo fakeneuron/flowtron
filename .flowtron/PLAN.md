@@ -17,14 +17,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [ ] **CORE-574.4** [heavy]🧠 | ft-task-headroom-trim — Bring `claude/skills/ft-task/SKILL.md` to ≥ 3,400 chars under its cap via trim or lazy-fragment extraction (CORE-556.2 precedent); no edit to the Budgets table.
   - [ ] **CORE-574.5** [medium]🧩 | spec-md-headroom-trim — Same for `SPEC.md` (51,188 / 57,000): confirm ≥ one working unit of headroom or move a narrow-use section to a lazy `SPEC/` module.
   - [ ] **CORE-574.N** [medium]🧩 | drift-ci-and-budget-headroom audit — Epic closure audit + doc-drift sweep.
-- [ ] **CORE-EPIC-577** [heavy]🧠 | unattended-candidacy — Make every filing surface propose `[unattended]` candidates as part of its regular pass — attended: inside the existing confirm gate, operator's confirmation is the act; `--fast`/`--unattended`: emit `unattended-candidates:` and write nothing. Preserves "flowtron never writes it on its own discretion"; no autonomy chain. Conservative predicate, per-surface children (filed via /ft-epic-discovery; refined at .1 closure).
-  - [x] **CORE-577.1** [heavy]🧠 | unattended-candidacy discovery — Completed 2026-09-11.
-  - [x] **CORE-577.2** [heavy]🧠 | candidacy-contract — Completed 2026-09-11.
-  - [x] **CORE-577.3** [medium]🧩 | epic-discovery-candidacy — Completed 2026-09-11.
-  - [x] **CORE-577.4** [heavy]🧠 | file-followup-candidacy — Completed 2026-09-11.
-  - [x] **CORE-577.5** [medium]🧩 | audit-refactor-candidacy — Completed 2026-09-11.
-  - [x] **CORE-577.6** [light]🔧 | repo-context-candidacy — Completed 2026-09-11.
-  - [ ] **CORE-577.N** [heavy]🧠 | unattended-candidacy audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line) + confirm every surface degrades identically under `--fast`/`--unattended`. Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
 
 ## Medium
 
@@ -45,6 +37,14 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-577** [heavy]🧠 | unattended-candidacy — Completed 2026-09-11.
+  - [x] **CORE-577.1** [heavy]🧠 | unattended-candidacy discovery — Completed 2026-09-11.
+  - [x] **CORE-577.2** [heavy]🧠 | candidacy-contract — Completed 2026-09-11.
+  - [x] **CORE-577.3** [medium]🧩 | epic-discovery-candidacy — Completed 2026-09-11.
+  - [x] **CORE-577.4** [heavy]🧠 | file-followup-candidacy — Completed 2026-09-11.
+  - [x] **CORE-577.5** [medium]🧩 | audit-refactor-candidacy — Completed 2026-09-11.
+  - [x] **CORE-577.6** [light]🔧 | repo-context-candidacy — Completed 2026-09-11.
+  - [x] **CORE-577.N** [heavy]🧠 | unattended-candidacy audit — Completed 2026-09-11.
 - [x] **CORE-568** [light]🔧 | template-test-strategy-pointer — Completed 2026-09-11.
 - [x] **CORE-573** [medium]🧩 | ft-spec-demote — Completed 2026-09-10.
 - [x] **CORE-570** [heavy]🧠 | starter-followup-merge — Completed 2026-09-10.
