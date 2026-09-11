@@ -32,9 +32,9 @@ Running two external agents at once on the same checkout means two agents steppi
 
 For each independent epic child you want to run in parallel:
 
-1. `/ft-worktree-start <TASK-ID>` creates a `wt-<TASK-ID>` branch + worktree at `<project>-worktrees/wt-<TASK-ID>/` (sibling of the project checkout) and copies the active tasknote into it.
+1. The start half of [`docs/WORKTREES.md`](WORKTREES.md) §"Procedure" creates a `wt-<TASK-ID>` branch + worktree at `<project>-worktrees/wt-<TASK-ID>/` (sibling of the project checkout) and copies the active tasknote into it.
 2. Open a fresh session for **one** external agent in that worktree directory and hand it `<TASK-ID>`.
-3. `/ft-worktree-end <TASK-ID>` verifies the merge (or explicit discard), removes the worktree, and archives the tasknote from the main checkout.
+3. The end half verifies the merge (or explicit discard), removes the worktree, and archives the tasknote from the main checkout.
 
 One agent, one tasknote, one worktree. The worktree convention's "when to reach for it" rules (independent children of a discovery-scoped epic; no hard dependencies on in-flight siblings) apply unchanged — worktrees are the isolation primitive; this doc is about *who* runs inside one.
 
@@ -50,7 +50,7 @@ When an external agent runs a tasknote to completion, its output is exactly what
 
 **The control point moves; it does not disappear.** With an operator at the 📦 gate, the diff review is the control. With none, two things hold that line in its place: the park conversions, which stop the run at any question an absent operator would have answered, and the **paper-complete guard** (SPEC.md §"Paper-complete guard"), which the posture leaves untouched — the foreign-dirt gate still refuses a dirty tree, closure is still one atomic commit, and 🏁 still requires a real deliverable-covering SHA. Review is deferred to the accumulated commits, not removed from the loop.
 
-If the external agent worked in a worktree, `/ft-worktree-end` is the merge-and-clean step. If it worked on the main checkout in its own session, the returned commit is reviewed and kept like any other.
+If the external agent worked in a worktree, the end half of the worktree procedure is the merge-and-clean step. If it worked on the main checkout in its own session, the returned commit is reviewed and kept like any other.
 
 ## The Orchestration Contract
 
@@ -108,7 +108,7 @@ This document describes a **convention and a markdown contract**, for an operato
 - A multi-agent scheduler or dispatcher that assigns tasknotes to agents.
 - A session daemon that keeps external agents alive or polls their state.
 - A "fan-out" or "swarm" runtime that runs children in parallel automatically.
-- A job graph or lock over `## 🌳 Fan-out` / YAML `blocked-by:` / `parallel-safe-with:` — those are markdown facts, not a scheduler. `/ft-worktree-start` may warn on an open blocker; it must not refuse.
+- A job graph or lock over `## 🌳 Fan-out` / YAML `blocked-by:` / `parallel-safe-with:` — those are markdown facts, not a scheduler. The worktree start procedure may warn on an open blocker; it must not refuse.
 
 These are the same rejections VISION.md §"What we won't accept" makes for loop runtimes, graph / multi-agent execution runtimes, and cross-project query layers: flowtron ships the **markdown contract** the agents report to (the tasknote, the 4-phase workflow, the operator cues, the Fan-out declaration, and the operator-less posture above), and the *runtime* — which agent, when, in which session — stays with the operator and whatever CLI they chose. If you want parallelism, the worktree pair plus a fresh session per child is the whole mechanism. See [PHILOSOPHY.md](PHILOSOPHY.md) §"What flowtron deliberately is not."
 

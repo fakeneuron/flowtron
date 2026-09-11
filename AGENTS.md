@@ -17,8 +17,7 @@ in `SPEC.md`; read it before starting non-trivial work.
   `/ft-micro-task`, `/ft-starter-task`,
   `/ft-file-followup` (`--park [--low|--med|--fut|--high]`),
   `/ft-epic-discovery`, `/ft-close-epic`, `/ft-task --debug`,
-  `/ft-task --loop`, `/ft-refactor`, `/ft-worktree-start`,
-  `/ft-worktree-end`, `/ft-release`.
+  `/ft-task --loop`, `/ft-refactor`, `/ft-release`.
   <!-- KEEP IN SYNC — guards the roster above AND the path-convention bullets
        (Plans / tasknotes / archive locations) further up this section. Mirror:
        claude/AGENTS-snippet.md:9.

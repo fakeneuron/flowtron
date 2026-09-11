@@ -39,8 +39,8 @@ copies any Fan-out claim that names it; omitted YAML still means
 
 **What Fan-out is not.** It is a markdown declaration, not a scheduler.
 It does not lock, refuse, auto-fan-out, or replace the serial default.
-`/ft-worktree-start` may **warn** if the child YAML `blocked-by` lists a
-still-open PLAN line; it must not refuse. Parent epics stay a PLAN
+The worktree start procedure may **warn** if the child YAML `blocked-by`
+lists a still-open PLAN line; it must not refuse. Parent epics stay a PLAN
 checkbox — there is no parent planning tasknote. Full lifecycle:
 [`SPEC/epic.md`](epic.md) §"Fan-out." Isolation convention:
 [`docs/WORKTREES.md`](../docs/WORKTREES.md).

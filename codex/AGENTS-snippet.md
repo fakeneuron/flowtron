@@ -24,7 +24,7 @@ parses it; `/ft-release` §7.1 diffs it against the SSOT as a set.
 Codex discovers repo-scoped skills from `.agents/skills` in the current
 directory walk. From an adopting project's repository root, after adding the
 flowtron submodule at `.flowtron/core`, wire the adopter-facing Flowtron skill
-subset (tasknote execution family, worktree pair, and `ft-update`):
+subset (tasknote execution family and `ft-update`):
 
 ```sh
 mkdir -p .agents/skills
@@ -37,8 +37,6 @@ ln -s ../../.flowtron/core/codex/skills/ft-spec .agents/skills/ft-spec
 ln -s ../../.flowtron/core/codex/skills/ft-starter-task .agents/skills/ft-starter-task
 ln -s ../../.flowtron/core/codex/skills/ft-task .agents/skills/ft-task
 ln -s ../../.flowtron/core/codex/skills/ft-update .agents/skills/ft-update
-ln -s ../../.flowtron/core/codex/skills/ft-worktree-end .agents/skills/ft-worktree-end
-ln -s ../../.flowtron/core/codex/skills/ft-worktree-start .agents/skills/ft-worktree-start
 ```
 
 Use `/skills` in Codex or type `$ft-task` / `$ft-update` / another wired

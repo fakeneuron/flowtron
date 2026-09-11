@@ -16,7 +16,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Medium
 
 - [ ] **CORE-570** [heavy]🧠 | starter-followup-merge — Decide whether `/ft-starter-task` folds into `/ft-file-followup --starter` (one filer, three weights: line / `--park` stub / starter body). Evidence: 6 promotions in 880 archived notes since 2026-05-17, last 2026-08-08; adopter uptake 0; four paragraphs duplicated across the two bodies. Must keep the no-`SPEC.md`-load property. Filed by CORE-565.4.
-- [ ] **CORE-572** [heavy]🧠 | worktree-pair-demote — Decide whether `/ft-worktree-start` + `/ft-worktree-end` demote to the procedure in `docs/WORKTREES.md` (convention stays; two bodies, four symlinks, two roster rows go). Evidence: no `wt-` branch, reflog entry, or merge commit has ever existed here, none in the adopter, 3.5 months shipped. Filed by CORE-565.4.
 
 ## Low
 
@@ -29,6 +28,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-572** [heavy]🧠 | worktree-pair-demote — Completed 2026-09-10.
 - [x] **CORE-571** [heavy]🧠 | goal-task-demote — Completed 2026-09-10.
 - [x] **CORE-566** [medium]🧩 | model-md-history-trim — Completed 2026-09-10.
 - [x] **CORE-567** [heavy]🧠 | park-reason-table-home — Completed 2026-09-10.

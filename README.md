@@ -46,7 +46,7 @@ or `CLAUDE.md`):
 ```
 
 That adds the flowtron submodule, wires the adopter skill subset — the tasknote
-family, the two worktree utilities, and `/ft-update`, whose exact roster is the
+family and `/ft-update`, whose exact roster is the
 `ln -s` block in [`claude/AGENTS-snippet.md`](claude/AGENTS-snippet.md)
 §"One-time symlink wiring" — and drops in the `.flowtron/` skeleton in one
 pass. Then file a task in `.flowtron/PLAN.md` and run it:
@@ -100,9 +100,8 @@ serves it; Grok-only projects follow [`grok/AGENTS-snippet.md`](grok/AGENTS-snip
   agent runs to confirm flowtron compatibility and refresh its
   `docs/AGENT-COMPAT.md` `last-verified` row
 - [docs/WORKTREES.md](docs/WORKTREES.md) — worktree convention for parallel
-  epic children: the five locked decisions (location, branch naming, skill
-  pair, tasknote handling, cleanup) behind `/ft-worktree-start` +
-  `/ft-worktree-end`
+  epic children: the five locked decisions (location, branch naming,
+  tasknote handling, cleanup) and the four-command start / end procedure
 - [docs/CONTEXT-BUDGET.md](docs/CONTEXT-BUDGET.md) — per-file byte budgets for
   the surfaces an agent loads to run one task, the measured ledger behind them,
   and the release-time check that keeps them honest

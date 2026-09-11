@@ -80,9 +80,9 @@ scaffold for an epic implementation child copies any Fan-out claim that
 names it. Omitted YAML means *undeclared*, not "touches nothing" / "safe
 with everyone."
 
-`/ft-worktree-start` may **warn** if the child's `blocked-by` lists a
-still-open PLAN.md line (`- [ ]`). It must not lock or refuse — the
-operator decides. Declaring Fan-out does not authorize chaining two
+Whoever starts a worktree for the child (`docs/WORKTREES.md`
+§"Procedure") may **warn** if its `blocked-by` lists a still-open PLAN.md
+line (`- [ ]`). It must not lock or refuse — the operator decides. Declaring Fan-out does not authorize chaining two
 tasknotes in one window, auto-dispatch, or a job graph. See
 [`docs/WORKTREES.md`](../docs/WORKTREES.md) and
 [`docs/VISION.md`](../docs/VISION.md) §"What we won't accept".

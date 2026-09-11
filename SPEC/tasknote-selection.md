@@ -4,7 +4,7 @@ paths: []
 
 # Tasknote selection
 
-> Lazy-loaded SPEC module. Loaded by the filing/runner skills (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release`, `/ft-worktree-{start,end}`) when they need the use/skip thresholds, filing-discipline word budget, filing-commit contract, or the `## Completed` archive + rotation conventions. See `SPEC.md` for the always-loaded core spec.
+> Lazy-loaded SPEC module. Loaded by the filing/runner skills (`/ft-task`, `/ft-starter-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release`) when they need the use/skip thresholds, filing-discipline word budget, filing-commit contract, or the `## Completed` archive + rotation conventions. See `SPEC.md` for the always-loaded core spec.
 
 ## When to use a tasknote (and when not to)
 

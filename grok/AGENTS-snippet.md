@@ -56,8 +56,6 @@ ln -s ../../.flowtron/core/claude/skills/ft-spec .grok/skills/ft-spec
 ln -s ../../.flowtron/core/claude/skills/ft-starter-task .grok/skills/ft-starter-task
 ln -s ../../.flowtron/core/claude/skills/ft-task .grok/skills/ft-task
 ln -s ../../.flowtron/core/claude/skills/ft-update .grok/skills/ft-update
-ln -s ../../.flowtron/core/claude/skills/ft-worktree-end .grok/skills/ft-worktree-end
-ln -s ../../.flowtron/core/claude/skills/ft-worktree-start .grok/skills/ft-worktree-start
 ```
 
 The targets are `claude/skills/` on purpose — those are the canonical skill
@@ -77,8 +75,8 @@ directory — keeping them separate avoids a slug collision between the
 canonical bodies and Codex's `codex/skills/` wrappers if the project later
 wires Codex too.
 
-This snippet wires the adopter-installed subset: the tasknote family, the
-worktree pair, and `/ft-update`. Global utility skills such as
+This snippet wires the adopter-installed subset: the tasknote family and
+`/ft-update`. Global utility skills such as
 `ft-new-project`, `ft-flowtron`, `ft-stats`, `ft-audit-context`, and
 `ft-audit-repo` may be installed in the user skill directory when desired;
 `ft-release` remains flowtron-self-only and is not part of the adopter snippet.
