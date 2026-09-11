@@ -108,6 +108,16 @@ changes only the segment it means to change, copying every other bracket token
 and any model-suggestion glyph from the original. A dropped token disarms it
 with no diagnostic.
 
+**`[unattended]` candidacy.** Because flowtron never seeds the marker, a
+filing surface *proposes* it instead: every skill that writes a `- [ ]` row
+runs a conservative predicate over the drafted line and, when attended, shows
+the candidates inside the confirm gate it already has — the operator's
+confirmation is the act, and the token is written only on confirmed rows.
+Under `--fast` / `--unattended` there is no act, so the filer emits an
+`unattended-candidates:` line and writes no token. Predicate, postures,
+persistence, and the per-surface mirror table:
+[`SPEC/unattended-candidacy.md`](SPEC/unattended-candidacy.md).
+
 Parser tolerances, `[unattended]` footguns, excluded shapes, the legacy
 `## Critical` heading, the reserved `[[TASK-ID]]` / `Blocked by [[ID]]`
 long-description conventions, and the canonical `viz/src/parser.ts` reference:

@@ -110,3 +110,17 @@ jobs:
             done
           done
           [ -z "$bad" ] || exit 1
+
+      - name: Pair N — "[unattended]" candidacy mirrors ↔ SPEC/unattended-candidacy.md
+        run: |
+          bad=
+          for f in $(grep -rl 'SPEC/unattended-candidacy\.md' claude/skills --include='*.md' | grep -v '^claude/skills/ft-release/'); do
+            grep -q 'unattended-candidates:' "$f" || { echo "NO CANDIDATES LITERAL  $f"; bad=1; }
+            labels=$(grep -oE 'mirror of `SPEC/unattended-candidacy\.md` §"[^"]+"' "$f")
+            [ -n "$labels" ] || { echo "NO LABELED MIRROR  $f"; bad=1; }
+            while IFS= read -r sec; do
+              [ -n "$sec" ] || continue
+              grep -qF -- "## $sec" SPEC/unattended-candidacy.md || { echo "STALE LABEL  $f — $sec is not a heading"; bad=1; }
+            done < <(printf '%s\n' "$labels" | sed -E 's/.*§"([^"]+)"$/\1/' | sort -u)
+          done
+          [ -z "$bad" ] || exit 1

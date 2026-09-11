@@ -260,7 +260,7 @@ fragments so this skill stays under its load budget. Read them **in parallel**:
   parity (local blocking + machine-global advisory) · README task-counter ·
   context budget (`docs/CONTEXT-BUDGET.md`; also refreshes that doc's ledger
   in this cut).
-- `claude/skills/ft-release/step-7.1-mirror-pairs.md` — the Pair A–L
+- `claude/skills/ft-release/step-7.1-mirror-pairs.md` — the Pair A–N
   mirror-pair catalogue.
 
 Walk them in that order, then continue to §7.2. Both fragments are part of this

@@ -59,7 +59,7 @@ not to)".
   routing, gate machinery, the operator-cue vocabulary, gate discipline,
   versioning, tasknote selection, loop tasks, repo layout,
   PLAN parser tolerances, scope boundaries, optional tasknote inserts, the
-  purpose blurb, superseded claims, and
+  purpose blurb, superseded claims, `[unattended]` candidacy, and
   `SPEC/procedures/` agent-neutral SOPs.
 - `.flowtron/` — flowtron's own plan and tasknotes.
 - `claude/` — Claude Code wiring: commands, skills, and the historical

@@ -65,7 +65,7 @@ the remaining modules (`starter` · `blocked` · `model` · `versioning` ·
 `gates` · `cue-vocabulary` · `gate-discipline` · `tasknote-selection` ·
 `loop` · `plan-parser` · `layout` ·
 `scope-boundaries` · `tasknote-inserts` · `purpose-blurb` ·
-`superseded-claims`) have status- or content-based triggers
+`superseded-claims` · `unattended-candidacy`) have status- or content-based triggers
 and declare `paths: []`. The
 leading `> Lazy-loaded SPEC module. Loaded by ...` prose line stays
 authoritative for status/content triggers.
