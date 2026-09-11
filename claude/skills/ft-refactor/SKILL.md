@@ -111,6 +111,20 @@ one `/ft-task` cycle. Sequencing doctrine:
   `[xheavy]` — manual-only, an automated proposer never self-assigns it), an
   area prefix, a parent shortname, and a priority — the AI proposes, the
   operator confirms in Step 4.
+- **`[unattended]` candidacy** (mirror of `SPEC/unattended-candidacy.md` §"Three postures"
+  — Read that module now, at this write step). With the model tags and the
+  sequence settled, run its §"Candidacy predicate" over each PLAN line as
+  Step 5 will write it — the children `.2..(M+1)` and the `.N` audit; the
+  parent `<AREA>-EPIC-<next-N>` is never proposed (clause 5).
+  Clause 6 on this surface: there is no `.1` (see Notes), so `.2` reads its
+  predecessor as closed; every later child is admitted only when the
+  predecessor its `blocked-by:` will name — or its stem predecessor where
+  `parallel-safe-with:` decoupled it — is proposed in the same pass; `.N`
+  needs clauses 1–4 only. Every clause must hold; when one is uncertain the
+  row is not a candidate. A candidate is **proposed, never seeded** — the
+  token lands only through the Step 4 review, never on a starter note.
+  Flowtron itself never writes `[unattended]` on its own discretion (SPEC
+  §"Task-line format").
 
 ## Step 4 — Review gate
 
@@ -118,14 +132,29 @@ one `/ft-task` cycle. Sequencing doctrine:
 summary (target shape, blast radius, coverage gaps), then the sequenced
 step list with per-step one-liners and proposed model tags, then the
 proposed filing (area · parent shortname · priority · M · audit included?).
+Each Step 3 candidate is shown as its PLAN line with `[unattended]` in place
+after `[<model>]`, naming the clause-6 predecessor where one applies.
 Ask via AskUserQuestion whether to file as proposed, edit first (apply
 edits and re-surface), or stop (plan stays in the conversation only). Wait
-for the operator's go.
+for the operator's go. The go keeps a token; an edit that drops it drops
+it; a declined row shows no token and says nothing. No cue, banner, or
+checklist box is added for the candidacy.
 
 **`fast-mode = true`:** skip the pause and file as drafted — but still
 surface the full plan in the hand-off so the operator sees what landed.
 `--fast` never widens what gets written: PLAN lines + starter notes only,
-source files never.
+source files never. The skipped pause is the act that would have confirmed
+a Step 3 candidate, so under `--fast` **no `[unattended]` is written**; the
+candidates are reported instead, on their own line in the Step 6 hand-off:
+
+```text
+unattended-candidates: CORE-581.2, CORE-581.3
+```
+
+Bare IDs, comma-separated, in PLAN order; `unattended-candidates: none`
+when the predicate admitted nothing. The line always emits under `--fast`,
+so a later reader can tell "ran, found none" from "never ran". A report,
+not a gate — no reply expected.
 
 The operator may decline the `.N` audit child for a short, low-risk plan
 (per `SPEC/epic.md`: "apply judgment") — default is to include it.
@@ -152,6 +181,10 @@ commit). Contract: `SPEC/tasknote-selection.md` §"Filing commits".
    - Children `.2..(M+1)`: one line each, model tag from the reviewed plan.
    - Audit: the standard reserved-`.N` line per `SPEC/epic.md` (omit if
      declined).
+   - `[unattended]`: inserted after `[<model>]` on exactly the child / `.N`
+     rows the Step 4 go kept, every other segment verbatim (position
+     footgun in `SPEC/plan-parser.md`); never on the parent, never under
+     `fast-mode = true`.
    There is **no `.1` line** — this run performed the discovery (see
    Notes).
 3. **Write one starter tasknote per implementation child** from the starter
@@ -192,8 +225,9 @@ reserved for closure commits covering Acceptance deliverables (SPEC
 
 Then, in one short message: where the epic and starters landed (IDs +
 paths, or "plan left in conversation" on the stop branch), the commit SHA
-as plain text (or why the commit was skipped), and the next move — the
-first implementation child, with the copy-paste cue per SPEC §"Post-closure
+as plain text (or why the commit was skipped), the `unattended-candidates:`
+line when `fast-mode = true` (Step 4; own line, always), and the next move —
+the first implementation child, with the copy-paste cue per SPEC §"Post-closure
 protocol" step 3 (label line `<glyph> Clear your session, then run:`, then
 `` /ft-task <AREA>-<next-N>.2 `` alone as inline-code, no trailing period;
 `<glyph>` matches the child's model tag).
