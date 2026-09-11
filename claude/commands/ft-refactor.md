@@ -10,4 +10,4 @@ Usage:
 - `/ft-refactor <target>` — survey, review the plan, then file on your go.
 - `/ft-refactor <target> --fast` (or `-f`) — skip the plan-review pause; still read-only on source files (writes PLAN + starter notes only).
 
-A target is required — there is no whole-repo fallback. For a breadth sweep across a scope, use `/ft-audit structure`, whose findings recommend an `/ft-refactor <target>` run when one target needs sequenced multi-step restructuring. For an epic whose scope is genuinely open, use `/ft-epic-discovery`; for capturing a design worked out in conversation without filing, `/ft-spec`.
+A target is required — there is no whole-repo fallback. For a breadth sweep across a scope, use `/ft-audit structure`, whose findings recommend an `/ft-refactor <target>` run when one target needs sequenced multi-step restructuring. For an epic whose scope is genuinely open, use `/ft-epic-discovery`; for capturing a design worked out in conversation without filing, copy `templates/spec-template.md` to `.flowtron/specs/<slug>.md` by hand.

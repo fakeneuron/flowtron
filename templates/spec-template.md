@@ -39,7 +39,7 @@ reference.
 
 Proposed decomposition into Flowtron work. Each line names a **suggested**
 Flowtron type plus a one-line scope. Conversion stays operator-driven — run
-the named skill yourself; `/ft-spec` never files PLAN entries or tasknotes.
+the named skill yourself; a spec never files PLAN entries or tasknotes.
 
 - **[epic]** `<scope>` — file via `/ft-epic-discovery`
 - **[task]** `<scope>` — add a PLAN.md line, then `/ft-task <ID>`

@@ -22,13 +22,13 @@ paths: []
 - Documentation patches under ~10 lines
 - Trivial config edits with no logic impact
 
-**Draft a spec (`/ft-spec [brief] [--fast]`) when:**
+**Draft a spec (`templates/spec-template.md`) when:**
 
 - A design has been worked out in conversation but isn't decomposed into tasks yet — capturing it in a fixed-section spec (Goal · Requirements · Design · Tasks · Risks/Open Q · Validation Approach) before filing prevents context loss
 - The brief spans an epic or multi-task-shaped body of work and you want one reviewable artifact to derive filing decisions from
 - You want operator review of the design before any PLAN.md line or tasknote artifact exists
 
-`/ft-spec` is a planning peer, not a filer — it never writes a PLAN.md line or scaffolds a tasknote. Review-first by default (`--fast` skips the review pause but still never auto-writes PLAN/tasknotes); on your go it optionally writes to `.flowtron/specs/<slug>.md`. Convert its Tasks section to real work via `/ft-epic-discovery`, `/ft-file-followup --starter`, `/ft-task`, or a direct PLAN.md line.
+A spec is a planning artifact, not a filing — it never writes a PLAN.md line or scaffolds a tasknote. Copy `templates/spec-template.md` to `.flowtron/specs/<slug>.md` (create the directory on first use), fill its six sections from the conversation, and review the draft before filing anything from its Tasks section. Convert that section to real work via `/ft-epic-discovery`, `/ft-file-followup --starter`, `/ft-task`, or a direct PLAN.md line. No skill drives this — the `/ft-spec` wrapper was retired by CORE-573; the template and this paragraph were the whole of its value.
 
 **Skip the spec (go straight to filing) when:**
 
@@ -247,7 +247,7 @@ with no operator never performs the operator's motion.
 **Execution skills keep their commit-go gate.** This section governs the four
 filing motions above and nothing else. `/ft-task`, `/ft-micro-task`,
 `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release`,
-`/ft-new-project`, `/ft-update`, and `/ft-spec` are unchanged: their commits
+`/ft-new-project`, and `/ft-update` are unchanged: their commits
 land deliverables or cut releases, and it is the 📦 conditional skip rule
 (`SPEC/gates.md`) — not this section — that decides when they commit
 autonomously.

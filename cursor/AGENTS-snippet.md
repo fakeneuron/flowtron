@@ -48,7 +48,6 @@ ln -s ../../.flowtron/core/claude/skills/ft-epic-discovery .cursor/skills/ft-epi
 ln -s ../../.flowtron/core/claude/skills/ft-file-followup .cursor/skills/ft-file-followup
 ln -s ../../.flowtron/core/claude/skills/ft-micro-task .cursor/skills/ft-micro-task
 ln -s ../../.flowtron/core/claude/skills/ft-refactor .cursor/skills/ft-refactor
-ln -s ../../.flowtron/core/claude/skills/ft-spec .cursor/skills/ft-spec
 ln -s ../../.flowtron/core/claude/skills/ft-task .cursor/skills/ft-task
 ln -s ../../.flowtron/core/claude/skills/ft-update .cursor/skills/ft-update
 ```

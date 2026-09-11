@@ -13,7 +13,7 @@ in `SPEC.md`; read it before starting non-trivial work.
 - Tasknote templates live in `templates/`.
 - Lazy workflow modules live in `SPEC/` and are loaded when the task shape
   calls for them.
-- Start a task with `/ft-task <TASK-ID>`; peer skills: `/ft-spec`,
+- Start a task with `/ft-task <TASK-ID>`; peer skills:
   `/ft-micro-task`,
   `/ft-file-followup` (`--park [--low|--med|--fut|--high]`, `--starter`),
   `/ft-epic-discovery`, `/ft-close-epic`, `/ft-task --debug`,

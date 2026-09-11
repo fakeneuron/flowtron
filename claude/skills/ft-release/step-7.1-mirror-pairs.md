@@ -45,7 +45,7 @@ The first lists the templates carrying a back-link; the second must print nothin
 | `tasknote-micro-template.md` | `/ft-micro-task` | `.flowtron/tasknote/<ID>.md` |
 | `tasknote-starter-template.md` | `/ft-file-followup --starter` | `.flowtron/tasknote/<ID>.md` |
 | `sidequest-template.md` | `/ft-file-followup --park` | `.flowtron/sidequest/<ID>.md` |
-| `spec-template.md` | `/ft-spec` | `.flowtron/specs/<slug>.md` (no back-link today) |
+| `spec-template.md` | by hand (no skill since CORE-573) | `.flowtron/specs/<slug>.md` (no back-link today) |
 
 **Pair D — README counter ↔ archive count.** Already owned by the Standing README task-counter check in `step-7.1-standing-checks.md`; not restated here. Two derivations of one number in the same step is the drift class this block exists to catch.
 
@@ -105,7 +105,7 @@ for f in $(grep -l -e '--park' claude/commands/*.md); do
 done
 ```
 
-Must print nothing. The `continue` guard is the load-bearing half: a stub may legitimately name `--park` with **no** priority roster at all (`ft-spec.md` points at park mode in one clause without restating the flags), and demanding four flags there would mint a false positive on this check's first run. Only a stub that already commits to a partial roster is held to the full one. Fix a miss the same way as above — extend that stub's own sentence, don't normalize the wording.
+Must print nothing. The `continue` guard is the load-bearing half: a stub may legitimately name `--park` with **no** priority roster at all (the since-retired `ft-spec.md` pointed at park mode in one clause without restating the flags), and demanding four flags there would mint a false positive. Only a stub that already commits to a partial roster is held to the full one. Fix a miss the same way as above — extend that stub's own sentence, don't normalize the wording.
 
 **Pair G — retired.** Guarded the `/ft-goal-task` `--worktree` roster against its two mirror surfaces; [[CORE-571]] folded the skill into `/ft-task --loop` without the flag, so there is nothing left to mirror. The letter is kept so later pair citations stay stable.
 

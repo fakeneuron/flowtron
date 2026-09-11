@@ -19,7 +19,7 @@ After adopting flowtron, a project looks like:
 │   │   ├── README.md               # one-line pointer + project-specific notes
 │   │   ├── BE-014.md               # active tasknotes
 │   │   └── archive/<area>/         # completed tasknotes by area
-│   ├── specs/                      # optional; /ft-spec writes (created lazily)
+│   ├── specs/                      # optional; hand-copied spec-template.md drafts
 │   ├── sidequest/                  # optional; /ft-file-followup --park stubs
 │   ├── STATS.md                    # optional; /ft-stats --write regeneratable
 │   └── core/                       # git submodule pinned to a flowtron version
@@ -92,7 +92,7 @@ wrappers (`<platform>/procedures/<procedure>.md`) rather than by the
 Bundled flowtron skills carry the `ft-` prefix in their slug (`/ft-task`,
 `/ft-release`, `/ft-new-project`,
 `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`,
-`/ft-close-epic`, `/ft-spec`, `/ft-refactor`,
+`/ft-close-epic`, `/ft-refactor`,
 `/ft-flowtron`, `/ft-stats`,
 `/ft-audit-context`, `/ft-update`, and the audit family
 `/ft-audit{,-repo}`). The prefix

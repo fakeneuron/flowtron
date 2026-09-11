@@ -348,10 +348,10 @@ the rewrite — the PLAN.md line and tasknote header are still updated
 
 `--fast` applies to `/ft-task` (every flag set, `--loop` included) and
 `/ft-micro-task` — the epic skills (`/ft-epic-discovery`,
-`/ft-close-epic`) do not accept it. `/ft-spec` has its own,
+`/ft-close-epic`) do not accept it. `/ft-refactor` has its own,
 unrelated `--fast`: it only skips the operator review pause before
-writing a spec and never touches the 👁️/📦/🛠️ gate surface described
-above.
+filing the refactor epic and never touches the 👁️/📦/🛠️ gate surface
+described above.
 
 `--fast` assumes an operator who is present but does not want to be
 asked. For the stronger claim — that no operator is present at all — see

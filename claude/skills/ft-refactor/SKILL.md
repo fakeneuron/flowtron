@@ -7,8 +7,9 @@ description: Plan a refactor of one named target as a sequenced, behavior-preser
 
 You are planning a refactor of **one named target** and filing the result as
 a sequenced epic. `/ft-refactor` is a **depth planner that files** — it sits
-between `/ft-spec` (planning peer, never files) and `/ft-epic-discovery`
-(files an epic, then drives a generic Discovery): it performs the depth
+between a hand-drafted spec (`templates/spec-template.md`; plans, never
+files) and `/ft-epic-discovery` (files an epic, then drives a generic
+Discovery): it performs the depth
 analysis itself, surfaces the plan for operator review, and on the
 operator's go files the epic + per-child starter tasknotes in one motion.
 
@@ -118,8 +119,8 @@ summary (target shape, blast radius, coverage gaps), then the sequenced
 step list with per-step one-liners and proposed model tags, then the
 proposed filing (area · parent shortname · priority · M · audit included?).
 Ask via AskUserQuestion whether to file as proposed, edit first (apply
-edits and re-surface), or stop (plan stays in the conversation only, like
-`/ft-spec`'s decline branch). Wait for the operator's go.
+edits and re-surface), or stop (plan stays in the conversation only). Wait
+for the operator's go.
 
 **`fast-mode = true`:** skip the pause and file as drafted — but still
 surface the full plan in the hand-off so the operator sees what landed.
@@ -221,13 +222,14 @@ protocol" step 3 (label line `<glyph> Clear your session, then run:`, then
   + `.1` + `.N`, then drives the `.1` Discovery as its own tasknote. Use it
   when scope is genuinely open; use `/ft-refactor` when the epic is a
   restructuring of one named target and the analysis fits one reviewed run.
-- **Compare with `/ft-spec`** — planning peer that never files. `/ft-spec`
-  captures a design worked out in conversation; `/ft-refactor` performs a
-  code-grounded analysis and files the resulting epic on approval.
+- **Compare with a spec** (`templates/spec-template.md`) — a planning
+  artifact that never files. A spec captures a design worked out in
+  conversation; `/ft-refactor` performs a code-grounded analysis and files
+  the resulting epic on approval.
 - **No new machinery.** No new lifecycle phase, no banner (the Step 4 gate
   is an AskUserQuestion review prompt), no schema/validator, no scripts —
   per `docs/PHILOSOPHY.md` / `docs/VISION.md`. Starters, epics, `blocked-by:`
   echoes, and filing commits all reuse existing SPEC contracts.
-- **Install tier: symlinked** (stack-neutral driver, like `/ft-task` /
-  `/ft-spec`) — wired into adopters via `/ft-new-project` +
+- **Install tier: symlinked** (stack-neutral driver, like `/ft-task`) —
+  wired into adopters via `/ft-new-project` +
   `docs/MIGRATION.md` §1.2.

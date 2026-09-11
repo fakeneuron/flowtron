@@ -20,7 +20,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Low
 
 - [ ] **CORE-568** [light]🔧 | template-test-strategy-pointer — Replace the "Choosing a test strategy" blockquote in `templates/tasknote-template.md` (a verbatim copy of `SPEC.md` §Phase 3, ~600 chars scaffolded into every tasknote) with a one-line pointer. Adopter-visible; lands with a release. Filed by CORE-565.2.
-- [ ] **CORE-573** [medium]🧩 | ft-spec-demote — Decide whether `/ft-spec` demotes to `templates/spec-template.md` plus the routing paragraph in `SPEC/tasknote-selection.md`. Evidence: one spec ever written (its own dogfood, 2026-07-12), no adopter `specs/` dir; the skill adds a slug, a stub, a Codex wrapper, two symlinks, and a roster row. Filed by CORE-565.4.
 
 ## Future Opportunities
 
@@ -28,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-573** [medium]🧩 | ft-spec-demote — Completed 2026-09-10.
 - [x] **CORE-570** [heavy]🧠 | starter-followup-merge — Completed 2026-09-10.
 - [x] **CORE-572** [heavy]🧠 | worktree-pair-demote — Completed 2026-09-10.
 - [x] **CORE-571** [heavy]🧠 | goal-task-demote — Completed 2026-09-10.
