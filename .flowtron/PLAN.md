@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-568** [light]🔧 | template-test-strategy-pointer — Replace the "Choosing a test strategy" blockquote in `templates/tasknote-template.md` (a verbatim copy of `SPEC.md` §Phase 3, ~600 chars scaffolded into every tasknote) with a one-line pointer. Adopter-visible; lands with a release. Filed by CORE-565.2.
+(none)
 
 ## Future Opportunities
 
@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-568** [light]🔧 | template-test-strategy-pointer — Completed 2026-09-11.
 - [x] **CORE-573** [medium]🧩 | ft-spec-demote — Completed 2026-09-10.
 - [x] **CORE-570** [heavy]🧠 | starter-followup-merge — Completed 2026-09-10.
 - [x] **CORE-572** [heavy]🧠 | worktree-pair-demote — Completed 2026-09-10.
