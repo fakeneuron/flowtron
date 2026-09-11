@@ -63,14 +63,17 @@ Present, in order:
 
 1. **Summary** — health score 1–10 with one-sentence justification + top 3 issues (by severity).
 2. **Themes** — the §4 synthesis.
-3. **Milestone-sequenced plan** — **Milestone 0 is the safety net**: whatever §1–§3 showed is needed to make change safe (verification gates, CI, test baseline, branch hygiene) before feature work. Subsequent milestones in dependency order. Each milestone maps to one `<AREA>-EPIC-<N>` with concrete implementation children. Present the proposed epic + child lines inline for review before anything is written.
+3. **Milestone-sequenced plan** — **Milestone 0 is the safety net**: whatever §1–§3 showed is needed to make change safe (verification gates, CI, test baseline, branch hygiene) before feature work. Subsequent milestones in dependency order. Each milestone maps to one `<AREA>-EPIC-<N>` with concrete implementation children. Present the proposed epic + child lines inline for review before anything is written — a child the candidacy paragraph below admits is shown with `[unattended]` already in place.
 4. **Recommended focused audits** — the §5 table.
 5. **Questions for the user** — anything ambiguous that blocks the plan. Use `AskUserQuestion`, not prose.
+
+**`[unattended]` candidacy** (mirror of `SPEC/unattended-candidacy.md` §"Three postures" — Read that module now, at this write step). Run its §"Candidacy predicate" over each drafted implementation-child line as shown in the item-3 preview — `[model]`, any `[!critical]`, the description, any `Blocked by` clause. The `<AREA>-EPIC-<N>` parent and the `.N` audit placeholder are **never candidates**. Every clause must hold; when one is uncertain the row is not a candidate. A candidate is **proposed, never seeded**: it is shown in the item-3 preview with the token in place, and the "after the user confirms" write step below writes it only on rows the confirmation kept. This skill accepts neither `--fast` nor `--unattended`, so only the attended branch applies — the `unattended-candidates:` emission line never fires from this surface. Flowtron itself never writes `[unattended]` on its own discretion (SPEC §"Task-line format").
 
 **After** the user confirms, write the plan into `.flowtron/PLAN.md` using flowtron's task-line grammar:
 
 - One `- [ ] **<AREA>-EPIC-<N>**` parent per milestone, plus its implementation children and a closing `.N` audit placeholder. **Skip the `.1` Discovery child** — this run supplied the epic-level discovery; note it on the parent line (`Discovery supplied by audit-repo YYYY-MM-DD.`).
 - Tag effort per line: `[heavy]🧠` (design, ambiguity, cross-module) / `[light]🔧` (mechanical, clear-diff); `[medium]🧩` where it genuinely fits. Never `[xheavy]` — manual-only, never auto-filed here.
+- A child carrying a confirmed `[unattended]` candidate writes the token immediately after `[model]`; a child the user drops or reshapes loses it. Parents and `.N` placeholders never carry it.
 - Append `Surfaced by audit-repo YYYY-MM-DD (Theme: <name>)` to each parent so the origin's traceable.
 - Milestone-0 goes under `## High`; later milestones under `## Medium` / `## Future Opportunities` by urgency. Pick the next free `<N>` per area prefix (valid prefixes in `.flowtron/tasknote/README.md` §"Area prefixes").
 - User pushes back on a milestone or child → drop or reshape it before writing.

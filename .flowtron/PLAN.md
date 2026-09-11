@@ -23,7 +23,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-577.3** [medium]🧩 | epic-discovery-candidacy — Completed 2026-09-11.
   - [x] **CORE-577.4** [heavy]🧠 | file-followup-candidacy — Completed 2026-09-11.
   - [x] **CORE-577.5** [medium]🧩 | audit-refactor-candidacy — Completed 2026-09-11.
-  - [ ] **CORE-577.6** [light]🔧 | repo-context-candidacy — `/ft-audit-repo` §6 and `/ft-audit-context` §5: predicate over milestone children / ticket lines, candidates folded into the existing write-confirm AskUserQuestion, token only on confirmed rows. Epic parents and `.N` placeholders never proposed. Labeled mirror to `SPEC/unattended-candidacy.md`.
+  - [x] **CORE-577.6** [light]🔧 | repo-context-candidacy — Completed 2026-09-11.
   - [ ] **CORE-577.N** [heavy]🧠 | unattended-candidacy audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line) + confirm every surface degrades identically under `--fast`/`--unattended`. Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
 
 ## Medium

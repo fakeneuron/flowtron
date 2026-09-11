@@ -94,14 +94,18 @@ After passes (a)–(d) complete:
 
 1. **Short summary** — one paragraph naming the top 2-3 issues across all four passes (by severity, not pass order). Don't repeat per-pass severity counts.
 
-2. **Offer** — call `AskUserQuestion` with these options:
+2. **Draft ticket lines** — for each finding, draft the exact ticket line it would become per item 4's format below (this run, not only at filing time).
 
-   - **File all as PLAN tickets** — write each finding as a `- [ ]` line under the appropriate priority heading in `.flowtron/PLAN.md` using flowtron's task-line grammar.
-   - **Pick a subset** — let the user name which findings to file (free-text response).
+   **`[unattended]` candidacy** (mirror of `SPEC/unattended-candidacy.md` §"Three postures" — Read that module now, at this write step). Run its §"Candidacy predicate" over each drafted line — `[model]`, the description, no `Blocked by` clause on these (plain `<AREA>-<N>` tickets, no epic concept here). Every clause must hold; when one is uncertain the row is not a candidate. A candidate is **proposed, never seeded**: it is shown with the token in place alongside the item-3 offer below, and item 4's write only keeps it on rows the answer kept. This skill accepts neither `--fast` nor `--unattended`, so only the attended branch applies — the `unattended-candidates:` emission line never fires from this surface. Flowtron itself never writes `[unattended]` on its own discretion (SPEC §"Task-line format").
+
+3. **Offer** — call `AskUserQuestion` with the drafted lines (any candidate's token shown in place) presented alongside these options:
+
+   - **File all as PLAN tickets** — write each drafted line, token included, under the appropriate priority heading in `.flowtron/PLAN.md` using flowtron's task-line grammar.
+   - **Pick a subset** — let the user name which findings to file (free-text response); a line dropped from the subset loses any candidate token with it.
    - **File none** — close out the audit with no writes.
    - **Show me the report again** — re-print §§1-4 verbatim.
 
-3. If filing, ticket format: `- [ ] **<AREA>-<N>** [model] | shortname — recommendation. Surfaced by audit-context YYYY-MM-DD (Pass <a|b|c|d>, <severity>).` Pick the next free `<N>` per area prefix. Tag with the effort primary labels `[heavy]🧠` / `[medium]🧩` / `[light]🔧` per SPEC/model.md (default `[light]🔧` for mechanical follow-up fixes; user can override). Never `[xheavy]` — manual-only, never auto-filed here. Do not default to a vendor model name. Insert under `## High` for High-severity findings, `## Medium` for Medium, `## Low` for Low. Bail with a warning if `.flowtron/PLAN.md` doesn't exist.
+4. If filing, ticket format: `- [ ] **<AREA>-<N>** [model] [unattended] | shortname — recommendation. Surfaced by audit-context YYYY-MM-DD (Pass <a|b|c|d>, <severity>).` The `[unattended]` segment lands only on a row item 2 proposed and the item-3 answer kept. Pick the next free `<N>` per area prefix. Tag with the effort primary labels `[heavy]🧠` / `[medium]🧩` / `[light]🔧` per SPEC/model.md (default `[light]🔧` for mechanical follow-up fixes; user can override). Never `[xheavy]` — manual-only, never auto-filed here. Do not default to a vendor model name. Insert under `## High` for High-severity findings, `## Medium` for Medium, `## Low` for Low. Bail with a warning if `.flowtron/PLAN.md` doesn't exist.
 
 ## 6. Hard rules
 
