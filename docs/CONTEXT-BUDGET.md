@@ -144,10 +144,16 @@ it.
 
 ## How this is enforced
 
-One standing check in
-[`claude/skills/ft-release/step-7.1-standing-checks.md`](../claude/skills/ft-release/step-7.1-standing-checks.md),
-walked at every release cut. It measures with `wc -c` and compares against the
-Budgets table above.
+Two layers, both reading this table rather than restating it. A `drift` CI
+step (`.github/workflows/ci.yml`, bound to its source by `/ft-release` §7.1
+**Pair L**) runs a `wc -c`-and-compare script against the Budgets table above
+on every push and pull request, catching a regression on the commit that
+lands it. The standing check in
+[`claude/skills/ft-release/step-7.1-standing-checks.md`](../claude/skills/ft-release/step-7.1-standing-checks.md)
+runs the identical script by hand at every release cut, then additionally
+applies the §"Known over budget" judgment above (which needs
+`.flowtron/PLAN.md` ownership context CI does not have) and refreshes the
+§"Ledger" below — both stay release-only.
 
 **Every number lives here and is restated nowhere.** The check measures; this doc
 decides. That is deliberate: [[CORE-465]] retired a §7.1 check whose failure mode
@@ -155,11 +161,6 @@ was a hand-maintained roster kept in two places, and its lesson — "stop counti
 start deriving" — applies to a budget as much as to a skill list. A budget
 duplicated into the check would drift from the budget written here, and the gate
 would be guarding its own stale copy.
-
-No script, hook, or CI job runs this. `docs/CONVENTIONS.md` §"Release automation"
-and §"Pre-commit hooks" both decline that shape, and the backing principle is the
-same one this doc serves: the assistant is the validator, and the workflow phase
-is the gate.
 
 ## Not on the doc-drift sweep list
 

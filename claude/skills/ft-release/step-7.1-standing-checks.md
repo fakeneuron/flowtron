@@ -110,28 +110,58 @@ The first command is the closed-task count — one archived tasknote per closed 
 **Standing context-budget check.** Flowtron ships per-file byte budgets for the
 surfaces an agent loads to run one task. They live in
 [`docs/CONTEXT-BUDGET.md`](../../../docs/CONTEXT-BUDGET.md) §"Budgets" and are
-restated nowhere — this check measures, that doc decides. Measure the budgeted
-surfaces from the repository root:
+restated nowhere — this check measures, that doc decides, and the numbers below
+are read from the table, never retyped. Run from the repository root:
 
 ```sh
-wc -c SPEC.md SPEC/gates.md claude/skills/*/SKILL.md | sort -rn
+exact=$(awk '/^## Budgets$/,/^## Known over budget/' docs/CONTEXT-BUDGET.md \
+        | grep -E '^\| `[^`]+` \| [0-9,]+ \|' \
+        | sed -E 's/^\| `([^`]+)` \|.*/\1/' \
+        | grep -v '\*')
+while IFS='|' read -r surface budget; do
+  budget=${budget//,/}
+  case "$surface" in
+    *'*'*)
+      for f in $surface; do
+        [ -f "$f" ] || continue
+        case " $exact " in *" $f "*) continue ;; esac
+        n=$(wc -c < "$f")
+        [ "$n" -le "$budget" ] || echo "OVER BUDGET  $f  $n > $budget"
+      done
+      ;;
+    *)
+      n=$(wc -c < "$surface")
+      [ "$n" -le "$budget" ] || echo "OVER BUDGET  $surface  $n > $budget"
+      ;;
+  esac
+done < <(awk '/^## Budgets$/,/^## Known over budget/' docs/CONTEXT-BUDGET.md \
+         | grep -E '^\| `[^`]+` \| [0-9,]+ \|' \
+         | sed -E 's/^\| `([^`]+)` \| ([0-9,]+) \|.*/\1|\2/')
 ```
 
-Read `docs/CONTEXT-BUDGET.md` §"Budgets" and compare each measured surface
-against its row, most specific row winning (`ft-release`'s own row governs it;
-every other skill body falls under the glob row). Then:
+`$exact` is the set of non-glob rows, excluded from the glob row's expansion so
+the most specific row wins (`ft-release`'s own row exempts it from the glob
+row's cap). No `OVER BUDGET` line — nothing to do. For each one printed:
 
-- **Over budget with an open owner** — the surface is listed in that doc's
-  §"Known over budget" and its owning task line is still `- [ ]` in
-  `.flowtron/PLAN.md`. Informational: note it in the §7.4 closure review and
-  carry on. This is the in-flight case, not a failure.
-- **Over budget with no owner, or with an owner whose PLAN line is closed** —
+- **Listed in §"Known over budget" with an open owner** — its owning task line
+  is still `- [ ]` in `.flowtron/PLAN.md`. Informational: note it in the §7.4
+  closure review and carry on. This is the in-flight case, not a failure.
+- **Not listed, or listed with an owner whose PLAN line is closed** —
   blocking. Either the surface regrew past its budget, or a task that promised to
   bring it under closed without doing so. Fix inline as Critical/High before
   cutting the release: trim the surface, or — if the growth is deliberate and
   defensible — raise the budget in `docs/CONTEXT-BUDGET.md` with the reason, in
   this cut, as an explicit decision rather than a silent drift.
-- **Under budget** — nothing to do.
+
+**Lifted into the CI `drift` job.** The block above also runs, unmodified
+except for a `bad=` accumulator and `exit 1`
+(`docs/CONVENTIONS.md` §"GitHub Actions CI"), on every push and pull request —
+it catches a budget regression on the commit that lands it rather than at the
+next cut. CI cannot apply the §"Known over budget" judgment above (it needs
+`.flowtron/PLAN.md` ownership context CI does not have), so an `OVER BUDGET`
+finding there is expected while a surface is mid-flight under an open owner;
+the release-time interpretation above still governs. `/ft-release` §7.1
+**Pair L** (`step-7.1-mirror-pairs.md`) binds the CI copy to this block.
 
 **Refresh the ledger in this cut.** `docs/CONTEXT-BUDGET.md` §"Ledger" carries
 measured numbers and a `Measured YYYY-MM-DD at vX.Y.Z` stamp. The budget command
