@@ -242,7 +242,7 @@ with no operator never performs the operator's motion.
 
 **Execution skills keep their commit-go gate.** This section governs the four
 filing motions above and nothing else. `/ft-task`, `/ft-micro-task`,
-`/ft-goal-task`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release`,
+`/ft-epic-discovery`, `/ft-close-epic`, `/ft-release`,
 `/ft-new-project`, `/ft-update`, and `/ft-spec` are unchanged: their commits
 land deliverables or cut releases, and it is the 📦 conditional skip rule
 (`SPEC/gates.md`) — not this section — that decides when they commit

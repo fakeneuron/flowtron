@@ -31,7 +31,7 @@ Paths this skill uses:
 - Micro template: `<root>templates/tasknote-micro-template.md`
 - PLAN: `.flowtron/PLAN.md`, tasknote dir: `.flowtron/tasknote/` (always)
 
-Step 1.5 Reads `<SPEC_DIR>/model.md` and `<MODEL_EDGE>` in parallel on its edge-case branches (category under-tier / concrete mismatch / legacy); a satisfied tag proceeds without the read. `<MODEL_EDGE>` is shared across the three model-gate skills — substitute `/ft-micro-task` for its `<SKILL>` placeholder when surfacing a branch.
+Step 1.5 Reads `<SPEC_DIR>/model.md` and `<MODEL_EDGE>` in parallel on its edge-case branches (category under-tier / concrete mismatch / legacy); a satisfied tag proceeds without the read. `<MODEL_EDGE>` is shared across the two model-gate skills — substitute `/ft-micro-task` for its `<SKILL>` placeholder when surfacing a branch.
 
 **Parse `args`.** Split on whitespace into `(TASK-ID, rest...)`. `rest` is an **unordered flag set** — recognize each token independently. Initialize `fast-mode = false` and `unattended-mode = false`, then walk the tokens:
 

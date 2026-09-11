@@ -114,9 +114,9 @@ worth mentioning here:
   examined by [[CORE-154.3]] and [[CORE-154.4]].
 - `claude/CAPABILITIES.md` — wiring-layer content (under `claude/`): the
   Claude Code capability-trigger reference (effort/thinking, `--fast`,
-  `--unattended`, `--debug`, `--worktree`, `--park`, `--deep`, `/model`, `/clear`, structured ask,
+  `--unattended`, `--debug`, `--loop`, `--park`, `--deep`, `/model`, `/clear`, structured ask,
   and sub-agent / isolated exploration). Consolidates wiring-side *syntax*;
   introduces no new contract-layer surface, so it takes no table row above.
-  Added by [[CORE-224.3]]; trigger list extended by [[CORE-408.4]], which
-  also records there that `--worktree`'s contract-layer site
-  (`docs/WORKTREES.md`) is not ledgered above — surfaced, not fixed.
+  Added by [[CORE-224.3]]; trigger list extended by [[CORE-408.4]];
+  [[CORE-571]] swapped `--worktree` (whose `docs/WORKTREES.md` site was never
+  ledgered) for `--loop`, whose site — `SPEC/loop.md` — already has rows above.

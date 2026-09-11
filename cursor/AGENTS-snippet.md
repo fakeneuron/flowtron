@@ -46,7 +46,6 @@ mkdir -p .cursor/skills
 ln -s ../../.flowtron/core/claude/skills/ft-close-epic .cursor/skills/ft-close-epic
 ln -s ../../.flowtron/core/claude/skills/ft-epic-discovery .cursor/skills/ft-epic-discovery
 ln -s ../../.flowtron/core/claude/skills/ft-file-followup .cursor/skills/ft-file-followup
-ln -s ../../.flowtron/core/claude/skills/ft-goal-task .cursor/skills/ft-goal-task
 ln -s ../../.flowtron/core/claude/skills/ft-micro-task .cursor/skills/ft-micro-task
 ln -s ../../.flowtron/core/claude/skills/ft-refactor .cursor/skills/ft-refactor
 ln -s ../../.flowtron/core/claude/skills/ft-spec .cursor/skills/ft-spec

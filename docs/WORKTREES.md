@@ -54,7 +54,7 @@ Independence is no longer verbal-only, but it is still operator-driven. Fan-out 
 3. Copy the currently active tasknote (`.flowtron/tasknote/<TASK-ID>.md`) into the worktree's `.flowtron/tasknote/` (so the agent there sees the identical Phase 1 record).
 4. Hand off: the operator opens a fresh session in the worktree directory and invokes `/ft-task <TASK-ID>` (or the next appropriate command).
 
-`/ft-goal-task <TASK-ID> --worktree` is an alternate entry point: it runs Phase 1 Discovery inline, then drives this same Start flow itself instead of requiring the operator to invoke `/ft-worktree-start` separately. The operator still opens the fresh worktree session and re-invokes `/ft-goal-task <TASK-ID>` (dropping `--worktree`) to drive the loop.
+A goal loop (`/ft-task <TASK-ID> --loop`) isolates the same way: run Phase 1 here, invoke `/ft-worktree-start <TASK-ID>`, then re-invoke `/ft-task <TASK-ID> --loop` in the fresh worktree session to drive the loop with blast-radius control. (The retired `/ft-goal-task --worktree` flag used to chain these two steps; CORE-571 folded the skill without it.)
 
 **End** (`/ft-worktree-end <TASK-ID>`):
 1. In the main checkout, verify the worktree branch was merged into the expected target (or the operator explicitly confirms discard).

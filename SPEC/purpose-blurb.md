@@ -4,7 +4,7 @@ paths: []
 
 # 🎯 Purpose blurb
 
-> Lazy-loaded SPEC module. Read when questioning, changing, or extending the blurb — its bounds, which invocations emit it, and why it is not a cue. The *emission recipe* lives in the three ID-invoked runner skills (`/ft-task`, `/ft-micro-task`, `/ft-goal-task`), which cite this module rather than restating it. See `SPEC.md` for the always-loaded core spec.
+> Lazy-loaded SPEC module. Read when questioning, changing, or extending the blurb — its bounds, which invocations emit it, and why it is not a cue. The *emission recipe* lives in the two ID-invoked runner skills (`/ft-task`, `/ft-micro-task`), which cite this module rather than restating it. See `SPEC.md` for the always-loaded core spec.
 
 ## 🎯 Purpose blurb
 
@@ -37,8 +37,8 @@ operator would otherwise have to reconstruct by opening the tasknote. The
 the `🎯 Goal` is derived from that same line at scaffold, so nothing is lost by
 speaking first and filing second.
 
-**Which invocations.** The three **ID-invoked runners** — `/ft-task`,
-`/ft-micro-task`, `/ft-goal-task` — once each, at that one point. It precedes
+**Which invocations.** The two **ID-invoked runners** — `/ft-task` (any
+flag set, `--loop` included) and `/ft-micro-task` — once each, at that one point. It precedes
 the fresh-scaffold / starter-promotion / blocked-resume branch entirely, so
 there is no per-path variant to keep in sync: whichever path the run later
 takes, the operator has already been oriented. Where an opening path holds
@@ -50,7 +50,7 @@ reads it. Those are not a second blurb.
 Both are invoked in-session with the scoping conversation still live, so a
 blurb there restates what the operator said a moment ago. The test is whether
 the invocation could arrive cold with nothing but an ID — which is what
-separates these two from the three above.
+separates these two from the two above.
 
 **Bounds — this is not a cue and not a gate.** It bears no obligation, accepts
 no reply, and blocks nothing; the runner emits it and continues in the same

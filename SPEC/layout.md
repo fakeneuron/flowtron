@@ -72,9 +72,8 @@ authoritative for status/content triggers.
 
 The contract is **declarative today**: the source of truth for which
 module loads when is still `claude/skills/ft-task/SKILL.md`'s explicit
-dispatch (Steps 1.5 / 2 / 3a / 3c / 5) — plus
-`claude/skills/ft-goal-task/SKILL.md`, which is the dispatch source for
-`SPEC/loop.md`. Future tooling MAY parse the
+dispatch (Steps 0 / 1.5 / 2 / 3a / 3c / 5 — Step 0's `--loop` branch is the
+dispatch source for `SPEC/loop.md`). Future tooling MAY parse the
 frontmatter to drive dispatch dynamically.
 
 ### Procedure SOPs (`SPEC/procedures/`)
@@ -93,7 +92,7 @@ wrappers (`<platform>/procedures/<procedure>.md`) rather than by the
 Bundled flowtron skills carry the `ft-` prefix in their slug (`/ft-task`,
 `/ft-release`, `/ft-new-project`, `/ft-starter-task`,
 `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`,
-`/ft-close-epic`, `/ft-goal-task`, `/ft-spec`, `/ft-refactor`,
+`/ft-close-epic`, `/ft-spec`, `/ft-refactor`,
 `/ft-worktree-start`, `/ft-worktree-end`,
 `/ft-flowtron`, `/ft-stats`,
 `/ft-audit-context`, `/ft-update`, and the audit family

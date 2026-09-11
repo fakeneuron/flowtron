@@ -70,7 +70,7 @@ Alphabetized. ~71 entries. Maintained via epic children and audits.
 
 **`/ft-update`** — The adopter-side command that bumps a project's pinned flowtron submodule to the latest released tag: shows current→target + changelog, moves the pin, re-wires newly shipped symlinks, runs a smoke check. Consumer-side counterpart to `/ft-release`. Adopter-only (bails in flowtron-self); takes no arguments. See docs/MIGRATION.md.
 
-**goal loop** — The loop-task shape that repeats Phase 2→3 (execute→verify) against a fixed, machine-checkable `## ✅ Acceptance` target until every check passes, `loop-max` is exhausted, or the per-cycle relevance gate says stop. Driven by `/ft-goal-task`; contrast heartbeat. See SPEC/loop.md.
+**goal loop** — The loop-task shape that repeats Phase 2→3 (execute→verify) against a fixed, machine-checkable `## ✅ Acceptance` target until every check passes, `loop-max` is exhausted, or the per-cycle relevance gate says stop. Driven by `/ft-task --loop`; contrast heartbeat. See SPEC/loop.md.
 
 **grammar elements** — The syntactic pieces of the PLAN.md task-line and tasknote body: `[!critical]`, `[model]`, `| shortname`, `[[TASK-ID]]` wikilink, `Blocked by [[ID]]`, `Completed YYYY-MM-DD.` stub form, etc. See SPEC §"Task-line format".
 

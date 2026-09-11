@@ -53,13 +53,16 @@ equivalent where a step calls for one (full ledger:
 | **trigger** | The operator's conversational request to start the task — there is no slash dispatch to rely on. |
 | **autonomous mode** | The operator may ask you to run without stopping at the conditional gates (Claude Code exposes this as `--fast`). Honor it as described under each gate; the concept is platform-neutral, the flag syntax is not. It is also **implied by a PLAN.md row's `[unattended]` marker** when no mode was requested — see Step 1. |
 | **debug mode** | The operator may ask you to drive the task hypothesis-first because the root cause is not yet known (Claude Code exposes this as `--debug`). **Explicit opt-in only** — never infer it from a bug-shaped task description. It adds *content* to Phases 1–4 and no mechanics: no new phase, template, banner, or gate. See Step 4 and Step 5. |
+| **loop mode** | The operator may ask you to run the task as an execute→verify loop because "done" is one or more machine-checkable commands (Claude Code exposes this as `--loop`). **Explicit opt-in only.** It changes the Phase 2↔3 drive, not the phases: every Acceptance criterion carries a verify command (taste criteria split to one post-loop visual ask), Phase 2→3 repeat under a per-cycle relevance gate and a `loop-max` budget, each verified cycle commits, and a `## 🔁 Iterations` log is the loop's memory. Runs with autonomous-mode semantics once the loop starts; a destructive step parks rather than asking. Contract: [`SPEC/loop.md`](../loop.md); executable steps: `claude/skills/ft-task/step-5-loop-mode.md`. |
 | **unattended mode** | The caller may declare that **no operator is present to answer a gate** (Claude Code exposes this as `--unattended`). It supersets autonomous mode's *autonomy* — nothing ever blocks waiting for an answer — plus exactly one added behavior: the six gates an operator-less run cannot answer **park the tasknote** instead of firing a banner into an empty session. It does **not** inherit autonomous mode's one *delegating* suppression: the visual-confirmation ask is suppressed there because a present operator owns the check, so with nobody present it converts to a park rather than vanishing. Full contract, including which six and what a park writes: [`SPEC/gates.md` §"`--unattended` operator posture"](../gates.md). |
 
 Autonomous mode and debug mode are **orthogonal and compose**: a run can be
 both, in which case the hypothesis scaffolding is written without stopping to
 ask, and the Phase 3 repro re-verify still runs (it is not a gate autonomous
-mode may suppress). Unattended mode composes with both the same way — it is
-autonomous mode plus parking, never a replacement for either.
+mode may suppress). Loop mode composes the same way — autonomous mode reaches
+only its pre-loop Phase 1 surface, since the loop already runs autonomously.
+Unattended mode composes with all three — it is autonomous mode plus parking,
+never a replacement for any of them.
 
 **Parking, in one paragraph.** Under unattended mode a converted gate flips the
 tasknote's YAML `status:` to `blocked`, flips the nav chip to `⏸ Blocked`,

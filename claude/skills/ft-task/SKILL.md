@@ -1,13 +1,13 @@
 ---
 name: ft-task
-description: Start a flowtron tasknote and drive it through the SPEC's 4-phase workflow. Use when the user asks to start a full tasknote for a normal-sized, multi-step, or design-tradeoff-bearing task — and, with `--debug`, when the user asks to debug a bug, regression, flaky behavior, or other unexpected behavior whose root cause is not yet known (hypothesis-first cadence — expected vs observed → ranked hypotheses → minimal repro → re-verify). Invoke with the task ID as args (e.g., args="CORE-004", "CORE-004 --debug", or "CORE-195.2 --debug --fast"); `--fast` (or `-f`) suppresses the conditional gates for an autonomous run, and `--unattended` runs the operator-less posture, parking at any gate instead of firing a banner into an empty session. Reads SPEC.md, scaffolds the tasknote from the template, runs Phase 1 Discovery, then continues conversationally through phases 2-4 and the post-closure protocol.
+description: Start a flowtron tasknote and drive it through the SPEC's 4-phase workflow. Use when the user asks to start a full tasknote for a normal-sized, multi-step, or design-tradeoff-bearing task — and, with `--debug`, when the user asks to debug a bug, regression, flaky behavior, or other unexpected behavior whose root cause is not yet known (hypothesis-first cadence — expected vs observed → ranked hypotheses → minimal repro → re-verify) — and, with `--loop`, when the user asks to run a task as an iterative execute→verify loop against machine-checkable acceptance criteria (converge-until-a-check-passes: a suite going green, a metric crossing a threshold; Phase 2↔3 iterate under the `SPEC/loop.md` budget + per-cycle relevance gate, committing per verified iteration into a 🔁 Iterations log). Invoke with the task ID as args (e.g., args="CORE-004", "CORE-004 --debug", "CORE-042 --loop", or "CORE-195.2 --debug --fast"); `--fast` (or `-f`) suppresses the conditional gates for an autonomous run, and `--unattended` runs the operator-less posture, parking at any gate instead of firing a banner into an empty session. Reads SPEC.md, scaffolds the tasknote from the template, runs Phase 1 Discovery, then continues conversationally through phases 2-4 and the post-closure protocol.
 ---
 
 # task — flowtron tasknote runner
 
 You are starting a tasknote for the task ID provided in `args` (e.g., `CORE-004`). The full workflow contract lives in flowtron's `SPEC.md` — this skill is the executable interpretation, not a replacement. Treat SPEC.md as authoritative when this file is silent or in tension.
 
-If `args` is missing or its first token doesn't match `<AREA>-<NUMBER>` (or `<AREA>-<NUMBER>.<SUB>` for epic subtasks), stop and ask the user for a valid task ID. Do not guess. Trailing `--fast` / `-f`, `--debug` / `-d`, and `--unattended` flags are the only other accepted tokens — see Step 0.
+If `args` is missing or its first token doesn't match `<AREA>-<NUMBER>` (or `<AREA>-<NUMBER>.<SUB>` for epic subtasks), stop and ask the user for a valid task ID. Do not guess. Trailing `--fast` / `-f`, `--debug` / `-d`, `--loop`, and `--unattended` flags are the only other accepted tokens — see Step 0.
 
 ## Step 0 — Resolve paths
 
@@ -20,24 +20,26 @@ If neither matches, bail.
 
 Paths this skill uses:
 - SPEC: `<root>SPEC.md` (always loaded core)
-- SPEC_DIR (lazy modules `epic.md` · `starter.md` · `blocked.md` · `model.md` · `versioning.md`): `<root>SPEC/`
-- SKILL_DIR (lazy fragments `step-1.5-model-edge.md` and `unattended-mode.md` — both shared, also loaded by `/ft-micro-task` + `/ft-goal-task` — · `step-3a-promote-starter.md` · `step-3c-resume-blocked.md` · `step-4-debug-mode.md`): `<root>claude/skills/ft-task/`
+- SPEC_DIR (lazy modules `epic.md` · `starter.md` · `blocked.md` · `model.md` · `loop.md` · `versioning.md`): `<root>SPEC/`
+- SKILL_DIR (lazy fragments `step-1.5-model-edge.md` and `unattended-mode.md` — both shared, also loaded by `/ft-micro-task` — · `step-3a-promote-starter.md` · `step-3c-resume-blocked.md` · `step-4-debug-mode.md` · `step-5-loop-mode.md`): `<root>claude/skills/ft-task/`
 - Template: `<root>templates/tasknote-template.md`
 - PLAN: `.flowtron/PLAN.md`, tasknote dir: `.flowtron/tasknote/` (always)
 
 Subsequent steps name what to Read; the SPEC contract + matching SKILL fragment typically load in parallel.
 
-**Parse `args`.** Split on whitespace into `(TASK-ID, rest...)`. `rest` is an **unordered flag set** — recognize each token independently; order never matters, and any combination may appear together. Initialize `fast-mode = false`, `debug-mode = false`, and `unattended-mode = false`, then walk the tokens:
+**Parse `args`.** Split on whitespace into `(TASK-ID, rest...)`. `rest` is an **unordered flag set** — recognize each token independently; order never matters, and any combination may appear together. Initialize `fast-mode = false`, `debug-mode = false`, `loop-mode = false`, and `unattended-mode = false`, then walk the tokens:
 
 - **`--fast` or `-f`** → set `fast-mode = true`.
 - **`--debug` or `-d`** → set `debug-mode = true`.
+- **`--loop`** (no short alias) → set `loop-mode = true`.
 - **`--unattended`** (no short alias) → set `unattended-mode = true` **and** `fast-mode = true` — the posture supersets `--fast`'s autonomy — not its 👁️ delegation — so the operator never passes both.
-- **Any unrecognized token** → surface a one-line usage notice (``Unknown arg `<arg>`. Usage: `/ft-task <TASK-ID> [--debug] [--fast] [--unattended]`.``) and ask via AskUserQuestion whether the user meant `--fast`, `--debug`, `--unattended`, the default flow, or to abort. Do not proceed silently.
+- **Any unrecognized token** → surface a one-line usage notice (``Unknown arg `<arg>`. Usage: `/ft-task <TASK-ID> [--debug] [--loop] [--fast] [--unattended]`.``) and ask via AskUserQuestion whether the user meant `--fast`, `--debug`, `--loop`, `--unattended`, the default flow, or to abort. Do not proceed silently.
 
 After path resolution, emit one inline marker per active flag (all of them, when several are set) — except that `--unattended`'s marker replaces `--fast`'s, since it names the superset:
 
 - `fast-mode` → `⚡ --fast active — 👁️ frontend ask and 📦 signal trips suppressed; Re-scope downgrades to an inline ⚠️ notice, De-scope still fires 🛠️ (🛠️ banner is no-op for routine trips under default-skip flavor).`
 - `debug-mode` → `🔬 --debug active — hypothesis-first Phase 1 scaffolding + Phase 3 repro re-verify. Guidance, not a gate; no new banners.`
+- `loop-mode` → `🔁 --loop active — Phase 2↔3 runs as an execute→verify loop under SPEC/loop.md: every Acceptance criterion needs a verify command, 📦 collapses to commit-per-verified-iteration, 👁️ defers to one post-loop ask, destructive steps park.`
 - `unattended-mode` → `⚡ --unattended active — no operator present: --fast's 📦 and 🛠️ suppressions apply, and the six gates an operator-less run cannot answer — 👁️ included — park the tasknote instead of firing a banner.`
 
 Then continue to Step 1.
@@ -46,9 +48,11 @@ Then continue to Step 1.
 
 `debug-mode` — hypothesis-first scaffolding for bug / regression work where the root cause is not yet known. **When `debug-mode = true`, Read `<SKILL_DIR>/step-4-debug-mode.md` now** — it carries the whole mode and is referenced at Step 4 and Step 5. Content only: no new gate, no new banner. **Explicit-opt-in only** — never infer it from a bug-shaped task description (SPEC/tasknote-selection.md §"When to use a tasknote (and when not to)").
 
+`loop-mode` — the work is *converge-until-a-check-passes* and "done" is one or more machine-checkable commands. **When `loop-mode = true`, Read `<SKILL_DIR>/step-5-loop-mode.md` and `<SPEC_DIR>/loop.md` now** — the fragment carries the whole mode (scaffold addendum, Phase 1 verify-command rule, the Phase 2↔3 loop body, the one-time post-loop 👁️ ask) and is referenced at Steps 3b, 4, and 5; the module is the contract it drives. The loop runs with `--fast` semantics once it starts, so `--fast` reaches only the pre-loop Phase 1 surface here. **Explicit-opt-in only** — never infer it from a task that merely has a test command.
+
 `unattended-mode` — nobody is present to answer a gate. **When `unattended-mode = true`, Read `<SKILL_DIR>/unattended-mode.md` now** (and `<SPEC_DIR>/blocked.md` alongside it, since every conversion writes a park); it carries the park recipe, the per-runner conversion map, and the pre-scaffold stop split. Branches at Steps 1.5, 2, 4, 5, and 6. Contract: SPEC/gates.md §"`--unattended` operator posture".
 
-The flags are orthogonal and compose in any order; `--debug`'s Phase 3 repro re-verify is not a signal trip `--fast` may suppress.
+The flags are orthogonal and compose in any order; `--debug`'s Phase 3 repro re-verify is not a signal trip `--fast` may suppress, and `--loop`'s per-cycle verify is the loop's own gate rather than one `--fast` collapses.
 
 ## Step 1 — Locate the task in PLAN.md
 
@@ -142,6 +146,8 @@ Copy the template (path resolved in Step 0) to `.flowtron/tasknote/<TASK-ID>.md`
 
 🎯 Goal is derived from the PLAN.md line at scaffold; ask the user if it's too terse for a clear one-sentence goal. ✅ Acceptance and 🧩 Subtasks are empty checklists at scaffold, populated during Phase 1 Discovery.
 
+**When `loop-mode = true`**, apply the scaffold addendum in `<SKILL_DIR>/step-5-loop-mode.md` §"Step 3b" — the three additive `loop:` / `loop-max:` / `loop-last-run:` keys and the `## 🔁 Iterations` section.
+
 Then continue at **Step 4 (Phase 1: Discovery)**.
 
 ## Step 3c — Resume a blocked tasknote (existing file with `status: blocked`)
@@ -163,7 +169,7 @@ Skill-specific imperatives on top of the SPEC contract:
 - For the Archive skim step: `ls .flowtron/tasknote/archive/<area>/` to enumerate, then for each source path in scope run `grep -l <path> .flowtron/tasknote/archive/<area>/*.md` (if YAML `touches:` is set, prefer those paths). Read the hits and log anything load-bearing in Discovery Notes (file moves, regressions, design decisions, hardlink notes, etc.). Also open IDs named by `## 🔗 Related`, YAML `supersedes:`, and any ⚠️ `Superseded by` pointer on those hits — still grep + read; no query engine. If `archive/<area>/` is empty or absent, **re-check `<area>` against the README table before believing it** — a derived-and-wrong folder is indistinguishable from a genuinely empty one, and mistaking the two silently voids this step against a full archive. Once the folder is confirmed, log "no prior tasknotes" and tick the box.
 - For the Clarifying questions step: use AskUserQuestion for anything genuinely ambiguous. If nothing is ambiguous, write `No clarifications needed` in the tasknote with the explicit assumptions.
   **When `fast-mode = true`** (from Step 0): skip the AskUserQuestion call and write `No clarifications needed (--fast)` with the explicit assumptions the operator is asserting.
-- For the `## ✅ Acceptance` population: name on each criterion the **verify command** that decides it — a test run, a lint/type-check, a `grep -q` on a contract file. A criterion no command decides marks itself `judgment` (or `👁️`) with a one-line reason; do not invent one. Phase 3 runs these and records the receipt. Contract: SPEC §"🧪 Phase 3: Testing & Linting".
+- For the `## ✅ Acceptance` population: name on each criterion the **verify command** that decides it — a test run, a lint/type-check, a `grep -q` on a contract file. A criterion no command decides marks itself `judgment` (or `👁️`) with a one-line reason; do not invent one. Phase 3 runs these and records the receipt. Contract: SPEC §"🧪 Phase 3: Testing & Linting". **When `loop-mode = true`**, the strict form in `<SKILL_DIR>/step-5-loop-mode.md` §"Step 4" applies instead — every criterion loop-verifiable, taste criteria split to a one-time post-loop 👁️ subsection, and a stop (drop `--loop`) when none is machine-checkable.
 - For the "populate Subtasks" step: fill the tasknote's `## 🧩 Subtasks` checklist with concrete, ordered steps, and declare YAML `touches:` with the paths this task expects to edit. Contract — including which tasks are exempt and why it is never a gate: SPEC §"Tasknote frontmatter".
 - Do not enter Phase 2 until every Phase 1 box is ticked. Once ticked, apply the SPEC/gates.md §"Phase 1→2 exit gate"'s **`default-skip` flavor** — the flavor `/ft-task` uses. That section's judgment rule is authoritative for which deviations skip and which fire; this skill only routes the two outcomes:
   - **Skip branch (default)** — emit the inline marker `✅ Phase 1 Discovery complete; entering Phase 2 Execution.` and start Step 5 Phase 2 immediately. Plain prose, not a banner; not a new gate.
@@ -180,6 +186,8 @@ Skill-specific imperatives on top of the SPEC contract:
 After the Phase 1→2 cue clears, Phase 2 → Phase 3 → Phase 4 closure ops
 flow continuously without an intermediate gate. The next operator-gate
 cue is the 📦 ready-to-commit banner in Step 6.
+
+**When `loop-mode = true`**, Phase 2 and Phase 3 below are replaced by the inline execute→verify loop in `<SKILL_DIR>/step-5-loop-mode.md` §"Step 5" (per-cycle relevance gate, commit-per-verified-iteration, `loop-max` soft stop, destructive-step park), followed by its §"Step 6" one-time 👁️ ask; then Phase 4 closure and Step 6 below run unchanged, on the Skip branch since the loop ran under `--fast` semantics.
 
 - **Phase 2: Execution** — pattern survey first (look at sibling modules / parallel components for an existing shape to extend; justify a new shape if none fits), check DRY and single-responsibility boundaries, and prefer composition when it reduces coupling. Implement minimally; refactor only for Acceptance or to prevent duplication, obscured responsibility, or a dependency-boundary violation, recording the reason and deferring unrelated cleanup. Then run targeted tests on changed files. Tick boxes as you go. **If a hard dependency surfaces mid-execution**, Read `<SPEC_DIR>/blocked.md` and park the tasknote per its contract — flip `status: blocked`, update the nav header to `⏸ Blocked`, write `park-reason: dependency — <the dependency>` (mandatory under `--unattended`, recommended otherwise), and stop. The next `/ft-task <ID>` invocation enters the resume path (Step 3c) automatically. **When `unattended-mode = true`**, a destructive-action escalation (🗄️/▶️/📡/💻) and a prerequisite ✋ `ACTION` park the same way, with `park-reason: destructive — …` / `prerequisite — …` per `<SKILL_DIR>/unattended-mode.md` §"Conversion map"; an *advisory* ✋ is recorded and the run continues. **If a direction-changing decision surfaces mid-execution** — one whose effect reaches *beyond* the current task (approach, contract, data model, sequencing) — run the **downstream-impact reconciliation scan** before continuing; a decision whose effect stays inside the task skips it. SPEC/tasknote-selection.md §"Downstream-impact reconciliation" is authoritative for triggers, steps, impact classes, and reconcile actions. Its user-confirm is an inline review prompt, **not** a banner, and it fires regardless of `fast-mode` — it guards plan correctness, and the user owns the confirm. Under `unattended-mode` there is no user to confirm, so the decision is a `Re-scope` and parks as `drift` (`<SKILL_DIR>/unattended-mode.md` §"What `--unattended` never relaxes").
 - **Phase 3: Testing & Linting** — targeted tests, lint/type-check, and the **Verification receipt** box for changed code (each Acceptance verify command recorded in Testing Notes as `command → exit code` with the first failure line when non-zero, alongside the canonical structural quality assertions folded into the same box); visual confirmation for frontend changes (emphasized `👁️ **CONFIRM**` ask — its own line, blank-line isolated, bold label — per SPEC §"🧪 Phase 3: Testing & Linting"; emphasis raised *within* the inline shape, still not a banner block). Run the full suite only for broad/cross-cutting changes. Flows directly into Phase 4 closure ops; no gate between them. **When `fast-mode = true`** (from Step 0), suppress the 👁️ CONFIRM prose ask — lint/type-check on changed code still runs, but the operator owns the visual-confirmation responsibility. **When `unattended-mode = true`** that suppression does *not* apply — there is no operator to own it — so a change that would have emitted the ask parks instead, with `park-reason: visual-confirm — …` per `<SKILL_DIR>/unattended-mode.md` §"Conversion map"; the trigger is the emission condition, so a task whose Phase 3 👁️ box is `N/A` never parks. **When `debug-mode = true`**, apply the Phase 2 emphasis and run the Phase 3 repro re-verify from `<SKILL_DIR>/step-4-debug-mode.md` — re-execute the exact minimal repro from Phase 1 and record the outcome in Testing Notes. The re-verify runs **even under `--fast`**; a still-failing repro sends you back to Phase 2 with updated hypotheses, not to closure.

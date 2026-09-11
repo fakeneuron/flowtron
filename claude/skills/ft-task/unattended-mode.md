@@ -1,16 +1,16 @@
 # `--unattended` — operator-less posture (executable steps)
 
-> Lazy-loaded SKILL fragment — **shared**. Loaded by `/ft-task`, `/ft-micro-task`, `/ft-goal-task`, and `/ft-close-epic` at their Step 0 when `unattended-mode = true`. The file is owned by `claude/skills/ft-task/`; the other three skills resolve it through their `<UNATTENDED>` path binding, the same way the runners resolve `step-1.5-model-edge.md` through `<MODEL_EDGE>`.
+> Lazy-loaded SKILL fragment — **shared**. Loaded by `/ft-task`, `/ft-micro-task`, and `/ft-close-epic` at their Step 0 when `unattended-mode = true`. The file is owned by `claude/skills/ft-task/`; the other two skills resolve it through their `<UNATTENDED>` path binding, the same way the runners resolve `step-1.5-model-edge.md` through `<MODEL_EDGE>`.
 >
-> **The contract lives in [`SPEC/gates.md`](../../../SPEC/gates.md) §"`--unattended` operator posture"** — this fragment is its executable interpretation across the three runners, not a second copy. Read the contract when this file is silent or in tension. The `park-reason:` key and its closed-set codes (§"Park reason"), the parked state, and its resume path are canonical in [`SPEC/blocked.md`](../../../SPEC/blocked.md).
+> **The contract lives in [`SPEC/gates.md`](../../../SPEC/gates.md) §"`--unattended` operator posture"** — this fragment is its executable interpretation across the two runners, not a second copy. Read the contract when this file is silent or in tension. The `park-reason:` key and its closed-set codes (§"Park reason"), the parked state, and its resume path are canonical in [`SPEC/blocked.md`](../../../SPEC/blocked.md).
 >
-> **`<SKILL>` below stands for the invoking skill's own slash command** — `/ft-task`, `/ft-micro-task`, `/ft-goal-task`, or `/ft-close-epic`. Substitute it wherever it appears; never hard-code `/ft-task`.
+> **`<SKILL>` below stands for the invoking skill's own slash command, flags included** — `/ft-task` (with `--debug` / `--loop` as passed), `/ft-micro-task`, or `/ft-close-epic`. Substitute it wherever it appears; never hard-code a bare `/ft-task`.
 >
-> **Most of this file is written for the three runners.** `/ft-close-epic` shares the park recipe, the pre-scaffold stop shape, and the never-relaxed list, but it is **not** a `--fast` superset there and its parent-flip is *deferred* rather than parked — see §"`/ft-close-epic`" at the end, and `SPEC/gates.md` §"`/ft-close-epic` under the posture" for the contract.
+> **Most of this file is written for the two runners.** `/ft-close-epic` shares the park recipe, the pre-scaffold stop shape, and the never-relaxed list, but it is **not** a `--fast` superset there and its parent-flip is *deferred* rather than parked — see §"`/ft-close-epic`" at the end, and `SPEC/gates.md` §"`/ft-close-epic` under the posture" for the contract.
 
 ## What the posture adds
 
-`--unattended` declares that **no operator is present to answer a gate**. On the three runners it supersets `--fast`'s *autonomy*: setting `unattended-mode = true` also sets `fast-mode = true` — the operator does not pass both flags — and **two** of the four `--fast` surfaces apply exactly as written (📦 force-skip, 🛠️ no-op for routine trips). On `/ft-close-epic` there is no `--fast` to superset, and the flag carries the posture directly. A PLAN.md row's `[unattended]` marker implies `--fast` on an attended run and **never** this posture — under an explicit `--unattended` it changes nothing.
+`--unattended` declares that **no operator is present to answer a gate**. On the two runners it supersets `--fast`'s *autonomy*: setting `unattended-mode = true` also sets `fast-mode = true` — the operator does not pass both flags — and **two** of the four `--fast` surfaces apply exactly as written (📦 force-skip, 🛠️ no-op for routine trips). On `/ft-close-epic` there is no `--fast` to superset, and the flag carries the posture directly. A PLAN.md row's `[unattended]` marker implies `--fast` on an attended run and **never** this posture — under an explicit `--unattended` it changes nothing.
 
 **The two delegations are not inherited.** `--fast`'s 👁️ suppression *delegates* the visual check to the operator standing there (`SPEC/gates.md` §"`--fast` operator override": *"the operator owns the visual-confirmation responsibility on fast-mode runs"*), and its Re-scope downgrade *delegates* the review of a rewritten plan to the operator watching the ⚠️ notice scroll by; the other two merely *remove a pause*. A delegation to nobody drops the obligation rather than transferring it, so under this posture the 👁️ ask **converts to a park** like any other unanswerable gate — see the last row of the map below — and a Re-scope parks `drift` exactly as it would with no `--fast` at all. Contract: `SPEC/gates.md` §"`--unattended` operator posture" → "What is inherited, and what is not". In one line: **the posture supersets `--fast`'s autonomy, not its delegations.**
 
@@ -43,19 +43,19 @@ Every conversion below performs the same four writes, then stops:
 
 Six gates convert from *ask and wait* to *park and stop*. The seventh row is the mid-execution dependency park that predates the posture, listed here because the posture changes what the runners do about it.
 
-| Gate | `park-reason` code | `/ft-task` | `/ft-micro-task` | `/ft-goal-task` |
+| Gate | `park-reason` code | `/ft-task` | `/ft-task --loop` (where it differs) | `/ft-micro-task` |
 |---|---|---|---|---|
-| Step 1.5 **concrete-model mismatch** STOP | `model-mismatch` | Step 1.5 — scaffold, then park (see below) | Step 1.5 — same | Step 1.5 — same |
-| 🛠️ Phase 1→2 **drift carve-out** (`Re-scope` / `De-scope`) | `drift` | Step 4 exit gate | Step 3 Relevance prompt | Step 4 exit gate |
-| **Destructive-action escalation** 🗄️/▶️/📡/💻 | `destructive` | Step 5 Phase 2 | Step 3 execution | Step 5 loop (already parks — add the key) |
+| Step 1.5 **concrete-model mismatch** STOP | `model-mismatch` | Step 1.5 — scaffold, then park (see below) | same | Step 1.5 — same |
+| 🛠️ Phase 1→2 **drift carve-out** (`Re-scope` / `De-scope`) | `drift` | Step 4 exit gate | same (one-time, pre-loop) | Step 3 Relevance prompt |
+| **Destructive-action escalation** 🗄️/▶️/📡/💻 | `destructive` | Step 5 Phase 2 | loop body (already parks — add the key) | Step 3 execution |
 | ✋ `ACTION` that is a **prerequisite** for continuing | `prerequisite` | wherever it surfaces | wherever it surfaces | wherever it surfaces |
-| A queued **bundled in-📦 prompt** | `input-needed` | Step 6 | Step 5 | Step 6 |
-| 👁️ `CONFIRM` **visual ask** | `visual-confirm` | Step 5 Phase 3 | — *(no separate 👁️ ask)* | Step 6 one-time post-loop ask |
-| Hard dependency mid-execution *(pre-existing park)* | `dependency` | Step 5 Phase 2 | Step 3 — park + promote note | Step 5 loop |
+| A queued **bundled in-📦 prompt** | `input-needed` | Step 6 | same | Step 5 |
+| 👁️ `CONFIRM` **visual ask** | `visual-confirm` | Step 5 Phase 3 | the one-time post-loop ask | — *(no separate 👁️ ask)* |
+| Hard dependency mid-execution *(pre-existing park)* | `dependency` | Step 5 Phase 2 | loop body | Step 3 — park + promote note |
 
 **The 👁️ trigger is the emission condition, not a second judgment.** Wherever the run would emit a 👁️ ask, park with `park-reason: visual-confirm — <what needs looking at, and where>` instead. Whether the change needs a visual check at all is decided upstream, exactly where it always was: a task with no rendered surface records the Phase 3 box `N/A`, emits no ask, and never parks. Do **not** invent a gating-vs-corroborating split — "the tests probably cover it" is the judgment this conversion deletes, and **a passing visual baseline does not convert it either**: flowtron cannot tell an approved golden from an auto-minted one, and "does the baseline cover what I changed" is that same split renamed (`SPEC/gates.md` §"Park conversions"). `/ft-micro-task` has no separate 👁️ ask (`SKILL.md` §Step 0), so the row is n/a there rather than a park.
 
-**`/ft-goal-task`'s one-time ask.** Per-cycle 👁️ suppression inside the loop is unchanged — taste criteria were split out to the one-time post-loop ask at Step 6, so the loop never had an ask to convert (`SPEC/loop.md` §"Gate collapse"). It is that **one-time** ask that parks. A loop that converged is not a loop that finished: park before closure, and record the split-out criteria in the reason prose.
+**`--loop`'s one-time ask.** Per-cycle 👁️ suppression inside the loop is unchanged — taste criteria were split out to the one-time post-loop ask (`step-5-loop-mode.md` §"Step 6"), so the loop never had an ask to convert (`SPEC/loop.md` §"Gate collapse"). It is that **one-time** ask that parks. A loop that converged is not a loop that finished: park before closure, and record the split-out criteria in the reason prose.
 
 **The ✋ split is biased conservative — park on doubt.** An *advisory* ✋ is recorded and the run continues; only a **prerequisite** ✋ parks. "It is probably advisory" is exactly the doubt this bias exists to refuse: an over-park costs one resume, an under-park reaches closure with the prerequisite never performed.
 
@@ -63,7 +63,7 @@ Six gates convert from *ask and wait* to *park and stop*. The seventh row is the
 
 **`/ft-micro-task`'s dependency park.** The attended guidance is *"micro-tasks are not designed to park — re-file as `/ft-task`"*, and it stands for the attended path. Under `--unattended` there is no operator to re-file, so park with `park-reason: dependency — <the dependency>; promote to /ft-task on resume` and stop. The promotion is a resume instruction, not an autonomous action.
 
-**`/ft-goal-task`'s loop.** Step 5's destructive-action carve-out already parks without an operator, by construction. Under `--unattended` it gains one obligation: write `park-reason: destructive — …` alongside the `## 🔁 Iterations` entry, so a caller reading the file alone can classify the stop. The `loop-max` **soft stop** is *not* a conversion — it hands back to the operator with the tasknote intact and unparked, exactly as `SPEC/loop.md` specifies.
+**`--loop`'s loop body.** Its destructive-action carve-out (`step-5-loop-mode.md` §"Step 5") already parks without an operator, by construction. Under `--unattended` it gains one obligation: write `park-reason: destructive — …` alongside the `## 🔁 Iterations` entry, so a caller reading the file alone can classify the stop. The `loop-max` **soft stop** is *not* a conversion — it hands back to the operator with the tasknote intact and unparked, exactly as `SPEC/loop.md` specifies.
 
 ## Pre-scaffold stops
 

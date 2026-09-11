@@ -1,8 +1,8 @@
 # Step 1.5 — Model-gate edge cases (executable steps)
 
-> Lazy-loaded SKILL fragment — **shared**. Loaded by `/ft-task`, `/ft-micro-task`, and `/ft-goal-task` at their Step 1.5 when the concrete-mismatch, category under-tier, or legacy-entry branch fires. The file is owned by `claude/skills/ft-task/`; the other two skills resolve it through their `<MODEL_EDGE>` path. See the **invoking** skill's `SKILL.md` for the always-loaded core dispatch and the satisfied-match path, and `SPEC/model.md` §"Category-vs-concrete matching" for the tier ladder + rule.
+> Lazy-loaded SKILL fragment — **shared**. Loaded by `/ft-task` and `/ft-micro-task` at their Step 1.5 when the concrete-mismatch, category under-tier, or legacy-entry branch fires. The file is owned by `claude/skills/ft-task/`; `/ft-micro-task` resolves it through its `<MODEL_EDGE>` path. See the **invoking** skill's `SKILL.md` for the always-loaded core dispatch and the satisfied-match path, and `SPEC/model.md` §"Category-vs-concrete matching" for the tier ladder + rule.
 >
-> **`<SKILL>` below stands for the invoking skill's own slash command** — `/ft-task`, `/ft-micro-task`, or `/ft-goal-task`. Substitute it wherever it appears when surfacing a branch to the operator; never hard-code `/ft-task`. Sending the operator back through the wrong skill drops that skill's shape — a `/ft-goal-task` re-entry via `/ft-task` loses the `loop:` / `loop-max:` frontmatter and the `## 🔁 Iterations` log.
+> **`<SKILL>` below stands for the invoking skill's own slash command, flags included** — `/ft-task` (with whatever of `--debug` / `--loop` / `--fast` / `--unattended` was passed) or `/ft-micro-task`. Substitute it wherever it appears when surfacing a branch to the operator; never hard-code a bare `/ft-task`. Sending the operator back through the wrong invocation drops its shape — a `--loop` re-entry without the flag loses the `loop:` / `loop-max:` frontmatter and the `## 🔁 Iterations` log.
 
 ## Mismatch — PLAN.md concrete `[model]` differs from the active model
 

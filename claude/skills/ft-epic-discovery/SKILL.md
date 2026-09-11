@@ -42,7 +42,7 @@ The skill recognizes one optional argument: `--deep`. Branch:
 - **`--unattended`** → this skill does not accept it (`SPEC/gates.md` §"`--unattended` operator posture"): filing an epic means having a scoping conversation, and there is none to have with nobody present. Terminate readably and write nothing — do not fall through to the "Any other arg" branch below:
 
   ```markdown
-  ⏸ --unattended stop — unsupported-flag: `/ft-epic-discovery` requires an operator scoping conversation; it has no unattended mode. File the epic conversationally, or use a runner that accepts `--unattended` (`/ft-task`, `/ft-micro-task`, `/ft-goal-task`, `/ft-file-followup`, `/ft-close-epic`).
+  ⏸ --unattended stop — unsupported-flag: `/ft-epic-discovery` requires an operator scoping conversation; it has no unattended mode. File the epic conversationally, or use a runner that accepts `--unattended` (`/ft-task`, `/ft-micro-task`, `/ft-file-followup`, `/ft-close-epic`).
   ```
 
 - **Any other arg** → surface a one-line usage notice ("Unknown arg `<arg>`. Usage: `/ft-epic-discovery` or `/ft-epic-discovery --deep`.") and ask via AskUserQuestion whether the user meant `--deep`, the default flow, or to abort. Do not proceed silently.

@@ -41,7 +41,7 @@ The first lists the templates carrying a back-link; the second must print nothin
 
 | Template | Written by | Write target |
 |---|---|---|
-| `tasknote-template.md` | `/ft-task`, `/ft-goal-task`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release` | `.flowtron/tasknote/<ID>.md` |
+| `tasknote-template.md` | `/ft-task` (`--loop` included), `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release` | `.flowtron/tasknote/<ID>.md` |
 | `tasknote-micro-template.md` | `/ft-micro-task` | `.flowtron/tasknote/<ID>.md` |
 | `tasknote-starter-template.md` | `/ft-starter-task` | `.flowtron/tasknote/<ID>.md` |
 | `sidequest-template.md` | `/ft-file-followup --park` | `.flowtron/sidequest/<ID>.md` |
@@ -107,15 +107,7 @@ done
 
 Must print nothing. The `continue` guard is the load-bearing half: a stub may legitimately name `--park` with **no** priority roster at all (`ft-spec.md` points at park mode in one clause without restating the flags), and demanding four flags there would mint a false positive on this check's first run. Only a stub that already commits to a partial roster is held to the full one. Fix a miss the same way as above — extend that stub's own sentence, don't normalize the wording.
 
-**Pair G — goal-task `--worktree` roster ↔ mirror surfaces.** `/ft-goal-task` ships `--worktree` as a documented trailing flag; two surfaces restate it for operators — `claude/skills/ft-flowtron/SKILL.md`'s `/ft-goal-task` row and `docs/PLATFORMS.md`'s operator-mode-flag list. Pair B and Pair E are both blind here: `--worktree` appears only inside `args="…"` illustrations on the skill, so the quote-strip correctly excludes it from frontmatter-derived flag sets (CORE-420.N verified). A fold or doc edit that adds the flag to the skill but not these mirrors strands it silently (CORE-433.2's second drift class).
-
-```sh
-for f in claude/skills/ft-flowtron/SKILL.md docs/PLATFORMS.md; do
-  grep -q -e '--worktree' "$f" || echo "MISSING WORKTREE $f"
-done
-```
-
-Must print nothing. Fix by appending a clause in each surface's established shape, written from `claude/skills/ft-goal-task/SKILL.md`'s `--worktree` section rather than paraphrased from memory.
+**Pair G — retired.** Guarded the `/ft-goal-task` `--worktree` roster against its two mirror surfaces; [[CORE-571]] folded the skill into `/ft-task --loop` without the flag, so there is nothing left to mirror. The letter is kept so later pair citations stay stable.
 
 **Pair H — validation command roster ↔ 5 restatement sites.** `AGENTS.md` §"Validation" is the source of truth for the six commands that define "passing" (3 viz + `node --test` + 2 × `node --check`). Four other surfaces restate that roster — `.github/workflows/ci.yml`, `docs/CONVENTIONS.md` §"GitHub Actions CI", `.flowtron/tasknote/README.md` §"Project quick commands", and `/ft-release` SKILL.md's Step 6 fence — and nothing bound them, so a release-gate edit that skipped the two `node --check`s left `/ft-release` narrower than CI with no detector (CORE-430.N F2; CORE-433.4). Pair F's presence idiom covers the class; a second half pins the CI workflow to AGENTS byte-for-byte and in order, which is the "verbatim" claim CONVENTIONS makes.
 
@@ -202,7 +194,7 @@ Must print nothing. `MISSING HINT` is a stub that documents at least one flag an
 
 Four properties are deliberate, and a future edit should preserve them:
 
-- **The flag source is stub-local and structural, which is what makes cross-references invisible.** A flag counts only from the stub's own `description:` line, or from a backticked span that invokes the stub's *own* slug. See-also sentences never reach `description:`, and every cross-reference in a body carries either a foreign slug inside the span (`` `/ft-task <TASK-ID> --debug` `` in `ft-goal-task.md`; `` `/ft-file-followup --park [--low|--med|--fut|--high]` `` in `ft-starter-task.md` and `ft-epic-discovery.md`) or no slug at all (`` `--fast` `` in both worktree stubs' "not applicable here" sentence, and in `ft-close-epic.md`'s "there is no `--fast` here"). The span rule excludes both shapes, so no phrase blocklist — `not applicable`, `there is no` — is needed or wanted; that version breaks the first time someone rewords a sentence.
+- **The flag source is stub-local and structural, which is what makes cross-references invisible.** A flag counts only from the stub's own `description:` line, or from a backticked span that invokes the stub's *own* slug. See-also sentences never reach `description:`, and every cross-reference in a body carries either a foreign slug inside the span (`` `/ft-task <TASK-ID> --fast` `` in `ft-worktree-start.md`; `` `/ft-file-followup --park [--low|--med|--fut|--high]` `` in `ft-starter-task.md` and `ft-epic-discovery.md`) or no slug at all (`` `--fast` `` in both worktree stubs' "not applicable here" sentence, and in `ft-close-epic.md`'s "there is no `--fast` here"). The span rule excludes both shapes, so no phrase blocklist — `not applicable`, `there is no` — is needed or wanted; that version breaks the first time someone rewords a sentence.
 - **`${s}` braces and the trailing `[^a-z-]` are both load-bearing.** zsh parses a bare `$s[` as an array subscript and dies with `bad math expression`; `grep` then receives an empty pattern, matches every span, and the check quietly starts reporting cross-references as drift instead of failing loudly. The character class stops `/ft-audit` from swallowing `/ft-audit-repo` and `/ft-audit-context` — every span ends in a backtick, so a slug at the end of one still has a character to match.
 - **The quote-strip is Pair B's pipeline verbatim** — same `sed`, same load-bearing reason CORE-420.5 measured. A change to what counts as a *documented* flag belongs in B, E, and J together, or the three start disagreeing.
 - **It is one-directional (prose → hint), on purpose.** A hint may legitimately name more than the prose documents: short aliases (`-f` / `-d` / `-p`), which the `--[a-z]` extraction never sees, and `ft-file-followup`'s `--low`/`--med`/`--fut`/`--high` roster, which is Pair F's job. Checking the reverse would report every one of those as drift. The same asymmetry costs a little coverage — `ft-close-epic` names `--unattended` only inside that negation clause, so it derives an empty set and passes vacuously — which is Pair F's `continue` idiom one more time: a stub documenting no flag is skipped, not failed.

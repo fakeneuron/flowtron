@@ -322,7 +322,7 @@ one lever that outranks the flag (a queued bundled in-📦 prompt), are in
 **Implied by the `[unattended]` row marker.** A PLAN.md row carrying
 `[unattended]` ([`SPEC.md`](../SPEC.md) §"Task-line format") is the operator's
 declaration that the row is safe to drive with nobody present — so it needs
-no pauses when somebody is. The three runners that accept `--fast` set
+no pauses when somebody is. The two runners that accept `--fast` set
 fast-mode from the marker when no flag was passed, and say so inline
 (`⚡ --fast implied by the [unattended] row marker …`). The marker implies
 **only** this flag: it never puts a run in the `--unattended` posture, which
@@ -346,8 +346,8 @@ Likewise the Re-scope notice delegates the *review* of the rewritten plan, not
 the rewrite — the PLAN.md line and tasknote header are still updated
 (§"Phase 1→2 exit gate").
 
-`--fast` applies to `/ft-task`, `/ft-micro-task`, and
-`/ft-goal-task` — the epic skills (`/ft-epic-discovery`,
+`--fast` applies to `/ft-task` (every flag set, `--loop` included) and
+`/ft-micro-task` — the epic skills (`/ft-epic-discovery`,
 `/ft-close-epic`) do not accept it. `/ft-spec` has its own,
 unrelated `--fast`: it only skips the operator review pause before
 writing a spec and never touches the 👁️/📦/🛠️ gate surface described
@@ -498,7 +498,7 @@ parts, with no unattended variant:
 
 ### `/ft-close-epic` under the posture
 
-The three runners above are not the whole surface. `/ft-close-epic` drives an
+The two runners above are not the whole surface. `/ft-close-epic` drives an
 epic's `.N` audit through closure and then asks whether to flip the parent and
 move the cohort — and that ask is a **bundled in-📦 prompt**, which the
 override in §"Conditional skip rule" makes force-fire. An operator-less caller
@@ -535,8 +535,8 @@ Everything §"What `--unattended` never relaxes" lists holds here in full. The
 audit commit is a **real** commit, so the foreign-dirt gate still terminates
 write-nothing and 🏁 still requires a deliverable-covering SHA.
 
-**Applies to** the three runners `--fast` applies to — `/ft-task`,
-`/ft-micro-task`, `/ft-goal-task` — plus `/ft-close-epic`, on the terms
+**Applies to** the two runners `--fast` applies to — `/ft-task`,
+`/ft-micro-task` — plus `/ft-close-epic`, on the terms
 above, and `/ft-file-followup`, on
 [`tasknote-selection.md`](tasknote-selection.md) §"Filing commits".
 `/ft-epic-discovery` does not accept it: it opens an epic by filing

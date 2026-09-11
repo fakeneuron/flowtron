@@ -4,14 +4,14 @@ paths: []
 
 # Loop tasks
 
-> Lazy-loaded SPEC module. Loaded by `/ft-goal-task` when a tasknote carries `loop: true`, and consulted whenever a task is run under an iteration loop. See `SPEC.md` for the always-loaded core spec.
+> Lazy-loaded SPEC module. Loaded by `/ft-task --loop` at its Step 0 (and by a resume of a tasknote carrying `loop: true`), and consulted whenever a task is run under an iteration loop. See `SPEC.md` for the always-loaded core spec.
 
 A **loop task** is a normal tasknote run under an iteration loop: the
 assistant repeats Phase 2 → Phase 3 (execute → verify) against a fixed
 Acceptance target until the target is met, a budget is exhausted, or a
 per-cycle relevance check says stop. Goal loops (converge on a verifiable
 outcome) and heartbeats (recurring maintenance passes) are the two shapes.
-The goal shape is driven by `/ft-goal-task`; the heartbeat shape ships as a
+The goal shape is driven by `/ft-task --loop`; the heartbeat shape ships as a
 ready-made per-cycle contract at
 [`templates/loop-heartbeat-template.md`](../templates/loop-heartbeat-template.md)
 (copy to `.claude/loop.md`, replace its Duties, run under a loop runner).
@@ -53,7 +53,7 @@ semantics** (see [`SPEC/gates.md`](gates.md) §"`--fast` operator override"):
 
 - **🛠️ Phase 1→2 gate** — a one-time pre-loop event, unchanged. Discovery
   runs once before the loop starts; the 🛠️ exit gate fires or skips per
-  `/ft-goal-task`'s flavor. It is not re-run each cycle.
+  `/ft-task`'s `default-skip` flavor. It is not re-run each cycle.
 - **📦 ready-to-commit gate** — collapses to **commit-per-verified-iteration**.
   Each cycle whose verify command passes commits autonomously (behind the
   `✅` skip-marker, per the `--fast` force-skip); a cycle that fails
@@ -62,7 +62,8 @@ semantics** (see [`SPEC/gates.md`](gates.md) §"`--fast` operator override"):
 - **👁️ visual-confirmation ask** — suppressed *inside* the loop, exactly as
   under `--fast`. A criterion that can only be judged by eye is not
   loop-verifiable; split it out to a one-time 👁️ ask outside the loop (the
-  `/ft-goal-task` Acceptance-criterion rule, `.4`). Under `--unattended` that
+  `--loop` Acceptance-criterion rule, `claude/skills/ft-task/step-5-loop-mode.md`
+  §"Step 4"). Under `--unattended` that
   one-time ask does not vanish — it **parks** with
   `park-reason: visual-confirm — …`, per [`SPEC/gates.md`](gates.md)
   §"`--unattended` operator posture". The per-cycle suppression is unaffected:
