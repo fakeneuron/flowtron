@@ -67,7 +67,7 @@ its cap.
 
 ## Ledger
 
-Measured 2026-09-09 at v5.26.0, refreshed by [[CORE-553]] — the release cut,
+Measured 2026-09-12 at v5.27.0, refreshed by [[CORE-586]] — the release cut,
 which re-measured every row. Refreshed by
 `/ft-release` §7.1 in the same cut that reads it — if these numbers are stale,
 the cut that made them stale skipped its own standing check.
@@ -76,11 +76,11 @@ the cut that made them stale skipped its own standing check.
 
 | Surface | Chars |
 |---|---|
-| `SPEC.md` | 49,285 |
-| `claude/skills/ft-task/SKILL.md` | 28,845 |
-| `AGENTS.md` (`CLAUDE.md` is a symlink to it) | 6,816 |
-| `.flowtron/tasknote/README.md` | 7,978 |
-| `templates/tasknote-template.md` | 4,935 |
+| `SPEC.md` | 51,817 |
+| `claude/skills/ft-task/SKILL.md` | 28,199 |
+| `AGENTS.md` (`CLAUDE.md` is a symlink to it) | 6,791 |
+| `.flowtron/tasknote/README.md` | 8,816 |
+| `templates/tasknote-template.md` | 5,180 |
 | `.flowtron/PLAN.md` | ~2–3k (band — see below) |
 
 **Why `.flowtron/PLAN.md` carries a band and not a number.** Every other surface
@@ -103,15 +103,16 @@ not ship.
 
 ### Lazy `SPEC/` modules
 
-`gates.md` 34,963 · `procedures/ft-task.md` 31,205 ·
-`tasknote-selection.md` 25,940 · `model.md` 18,699 ·
+`gates.md` 35,943 · `procedures/ft-task.md` 33,141 ·
+`tasknote-selection.md` 28,100 · `model.md` 17,089 ·
 `gate-discipline.md` 15,386 · `cue-vocabulary.md` 15,138 ·
-`plan-parser.md` 8,310 · `blocked.md` 8,034 · `loop.md` 7,971 ·
-`layout.md` 6,567 · `procedures/README.md` 6,128 ·
-`epic.md` 6,080 · `scope-boundaries.md` 5,116 ·
-`tasknote-inserts.md` 4,626 · `purpose-blurb.md` 4,049 ·
-`superseded-claims.md` 2,980 · `starter.md` 2,408 ·
-`versioning.md` 1,074.
+`blocked.md` 11,257 · `unattended-candidacy.md` 10,239 ·
+`plan-parser.md` 8,310 · `loop.md` 8,061 ·
+`layout.md` 6,484 · `procedures/README.md` 6,128 ·
+`epic.md` 6,127 · `scope-boundaries.md` 5,116 ·
+`tasknote-inserts.md` 4,634 · `purpose-blurb.md` 4,046 ·
+`superseded-claims.md` 2,980 · `starter.md` 2,513 ·
+`versioning.md` 1,238.
 
 `gates.md` and `tasknote-selection.md` are lazy by declaration and near-universal
 in practice; the rest genuinely load only on their task shape. [[CORE-535.3]]
@@ -124,24 +125,28 @@ ordinary run, which is why neither earns a budget row.
 
 ### Skill bodies (`SKILL.md` only)
 
-ft-release 39,315 · ft-task 28,845 · ft-epic-discovery 26,986 · ft-close-epic
-26,935 · ft-goal-task 26,497 · ft-file-followup 23,648 · ft-audit 21,707 ·
-ft-micro-task 18,981 · ft-update 16,095 · ft-refactor 13,673 ·
-ft-starter-task 13,253 · ft-worktree-end 12,598 · ft-worktree-start 12,008 ·
-ft-new-project 11,425 · ft-audit-context 10,209 · ft-flowtron 9,287 · ft-stats
-8,893 · ft-audit-repo 8,166 · ft-spec 7,684.
+ft-release 31,371 · ft-epic-discovery 29,508 · ft-task 28,199 · ft-close-epic
+27,050 · ft-audit 26,972 · ft-file-followup 26,408 · ft-micro-task 20,728 ·
+ft-update 16,460 · ft-refactor 15,861 · ft-audit-context 11,438 ·
+ft-new-project 11,337 · ft-audit-repo 9,873 · ft-stats 8,893 · ft-flowtron
+8,299.
+
+`ft-goal-task`, `ft-spec`, `ft-starter-task`, `ft-worktree-start`, and
+`ft-worktree-end` were retired this cycle (CORE-570/571/572/573), folded into
+`ft-task`, `ft-file-followup --starter`, and demoted content — five fewer rows
+here, not five fewer surfaces flowtron covers.
 
 Lazy fragments are not counted against a skill's row — they arrive later, and
 only on the branch that needs them. Whole-directory totals for the two largest:
-`ft-release` 92,839, `ft-task` 57,186. Splitting a body into fragments defers
+`ft-release` 105,337, `ft-task` 73,118. Splitting a body into fragments defers
 load; it does not remove it ([[CORE-507]] §2.5), so a skill that fragments its
 way under the cap without shedding content has gamed the number rather than met
 it.
 
 ### Adopter-side always-loaded
 
-`claude/AGENTS-snippet.md` 15,884 (pasted into the adopter's `AGENTS.md`) ·
-`templates/tasknote-README.md` 4,257 · `templates/PLAN.md` 2,801.
+`claude/AGENTS-snippet.md` 15,015 (pasted into the adopter's `AGENTS.md`) ·
+`templates/tasknote-README.md` 4,837 · `templates/PLAN.md` 2,801.
 
 ## How this is enforced
 

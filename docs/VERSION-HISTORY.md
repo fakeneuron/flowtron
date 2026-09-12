@@ -22,6 +22,14 @@ unless correcting a factual error.
 
 ---
 
+## v5.27.0 — skill consolidation, the [unattended] candidacy contract, and release/CI integrity hardening
+
+- Five overlapping skills fold into their survivors: `ft-goal-task` into `ft-task`, `ft-starter-task` into `ft-file-followup --starter`, `ft-spec` and the `ft-worktree-start`/`-end` pair demoted into docs.
+- Every filing surface (`/ft-epic-discovery`, `/ft-file-followup`, `/ft-audit`, `/ft-refactor`) now proposes the `[unattended]` marker under one shared candidacy contract, confirmed at the write-step review gate rather than seeded silently.
+- Release/CI integrity hardens: a gitleaks secret-scan CI step, the context-budget check lifted into the CI drift job, and a documented `npm audit` cadence backed by Dependabot.
+
+Also: a js-yaml CVE bump (GHSA-2883) in the visualizer, an `/ft-task` area-resolution fix, and a stricter `/ft-audit` finding format requiring a concrete operator action.
+
 ## v5.26.0 — the unattended posture reaches the filing motion
 
 - `/ft-file-followup --unattended` lets an operator-less closure discharge the
