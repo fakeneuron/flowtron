@@ -19,10 +19,9 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Future Opportunities
 
-- [ ] **FE-116** [light]🔧 [unattended] | theme-key-namespace — Rename the theme localStorage key from bare `theme` to `flowtron-viz-theme` in `viz/src/ui/theme.ts` and `viz/public/theme-init.js`, with a one-shot legacy-key fallback read so existing prefs survive. Surfaced by audit 2026-09-12 (Finding #3, Low).
-
 ## Completed
 
+- [x] **FE-116** [light]🔧 [unattended] | theme-key-namespace — Completed 2026-09-12.
 - [x] **CORE-585** [light]🔧 [unattended] | updater-git-no-prompt-timeout — Completed 2026-09-12.
 - [x] **FE-115** [medium]🧩 [unattended] | watcher-error-listener — Completed 2026-09-12.
 - [x] **FE-117** [light]🔧 | vscode-href-segment-encoding — `vscodeFileHref` in `viz/src/ui/TaskDetail.tsx` now encodes per path segment with `encodeURIComponent` so `#`/`?` in a workspace path no longer truncate the `vscode://file` link; test added. Surfaced by audit 2026-09-12 (Finding #4, Low), fixed inline.

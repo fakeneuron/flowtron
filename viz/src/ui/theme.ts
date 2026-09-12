@@ -1,10 +1,11 @@
 export type ThemePreference = 'light' | 'dark';
 
-const STORAGE_KEY = 'theme';
+const STORAGE_KEY = 'flowtron-viz-theme';
+const LEGACY_STORAGE_KEY = 'theme';
 
 export function readPreference(): ThemePreference {
   try {
-    const stored = localStorage.getItem(STORAGE_KEY);
+    const stored = localStorage.getItem(STORAGE_KEY) ?? localStorage.getItem(LEGACY_STORAGE_KEY);
     if (stored === 'light' || stored === 'dark') return stored;
   } catch {}
   // No stored pref: resolve the system preference, matching theme-init.js so
