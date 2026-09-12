@@ -72,7 +72,7 @@ Alphabetized. ~71 entries. Maintained via epic children and audits.
 
 **goal loop** — The loop-task shape that repeats Phase 2→3 (execute→verify) against a fixed, machine-checkable `## ✅ Acceptance` target until every check passes, `loop-max` is exhausted, or the per-cycle relevance gate says stop. Driven by `/ft-task --loop`; contrast heartbeat. See SPEC/loop.md.
 
-**grammar elements** — The syntactic pieces of the PLAN.md task-line and tasknote body: `[!critical]`, `[model]`, `| shortname`, `[[TASK-ID]]` wikilink, `Blocked by [[ID]]`, `Completed YYYY-MM-DD.` stub form, etc. See SPEC §"Task-line format".
+**grammar elements** — The syntactic pieces of the PLAN.md task-line and tasknote body: `[!critical]`, `[model]`, `[unattended]`, `| shortname`, `[[TASK-ID]]` wikilink, `Blocked by [[ID]]`, `Completed YYYY-MM-DD.` stub form, etc. See SPEC §"Task-line format".
 
 **Handoff (🔄)** — Optional tasknote body section a session ending mid-task may write so the next reader resumes without reconstructing state: Goal + Acceptance status, key decisions, open questions, relevant paths, next step. Sits in the top block after `## 🔗 Related`; ships in no template, so the single-session happy path pays nothing. Distinct from a park (`status: blocked`), a sidequest's resume anchor, and docs/EXTERNAL-AGENTS.md §"The Handoff Contract" (whole-tasknote transfer to another agent). See SPEC §"Tasknote body shape".
 
@@ -140,6 +140,8 @@ Alphabetized. ~71 entries. Maintained via epic children and audits.
 
 **touches** — Tasknote frontmatter array of path/glob strings naming the files this task expects to edit: its **declared scope**. Filled at Phase 1 on any task with file deliverables, reconciled against `git diff --name-only` in the Phase 4 recap as a recorded fact, never a gate. Omit-when-absent in shape (no validator) but omitted only when the task has no file deliverable. Distinct from a starter's `### Files to touch` prose survey. See SPEC §"Tasknote frontmatter".
 
+**[unattended]** — Optional task-level opt-in marker in the task-line grammar, sitting AFTER `[model]`; declares a row safe to dispatch with no operator present, the row-scoped counterpart to the `--unattended` invocation posture. Flowtron never writes it itself — seeding is an operator act — and operator-less callers deny by default on an unmarked row. On an attended `/ft-task` invocation with no flag, it implies `--fast` only, never the `--unattended` posture. See SPEC §"Task-line format" and SPEC/unattended-candidacy.md.
+
 **VISION.md** — The outward-facing identity document (who it's for, principles recap including Extension-first, "what we won't accept", why this exists). Lazy-loaded; cross-linked with the SPEC PR-archetypes subsection. Companion to PHILOSOPHY.md (history). See docs/VISION.md.
 
 **wikilink [[TASK-ID]]** — The only parsed cross-reference syntax in PLAN long-descriptions and tasknote Related sections; populates `relatedTasks` / `blockedBy` metadata. Bare IDs and angle-bracket placeholders are literal text only. See SPEC §"Task-line format".
@@ -148,6 +150,6 @@ Alphabetized. ~71 entries. Maintained via epic children and audits.
 
 ---
 
-**Maintenance.** This file is the survivor slice of the GSD-Pi `CONTEXT.md` pattern (see CORE-194.1). It is deliberately lazy-loaded and must never be added to the AI-referenced docs list. New terms are introduced only by epic children or audit follow-ups that also update the authoritative SPEC anchors. Last significant update: CORE-489.2 (2026-08-29) — extended the `[model]` entry to the four-rung tier ladder (`[xheavy]` manual-only).
+**Maintenance.** This file is the survivor slice of the GSD-Pi `CONTEXT.md` pattern (see CORE-194.1). It is deliberately lazy-loaded and must never be added to the AI-referenced docs list. New terms are introduced only by epic children or audit follow-ups that also update the authoritative SPEC anchors. Last significant update: CORE-590 (2026-09-12) — added the `[unattended]` entry and extended `grammar elements` to list it.
 
 See [SPEC.md](../SPEC.md) for the contract and [.flowtron/PLAN.md](../.flowtron/PLAN.md) for the current epic context.
