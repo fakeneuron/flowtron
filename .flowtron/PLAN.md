@@ -20,7 +20,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [ ] **CORE-575.3** [medium]🧩 | gray-matter-js-yaml-residue — Choose an npm `overrides` pin of gray-matter's js-yaml to 4.x (verify `tasknote.test.ts` engine-override tests still pass) or a named accept in `SECURITY.md`; either way `npm audit` exits 0 or every remaining advisory is documented with a reason.
   - [ ] **CORE-575.4** [light]🔧 | audit-in-ci-or-cadence — Decide `npm --prefix viz audit --audit-level=high` as a `validate` step (respecting Pair H's byte-for-byte binding to AGENTS.md §"Validation") vs a documented manual cadence in `docs/CONVENTIONS.md`; implement the choice.
   - [ ] **CORE-575.N** [light]🔧 | viz-dependency-posture audit — Epic closure audit + doc-drift sweep.
-- [ ] **CORE-580** [medium]🧩 [unattended] | ft-file-followup-headroom-trim — Restore ≥ one working unit (~3,000 chars; last substantial edits +3,091 / +2,874) of headroom on `claude/skills/ft-file-followup/SKILL.md` (30,882 / 33,000 → 2,118) by extracting one narrow-use section into a lazy fragment per the CORE-574.4 recipe, never by raising the cap. Surfaced by CORE-574.N.
 
 ## Low
 
@@ -34,6 +33,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-580** [medium]🧩 [unattended] | ft-file-followup-headroom-trim — Completed 2026-09-11.
 - [x] **CORE-EPIC-574** [heavy]🧠 | drift-ci-and-budget-headroom — Completed 2026-09-11.
   - [x] **CORE-574.2** [light]🔧 | ci-context-budget-check — Completed 2026-09-11.
   - [x] **CORE-574.3** [light] [unattended]🔧 | ci-pairs-j-m — Completed 2026-09-11.

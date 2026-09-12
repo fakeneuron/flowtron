@@ -16,7 +16,7 @@ A default `/ft-file-followup` filing produces **zero artifacts on disk beyond a 
 
 This skill is **filing-only**, and its default flow is the lightest of its three weights: use it as-is when the description fits in ≤50 words and no rich context (file survey / open questions / design decisions) needs to persist. If the description would breach 70 words or rich context warrants preserving, re-invoke with `--starter` — the SKILL surfaces this gate at Step 2.
 
-Two flags deviate from both paragraphs above. **Park mode (`--park`)** writes a tiny stub at `.flowtron/sidequest/<ID>.md` in addition to the PLAN.md line, skips the review gate and the reconciliation scan, and resumes the interrupted work inline instead of handing off — full flow: `park-mode.md`. **Starter mode (`--starter`)** writes a starter tasknote at `.flowtron/tasknote/<ID>.md` carrying the rich context, keeps every gate, and suffixes the PLAN.md line with a pointer to it — full flow: `starter-mode.md`. Step 0 loads whichever fragment its flag names.
+Two flags deviate from both paragraphs above. **Park mode (`--park`)** writes a tiny stub at `.flowtron/sidequest/<ID>.md` in addition to the PLAN.md line, skips the review gate and the reconciliation scan, and resumes the interrupted work inline instead of handing off — full flow: `park-mode.md`. **Starter mode (`--starter`)** writes a starter tasknote at `.flowtron/tasknote/<ID>.md` carrying the rich context, keeps every gate, and suffixes the PLAN.md line with a pointer to it — full flow: `starter-mode.md`. Step 0 loads whichever fragment its flag names, via the `step-0-flags.md` fragment it reads whenever a flag is present.
 
 If the task ID is missing, suggest one during input collection instead of
 requiring it up front. If a non-flag token is present but doesn't match
@@ -32,80 +32,15 @@ Two layouts. Pick by which file exists:
 
 If neither matches, bail. PLAN=`.flowtron/PLAN.md`, tasknote dir=`.flowtron/tasknote/`, sidequest dir=`.flowtron/sidequest/` either way.
 
-**Parse `args`.** Treat `args` as an **unordered flag set** plus free text —
-recognize each token independently; order never matters. Initialize
-`park-mode = false`, `starter-mode = false`, and `unattended-mode = false`, then
-walk the tokens:
-
-- **`--park` or `-p`** → set `park-mode = true`.
-- **`--starter`** (no short alias) → set `starter-mode = true`.
-- **`--unattended`** (no short alias) → set `unattended-mode = true`.
-- **`--low` / `--med` / `--medium` / `--fut` / `--future` / `--high`** → a park-mode priority flag; strip and carry. Outside park mode these are meaningless — surface the usage notice below rather than silently ignoring them.
-- **A `<AREA>-<NUMBER>` token** → the proposed task ID.
-- **Any other `--`-prefixed token** → surface a one-line usage notice (``Unknown arg `<arg>`. Usage: `/ft-file-followup [TASK-ID] [--park [--low|--med|--fut|--high]] [--starter] [--unattended]`.``) and ask whether the user meant `--park`, a priority flag, `--starter`, `--unattended`, or the default flow. Do not proceed silently. **When `unattended-mode = true` there is nobody to ask** — emit the notice and stop, in the terminal shape below.
-- **Remaining free text** → the idea text (park mode) or drafting context (default and starter flows).
-
-**`--park` and `--unattended` do not compose.** Park mode preserves an operator's
-tangential mid-session thought and resumes *their* interrupted work inline; both
-halves presume an operator to have the thought. Refuse the combination terminally
-rather than inventing an unattended park:
-
-```markdown
-⏸ --unattended stop — flag-conflict: `--park` presumes a present operator. Use the default flow to file the row; nothing written.
-```
-
-**`--starter` composes with neither `--park` nor `--unattended`.** A starter body
-is AI-drafted rich context that exists to be reviewed, so it keeps the review
-gate `--unattended` suppresses; and a filing writes one artifact, not a stub
-and a starter. Refuse both terminally, in the same shape:
-
-```markdown
-⏸ --unattended stop — flag-conflict: `--starter` presumes a reviewer. Use the default flow to file the row; nothing written.
-⏸ stop — flag-conflict: `--starter` and `--park` write different artifacts. Pick one; nothing written.
-```
-
-Every other terminal stop in this skill takes the same
-`⏸ --unattended stop — <cause>: <one line>` shape (`SPEC/gates.md`
-§"`--unattended` operator posture" → "Pre-scaffold stops"). `⏸` is the existing
-nav chip, not a new cue glyph; the two-banner cap is untouched.
-
-**When `park-mode = true`, Read `<SKILL_DIR>park-mode.md` now and follow it
-instead of Steps 2–5 below.** Park mode is a distinct filing contract — it keeps
-Step 1a's pre-flight checks and this step's path resolution, then bypasses the
-AskUserQuestion collection, the review gate, the downstream-impact reconciliation
-scan, the conversational paragraph, and the Step 5 hand-off. It writes a stub at
-`.flowtron/sidequest/<ID>.md` alongside the PLAN.md line, replies in ≤70 words,
-and continues the interrupted work inline. It also runs **no `[unattended]`
-candidacy** (Step 3 below): the proposal is a review-gate motion and park has no
-review gate; the row is judged when the stub is promoted or run. Emit the inline marker
-`📌 --park active — no review gate, no reconcile scan; stub + PLAN line, then resume inline.`
-
-**When `starter-mode = true`, Read `<SKILL_DIR>starter-mode.md` now** (it Reads
-`<SPEC_DIR>starter.md` in turn) **and apply it as an overlay on Steps 2–5
-below.** Starter mode is the same filing contract with a heavier artifact: Steps
-1–1a, the collection, the review gate, the reconciliation scan, and the
-pre-check / post-stage commit discipline all run as written here; the fragment
-substitutes the `## 🌱 Starter context` body for the conversational paragraph,
-the starter-file write plus the `Filed with starter at …` PLAN suffix for the
-bare line, a two-path `chore: file <ID> starter` commit for the one-path one,
-and the promotion hand-off for the default one. Emit the inline marker
-`🌱 --starter active — every gate kept; starter file + PLAN line with pointer, then hand off.`
-
-**When `unattended-mode = true`** the caller declares that **no operator is
-present to answer a gate**. This skill has three: the Step 2 AskUserQuestion
-collection, the Step 3 review gate, and — inside Step 3 — the reconciliation
-scan's user-confirm. The posture suppresses the first two. It does **not**
-suppress the third: `SPEC/gates.md` §"What `--unattended` never relaxes" holds
-the reconciliation user-confirm, so the scan still runs — and because the
-confirm is unavailable rather than waived, an unconfirmed proposal is reported,
-never applied. What authorizes the Step 4 commit without any operator act is the duty in `SPEC.md`
-§"Deferred hand-off filing", not discretion — contract in
-`SPEC/tasknote-selection.md` §"Filing commits" → "Unattended filing authority".
-Emit the inline marker:
-
-```markdown
-⚡ --unattended active — no operator present: ID auto-allocated, collection + review gate suppressed, reconcile scan reports but applies nothing. Filing commits on the SPEC §"Deferred hand-off filing" duty.
-```
+**Parse `args`.** Initialize `park-mode = false`, `starter-mode = false`, and
+`unattended-mode = false`. If no token in `args` starts with `-`, the flagless
+flow needs nothing further here: a `<AREA>-<NUMBER>` token is the proposed task
+ID, any remaining free text is drafting context, and Step 1 follows. Otherwise
+**Read `<SKILL_DIR>step-0-flags.md` now** and follow it: it walks `args` as an
+unordered flag set, refuses the flag combinations that do not compose, defines
+the shared `⏸ --unattended stop — <cause>: <one line>` shape, and dispatches
+`park-mode.md` / `starter-mode.md` or the unattended posture with its inline
+marker; then continue to Step 1.
 
 Default flow (`park-mode = false`, `starter-mode = false`,
 `unattended-mode = false`) is byte-identical to the pre-flag skill.
