@@ -2,7 +2,7 @@
 procedure: ft-task
 source: claude/skills/ft-task/ templates/tasknote-template.md
 restates: SPEC.md
-last-verified: v5.25.0 · 2026-09-08
+last-verified: v5.27.0 · 2026-09-12
 ---
 
 # Procedure SOP — `ft-task`
@@ -291,6 +291,11 @@ ticking each box in the tasknote as you go:
 - **Clarify** — use a **structured ask** for anything genuinely ambiguous; if
   nothing is ambiguous, write `No clarifications needed` with the explicit
   assumptions.
+- **Populate ✅ Acceptance** with concrete, testable criteria, each naming the
+  **verify command** that decides it — a test run, a lint/type-check, a
+  `grep -q` on a contract file. A criterion no command decides marks itself
+  `judgment` (or `👁️`) with a one-line reason; do not invent one. Contract:
+  [`SPEC.md` §"Tasknote body shape"](../../SPEC.md).
 - **Populate 🧩 Subtasks** with concrete, ordered steps, and **declare YAML `touches:`** with the paths this task expects to edit. Contract — exemptions, and why it is never a gate: `SPEC.md` §"Tasknote frontmatter".
 
 **Under debug mode**, work four extra prompts *inside* this checklist —
@@ -383,10 +388,13 @@ time (Step 6).
   scope is minimal.
 - **Phase 3: Testing & Linting** — [`SPEC.md` §"🧪 Phase 3"](../../SPEC.md).
   Run targeted tests + lint/type-check on changed code (full suite only for
-  broad/cross-cutting changes). For changed code, confirm no avoidable
-  duplication, dead code, unexplained complexity, unnecessary public-surface
-  growth, or stale code-facing documentation; otherwise record `N/A` with
-  reason. For frontend changes, ask the operator for visual confirmation with a
+  broad/cross-cutting changes). Record a **Verification receipt** in Testing
+  Notes: each Acceptance verify command as `command → exit code`, with the
+  first failure line when non-zero, folded together with the structural
+  half — for changed code, confirm no avoidable duplication, dead code,
+  unexplained complexity, unnecessary public-surface growth, or stale
+  code-facing documentation; otherwise record `N/A` with reason. For frontend
+  changes, ask the operator for visual confirmation with a
   `👁️ **CONFIRM**` ask in the **emphasized inline shape** — its own line,
   blank-line isolated, label bolded
   ([`SPEC/cue-vocabulary.md` §"Emphasized inline ask shape"](../cue-vocabulary.md)). Still inline
