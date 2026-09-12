@@ -75,10 +75,11 @@
 //
 // The bump commit itself passes --no-verify: it is a pathspec commit touching only
 // the .flowtron/core gitlink, a pure pin move with no adopter-authored content for a
-// pre-commit or commit-msg hook to lint. Running an adopter's own hooks unattended
-// during a fleet-wide sweep would let unrelated hook failures (or side effects) abort
-// an otherwise-clean bump; --no-verify keeps the commit's success contingent only on
-// the gitlink move that produced it.
+// pre-commit or commit-msg hook to lint. --no-verify skips only those two hooks
+// (prepare-commit-msg and post-commit still run); during a fleet-wide sweep,
+// skipping pre-commit/commit-msg keeps the commit's success contingent only on
+// the gitlink move that produced it, rather than on unrelated adopter-hook
+// failures or side effects.
 //
 // Not covered (by design — run /ft-update in the repo for these): per-project
 // symlink wiring for newly shipped skills, and audit-fork drift scans. When a
@@ -689,8 +690,8 @@ export async function applyBump(adopter, latest) {
     await git(repo, 'add', SUBMODULE_PATH);
     staged = true;
     // Pathspec commit: only the submodule gitlink lands, never unrelated work.
-    // --no-verify: see the "Mid-bump rollback" note above for why adopter hooks
-    // are skipped here.
+    // --no-verify: see the "Mid-bump rollback" note above for why pre-commit/
+    // commit-msg hooks are skipped here (prepare-commit-msg/post-commit still run).
     const current = adopter.current;
     await git(
       repo,
@@ -789,7 +790,8 @@ async function main(argv = process.argv.slice(2)) {
     ({ adopters, legacy } = await discoverAdopters(root));
   } catch (e) {
     console.error(`Workspace root is not a readable directory: ${root} (${e.message})`);
-    process.exit(1);
+    process.exitCode = 1;
+    return;
   }
   if (adopters.length === 0) {
     console.log('No .flowtron/core adopters found.');

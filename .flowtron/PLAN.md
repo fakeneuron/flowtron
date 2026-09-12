@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-584** [light]🔧 | updater-hook-claims-and-exit-flush — Reword `tools/update-adopters.mjs` header and `SECURITY.md` §"Fleet updater" to state that `--no-verify` skips only `pre-commit`/`commit-msg` while `prepare-commit-msg`/`post-commit` still run (option a, no behavior change); replace the `discoverAdopters` `process.exit(1)` with `process.exitCode = 1; return`. Surfaced by audit 2026-09-12 (Finding #11, Medium; Finding #5, Low).
+(none)
 
 ## Future Opportunities
 
@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-584** [light]🔧 | updater-hook-claims-and-exit-flush — Completed 2026-09-12.
 - [x] **FE-111** [light]🔧 [unattended] | keyboard-nav-enter-button-guard — Completed 2026-09-12.
 - [x] **FE-110** [light]🔧 [unattended] | sse-head-and-archive-prefix — Completed 2026-09-12.
 - [x] **FE-109** [light]🔧 [unattended] | tasknote-parse-node-only-reclass — Completed 2026-09-12.
