@@ -56,6 +56,17 @@ const pressEscape = (target: EventTarget = document.body): boolean => {
   return ev.defaultPrevented;
 };
 
+/** Dispatch Enter at `target` and report whether the handler consumed it. */
+const pressEnter = (target: EventTarget = document.body): boolean => {
+  const ev = new KeyboardEvent('keydown', {
+    key: 'Enter',
+    bubbles: true,
+    cancelable: true,
+  });
+  target.dispatchEvent(ev);
+  return ev.defaultPrevented;
+};
+
 afterEach(() => {
   cleanup();
   document.body.innerHTML = '';
@@ -153,5 +164,38 @@ describe('useKeyboardNav — Escape precedence chain', () => {
     expect(params.setExpandedId).not.toHaveBeenCalled();
     expect(params.setQuery).not.toHaveBeenCalled();
     expect(params.setStatusFilter).not.toHaveBeenCalled();
+  });
+});
+
+describe('useKeyboardNav — Enter target guard', () => {
+  it('a focused BUTTON is left alone so native activation is not clobbered', () => {
+    const button = document.createElement('button');
+    document.body.appendChild(button);
+    const params = makeParams({ selectedId: 'CORE-001' });
+    renderHook(() => useKeyboardNav(params));
+
+    expect(pressEnter(button)).toBe(false);
+    expect(params.setExpandedId).not.toHaveBeenCalled();
+    expect(params.toggleEpic).not.toHaveBeenCalled();
+  });
+
+  it('a focused A link is left alone so native activation is not clobbered', () => {
+    const link = document.createElement('a');
+    link.href = '#';
+    document.body.appendChild(link);
+    const params = makeParams({ selectedId: 'CORE-001' });
+    renderHook(() => useKeyboardNav(params));
+
+    expect(pressEnter(link)).toBe(false);
+    expect(params.setExpandedId).not.toHaveBeenCalled();
+    expect(params.toggleEpic).not.toHaveBeenCalled();
+  });
+
+  it('a non-button/link target still toggles the selected row as before', () => {
+    const params = makeParams({ selectedId: 'CORE-001', expandedId: null });
+    renderHook(() => useKeyboardNav(params));
+
+    expect(pressEnter()).toBe(true);
+    expect(params.setExpandedId).toHaveBeenCalledWith('CORE-001');
   });
 });

@@ -19,7 +19,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **FE-111** [light]🔧 [unattended] | keyboard-nav-enter-button-guard — Ignore Enter in `useKeyboardNav` when `e.target` is a `BUTTON`/`A` so j/k selection doesn't cancel button activation; add the test case. Surfaced by audit 2026-09-12 (Finding #3, Low).
 - [ ] **CORE-584** [light]🔧 | updater-hook-claims-and-exit-flush — Reword `tools/update-adopters.mjs` header and `SECURITY.md` §"Fleet updater" to state that `--no-verify` skips only `pre-commit`/`commit-msg` while `prepare-commit-msg`/`post-commit` still run (option a, no behavior change); replace the `discoverAdopters` `process.exit(1)` with `process.exitCode = 1; return`. Surfaced by audit 2026-09-12 (Finding #11, Medium; Finding #5, Low).
 
 ## Future Opportunities
@@ -28,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-111** [light]🔧 [unattended] | keyboard-nav-enter-button-guard — Completed 2026-09-12.
 - [x] **FE-110** [light]🔧 [unattended] | sse-head-and-archive-prefix — Completed 2026-09-12.
 - [x] **FE-109** [light]🔧 [unattended] | tasknote-parse-node-only-reclass — Completed 2026-09-12.
 - [x] **CORE-581** [light]🔧 | quality-stack-gaps — Added `.github/dependabot.yml` (github-actions + npm/viz, security-only via `open-pull-requests-limit: 0`) and a `docs/CONVENTIONS.md` note on it as the continuous complement to the `npm audit` cadence. Operator still needs to arm the per-repo "Dependabot security updates" GitHub setting. Completed 2026-09-12.

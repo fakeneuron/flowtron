@@ -105,6 +105,7 @@ export function useKeyboardNav(params: UseKeyboardNavParams) {
       }
 
       if (e.key === 'Enter') {
+        if (tag === 'BUTTON' || tag === 'A') return;
         if (!selectedId) return;
         if (epicIds.has(selectedId) && !expandedEpicIds.has(selectedId)) {
           toggleEpic(selectedId);
