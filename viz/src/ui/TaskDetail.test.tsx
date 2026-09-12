@@ -24,6 +24,12 @@ describe('vscodeFileHref', () => {
     );
   });
 
+  it('encodes # and ? so a segment cannot truncate the path as a fragment/query', () => {
+    expect(vscodeFileHref('/Users/x/proj#2/what?/FE-1.md')).toBe(
+      'vscode://file/Users/x/proj%232/what%3F/FE-1.md',
+    );
+  });
+
   it('returns null for a non-absolute path', () => {
     expect(vscodeFileHref('relative/path.md')).toBeNull();
     expect(vscodeFileHref('')).toBeNull();

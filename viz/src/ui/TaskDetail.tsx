@@ -14,10 +14,15 @@ import { StatusChip } from './StatusChip';
 import { effectiveStatus } from './utils';
 
 // Build a `vscode://file` href only for a well-formed absolute path, encoding
-// it so spaces / special characters don't break the URI. Returns null for a
-// path that isn't an absolute POSIX path, so no broken link renders.
+// each segment so spaces / special characters don't break the URI —
+// per-segment `encodeURIComponent` rather than `encodeURI`, which leaves `#`
+// and `?` bare and would let a dir like `proj#2` truncate the path at the
+// fragment. Returns null for a path that isn't an absolute POSIX path, so no
+// broken link renders.
 export const vscodeFileHref = (path: string): string | null =>
-  path.startsWith('/') ? `vscode://file${encodeURI(path)}` : null;
+  path.startsWith('/')
+    ? `vscode://file${path.split('/').map(encodeURIComponent).join('/')}`
+    : null;
 
 const wikilinkList = (ids: string[]): string => ids.map((id) => `[[${id}]]`).join(' ');
 
