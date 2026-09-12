@@ -31,6 +31,19 @@ jobs:
       - run: node --check tools/update-adopters.test.mjs
       - run: node --check tools/update-adopters.mjs
 
+      # Stack-agnostic (docs-only repos included), so it sits on `validate`
+      # rather than a stack-specific lane. --config differs from natabula's
+      # own workflow on purpose: natabula is where the baseline canonically
+      # lives (configs/.gitleaks.toml); flowtron deposits its copy at repo
+      # root (CORE-578), so it is read in place rather than duplicated.
+      - name: Secret scan (gitleaks)
+        env:
+          GITLEAKS_VERSION: '8.30.1'
+        run: |
+          curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" \
+            | tar -xz -C "$RUNNER_TEMP" gitleaks
+          "$RUNNER_TEMP/gitleaks" dir . --config .gitleaks.toml --no-banner --redact
+
   # Cross-file drift checks — the release-context-free subset of /ft-release
   # §7.1 (plus SPEC/layout.md §"Skill namespace"), so drift is caught on the commit
   # that lands it instead of at the next cut. §7.1 remains the release gate and
