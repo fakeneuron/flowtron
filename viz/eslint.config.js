@@ -51,6 +51,8 @@ export default tseslint.config(
                 '**/fsSafe.ts',
                 '**/tasknoteRead',
                 '**/tasknoteRead.ts',
+                '**/tasknote-parse',
+                '**/tasknote-parse.ts',
                 '**/archiveCache',
                 '**/archiveCache.ts',
                 '**/flowtronWatch',

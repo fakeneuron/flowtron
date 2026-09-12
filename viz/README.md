@@ -37,14 +37,14 @@ table: a tier may import from tiers below it, never above.
 | Tier | Where | Role |
 |---|---|---|
 | **Browser UI** | `src/ui/` | React components, hooks, and browser-view selectors. |
-| **Shared pure** | `src/*.ts` with no `node:` imports | Parsing (`parser`, `tasknote`, `tasknote-parse`) plus other Node-free shared modules (`fence`, `sseChange`, `viewMode`, `visibilityPrefs`, `projectStorage`). Usable from the browser bundle and, where relevant, from the Node plugin. |
-| **Node-only dev API** | `src/*.ts` with `node:` imports + `vite.config.ts` | Filesystem scan, contained tasknote reads, archive cache, watchers, `/api/*` handlers, origin guard. Hosted only by the Vite plugin — never shipped to the browser. |
+| **Shared pure** | `src/*.ts` with no `node:` imports | Parsing (`parser`, `tasknote`) plus other Node-free shared modules (`fence`, `sseChange`, `viewMode`, `visibilityPrefs`, `projectStorage`). Usable from the browser bundle and, where relevant, from the Node plugin. |
+| **Node-only dev API** | `src/*.ts` with `node:` imports + `vite.config.ts` | Filesystem scan, contained tasknote reads (`tasknote-parse` frontmatter parse), archive cache, watchers, `/api/*` handlers, origin guard. Hosted only by the Vite plugin — never shipped to the browser. |
 
 ### Hard rule: no Node imports under `src/ui/`
 
 Files under `src/ui/` **must not** import `node:*` builtins or any Node-only
-tier module (`devApi`, `workspace`, `fsSafe`, `tasknoteRead`, `archiveCache`,
-`flowtronWatch`, `watchSet`, `originGuard`, `apiResponse`). They import shared pure modules via
+tier module (`devApi`, `workspace`, `fsSafe`, `tasknoteRead`, `tasknote-parse`,
+`archiveCache`, `flowtronWatch`, `watchSet`, `originGuard`, `apiResponse`). They import shared pure modules via
 `../…` and sibling UI modules via `./…` only.
 
 This is enforced by an eslint `no-restricted-imports` rule scoped to
@@ -56,7 +56,7 @@ This is enforced by an eslint `no-restricted-imports` rule scoped to
 src/ui/*          →  shared pure (../parser, ../tasknote, …)
                      ✗ never → Node-only
 
-Node-only         →  shared pure (./tasknote-parse, ./sseChange, …)
+Node-only         →  shared pure (./sseChange, …)
                      ✗ never → src/ui/*
 
 shared pure       →  other shared pure only
@@ -83,7 +83,6 @@ viz/
     ui/                   Browser UI tier
     parser.ts             Shared pure (PLAN parsing)
     tasknote.ts           Shared pure (tasknote model + section helpers)
-    tasknote-parse.ts     Shared pure (gray-matter frontmatter parse)
     fence.ts              Shared pure (fenced-code-block line mask)
     sseChange.ts          Shared pure (SSE payload codec)
     viewMode.ts           Shared pure (localStorage view mode)
@@ -93,6 +92,7 @@ viz/
     workspace.ts          Node-only (project discovery)
     fsSafe.ts             Node-only (path-safe fs helpers)
     tasknoteRead.ts       Node-only (contained tasknote-dir reader)
+    tasknote-parse.ts     Node-only (gray-matter frontmatter parse)
     archiveCache.ts       Node-only
     flowtronWatch.ts      Node-only
     watchSet.ts           Node-only
