@@ -8,6 +8,7 @@ import { createArchiveCache } from './archiveCache';
 import {
   archiveWatchOptions,
   createChangeBroadcaster,
+  createOnWatchError,
   createOnWatchEvent,
   ignoreNonMarkdown,
   ignoreOutsideArchiveArea,
@@ -329,6 +330,47 @@ describe('createOnWatchEvent survives a one-shot iterator (FE-091)', () => {
       { project: 'alpha', scope: 'active' },
       { project: 'alpha', scope: 'active' },
     ]);
+  });
+});
+
+// chokidar never forwards 'error' to the 'all' listener, and FSWatcher is an
+// EventEmitter — an unlistened 'error' emit throws and kills the dev server.
+// The listener's whole job is to log and swallow (FE-115).
+describe('createOnWatchError (FE-115)', () => {
+  it('logs the label, errno code, and message to stderr without throwing', () => {
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const onError = createOnWatchError('hot');
+    const err = Object.assign(new Error('too many open files'), { code: 'EMFILE' });
+
+    expect(() => onError(err)).not.toThrow();
+    expect(spy).toHaveBeenCalledOnce();
+    expect(spy.mock.calls[0]?.[0]).toBe(
+      '[flowtronWatch] hot watcher error (EMFILE): too many open files — watching degraded until the dev server restarts',
+    );
+    spy.mockRestore();
+  });
+
+  it('omits the code segment for a plain Error', () => {
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    createOnWatchError('archive')(new Error('boom'));
+
+    expect(spy.mock.calls[0]?.[0]).toBe(
+      '[flowtronWatch] archive watcher error: boom — watching degraded until the dev server restarts',
+    );
+    spy.mockRestore();
+  });
+
+  it('stringifies a non-Error payload', () => {
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const onError = createOnWatchError('hot');
+
+    expect(() => onError('EBUSY')).not.toThrow();
+    expect(() => onError(null)).not.toThrow();
+    expect(spy.mock.calls.map((c) => c[0])).toEqual([
+      '[flowtronWatch] hot watcher error: EBUSY — watching degraded until the dev server restarts',
+      '[flowtronWatch] hot watcher error: null — watching degraded until the dev server restarts',
+    ]);
+    spy.mockRestore();
   });
 });
 

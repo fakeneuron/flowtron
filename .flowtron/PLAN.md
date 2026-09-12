@@ -11,8 +11,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **FE-115** [medium]🧩 [unattended] | watcher-error-listener — Attach `'error'` listeners to both chokidar watchers (hot + archive) in `viz/vite.config.ts` via a tested helper in `viz/src/flowtronWatch.ts`, so an EMFILE/EPERM/EBUSY watcher fault logs and degrades instead of crashing the dev server. Surfaced by audit 2026-09-12 (Finding #1, High).
-
 ## Medium
 
 - [ ] **CORE-585** [light]🔧 [unattended] | updater-git-no-prompt-timeout — Set `GIT_TERMINAL_PROMPT=0` in `git()`'s env in `tools/update-adopters.mjs` and put a `timeout` on the `applyBump` fetch so an interactive git prompt or stalled remote surfaces as a ✗ line instead of hanging the sweep; test the hang→✗ path. Surfaced by audit 2026-09-12 (Finding #2, Medium).
@@ -27,6 +25,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-115** [medium]🧩 [unattended] | watcher-error-listener — Completed 2026-09-12.
 - [x] **FE-117** [light]🔧 | vscode-href-segment-encoding — `vscodeFileHref` in `viz/src/ui/TaskDetail.tsx` now encodes per path segment with `encodeURIComponent` so `#`/`?` in a workspace path no longer truncate the `vscode://file` link; test added. Surfaced by audit 2026-09-12 (Finding #4, Low), fixed inline.
 - [x] **CORE-584** [light]🔧 | updater-hook-claims-and-exit-flush — Completed 2026-09-12.
 - [x] **FE-111** [light]🔧 [unattended] | keyboard-nav-enter-button-guard — Completed 2026-09-12.

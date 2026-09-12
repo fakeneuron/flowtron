@@ -24,6 +24,7 @@ import {
 import {
   archiveWatchOptions,
   createChangeBroadcaster,
+  createOnWatchError,
   createOnWatchEvent,
   SSE_DEBOUNCE_MS,
   WATCH_HOT_OPTIONS,
@@ -88,6 +89,7 @@ function flowtronApi(): Plugin {
         if (hot.length > 0) {
           hotWatcher = chokidar.watch(hot, WATCH_HOT_OPTIONS);
           hotWatcher.on('all', onWatchEvent);
+          hotWatcher.on('error', createOnWatchError('hot'));
         }
 
         // Archives are write-once and fleet-scale (~thousands of files). Native
@@ -95,6 +97,7 @@ function flowtronApi(): Plugin {
         if (archive.length > 0) {
           archiveWatcher = chokidar.watch(archive, archiveWatchOptions(archive));
           archiveWatcher.on('all', onWatchEvent);
+          archiveWatcher.on('error', createOnWatchError('archive'));
         }
 
         heartbeat = setInterval(() => {

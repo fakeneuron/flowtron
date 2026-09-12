@@ -150,6 +150,23 @@ export function createChangeBroadcaster(opts: {
   };
 }
 
+/**
+ * `'error'` listener for a chokidar watcher. chokidar never forwards `'error'`
+ * to the `'all'` listener (`emitWithAll` skips it), and `FSWatcher` is an
+ * `EventEmitter` — so with no listener an EMFILE / EPERM / EBUSY fault throws
+ * out of the event loop and takes the dev server down with it. Logging is the
+ * whole degrade path: the watcher keeps whatever handles it did open, and a
+ * dev-server restart is the recovery.
+ */
+export function createOnWatchError(label: string): (error: unknown) => void {
+  return (error) => {
+    const code = (error as { code?: unknown } | null)?.code;
+    const message = error instanceof Error ? error.message : String(error);
+    const where = typeof code === 'string' ? `${label} watcher error (${code})` : `${label} watcher error`;
+    console.error(`[flowtronWatch] ${where}: ${message} — watching degraded until the dev server restarts`);
+  };
+}
+
 export function createOnWatchEvent(opts: {
   projects: Iterable<ProjectDescriptor>;
   archiveCache: ArchiveCache;
