@@ -139,6 +139,38 @@ jobs:
           done
           [ -z "$bad" ] || exit 1
 
+      - name: Pair J — command-stub argument-hint ↔ documented flags
+        run: |
+          bad=
+          for f in claude/commands/ft-*.md; do
+            s=$(basename "$f" .md)
+            own=$( { grep -m1 '^description:' "$f" | sed -E 's/"[^"]*"//g'
+                     grep -o '`[^`]*`' "$f" | grep -E -- "/${s}[^a-z-]" ; } \
+                   | grep -oE -e '--[a-z][a-z-]+' | sort -u | tr '\n' ' ')
+            [ -z "$own" ] && continue
+            hint=$(grep -m1 '^argument-hint:' "$f") \
+              || { echo "MISSING HINT $s :: $own"; bad=1; continue; }
+            for fl in $(printf '%s' "$own"); do
+              case "$hint" in *"$fl"*) ;; *) echo "MISSING HINT FLAG $s $fl"; bad=1 ;; esac
+            done
+          done
+          [ -z "$bad" ] || exit 1
+
+      - name: Pair M — skill description ↔ command-stub argument-hint
+        run: |
+          bad=
+          for d in claude/skills/ft-*/SKILL.md; do
+            s=$(basename "$(dirname "$d")"); c="claude/commands/$s.md"
+            [ -f "$c" ] || { echo "MISSING STUB  $s"; bad=1; continue; }
+            df=" $(grep -m1 '^description:' "$d" | sed -E 's/"[^"]*"//g' \
+                   | grep -oE '\-\-[a-z][a-z-]+' | sort -u | tr '\n' ' ')"
+            for fl in $(grep -m1 '^argument-hint:' "$c" | grep -oE '\-\-[a-z][a-z-]+' | sort -u); do
+              case "$fl" in --low|--med|--fut|--high) continue ;; esac
+              case "$df" in *" $fl "*) ;; *) echo "UNDOCUMENTED FLAG $s $fl"; bad=1 ;; esac
+            done
+          done
+          [ -z "$bad" ] || exit 1
+
       - name: Pair N — "[unattended]" candidacy mirrors ↔ SPEC/unattended-candidacy.md
         run: |
           bad=
