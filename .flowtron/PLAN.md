@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-574.2** [light]🔧 | ci-context-budget-check — Completed 2026-09-11.
   - [x] **CORE-574.3** [light] [unattended]🔧 | ci-pairs-j-m — Completed 2026-09-11.
   - [x] **CORE-574.4** [heavy]🧠 | ft-task-headroom-trim — Completed 2026-09-11.
-  - [ ] **CORE-574.5** [medium]🧩 | spec-md-headroom-trim — Same for `SPEC.md` (51,188 / 57,000): confirm ≥ one working unit of headroom or move a narrow-use section to a lazy `SPEC/` module.
+  - [x] **CORE-574.5** [medium]🧩 | spec-md-headroom-trim — Completed 2026-09-11.
   - [ ] **CORE-574.N** [medium]🧩 | drift-ci-and-budget-headroom audit — Epic closure audit + doc-drift sweep.
 
 ## Medium
