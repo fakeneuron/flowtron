@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-579** [light]🔧 [unattended] | external-agents-candidates-row — Add a `docs/EXTERNAL-AGENTS.md` §"Stable surfaces for callers" row classifying the `unattended-candidates:` line — literal prefix, bare comma-separated IDs in PLAN order or `none`, transcript-only under `--fast` / standalone `--unattended`, persisted in the discharging runner's Final Summary / `## ✅ Recap`. Owner `SPEC/unattended-candidacy.md`. Surfaced by CORE-577.N audit.
+(none)
 
 ## Future Opportunities
 
@@ -27,6 +27,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-579** [light]🔧 [unattended] | external-agents-candidates-row — Completed 2026-09-12.
 - [x] **CORE-576** [light]🔧 | stale-spec-draft-cleanup — Completed 2026-09-12.
 - [x] **CORE-578** [light]🔧 | gitleaks-ci-step — Completed 2026-09-12.
 - [x] **CORE-EPIC-575** [medium]🧩 | viz-dependency-posture — Completed 2026-09-12.
