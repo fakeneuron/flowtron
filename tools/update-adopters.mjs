@@ -646,7 +646,7 @@ export function verifyPinnedSha(checkedOutSha, canonicalSha, latest) {
 // Best-effort by construction — the caller is already unwinding a failure, so this
 // reports what it could not undo rather than throwing over the original error.
 // Returns null when the repo is fully restored, else a note naming the residue.
-export async function rollbackBump(repo, sub, priorSha, staged) {
+async function rollbackBump(repo, sub, priorSha, staged) {
   const residue = [];
   try {
     await git(sub, 'checkout', '--quiet', priorSha);

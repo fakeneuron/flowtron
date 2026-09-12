@@ -160,7 +160,7 @@ reviewed as one. Do not add repository secrets to this workflow.
 
 ### Fleet updater (`tools/`)
 
-`tools/update-adopters.mjs` is the singular script exception to SPEC.md
+`tools/update-adopters.mjs` is the singular script exception to
 `SPEC/scope-boundaries.md` §"What flowtron does NOT provide" — operator-side fleet maintenance across
 `~/code`, not workflow machinery inside a project. It batches the
 `/ft-update` recipe across every discovered adopter: bump the pinned

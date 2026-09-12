@@ -7,7 +7,7 @@
 // the closing run is the same character and at least as long as the opening
 // one, and a backtick info string may not itself contain a backtick. An
 // unclosed fence runs to end-of-input, also per CommonMark.
-export const FENCE_DELIMITER = /^ {0,3}(`{3,}|~{3,})(.*)$/;
+const FENCE_DELIMITER = /^ {0,3}(`{3,}|~{3,})(.*)$/;
 
 export function fenceMask(lines: string[]): boolean[] {
   const mask: boolean[] = [];

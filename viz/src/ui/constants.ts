@@ -204,7 +204,7 @@ export const PALETTES: Record<PaletteName, PaletteTokens> = {
  * settings modal: Default = today's spacing (post-FE-031 lean baseline);
  * Comfortable adds one step of breathing room; Compact tightens one step.
  * Scope: row-surface only — TaskDetail and header chrome stay fixed.
- * Chip text size stays on `TYPOGRAPHY.caption`; density scales padding.
+ * Chip text size stays on literal `text-xs`; density scales padding.
  */
 interface DensityTokens {
   rowPad: string;

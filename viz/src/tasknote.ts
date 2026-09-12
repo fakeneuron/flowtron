@@ -75,9 +75,6 @@ const STATUS_VALUES = new Set<TasknoteStatus>([
 
 function asString(v: unknown): string | undefined {
   if (typeof v === 'string') return v;
-  if (v instanceof Date && !isNaN(v.getTime())) {
-    return v.toISOString().slice(0, 10);
-  }
   return undefined;
 }
 
