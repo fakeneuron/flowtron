@@ -224,6 +224,12 @@ export function createEventsHandler(sseClients: Set<ServerResponse>): AsyncHandl
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache, no-transform');
     res.setHeader('Connection', 'keep-alive');
+    // A HEAD probe wants the headers a GET would send, not a held-open stream
+    // occupying one of the MAX_SSE_CLIENTS slots.
+    if (req.method === 'HEAD') {
+      res.end();
+      return;
+    }
     res.flushHeaders?.();
     res.write('event: open\ndata: {}\n\n');
     sseClients.add(res);

@@ -1,4 +1,4 @@
-import { join } from 'node:path';
+import { join, sep } from 'node:path';
 import { safeReaddir, safeRealpath } from './fsSafe.ts';
 import { readTasknoteDir } from './tasknoteRead.ts';
 import type { Tasknote } from './tasknote.ts';
@@ -58,7 +58,7 @@ export function createArchiveCache(): ArchiveCache {
     },
     invalidate(filepath, projects) {
       for (const p of projects) {
-        if (filepath.startsWith(p.archiveDir)) {
+        if (filepath.startsWith(p.archiveDir + sep)) {
           cache.delete(p.name);
           return true;
         }

@@ -107,4 +107,8 @@ describe('projectForPath', () => {
   it('returns undefined for an unknown path', () => {
     expect(projectForPath('/ws/other/.flowtron/PLAN.md', projects)).toBeUndefined();
   });
+
+  it('does not match a sibling path that string-prefixes archiveDir without being inside it', () => {
+    expect(projectForPath(`${alpha.archiveDir}-other/fe/FE-001.md`, projects)).toBeUndefined();
+  });
 });

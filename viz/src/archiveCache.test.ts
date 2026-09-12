@@ -146,6 +146,20 @@ describe('createArchiveCache', () => {
     expect(second).toBe(first);
   });
 
+  it('invalidate() returns false for a sibling path that string-prefixes archiveDir without being inside it', async () => {
+    const project = await makeProject('alpha', {
+      'frontend/FE-001.md': tasknote('FE-001', 'one'),
+    });
+    const cache = createArchiveCache();
+
+    const first = await cache.get(project);
+    const hit = cache.invalidate(`${project.archiveDir}-other/FE-002.md`, [project]);
+    const second = await cache.get(project);
+
+    expect(hit).toBe(false);
+    expect(second).toBe(first);
+  });
+
   it('invalidateProject() drops that project and leaves others intact', async () => {
     const a = await makeProject('alpha', { 'frontend/FE-001.md': tasknote('FE-001', 'a') });
     const b = await makeProject('beta', { 'frontend/FE-001.md': tasknote('FE-001', 'b') });

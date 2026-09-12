@@ -733,6 +733,20 @@ describe('createEventsHandler', () => {
     expect(sseClients.size).toBe(0);
   });
 
+  it('ends a HEAD request with SSE headers and no body, without registering a client', () => {
+    const sseClients = new Set<ServerResponse>();
+    const handler = createEventsHandler(sseClients);
+    const req = makeReq({ method: 'HEAD', headers: { origin: ALLOWED_ORIGIN } });
+    const { res, state } = makeRes();
+
+    handler(req, res);
+
+    expect(state.headers['content-type']).toBe('text/event-stream');
+    expect(state.ended).toBe(true);
+    expect(state.chunks).toEqual([]);
+    expect(sseClients.size).toBe(0);
+  });
+
   it('registers the response, writes the SSE preamble, and unregisters on close', () => {
     const sseClients = new Set<ServerResponse>();
     const handler = createEventsHandler(sseClients);

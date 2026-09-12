@@ -1,4 +1,4 @@
-import { dirname } from 'node:path';
+import { dirname, sep } from 'node:path';
 import type { ChangeScope } from './sseChange.ts';
 import type { ProjectDescriptor } from './workspace.ts';
 
@@ -53,7 +53,7 @@ export function projectForPath(
   for (const p of projects) {
     if (filepath === p.planPath) return { project: p, scope: 'plan' };
     if (dirname(filepath) === p.tasknoteDir) return { project: p, scope: 'active' };
-    if (filepath.startsWith(p.archiveDir)) return { project: p, scope: 'archive' };
+    if (filepath.startsWith(p.archiveDir + sep)) return { project: p, scope: 'archive' };
   }
   return undefined;
 }
