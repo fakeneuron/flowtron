@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-(none)
+- [ ] **CORE-589** [light] | agents-snippet-plan-archive-mention — The canonical `claude/AGENTS-snippet.md` bullet "Plans live in `.flowtron/PLAN.md`." never mentions `## Completed` rotation into `.flowtron/PLAN-ARCHIVE.md` (SPEC/tasknote-selection.md §"`## Completed` rotation"), even though adopters that rotate (natabula, marscharts confirmed) already carry a `PLAN-ARCHIVE.md`. marscharts independently patched this gap locally (CORE-220.N) as a per-repo AGENTS.md customization; natabula's NAT-251 fleet re-paste then silently overwrote it (natabula NAT-252 traced the loss). Add a short rotation clause to the canonical bullet so every adopter picks it up on the next version bump instead of re-discovering the gap per repo.
 
 ## Future Opportunities
 
