@@ -18,7 +18,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-EPIC-575** [medium]🧩 | viz-dependency-posture — Make `npm --prefix viz audit` a signal again and settle the gray-matter → js-yaml 3.x residue. Audit reports 5 advisories (2 high): vitest 4.1.6 (@vitest/mocker GHSA-82fw-gwwq-j7x9), browserslist ×2, baseline-browser-mapping, and js-yaml 3 via gray-matter — the last already neutralised in `viz/src/tasknote-parse.ts` by the engine override but still in the tree, so audit stays permanently red. No audit gate in CI, no Dependabot. Discovery supplied by audit-repo 2026-09-11. Surfaced by audit-repo 2026-09-11 (Theme: Dependency hygiene is a blind spot).
   - [x] **CORE-575.2** [light] [unattended]🔧 | npm-audit-fix-in-range — Completed 2026-09-11.
   - [x] **CORE-575.3** [medium]🧩 | gray-matter-js-yaml-residue — Completed 2026-09-11.
-  - [ ] **CORE-575.4** [light]🔧 | audit-in-ci-or-cadence — Decide `npm --prefix viz audit --audit-level=high` as a `validate` step (respecting Pair H's byte-for-byte binding to AGENTS.md §"Validation") vs a documented manual cadence in `docs/CONVENTIONS.md`; implement the choice.
+  - [x] **CORE-575.4** [light]🔧 | audit-in-ci-or-cadence — Completed 2026-09-11.
   - [ ] **CORE-575.N** [light]🔧 | viz-dependency-posture audit — Epic closure audit + doc-drift sweep.
 
 ## Low

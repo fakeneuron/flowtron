@@ -231,6 +231,24 @@ Deliberately not a wait-loop inside the cut: what failed at v5.25.0 was an
 *inherited* red `main`, which this step catches. Carry the post-push run into
 the §7.4 closure review as one line, flag-don't-block.
 
+### 6.2 — Dependency audit (release cadence)
+
+Run the visualizer's dependency audit once per cut — deliberately not part of
+the `validate` CI gate above. `docs/CONVENTIONS.md` §"Dependency audit
+cadence" is canonical on why: `npm audit`'s result depends on the public
+advisory database's state at run time, not just the code, so gating every
+push on it would redden CI for commits that touched nothing relevant.
+
+```sh
+npm --prefix viz audit --audit-level=high
+```
+
+- **Clean (exit 0)** — proceed to Step 7.
+- **Findings reported** — fix inline when in scope for this release, or file
+  a follow-up PLAN.md task via `/ft-file-followup` before closing the cut.
+  Never let a release close with unaddressed high/critical findings
+  unrecorded.
+
 ## Step 7 — Drive Phase 4: Closure
 
 Walk the closure steps in order. Tag-message review (§7.2) and the bundled 📦 commit-go (§7.4) are explicit gates — wait for the user.
