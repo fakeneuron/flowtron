@@ -36,3 +36,20 @@ describe('ModelChip — 🧠 heavy-model glyph', () => {
     }
   );
 });
+
+describe('ModelChip — 🔭 xheavy-model glyph', () => {
+  it('renders 🔭 for the xheavy category token', () => {
+    render(<ModelChip model="xheavy" />);
+    expect(screen.getByText('🔭')).toBeInTheDocument();
+  });
+
+  it('does not render 🧠 for xheavy', () => {
+    render(<ModelChip model="xheavy" />);
+    expect(screen.queryByText('🧠')).toBeNull();
+  });
+
+  it('does not render 🔭 for the heavy category token', () => {
+    render(<ModelChip model="heavy" />);
+    expect(screen.queryByText('🔭')).toBeNull();
+  });
+});

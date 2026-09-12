@@ -20,7 +20,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Low
 
 - [ ] **CORE-581** [light]🔧 | quality-stack-gaps — Adopt missing fleet quality-stack items: dependabot security-only. Recipes: STACK-TENDENCIES.md §Dependency updates. Routed by natabula `NAT-247.4` (NAT-EPIC-247 gap sweep, NAT-103.4 lazy backfill).
-- [ ] **FE-108** [light]🔧 [unattended] | model-chip-xheavy-glyph — `ModelChip` renders 🔭 for `[xheavy]` per SPEC.md §"Task-line format" glyph table; refresh its SPEC citation; add `xheavy` to `ModelChip.test.tsx`. Surfaced by audit 2026-09-12 (Finding #10, Medium).
 - [ ] **FE-109** [light]🔧 [unattended] | tasknote-parse-node-only-reclass — Reclassify `tasknote-parse.ts` as Node-only in `viz/README.md` (table, sketch, dependency-direction block) and add it to the `src/ui/**` restricted-imports group in `viz/eslint.config.js`. Surfaced by audit 2026-09-12 (Finding #12, Medium).
 - [ ] **FE-110** [light]🔧 [unattended] | sse-head-and-archive-prefix — End HEAD `/api/events` without registering an SSE client; use `archiveDir + sep` in `archiveCache.invalidate` and `watchSet.projectForPath`; tests for each. Surfaced by audit 2026-09-12 (Finding #2, Low; Finding #6, Low).
 - [ ] **FE-111** [light]🔧 [unattended] | keyboard-nav-enter-button-guard — Ignore Enter in `useKeyboardNav` when `e.target` is a `BUTTON`/`A` so j/k selection doesn't cancel button activation; add the test case. Surfaced by audit 2026-09-12 (Finding #3, Low).
@@ -32,6 +31,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-108** [light]🔧 [unattended] | model-chip-xheavy-glyph — Completed 2026-09-12.
 - [x] **FE-107** [light]🔧 | wikilink-markdown-link-fidelity — Refused non-http(s) links in `WikilinkMarkdown` now render their text instead of vanishing, and react-markdown's `node` prop no longer lands on the `<a>`; tests extended. Surfaced by audit 2026-09-12 (Findings #1 Medium, #4 Low). Completed 2026-09-12.
 - [x] **FE-112** [light]🔧 | fence-delimiter-unexport — Dropped the unused `export` on `FENCE_DELIMITER` in `viz/src/fence.ts`. Surfaced by audit 2026-09-12 (Finding #8, Low), fixed inline.
 - [x] **FE-113** [light]🔧 | asstring-dead-date-branch — Deleted the unreachable `Date` branch of `asString` in `viz/src/tasknote.ts` (CORE_SCHEMA never yields Date). Surfaced by audit 2026-09-12 (Finding #9, Low), fixed inline.
