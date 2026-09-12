@@ -1,10 +1,15 @@
 ---
 title: Spec→work handoff
 slug: spec-to-work-handoff
-status: draft
+status: superseded
 created: 2026-07-12
 related-tasks: [[CORE-EPIC-352]]
 ---
+
+> **Superseded 2026-09-12** — the consuming skills this spec proposed
+> extending, `/ft-spec` and `/ft-starter-task`, have since been retired.
+> Kept as a historical record (it was `/ft-spec`'s own dogfood output, per
+> [[CORE-352.5]]); the design below is no longer actionable as written.
 
 # Spec — Spec→work handoff
 
