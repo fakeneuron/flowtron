@@ -11,12 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-EPIC-574** [heavy]🧠 | drift-ci-and-budget-headroom — Lift the mechanical remainder of `/ft-release` §7.1 into the CI `drift` job and restore ≥ one measured working unit (~3,400 chars) of headroom on every budgeted surface by trimming or lazy-fragmenting, never by raising a cap. `claude/skills/ft-task/SKILL.md` sits 1,161 under its 33,000 cap (third recurrence of the CORE-555 / CORE-558.5 defect); SPEC.md +1,903 and ft-task +2,994 since the v5.26.0 ledger. Discovery supplied by audit-repo 2026-09-11. Surfaced by audit-repo 2026-09-11 (Theme: The ratchet only loosens / Mechanical checks still walked by hand).
-  - [x] **CORE-574.2** [light]🔧 | ci-context-budget-check — Completed 2026-09-11.
-  - [x] **CORE-574.3** [light] [unattended]🔧 | ci-pairs-j-m — Completed 2026-09-11.
-  - [x] **CORE-574.4** [heavy]🧠 | ft-task-headroom-trim — Completed 2026-09-11.
-  - [x] **CORE-574.5** [medium]🧩 | spec-md-headroom-trim — Completed 2026-09-11.
-  - [ ] **CORE-574.N** [medium]🧩 | drift-ci-and-budget-headroom audit — Epic closure audit + doc-drift sweep.
+(none)
 
 ## Medium
 
@@ -37,6 +32,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 (none)
 
 ## Completed
+
+- [x] **CORE-EPIC-574** [heavy]🧠 | drift-ci-and-budget-headroom — Completed 2026-09-11.
+  - [x] **CORE-574.2** [light]🔧 | ci-context-budget-check — Completed 2026-09-11.
+  - [x] **CORE-574.3** [light] [unattended]🔧 | ci-pairs-j-m — Completed 2026-09-11.
+  - [x] **CORE-574.4** [heavy]🧠 | ft-task-headroom-trim — Completed 2026-09-11.
+  - [x] **CORE-574.5** [medium]🧩 | spec-md-headroom-trim — Completed 2026-09-11.
+  - [x] **CORE-574.N** [medium]🧩 | drift-ci-and-budget-headroom audit — Completed 2026-09-11.
 
 - [x] **CORE-EPIC-577** [heavy]🧠 | unattended-candidacy — Completed 2026-09-11.
   - [x] **CORE-577.1** [heavy]🧠 | unattended-candidacy discovery — Completed 2026-09-11.

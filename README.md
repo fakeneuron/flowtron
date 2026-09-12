@@ -104,7 +104,7 @@ serves it; Grok-only projects follow [`grok/AGENTS-snippet.md`](grok/AGENTS-snip
   tasknote handling, cleanup) and the four-command start / end procedure
 - [docs/CONTEXT-BUDGET.md](docs/CONTEXT-BUDGET.md) — per-file byte budgets for
   the surfaces an agent loads to run one task, the measured ledger behind them,
-  and the release-time check that keeps them honest
+  and the CI and release-time checks that keep them honest
 - [docs/EXTERNAL-AGENTS.md](docs/EXTERNAL-AGENTS.md) — handing a single
   tasknote off to an external CLI agent (Kiro / Claude Code / Codex): the
   one-agent-per-tasknote rule, the handoff contract, worktree isolation for

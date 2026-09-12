@@ -35,7 +35,8 @@ markdown — good enough to reason with, too tokenizer-dependent to gate on.
 
 ## Budgets
 
-Checked at every release cut by `/ft-release` §7.1 (see "How this is enforced").
+Checked on every push by the CI `drift` job and at every release cut by
+`/ft-release` §7.1 (see "How this is enforced").
 
 | Surface | Budget (chars) | Why this number |
 |---|---|---|
