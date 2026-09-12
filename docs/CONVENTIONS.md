@@ -67,6 +67,8 @@ This follows the same split the `drift` job already draws above: checks that nee
 
 Findings at `--audit-level=high` or above are not silently absorbed into the release: `/ft-release` §6.2 surfaces them, and anything not fixed inline gets filed as a follow-up PLAN.md task (`/ft-file-followup`) before the cut closes.
 
+`.github/dependabot.yml` (`CORE-581`) is the continuous complement to this cadence, not a duplicate of it: GitHub's per-repo "Dependabot security updates" setting opens a PR the moment an advisory is published, closing the staleness window this section accepts between per-cut audits, while `open-pull-requests-limit: 0` on each `updates:` entry keeps Dependabot's *version*-update PRs suppressed — that volume is exactly what `CORE-EPIC-575` chose cadence over, and folding it back in through Dependabot instead of `npm audit` would reintroduce it.
+
 ### Canonical source with labeled mirrors
 
 When one rule has to be readable at several points of use, flowtron writes the justification **once** in a canonical section and restates it at each point of use as a **labeled mirror** — a restatement that names the canonical section it mirrors. It does not consolidate the restatements into bare pointers.
