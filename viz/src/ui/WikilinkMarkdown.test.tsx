@@ -34,11 +34,13 @@ describe('WikilinkMarkdown — non-wikilink anchor allowlist', () => {
       />,
     );
     expect(screen.queryByRole('link')).toBeNull();
+    expect(screen.getByText('x')).toBeInTheDocument();
   });
 
   it('suppresses blob: links', () => {
     render(<WikilinkMarkdown markdown="[x](blob:http://example.com/abc)" navigateToTask={noop} />);
     expect(screen.queryByRole('link')).toBeNull();
+    expect(screen.getByText('x')).toBeInTheDocument();
   });
 
   it('suppresses javascript: links', () => {
@@ -46,6 +48,26 @@ describe('WikilinkMarkdown — non-wikilink anchor allowlist', () => {
       <WikilinkMarkdown markdown="[x](javascript:alert(1))" navigateToTask={noop} />,
     );
     expect(screen.queryByRole('link')).toBeNull();
+    expect(screen.getByText('x')).toBeInTheDocument();
+  });
+
+  it('keeps surrounding text intact around a suppressed link', () => {
+    render(
+      <WikilinkMarkdown markdown="see [the notes](javascript:alert(1)) here" navigateToTask={noop} />,
+    );
+    expect(screen.queryByRole('link')).toBeNull();
+    expect(screen.getByText(/see the notes here/)).toBeInTheDocument();
+  });
+
+  it('does not forward the react-markdown node prop onto the anchor', () => {
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
+    try {
+      render(<WikilinkMarkdown markdown="[link](https://example.com)" navigateToTask={noop} />);
+      expect(screen.getByRole('link', { name: 'link' })).not.toHaveAttribute('node');
+      expect(consoleError).not.toHaveBeenCalled();
+    } finally {
+      consoleError.mockRestore();
+    }
   });
 
   it('wikilinks still render as buttons', () => {

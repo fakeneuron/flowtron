@@ -26,7 +26,10 @@ export const WikilinkMarkdown: React.FC<{
   <ReactMarkdown
     remarkPlugins={[remarkGfm]}
     components={{
-      a: ({ href, children, ...props }) => {
+      // `node` is react-markdown's hast element — strip it so it never lands
+      // on the DOM `<a>` as an unknown attribute.
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      a: ({ node, href, children, ...props }) => {
         if (typeof href === 'string' && href.startsWith(WIKILINK_HREF_PREFIX)) {
           const id = href.slice(WIKILINK_HREF_PREFIX.length);
           return (
@@ -46,7 +49,8 @@ export const WikilinkMarkdown: React.FC<{
         const isAllowed =
           typeof href === 'string' &&
           (href.startsWith('http://') || href.startsWith('https://'));
-        if (!isAllowed) return null;
+        // Keep the link text visible; only the anchor is dropped.
+        if (!isAllowed) return <>{children}</>;
         return (
           <a href={href} {...props} target="_blank" rel="noopener noreferrer">
             {children}
