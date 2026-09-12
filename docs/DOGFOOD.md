@@ -23,8 +23,10 @@ agent's session on the flowtron repo.
 ## The procedure
 
 Run the three steps in order. Do **not** write files or run shell
-commands beyond those explicitly listed. After all three steps pass,
-record the result per §"Recording the result".
+commands beyond those explicitly listed — this holds for the whole
+procedure, the result section included: a dogfood session reports, it
+never edits the stamp files. After all three steps pass, report the
+result per §"Reporting the result".
 
 ### Step 1 — Contract comprehension
 
@@ -132,26 +134,43 @@ Expected output: empty (no files written or modified).
 Log: `Phase-1 drive complete. Task: [TASK-ID]. Exit-gate decision:
 [skip ✅ / fire 🛠️]. git status: clean.`
 
-## Recording the result
+## Reporting the result
 
-After all three steps pass, update the agent's `last-verified` stamp:
+After all three steps pass, hand the operator a **dogfood receipt** —
+do **not** edit `docs/AGENT-COMPAT.md`, `claude/CAPABILITIES.md`, or
+`docs/PLATFORMS.md` yourself. The receipt is:
 
-1. **Stamp format:** `vX.Y.Z · YYYY-MM-DD (dogfooded)` where `vX.Y.Z`
-   is the version noted in Step 1 and `YYYY-MM-DD` is today's date.
-2. **All stamp locations must be updated together** (per
-   `docs/AGENT-COMPAT.md` §"Reading the cells"):
-   - **Claude Code** → `docs/AGENT-COMPAT.md` matrix row +
-     `claude/CAPABILITIES.md` §"Last verified"
-   - **Grok Build / Codex CLI / Cursor** → `docs/AGENT-COMPAT.md` matrix row
-     + their `docs/PLATFORMS.md` per-agent footers
-   - **Other agents** → `docs/AGENT-COMPAT.md` matrix row only (no
-     separate trigger-reference file yet)
-3. **Drop any prior `; skipped @ …` suffix** — a real re-verification
-   makes the row current again.
+1. **The three `Log:` lines from Steps 1–3, pasted verbatim** — version
+   read from `SPEC.md`, the row's current stamp as found in
+   `docs/AGENT-COMPAT.md`, the cue-render outcome, and the Phase-1
+   drive's task ID + exit-gate decision + clean `git status`. These are
+   the evidence; a report that summarises them in other words, or that
+   describes running something other than this procedure, does not
+   refresh a row.
+2. **The stamp the row should now carry:** `vX.Y.Z · YYYY-MM-DD (dogfooded)`
+   where `vX.Y.Z` is the version noted in Step 1 and `YYYY-MM-DD` is
+   today's date. A real re-verification drops any prior `; skipped @ …`
+   suffix.
 
-Report the updated stamp to the operator so they can apply the edits.
-The `ft-release` dogfood gate (`ft-release` §5) drives the per-release
-resolution; this procedure is the content a dogfood session runs.
+Whoever applies the edit updates **all of the row's stamp locations
+together** (per `docs/AGENT-COMPAT.md` §"Reading the cells"):
+
+- **Claude Code** → `docs/AGENT-COMPAT.md` matrix row +
+  `claude/CAPABILITIES.md` §"Last verified"
+- **Grok Build / Codex CLI / Cursor** → `docs/AGENT-COMPAT.md` matrix row
+  + their `docs/PLATFORMS.md` per-agent footers
+- **Other agents** → `docs/AGENT-COMPAT.md` matrix row only (no
+  separate trigger-reference file yet)
+
+That writer is the operator by hand for a standalone re-verification,
+or the release-driving `/ft-release` session's §5 dogfood-gate walk
+during a cut — never the dogfood session, even when it is the only one
+running. The walk is what enforces this shape: it resolves a row as
+refreshed only against a receipt, and it re-checks every stamp from
+file state before tagging, so a session that writes anyway is both
+racing the walk and gaining nothing (CORE-406, CORE-501, CORE-588 —
+three cuts in a row reconciled a parallel session's stamp writes by
+hand before this was made report-only).
 
 ## Related
 

@@ -13,8 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-588** [medium]🧩 | release-dogfood-concurrent-write-hardening — Harden ft-release's dogfood-gate walk against parallel-session write races and unverifiable third-party completion claims, surfaced during the CORE-586 (v5.27.0) cut.
-
 ## Low
 
 (none)
@@ -23,6 +21,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-588** [medium]🧩 | release-dogfood-concurrent-write-hardening — Completed 2026-09-12.
 - [x] **CORE-587** [light]🔧 | ft-task-sop-receipt-park-fix — Completed 2026-09-12.
 - [x] **CORE-586** [medium]🧩 | release v5.27.0 — Completed 2026-09-12.
 - [x] **FE-116** [light]🔧 [unattended] | theme-key-namespace — Completed 2026-09-12.

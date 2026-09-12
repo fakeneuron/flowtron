@@ -317,7 +317,7 @@ git add docs/AGENT-COMPAT.md docs/PLATFORMS.md claude/CAPABILITIES.md
 
 Surface the bundled 📦 ready-to-commit gate per SPEC/gates.md §"Operator-gate cues" (banner block + mandatory 1-2 sentence preview line summarising what executes on commit-go — typically "cut flowtron vA.B.C: commit the 3 version edits + any dogfood-gate stamp refreshes/skips + PLAN.md flip + tasknote archive, create annotated `vA.B.C` tag, push branch + tag to origin, and publish a GitHub Release for `vA.B.C` (or hold local, unpublished, if push-go declined)"). Alongside the SPEC-defined bundle (closure review · recap · proposed commit message), this skill carries:
 
-- **Dogfood-gate resolution (enforcement)** — confirm the §5 walk resolved **every** dogfooded row, and surface the per-agent summary inside the closure review:
+- **Dogfood-gate resolution (enforcement)** — confirm the §5 walk resolved **every** dogfooded row **by re-running `step-5-dogfood-sop.md` step 5 from file state now** (the grep loop over the walk's ledger; must print nothing) — never from memory of what the walk wrote, since a parallel session can overwrite a stamp between §5 and here (CORE-588) — and surface the per-agent summary inside the closure review:
 
   ```text
   Dogfood gate:

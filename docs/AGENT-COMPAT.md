@@ -118,6 +118,19 @@ for its Grok Build notes. The agent-neutral workflow contract itself
   neither side commits mid-cut, so a second writer sees the first writer's
   uncommitted edits before it can overwrite them.
 
+  **Report-only dogfood sessions + file-state re-verify (CORE-588).** The
+  backstop raced a third time (the CORE-586 cut): it runs only inside `ft-release`,
+  and the parallel writers were sessions running `docs/DOGFOOD.md`, whose
+  result section then told them to update the stamp themselves. Three
+  changes close it. A dogfood session now hands back a **receipt** — its
+  three `Log:` lines verbatim plus the proposed stamp — and never edits
+  these files (`docs/DOGFOOD.md` §"Reporting the result"); a row other than
+  the driving session's own agent is refreshed only against such a receipt
+  and otherwise recorded `skipped` (`ft-release` §5 step 2); and the walk
+  greps every resolved stamp back from the files after writing and again
+  before commit-go, so a clobbered write is caught before the tag rather
+  than reconciled by hand afterwards (`ft-release` §5 step 5, §7.4).
+
 ## Pre-adoption verification
 
 Claude Code is verified by continuous dogfooding; Grok, Codex, and Cursor carry
