@@ -673,6 +673,44 @@ describe('applyBump rollback (CORE-419.3)', () => {
   });
 });
 
+describe('applyBump fetch timeout (CORE-585)', () => {
+  it('rejects with a timeout message instead of hanging on a stalled remote', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'ft-upd-fetch-timeout-'));
+
+    // A `git` shim ahead of the real one on PATH: it hangs forever on `fetch`
+    // (standing in for a remote that's up but never answers) and forwards
+    // every other subcommand to the real binary, resolved once up front so
+    // the shim doesn't re-find itself through the very PATH it's prepended to.
+    const realGit = (await execFileAsync('which', ['git'])).stdout.trim();
+    const shimDir = join(root, 'shim');
+    await mkdir(shimDir, { recursive: true });
+    await writeFile(
+      join(shimDir, 'git'),
+      `#!/bin/sh\nif [ "$1" = "fetch" ]; then exec sleep 100; fi\nexec "${realGit}" "$@"\n`,
+      { mode: 0o755 },
+    );
+
+    const adopter = await makeAdopter(root, 'stalled-fetch', previous);
+
+    const prevTimeout = process.env.FLOWTRON_FETCH_TIMEOUT_MS;
+    const prevPath = process.env.PATH;
+    process.env.FLOWTRON_FETCH_TIMEOUT_MS = '300';
+    process.env.PATH = `${shimDir}:${prevPath}`;
+    try {
+      await assert.rejects(
+        () => applyBump({ ...adopter, current: previous }, latest),
+        /timed out after 300ms/,
+      );
+    } finally {
+      process.env.PATH = prevPath;
+      if (prevTimeout === undefined) delete process.env.FLOWTRON_FETCH_TIMEOUT_MS;
+      else process.env.FLOWTRON_FETCH_TIMEOUT_MS = prevTimeout;
+    }
+
+    await rm(root, { recursive: true, force: true });
+  });
+});
+
 describe('tagsInRange', () => {
   it('returns tags strictly after from up to to', async () => {
     const range = await tagsInRange(previous, latest);

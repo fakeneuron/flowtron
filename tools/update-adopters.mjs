@@ -148,9 +148,39 @@ const WIRING_SURFACES = [
   thinClaudeSkillsSurface('Grok .grok/skills', 'grok/AGENTS-snippet.md'),
 ];
 
+// FLOWTRON_FETCH_TIMEOUT_MS override read at call time (not cached at module
+// load) so tests can shrink it per-case without a child-process boundary.
+function fetchTimeoutMs() {
+  const raw = Number(process.env.FLOWTRON_FETCH_TIMEOUT_MS);
+  return Number.isFinite(raw) && raw > 0 ? raw : 30000;
+}
+
+// A trailing plain-object arg is popped off as execFile options (e.g.
+// `{ timeout }` for the one call site that hits the network) — additive to
+// the rest-args signature every other call site already uses. GIT_TERMINAL_PROMPT=0
+// always applies: without it, a git spawned against a repo needing credentials
+// blocks on an interactive prompt this script has no stdin to answer, hanging
+// the sweep the same way a stalled remote does.
 export async function git(cwd, ...args) {
-  const { stdout } = await execFileAsync('git', args, { cwd });
-  return stdout;
+  const options =
+    args.length > 0 && typeof args[args.length - 1] === 'object' && args[args.length - 1] !== null
+      ? args.pop()
+      : {};
+  try {
+    const { stdout } = await execFileAsync('git', args, {
+      cwd,
+      env: { ...process.env, GIT_TERMINAL_PROMPT: '0' },
+      ...options,
+    });
+    return stdout;
+  } catch (e) {
+    // Node's own timeout error never says "timeout" anywhere, which would
+    // otherwise render as an unreadable ✗ line.
+    if (options.timeout && e.killed) {
+      e.message = `git ${args.join(' ')} timed out after ${options.timeout}ms`;
+    }
+    throw e;
+  }
 }
 
 const USAGE = 'Usage: node tools/update-adopters.mjs [--apply] [--root <dir>]';
@@ -669,7 +699,9 @@ export async function applyBump(adopter, latest) {
   const sub = join(repo, SUBMODULE_PATH);
   // Fetch adds refs only — no worktree or index mutation, so it sits outside the
   // rollback window and the prior SHA is captured immediately before the checkout.
-  await git(sub, 'fetch', '--tags', '--quiet', 'origin');
+  // Timed: the only git call in this script that talks to a remote, so it's the
+  // only one that can hang on a stalled peer rather than fail fast.
+  await git(sub, 'fetch', '--tags', '--quiet', 'origin', { timeout: fetchTimeoutMs() });
   const priorSha = (await git(sub, 'rev-parse', 'HEAD')).trim();
   let staged = false;
   try {
