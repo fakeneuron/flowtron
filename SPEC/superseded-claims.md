@@ -1,7 +1,3 @@
----
-paths: []
----
-
 # Superseded claims — the write-once factual-corrections carve-out
 
 > Lazy-loaded SPEC module. Read when a task proves a **factual** claim in an already-archived tasknote false — surfaced at the Phase 1 archive skim, written at Phase 4 closure. Most closures falsify nothing and never load this. The write-once policy it carves out of lives in `SPEC.md` §"Tasknote frontmatter". See `SPEC.md` for the always-loaded core spec.

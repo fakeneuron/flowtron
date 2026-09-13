@@ -1,7 +1,3 @@
----
-paths: []
----
-
 # Optional tasknote inserts — Fan-out and Handoff
 
 > Lazy-loaded SPEC module. Read when writing one of the two optional top-block sections a tasknote may carry: `## 🌳 Fan-out` (epic-cohort parallelism, on a Discovery `.1` when M>1) or `## 🔄 Handoff` (mid-task resume state). Neither ships in `templates/tasknote-template.md`, and a tasknote without them is complete, not incomplete. See `SPEC.md` §"Tasknote body shape" for the standard layout and the always-loaded core spec.

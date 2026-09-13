@@ -1,7 +1,3 @@
----
-paths: []
----
-
 # Loop tasks
 
 > Lazy-loaded SPEC module. Loaded by `/ft-task --loop` at its Step 0 (and by a resume of a tasknote carrying `loop: true`), and consulted whenever a task is run under an iteration loop. See `SPEC.md` for the always-loaded core spec.

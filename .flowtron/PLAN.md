@@ -13,8 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-596** [light]🔧 [unattended] | spec-paths-frontmatter-retire — Remove the consumer-less `paths:` frontmatter from all 17 `SPEC/*.md` lazy modules and delete `SPEC/layout.md` §"Lazy SPEC module frontmatter", the `docs/AGENT-NEUTRALITY.md:36` row, and the `SPEC/procedures/README.md:85` contrast clause; shipped at CORE-097.3 (2026-05-18) as "future tooling MAY parse" and nothing has. Surfaced by audit-structure 2026-09-13 (Finding #2, Medium).
-
 ## Low
 
 - [ ] **CORE-597** [light]🔧 | caobunga-status-file-home — Untrack `caobunga-status.md` (`git rm --cached`) and add it to `.gitignore` beside `SCRATCH*.md`, so the cross-repo orchestrator's status writes stop landing as `caobunga:` commits on `main`; alternatively register it in `CLAUDE.md` §"Repo Layout" and add the commit type to `docs/CONVENTIONS.md`. Surfaced by audit-structure 2026-09-13 (Finding #4, Medium).
@@ -23,6 +21,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-596** [light]🔧 [unattended] | spec-paths-frontmatter-retire — Completed 2026-09-13.
 - [x] **CORE-595** [medium]🧩 [unattended] | tasknote-selection-split — Completed 2026-09-13.
 - [x] **CORE-594** [medium]🧩 [unattended] | mirror-pair-o-filing-commits — Completed 2026-09-13.
 - [x] **CORE-593** [light]🔧 [unattended] | refactor-filing-post-stage-verify — Completed 2026-09-13.

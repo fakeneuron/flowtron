@@ -1,7 +1,3 @@
----
-paths: []
----
-
 # PLAN.md parser tolerances and legacy shapes
 
 > Lazy-loaded SPEC module. Read when authoring an unusual `PLAN.md` row, when a row fails to parse, or when changing `viz/src/parser.ts`. The canonical task-line grammar itself stays in `SPEC.md` §"Task-line format"; this module carries the tolerances, footguns, exclusions, and reserved long-description conventions around it. See `SPEC.md` for the always-loaded core spec.

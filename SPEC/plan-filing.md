@@ -1,7 +1,3 @@
----
-paths: []
----
-
 # PLAN.md filing
 
 > Lazy-loaded SPEC module. Loaded at the two moments a PLAN.md row changes hands with git: by the filing motions (`/ft-file-followup` and its `--park` / `--starter` modes, `/ft-audit`, `/ft-refactor`) when they commit their own filing, and by every closing runner (`/ft-task`, `/ft-micro-task`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release`) at the Phase 4 stub flip — plus `/ft-stats` and the visualizer as `## Completed` history consumers. See `SPEC.md` for the always-loaded core spec, and the sibling [`SPEC/tasknote-selection.md`](tasknote-selection.md) for the use/skip thresholds, the filing-discipline word budget, and the downstream-impact reconciliation scan that decide *what* to file.

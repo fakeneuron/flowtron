@@ -1,7 +1,3 @@
----
-paths: []
----
-
 # Gate discipline
 
 > Lazy-loaded SPEC module. Loaded at gate-decision time — when you are about to skip a gate, de-escalate a signal, or argue that a flag covers a case. See [`SPEC/gates.md`](gates.md) for the gate contract itself; this module carries only the discipline layer that guards it.

@@ -1,7 +1,3 @@
----
-paths: []
----
-
 # Gate machinery
 
 > Lazy-loaded SPEC module. Loaded by `/ft-task`, `/ft-micro-task`, `/ft-epic-discovery`, `/ft-close-epic`, and `/ft-release` whenever an operator-gate decision is in play (Phase 1→2 exit, ready-to-commit). See `SPEC.md` for the always-loaded core spec; this module carries the gate machinery the core §"The 4-phase workflow" and §"Post-closure protocol" anchors point at. Two siblings carry the rest, each loaded on its own trigger: [`SPEC/cue-vocabulary.md`](cue-vocabulary.md) (the cue inventory — glyphs, labels, emission shapes) and [`SPEC/gate-discipline.md`](gate-discipline.md) (read before skipping a gate).

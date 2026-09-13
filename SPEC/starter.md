@@ -1,7 +1,3 @@
----
-paths: []
----
-
 # Starter tasknotes
 
 > Lazy-loaded SPEC module. Loaded by `/ft-task` Step 3a when an existing tasknote has `status: starter`. See `SPEC.md` for the always-loaded core spec.

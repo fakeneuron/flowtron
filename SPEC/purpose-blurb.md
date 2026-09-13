@@ -1,7 +1,3 @@
----
-paths: []
----
-
 # 🎯 Purpose blurb
 
 > Lazy-loaded SPEC module. Read when questioning, changing, or extending the blurb — its bounds, which invocations emit it, and why it is not a cue. The *emission recipe* lives in the two ID-invoked runner skills (`/ft-task`, `/ft-micro-task`), which cite this module rather than restating it. See `SPEC.md` for the always-loaded core spec.

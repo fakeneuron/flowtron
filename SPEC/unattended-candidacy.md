@@ -1,7 +1,3 @@
----
-paths: []
----
-
 # `[unattended]` candidacy
 
 > Lazy-loaded SPEC module. Read by a filing surface at its write step — the moment it is about to write a `- [ ]` row into `PLAN.md` — and by a runner whose closure discharged a deferred step through `/ft-file-followup --unattended`. Not needed to run a task. See `SPEC.md` for the always-loaded core spec.

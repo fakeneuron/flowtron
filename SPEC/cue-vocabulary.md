@@ -1,7 +1,3 @@
----
-paths: []
----
-
 # Operator-cue vocabulary
 
 > Lazy-loaded SPEC module. The canonical operator-facing cue inventory — glyphs, labels, and emission shapes — loaded when composing or interpreting a cue, or when proposing a change to the vocabulary. See [`SPEC/gates.md`](gates.md) for the gate machinery that *fires* these cues, and [`SPEC.md`](../SPEC.md) for the always-loaded core spec.

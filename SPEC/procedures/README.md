@@ -81,9 +81,7 @@ last-verified: v5.1.0 · 2026-06-02
 ---
 ```
 
-Unlike the `SPEC/*.md` lazy modules, procedure SOPs do **not** carry a
-`paths:` field — they are not filename-triggered into the `/ft-task`
-SKILL dispatch. The `source:` field intentionally records derivation
+The `source:` field intentionally records derivation
 rather than ownership: per [[CORE-270]], the long-term source of truth
 is the neutral SOP, but the Claude skill stays canonical wiring until a
 later generator epic reconciles the two; today the SOP is hand-authored

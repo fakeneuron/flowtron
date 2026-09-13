@@ -33,7 +33,6 @@ below.
 | File | Section / context | Reference | Why it stays |
 |---|---|---|---|
 | `SPEC/layout.md` | §"Working in the flowtron repo itself" | `` `claude/` — Claude Code commands + skills `` | Wiring-layer directory name; factual. |
-| `SPEC/layout.md` | §"Lazy SPEC module frontmatter" | `` `claude/skills/ft-task/SKILL.md` `` dispatch reference | Cross-ref to dispatch-logic location. |
 | `SPEC/layout.md` | §"Skill namespace" | `` `.claude/` `` adopter directory | Adopter Claude Code wiring location. |
 | `SPEC/layout.md` | §"Skill namespace" — "Wrapper-name invariant (grep-able)" | `` `claude/commands/<name>.md` `` (prose + fenced `sh` check) | Per [[CORE-466]] — the invariant check is scoped to the Claude Code command-wrapper directory by name; a future platform's equivalent wrapper convention gets its own check rather than generalizing this one. |
 | `SPEC/tasknote-selection.md` | §"When to use a tasknote (and when not to)" (`/ft-refactor` bullet block) and the trigger line | `/ft-task`, `/ft-refactor`, `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release` | Canonical flowtron skill names. |

@@ -53,7 +53,7 @@ Components use the design tokens in `frontend/src/styles/tokens.css`; never
 hardcode a hex value.
 ```
 
-The shape will look familiar — flowtron's own lazy `SPEC/` modules carry the same `paths:` frontmatter for the same reason ([`SPEC/layout.md`](../SPEC/layout.md) §"Lazy SPEC module frontmatter"). Flowtron's per-file byte budgets for its own shipped surfaces are in [`docs/CONTEXT-BUDGET.md`](../docs/CONTEXT-BUDGET.md).
+Flowtron's per-file byte budgets for its own shipped surfaces are in [`docs/CONTEXT-BUDGET.md`](../docs/CONTEXT-BUDGET.md).
 
 Two limits worth knowing before you move anything:
 

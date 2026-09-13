@@ -1,7 +1,3 @@
----
-paths: []
----
-
 # Layout, and working in the flowtron repo itself
 
 > Lazy-loaded SPEC module. Read when adopting flowtron into a project, working **on** flowtron rather than with it, wiring skills into a platform, or naming a skill. Not needed to run a task. See `SPEC.md` for the always-loaded core spec.
@@ -46,35 +42,6 @@ Flowtron does not submodule itself. When working in `~/code/flowtron/`:
 - `tools/` — operator-side fleet scripts. Currently `update-adopters.mjs`, the singular CLI carve-out documented in [`SPEC/scope-boundaries.md`](scope-boundaries.md), plus its portable `update-adopters.test.mjs` suite (a registered release gate).
 
 Global-only utilities install per [`docs/MIGRATION.md`](../docs/MIGRATION.md) §1.0. `/ft-release` is flowtron-self-only and stays repo-scoped in this checkout ([`docs/PLATFORMS.md`](../docs/PLATFORMS.md) §"Installed-surface policy").
-
-### Lazy SPEC module frontmatter
-
-Each `SPEC/*.md` lazy module opens with optional YAML frontmatter
-carrying a `paths:` field — an array of bash-style globs naming the
-tasknote-filename shapes the module applies to:
-
-```yaml
----
-paths: ['*-EPIC-*.md', '*.[0-9]*.md']
----
-```
-
-The field is **populated only where a filename-based trigger applies**.
-`SPEC/epic.md` declares the parent-epic and epic-subtask filename shapes;
-the remaining modules (`starter` · `blocked` · `model` · `versioning` ·
-`gates` · `cue-vocabulary` · `gate-discipline` · `tasknote-selection` ·
-`plan-filing` · `loop` · `plan-parser` · `layout` ·
-`scope-boundaries` · `tasknote-inserts` · `purpose-blurb` ·
-`superseded-claims` · `unattended-candidacy`) have status- or content-based triggers
-and declare `paths: []`. The
-leading `> Lazy-loaded SPEC module. Loaded by ...` prose line stays
-authoritative for status/content triggers.
-
-The contract is **declarative today**: the source of truth for which
-module loads when is still `claude/skills/ft-task/SKILL.md`'s explicit
-dispatch (Steps 0 / 1.5 / 2 / 3a / 3c / 5 — Step 0's `--loop` branch is the
-dispatch source for `SPEC/loop.md`). Future tooling MAY parse the
-frontmatter to drive dispatch dynamically.
 
 ### Procedure SOPs (`SPEC/procedures/`)
 

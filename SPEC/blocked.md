@@ -1,7 +1,3 @@
----
-paths: []
----
-
 # Blocked tasks
 
 > Lazy-loaded SPEC module. Loaded by `/ft-task` Step 3c when an existing tasknote has `status: blocked`, at Step 5 if a hard dependency surfaces mid-Phase-2, and at Step 0 under `--unattended` (every gate conversion writes a park, and the `park-reason:` code set lives here). See `SPEC.md` for the always-loaded core spec.

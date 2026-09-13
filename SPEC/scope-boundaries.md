@@ -1,7 +1,3 @@
----
-paths: []
----
-
 # Scope boundaries — cross-repo edits, and what flowtron does not provide
 
 > Lazy-loaded SPEC module. Read when Discovery surfaces work belonging to a different repo, or when evaluating whether a feature, helper, or PR belongs in flowtron at all. See `SPEC.md` for the always-loaded core spec.
