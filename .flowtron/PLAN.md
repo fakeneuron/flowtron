@@ -13,6 +13,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
+- [ ] **CORE-591** [light]🔧 | followup-filing-commit-index-guard — `/ft-file-followup` Step 4's filing-commit pre-check reads `git status --porcelain -- .flowtron/PLAN.md` (is PLAN.md dirty?) but the bare `git commit` that follows takes the whole index, so content a closure staged *before* invoking the skill rides into the follow-up commit under the wrong subject. Seen live 2026-09-13 (caobunga CBN-179): ten `git rm`s landed in "chore: file CBN-183 follow-up" and the closure commit carried only the PLAN flip + archive — content correct, both messages wrong. Fix: either widen the pre-check to `git diff --cached --quiet` (index must be empty, else `auto-commit = false`) or commit with `git commit --only .flowtron/PLAN.md`; update the `--unattended` paragraph's "two orderings converge" note, which assumes the pre-staged case reads dirty and today does not.
+
 ## Low
 
 ## Future Opportunities
