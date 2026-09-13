@@ -197,3 +197,16 @@ jobs:
             done < <(printf '%s\n' "$labels" | sed -E 's/.*§"([^"]+)"$/\1/' | sort -u)
           done
           [ -z "$bad" ] || exit 1
+
+      - name: Pair O — filing runners ↔ SPEC §"Filing commits"
+        run: |
+          bad=
+          for f in $(grep -rl 'auto-commit = ' claude/skills --include='*.md' | grep -v '^claude/skills/ft-release/'); do
+            grep -e 'git diff --cached' "$f" | grep -qv -e '--quiet' || { echo "NO POST-STAGE DIFF  $f"; bad=1; }
+            cites=$(grep -oE 'SPEC/[A-Za-z0-9_.-]+\.md[`)]? §"Filing commits"' "$f" | sed -E 's/[`)]? §.*//' | sort -u)
+            [ -n "$cites" ] || { echo "NO RESOLVING CITATION  $f"; bad=1; }
+            for src in $cites; do
+              grep -q '^## Filing commits' "$src" 2>/dev/null || { echo "STALE CITATION  $f — $src has no Filing commits heading"; bad=1; }
+            done
+          done
+          [ -z "$bad" ] || exit 1
