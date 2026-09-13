@@ -15,12 +15,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-597** [light]🔧 | caobunga-status-file-home — Untrack `caobunga-status.md` (`git rm --cached`) and add it to `.gitignore` beside `SCRATCH*.md`, so the cross-repo orchestrator's status writes stop landing as `caobunga:` commits on `main`; alternatively register it in `CLAUDE.md` §"Repo Layout" and add the commit type to `docs/CONVENTIONS.md`. Surfaced by audit-structure 2026-09-13 (Finding #4, Medium).
-
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-597** [light]🔧 | caobunga-status-file-home — Completed 2026-09-13.
 - [x] **CORE-596** [light]🔧 [unattended] | spec-paths-frontmatter-retire — Completed 2026-09-13.
 - [x] **CORE-595** [medium]🧩 [unattended] | tasknote-selection-split — Completed 2026-09-13.
 - [x] **CORE-594** [medium]🧩 [unattended] | mirror-pair-o-filing-commits — Completed 2026-09-13.
