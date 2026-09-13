@@ -15,6 +15,10 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
+- [ ] **FE-119** [light]🔧 [unattended] | origin-guard-same-site-reject — `originGuard` rejects only `Sec-Fetch-Site: cross-site`; a page served from a sibling loopback port issuing a `no-cors` + `no-referrer` GET sends neither `Origin` nor `Referer` and arrives as `same-site`, so it passes and can hold `/api/events` SSE slots up to `MAX_SSE_CLIENTS` — the FE-102 availability gap one origin class over. The viz UI only calls `/api/*` same-origin and `curl` sends no header, so reject `same-site` too; flip the `it.each` row in `originGuard.test.ts` and update the `SECURITY.md` §Visualizer `Sec-Fetch-Site` bullet. Surfaced by audit 2026-09-13 (Finding #1, Low).
+- [ ] **FE-120** [light]🔧 [unattended] | sse-heartbeat-extract — The 30 s SSE heartbeat (`SSE_HEARTBEAT_MS`, the `setInterval` writing `: ping`, and its `close` teardown) is inline in `viz/vite.config.ts`, the one Node-tier file outside the vitest suite, while its sibling SSE constants and broadcaster live in `flowtronWatch.ts`. Extract a `createHeartbeat(sseClients, ms)` helper beside `createChangeBroadcaster`, wire it from the plugin, and cover it with a fake-timers test. Surfaced by audit 2026-09-13 (Finding #2, Low).
+- [ ] **CORE-592** [light]🔧 [unattended] | updater-self-skip-realpath — `discoverAdopters` skips flowtron's own checkout via `resolve(repo) === FLOWTRON_REPO`, a string compare that never matches when the `~/code` workspace default and the invocation path differ only by case (`~/Code/flowtron` on this case-insensitive volume — verified). Harmless today only because flowtron has no `.flowtron/core/`. Resolve both sides through `fs.promises.realpath` and add a case-variant `--root` test. Surfaced by audit 2026-09-13 (Finding #3, Low).
+
 ## Future Opportunities
 
 ## Completed
