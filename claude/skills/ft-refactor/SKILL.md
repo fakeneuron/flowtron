@@ -168,7 +168,7 @@ Only after the Step 4 go (or `fast-mode = true`).
 no output and exit 0 → `auto-commit = true`; any output, or a non-zero exit →
 `auto-commit = false` (PLAN.md is dirty or the index already holds staged
 content; the filing rides along in the surrounding commit). Contract:
-`SPEC/tasknote-selection.md` §"Filing commits".
+`SPEC/plan-filing.md` §"Filing commits".
 
 1. **Resolve the epic ID.** Scan `.flowtron/PLAN.md` AND
    `.flowtron/tasknote/archive/<area>/` for the highest used numeric suffix
@@ -231,7 +231,7 @@ filing wrote — the appended PLAN.md rows, any confirmed reconcile edit, and
 each starter file as a new file. An unrecognized hunk → `git restore
 --staged` every staged path, skip the commit, and report it exactly as the
 `auto-commit = false` case below. Never unstage the foreign hunk and commit
-the rest. Full contract: `SPEC/tasknote-selection.md` §"Filing commits".
+the rest. Full contract: `SPEC/plan-filing.md` §"Filing commits".
 
 Commit only — never push; the Step 4 approval is the commit authorization.
 `auto-commit = false` → skip and say so. Emit **no 🏁 marker** — that is

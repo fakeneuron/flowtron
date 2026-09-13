@@ -284,7 +284,7 @@ cp .flowtron/core/templates/PLAN.md .flowtron/PLAN.md
 
 Then fill in the project name, vision paragraph, and current task list. Tasks use the area-prefix convention from SPEC.md §"Task ID convention" (`CORE-`, `BE-`, `FE-`, etc.). Project-specific prefixes are allowed; declare them in the next file.
 
-**`.flowtron/PLAN-ARCHIVE.md` appears later — do not create it now.** `## Completed` grows one row per closure and is bounded: once it passes 150 rows, `/ft-task` surfaces a one-line advisory suggesting you rotate the oldest whole-month blocks into a sibling `.flowtron/PLAN-ARCHIVE.md`. Rotation is an operator motion you run when you choose — nothing auto-applies, and no row is ever deleted. See [`SPEC/tasknote-selection.md`](../SPEC/tasknote-selection.md) §"`## Completed` rotation" for the bound, the month-block granularity, and the two never-split rules.
+**`.flowtron/PLAN-ARCHIVE.md` appears later — do not create it now.** `## Completed` grows one row per closure and is bounded: once it passes 150 rows, `/ft-task` surfaces a one-line advisory suggesting you rotate the oldest whole-month blocks into a sibling `.flowtron/PLAN-ARCHIVE.md`. Rotation is an operator motion you run when you choose — nothing auto-applies, and no row is ever deleted. See [`SPEC/plan-filing.md`](../SPEC/plan-filing.md) §"`## Completed` rotation" for the bound, the month-block granularity, and the two never-split rules.
 
 ### 1.5 Create `.flowtron/tasknote/README.md`
 
@@ -446,7 +446,7 @@ Leave `## Completed` empty or seed it with a single pointer line:
 ```markdown
 ## Completed
 
-(legacy completions live in `legacy/PLAN.md` — flowtron-era completions land here in stub form per `SPEC/tasknote-selection.md` §"`## Completed` archive convention")
+(legacy completions live in `legacy/PLAN.md` — flowtron-era completions land here in stub form per `SPEC/plan-filing.md` §"`## Completed` archive convention")
 ```
 
 The stub-form (CORE-036, v0.10.0) means new flowtron-era completions are one-liners pointing into `.flowtron/tasknote/archive/<area>/`. Don't try to reproduce legacy narrative blocks here — they belong in the frozen legacy plan, not in the new one.

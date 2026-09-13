@@ -104,8 +104,9 @@ not ship.
 ### Lazy `SPEC/` modules
 
 `gates.md` 35,943 · `procedures/ft-task.md` 33,141 ·
-`tasknote-selection.md` 28,100 · `model.md` 17,089 ·
-`gate-discipline.md` 15,386 · `cue-vocabulary.md` 15,138 ·
+`model.md` 17,089 · `gate-discipline.md` 15,386 ·
+`tasknote-selection.md` 15,236 · `plan-filing.md` 15,141 ·
+`cue-vocabulary.md` 15,138 ·
 `blocked.md` 11,257 · `unattended-candidacy.md` 10,239 ·
 `plan-parser.md` 8,310 · `loop.md` 8,061 ·
 `layout.md` 6,484 · `procedures/README.md` 6,128 ·
@@ -114,14 +115,19 @@ not ship.
 `superseded-claims.md` 2,980 · `starter.md` 2,513 ·
 `versioning.md` 1,238.
 
-`gates.md` and `tasknote-selection.md` are lazy by declaration and near-universal
-in practice; the rest genuinely load only on their task shape. [[CORE-535.3]]
+`gates.md`, `tasknote-selection.md`, and `plan-filing.md` are lazy by declaration
+and near-universal in practice; the rest genuinely load only on their task shape. [[CORE-535.3]]
 added six of the modules above by moving narrow-use sections out of `SPEC.md`
 — which is why the `SPEC/` total grew while the always-loaded set shrank.
 [[CORE-535.5]] added two more the same way, out of `gates.md`: neither
 `cue-vocabulary.md` (reference — loaded when composing or interpreting a cue)
 nor `gate-discipline.md` (loaded when about to skip a gate) is consulted by an
-ordinary run, which is why neither earns a budget row.
+ordinary run, which is why neither earns a budget row. [[CORE-595]] split
+`tasknote-selection.md` (28,952 → 15,236) the same way, moving its three
+PLAN.md-row contracts — filing commits, the `## Completed` stub form, and
+rotation — into `plan-filing.md`; both halves are near-universal (every
+closure loads the stub form) but each is now half the size, so neither is
+close to earning a budget row.
 
 ### Skill bodies (`SKILL.md` only)
 

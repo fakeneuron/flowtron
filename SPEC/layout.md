@@ -63,7 +63,7 @@ The field is **populated only where a filename-based trigger applies**.
 `SPEC/epic.md` declares the parent-epic and epic-subtask filename shapes;
 the remaining modules (`starter` · `blocked` · `model` · `versioning` ·
 `gates` · `cue-vocabulary` · `gate-discipline` · `tasknote-selection` ·
-`loop` · `plan-parser` · `layout` ·
+`plan-filing` · `loop` · `plan-parser` · `layout` ·
 `scope-boundaries` · `tasknote-inserts` · `purpose-blurb` ·
 `superseded-claims` · `unattended-candidacy`) have status- or content-based triggers
 and declare `paths: []`. The

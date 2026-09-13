@@ -44,7 +44,7 @@ covered:
 
 **Never park a durable correction in a PLAN.md long description.** Phase 4
 collapses that line to a `Completed YYYY-MM-DD.` stub and the description drops
-([`SPEC/tasknote-selection.md`](tasknote-selection.md) §"`## Completed`
+([`SPEC/plan-filing.md`](plan-filing.md) §"`## Completed`
 archive convention"), so a correction left there is deleted on a schedule. This
 is why the carve-out exists: CORE-416.2 falsified CORE-416.1's headline,
 honoured write-once, and recorded that "this note and the parent line carry the

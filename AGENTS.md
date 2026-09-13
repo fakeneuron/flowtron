@@ -7,7 +7,7 @@ in `SPEC.md`; read it before starting non-trivial work.
 
 - Plans live in `.flowtron/PLAN.md`.
 - Rotated `## Completed` rows live in `.flowtron/PLAN-ARCHIVE.md` (closed rows
-  only, append-only — see `SPEC/tasknote-selection.md` §"`## Completed` rotation").
+  only, append-only — see `SPEC/plan-filing.md` §"`## Completed` rotation").
 - Active tasknotes live in `.flowtron/tasknote/<TASK-ID>.md`.
 - Completed tasknotes live in `.flowtron/tasknote/archive/<area>/<TASK-ID>.md`.
 - Tasknote templates live in `templates/`.
@@ -57,7 +57,7 @@ not to)".
 - `SPEC.md` — canonical workflow contract.
 - `SPEC/` — lazy modules for epics, starter tasks, blocked tasks, model
   routing, gate machinery, the operator-cue vocabulary, gate discipline,
-  versioning, tasknote selection, loop tasks, repo layout,
+  versioning, tasknote selection, PLAN.md filing, loop tasks, repo layout,
   PLAN parser tolerances, scope boundaries, optional tasknote inserts, the
   purpose blurb, superseded claims, `[unattended]` candidacy, and
   `SPEC/procedures/` agent-neutral SOPs.

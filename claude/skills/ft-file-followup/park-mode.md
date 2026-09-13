@@ -97,7 +97,7 @@ Then:
    must run here, not at Step P1 — the no-flag priority question at Step P2
    waits for the operator, and the tree can gain PLAN.md edits while it waits.
    Not a gate: it only decides whether item 5 below runs. Contract:
-   `SPEC/tasknote-selection.md` §"Filing commits".
+   `SPEC/plan-filing.md` §"Filing commits".
 2. `mkdir -p .flowtron/sidequest/`
 3. Copy the template → `.flowtron/sidequest/<TASK-ID>.md`; fill frontmatter, H1,
    nav date, `## Idea`, `## Resume anchor`, `parent:`.
@@ -128,13 +128,13 @@ Then:
    file. An unrecognized hunk → `git restore --staged` both paths, skip the
    commit, and say so in the Step P5 reply exactly as the `auto-commit = false`
    case. Never unstage the foreign hunk and commit the rest. Contract:
-   `SPEC/tasknote-selection.md` §"Filing commits".
+   `SPEC/plan-filing.md` §"Filing commits".
 
    Commit only — never push. Park mode has no review gate, so the **invocation
    itself** (flag + priority flag, or the Step P2 priority answer) is the
    commit authorization; there is no separate commit-go ask. `auto-commit = false`
    → skip, and say so in the Step P5 reply. Full contract:
-   `SPEC/tasknote-selection.md` §"Filing commits".
+   `SPEC/plan-filing.md` §"Filing commits".
 
 Do **not** run the downstream-impact reconciliation scan — park mode is
 explicitly outside it.

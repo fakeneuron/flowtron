@@ -125,7 +125,7 @@ export function createPlanHandler(
 
 // `.flowtron/PLAN-ARCHIVE.md` is optional history: it does not exist until a
 // project's first `## Completed` rotation, and many adopters will never rotate.
-// Absence is an empty archive, never an error (SPEC/tasknote-selection.md
+// Absence is an empty archive, never an error (SPEC/plan-filing.md
 // §"`## Completed` rotation" — "consumers treat absence as an empty archive").
 // The same tolerance covers a present-but-unreadable file: a board renders fine
 // from PLAN.md alone, so supplementary history must never be able to 500 it.

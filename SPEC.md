@@ -498,7 +498,7 @@ to a `visual-confirm` park, respectively — is one row of
 ### 🚀 Phase 4: Closure
 
 - [ ] **Doc-drift sweep** — for each entry in `.flowtron/tasknote/README.md` §"AI-referenced docs", state "no change" or the update
-- [ ] Closed — every `## ✅ Acceptance` criterion ticked or explicitly annotated (`N/A` / not-met with a one-line reason), tasknote YAML `status:` flipped to `completed`, PLAN.md line flipped to stub form `Completed YYYY-MM-DD.` and placed per [`SPEC/tasknote-selection.md` §"`## Completed` archive convention"](SPEC/tasknote-selection.md) (standalone → top of `## Completed`; epic child → kept nested beneath its active parent), then tasknote moved to `.flowtron/tasknote/archive/<area>/`
+- [ ] Closed — every `## ✅ Acceptance` criterion ticked or explicitly annotated (`N/A` / not-met with a one-line reason), tasknote YAML `status:` flipped to `completed`, PLAN.md line flipped to stub form `Completed YYYY-MM-DD.` and placed per [`SPEC/plan-filing.md` §"`## Completed` archive convention"](SPEC/plan-filing.md) (standalone → top of `## Completed`; epic child → kept nested beneath its active parent), then tasknote moved to `.flowtron/tasknote/archive/<area>/`
 - [ ] **Evidence-based recap** drafted — changed files and LOC where meaningful, verification commands and results, refactors made or deferred with rationale, documentation verdict, the `touches:` scope reconciliation, and concrete maintainability effect (surfaces at the 📦 ready-to-commit gate, or inline on conditional skip)
 
 Phase 4 closure ops (Acceptance tick-through, doc-drift sweep, YAML `status:`
@@ -559,7 +559,7 @@ step from every future reader; an open PLAN row keeps it visible. The duty
 binds an operator-less closure too — the posture *raises* the count of
 deferred steps, since whatever the run could not do falls to the absent
 operator — and `/ft-file-followup --unattended` is its discharge path there
-(`SPEC/tasknote-selection.md` §"Filing commits").
+(`SPEC/plan-filing.md` §"Filing commits").
 
 **Acceptance tick-through.** Closure asserts the task against its own stated
 criteria, not against the agent's sense of being finished. Tick each
@@ -752,15 +752,18 @@ was premature). Never invent a SHA or claim a prior unrelated commit.
 Canonical contract: see [`SPEC/tasknote-selection.md`](SPEC/tasknote-selection.md).
 The module carries the full use/skip thresholds (tasknote · starter ·
 follow-up · micro-tasknote · debug), the PLAN.md filing-discipline word
-budget (≤50w target / 70w hard cap), the filing-commit contract (the four
-filing motions — follow-up, park, starter, and `/ft-audit` — auto-commit at
-hand-off since filing approval *is* commit authorization; execution skills keep
-their commit-go gate), the `## Completed` archive
-stub-form convention, the `## Completed` rotation bound (older month blocks
-spill verbatim to `.flowtron/PLAN-ARCHIVE.md` on an operator motion; advisory
-only, nothing deleted), and the downstream-impact reconciliation scan (a new
-filing or a mid-flow direction change triggers a cohesion check against
-active PLAN entries, behind a user-confirm gate).
+budget (≤50w target / 70w hard cap), and the downstream-impact
+reconciliation scan (a new filing or a mid-flow direction change triggers a
+cohesion check against active PLAN entries, behind a user-confirm gate).
+
+What happens to a PLAN.md row *after* it is filed lives in the sibling
+[`SPEC/plan-filing.md`](SPEC/plan-filing.md): the filing-commit contract (the
+four filing motions — follow-up, park, starter, and `/ft-audit` — auto-commit
+at hand-off since filing approval *is* commit authorization; execution skills
+keep their commit-go gate), the `## Completed` archive stub-form convention,
+and the `## Completed` rotation bound (older month blocks spill verbatim to
+`.flowtron/PLAN-ARCHIVE.md` on an operator motion; advisory only, nothing
+deleted).
 
 ## Priority levels
 

@@ -177,7 +177,7 @@ checked rows under `## Completed` (nested epic children included). Past
 operator rotate older month blocks to `.flowtron/PLAN-ARCHIVE.md` — then
 continue. Informational only; never block, never rotate on your own. Full
 contract (the 100-row bound, month-block granularity, the never-split rules):
-[`SPEC/tasknote-selection.md` §"`## Completed` rotation"](../tasknote-selection.md).
+[`SPEC/plan-filing.md` §"`## Completed` rotation"](../plan-filing.md).
 
 ### 2 — Resolve the area and check the model
 

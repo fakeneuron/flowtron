@@ -106,7 +106,7 @@ Host Step 4 runs with these substitutions, in the same continuous motion:
 
 5. **Commit the filing** (when the pre-check set `auto-commit = true`) —
    host Step 4 item 4, staging **two** paths by name and using the starter
-   commit shape from `SPEC/tasknote-selection.md` §"Filing commits":
+   commit shape from `SPEC/plan-filing.md` §"Filing commits":
 
    ```sh
    git add .flowtron/PLAN.md .flowtron/tasknote/<TASK-ID>.md

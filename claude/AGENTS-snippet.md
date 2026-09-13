@@ -13,7 +13,7 @@ Paste the block below into your project's `AGENTS.md`, then run the symlink comm
 
 This project uses **flowtron** for task tracking. The canonical workflow contract lives at `.flowtron/core/SPEC.md` — read it before starting non-trivial work.
 
-- Plans live in `.flowtron/PLAN.md`. Once `## Completed` outgrows its bound, closed rows rotate verbatim into a sibling `.flowtron/PLAN-ARCHIVE.md` (append-only; absent until the first rotation) — contract: `.flowtron/core/SPEC/tasknote-selection.md` §"`## Completed` rotation".
+- Plans live in `.flowtron/PLAN.md`. Once `## Completed` outgrows its bound, closed rows rotate verbatim into a sibling `.flowtron/PLAN-ARCHIVE.md` (append-only; absent until the first rotation) — contract: `.flowtron/core/SPEC/plan-filing.md` §"`## Completed` rotation".
 - Tasknotes live in `.flowtron/tasknote/<TASK-ID>.md` while active and `.flowtron/tasknote/archive/<area>/<TASK-ID>.md` once closed.
 - Start a task with `/ft-task <TASK-ID>` (e.g., `/ft-task BE-014`). The slash command scaffolds the tasknote from the flowtron template and drives Phase 1 Discovery before any code is written. Contract-only agents without `/ft-task`: load `.flowtron/core/<platform>/procedures/ft-task.md` (if one exists for your platform) — it routes to the agent-neutral SOP at `.flowtron/core/SPEC/procedures/ft-task.md`.
 - Other filing skills for non-task-shaped work: `/ft-micro-task <ID>`, `/ft-file-followup [ID]` (`--park [--low|--med|--fut|--high]`, `--starter`), `/ft-epic-discovery`, `/ft-close-epic <ID>`. Which shape fits which work: `.flowtron/core/SPEC/tasknote-selection.md` §"When to use a tasknote (and when not to)"; epic lifecycle: `.flowtron/core/SPEC/epic.md`.

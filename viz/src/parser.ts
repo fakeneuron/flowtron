@@ -56,7 +56,7 @@ const LEGACY_CRITICAL_HEADING = 'Critical';
 // inside the heading branch rather than widened into SECTION_HEADINGS, mirroring
 // LEGACY_CRITICAL_HEADING (FE-044): the canonical Priority set stays the five
 // section names the board renders.
-// Contract: SPEC/tasknote-selection.md §"`## Completed` rotation".
+// Contract: SPEC/plan-filing.md §"`## Completed` rotation".
 const COMPLETED_MONTH_HEADING = /^Completed\s+\d{4}-\d{2}$/;
 
 // Grammar (see SPEC §"Task-line format"):

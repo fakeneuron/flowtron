@@ -132,7 +132,7 @@ already persists:
 
 - **A runner closure that discharged deferred steps through
   `/ft-file-followup --unattended`** (`SPEC.md` §"Deferred hand-off filing";
-  `SPEC/tasknote-selection.md` §"Unattended filing authority") copies the line
+  `SPEC/plan-filing.md` §"Unattended filing authority") copies the line
   from the filing report into its own tasknote's **Final Summary** before the
   archive move — a pre-archive closure write, not a retroactive edit. The
   resuming operator finds it where they find the deferred rows.

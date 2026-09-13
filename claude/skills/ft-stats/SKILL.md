@@ -24,7 +24,7 @@ executable surface (per `SPEC/scope-boundaries.md` §"What flowtron does NOT pro
 - **PLAN-ARCHIVE.md path:** `.flowtron/PLAN-ARCHIVE.md`. Optional — absent
   until a project's first rotation. Treat absence as an empty archive (zero
   rows), never an error. Contract:
-  `SPEC/tasknote-selection.md` §"`## Completed` rotation" · Consumers.
+  `SPEC/plan-filing.md` §"`## Completed` rotation" · Consumers.
 - **Args:** if `$ARGUMENTS` contains the token `--write` (whitespace-delimited),
   set `WRITE_OUT = .flowtron/STATS.md`; otherwise `WRITE_OUT = null`. Unknown
   args (anything other than `--write`) → stop and surface the usage:
@@ -50,7 +50,7 @@ zero rows.
 For each candidate line in either file:
 
 1. Strip optional leading indent (2-space child indent for epic subtasks).
-2. Match against the closure stub form from `SPEC/tasknote-selection.md`
+2. Match against the closure stub form from `SPEC/plan-filing.md`
    §"`## Completed` archive convention" (inline-audit-fix rows use the self-contained description
    form from the same module's §"Exception — inline audit fixes"):
 
@@ -61,7 +61,7 @@ For each candidate line in either file:
 
    - `[<model>]` is the model token per SPEC §"Task-line format". Bucket: primary recommended tiers `[heavy]` / `[medium]` / `[light]` (from CORE-256) plus the manual-only `[xheavy]` tier (from CORE-482.3); named concrete buckets `fable` / `opus` / `sonnet` / `haiku` — the current Claude roster per SPEC/model.md (`opus`/`sonnet` also carry historical entries; `fable` added in CORE-303, `haiku` in CORE-373); any other (e.g. limited-access `mythos`, agent-specific `grok`, `gpt-5`, or historical) → `other`; absent `[<model>]` → `legacy`.
    - `| <shortname>` is optional (legacy entries may omit it).
-   - **Date resolution** (same order as `SPEC/tasknote-selection.md`
+   - **Date resolution** (same order as `SPEC/plan-filing.md`
      §"`## Completed` rotation"): prefer the trailing `Completed <YYYY-MM-DD>.`
      token when present; otherwise take the date from the mandatory
      `Surfaced by <audit-label> <YYYY-MM-DD>` clause on inline-audit-fix

@@ -76,7 +76,7 @@ Informational only — do not block scaffolding; the task is already filed and r
    month blocks to `.flowtron/PLAN-ARCHIVE.md`. Proceeding.
 ```
 
-Informational only — never block, never rotate. Rotation is an operator motion; the bound, the month-block granularity, and the two never-split rules are canonical in SPEC/tasknote-selection.md §"`## Completed` rotation".
+Informational only — never block, never rotate. Rotation is an operator motion; the bound, the month-block granularity, and the two never-split rules are canonical in SPEC/plan-filing.md §"`## Completed` rotation".
 
 ## Step 1.5 — Model gate (BEFORE scaffolding)
 

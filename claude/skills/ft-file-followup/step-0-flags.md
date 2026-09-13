@@ -75,7 +75,7 @@ the reconciliation user-confirm, so the scan still runs — and because the
 confirm is unavailable rather than waived, an unconfirmed proposal is reported,
 never applied. What authorizes the Step 4 commit without any operator act is the duty in `SPEC.md`
 §"Deferred hand-off filing", not discretion — contract in
-`SPEC/tasknote-selection.md` §"Filing commits" → "Unattended filing authority".
+`SPEC/plan-filing.md` §"Filing commits" → "Unattended filing authority".
 Emit the inline marker:
 
 ```markdown

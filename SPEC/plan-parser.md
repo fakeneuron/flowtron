@@ -59,7 +59,7 @@ shapes fail in ways worth naming rather than discovering. Neither is rescued:
 **Rewrites must preserve the trailing bracket-token run verbatim.** A
 task-line rewrite — a Re-scope note ([`SPEC.md`](../SPEC.md) §"📝 Phase 1: Discovery"), a model
 retag ([`SPEC/model.md`](model.md)), or a Phase 4 stub flip
-([`SPEC/tasknote-selection.md`](tasknote-selection.md) §"`## Completed`
+([`SPEC/plan-filing.md`](plan-filing.md) §"`## Completed`
 archive convention") — touches only the segment it means to change. It must
 copy every other bracket token already on the line (`[unattended]`, a stacked
 `[model]` tolerance) and any model-suggestion glyph verbatim from the original
