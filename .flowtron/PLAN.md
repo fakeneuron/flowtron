@@ -15,13 +15,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **FE-120** [light]🔧 [unattended] | sse-heartbeat-extract — The 30 s SSE heartbeat (`SSE_HEARTBEAT_MS`, the `setInterval` writing `: ping`, and its `close` teardown) is inline in `viz/vite.config.ts`, the one Node-tier file outside the vitest suite, while its sibling SSE constants and broadcaster live in `flowtronWatch.ts`. Extract a `createHeartbeat(sseClients, ms)` helper beside `createChangeBroadcaster`, wire it from the plugin, and cover it with a fake-timers test. Surfaced by audit 2026-09-13 (Finding #2, Low).
 - [ ] **CORE-592** [light]🔧 [unattended] | updater-self-skip-realpath — `discoverAdopters` skips flowtron's own checkout via `resolve(repo) === FLOWTRON_REPO`, a string compare that never matches when the `~/code` workspace default and the invocation path differ only by case (`~/Code/flowtron` on this case-insensitive volume — verified). Harmless today only because flowtron has no `.flowtron/core/`. Resolve both sides through `fs.promises.realpath` and add a case-variant `--root` test. Surfaced by audit 2026-09-13 (Finding #3, Low).
 
 ## Future Opportunities
 
 ## Completed
 
+- [x] **FE-120** [light]🔧 [unattended] | sse-heartbeat-extract — Completed 2026-09-13.
 - [x] **FE-119** [light]🔧 [unattended] | origin-guard-same-site-reject — Completed 2026-09-13.
 - [x] **CORE-591** [light]🔧 | followup-filing-commit-index-guard — Completed 2026-09-13.
 - [x] **FE-118** [light]🔧 [unattended] | unattended-chip — Completed 2026-09-13.

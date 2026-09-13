@@ -24,14 +24,14 @@ import {
 import {
   archiveWatchOptions,
   createChangeBroadcaster,
+  createHeartbeat,
   createOnWatchError,
   createOnWatchEvent,
   SSE_DEBOUNCE_MS,
+  SSE_HEARTBEAT_MS,
   WATCH_HOT_OPTIONS,
 } from './src/flowtronWatch.ts';
 import { watchSets } from './src/watchSet.ts';
-
-const SSE_HEARTBEAT_MS = 30_000;
 
 // Static nonce stamped onto every Vite-injected <script> (the React-refresh
 // preamble and @vite/client) via `html.cspNonce`, and echoed in the dev CSP's
@@ -62,10 +62,10 @@ function flowtronApi(): Plugin {
   const sseClients = new Set<ServerResponse>();
   let hotWatcher: ReturnType<typeof chokidar.watch> | null = null;
   let archiveWatcher: ReturnType<typeof chokidar.watch> | null = null;
-  let heartbeat: ReturnType<typeof setInterval> | null = null;
   const projects = new Map<string, ProjectDescriptor>();
   const archiveCache = createArchiveCache();
   const changeBroadcaster = createChangeBroadcaster({ sseClients, debounceMs: SSE_DEBOUNCE_MS });
+  const heartbeat = createHeartbeat(sseClients, SSE_HEARTBEAT_MS);
 
   return {
     name: 'flowtron-api',
@@ -100,13 +100,11 @@ function flowtronApi(): Plugin {
           archiveWatcher.on('error', createOnWatchError('archive'));
         }
 
-        heartbeat = setInterval(() => {
-          for (const res of sseClients) res.write(': ping\n\n');
-        }, SSE_HEARTBEAT_MS);
+        heartbeat.start();
 
         server.httpServer.on('close', () => {
           changeBroadcaster.dispose();
-          if (heartbeat) clearInterval(heartbeat);
+          heartbeat.stop();
           void hotWatcher?.close();
           void archiveWatcher?.close();
           archiveCache.clear();

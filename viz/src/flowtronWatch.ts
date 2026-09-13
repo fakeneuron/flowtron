@@ -10,6 +10,7 @@ export const WATCH_POLL_MS = 200;
 export const SSE_DEBOUNCE_MS = 200;
 /** Upper bound on debounce coalescing — flush at least once per burst (FE-088.4). */
 export const SSE_MAX_WAIT_MS = 1000;
+export const SSE_HEARTBEAT_MS = 30_000;
 
 /**
  * Markdown files only. Directories must pass — chokidar applies `ignored` to
@@ -146,6 +147,33 @@ export function createChangeBroadcaster(opts: {
     flush,
     dispose() {
       clearTimers();
+    },
+  };
+}
+
+interface Heartbeat {
+  start(): void;
+  stop(): void;
+}
+
+/**
+ * Keeps the SSE socket warm by writing `: ping` on an interval so intermediary
+ * proxies/browsers don't time out an idle connection. `start()` is idempotent
+ * (a second call while already running is a no-op) since `configureServer`
+ * runs once per dev-server lifecycle but callers shouldn't have to track that.
+ */
+export function createHeartbeat(sseClients: Set<ServerResponse>, ms: number): Heartbeat {
+  let interval: ReturnType<typeof setInterval> | null = null;
+  return {
+    start() {
+      if (interval) return;
+      interval = setInterval(() => {
+        for (const res of sseClients) res.write(': ping\n\n');
+      }, ms);
+    },
+    stop() {
+      if (interval) clearInterval(interval);
+      interval = null;
     },
   };
 }

@@ -8,6 +8,7 @@ import { createArchiveCache } from './archiveCache';
 import {
   archiveWatchOptions,
   createChangeBroadcaster,
+  createHeartbeat,
   createOnWatchError,
   createOnWatchEvent,
   ignoreNonMarkdown,
@@ -510,6 +511,57 @@ describe('createChangeBroadcaster (CORE-431.3 debounce + attribution)', () => {
     const expected = 'event: change\ndata: {"project":"alpha","scopes":["plan"]}\n\n';
     expect(first.state.chunks).toEqual([expected]);
     expect(second.state.chunks).toEqual([expected]);
+  });
+});
+
+describe('createHeartbeat (FE-120)', () => {
+  it('writes a ping to every client on each tick after start()', () => {
+    const sseClients = new Set<ServerResponse>();
+    const first = makeRes();
+    const second = makeRes();
+    sseClients.add(first.res);
+    sseClients.add(second.res);
+    const heartbeat = createHeartbeat(sseClients, 30_000);
+
+    heartbeat.start();
+    vi.advanceTimersByTime(30_000);
+    vi.advanceTimersByTime(30_000);
+
+    expect(first.state.chunks).toEqual([': ping\n\n', ': ping\n\n']);
+    expect(second.state.chunks).toEqual([': ping\n\n', ': ping\n\n']);
+  });
+
+  it('stop() clears the interval', () => {
+    const sseClients = new Set<ServerResponse>();
+    const { res, state } = makeRes();
+    sseClients.add(res);
+    const heartbeat = createHeartbeat(sseClients, 30_000);
+
+    heartbeat.start();
+    heartbeat.stop();
+    vi.advanceTimersByTime(30_000);
+
+    expect(state.chunks).toEqual([]);
+  });
+
+  it('start() is idempotent — a second call does not schedule a duplicate interval', () => {
+    const sseClients = new Set<ServerResponse>();
+    const { res, state } = makeRes();
+    sseClients.add(res);
+    const heartbeat = createHeartbeat(sseClients, 30_000);
+
+    heartbeat.start();
+    heartbeat.start();
+    vi.advanceTimersByTime(30_000);
+
+    expect(state.chunks).toEqual([': ping\n\n']);
+  });
+
+  it('stop() before start() is a safe no-op', () => {
+    const sseClients = new Set<ServerResponse>();
+    const heartbeat = createHeartbeat(sseClients, 30_000);
+
+    expect(() => heartbeat.stop()).not.toThrow();
   });
 });
 
