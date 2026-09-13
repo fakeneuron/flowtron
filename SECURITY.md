@@ -227,14 +227,16 @@ dev server:
   header. Same-origin requests from the visualizer's own UI, and
   origin-less requests from the local terminal (e.g. `curl`), are
   allowed.
-- Rejects `/api/*` requests carrying `Sec-Fetch-Site: cross-site`
-  (`viz/src/originGuard.ts`), ahead of the `Origin` / `Referer` checks.
-  Those two headers are both absent from a cross-origin iframe navigation
-  sent with `referrerpolicy="no-referrer"`, so without this a page on any
-  site could frame `/api/events` and occupy SSE connection slots up to the
-  `MAX_SSE_CLIENTS` cap. Only the `cross-site` value is rejected: `none`
-  (address-bar navigation), `same-origin`, and `same-site` fall through to
-  the exact-origin checks, and an **absent** header still passes, so
+- Rejects `/api/*` requests carrying `Sec-Fetch-Site: cross-site` or
+  `same-site` (`viz/src/originGuard.ts`), ahead of the `Origin` / `Referer`
+  checks. Those two headers are both absent from a cross-origin iframe
+  navigation sent with `referrerpolicy="no-referrer"`, so without this a
+  page on any site could frame `/api/events` and occupy SSE connection
+  slots up to the `MAX_SSE_CLIENTS` cap — `same-site` is rejected too
+  because a page served from a sibling loopback port can send the same
+  header-less GET and would otherwise arrive as `same-site` (FE-119). Only
+  `none` (address-bar navigation) and `same-origin` fall through to the
+  exact-origin checks, and an **absent** header still passes, so
   non-browser clients such as `curl` are unaffected.
 - Rejects non-GET/HEAD `/api/*` requests with 405, ahead of origin
   validation and business logic (`viz/src/devApi.ts`).

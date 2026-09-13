@@ -136,7 +136,18 @@ describe('originGuard', () => {
     expect(state.body).toBe('Forbidden: cross-site request');
   });
 
-  it.each(['same-origin', 'same-site', 'none'])(
+  it('blocks a Sec-Fetch-Site: same-site request with 403', () => {
+    const { res, state } = makeRes();
+    const req = makeReq({ 'sec-fetch-site': 'same-site' });
+
+    expect(originGuard(req, res)).toBe(false);
+    expect(state.statusCode).toBe(403);
+    expect(state.body).toBe('Forbidden: cross-site request');
+    expect(state.headers['content-type']).toBe('text/plain; charset=utf-8');
+    expect(state.ended).toBe(true);
+  });
+
+  it.each(['same-origin', 'none'])(
     'allows Sec-Fetch-Site: %s',
     (site) => {
       const { res, state } = makeRes();

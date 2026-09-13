@@ -21,12 +21,14 @@ export function originGuard(req: IncomingMessage, res: ServerResponse): boolean 
   // (it is a GET navigation, not a CORS request) and `referrerpolicy="no-referrer"`
   // strips the `Referer`, so a hostile page could hold /api/events slots against
   // the MAX_SSE_CLIENTS cap (FE-062) until the operator's own board takes the 503.
-  // Browsers always send this header; only `cross-site` is rejected — `none`
-  // (address-bar navigation), `same-origin`, and `same-site` fall through to the
-  // exact-origin checks below, and an absent header still passes so terminal
-  // `curl` and other non-browser clients keep working.
+  // A sibling loopback-port page can send neither header either (a `no-cors` +
+  // `no-referrer` GET) and still arrives as `same-site`, so that value is
+  // rejected too (FE-119) — the viz UI only calls /api/* same-origin. Browsers
+  // always send this header; `none` (address-bar navigation) and `same-origin`
+  // fall through to the exact-origin checks below, and an absent header still
+  // passes so terminal `curl` and other non-browser clients keep working.
   const fetchSite = req.headers['sec-fetch-site'];
-  if (fetchSite === 'cross-site') {
+  if (fetchSite === 'cross-site' || fetchSite === 'same-site') {
     endPlain(res, 403, 'Forbidden: cross-site request');
     return false;
   }
