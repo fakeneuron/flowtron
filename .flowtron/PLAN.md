@@ -11,9 +11,17 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
+- [ ] **CORE-593** [light]🔧 [unattended] | refactor-filing-post-stage-verify — Add the `SPEC/tasknote-selection.md` §"Filing commits" post-stage verification (unscoped `git diff --cached` read before commit; `git restore --staged` + skip on a foreign hunk) to `claude/skills/ft-refactor/SKILL.md` Step 6, in the `starter-mode.md` shape; CORE-563 added it to the contract and the other four filing runners but not this one, and CORE-591 patched only its pre-check. Surfaced by audit-structure 2026-09-13 (Finding #1, High).
+
 ## Medium
 
+- [ ] **CORE-594** [medium]🧩 [unattended] | mirror-pair-o-filing-commits — Add §7.1 Pair O to `claude/skills/ft-release/step-7.1-mirror-pairs.md` binding every filing runner to §"Filing commits": each `claude/skills/**` file containing `auto-commit = ` must also contain a non-`--quiet` `git diff --cached` and a resolving `§"Filing commits"` citation; lift it into the CI `drift` job and add its Pair L mapping row. Surfaced by audit-structure 2026-09-13 (Finding #1, High).
+- [ ] **CORE-595** [medium]🧩 [unattended] | tasknote-selection-split — Extract §"Filing commits", §"`## Completed` archive convention", and §"`## Completed` rotation" from `SPEC/tasknote-selection.md` (28,952 chars, six concerns, ≥9 loaders, 19 commits since 2026-08-01) into a new `SPEC/plan-filing.md` lazy module; repoint every citation (`SPEC.md`, `SPEC/procedures/ft-task.md`, `ft-audit`, `ft-file-followup` + park/starter, `ft-refactor`, `ft-stats`, `ft-micro-task`, `ft-task`) and add the module to `SPEC/layout.md`'s roster — CORE-535.5's `gates.md` split shape. Surfaced by audit-structure 2026-09-13 (Finding #3, Medium).
+- [ ] **CORE-596** [light]🔧 [unattended] | spec-paths-frontmatter-retire — Remove the consumer-less `paths:` frontmatter from all 17 `SPEC/*.md` lazy modules and delete `SPEC/layout.md` §"Lazy SPEC module frontmatter", the `docs/AGENT-NEUTRALITY.md:36` row, and the `SPEC/procedures/README.md:85` contrast clause; shipped at CORE-097.3 (2026-05-18) as "future tooling MAY parse" and nothing has. Surfaced by audit-structure 2026-09-13 (Finding #2, Medium).
+
 ## Low
+
+- [ ] **CORE-597** [light]🔧 | caobunga-status-file-home — Untrack `caobunga-status.md` (`git rm --cached`) and add it to `.gitignore` beside `SCRATCH*.md`, so the cross-repo orchestrator's status writes stop landing as `caobunga:` commits on `main`; alternatively register it in `CLAUDE.md` §"Repo Layout" and add the commit type to `docs/CONVENTIONS.md`. Surfaced by audit-structure 2026-09-13 (Finding #4, Medium).
 
 ## Future Opportunities
 
