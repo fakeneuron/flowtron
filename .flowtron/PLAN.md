@@ -11,8 +11,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-593** [light]🔧 [unattended] | refactor-filing-post-stage-verify — Add the `SPEC/tasknote-selection.md` §"Filing commits" post-stage verification (unscoped `git diff --cached` read before commit; `git restore --staged` + skip on a foreign hunk) to `claude/skills/ft-refactor/SKILL.md` Step 6, in the `starter-mode.md` shape; CORE-563 added it to the contract and the other four filing runners but not this one, and CORE-591 patched only its pre-check. Surfaced by audit-structure 2026-09-13 (Finding #1, High).
-
 ## Medium
 
 - [ ] **CORE-594** [medium]🧩 [unattended] | mirror-pair-o-filing-commits — Add §7.1 Pair O to `claude/skills/ft-release/step-7.1-mirror-pairs.md` binding every filing runner to §"Filing commits": each `claude/skills/**` file containing `auto-commit = ` must also contain a non-`--quiet` `git diff --cached` and a resolving `§"Filing commits"` citation; lift it into the CI `drift` job and add its Pair L mapping row. Surfaced by audit-structure 2026-09-13 (Finding #1, High).
@@ -27,6 +25,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-593** [light]🔧 [unattended] | refactor-filing-post-stage-verify — Completed 2026-09-13.
 - [x] **CORE-592** [light]🔧 [unattended] | updater-self-skip-realpath — Completed 2026-09-13.
 - [x] **FE-120** [light]🔧 [unattended] | sse-heartbeat-extract — Completed 2026-09-13.
 - [x] **FE-119** [light]🔧 [unattended] | origin-guard-same-site-reject — Completed 2026-09-13.

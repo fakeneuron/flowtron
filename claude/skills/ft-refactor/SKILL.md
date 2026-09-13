@@ -218,8 +218,21 @@ content; the filing rides along in the surrounding commit). Contract:
 ## Step 6 — Commit + hand off
 
 **Commit the filing** (when `auto-commit = true`): stage the PLAN.md edit
-and the starter files **by name** — never `git commit -a` / `git add .` —
-and commit as `chore: file <AREA>-EPIC-<next-N> refactor plan — <shortname>`.
+and the starter files **by name** — never `git commit -a` / `git add .`:
+
+```sh
+git add .flowtron/PLAN.md <starter-file-paths>
+git diff --cached   # whole index, no pathspec
+git commit -m "chore: file <AREA>-EPIC-<next-N> refactor plan — <shortname>"
+```
+
+**Post-stage verification.** Every hunk in that diff must be one this
+filing wrote — the appended PLAN.md rows, any confirmed reconcile edit, and
+each starter file as a new file. An unrecognized hunk → `git restore
+--staged` every staged path, skip the commit, and report it exactly as the
+`auto-commit = false` case below. Never unstage the foreign hunk and commit
+the rest. Full contract: `SPEC/tasknote-selection.md` §"Filing commits".
+
 Commit only — never push; the Step 4 approval is the commit authorization.
 `auto-commit = false` → skip and say so. Emit **no 🏁 marker** — that is
 reserved for closure commits covering Acceptance deliverables (SPEC
