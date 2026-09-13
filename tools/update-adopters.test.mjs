@@ -3,7 +3,7 @@
 
 import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
-import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { mkdtemp, mkdir, readFile, rm, symlink, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { after, before, describe, it } from 'node:test';
@@ -29,6 +29,7 @@ import {
   parseArgs,
   parseSemverTag,
   pinnedVersion,
+  realOrResolve,
   tagsInRange,
   verifyPinnedSha,
 } from './update-adopters.mjs';
@@ -416,6 +417,25 @@ describe('discoverAdopters', () => {
   it('rejects when root does not exist', async () => {
     const root = join(tmpdir(), 'ft-upd-disc-missing-does-not-exist');
     await assert.rejects(() => discoverAdopters(root), /ENOENT/);
+  });
+
+  // CORE-592 — a bare `resolve(repo) === FLOWTRON_REPO` string compare never
+  // matches when the two sides reach the same real directory via differently
+  // spelled paths (e.g. a workspace root that differs from the invocation
+  // path only by case, on a case-insensitive volume). A symlink alias is the
+  // portable stand-in: same defect shape, deterministic on every filesystem.
+  it('realOrResolve resolves a symlink alias to the same real path as its target', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'ft-upd-realpath-'));
+    const alias = join(root, 'flowtron-alias');
+    await symlink(FLOWTRON_REPO, alias, 'dir');
+    const [aliasReal, repoReal] = await Promise.all([
+      realOrResolve(alias),
+      realOrResolve(FLOWTRON_REPO),
+    ]);
+    assert.equal(aliasReal, repoReal);
+    // The comparison the old code used would have missed this alias.
+    assert.notEqual(resolve(alias), FLOWTRON_REPO);
+    await rm(root, { recursive: true, force: true });
   });
 });
 

@@ -88,7 +88,7 @@
 // wiring surface.
 
 import { execFile } from 'node:child_process';
-import { readdir, readFile, stat } from 'node:fs/promises';
+import { readdir, readFile, realpath, stat } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -259,6 +259,18 @@ async function isDir(path) {
     return (await stat(path)).isDirectory();
   } catch {
     return false;
+  }
+}
+
+// realpath resolves symlinks and (on case-insensitive volumes) canonicalizes
+// case, so two paths that only differ by case-insensitive spelling compare
+// equal here. Falls back to resolve() for a path that doesn't exist (e.g. a
+// broken symlink entry from readdir) rather than throwing.
+async function realOrResolve(path) {
+  try {
+    return await realpath(path);
+  } catch {
+    return resolve(path);
   }
 }
 
@@ -482,13 +494,14 @@ export function formatSkillsNote(surfaces) {
 
 export async function discoverAdopters(root) {
   const entries = await readdir(root, { withFileTypes: true });
+  const flowtronReal = await realOrResolve(FLOWTRON_REPO);
   const adopters = [];
   const legacy = [];
   for (const entry of entries) {
     if (!(entry.isDirectory() || entry.isSymbolicLink())) continue;
     if (entry.name.startsWith('.')) continue;
     const repo = join(root, entry.name);
-    if (resolve(repo) === FLOWTRON_REPO) continue; // flowtron itself: /ft-release territory
+    if ((await realOrResolve(repo)) === flowtronReal) continue; // flowtron itself: /ft-release territory
     if (await isFile(join(repo, SUBMODULE_PATH, 'SPEC.md'))) {
       adopters.push({ name: entry.name, repo });
     } else if (await isDir(join(repo, '.flowtron', 'flowtron'))) {
@@ -866,4 +879,4 @@ if (isMain) {
   });
 }
 
-export { FLOWTRON_REPO, SUBMODULE_PATH };
+export { FLOWTRON_REPO, SUBMODULE_PATH, realOrResolve };

@@ -15,12 +15,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-592** [light]🔧 [unattended] | updater-self-skip-realpath — `discoverAdopters` skips flowtron's own checkout via `resolve(repo) === FLOWTRON_REPO`, a string compare that never matches when the `~/code` workspace default and the invocation path differ only by case (`~/Code/flowtron` on this case-insensitive volume — verified). Harmless today only because flowtron has no `.flowtron/core/`. Resolve both sides through `fs.promises.realpath` and add a case-variant `--root` test. Surfaced by audit 2026-09-13 (Finding #3, Low).
-
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-592** [light]🔧 [unattended] | updater-self-skip-realpath — Completed 2026-09-13.
 - [x] **FE-120** [light]🔧 [unattended] | sse-heartbeat-extract — Completed 2026-09-13.
 - [x] **FE-119** [light]🔧 [unattended] | origin-guard-same-site-reject — Completed 2026-09-13.
 - [x] **CORE-591** [light]🔧 | followup-filing-commit-index-guard — Completed 2026-09-13.
