@@ -1,6 +1,6 @@
 import React from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { cleanup, render } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import { DEFAULT_PREFS } from '../visibilityPrefs';
 import type { Task } from '../parser';
 import { RowInteractionProvider } from './RowInteractionContext';
@@ -92,5 +92,29 @@ describe('TaskRow', () => {
 
     rerender(<Harness t={{ ...task }} />);
     expect(spy).toHaveBeenCalledTimes(2);
+  });
+});
+
+// FE-118: `Task.unattended` (parsed since CORE-494) surfaces as a chip in the
+// right-hand cluster so rows an operator-less runner may dispatch are visible.
+describe('TaskRow — [unattended] chip', () => {
+  const label = /^Unattended/;
+
+  it('renders the chip when the task carries the marker', () => {
+    render(
+      <Providers>
+        <TaskRow task={{ ...task, unattended: true }} />
+      </Providers>
+    );
+    expect(screen.getByLabelText(label)).toHaveTextContent('🤖');
+  });
+
+  it('renders nothing when the task does not', () => {
+    render(
+      <Providers>
+        <TaskRow task={task} />
+      </Providers>
+    );
+    expect(screen.queryByLabelText(label)).toBeNull();
   });
 });

@@ -15,11 +15,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **FE-118** [light] [unattended] | unattended-chip — `Task.unattended` (`viz/src/parser.ts:143`) has been parsed since CORE-494 but nothing renders it; add an `[unattended]` chip beside the model chip in `viz/src/ui/TaskRowInner.tsx` / `ModelChip.tsx` so rows an autonomous runner may dispatch are visible on the board, with a `TaskRow.test.tsx` case. Deferred at CORE-494 closure.
 ## Future Opportunities
 
 ## Completed
 
+- [x] **FE-118** [light]🔧 [unattended] | unattended-chip — Completed 2026-09-13.
 - [x] **CORE-589** [light]🔧 | agents-snippet-plan-archive-mention — Completed 2026-09-13.
 - [x] **CORE-590** [light]🔧 [unattended] | glossary-unattended-entry — Completed 2026-09-12.
 - [x] **CORE-588** [medium]🧩 | release-dogfood-concurrent-write-hardening — Completed 2026-09-12.
