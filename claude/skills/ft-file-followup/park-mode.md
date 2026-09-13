@@ -89,12 +89,14 @@ Template path (resolved by the host SKILL's Step 0 layout branch):
 Then:
 
 1. **Filing-commit pre-check.** Run `git status --porcelain -- .flowtron/PLAN.md`
-   **before any write** and record the result as `auto-commit`: clean → `true`;
-   any output → `false` (PLAN.md already carries foreign edits, so the filing
-   rides along in the surrounding commit instead). It must run here, not at
-   Step P1 — the no-flag priority question at Step P2 waits for the operator,
-   and the tree can gain PLAN.md edits while it waits. Not a gate: it only
-   decides whether item 5 below runs. Contract:
+   **and** `git diff --cached --quiet` **before any write** and record the
+   result as `auto-commit`: no output and exit 0 → `true`; any output, or a
+   non-zero exit → `false` (PLAN.md already carries foreign edits, or the index
+   already holds staged content that item 5's commit would otherwise publish —
+   either way the filing rides along in the surrounding commit instead). It
+   must run here, not at Step P1 — the no-flag priority question at Step P2
+   waits for the operator, and the tree can gain PLAN.md edits while it waits.
+   Not a gate: it only decides whether item 5 below runs. Contract:
    `SPEC/tasknote-selection.md` §"Filing commits".
 2. `mkdir -p .flowtron/sidequest/`
 3. Copy the template → `.flowtron/sidequest/<TASK-ID>.md`; fill frontmatter, H1,
@@ -114,14 +116,15 @@ Then:
 
    ```sh
    git add .flowtron/PLAN.md .flowtron/sidequest/<TASK-ID>.md
-   git diff --cached -- .flowtron/PLAN.md .flowtron/sidequest/<TASK-ID>.md
+   git diff --cached   # whole index, no pathspec
    git commit -m "chore: file <TASK-ID> park — <shortname>"
    ```
 
    **Post-stage verification.** Read that staged diff before committing. Item 1
-   read the working tree; the commit publishes the index, and PLAN.md can gain a
-   foreign write in between that `git add` stages unseen. Every hunk must be one
-   this park wrote — the appended row, and the whole sidequest stub as a new
+   read the working tree and the index; the commit publishes the index, and
+   PLAN.md can gain a foreign write in between that `git add` stages unseen.
+   The read takes no pathspec because the commit takes none. Every hunk must be
+   one this park wrote — the appended row, and the whole sidequest stub as a new
    file. An unrecognized hunk → `git restore --staged` both paths, skip the
    commit, and say so in the Step P5 reply exactly as the `auto-commit = false`
    case. Never unstage the foreign hunk and commit the rest. Contract:

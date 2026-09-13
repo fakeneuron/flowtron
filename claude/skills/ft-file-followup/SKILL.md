@@ -182,7 +182,7 @@ Edit per their feedback before writing anything. Do not skip the review. The rec
 
 In one continuous motion, after the user has confirmed the Step 3 review (including any reconcile proposals) — or, under `unattended-mode = true`, immediately, since Step 3 surfaced no gate to confirm:
 
-1. **Filing-commit pre-check.** Run `git status --porcelain -- .flowtron/PLAN.md` **before any write** and record the result as `auto-commit`: clean output → `auto-commit = true`; any output → `auto-commit = false` (PLAN.md already carries foreign edits, so the filing rides along in the surrounding commit instead). It must run here, immediately before the append — Steps 2-3 span operator turns, so a reading taken at pre-flight can go stale. Not a gate: nothing stops either way; it only decides whether item 4 below runs. Contract: SPEC/tasknote-selection.md §"Filing commits".
+1. **Filing-commit pre-check.** Run `git status --porcelain -- .flowtron/PLAN.md` **and** `git diff --cached --quiet` **before any write** and record the result as `auto-commit`: no output from the first and exit 0 from the second → `auto-commit = true`; any output, or a non-zero exit → `auto-commit = false` (PLAN.md already carries foreign edits, or the index already holds staged content — either way the filing rides along in the surrounding commit instead). The index reading is not optional: item 4's commit publishes the whole index, so a closure that has staged deliverables but not yet its PLAN flip would otherwise pass a PLAN-only check and ship them under this filing's subject. It must run here, immediately before the append — Steps 2-3 span operator turns, so a reading taken at pre-flight can go stale. Not a gate: nothing stops either way; it only decides whether item 4 below runs. Contract: SPEC/tasknote-selection.md §"Filing commits".
 
 2. **Append the PLAN.md entry.** Append a new entry under the appropriate `## <Priority>` heading using the canonical task-line grammar (SPEC §"Task-line format"; a dependency on another row is `Blocked by [[<ID>]]`, wikilink-only — `SPEC/plan-parser.md` §"Long-description conventions"):
 
@@ -205,11 +205,11 @@ In one continuous motion, after the user has confirmed the Step 3 review (includ
 
    ```sh
    git add .flowtron/PLAN.md
-   git diff --cached -- .flowtron/PLAN.md   # post-stage verification — read before committing
+   git diff --cached   # post-stage verification — whole index, no pathspec; read before committing
    git commit -m "chore: file <TASK-ID> follow-up — <shortname>"
    ```
 
-   **Post-stage verification is not optional.** The item-1 pre-check reads the working tree; the commit publishes the index, and PLAN.md can gain a foreign write in between (an editor autosave, a concurrent session) that `git add` then stages unseen. Read the staged diff and confirm every hunk is one this filing wrote — the appended row, plus any confirmed reconcile edit from item 3. An unrecognized hunk → `git restore --staged .flowtron/PLAN.md`, skip the commit, and report it exactly as the `auto-commit = false` case at Step 5. Never unstage the foreign hunk and commit the rest. Because `git commit -m` publishes the index as it stands, nothing landing after `git add` can reach the commit — so this read closes the window rather than narrowing it.
+   **Post-stage verification is not optional.** The item-1 pre-check reads the working tree and the index; the commit publishes the index, and PLAN.md can gain a foreign write in between (an editor autosave, a concurrent session) that `git add` then stages unseen. Read the **whole** staged diff — no pathspec, since the commit takes the whole index — and confirm every hunk is one this filing wrote — the appended row, plus any confirmed reconcile edit from item 3. An unrecognized hunk → `git restore --staged .flowtron/PLAN.md`, skip the commit, and report it exactly as the `auto-commit = false` case at Step 5. Never unstage the foreign hunk and commit the rest. Because `git commit -m` publishes the index as it stands, nothing landing after `git add` can reach the commit — so this read closes the window rather than narrowing it. Never narrow the commit with a pathspec (`git commit --only`) instead: that commits the working tree of the named path, bypassing the index this read just verified.
 
    Commit only — never push. `auto-commit = false` → skip this step entirely and note it in Step 5. Full contract: SPEC/tasknote-selection.md §"Filing commits".
 
@@ -221,10 +221,11 @@ In one continuous motion, after the user has confirmed the Step 3 review (includ
    hand-off filing" itself, per SPEC/tasknote-selection.md §"Filing commits" →
    "Unattended filing authority". Note that the pre-check makes the two orderings
    converge without special-casing: invoked from a closure that has already staged
-   its PLAN.md flip, it reads dirty, sets `auto-commit = false`, and the new row
-   simply rides into that atomic closure commit; invoked from a clean tree, it
-   commits standalone and closure follows. Both are already-supported behavior,
-   so `SPEC.md` §"Paper-complete guard" §2 is unaffected either way.
+   anything — its PLAN.md flip, or deliverables ahead of the flip (`git rm`s,
+   source edits) — the index reading fails, `auto-commit = false`, and the new
+   row simply rides into that atomic closure commit; invoked from a clean tree,
+   it commits standalone and closure follows. Both are already-supported
+   behavior, so `SPEC.md` §"Paper-complete guard" §2 is unaffected either way.
 
 5. **Deliver the conversational paragraph.** Surface the reviewed paragraph from Step 3 in the same response as the filing confirmation. The paragraph is **chat-only** — never persisted to disk, never written into the active tasknote. Under `unattended-mode = true` it is unreviewed rather than reviewed, and it folds into the Step 5 report — the sole surface an absent operator reads.
 
@@ -234,7 +235,7 @@ In one continuous motion, after the user has confirmed the Step 3 review (includ
 
 Surface to the user, in one short message:
 
-- `<TASK-ID>` filed at `.flowtron/PLAN.md` under `## <Priority>` with model `<model>`, `committed <sha>` — or, when Step 4.4 was skipped, `left uncommitted (PLAN.md already carried other edits)`.
+- `<TASK-ID>` filed at `.flowtron/PLAN.md` under `## <Priority>` with model `<model>`, `committed <sha>` — or, when Step 4.4 was skipped, `left uncommitted (PLAN.md or the index already carried other changes)`.
 - The follow-up sits as a one-line PLAN.md entry until `/ft-task <TASK-ID>` (or `/ft-micro-task` for a one-shot) fires.
 - (Conversational paragraph from Step 4.5 is included in this response.)
 

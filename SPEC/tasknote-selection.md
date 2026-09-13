@@ -172,12 +172,19 @@ Rules:
   an active `/ft-task`, where the working tree legitimately carries the parent
   task's unfinished edits; a greedy stage would commit them under a `chore: file`
   message.
-- **Pre-check, then skip on dirt.** Check whether `.flowtron/PLAN.md` already
-  carries uncommitted changes (`git status --porcelain -- .flowtron/PLAN.md`).
-  Clean → after the append the only PLAN delta is the filing's own, so commit.
-  **Already dirty → do not commit:** say so in one line and leave the filing for
+- **Pre-check, then skip on dirt.** Two readings, both must be clean:
+  `.flowtron/PLAN.md` carries no uncommitted changes
+  (`git status --porcelain -- .flowtron/PLAN.md` prints nothing) **and** the
+  index is empty (`git diff --cached --quiet` exits 0). Both clean → after the
+  append the only delta the commit can publish is the filing's own, so commit.
+  **Either dirty → do not commit:** say so in one line and leave the filing for
   the surrounding commit (the pre-CORE-429 behavior). Never resolve foreign PLAN
-  dirt on the operator's behalf, and never fold it into the filing commit.
+  dirt on the operator's behalf, and never fold it into the filing commit. The
+  index reading exists because the commit below publishes the *whole* index,
+  not just the filing's paths: a closure that has already staged deliverables
+  (`git rm`s, source edits) but not yet its PLAN flip leaves PLAN.md reading
+  clean, and a PLAN-only pre-check then lets that content ride out under a
+  `chore: file` subject (caobunga CBN-179, 2026-09-13 — the fix is CORE-591).
   **Placement is load-bearing:** run it immediately before the filing's *first
   write*, not at ID pre-flight. Every filing motion pauses for the operator
   between those two points (the AskUserQuestion collection and review gate, or
@@ -188,7 +195,8 @@ Rules:
   it. A write landing between the pre-check and `git add` — an editor autosave, a
   format-on-save, a concurrent session — is staged unseen and published under a
   `chore: file` message. So after staging and **before** committing, read the
-  staged diff (`git diff --cached -- <the filing's pathspecs>`). Every hunk must
+  whole staged diff (`git diff --cached`, **no pathspec** — the commit publishes
+  the whole index, so the read must cover the whole index). Every hunk must
   be one this filing wrote: the appended PLAN row, any confirmed reconcile edit,
   the starter/sidequest file, each named inline fix. **An unrecognized hunk →
   do not commit:** `git restore --staged` the filing's own pathspecs, then take
@@ -199,10 +207,13 @@ Rules:
   above forbids. **Why this closes the window rather than narrowing it:**
   `git commit -m` with no pathspec publishes the index as it stands, so a write
   landing *after* `git add` cannot reach the commit. The exposure is exactly the
-  pre-check → `git add` span, and the staged diff is the very content the commit
-  will publish — so every write that could have slipped in is visible to this
-  read. Re-running the pre-check nearer the stage only makes the same window
-  smaller and is not a substitute.
+  pre-check → `git add` span, and the unscoped staged diff is the very content
+  the commit will publish — so every write that could have slipped in is visible
+  to this read. Re-running the pre-check nearer the stage only makes the same
+  window smaller and is not a substitute. For the same reason the commit never
+  takes a pathspec (`git commit --only <path>` / `git commit <path>`): that
+  form commits the *working tree* of the named paths, bypassing the index the
+  read just verified, and re-opens the post-`git add` window.
 - **Commit, never push.** Pushing stays the operator's call in their own
   session.
 - **Confirmed reconcile edits ride along.** Where the operator confirmed edits

@@ -110,13 +110,13 @@ Host Step 4 runs with these substitutions, in the same continuous motion:
 
    ```sh
    git add .flowtron/PLAN.md .flowtron/tasknote/<TASK-ID>.md
-   git diff --cached -- .flowtron/PLAN.md .flowtron/tasknote/<TASK-ID>.md
+   git diff --cached   # whole index, no pathspec
    git commit -m "chore: file <TASK-ID> starter — <shortname>"
    ```
 
-   The host's post-stage verification applies to both paths: every hunk must
-   be one this filing wrote — the appended row, any confirmed reconcile edit,
-   and the whole starter file as a new file. An unrecognized hunk →
+   The host's post-stage verification applies to the whole staged diff: every
+   hunk must be one this filing wrote — the appended row, any confirmed
+   reconcile edit, and the whole starter file as a new file. An unrecognized hunk →
    `git restore --staged` **both** paths, skip the commit, and report it at
    Step S5 exactly as the `auto-commit = false` case. Commit only — never push.
 
@@ -130,8 +130,8 @@ Host Step 5's message, reworded for the artifact:
 
 - Starter filed at `.flowtron/tasknote/<TASK-ID>.md`.
 - PLAN.md entry appended under `## <Priority>` with model `<model>`,
-  `committed <sha>` — or `left uncommitted (PLAN.md already carried other
-  edits)` when the commit was skipped.
+  `committed <sha>` — or `left uncommitted (PLAN.md or the index already
+  carried other changes)` when the commit was skipped.
 - The starter sits until `/ft-task <TASK-ID>` is invoked — that promotion
   drift-checks the captured context against current code and scaffolds the
   rest of the tasknote (`<SPEC_DIR>/starter.md` lifecycle).

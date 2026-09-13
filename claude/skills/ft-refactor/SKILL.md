@@ -164,9 +164,11 @@ The operator may decline the `.N` audit child for a short, low-risk plan
 Only after the Step 4 go (or `fast-mode = true`).
 
 **Filing-commit pre-check first.** Run `git status --porcelain --
-.flowtron/PLAN.md` **before any write**: clean → `auto-commit = true`; any
-output → `auto-commit = false` (the filing rides along in the surrounding
-commit). Contract: `SPEC/tasknote-selection.md` §"Filing commits".
+.flowtron/PLAN.md` **and** `git diff --cached --quiet` **before any write**:
+no output and exit 0 → `auto-commit = true`; any output, or a non-zero exit →
+`auto-commit = false` (PLAN.md is dirty or the index already holds staged
+content; the filing rides along in the surrounding commit). Contract:
+`SPEC/tasknote-selection.md` §"Filing commits".
 
 1. **Resolve the epic ID.** Scan `.flowtron/PLAN.md` AND
    `.flowtron/tasknote/archive/<area>/` for the highest used numeric suffix
