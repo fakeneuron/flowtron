@@ -49,7 +49,7 @@ Global-only utilities install per [`docs/MIGRATION.md`](../docs/MIGRATION.md) §
 modules above: agent-neutral **procedure SOPs** that project an execution
 procedure (e.g. the `/ft-task` 4-phase workflow) for contract-only agents.
 They carry a different frontmatter shape — `procedure:` / `source:` /
-`restates:` / `last-verified:`, not `paths:` — and are loaded by thin per-agent pointer
+`restates:` / `last-verified:` — and are loaded by thin per-agent pointer
 wrappers (`<platform>/procedures/<procedure>.md`) rather than by the
 `/ft-task` SKILL dispatch. Canonical schema + loading convention:
 [`SPEC/procedures/README.md`](procedures/README.md).
