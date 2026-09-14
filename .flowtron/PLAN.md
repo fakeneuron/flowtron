@@ -19,6 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-599** [medium]🧩 | release v5.28.0 — Completed 2026-09-14.
 - [x] **CORE-EPIC-598** [heavy]🧠 | flowtron-caobunga-concert — Completed 2026-09-14.
   - [x] **CORE-598.1** [heavy]🧠 | flowtron-caobunga-concert discovery — Completed 2026-09-14.
   - [x] **CORE-598.2** [heavy]🧠 | caller-write-boundary-fixes — Completed 2026-09-14.

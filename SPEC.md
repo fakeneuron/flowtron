@@ -1,6 +1,6 @@
 # Flowtron — Workflow Specification
 
-**Version:** v5.27.0
+**Version:** v5.28.0
 **Status:** Stable
 
 ## What is Flowtron
@@ -25,9 +25,9 @@ to maintain.
 
 ## Layout, and working in the flowtron repo itself
 
-The adopting-project directory layout, the flowtron repo's own layout, lazy
-SPEC module frontmatter, procedure SOPs, and the reserved `ft-` skill-name
-prefix (adopters MUST NOT use it for their own skills): see
+The adopting-project directory layout, the flowtron repo's own layout,
+procedure SOPs, and the reserved `ft-` skill-name prefix (adopters MUST NOT
+use it for their own skills): see
 [`SPEC/layout.md`](SPEC/layout.md).
 
 ## Task ID convention
@@ -761,9 +761,9 @@ cohesion check against active PLAN entries, behind a user-confirm gate).
 
 What happens to a PLAN.md row *after* it is filed lives in the sibling
 [`SPEC/plan-filing.md`](SPEC/plan-filing.md): the filing-commit contract (the
-four filing motions — follow-up, park, starter, and `/ft-audit` — auto-commit
-at hand-off since filing approval *is* commit authorization; execution skills
-keep their commit-go gate), the `## Completed` archive stub-form convention,
+five filing motions — follow-up, park, starter, `/ft-audit`, and `/ft-refactor`
+— auto-commit at hand-off since filing approval *is* commit authorization;
+execution skills keep their commit-go gate), the `## Completed` archive stub-form convention,
 and the `## Completed` rotation bound (older month blocks spill verbatim to
 `.flowtron/PLAN-ARCHIVE.md` on an operator motion; advisory only, nothing
 deleted).

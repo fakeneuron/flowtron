@@ -22,6 +22,15 @@ unless correcting a factual error.
 
 ---
 
+## v5.28.0 — the [handoff] marker, the flowtron↔caobunga caller boundary, and filing-contract hardening
+
+- `[handoff]` is ratified as the second canonical trailing token on a PLAN.md row — an operator's declaration that the row stops mid-run for a human act; an operator-less caller declines it, an attended run is unchanged.
+- The flowtron↔caobunga concert epic closes the caller-write boundary: a caller commits nothing of its own into a producer repo, `park-reason:` values are YAML-safe, and VISION records the one-real-consumer exception to the two-project rule.
+- The PLAN.md-row contracts (filing commits, `## Completed` stub form, rotation) move into a new `SPEC/plan-filing.md` module, and every filing runner gains an index-empty pre-check plus a post-stage read of the staged index, bound by a new CI drift check (Pair O).
+- The visualizer renders the `[unattended]` chip and tightens its SSE origin guard to reject same-site requests.
+
+Also: `/ft-release`'s dogfood gate is hardened against parallel-session stamp writes, the consumer-less `paths:` frontmatter leaves the `SPEC/` modules, and the fleet updater's self-skip compares realpaths.
+
 ## v5.27.0 — skill consolidation, the [unattended] candidacy contract, and release/CI integrity hardening
 
 - Five overlapping skills fold into their survivors: `ft-goal-task` into `ft-task`, `ft-starter-task` into `ft-file-followup --starter`, `ft-spec` and the `ft-worktree-start`/`-end` pair demoted into docs.
