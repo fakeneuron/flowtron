@@ -11,13 +11,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-EPIC-598** [heavy]🧠 | flowtron-caobunga-concert — Re-examine how flowtron and caobunga work in concert: flowtron must stand alone with no orchestrator present, and caobunga must leverage flowtron through declared surfaces only. Second pass after CORE-EPIC-565 (harness-value-review); covers the drift since (CORE-577, CORE-591, CORE-597). Filed via /ft-epic-discovery; refined at .1 closure.
-  - [x] **CORE-598.1** [heavy]🧠 | flowtron-caobunga-concert discovery — Completed 2026-09-14.
-  - [x] **CORE-598.2** [heavy]🧠 | caller-write-boundary-fixes — Completed 2026-09-14.
-  - [x] **CORE-598.3** [heavy]🧠 | handoff-token-ratify — Completed 2026-09-14.
-  - [x] **CORE-598.4** [medium]🧩 | caobunga-handoff-rows — Completed 2026-09-14.
-  - [ ] **CORE-598.N** [heavy]🧠 | flowtron-caobunga-concert audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
-
 ## Medium
 
 ## Low
@@ -26,6 +19,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-598** [heavy]🧠 | flowtron-caobunga-concert — Completed 2026-09-14.
+  - [x] **CORE-598.1** [heavy]🧠 | flowtron-caobunga-concert discovery — Completed 2026-09-14.
+  - [x] **CORE-598.2** [heavy]🧠 | caller-write-boundary-fixes — Completed 2026-09-14.
+  - [x] **CORE-598.3** [heavy]🧠 | handoff-token-ratify — Completed 2026-09-14.
+  - [x] **CORE-598.4** [medium]🧩 | caobunga-handoff-rows — Completed 2026-09-14.
+  - [x] **CORE-598.N** [heavy]🧠 | flowtron-caobunga-concert audit — Completed 2026-09-14.
 - [x] **CORE-597** [light]🔧 | caobunga-status-file-home — Completed 2026-09-13.
 - [x] **CORE-596** [light]🔧 [unattended] | spec-paths-frontmatter-retire — Completed 2026-09-13.
 - [x] **CORE-595** [medium]🧩 [unattended] | tasknote-selection-split — Completed 2026-09-13.
