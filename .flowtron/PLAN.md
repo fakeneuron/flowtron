@@ -11,6 +11,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
+- [ ] **CORE-EPIC-598** [heavy]🧠 | flowtron-caobunga-concert — Re-examine how flowtron and caobunga work in concert: flowtron must stand alone with no orchestrator present, and caobunga must leverage flowtron through declared surfaces only. Second pass after CORE-EPIC-565 (harness-value-review); covers the drift since (CORE-577, CORE-591, CORE-597). Filed via /ft-epic-discovery; refined at .1 closure.
+  - [x] **CORE-598.1** [heavy]🧠 | flowtron-caobunga-concert discovery — Completed 2026-09-14.
+  - [ ] **CORE-598.2** [heavy]🧠 | caller-write-boundary-fixes — Declare in `docs/EXTERNAL-AGENTS.md` that a caller writes nothing into a producer repo outside the worker's own flowtron closure and filing commits (a status snippet lives caller-side); make the `park-reason:` writer YAML-safe (`SPEC/blocked.md`, `unattended-mode.md`: quote the value or forbid `: ` / ` #` in prose); strip the adopter ID from `SPEC/plan-filing.md:54`.
+  - [ ] **CORE-598.3** [heavy]🧠 | handoff-token-ratify — Ratify `[handoff]` as the second canonical trailing token (SPEC §"Task-line format", `viz/src/parser.ts` capture, candidacy predicate clause 3 reads it as definitive, stable-surface row); record in `docs/VISION.md` that a declared caller surface with one real out-of-repo consumer is admissible when it costs the standalone workflow nothing; candidacy proposals stay as-is.
+  - [ ] **CORE-598.4** [medium]🧩 | caobunga-handoff-rows — Compile ready-to-paste CBN rows, numbered from caobunga's next free ID at paste time: status snippet moves caller-side (unblocks flowtron dispatch), continue-prompt path for a core-less target, CBN-148..150 re-emitted, CBN-186 upstream-fix cite. Acceptance requires the operator to paste from a caobunga session before closure — never prose-only.
+  - [ ] **CORE-598.N** [heavy]🧠 | flowtron-caobunga-concert audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
+
 ## Medium
 
 ## Low
