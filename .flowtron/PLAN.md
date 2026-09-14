@@ -15,10 +15,14 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
+- [ ] **CORE-601** [light]🔧 [unattended] | updater-legacy-only-report — Report legacy-layout repos in `tools/update-adopters.mjs` even when the workspace has zero `.flowtron/core` adopters (hoist the legacy line above the early return; add a legacy-only workspace test). Surfaced by audit 2026-09-14 (Finding #1, Low).
+- [ ] **FE-121** [light]🔧 [unattended] | local-storage-helper — Extract a shared-pure `viz/src/storage.ts` (`readLocal`/`writeLocal`) and route `projectStorage`, `viewMode`, `visibilityPrefs`, and `ui/theme` through it, keeping theme's legacy-key fallback. Surfaced by audit 2026-09-14 (Finding #2, Low).
+
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-602** [light]🔧 | viz-readme-startup-discovery — README.md §Visualizer now states project discovery and the latest-release tag resolve once at dev-server start (restart to pick up new/removed projects or a mid-session tag). Surfaced by audit 2026-09-14 (Finding #3, Low), fixed inline.
 - [x] **CORE-600** [light]🔧 [unattended] | layout-md-paths-contrast — Completed 2026-09-14.
 - [x] **CORE-599** [medium]🧩 | release v5.28.0 — Completed 2026-09-14.
 - [x] **CORE-EPIC-598** [heavy]🧠 | flowtron-caobunga-concert — Completed 2026-09-14.

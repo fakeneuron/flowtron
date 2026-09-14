@@ -147,7 +147,10 @@ The scanner globs `${FLOWTRON_VIZ_WORKSPACE:-~/code}/*/.flowtron/PLAN.md` to
 discover projects; the directory name (e.g., `myproject`) becomes the project
 label. Dirs without a `.flowtron/PLAN.md` are silently skipped. Set
 `FLOWTRON_VIZ_WORKSPACE` if your projects live somewhere other than
-`~/code/`.
+`~/code/`. Discovery (and the latest-release tag) runs once at dev-server
+start — restart to pick up newly adopted or removed projects, or a tag cut
+mid-session; live updates cover file changes inside already-discovered
+projects only.
 
 Adopter projects' own `.flowtron/core/viz/` continues to work (read-only
 submodule, unchanged) but is no longer the recommended path — prefer the
