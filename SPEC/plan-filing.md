@@ -51,7 +51,7 @@ Rules:
   not just the filing's paths: a closure that has already staged deliverables
   (`git rm`s, source edits) but not yet its PLAN flip leaves PLAN.md reading
   clean, and a PLAN-only pre-check then lets that content ride out under a
-  `chore: file` subject (caobunga CBN-179, 2026-09-13 — the fix is CORE-591).
+  `chore: file` subject (seen in an adopter 2026-09-13; the fix is CORE-591).
   **Placement is load-bearing:** run it immediately before the filing's *first
   write*, not at ID pre-flight. Every filing motion pauses for the operator
   between those two points (the AskUserQuestion collection and review gate, or

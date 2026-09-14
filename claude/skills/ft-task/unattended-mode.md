@@ -24,7 +24,7 @@ Every conversion below performs the same four writes, then stops:
 
 1. Flip the tasknote's YAML `status:` to `blocked`.
 2. Flip the nav-header chip from `🟢 In progress` to `⏸ Blocked`.
-3. Write `park-reason: <code> — <one-line prose>` into the frontmatter, where `<code>` comes from the closed set in `SPEC/blocked.md` §"Park reason". A caller splits on the first ` — ` to read the code and never parses the prose, so put the classification in the code and the detail in the prose.
+3. Write `park-reason: <code> — <one-line prose>` into the frontmatter, where `<code>` comes from the closed set in `SPEC/blocked.md` §"Park reason". A caller splits on the first ` — ` to read the code and never parses the prose, so put the classification in the code and the detail in the prose. The value is a YAML plain scalar — one line, unquoted, **no `: ` and no ` #` in the prose, no trailing `:`** — rephrase rather than quote (same section, "The value is a YAML plain scalar").
 4. Emit one inline marker and **stop**:
 
    ```markdown

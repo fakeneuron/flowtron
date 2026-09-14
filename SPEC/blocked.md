@@ -115,6 +115,18 @@ run, it simply ended — and it is the one code a *caller* writes rather than a
 runner, to route a stranded note into the resume path (§"Resuming an
 interrupted run" below).
 
+**The value is a YAML plain scalar.** It is written on one line, unquoted,
+so that a line-wise reader and a YAML parser see the same bytes. Two
+sequences a plain scalar cannot carry are therefore forbidden in the prose:
+`: ` (colon-space — a YAML parser reads it as a nested mapping and rejects
+the whole frontmatter, taking the note out of every tool that parses it) and
+` #` (space-hash — a YAML parser reads it as a comment and silently truncates
+the value). The value may not end in `:` for the same reason. A writer whose
+prose wants a colon rephrases (`visual-confirm — Phase 3 👁️ CONFIRM asks
+whether the header renders`, not `… CONFIRM: header renders`); quoting the
+value is not the fix, because it changes the bytes a line-wise reader splits.
+Backticks, emoji, and a trailing `?` are fine.
+
 **`drift` vs `dependency`.** The code names what *stopped* the run, not what
 motivated it. A `Re-scope` verdict parks as `drift` even when a dependency
 drove the verdict, because the verdict is the stop. `dependency` is reserved
