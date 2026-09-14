@@ -21,6 +21,7 @@ export interface Task {
   priority: Priority;
   critical: boolean;
   unattended: boolean;
+  handoff: boolean;
   completed: boolean;
   completedDate?: string;
   model?: TaskModel;
@@ -60,10 +61,11 @@ const LEGACY_CRITICAL_HEADING = 'Critical';
 const COMPLETED_MONTH_HEADING = /^Completed\s+\d{4}-\d{2}$/;
 
 // Grammar (see SPEC §"Task-line format"):
-//   - [ ] **TASK-ID** [!critical] [model] [unattended] | shortname — long description
-// All of `[!critical]`, `[model]`, `[unattended]`, and `| shortname` are
-// optional. Canonical ordering: `[!critical]` BEFORE `[model]`, `[unattended]`
-// AFTER it. The legacy minimal form `- [ ] **TASK-ID** — desc` keeps parsing.
+//   - [ ] **TASK-ID** [!critical] [model] [unattended] [handoff] | shortname — long description
+// All of `[!critical]`, `[model]`, `[unattended]`, `[handoff]`, and
+// `| shortname` are optional. Canonical ordering: `[!critical]` BEFORE
+// `[model]`, the two trailing markers AFTER it. The legacy minimal form
+// `- [ ] **TASK-ID** — desc` keeps parsing.
 //
 // TASK_LINE is composed from named fragments (FE-084) so each piece of the
 // grammar — including the FE-066 tolerances below — is independently
@@ -92,16 +94,17 @@ const COMPLETED_MONTH_HEADING = /^Completed\s+\d{4}-\d{2}$/;
 //
 // TRAILING_TOKENS is the run of bracket tokens after `[model]`. It began as
 // the FE-066 stacked-`[model]` tolerance (`[fable] [light]` — first captured
-// as `model`, rest dropped) and is now CAPTURED (CORE-494) because one member
-// of that run is canonical grammar: `[unattended]`, the operator's task-level
-// opt-in marker. Membership is tested against the captured run, so the marker
-// may sit anywhere in it; every other trailing token stays a dropped
-// tolerance. Two mis-authoring shapes are deliberately NOT rescued here, and
-// SPEC §"Task-line format" documents both: `[!unattended]` matches no slot and
-// fails TASK_LINE outright (the row surfaces as an unparsed diagnostic), and
-// an `[unattended]` written before `[model]` — or with no `[model]` at all —
-// is captured as the model, because MODEL_TOKEN takes the first bracket token
-// it sees.
+// as `model`, rest dropped) and is now CAPTURED (CORE-494) because two members
+// of that run are canonical grammar: `[unattended]`, the operator's task-level
+// opt-in marker, and `[handoff]` (CORE-598.3), the operator's declaration that
+// the row stops mid-run for a human act. Membership is tested against the
+// captured run, so either marker may sit anywhere in it; every other trailing
+// token stays a dropped tolerance. Two mis-authoring shapes are deliberately
+// NOT rescued here, and SPEC/plan-parser.md documents both for either marker:
+// `[!unattended]` / `[!handoff]` matches no slot and fails TASK_LINE outright
+// (the row surfaces as an unparsed diagnostic), and a marker written before
+// `[model]` — or with no `[model]` at all — is captured as the model, because
+// MODEL_TOKEN takes the first bracket token it sees.
 // Emoji are matched via alternation (not a char class) so astral-plane glyphs
 // match correctly without the `u` flag; an optional trailing VS16 is tolerated.
 //
@@ -138,9 +141,14 @@ const TASK_LINE = new RegExp(
     SHORTNAME +
     LONG_DESCRIPTION
 );
-// The one canonical member of TRAILING_TOKENS — the task-level opt-in marker
-// an operator-less runner reads before dispatching a task unattended.
+// The two canonical members of TRAILING_TOKENS. `[unattended]` is the
+// task-level opt-in marker an operator-less runner reads before dispatching a
+// task unattended; `[handoff]` declares the row will stop for a human act that
+// is not another task (a cross-repo prompt, a physical step, a credential), so
+// such a runner declines it even when `[unattended]` is also present. Both are
+// captured; what a reader does with them is the reader's.
 const UNATTENDED_MARKER = /\[unattended\]/;
+const HANDOFF_MARKER = /\[handoff\]/;
 const COMPLETED_DATE = /\bCompleted\s+(\d{4}-\d{2}-\d{2})\.?/;
 const HEADING_LINE = /^##\s+(.+?)\s*$/;
 
@@ -403,6 +411,7 @@ function parseTaskLine(
       priority: currentPriority,
       critical: criticalRaw === '!critical' || criticalAfter === '!critical' || legacyCriticalSection,
       unattended: UNATTENDED_MARKER.test(trailingTokens ?? ''),
+      handoff: HANDOFF_MARKER.test(trailingTokens ?? ''),
       completed,
       completedDate: dateMatch ? dateMatch[1] : undefined,
       model: modelRaw as TaskModel | undefined,

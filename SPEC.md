@@ -72,12 +72,13 @@ Canonical contract: see [`SPEC/epic.md`](SPEC/epic.md).
 Each entry under a priority heading in PLAN.md follows this grammar:
 
 ```markdown
-- [ ] **TASK-ID** [!critical] [model] [unattended] | shortname — long description
+- [ ] **TASK-ID** [!critical] [model] [unattended] [handoff] | shortname — long description
 ```
 
-All of `[!critical]`, `[model]`, `[unattended]`, and `| shortname` are
-optional. Canonical ordering when the flags are present: `[!critical]` BEFORE
-`[model]`, `[unattended]` AFTER it. The legacy minimal form
+All of `[!critical]`, `[model]`, `[unattended]`, `[handoff]`, and
+`| shortname` are optional. Canonical ordering when the flags are present:
+`[!critical]` BEFORE `[model]`, the two trailing markers AFTER it (in either
+order; at most one of them belongs on a row). The legacy minimal form
 `- [ ] **TASK-ID** — description` still parses for backwards compatibility.
 
 | Segment | Required | Notes |
@@ -87,6 +88,7 @@ optional. Canonical ordering when the flags are present: `[!critical]` BEFORE
 | ` [!critical]` | optional | Urgency flag — orthogonal to priority bucket. Flagged tasks render a red marker chip and sort to the top of the High column. Filed under whatever priority heading the row already lives under (typically `## High`). |
 | ` [model]` | optional | Short identifier for the model assigned to this task. Recommended primary labels: `[heavy]` (design, multi-file, high-ambiguity, or exploratory work) \| `[medium]` (moderate, multi-step but well-scoped work) \| `[light]` (mechanical, clear-diff implementation). Specific names (`fable`, `opus`, `sonnet`, `haiku`, `grok`, `codex`, `gpt-5`, `gemini-pro`, etc.) are valid precision tokens; downstream tooling buckets unknown tokens as `other`. Owns the model assignment — `/ft-task` reads this BEFORE scaffolding (see §"Model field"). New entries should declare a model. |
 | ` [unattended]` | optional | Task-level opt-in marker declaring this row safe to dispatch with **no operator present** — the row-scoped counterpart to the `--unattended` invocation posture ([`SPEC/gates.md`](SPEC/gates.md)). Must sit AFTER `[model]`. Consumed by operator-less callers (see [`docs/EXTERNAL-AGENTS.md`](docs/EXTERNAL-AGENTS.md)), which are expected to **deny by default**: an unmarked row is undecided, not approved. The runners read it too: on an attended invocation with no flag, it implies `--fast` — never the `--unattended` posture ([`SPEC/gates.md`](SPEC/gates.md) §"`--fast` operator override"). Flowtron itself never writes it — seeding is an operator act. Parses into `Task.unattended: boolean`. |
+| ` [handoff]` | optional | Task-level declaration that this row will **stop mid-run for a human act that is not another task** — a cross-repo filing prompt, a physical-access step, a credential. Not a dependency (nothing upstream completes to release it — that is `Blocked by [[ID]]`) and not an absent opt-in (no seeding makes it dispatchable): a durable property of the work, known at filing time. Sits in the same trailing run as `[unattended]`, AFTER `[model]`. An operator-less caller declines the row **even when `[unattended]` is also present** — the pair is mis-authored, and `[handoff]` wins. On an attended run it changes nothing: the hand-off is simply the work. Flowtron never writes it — marking is an operator act on the same footing as seeding `[unattended]`, and no filer proposes it. Parses into `Task.handoff: boolean`. |
 | ` \| shortname` | optional | Short label up to ~30 chars; rendered as the row title in visualizers when present. Falls back to the tasknote frontmatter `title:` for tasks that have a tasknote, or the long description otherwise. |
 | ` — long description` | optional | Full description. Carries `Completed YYYY-MM-DD.` markers, re-scope notes, and any rationale that doesn't fit in the shortname. |
 
@@ -96,6 +98,7 @@ Examples:
 - [ ] **CORE-023** [heavy] | task-line grammar — Extend grammar to declare shortname + model.
 - [ ] **FE-200** [!critical] [heavy] | hotfix — Production breakage; floats to top of High.
 - [ ] **BE-041** [light] [unattended] | regen fixtures — Mechanical; operator marked it safe to drain unattended.
+- [ ] **DEPLOY-012** [medium] [handoff] | rotate API key — Stops for the operator to paste the new key; never dispatched headless.
 - [ ] **CORE-016** [light] — Execute project adoption per CORE-008 playbook.
 - [ ] **FE-003** | wikilink resolution — Parse [[TASK-ID]] in tasknote body text and render as clickable links.
 - [ ] **CORE-024** [light] | quick housekeeping
@@ -118,7 +121,7 @@ Under `--fast` / `--unattended` there is no act, so the filer emits an
 persistence, and the per-surface mirror table:
 [`SPEC/unattended-candidacy.md`](SPEC/unattended-candidacy.md).
 
-Parser tolerances, `[unattended]` footguns, excluded shapes, the legacy
+Parser tolerances, the `[unattended]` / `[handoff]` footguns, excluded shapes, the legacy
 `## Critical` heading, the reserved `[[TASK-ID]]` / `Blocked by [[ID]]`
 long-description conventions, and the canonical `viz/src/parser.ts` reference:
 see [`SPEC/plan-parser.md`](SPEC/plan-parser.md).

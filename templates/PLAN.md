@@ -10,18 +10,22 @@ See [.flowtron/core/SPEC.md](core/SPEC.md) for the canonical workflow contract.
 <!--
 Task-line grammar (see .flowtron/core/SPEC.md §"Task-line format"):
 
-  - [ ] **TASK-ID** [!critical] [model] [unattended] | shortname — long description
+  - [ ] **TASK-ID** [!critical] [model] [unattended] [handoff] | shortname — long description
 
 All of `[!critical]`, `[model]` (see `SPEC/model.md` §"Model field" and its
 "Practical guidance and agent-aware defaults" subsection for examples,
 realistic defaults such as mid-tier models like Grok/Sonnet often `[medium]`
 (or `[light]` for mechanical work), and the full agent-aware notes; any short
-token is valid), `[unattended]`, and `| shortname` are optional. Canonical
-ordering: `[!critical]` BEFORE `[model]`, `[unattended]` AFTER it. Flagged
+token is valid), `[unattended]`, `[handoff]`, and `| shortname` are optional.
+Canonical ordering: `[!critical]` BEFORE `[model]`, the two trailing markers
+AFTER it (at most one belongs on a row). Flagged
 tasks float to the top of the High column with a red marker chip.
 `[unattended]` marks a row safe to dispatch with no operator present — an
 opt-in an operator seeds deliberately; most projects never use it. The
-runners also read it as implied `--fast` on an attended run. A hard
+runners also read it as implied `--fast` on an attended run. `[handoff]`
+marks a row that stops mid-run for a human act (a cross-repo prompt, a
+physical step, a credential) — operator-written too; an operator-less
+caller declines it, an attended run is unchanged. A hard
 dependency on another row goes in the long description as
 `Blocked by [[TASK-ID]]` — wikilink-only, literal `Blocked by`; `Blocked on`,
 a bare ID, or free prose does not parse (see SPEC/plan-parser.md §"Long-description

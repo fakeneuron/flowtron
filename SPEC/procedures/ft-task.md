@@ -136,7 +136,9 @@ optional `[model]` tag, an optional `[unattended]` marker, the `| shortname`,
 the long description, the section heading the line lives under (its
 **Priority**), and an optional `[!critical]` flag. Canonical ordering when the
 flags are present: `[!critical]` **before** `[model]`, `[unattended]`
-**after** it.
+**after** it. An optional `[handoff]` marker may sit in the same trailing
+run; it declares a row that stops for a human act and changes nothing on an
+attended run — read past it.
 
 **The `[unattended]` marker is not unattended mode.** The marker is the
 *operator's* per-row declaration that this task is safe to drive with nobody

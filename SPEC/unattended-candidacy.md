@@ -54,12 +54,17 @@ row is **not** a candidate.
    declared has not been scoped enough to be dispatched blind.
 2. **Not `[!critical]`.** The urgency flag exists to pull an operator's eye to
    the row, which is the opposite of "safe with nobody present."
-3. **No operator hand-off signal in the description.** Any of the cue glyphs
-   `👁️` `🗄️` `▶️` `📡` `💻` `✋`, or any of the words *operator*, *hand-off* /
-   *handoff*, *manual*, *credential*, *secret*, *password*, *physical*,
-   *cross-repo*, *production*, *deploy*, *migration*. The list is a keyword
-   screen, not a semantic judgment — a row that reads as needing a person but
-   trips no keyword is still declined under the conservative default.
+3. **No operator hand-off signal.** A `[handoff]` marker on the drafted row
+   ([`SPEC.md`](../SPEC.md) §"Task-line format") is **definitive** — the
+   operator has declared the row stops for a human act, so it is never a
+   candidate and nothing below is consulted. On an unmarked row the screen
+   falls back to the description: any of the cue glyphs `👁️` `🗄️` `▶️` `📡`
+   `💻` `✋`, or any of the words *operator*, *hand-off* / *handoff*, *manual*,
+   *credential*, *secret*, *password*, *physical*, *cross-repo*, *production*,
+   *deploy*, *migration*. The list is a keyword screen, not a semantic
+   judgment — a row that reads as needing a person but trips no keyword is
+   still declined under the conservative default. Candidacy never proposes
+   `[handoff]` itself; like `[unattended]`, it is written only by the operator.
 4. **No `Blocked by` clause of any form** — `Blocked by [[ID]]`, bare `Blocked
    by`, or a `blocked-by:` echo. A blocked row is by construction waiting on
    something outside itself.

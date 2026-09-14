@@ -18,6 +18,7 @@ describe('parsePlan', () => {
         priority: 'High',
         critical: false,
         unattended: false,
+        handoff: false,
         completed: false,
         completedDate: undefined,
         model: undefined,
@@ -343,6 +344,58 @@ describe('parsePlan', () => {
     expect(tasks[1]).toMatchObject({ model: 'unattended', unattended: false });
   });
 
+  // CORE-598.3: `[handoff]` is the second canonical member of the trailing
+  // run — the operator's declaration that the row stops for a human act. Same
+  // capture shape as `[unattended]`, same two footguns.
+  it('captures [handoff] after [model] into Task.handoff', () => {
+    const md = `## High\n\n- [ ] **CORE-598** [medium] [handoff] | marker — desc\n`;
+    const t = parsePlan(md)[0];
+    expect(t).toMatchObject({ id: 'CORE-598', model: 'medium', handoff: true, unattended: false });
+    expect(t.shortname).toBe('marker');
+  });
+
+  it('captures [handoff] and [unattended] together in either order', () => {
+    const md = [
+      '## High',
+      '',
+      '- [ ] **CORE-001** [light] [unattended] [handoff] | both — desc',
+      '- [ ] **CORE-002** [light]🔧 [handoff] [unattended] | swapped — desc',
+    ].join('\n');
+    const tasks = parsePlan(md);
+    expect(tasks[0]).toMatchObject({ model: 'light', unattended: true, handoff: true });
+    expect(tasks[1]).toMatchObject({ model: 'light', unattended: true, handoff: true });
+  });
+
+  it('leaves handoff false on rows without the marker', () => {
+    const md = `## High\n\n- [ ] **CORE-001** [fable] [light] [unattended] | stacked — desc\n`;
+    expect(parsePlan(md)[0].handoff).toBe(false);
+  });
+
+  it('drops the whole line for [!handoff] and surfaces it as an unparsed diagnostic', () => {
+    const md = [
+      '## High',
+      '',
+      '- [ ] **CORE-001** [medium] [handoff] | control — parses',
+      '- [ ] **CORE-002** [medium] [!handoff] | footgun — does not',
+    ].join('\n');
+    const { tasks, unparsed } = parsePlanWithDiagnostics(md);
+    expect(tasks.map((t) => t.id)).toEqual(['CORE-001']);
+    expect(unparsed).toHaveLength(1);
+    expect(unparsed[0]).toMatchObject({ line: 4 });
+  });
+
+  it('captures a pre-[model] or model-less [handoff] as the model, not the marker', () => {
+    const md = [
+      '## High',
+      '',
+      '- [ ] **CORE-001** [handoff] [heavy] | before — desc',
+      '- [ ] **CORE-002** [handoff] | alone — desc',
+    ].join('\n');
+    const tasks = parsePlan(md);
+    expect(tasks[0]).toMatchObject({ model: 'handoff', handoff: false });
+    expect(tasks[1]).toMatchObject({ model: 'handoff', handoff: false });
+  });
+
   it('parses a leading status glyph between the checkbox and the bold ID', () => {
     const md = `## High\n\n- [ ] ⏸ **CORE-042** [heavy] | parked — blocked work\n`;
     const t = parsePlan(md)[0];
@@ -534,6 +587,7 @@ describe('rotated `## Completed <YYYY-MM>` history', () => {
         priority: 'Completed',
         critical: false,
         unattended: false,
+        handoff: false,
         completed: true,
         completedDate: '2026-07-14',
         model: 'light',
@@ -936,6 +990,7 @@ describe('groupTasks', () => {
     priority,
     critical: false,
     unattended: false,
+    handoff: false,
     completed,
     relatedTasks: [],
     blockedBy: [],

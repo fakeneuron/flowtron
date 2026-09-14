@@ -49,7 +49,7 @@ them to flowtron.
 For future-AI mid-task discipline. Outward-facing prose version with full justification lives in [`docs/VISION.md`](../docs/VISION.md) §"What we won't accept".
 
 - **Schema validators.** PR-rejection mirror of "Schema validation" above — markdown is the schema; runtime checkers reintroduce the friction the v0.1.0 cut removed.
-- **Abstractions without two-project precedent.** Promote a helper into flowtron only when ≥2 projects need the same shape. Three similar lines is cheaper than premature abstraction.
+- **Abstractions without two-project precedent.** Promote a helper into flowtron only when ≥2 projects need the same shape. Three similar lines is cheaper than premature abstraction. Bounded exception, per `docs/VISION.md` §"What we won't accept": a declared caller surface with one real out-of-repo consumer is admissible when it costs the standalone workflow nothing — no gate, no runner behaviour, no flowtron-performed write.
 - **Cross-project query layers beyond the read-only visualizer.** PR-rejection mirror of "Cross-project query API" above — viz is the singular exception; anything richer is out of scope.
 - **Multi-user / team features.** Solo system; teams use a different tool.
 - **Runtime security scanners / audit daemons.** PR-rejection mirror of "Runtime security scanners" in `docs/VISION.md` §"What we won't accept" — the control is the human at the gate, not a scorer; deterministic enforcement lives in per-project permission hooks. `ft-audit security` + `SECURITY.md` already cover the markdown-native need.

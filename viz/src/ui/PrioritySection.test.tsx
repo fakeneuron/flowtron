@@ -27,6 +27,7 @@ const task: Task = {
   priority: 'Medium',
   critical: false,
   unattended: false,
+  handoff: false,
   completed: false,
   relatedTasks: [],
   blockedBy: [],

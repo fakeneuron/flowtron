@@ -85,8 +85,9 @@ The rules above say what a caller must *do*. This section says what it may *rely
 | Surface | What a caller may rely on | Owner |
 |---|---|---|
 | Task-line grammar | The grammar in SPEC.md §"Task-line format". `viz/src/parser.ts` is the canonical reference implementation and `SPEC/plan-parser.md` the tolerance list; a caller that ports the grammar re-verifies it against both on every pin bump. | SPEC.md §"Task-line format" · SPEC/plan-parser.md |
-| Trailing bracket-token run | Lowercase bracket tokens after `[model]` are tolerated and dropped — `[unattended]` is the one canonical member. Flowtron never fails a row on an unknown lowercase token and never assigns one a meaning, so a caller may read its own tokens there. What such a token *means* is the caller's, not flowtron's. | SPEC/plan-parser.md |
+| Trailing bracket-token run | Lowercase bracket tokens after `[model]` are tolerated and dropped — `[unattended]` and `[handoff]` are the two canonical members. Flowtron never fails a row on an unknown lowercase token and never assigns one a meaning, so a caller may read its own tokens there. What such a token *means* is the caller's, not flowtron's. | SPEC/plan-parser.md |
 | `[unattended]` marker | Deny-by-default (step 2); flowtron never writes it; the Phase 4 stub rewrite copies the trailing token run verbatim, so a marker survives closure. | SPEC.md §"Task-line format" · SPEC/plan-filing.md §"`## Completed` archive convention" |
+| `[handoff]` marker | The operator's declaration that the row stops mid-run for a human act that is not another task. A caller choosing work with nobody present declines it even when `[unattended]` is also present; an attended read never denies on it. Flowtron never writes it and no filer proposes it; it survives closure like `[unattended]`. | SPEC.md §"Task-line format" · SPEC/unattended-candidacy.md §"Candidacy predicate" |
 | `unattended-candidates:` line | Literal `unattended-candidates:` prefix, bare comma-separated IDs in PLAN order or `none`, transcript-only under `--fast` / standalone `--unattended`, persisted in the discharging runner's Final Summary / `## ✅ Recap`. | SPEC/unattended-candidacy.md §"Three postures" · §"Persistence" |
 | `Blocked by [[ID]]` | Wikilink-only, literal, case-sensitive; cleared by removing the clause, not by the blocker closing. | SPEC/plan-parser.md §"Long-description conventions" · SPEC/blocked.md |
 | The closed-row set | `PLAN.md` `## Completed` **and**, once an operator has rotated, `.flowtron/PLAN-ARCHIVE.md` (closed rows only, moved verbatim in month blocks). A caller resolving an ID against completion reads both; a missing archive file is empty, never an error. | SPEC/plan-filing.md §"`## Completed` rotation" |
@@ -100,7 +101,7 @@ The rules above say what a caller must *do*. This section says what it may *rely
 
 - A `**Suggested next task:** **ID**` header line in `PLAN.md` — flowtron writes it nowhere. The post-closure next-move suggestion is transcript prose (SPEC.md §"Post-closure protocol"), not a file surface.
 - A `### Follow-up…` heading in a tasknote — flowtron defines no such heading; a deferred step is filed as its own PLAN row (step 8). A caller may ask *its own* worker for a heading, but no producer owes one.
-- Any trailing bracket token other than `[unattended]` — tolerated and dropped; the caller's meaning, not flowtron's.
+- Any trailing bracket token other than `[unattended]` / `[handoff]` — tolerated and dropped; the caller's meaning, not flowtron's.
 - Tasknote YAML `blocked-by:` read as a gate — it is a planning claim, not a don't-start gate (SPEC/blocked.md).
 - The `⏸ --unattended stop — …` and `⏸ --unattended park — …` markers — transcript prose. The outcome is read from the repo, per [The Return](#the-return).
 

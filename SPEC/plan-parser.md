@@ -25,8 +25,9 @@ additionally accepts three real-board decorations without parsing them into
   (`[xheavy]🔭 [unattended]` and `[xheavy] [unattended]🔭` are equivalent).
 - **Stacked `[model]` tokens** — `[fable] [light]`: the first bracket token is
   captured as `model`; trailing bracket tokens are tolerated and dropped —
-  *except* `[unattended]`, which is canonical grammar and captured (see the
-  segment table in [`SPEC.md`](../SPEC.md) §"Task-line format").
+  *except* `[unattended]` and `[handoff]`, which are canonical grammar and
+  captured (see the segment table in [`SPEC.md`](../SPEC.md) §"Task-line
+  format").
 - **Leading status glyph** — a nav-header chip (`🟢`/`⏸`/`✅`/`⚪`/`🌱`) between
   the checkbox and the bold ID (`- [ ] ⏸ **ID**`).
 
@@ -35,22 +36,28 @@ the `parsePlanWithDiagnostics` diagnostics otherwise). They are tolerances,
 not canonical authoring grammar — new entries should still use the clean form
 in [`SPEC.md`](../SPEC.md) §"Task-line format".
 
-**`[unattended]` mis-authoring footguns.** The marker rides the same trailing
-bracket-token run as the stacked-`[model]` tolerance, so two neighbouring
-shapes fail in ways worth naming rather than discovering. Neither is rescued:
+**`[unattended]` / `[handoff]` mis-authoring footguns.** Both markers ride the
+same trailing bracket-token run as the stacked-`[model]` tolerance, so two
+neighbouring shapes fail in ways worth naming rather than discovering. Neither
+is rescued, for either marker:
 
-- **`[!unattended]`** — the `!` prefix belongs to `[!critical]` alone. A
-  bang-prefixed token matches no slot, so the **whole line fails the
+- **`[!unattended]` / `[!handoff]`** — the `!` prefix belongs to `[!critical]`
+  alone. A bang-prefixed token matches no slot, so the **whole line fails the
   grammar**: it is absent from the task list, and surfaces in
   `parsePlanWithDiagnostics`'s `unparsed`. (Adopter readers with no
   diagnostics channel drop it silently — which is the sharper edge, and the
   reason this is documented rather than tolerated.)
-- **`[unattended]` before `[model]`, or with no `[model]` at all** — the model
-  slot takes the *first* bracket token it sees, so `[unattended] [heavy]` and a
+- **A marker before `[model]`, or with no `[model]` at all** — the model slot
+  takes the *first* bracket token it sees, so `[unattended] [heavy]` and a
   bare `[unattended]` both parse with `model: 'unattended'` and
-  `unattended: false`. The row stays in the task list looking healthy while
+  `unattended: false` (likewise `[handoff]` → `model: 'handoff'`,
+  `handoff: false`). The row stays in the task list looking healthy while
   silently mis-declaring its model and declaring no marker — write it after
   `[model]`.
+
+A row carrying **both** markers parses with both booleans set — it is
+mis-authored rather than rejected, and [`SPEC.md`](../SPEC.md) §"Task-line
+format" says which one a reader honours (`[handoff]`).
 
 **Rewrites must preserve the trailing bracket-token run verbatim.** A
 task-line rewrite — a Re-scope note ([`SPEC.md`](../SPEC.md) §"📝 Phase 1: Discovery"), a model

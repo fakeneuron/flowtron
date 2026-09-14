@@ -9,6 +9,7 @@ const task = (id: string, priority: Priority, completed = false): Task => ({
   priority,
   critical: false,
   unattended: false,
+  handoff: false,
   completed,
   relatedTasks: [],
   blockedBy: [],

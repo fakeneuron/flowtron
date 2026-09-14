@@ -72,7 +72,9 @@ Alphabetized. ~71 entries. Maintained via epic children and audits.
 
 **goal loop** — The loop-task shape that repeats Phase 2→3 (execute→verify) against a fixed, machine-checkable `## ✅ Acceptance` target until every check passes, `loop-max` is exhausted, or the per-cycle relevance gate says stop. Driven by `/ft-task --loop`; contrast heartbeat. See SPEC/loop.md.
 
-**grammar elements** — The syntactic pieces of the PLAN.md task-line and tasknote body: `[!critical]`, `[model]`, `[unattended]`, `| shortname`, `[[TASK-ID]]` wikilink, `Blocked by [[ID]]`, `Completed YYYY-MM-DD.` stub form, etc. See SPEC §"Task-line format".
+**grammar elements** — The syntactic pieces of the PLAN.md task-line and tasknote body: `[!critical]`, `[model]`, `[unattended]`, `[handoff]`, `| shortname`, `[[TASK-ID]]` wikilink, `Blocked by [[ID]]`, `Completed YYYY-MM-DD.` stub form, etc. See SPEC §"Task-line format".
+
+**[handoff]** — Optional task-level marker in the task-line grammar, sitting in the same trailing run as `[unattended]` AFTER `[model]`; the operator's declaration that the row will stop mid-run for a human act that is not another task (a cross-repo filing prompt, a physical-access step, a credential) — not a dependency, not an absent opt-in, a durable property of the work known at filing time. An operator-less caller declines the row even when `[unattended]` is also present; an attended run is unchanged. Flowtron never writes it and no filer proposes it. Parses into `Task.handoff`. Distinct from the `## 🔄 Handoff` tasknote section below. See SPEC §"Task-line format" and SPEC/unattended-candidacy.md clause 3.
 
 **Handoff (🔄)** — Optional tasknote body section a session ending mid-task may write so the next reader resumes without reconstructing state: Goal + Acceptance status, key decisions, open questions, relevant paths, next step. Sits in the top block after `## 🔗 Related`; ships in no template, so the single-session happy path pays nothing. Distinct from a park (`status: blocked`), a sidequest's resume anchor, and docs/EXTERNAL-AGENTS.md §"The Handoff Contract" (whole-tasknote transfer to another agent). See SPEC §"Tasknote body shape".
 

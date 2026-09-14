@@ -49,7 +49,7 @@ Otherwise, capture:
 - The optional `[!critical]` segment — sets the urgency flag (orthogonal to priority; floats the row to the top of High). Legacy `## Critical` sections are soft-migrated to `priority: 'High'` with the flag implicit (see SPEC §"Task-line format").
 - The optional `[unattended]` marker (after `[model]`). **When present and no `--fast` / `--unattended` flag was passed**, set `fast-mode = true` and emit `⚡ --fast implied by the [unattended] row marker — same suppressions as --fast; the --unattended posture is not implied.` The marker never sets `unattended-mode`; under an explicit `--unattended` it changes nothing. Contract: SPEC/gates.md §"`--fast` operator override" → "Implied by the `[unattended]` row marker".
 
-The full task-line grammar is `- [ ] **TASK-ID** [!critical] [model] [unattended] | shortname — long description`; all of `[!critical]`, `[model]`, `[unattended]`, and `| shortname` are optional. See SPEC §"Task-line format" for the canonical grammar.
+The full task-line grammar is `- [ ] **TASK-ID** [!critical] [model] [unattended] [handoff] | shortname — long description`; all of `[!critical]`, `[model]`, `[unattended]`, `[handoff]`, and `| shortname` are optional. `[handoff]` changes nothing on an attended run — capture nothing from it. See SPEC §"Task-line format" for the canonical grammar.
 
 **Emit the 🎯 purpose blurb now** — before the model gate, the pre-flight checks, and any scaffold write, each of which can end the run:
 
