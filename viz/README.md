@@ -37,7 +37,7 @@ table: a tier may import from tiers below it, never above.
 | Tier | Where | Role |
 |---|---|---|
 | **Browser UI** | `src/ui/` | React components, hooks, and browser-view selectors. |
-| **Shared pure** | `src/*.ts` with no `node:` imports | Parsing (`parser`, `tasknote`) plus other Node-free shared modules (`fence`, `sseChange`, `viewMode`, `visibilityPrefs`, `projectStorage`). Usable from the browser bundle and, where relevant, from the Node plugin. |
+| **Shared pure** | `src/*.ts` with no `node:` imports | Parsing (`parser`, `tasknote`) plus other Node-free shared modules (`fence`, `sseChange`, `storage`, `viewMode`, `visibilityPrefs`, `projectStorage`). Usable from the browser bundle and, where relevant, from the Node plugin. |
 | **Node-only dev API** | `src/*.ts` with `node:` imports + `vite.config.ts` | Filesystem scan, contained tasknote reads (`tasknote-parse` frontmatter parse), archive cache, watchers, `/api/*` handlers, origin guard. Hosted only by the Vite plugin — never shipped to the browser. |
 
 ### Hard rule: no Node imports under `src/ui/`
@@ -85,6 +85,7 @@ viz/
     tasknote.ts           Shared pure (tasknote model + section helpers)
     fence.ts              Shared pure (fenced-code-block line mask)
     sseChange.ts          Shared pure (SSE payload codec)
+    storage.ts            Shared pure (localStorage read/write helper)
     viewMode.ts           Shared pure (localStorage view mode)
     visibilityPrefs.ts    Shared pure (localStorage visibility prefs)
     projectStorage.ts     Shared pure (localStorage active project)

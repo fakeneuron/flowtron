@@ -1,3 +1,5 @@
+import { readLocal, writeLocal } from './storage';
+
 // Single source for each pref vocabulary: the type, the runtime guard below,
 // and the Settings picker all derive from these arrays, in picker order.
 export const DENSITY_MODES = ['comfortable', 'default', 'compact'] as const;
@@ -102,18 +104,8 @@ const parsePrefs = (raw: string | null): VisibilityPrefs => {
   };
 };
 
-export const readVisibilityPrefs = (project: string): VisibilityPrefs => {
-  try {
-    return parsePrefs(window.localStorage.getItem(storageKey(project)));
-  } catch {
-    return DEFAULT_PREFS;
-  }
-};
+export const readVisibilityPrefs = (project: string): VisibilityPrefs =>
+  parsePrefs(readLocal(storageKey(project)));
 
-export const writeVisibilityPrefs = (project: string, prefs: VisibilityPrefs): void => {
-  try {
-    window.localStorage.setItem(storageKey(project), JSON.stringify(prefs));
-  } catch {
-    /* ignore quota / disabled storage */
-  }
-};
+export const writeVisibilityPrefs = (project: string, prefs: VisibilityPrefs): void =>
+  writeLocal(storageKey(project), JSON.stringify(prefs));
