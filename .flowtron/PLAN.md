@@ -15,6 +15,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
+- [ ] **CORE-600** [light]🔧 [unattended] | layout-md-paths-contrast — Drop the `not `paths:`` contrast at `SPEC/layout.md` §"Procedure SOPs" (line 52): CORE-596 retired the lazy-module `paths:` frontmatter, so the SOP frontmatter shape is now contrasted against a convention that no longer exists. Surfaced by the v5.28.0 release doc sweep.
+
 ## Future Opportunities
 
 ## Completed
