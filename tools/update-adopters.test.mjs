@@ -523,6 +523,17 @@ describe('dry-run CLI (--root fixture)', () => {
     await rm(root, { recursive: true, force: true });
   });
 
+  // CORE-601 — a workspace with zero .flowtron/core adopters still reports
+  // legacy-layout repos instead of the early return swallowing them.
+  it('legacy-only workspace reports legacy repos, not just no-adopters', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'ft-upd-legacy-only-'));
+    await mkdir(join(root, 'legacy-proj', '.flowtron', 'flowtron'), { recursive: true });
+    const { stdout } = await runCli(['--root', root]);
+    assert.match(stdout, /legacy-layout repos skipped.*legacy-proj/);
+    assert.match(stdout, /No \.flowtron\/core adopters found/);
+    await rm(root, { recursive: true, force: true });
+  });
+
   // CORE-540 — a nonexistent/unreadable --root must fail loudly (exit 1), not
   // report "no adopters" and exit 0 as if the workspace were merely empty.
   it('nonexistent --root exits 1 instead of reporting no adopters', async () => {

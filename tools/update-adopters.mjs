@@ -838,6 +838,12 @@ async function main(argv = process.argv.slice(2)) {
     process.exitCode = 1;
     return;
   }
+  if (legacy.length > 0) {
+    console.log(
+      `  legacy-layout repos skipped (migrate .flowtron/flowtron → .flowtron/core first): ${legacy.join(', ')}\n`,
+    );
+  }
+
   if (adopters.length === 0) {
     console.log('No .flowtron/core adopters found.');
     return;
@@ -854,12 +860,6 @@ async function main(argv = process.argv.slice(2)) {
       continue;
     }
     await reportResult(adopter, result, latest, args.apply, counts);
-  }
-
-  if (legacy.length > 0) {
-    console.log(
-      `\n  legacy-layout repos skipped (migrate .flowtron/flowtron → .flowtron/core first): ${legacy.join(', ')}`,
-    );
   }
 
   reportSummary(counts, args.apply);
