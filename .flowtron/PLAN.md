@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-598.1** [heavy]🧠 | flowtron-caobunga-concert discovery — Completed 2026-09-14.
   - [x] **CORE-598.2** [heavy]🧠 | caller-write-boundary-fixes — Completed 2026-09-14.
   - [x] **CORE-598.3** [heavy]🧠 | handoff-token-ratify — Completed 2026-09-14.
-  - [ ] **CORE-598.4** [medium]🧩 | caobunga-handoff-rows — Compile ready-to-paste CBN rows, numbered from caobunga's next free ID at paste time: status snippet moves caller-side (unblocks flowtron dispatch), continue-prompt path for a core-less target, CBN-148..150 re-emitted, CBN-186 upstream-fix cite. Acceptance requires the operator to paste from a caobunga session before closure — never prose-only.
+  - [x] **CORE-598.4** [medium]🧩 | caobunga-handoff-rows — Completed 2026-09-14.
   - [ ] **CORE-598.N** [heavy]🧠 | flowtron-caobunga-concert audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
 
 ## Medium
