@@ -14,8 +14,7 @@ operator-driven exploratory work; it is deliberately **not** a primary filing
 label, and automated choosers cap at `[heavy]` (see §"Category-vs-concrete
 matching"). Adopters MAY use any short token they prefer
 (e.g. `fable`, `opus`, `sonnet`, `haiku`, `grok`, `codex`, `gpt-5`, `gemini-pro`, project-specific names).
-The visualizer parser accepts any short lowercase token (`[a-z][\w.-]*`), and
-`/ft-stats` buckets unknown tokens as `other`.
+The visualizer parser accepts any short lowercase token (`[a-z][\w.-]*`).
 
 `/ft-task` reads the model BEFORE scaffolding (see `claude/skills/ft-task/SKILL.md`
 Step 1.5). The gate matches a **concrete** tag (`opus`/`sonnet`/`grok`/…) by exact
@@ -140,7 +139,7 @@ Effort level and context-window size are both **session/agent configuration,
 not PLAN.md fields**. The `[model]` token stays the bare family name whatever
 variant the session runs: a 1M-context Opus session filed against a `[heavy]`
 task is still `opus` — there is no `[opus-1m]` or `[opus-xhigh]` token, and a
-variant suffix would fragment the `/ft-stats` buckets for no signal gain.
+variant suffix would fragment the token vocabulary for no signal gain.
 Variants shift where a model lands on the tier ladder (that is the point of
 this section); they do not multiply the vocabulary.
 
@@ -155,9 +154,8 @@ inline note.
 
 **No auto-retag.** A satisfied category tag is **never** rewritten to the concrete
 running model. `[heavy]` stays `[heavy]` even when it runs on opus — the category
-carries the task's cognitive-load signal (feeding `/ft-stats` buckets and
-scannable, agent-neutral filing), which a silent rewrite to the run's model would
-destroy.
+carries the task's cognitive-load signal (scannable, agent-neutral filing),
+which a silent rewrite to the run's model would destroy.
 
 ## Platform×model×effort calibration table
 

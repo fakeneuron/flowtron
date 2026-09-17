@@ -11,10 +11,6 @@ SCRATCH*.md
 # Cross-repo caobunga orchestrator status write; not a workflow artifact.
 caobunga-status.md
 
-# Regeneratable via /ft-stats --write (SPEC.md; claude/skills/ft-stats).
-# Keep untracked so a stale committed snapshot cannot lag PLAN.md.
-.flowtron/STATS.md
-
 # Personal Claude Code / Codex / Cursor / Grok wiring for this checkout.
 # Repo-scoped `ln -s ../../claude/...`, `ln -s ../../codex/...`,
 # Cursor-only `ln -s ../../claude/...` into `.cursor/skills/`, and

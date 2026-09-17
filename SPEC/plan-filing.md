@@ -1,6 +1,6 @@
 # PLAN.md filing
 
-> Lazy-loaded SPEC module. Loaded at the two moments a PLAN.md row changes hands with git: by the filing motions (`/ft-file-followup` and its `--park` / `--starter` modes, `/ft-audit`, `/ft-refactor`) when they commit their own filing, and by every closing runner (`/ft-task`, `/ft-micro-task`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release`) at the Phase 4 stub flip — plus `/ft-stats` and the visualizer as `## Completed` history consumers. See `SPEC.md` for the always-loaded core spec, and the sibling [`SPEC/tasknote-selection.md`](tasknote-selection.md) for the use/skip thresholds, the filing-discipline word budget, and the downstream-impact reconciliation scan that decide *what* to file.
+> Lazy-loaded SPEC module. Loaded at the two moments a PLAN.md row changes hands with git: by the filing motions (`/ft-file-followup` and its `--park` / `--starter` modes, `/ft-audit`, `/ft-refactor`) when they commit their own filing, and by every closing runner (`/ft-task`, `/ft-micro-task`, `/ft-epic-discovery`, `/ft-close-epic`, `/ft-release`) at the Phase 4 stub flip — plus the visualizer as a `## Completed` history consumer. See `SPEC.md` for the always-loaded core spec, and the sibling [`SPEC/tasknote-selection.md`](tasknote-selection.md) for the use/skip thresholds, the filing-discipline word budget, and the downstream-impact reconciliation scan that decide *what* to file.
 
 Three contracts, one subject — what happens to a PLAN.md row once it is
 written: §"Filing commits" (how a filing lands in git), §"`## Completed`
@@ -221,7 +221,7 @@ gate, not a validator (`SPEC.md` §"What flowtron does NOT provide").
 
 **Why a second file and not a retention window.** Deleting rows past a window
 would destroy the inline-audit-fix records described above, and truncate the
-all-time aggregates `/ft-stats` computes. Rotation loses nothing.
+all-time history the visualizer reads. Rotation loses nothing.
 
 **Why this does not re-open the single-plan-file decision.** flowtron's
 founding adopter migrations collapsed `PLAN.md` + `ROADMAP.md` +
@@ -232,8 +232,8 @@ work, so that property is unchanged: `PLAN.md` remains the one file that
 answers what is open. Do not extend the rotation file to hold anything but
 closed rows.
 
-**Consumers.** Readers that need full history — the visualizer's parser and
-`/ft-stats` — read both files and concatenate. Readers that only care about
+**Consumers.** Readers that need full history — the visualizer's parser —
+read both files and concatenate. Readers that only care about
 open work (every runner skill's Step 1) read `PLAN.md` alone and are the
 motion's beneficiary. The file is absent until a project's first rotation;
 consumers treat absence as an empty archive, never an error.
