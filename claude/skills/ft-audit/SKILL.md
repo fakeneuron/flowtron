@@ -1,6 +1,6 @@
 ---
 name: ft-audit
-description: Parameterized principal-engineer audit — `/ft-audit <domain> [scope]` runs 5 domain-specific passes, capped at 5 findings each, and writes prioritized tickets to `.flowtron/PLAN.md`. Domains — general (default — code audit/review with no domain named) · backend (audit/review/harden backend/API/server code) · frontend (bundle size, accessibility, render performance) · security (vulnerabilities, secrets, auth) · performance (latency, profiling, resource usage) · docs (documentation accuracy, staleness, cross-doc drift) · structure (duplication clusters, coupling, module boundaries, god-files, stray scripts) · context (`CLAUDE.md` / `AGENTS.md` / `.claude/` bloat, paste-block redundancy, `ft-*` namespace conflicts, lean-context drift). Use whenever the user asks to audit, review, or harden any of these surfaces. Stack-neutral scaffold; adopters fork the whole directory (SKILL.md + scaffold-bootstrap.md + passes/) into `.claude/skills/audit/` and fill in rubrics / verification gates / per-pass examples for their stack. See `docs/MIGRATION.md` §1.2.1.
+description: Parameterized principal-engineer audit; `/ft-audit <domain> [scope]` runs domain-specific passes and writes prioritized tickets to `.flowtron/PLAN.md`. Domains: general (default) · backend · frontend · security · performance · docs · structure · context. Stack-neutral scaffold; adopters fork it to customize rubric and verification gates.
 ---
 
 # audit — flowtron parameterized audit skill
@@ -8,6 +8,8 @@ description: Parameterized principal-engineer audit — `/ft-audit <domain> [sco
 Principal-engineer audit of a project surface: find what matters, report concisely, **make no changes without explicit confirmation**.
 
 One dispatcher, eight domains. The shared procedure lives in this file; each domain's pass definitions, severity guide, scope/rubric/gate hints, and specialist rules live in a sibling `passes/<domain>.md` file, loaded at §1 step 1. A second sibling, `scaffold-bootstrap.md`, holds the unfilled-scaffold repair procedure and is loaded only when §1 step 3 trips.
+
+Domain scope: `general` (default — no domain named) · `backend` (audit/review/harden backend/API/server code) · `frontend` (bundle size, accessibility, render performance) · `security` (vulnerabilities, secrets, auth) · `performance` (latency, profiling, resource usage) · `docs` (documentation accuracy, staleness, cross-doc drift) · `structure` (duplication clusters, coupling, module boundaries, god-files, stray scripts) · `context` (`CLAUDE.md` / `AGENTS.md` / `.claude/` bloat, paste-block redundancy, `ft-*` namespace conflicts, lean-context drift).
 
 Stack-neutral scaffold — **fork**, don't symlink (per-stack rubrics/commands diverge). Fork the whole directory — `SKILL.md` + `scaffold-bootstrap.md` + `passes/` — into `.claude/skills/audit/`. Install per `docs/MIGRATION.md` §1.2.1.
 

@@ -1,6 +1,6 @@
 ---
 name: ft-micro-task
-description: Start and complete a flowtron micro-tasknote in one shot. Use when the user asks to start and finish a small task in one shot without the full 4-phase ceremony. Invoke with the task ID as args (e.g., args="CORE-050"). With `--fast` (or `-f`), force the autonomous-commit path at closure regardless of signal trips; with `--unattended`, run it with no operator present — the gates that would ask instead park the tasknote with a machine-readable stop reason. For tasks above the skip-tasknote threshold but small enough to skip the full 4-phase ceremony — single-section tasknote (do-the-work + recap), no Phase 3 boilerplate when no code changed, one closure step. See SPEC/tasknote-selection.md §"When to use a tasknote" for the threshold.
+description: Start and complete a flowtron micro-tasknote in one shot for tasks above the skip threshold but below full ceremony. With `--fast` (`-f`), forces the autonomous-commit path at closure. With `--unattended`, runs with no operator present, parking at gates instead of asking.
 ---
 
 # micro-task — flowtron micro-tasknote runner

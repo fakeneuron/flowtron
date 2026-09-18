@@ -1,6 +1,6 @@
 ---
 name: ft-file-followup
-description: File a Flowtron follow-up task from Codex with one PLAN row and conversational context, without creating a tasknote artifact. With `--park`, park an idea or quick fix as a tiny stub plus PLAN row, then resume the interrupted work inline. With `--starter`, file a starter tasknote carrying rich AI-captured context for work discovered mid-flow but not started yet. With `--unattended`, file with no operator present — the operator-less posture for a closure discharging SPEC.md §"Deferred hand-off filing".
+description: File a Flowtron follow-up task from Codex — one PLAN row plus conversational context, no tasknote artifact. With `--park`, park an idea or quick fix as a tiny stub, then resume inline. With `--starter`, file a starter tasknote with rich AI-captured context for work not ready to start. With `--unattended`, file with no operator present.
 ---
 
 # ft-file-followup - Codex wrapper
