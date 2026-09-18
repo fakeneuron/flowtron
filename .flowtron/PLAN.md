@@ -13,19 +13,18 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-603** [heavy]🧠 | skill-roster-diet — Trim the bundled skill roster to what the fleet actually uses: retire the vanity surfaces (`ft-flowtron`, `ft-stats`), fold `ft-audit-context` into `ft-audit` as a `context` domain, and cut the always-on frontmatter descriptions on the heavy lifecycle skills. Fleet usage survey 2026-09-17 (filed via /ft-epic-discovery; refined at .1 closure).
-  - [x] **CORE-603.1** [heavy]🧠 | skill-roster-diet discovery — Completed 2026-09-17.
-  - [x] **CORE-603.2** [light]🔧 | retire-flowtron-stats — Completed 2026-09-17.
-  - [x] **CORE-603.3** [medium]🧩 | audit-context-fold — Completed 2026-09-18.
-  - [x] **CORE-603.4** [light]🔧 | skill-description-trim — Completed 2026-09-18.
-  - [ ] **CORE-603.N** [heavy]🧠 | skill-roster-diet audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
-
 ## Low
 
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-EPIC-603** [heavy]🧠 | skill-roster-diet — Completed 2026-09-18.
+  - [x] **CORE-603.1** [heavy]🧠 | skill-roster-diet discovery — Completed 2026-09-17.
+  - [x] **CORE-603.2** [light]🔧 | retire-flowtron-stats — Completed 2026-09-17.
+  - [x] **CORE-603.3** [medium]🧩 | audit-context-fold — Completed 2026-09-18.
+  - [x] **CORE-603.4** [light]🔧 | skill-description-trim — Completed 2026-09-18.
+  - [x] **CORE-603.N** [heavy]🧠 | skill-roster-diet audit — Completed 2026-09-18.
 - [x] **FE-121** [light]🔧 [unattended] | local-storage-helper — Completed 2026-09-14.
 - [x] **CORE-601** [light]🔧 [unattended] | updater-legacy-only-report — Completed 2026-09-14.
 - [x] **CORE-602** [light]🔧 | viz-readme-startup-discovery — README.md §Visualizer now states project discovery and the latest-release tag resolve once at dev-server start (restart to pick up new/removed projects or a mid-session tag). Surfaced by audit 2026-09-14 (Finding #3, Low), fixed inline.
