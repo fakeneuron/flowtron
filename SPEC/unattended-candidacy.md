@@ -173,7 +173,7 @@ fails that check.
 | `/ft-file-followup --park` | — | **no candidacy** (one-motion by design; decided when the stub is promoted) | — |
 | `/ft-audit` §5 | ticket write | structured-ask write-step confirm | [[CORE-577.5]] |
 | `/ft-refactor` | Step 5 | Step 4 structured-ask review; own `--fast` → emit only | [[CORE-577.5]] |
-| `/ft-audit-repo` §6 · `/ft-audit-context` §5 | milestone / ticket write | write-confirm structured ask | [[CORE-577.6]] |
+| `/ft-audit-repo` §6 | milestone write | write-confirm structured ask | [[CORE-577.6]] |
 | `/ft-task` · `/ft-micro-task` · `/ft-close-epic` | — | not filers; carry the §"Persistence" hook only | [[CORE-577.4]] |
 
 Adopter forks of `ft-audit` (`.claude/skills/audit/`) pick the mirror up only

@@ -30,7 +30,6 @@ Nothing here is a hand-maintained roster. The expected set is **derived** — th
 
 ```text
 ft-audit           (forked/overlaid locally under an unprefixed name, never symlinked)
-ft-audit-context   (global-only)
 ft-audit-repo      (global-only)
 ft-new-project     (global-only)
 ft-release         (flowtron-self-only)
@@ -44,7 +43,7 @@ ssot=$(grep '^ln -s ../../.flowtron/core/claude/skills/' claude/AGENTS-snippet.m
 
 # Expected = shipped inventory minus the non-adopter categories above.
 diff -u <(ls claude/skills | grep '^ft-' \
-          | grep -Ev '^(ft-audit|ft-audit-context|ft-audit-repo|ft-new-project|ft-release)$' \
+          | grep -Ev '^(ft-audit|ft-audit-repo|ft-new-project|ft-release)$' \
           | sort) \
         <(printf '%s\n' "$ssot")
 

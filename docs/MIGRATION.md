@@ -27,7 +27,6 @@ The skill verifies preconditions (cwd is a git repo with `AGENTS.md` or `CLAUDE.
 | Skill | Audience | Purpose |
 |---|---|---|
 | `/ft-new-project` | Adopters (+ flowtron-self) | Bootstrap a new project with flowtron wiring |
-| `/ft-audit-context` | Adopters (+ flowtron-self) | Adopter-context audit — 4 conversational passes over `CLAUDE.md`, `AGENTS.md`, `.claude/{commands,skills}` for bloat / paste-block redundancy / `ft-*` namespace conflicts / lean-context drift; soft prose recommendations with an offer to file PLAN tickets (no auto-write) |
 | `/ft-audit-repo` | Adopters (+ flowtron-self) | First-contact holistic repo audit — Repo Map discovery, one thin capped sweep, 3–5 thematic synthesis, milestone-sequenced plan filed as flowtron epics, plus delegation hints for focused `/ft-audit <domain>` runs; strictly read-only, no fork. Global install lets you run it on a repo before flowtron is wired in (see §1.2.1) |
 
 Install each you want with the same shape (substitute `<skill>`; the `mkdir -p` is needed once — a machine that has never had a user-scope skill has neither directory, and `ln -s` does not create them):
@@ -60,7 +59,7 @@ The `checkout` step is what pins the project to a specific flowtron version. Wit
 
 The submodule ships the full Claude slash-command inventory and matching Codex skill-wrapper inventory. Adopter projects wire only the policy subset — the tasknote family and the `/ft-update` submodule-bump utility. **The exact roster is the `ln -s` block in [`claude/AGENTS-snippet.md`](../claude/AGENTS-snippet.md) §"One-time symlink wiring", its single source of truth; this section deliberately does not restate it.** What each does lives in its own SKILL.md frontmatter — short version: `/ft-task` the 4-phase runner (with `--debug` for hypothesis-first bug work and `--loop` for converge-until-verified goal loops), `/ft-micro-task` the one-shot, `/ft-file-followup` the in-chat follow-up (with `--park` for the sidequest parker and `--starter` for the rich-context starter filer), `/ft-epic-discovery` and `/ft-close-epic` the epic bookends, `/ft-refactor` the read-only refactor depth planner that files a sequenced epic. `/ft-update` is the adopter-side version-bump counterpart to `/ft-release` (see [`PLATFORMS.md`](PLATFORMS.md) §"Installed-surface policy").
 
-Global utilities (`/ft-new-project`, `/ft-audit-context`, `/ft-audit-repo`) live in the user's agent home when desired, not in every adopter repo. `/ft-release` is flowtron-self-only. The canonical category table lives in [`docs/PLATFORMS.md`](PLATFORMS.md) §"Installed-surface policy".
+Global utilities (`/ft-new-project`, `/ft-audit-repo`) live in the user's agent home when desired, not in every adopter repo. `/ft-release` is flowtron-self-only. The canonical category table lives in [`docs/PLATFORMS.md`](PLATFORMS.md) §"Installed-surface policy".
 
 **Claude Code install:** open `.flowtron/core/claude/AGENTS-snippet.md` §"One-time symlink wiring" and run the commands from the project root — that file is the single source of truth for Claude wiring (and also holds the §1.3 `AGENTS.md` paste-block). The relative paths in the snippet survive `git clone` and pin to the submodule's current SHA, so symlinks never need touching on a version bump.
 
@@ -72,7 +71,7 @@ Global utilities (`/ft-new-project`, `/ft-audit-context`, `/ft-audit-repo`) live
 
 ### 1.2.1 Optional: fork the `/ft-audit` scaffold per stack
 
-Flowtron ships one stack-neutral audit scaffold at `.flowtron/core/claude/skills/ft-audit/` — a parameterized `/ft-audit <domain> [scope]` dispatcher over a seven-file `passes/` library. The shared procedure (scope resolution, 5-passes-in-order, capped findings, finding format, closing sections, write-tickets-to-PLAN) lives once in `SKILL.md`; each domain's pass definitions, severity guide, scope/rubric/gate hints, and specialist rules live in a sibling `passes/<domain>.md` loaded at run time. **Forked, not symlinked**: per-stack rubrics/commands/examples diverge.
+Flowtron ships one stack-neutral audit scaffold at `.flowtron/core/claude/skills/ft-audit/` — a parameterized `/ft-audit <domain> [scope]` dispatcher over an eight-file `passes/` library. The shared procedure (scope resolution, 5-passes-in-order, capped findings, finding format, closing sections, write-tickets-to-PLAN) lives once in `SKILL.md`; each domain's pass definitions, severity guide, scope/rubric/gate hints, and specialist rules live in a sibling `passes/<domain>.md` loaded at run time. **Forked, not symlinked**: per-stack rubrics/commands/examples diverge.
 
 | Domain | Scope | 5 passes |
 |---|---|---|
@@ -83,6 +82,7 @@ Flowtron ships one stack-neutral audit scaffold at `.flowtron/core/claude/skills
 | `backend` | Backend (framework-agnostic) | Input & contracts · Error & lifecycle · Persistence · Async correctness · Observability |
 | `performance` | Cross-cutting perf (measurements required) | Hot paths · Payload & bundle · Data access · Memory & resource · Caching |
 | `structure` | Cross-file structural health (breadth sweep; depth via `/ft-refactor`) | Duplication clusters · Coupling & boundaries · Abstraction drift · God-files · Stray scripts |
+| `context` | AI-coding context surfaces (`CLAUDE.md`, `AGENTS.md`, `.claude/{commands,skills}`); no forker placeholders, so it runs unforked | Context bloat · Paste-block redundancy · `ft-*` namespace · Lean-context drift · Tooling & orphans |
 
 Invoke as `/ft-audit backend src/api/**` or bare `/ft-audit` (→ `general`, default scope). A first token that isn't a domain name (a path, `last-commit`, `staged`) resolves to `general` with the whole argument string as scope.
 
@@ -145,7 +145,7 @@ substituting the `## Deltas` values for the scaffold's `<placeholder>` slots —
 the same read-by-reference pattern `/ft-task` uses for its lazy SPEC modules.
 Because the body lives upstream, an overlay **inherits scaffold improvements
 automatically** on a version bump (it never copied them). One overlay covers
-all seven domains; per-domain deltas are keyed by domain inside the `## Deltas`
+all eight domains; per-domain deltas are keyed by domain inside the `## Deltas`
 block.
 
 Choose by how much you diverge: **overlay** when only the §0 surface changes
@@ -172,7 +172,7 @@ Add these fields to your fork's `SKILL.md` frontmatter at install time (the over
 
 **Keeping a full-copy fork's `passes/` current.** Beyond the drift warning above, `/ft-update` Step 4.5 also reconciles the *file set* of a full-copy fork against the bundled scaffold. Any pass file the bundle has at the target version and your fork lacks is classified by whether it existed upstream at your `flowtron-reconciled:` point: **absent then** means flowtron shipped a new domain you have never seen, and `/ft-update` offers to copy it in (per-file confirm; it lands as an unfilled scaffold for you to fill); **present then** means you deleted it deliberately — as §0 sanctions for surfaces your project doesn't have — and it is reported without ever being re-added. Files your fork already has are never read, diffed, or written by this step, so filled rubrics, gates, and sacred invariants cannot be clobbered. Thin overlays carry no `passes/` of their own and resolve pass files from the scaffold at run time, so they inherit new domains automatically and this step reports them as needing no action.
 
-**Surfaces not covered by the seven domains.** For audit surfaces without a dedicated pass file — API contracts, database schema/migrations, E2E test quality — use the nearest domain as the base rather than starting from scratch: `backend` covers API and database surfaces well through its Input & contracts and Persistence passes (scope the glob to your API routes or migrations dir; point the rubric at your API contract and schema docs). There is no `e2e` domain yet; if your project needs one, add a `passes/e2e.md` to your fork modeled on `general` — at that point, full-copy rather than overlay.
+**Surfaces not covered by the eight domains.** For audit surfaces without a dedicated pass file — API contracts, database schema/migrations, E2E test quality — use the nearest domain as the base rather than starting from scratch: `backend` covers API and database surfaces well through its Input & contracts and Persistence passes (scope the glob to your API routes or migrations dir; point the rubric at your API contract and schema docs). There is no `e2e` domain yet; if your project needs one, add a `passes/e2e.md` to your fork modeled on `general` — at that point, full-copy rather than overlay.
 
 #### Migrating a pre-consolidation audit fork
 
@@ -328,7 +328,7 @@ Running the task runner against a real entry in your `.flowtron/PLAN.md` should 
 
 If any command doesn't appear, the symlinks are likely wrong — check that each `readlink .claude/commands/<name>.md` and `readlink .claude/skills/<name>` resolves under the submodule.
 
-**Recommended follow-up.** If you've installed `/ft-audit-context` globally (see §1.0), run it now: `/ft-audit-context` scans the project's `CLAUDE.md`, `AGENTS.md`, and `.claude/{commands,skills}` for context bloat, redundancy with the freshly-pasted `AGENTS.md` block, `ft-*` namespace conflicts, and lean-context drift. Output is conversational; ticket-filing is opt-in. Catches first-day context-surface issues before they ossify.
+**Recommended follow-up.** Audit the context surfaces now: run `/ft-audit context` (your fork's name — e.g. `/audit context` — per §1.2.1; before a fork exists, ask your agent to run `.flowtron/core/claude/skills/ft-audit/SKILL.md` with `context` as the domain — the pass file carries no forker placeholders, so it runs unforked). The `context` domain scans the project's `CLAUDE.md`, `AGENTS.md`, and `.claude/{commands,skills}` for context bloat, redundancy with the freshly-pasted `AGENTS.md` block, `ft-*` namespace conflicts, and lean-context drift; findings land as PLAN tickets on the usual write-step confirmation. Catches first-day context-surface issues before they ossify.
 
 ---
 
@@ -483,7 +483,7 @@ After §3.2–§3.7 land and `/ft-task` shows in the slash menu, sweep for resid
   ```
 
   Confirm every slug it prints appears in your agent's roster (v1.0+ additions; symlinks added in §1.2; `/ft-refactor` added in CORE-463.5; the worktree pair retired in CORE-572 and `/ft-spec` in CORE-573 — see the retired-skills table below).
-- **Context-surface audit.** If you've installed `/ft-audit-context` globally (see §1.0), run it now — migrations frequently carry over context bloat from the legacy era (stale `CLAUDE.md` workflow tutorials, project-local skills that now shadow `ft-*` namespace, AGENTS.md content redundant with the freshly-pasted block). Soft prose; ticket-filing is opt-in.
+- **Context-surface audit.** Run `/ft-audit context` now (your fork's name, e.g. `/audit context`; unforked, ask your agent to run `.flowtron/core/claude/skills/ft-audit/SKILL.md` with `context` as the domain) — migrations frequently carry over context bloat from the legacy era (stale `CLAUDE.md` workflow tutorials, project-local skills that now shadow `ft-*` namespace, AGENTS.md content redundant with the freshly-pasted block). Findings land as PLAN tickets on the write-step confirmation.
 - **Final pin verification.** `git -C .flowtron/core describe --tags` shows the pinned version recorded at the start (e.g., `v5.28.0`). A mismatch means the submodule drifted off the pin during migration.
 - **Cleanup commit.** Bundle the decisions above into a single follow-up commit (`chore: <ID> post-migration cleanup`) OR fold into the §3.9 closure commit if scope is small.
 
@@ -528,6 +528,7 @@ Remove each hit with `rm`. The commands are safe: these are symlinks into the su
 
 | Retired | Released in | Replacement |
 |---|---|---|
+| `ft-audit-context` | v5.29.0 | `/ft-audit context` — the same four concerns (context bloat, paste-block redundancy, `ft-*` namespace, lean-context drift — the last split into prose drift and tooling/orphans) as the eighth `passes/context.md` domain, now under `ft-audit`'s normal contract: `Finding #N` format and PLAN tickets on the write-step confirmation rather than soft prose. Thin overlays inherit it on the next bump with no action; full-copy forks get it offered by `/ft-update` Step 4.5; unforked, ask your agent to run `.flowtron/core/claude/skills/ft-audit/SKILL.md` with `context` as the domain (no placeholders, so no bootstrap). Global install, so the dangling link is in your agent home, as for `ft-flowtron` |
 | `ft-flowtron` | v5.29.0 | None as a skill — the version is the `**Version:**` line at the top of `.flowtron/core/SPEC.md`, the principles are `SPEC.md` §"Core principles", and the bundled roster is `SPEC/layout.md` §"Skill namespace" (per-skill one-liners live in each `claude/skills/<slug>/SKILL.md` `description:`). It was a global install, so the dangling links are in your agent home (the `~/.claude/skills/<skill>` + `~/.claude/commands/<skill>.md` pair from §"One-time global installs"), not the project |
 | `ft-stats` | v5.29.0 | None as a skill — the visualizer (`viz/`) reads `## Completed` across `PLAN.md` + `PLAN-ARCHIVE.md` and is the surviving history consumer; a one-off count is a `grep -c` on the `[model]` glyphs. `.flowtron/STATS.md` is no longer written or ignored — delete any stale copy. Global install, so the dangling link is in your agent home, as for `ft-flowtron` |
 | `ft-debug` | v5.15.0 | `/ft-task <ID> --debug` — same hypothesis-first cadence, now a flag on the core runner |

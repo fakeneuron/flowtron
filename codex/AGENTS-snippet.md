@@ -39,7 +39,7 @@ ln -s ../../.flowtron/core/codex/skills/ft-update .agents/skills/ft-update
 
 Use `/skills` in Codex or type `$ft-task` / `$ft-update` / another wired
 skill name to invoke a Flowtron skill. Global utility skills such as
-`ft-new-project`, `ft-audit-context`, and `ft-audit-repo` may be installed in the user skill directory when desired;
+`ft-new-project` and `ft-audit-repo` may be installed in the user skill directory when desired;
 `ft-release` remains flowtron-self-only and is not part of the adopter snippet.
 The canonical category table lives in
 `.flowtron/core/docs/PLATFORMS.md` §"Installed-surface policy".
