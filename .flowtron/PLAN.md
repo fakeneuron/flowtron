@@ -13,14 +13,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-605** [light] | plan-filing-off-default-path — Cut `SPEC/plan-filing.md` (15.8k) off the flagless closure path: the tasknote template's and `SPEC.md`'s Closed line already state the stub form and placement inline, so the §"`## Completed` archive convention" citation there (and the `ft-micro-task` Step 3 mirror) should become a consult-when-unclear pointer, not a load. Surfaced by CORE-604.N (F4).
-
 ## Low
 
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-605** [light] | plan-filing-off-default-path — Completed 2026-09-18.
 - [x] **CORE-EPIC-604** [heavy] | gate-tiering-cold-start — Completed 2026-09-18.
   - [x] **CORE-604.1** [heavy] | gate-tiering-cold-start discovery — Completed 2026-09-18.
   - [x] **CORE-604.2** [heavy] | gate-postures-split — Completed 2026-09-18.

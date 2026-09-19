@@ -79,15 +79,17 @@ CI-enforced; it sums the surfaces a flagless `/ft-task <ID>.<sub>` reads before
 any Phase 1 write: `claude/commands/ft-task.md` (2,520) + `claude/skills/ft-task/SKILL.md`
 (26,426) + `SPEC.md` (53,984) + `.flowtron/tasknote/README.md` (8,816) +
 `templates/tasknote-template.md` (5,173) + `SPEC/gates.md` (20,804) +
-`SPEC/plan-filing.md` (15,771) + `SPEC/epic.md` (6,127) = **139,621 chars**
-(≈35k tokens; `.flowtron/PLAN.md`'s own band, below, is excluded since it isn't
+`SPEC/epic.md` (6,127) = **123,850 chars**
+(≈31k tokens; `.flowtron/PLAN.md`'s own band, below, is excluded since it isn't
 a flowtron-shipped surface). Measured fresh at filing (2026-09-18, post this
 task's own edits) rather than pulled from the tables below, which still carry
 the standing v5.28.0 figures until the next `/ft-release` refresh — a small
 apparent mismatch against those rows is that gap, not new drift. Tracks the
 trend [[CORE-EPIC-604]] set out to cut: [[CORE-604.1]] measured ≈172k chars at
 v5.28.0 before the epic's tiering (gate-postures split, runner/stub/`model.md`
-trim, this rotation-bound lower).
+trim, rotation-bound lower, and [[CORE-605]] dropping `SPEC/plan-filing.md`
+off this sum by softening its three Closed-line/Step-3 citations to
+consult-when-unclear pointers).
 
 ### Always loaded to run one task
 
@@ -132,8 +134,13 @@ not ship.
 `superseded-claims.md` 2,947 · `starter.md` 2,494 ·
 `versioning.md` 1,219.
 
-`gates.md`, `tasknote-selection.md`, and `plan-filing.md` are lazy by declaration
-and near-universal in practice; the rest genuinely load only on their task shape. [[CORE-535.3]]
+`gates.md` and `tasknote-selection.md` are lazy by declaration and
+near-universal in practice; `plan-filing.md` was too until [[CORE-605]]
+softened its three Closed-line/Step-3 citers (`SPEC.md`,
+`templates/tasknote-template.md`, `claude/skills/ft-micro-task/SKILL.md`) from
+inline "per ..." loads to consult-when-unclear pointers, so it now loads only
+when a closure genuinely needs the exception/rotation/filing-commit detail;
+the rest genuinely load only on their task shape. [[CORE-535.3]]
 added six of the modules above by moving narrow-use sections out of `SPEC.md`
 — which is why the `SPEC/` total grew while the always-loaded set shrank.
 [[CORE-535.5]] added two more the same way, out of `gates.md`: neither

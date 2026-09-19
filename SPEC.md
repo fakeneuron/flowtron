@@ -504,7 +504,7 @@ to a `visual-confirm` park, respectively — is one row of
 ### 🚀 Phase 4: Closure
 
 - [ ] **Doc-drift sweep** — for each entry in `.flowtron/tasknote/README.md` §"AI-referenced docs", state "no change" or the update
-- [ ] Closed — every `## ✅ Acceptance` criterion ticked or explicitly annotated (`N/A` / not-met with a one-line reason), tasknote YAML `status:` flipped to `completed`, PLAN.md line flipped to stub form `Completed YYYY-MM-DD.` and placed per [`SPEC/plan-filing.md` §"`## Completed` archive convention"](SPEC/plan-filing.md) (standalone → top of `## Completed`; epic child → kept nested beneath its active parent), then tasknote moved to `.flowtron/tasknote/archive/<area>/`
+- [ ] Closed — every `## ✅ Acceptance` criterion ticked or explicitly annotated (`N/A` / not-met with a one-line reason), tasknote YAML `status:` flipped to `completed`, PLAN.md line flipped to stub form `Completed YYYY-MM-DD.` and placed (standalone → top of `## Completed`; epic child → kept nested beneath its active parent — see [`SPEC/plan-filing.md` §"`## Completed` archive convention"](SPEC/plan-filing.md) if unclear), then tasknote moved to `.flowtron/tasknote/archive/<area>/`
 - [ ] **Evidence-based recap** drafted — changed files and LOC where meaningful, verification commands and results, refactors made or deferred with rationale, documentation verdict, the `touches:` scope reconciliation, and concrete maintainability effect (surfaces at the 📦 ready-to-commit gate, or inline on conditional skip)
 
 Phase 4 closure ops (Acceptance tick-through, doc-drift sweep, YAML `status:`
