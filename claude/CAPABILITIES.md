@@ -52,7 +52,7 @@ it is not uniform:
 - `--fast` / `-f` — ledger row (`SPEC.md` + `SPEC/gates.md` + `SPEC/gate-postures.md`).
 - `--unattended` — ledger row (same `SPEC.md` + `SPEC/gates.md` + `SPEC/gate-postures.md` sites; the posture is orchestrator-neutral and names no vendor, so it adds no new ledger surface of its own). Its executable interpretation is the shared `unattended-mode.md` fragment — plus `/ft-close-epic`'s own `unattended-close-epic.md` sibling, which sites the posture at that skill's steps — wiring-layer by construction.
 - `--debug` / `-d` — ledger row (`SPEC/procedures/ft-task.md` §"Agent-neutral primitives", which names the flag as the Claude Code spelling of a neutral primitive).
-- `/clear` + `/model <X>` — ledger row (`SPEC.md` §"Post-closure protocol" + `SPEC/model.md`).
+- `/clear` + `/model <X>` — ledger row (`SPEC/post-closure.md` + `SPEC/model.md`).
 - Structured ask — ledger §"Tool-call-specific terminology" (`structured ask` / `prose ask`).
 - Effort / thinking ↔ `[heavy]` / `[medium]` / `[light]` — ledger rows on `SPEC/model.md` (neutral vocabulary; specific models as examples).
 - Sub-agent / isolated exploration — **no contract-layer primitive to cover.** The probe/delegate contract deliberately names no spawn mechanism (`templates/subagent-probe-template.md`: "Which sub-agent primitive spawns the probe is the operator's and the platform's business"). The `README.md` section hosting that split does carry a ledger row, for its *other* Claude references (`--fast` on `/ft-task`, Claude Code's `/loop`, "Claude Code sessions") — added by [[CORE-408.4]].

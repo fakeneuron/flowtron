@@ -56,7 +56,8 @@ not to)".
 - `SPEC.md` — canonical workflow contract.
 - `SPEC/` — lazy modules for epics, starter tasks, blocked tasks, model
   routing, gate machinery, flag postures, the operator-cue vocabulary, gate discipline,
-  versioning, tasknote selection, PLAN.md filing, loop tasks, repo layout,
+  versioning, tasknote selection, PLAN.md filing, loop tasks, the post-closure
+  protocol, repo layout,
   PLAN parser tolerances, scope boundaries, optional tasknote inserts, the
   purpose blurb, superseded claims, `[unattended]` candidacy, and
   `SPEC/procedures/` agent-neutral SOPs.

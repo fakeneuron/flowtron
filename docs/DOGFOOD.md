@@ -94,7 +94,7 @@ in a real session, following `SPEC.md` §"📝 Phase 1: Discovery":
 state), do **not** fabricate a task. Instead exercise Discovery on the
 terminal state itself: review the board, return a **De-scope** verdict
 with the rationale that no open task exists (the expected terminal
-state per `SPEC.md` §"Post-closure protocol"), run the archive `ls`/
+state per `SPEC/post-closure.md`), run the archive `ls`/
 `grep` and drift check against the most recent `## Completed` entry,
 and emit the `default-skip` exit gate. This is a valid Phase-1 drive —
 correctly detecting and reporting the exhausted board is the contract

@@ -359,10 +359,10 @@ Verify each operation before the next (`git log -1 --stat`, `git tag --list vA.B
 
 ## Step 8 — Post-closure protocol (🏁 marker + suggest-next-move + copy-paste)
 
-The post-closure protocol is canonical in SPEC §"Post-closure protocol" (steps 1-3: commit / mark landed with 🏁 / offer copy-paste line). For releases:
+The post-closure protocol is canonical in `SPEC/post-closure.md` — **Read it now**; it is a lazy module, loaded here and nowhere earlier (steps 1-3: commit / mark landed with 🏁 / offer copy-paste line). For releases:
 
 - **Recap** — already bundled into the §7.4 📦 gate per SPEC §"🚀 Phase 4: Closure" (not re-surfaced here). One paragraph of what shipped (version, headline features, adopter migration if any); drop the "verification request" — the verification IS the push.
-- **🏁 post-commit state-marker** — once §7.5's operations land (commit + tag + push + release create on push-go Yes; commit + tag only on push-go No), emit the marker per SPEC §"Post-closure protocol" step 2:
+- **🏁 post-commit state-marker** — once §7.5's operations land (commit + tag + push + release create on push-go Yes; commit + tag only on push-go No), emit the marker per `SPEC/post-closure.md` step 2:
 
   ```markdown
   🏁 **<TASK-ID> — committed `<sha>`, tagged `vA.B.C`, published release** · archived to `.flowtron/tasknote/archive/core/<TASK-ID>.md`

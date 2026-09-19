@@ -99,7 +99,7 @@ The rules above say what a caller must *do*. This section says what it may *rely
 
 **Out of contract.** Some callers read these; none of them is flowtron's. Reading one is fine; relying on flowtron to write, keep, or shape it is not:
 
-- A `**Suggested next task:** **ID**` header line in `PLAN.md` — flowtron writes it nowhere. The post-closure next-move suggestion is transcript prose (SPEC.md §"Post-closure protocol"), not a file surface.
+- A `**Suggested next task:** **ID**` header line in `PLAN.md` — flowtron writes it nowhere. The post-closure next-move suggestion is transcript prose (`SPEC/post-closure.md`), not a file surface.
 - A `### Follow-up…` heading in a tasknote — flowtron defines no such heading; a deferred step is filed as its own PLAN row (step 8). A caller may ask *its own* worker for a heading, but no producer owes one.
 - Any trailing bracket token other than `[unattended]` / `[handoff]` — tolerated and dropped; the caller's meaning, not flowtron's.
 - Tasknote YAML `blocked-by:` read as a gate — it is a planning claim, not a don't-start gate (SPEC/blocked.md).

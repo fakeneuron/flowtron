@@ -66,7 +66,7 @@ serves it; Grok-only projects follow [`grok/AGENTS-snippet.md`](grok/AGENTS-snip
 <summary><b>All documentation</b></summary>
 
 - [SPEC.md](SPEC.md) — canonical workflow contract (4-phase tasknote
-  lifecycle, relevance gate, post-closure protocol, versioning rules)
+  lifecycle, relevance gate, paper-complete guard, versioning rules)
 - [docs/PHILOSOPHY.md](docs/PHILOSOPHY.md) — the "why": drift across prior
   per-project workflows and the principles that stuck
 - [docs/VISION.md](docs/VISION.md) — outward-facing identity: who flowtron
@@ -281,7 +281,7 @@ runtime lives in the runner; the contract lives in flowtron.
 ## Repo layout
 
 - `SPEC.md` — workflow contract (authoritative)
-- `SPEC/` — lazy SPEC modules (epic, starter, blocked, model, versioning, gates, gate-postures, cue-vocabulary, gate-discipline, tasknote-selection, plan-filing, loop, layout, plan-parser, scope-boundaries, tasknote-inserts, purpose-blurb, superseded-claims, unattended-candidacy) plus `procedures/` (pasteable skill procedures); loaded on demand by skills
+- `SPEC/` — lazy SPEC modules (epic, starter, blocked, model, versioning, gates, gate-postures, cue-vocabulary, gate-discipline, post-closure, tasknote-selection, plan-filing, loop, layout, plan-parser, scope-boundaries, tasknote-inserts, purpose-blurb, superseded-claims, unattended-candidacy) plus `procedures/` (pasteable skill procedures); loaded on demand by skills
 - `templates/` — canonical tasknote templates (full, micro, starter, sidequest) plus spec, loop-heartbeat, audit-overlay, and subagent-probe templates, and the `PLAN.md` / `tasknote-README.md` seed files
 - `claude/` — Claude Code skills + slash commands (adopter-facing snippet plus the full shipped `ft-*` inventory; adopter projects wire the policy subset, while flowtron-self-only skills like `/ft-release` stay upstream-only)
 - `codex/` — Codex skill wrappers for the full `ft-*` inventory plus Codex-specific wiring notes

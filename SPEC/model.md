@@ -238,7 +238,7 @@ for a particular agent on a particular class of task.
 
 The four-rung tier ladder governs the **Step 1.5 gate**. The **next-move
 suggestion glyph** (🔧 `LIGHT` / 🧩 `MEDIUM` / 🧠 `HEAVY` / 🔭 `XHEAVY`) in the
-post-closure protocol (SPEC.md cue glossary + `SPEC/gates.md`) **mirrors that
+post-closure protocol ([`SPEC/post-closure.md`](post-closure.md) step 2) **mirrors that
 ladder 1:1**: `[light]`→🔧, `[medium]`→🧩, `[heavy]`→🧠, `[xheavy]`→🔭. Concrete
 `[model]` tokens bucket to their inherent tier's glyph (e.g. `sonnet`/`grok`→🧩,
 `opus`/`fable`→🧠, `haiku`→🔧) — no concrete token buckets to 🔭, since no

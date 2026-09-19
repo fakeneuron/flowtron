@@ -459,7 +459,8 @@ time (Step 6).
 ### 6 — Post-closure protocol
 
 Run the three-step protocol in
-[`SPEC.md` §"Post-closure protocol"](../../SPEC.md), branching on the
+[`SPEC/post-closure.md`](../post-closure.md) — a lazy module, read here and
+nowhere earlier — branching on the
 📦 ready-to-commit gate per
 [`SPEC/gates.md` §"Conditional skip rule"](../gates.md), under the
 [`SPEC.md` §"Paper-complete guard"](../../SPEC.md):

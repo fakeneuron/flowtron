@@ -24,7 +24,7 @@ If neither matches, bail.
 
 Paths this skill uses:
 - SPEC: `<root>SPEC.md` (always loaded core)
-- SPEC_DIR (lazy modules `epic.md` · `model.md` · `gate-postures.md`): `<root>SPEC/`
+- SPEC_DIR (lazy modules `epic.md` · `model.md` · `gate-postures.md` · `post-closure.md`): `<root>SPEC/`
 - SKILL_DIR: `<root>claude/skills/ft-micro-task/` (no private fragments)
 - MODEL_EDGE (shared Step 1.5 fragment, owned by `/ft-task`): `<root>claude/skills/ft-task/step-1.5-model-edge.md`
 - UNATTENDED (shared `--unattended` fragment, owned by `/ft-task`): `<root>claude/skills/ft-task/unattended-mode.md`
@@ -133,7 +133,7 @@ Closure flips three things — YAML `status:`, the PLAN.md line, and the tasknot
 
 ## Step 5 — Post-closure protocol
 
-Run the protocol per SPEC §"Post-closure protocol" + §"Paper-complete guard", branching on SPEC/gates.md §"Conditional skip rule". `/ft-micro-task` carries no 📦 banner — its commit-go is the emphasized 🟢 GO ask, not a banner block — but the same rule applies. Stage deliverables + PLAN + archive together; 🏁 only after a real deliverable-covering SHA (`git show --name-only`); never invent a SHA. Paper-complete guard is **not** suppressed by `--fast`.
+**Read `<SPEC_DIR>/post-closure.md` now** — the protocol is a lazy module, loaded here and nowhere earlier — then run it under SPEC §"Paper-complete guard", branching on SPEC/gates.md §"Conditional skip rule". `/ft-micro-task` carries no 📦 banner — its commit-go is the emphasized 🟢 GO ask, not a banner block — but the same rule applies. Stage deliverables + PLAN + archive together; 🏁 only after a real deliverable-covering SHA (`git show --name-only`); never invent a SHA. Paper-complete guard is **not** suppressed by `--fast`.
 
 - **Skip branch** (signals clear) — run that section's **autonomous-commit motion** end to end, naming the cleared signal in its marker (e.g., `single-file doc patch; no privileged-ops surface`). Micro-tasknotes hit this branch often by design — their threshold aligns with the rule's clean-diff target.
 - **Fire branch** (privileged-ops signal hits) — its **bundled-approval motion**, with the emphasized 🟢 GO ask in place of the 📦 banner. Surface it and wait:
@@ -148,8 +148,8 @@ Run the protocol per SPEC §"Post-closure protocol" + §"Paper-complete guard", 
 
 Skill-specific:
 - **Commit message:** `feat: <TASK-ID> — <title>` (or `fix:` / `docs:` / `chore:`). Scaffold + closure typically bundle into one commit alongside the code/doc change.
-- **Suggest next move:** run SPEC §"Post-closure protocol" step 2 as written — the **fresh PLAN.md re-read** (never the Step 1 cached parse), the unchecked-and-open-section verification that drops failing candidates, the **PLAN exhausted (terminal)** form when none survives, the emoji-primary-label print, and the 🔍 prefix on `/ft-audit*` candidates. On the terminal form, skip the copy-paste line below.
-- **Copy-paste helper:** run SPEC §"Post-closure protocol" step 3 as written — the glyph copied from the chosen candidate line, the own-line inline-code invocation with no trailing punctuation, and the 👇 `Run in this session:` exception for context-dependent skills. Here the invocation line is `` `/<next-skill> <ID>` ``.
+- **Suggest next move:** run `SPEC/post-closure.md` step 2 as written — the **fresh PLAN.md re-read** (never the Step 1 cached parse), the unchecked-and-open-section verification that drops failing candidates, the **PLAN exhausted (terminal)** form when none survives, the emoji-primary-label print, and the 🔍 prefix on `/ft-audit*` candidates. On the terminal form, skip the copy-paste line below.
+- **Copy-paste helper:** run `SPEC/post-closure.md` step 3 as written — the glyph copied from the chosen candidate line, the own-line inline-code invocation with no trailing punctuation, and the 👇 `Run in this session:` exception for context-dependent skills. Here the invocation line is `` `/<next-skill> <ID>` ``.
 
 ## Notes
 

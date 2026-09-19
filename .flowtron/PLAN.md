@@ -13,14 +13,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-607** [heavy]🧠 | spec-headroom-extraction — SPEC.md sits 3,001 chars under its 57,000 cap (~1 working unit; standard is 2). Pick one lazy-loadable section, extract to a budgeted `SPEC/` module per the CORE-604.2 pattern, add its CONTEXT-BUDGET row; no cap raise. Surfaced by audit-repo 2026-09-19 (Theme: Contract growth vs the byte ratchet).
-
 ## Low
 
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-607** [heavy]🧠 | spec-headroom-extraction — Completed 2026-09-19.
 - [x] **CORE-606** [light]🔧 [unattended] | sidequest-stub-retirement — Completed 2026-09-19.
 - [x] **CORE-605** [light] | plan-filing-off-default-path — Completed 2026-09-18.
 - [x] **CORE-EPIC-604** [heavy] | gate-tiering-cold-start — Completed 2026-09-18.

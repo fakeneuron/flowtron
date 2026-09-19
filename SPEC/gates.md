@@ -237,7 +237,7 @@ gate. Perf-narrative reasoning does not trip 📦.
 
 where `<…>` names the cleared signal as diff facts (e.g., `4 markdown files; no privileged-ops surface`). Then run the bundle in one response: closure review → recap → commit → 🏁 → suggest-next-move → copy-paste line.
 
-**On fire (bundled approval motion).** Proceed with [`SPEC.md` §"Post-closure protocol"](../SPEC.md) step 1. The fire-branch turn emits the 📦 banner (or `/ft-micro-task`'s emphasized 🟢 GO) and **waits** — it does not emit 🏁, next-move, or the copy-paste line. Those land only after a deliverable-covering SHA.
+**On fire (bundled approval motion).** Proceed with [`SPEC/post-closure.md`](post-closure.md) step 1. The fire-branch turn emits the 📦 banner (or `/ft-micro-task`'s emphasized 🟢 GO) and **waits** — it does not emit 🏁, next-move, or the copy-paste line. Those land only after a deliverable-covering SHA.
 
 ## Flag precedence and surface matrix
 

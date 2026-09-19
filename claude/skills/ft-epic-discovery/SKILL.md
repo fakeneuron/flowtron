@@ -20,7 +20,7 @@ If neither matches, bail.
 
 Paths this skill uses:
 - SPEC: `<root>SPEC.md` (always loaded core)
-- SPEC_DIR (lazy modules `epic.md`): `<root>SPEC/`
+- SPEC_DIR (lazy modules `epic.md` · `post-closure.md`): `<root>SPEC/`
 - SKILL_DIR (lazy fragment `step-5.5-deep-prepass.md`): `<root>claude/skills/ft-epic-discovery/`
 - Template: `<root>templates/tasknote-template.md`
 - PLAN: `.flowtron/PLAN.md`, tasknote dir: `.flowtron/tasknote/` (always)
@@ -229,15 +229,15 @@ Walk the closure steps in order under SPEC §"Paper-complete guard". **No banner
 
 ## Step 10 — Post-closure protocol
 
-The three-step post-closure protocol (commit / suggest next move / offer copy-paste line) is canonical in SPEC §"Post-closure protocol" + §"Paper-complete guard", with the conditional skip rule for the 📦 gate in SPEC/gates.md §"Conditional skip rule". Skill-specific orchestration:
+The three-step post-closure protocol (commit / suggest next move / offer copy-paste line) is canonical in `<SPEC_DIR>/post-closure.md` — **Read it now**; it is a lazy module, loaded here and nowhere earlier — under SPEC §"Paper-complete guard", with the conditional skip rule for the 📦 gate in SPEC/gates.md §"Conditional skip rule". Skill-specific orchestration:
 
 - Evaluate the **📦 conditional skip rule** against the closure diff. For pure `/ft-epic-discovery` filings the diff is typically PLAN.md edits + a tasknote scaffold/archive — no privileged-ops surface — so the skip branch is the common case (workflow-only carve-out). Branch:
   - **Skip branch** (signals clear; no bundled in-📦 prompt — `/ft-epic-discovery` carries none) — run that section's **autonomous-commit motion** end to end, naming the cleared signal in its marker (e.g., `PLAN.md edit + tasknote scaffold/archive; no privileged-ops surface`). Do not surface a 📦 banner.
-  - **Fire branch** (privileged-ops signal hits) — its **bundled-approval motion**: surface the 📦 gate (SPEC §"Post-closure protocol" step 1) and wait for commit-go.
+  - **Fire branch** (privileged-ops signal hits) — its **bundled-approval motion**: surface the 📦 gate (`SPEC/post-closure.md` step 1) and wait for commit-go.
 - Proposed commit message (skill-specific): `feat: <AREA>-<next-N>.1 — file <AREA>-EPIC-<next-N> + scope children` (or a user-edited variant). Do not commit unprompted on the fire branch.
-- The post-commit response carries a 🏁 state-marker line immediately above the next-move suggestion (per SPEC §"Post-closure protocol" step 2), **only with a real SHA** whose paths cover PLAN + archive (and any other Discovery deliverables): `` 🏁 **<AREA>-<next-N>.1 — committed `<sha>`** · archived to `<archive-path>` ``. Visually closes the 🛠️ → 📦 → 🏁 lifecycle in the transcript (skip branch collapses 🛠️ and/or 📦 to inline markers but 🏁 still fires).
-- Suggest-next-move: run SPEC §"Post-closure protocol" step 2 as written — the **fresh PLAN.md re-read**, the unchecked-and-open-section verification, the **PLAN exhausted (terminal)** form when no candidate survives, and the emoji-primary-label print. Read the full task-line shape (including `[model]`) to know the recommended model for each child. The next move is typically `/ft-task <AREA>-<next-N>.2` (first implementation child).
-- Copy-paste helper: run SPEC §"Post-closure protocol" step 3 as written — the glyph copied from the chosen candidate line, the own-line inline-code invocation with no trailing punctuation, and the 👇 `Run in this session:` exception for context-dependent skills. Here the invocation line is `` `/ft-task <next-ID>` ``.
+- The post-commit response carries a 🏁 state-marker line immediately above the next-move suggestion (per `SPEC/post-closure.md` step 2), **only with a real SHA** whose paths cover PLAN + archive (and any other Discovery deliverables): `` 🏁 **<AREA>-<next-N>.1 — committed `<sha>`** · archived to `<archive-path>` ``. Visually closes the 🛠️ → 📦 → 🏁 lifecycle in the transcript (skip branch collapses 🛠️ and/or 📦 to inline markers but 🏁 still fires).
+- Suggest-next-move: run `SPEC/post-closure.md` step 2 as written — the **fresh PLAN.md re-read**, the unchecked-and-open-section verification, the **PLAN exhausted (terminal)** form when no candidate survives, and the emoji-primary-label print. Read the full task-line shape (including `[model]`) to know the recommended model for each child. The next move is typically `/ft-task <AREA>-<next-N>.2` (first implementation child).
+- Copy-paste helper: run `SPEC/post-closure.md` step 3 as written — the glyph copied from the chosen candidate line, the own-line inline-code invocation with no trailing punctuation, and the 👇 `Run in this session:` exception for context-dependent skills. Here the invocation line is `` `/ft-task <next-ID>` ``.
 
 ## Notes
 

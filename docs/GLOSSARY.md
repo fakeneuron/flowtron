@@ -104,7 +104,7 @@ Alphabetized. ~71 entries. Maintained via epic children and audits.
 
 **Phase 3: Testing & Linting** — Targeted tests + lint/type-check on changed files; frontend changes add an 👁️ visual-confirmation prose ask in the **emphasized inline shape** — its own line, blank-line isolated, bold `**CONFIRM**` label — never a banner. See SPEC §"🧪 Phase 3: Testing & Linting" and SPEC/cue-vocabulary.md §"Emphasized inline ask shape".
 
-**post-closure protocol** — The three steps that run after a tasknote is archived: commit decision (per Conditional skip rule), suggest-next-move (model-aware), copy-paste line. See SPEC §"Post-closure protocol".
+**post-closure protocol** — The three steps that run after a tasknote is archived: commit decision (per Conditional skip rule), suggest-next-move (model-aware), copy-paste line. See `SPEC/post-closure.md`.
 
 **PR / suggestion archetypes** — The eight shapes flowtron deliberately rejects in contributions: schema validators, abstractions without two-project precedent, cross-project query layers beyond the read-only visualizer, multi-user/team features, runtime security scanners / audit daemons, LLM knowledge-base / "wiki layer" subsystems, loop runtimes (runners / schedulers / session daemons), and graph / multi-agent execution runtimes. Terse AI-facing list lives in SPEC; prose mirror in VISION.md. See `SPEC/scope-boundaries.md` §"What flowtron does NOT provide" and docs/VISION.md.
 
