@@ -85,7 +85,7 @@ a flowtron-shipped surface). Measured fresh at filing (2026-09-18, post this
 task's own edits) rather than pulled from the tables below, which still carry
 the standing v5.28.0 figures until the next `/ft-release` refresh — a small
 apparent mismatch against those rows is that gap, not new drift. Tracks the
-trend [[CORE-604]] set out to cut: [[CORE-604.1]] measured ≈172k chars at
+trend [[CORE-EPIC-604]] set out to cut: [[CORE-604.1]] measured ≈172k chars at
 v5.28.0 before the epic's tiering (gate-postures split, runner/stub/`model.md`
 trim, this rotation-bound lower).
 

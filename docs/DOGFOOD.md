@@ -37,8 +37,8 @@ Read each file below in full before continuing:
 2. `AGENTS.md` — the context entry-point defining your surface.
 3. `docs/AGENT-COMPAT.md` — the agent-compatibility matrix; find
    your row and note the current `Last verified` stamp.
-4. `SPEC/gates.md` — the gate machinery and the full operator-cue
-   vocabulary.
+4. `SPEC/gates.md` — the gate machinery (the operator-cue inventory
+   itself lives in `SPEC/cue-vocabulary.md`).
 5. `templates/tasknote-template.md` — the canonical 4-phase tasknote
    shape.
 6. `.flowtron/tasknote/README.md` — the AI-referenced docs list and

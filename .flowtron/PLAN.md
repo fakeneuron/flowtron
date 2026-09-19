@@ -11,14 +11,9 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-EPIC-604** [heavy] | gate-tiering-cold-start — Cut a flagless ft-task cold start (~172k chars of flowtron-owned reads) by tiering `SPEC/gates.md` flag-posture material into a lazy module, trimming runner, command-stub and `model.md` surfaces, and lowering the `## Completed` rotation bound. No constitution split, no INDEX file (filed via ft-epic-discovery; refined at .1 closure).
-  - [x] **CORE-604.1** [heavy] | gate-tiering-cold-start discovery — Completed 2026-09-18.
-  - [x] **CORE-604.2** [heavy] | gate-postures-split — Completed 2026-09-18.
-  - [x] **CORE-604.3** [medium] | runner-stub-model-trim — Completed 2026-09-18.
-  - [x] **CORE-604.4** [light] | rotation-bound-and-ledger — Completed 2026-09-18.
-  - [ ] **CORE-604.N** [heavy] | gate-tiering-cold-start audit — Final-subtask audit per SPEC/epic.md (fixed doc-drift sweep acceptance line). Filed now with the reserved terminal `.N` suffix (never renumbers as children are added).
-
 ## Medium
+
+- [ ] **CORE-605** [light] | plan-filing-off-default-path — Cut `SPEC/plan-filing.md` (15.8k) off the flagless closure path: the tasknote template's and `SPEC.md`'s Closed line already state the stub form and placement inline, so the §"`## Completed` archive convention" citation there (and the `ft-micro-task` Step 3 mirror) should become a consult-when-unclear pointer, not a load. Surfaced by CORE-604.N (F4).
 
 ## Low
 
@@ -26,6 +21,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-604** [heavy] | gate-tiering-cold-start — Completed 2026-09-18.
+  - [x] **CORE-604.1** [heavy] | gate-tiering-cold-start discovery — Completed 2026-09-18.
+  - [x] **CORE-604.2** [heavy] | gate-postures-split — Completed 2026-09-18.
+  - [x] **CORE-604.3** [medium] | runner-stub-model-trim — Completed 2026-09-18.
+  - [x] **CORE-604.4** [light] | rotation-bound-and-ledger — Completed 2026-09-18.
+  - [x] **CORE-604.N** [heavy] | gate-tiering-cold-start audit — Completed 2026-09-18.
 - [x] **CORE-EPIC-603** [heavy]🧠 | skill-roster-diet — Completed 2026-09-18.
   - [x] **CORE-603.1** [heavy]🧠 | skill-roster-diet discovery — Completed 2026-09-17.
   - [x] **CORE-603.2** [light]🔧 | retire-flowtron-stats — Completed 2026-09-17.
