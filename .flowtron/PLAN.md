@@ -13,6 +13,9 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
+- [ ] **CORE-606** [light]🔧 [unattended] | sidequest-stub-retirement — delete orphaned `.flowtron/sidequest/CORE-587.md` + `CORE-588.md`; add a Step-0 stub check to `ft-task`, `ft-micro-task`, and `SPEC/procedures/ft-task.md` so promotion deletes the stub (rule today lives only in `park-mode.md:187` + glossary). Surfaced by audit-repo 2026-09-19 (Theme: Rules stated where they can't fire).
+- [ ] **CORE-607** [heavy]🧠 | spec-headroom-extraction — SPEC.md sits 3,001 chars under its 57,000 cap (~1 working unit; standard is 2). Pick one lazy-loadable section, extract to a budgeted `SPEC/` module per the CORE-604.2 pattern, add its CONTEXT-BUDGET row; no cap raise. Surfaced by audit-repo 2026-09-19 (Theme: Contract growth vs the byte ratchet).
+
 ## Low
 
 ## Future Opportunities
