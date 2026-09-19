@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-610.2** [medium]🧩 | archived-tasknote-integrity-check — Completed 2026-09-19.
   - [x] **CORE-610.3** [light]🔧 | closure-tick-through-executable — Completed 2026-09-19.
   - [x] **CORE-610.4** [light]🔧 | archived-stamp-fill-gate — Completed 2026-09-19.
-  - [ ] **CORE-610.N** [light]🔧 | archive-closure-integrity audit — Epic closure audit + doc-drift sweep.
+  - [x] **CORE-610.N** [light]🔧 | archive-closure-integrity audit — Completed 2026-09-19.
 
 ## Medium
 
