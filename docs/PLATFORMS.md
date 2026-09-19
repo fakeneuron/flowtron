@@ -367,6 +367,40 @@ the contract-layer-only path (see §"Today's surface").
 
 First-use verification 2026-06-01 (CORE-257 cue dogfood under Grok 4.3 interactive CLI). /ft-task + full 4-phase flow + AskUserQuestion structured prompt all rendered and executed successfully. Structured ask primitive observed to work (divergence from launch-coverage assumption in the triggers table below); other details matched. See docs/AGENT-COMPAT.md for the canonical matrix row currency. Sub-agent / `/model` / `/clear` rows refreshed 2026-08-20 (CORE-458), cross-referencing the native `spawn_subagent` tool observed under a Grok 4.6 session (CORE-456.N) against public vendor docs (`docs.x.ai/build/modes-and-commands`; `xai-org/grok-build` `docs/user-guide/16-subagents.md`).
 
+## Platform×model×effort calibration table
+
+The tier bands in [`SPEC/model.md`](../SPEC/model.md) §"Category-vs-concrete
+matching" are calibrated against real vendor rosters. This table is the
+**maintained cross-provider reference** — refreshed at releases (the release
+cut's `/ft-audit docs` subroutine surfaces a stale table via the dated as-of
+stamp below) and stamped with its as-of date. It exists so any chooser — the
+operator, or an automated orchestrator picking a model for a tagged task — can
+map "what is this session actually running, at what effort" to a tier band
+without guessing. It *calibrates* the Step 1.5 self-assessment; it never
+replaces it, and the gate still requires no lookup. Rows stay family-level
+tokens per `SPEC/model.md` §"Effort axis" — the `@effort` notation below is
+prose shorthand for "this family at that effort setting", never a PLAN.md
+token shape. It lives here rather than in the contract because its rows are
+dated vendor facts, not workflow rules.
+
+**As of 2026-08-27:**
+
+| Platform | Token | Current roster (top of family) | Effort ladder | Band at default effort | Effort-shifted equivalences |
+|---|---|---|---|---|---|
+| Anthropic | `fable` | Fable 5 (`mythos` limited-access sibling) | `low`/`medium`/`high`/`xhigh`/`max` (default `high`; `xhigh` recommended for coding/agentic) | heavy | heavy-band at every effort — `fable@low` often still exceeds prior-generation `xhigh` |
+| Anthropic | `opus` | Opus 5 (4.8 / 4.7 supported prior) | `low`/`medium`/`high`/`xhigh`/`max` | heavy | `opus@low` ≈ medium-band throughput work |
+| Anthropic | `sonnet` | Sonnet 5 | `low`/`medium`/`high`/`xhigh`/`max` | medium | `sonnet@xhigh` ≈ heavy-band |
+| OpenAI | `gpt-5` | GPT-5.5 flagship · GPT-5.4 workhorse (+ mini / nano) | per-model thinking tiers (Pro / Extended variants think longest) | heavy (5.5 / Pro) · medium (5.4) · light (mini / nano) | `gpt-5.4@extended` ≈ heavy-band |
+| OpenAI | `codex` | GPT-5.3 Codex (coding/agentic line) | `none`/`low`/`medium`/`high`/`xhigh`/`max` (+ CLI-only `minimal`) | medium at its recommended default | `codex@xhigh`–`@max` ≈ heavy-band |
+| xAI | `grok` | Grok 4.6 (`grok-build` coding sibling) | `low`/`medium`/`high` (default) /`xhigh` (4.6+; earlier 4.x treat `xhigh` as `high`) | medium | `grok@xhigh` ≈ heavy-band |
+| Google | `gemini-pro` | Gemini 3.1 Pro (Deep Think variant above it) | `thinking_level` `low`/`high` | heavy | `gemini-pro@low` ≈ medium-band |
+| Google | `gemini-flash` | Gemini 3.7 Flash (Flash-Lite below it) | `thinking_level` `low`/`high` | medium (Flash) · light (Flash-Lite) | `gemini-flash@high` ≈ upper medium-band |
+
+A row's "band at default effort" is what the Step 1.5 gate should read for
+that family absent other signal; the equivalences column is the effort axis in
+action — the same token earning a different band when the session runs it at a
+non-default effort setting.
+
 ## Non-Claude capability triggers
 
 _Mirrors the per-trigger shape in [`../claude/CAPABILITIES.md`](../claude/CAPABILITIES.md) —

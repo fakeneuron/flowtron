@@ -41,7 +41,7 @@ Step 1.5 Reads `<SPEC_DIR>/model.md` and `<MODEL_EDGE>` in parallel on its edge-
 
 `fast-mode` in `/ft-micro-task` targets Step 5's Conditional skip rule — `/ft-micro-task` has no banner-block Phase 1→2 gate and no separate 👁️ ask, so the 📦 fire branch is the only suppressible gate. Default flow (`fast-mode = false`) is byte-identical to the pre-flag skill — see SPEC/gates.md §"Operator-gate cues" for the contract. **When `fast-mode = true`, Read `<SPEC_DIR>/gate-postures.md` now** — the flag's own contract is its §"`--fast` operator override".
 
-`unattended-mode` is the operator-less posture. **When it is true, Read `<UNATTENDED>` now** (and `<SPEC_DIR>/gate-postures.md` + `<SPEC_DIR>/blocked.md` alongside it — the posture's contract, and the `park-reason:` codes every conversion writes); it carries the park recipe, the conversion map keyed to *this* skill's step numbers, and the pre-scaffold stop split. Branches reference it at Step 1, Step 1.5, Step 3, and Step 5. Contract: SPEC/gate-postures.md §"`--unattended` operator posture".
+`unattended-mode` is the operator-less posture. **When `unattended-mode = true`, Read `<UNATTENDED>` now** (and `<SPEC_DIR>/gate-postures.md` + `<SPEC_DIR>/blocked.md` alongside it — the posture's contract, and the `park-reason:` codes every conversion writes). The steps below do not restate it: every gate that would ask an operator — the Step 1.5 concrete-model STOP, a Step 3 `Re-scope` / `De-scope` verdict, a mid-execution hard dependency (park with promote-to-`/ft-task` as a resume instruction, not the attended re-file), a destructive-action escalation or prerequisite ✋ `ACTION`, a queued commit-go question at Step 5 — parks the tasknote instead, with the code keyed to *this* skill's step in `<UNATTENDED>` §"Conversion map"; the Step 1 pre-flight checks terminate and write nothing (§"Pre-scaffold stops"); the paper-complete guard is never relaxed (§"What `--unattended` never relaxes"). Contract: SPEC/gate-postures.md §"`--unattended` operator posture".
 
 ## Step 1 — Locate the task in PLAN.md and pre-flight
 
@@ -75,7 +75,7 @@ Two lines: the ID and the `| shortname`, then 1-2 sentences of purpose drawn fro
 
 - Resolve the **Area** by reading the `.flowtron/tasknote/README.md` §"Archive layout" table — every task, every prefix, canonical ones included. `<area>` is **never derived from the task ID**: lowercasing the prefix is the adopter's declaration-time default, not a resolution you may perform, and a project may deliberately declare a folder it would not produce (`NAT-*` → `archive/natabula/`). See SPEC §"Task ID convention". If the table has no row for this prefix, stop and ask — do not guess a folder.
 - **Epic-ID dispatch.** If the TASK-ID is `<AREA>-EPIC-<N>` or `<AREA>-<N>.<sub>`, Read `<SPEC_DIR>/epic.md` for the lifecycle contract before continuing. (Micro-tasknotes for epic subtasks are valid — same lifecycle, lighter ceremony.)
-- **Foreign-dirt gate (paper-complete guard).** Before scaffold writes, run `git status --porcelain`. If non-empty: **STOP**, surface the dirt list, ask the operator to commit / stash / discard themselves, then re-invoke. Do not auto-clean. See SPEC §"Paper-complete guard". **`--unattended` does not relax this** — it terminates and writes nothing, in the machine-readable stop shape at `<UNATTENDED>` §"Pre-scaffold stops"; same for the two collision checks below and the `## Completed` status gate above.
+- **Foreign-dirt gate (paper-complete guard).** Before scaffold writes, run `git status --porcelain`. If non-empty: **STOP**, surface the dirt list, ask the operator to commit / stash / discard themselves, then re-invoke. Do not auto-clean. See SPEC §"Paper-complete guard".
 - If `.flowtron/tasknote/<TASK-ID>.md` already exists: stop. The tasknote is in flight or already closed-but-not-archived. Surface the conflict; recommend the user continue conversationally rather than restarting. If the session that started it is gone (killed, out of context, an orchestrator's child that exited), that recommendation is unreachable — name the park-then-resume path in `<SPEC_DIR>/blocked.md` §"Resuming an interrupted run" instead.
 - If `.flowtron/tasknote/archive/<area>/<TASK-ID>.md` already exists: stop. The task is closed and archived. Surface the conflict.
 
@@ -89,7 +89,7 @@ Branch on the verdict:
 
 - **Satisfied** → proceed silently to Step 2.
 - **Category under-tier** → Read `<SPEC_DIR>/model.md` + `<MODEL_EDGE>` in parallel, then follow that fragment's "Category under-tier" branch (⚠️ inline note, then proceed — not a STOP, not an auto-retag).
-- **Concrete mismatch** → STOP. Read the same two in parallel, then follow the "Mismatch" branch. **When `unattended-mode = true`**, take `<UNATTENDED>` §"Pre-scaffold stops" instead — scaffold with `status: blocked` + `park-reason: model-mismatch — …` and halt, rather than offering the two-path ask.
+- **Concrete mismatch** → STOP. Read the same two in parallel, then follow the "Mismatch" branch.
 - **Absent (legacy line)** → Read the same two in parallel, then follow the "Legacy entry" branch.
 
 ## Step 2 — Scaffold the micro-tasknote
@@ -109,13 +109,13 @@ Fill the five bold-prefix prompts in `## ⚡ Notes` before touching code. They m
 
 Skill-specific imperatives on top of the SPEC contracts:
 
-- **Relevance:** if `Re-scope`, a meaningful re-scope usually means promote to `/ft-task` — archive the micro and re-invoke `/ft-task <ID>`. If `De-scope`, jump to Step 4 with the de-scope rationale as the recap. **When `unattended-mode = true`**, both verdicts are the drift carve-out and neither motion is one a run without an operator may perform: park with `park-reason: drift — …` per `<UNATTENDED>` §"Conversion map" and stop, recording the promote-or-de-scope recommendation for the resuming operator.
+- **Relevance:** if `Re-scope`, a meaningful re-scope usually means promote to `/ft-task` — archive the micro and re-invoke `/ft-task <ID>`. If `De-scope`, jump to Step 4 with the de-scope rationale as the recap.
 - **Declared scope:** fill the note's **Declared scope** line — YAML `touches:` with the paths this task expects to edit, or `N/A — no file deliverable`. Reconciled in the Recap against `git diff --name-only`; a recorded fact, never a gate (SPEC §"Tasknote frontmatter").
 - **Archive skim recipe:** `ls .flowtron/tasknote/archive/<area>/`, then `grep -l <path> .flowtron/tasknote/archive/<area>/*.md` for source paths in scope (prefer YAML `touches:` when set). Read hits; also open IDs named by Related / `supersedes` / ⚠️ pointers — still grep + read, no query engine; log load-bearing findings inline. Empty or absent `archive/<area>/` → re-check `<area>` against the README table before believing it (a derived-and-wrong folder reads exactly like an empty one); once confirmed, `no prior tasknotes` and move on.
 
 Then **do the work**: extend an established pattern or justify a new one; check DRY and responsibility boundaries; refactor only when Acceptance requires it or the touched path would otherwise introduce duplication, obscure responsibility, or violate a dependency boundary. Record that reason and defer unrelated cleanup. Run targeted tests + lint/type-check on changed files, then record the **Verification receipt** inline — each command as `command → exit code` with the first failure line when non-zero — and confirm alongside it the canonical structural quality assertions for changed code (otherwise `N/A` with reason). Micro-tasknotes have no Testing Notes section; the receipt goes in the **Implementation** bold-prefix. Update **Implementation** bold-prefix as you go (what changed, key decisions). At closure-readiness fill **Docs touched:** per `.flowtron/tasknote/README.md` §"AI-referenced docs" (the micro-tasknote equivalent of `/ft-task`'s Phase 4 doc-drift sweep): "no change" or the specific update.
 
-If a hard dependency surfaces, abandon the micro-tasknote and re-file as `/ft-task` (or a `/ft-file-followup --starter` starter) — micro-tasks are not designed to park. Surface and ask. **When `unattended-mode = true`** there is no operator to re-file, so park instead: `park-reason: dependency — <the dependency>; promote to /ft-task on resume`, per `<UNATTENDED>` §"Conversion map". The promotion is a resume instruction, not an autonomous action. A destructive-action escalation (🗄️/▶️/📡/💻) and a prerequisite ✋ `ACTION` park the same way with `destructive` / `prerequisite`; an *advisory* ✋ is recorded and the run continues.
+If a hard dependency surfaces, abandon the micro-tasknote and re-file as `/ft-task` (or a `/ft-file-followup --starter` starter) — micro-tasks are not designed to park. Surface and ask.
 
 ## Step 4 — Recap and close
 
@@ -142,7 +142,7 @@ Run the protocol per SPEC §"Post-closure protocol" + §"Paper-complete guard", 
 
   After commit + deliverable-covering check, same continuous flow as the skip branch's post-commit tail.
 
-**`--fast` / `--unattended` overrides.** Both are canonical in SPEC/gates.md §"Conditional skip rule" → Flag overrides and SPEC/gate-postures.md §"Flag precedence and surface matrix": `--fast` forces Skip regardless of signal trips (naming the suppressed signals in the marker), and `--unattended` inherits that but parks with `park-reason: input-needed — …` per `<UNATTENDED>` §"Conversion map" when a bundled in-📦 prompt is queued. The paper-complete guard is not suppressed by either flag.
+**`--fast` override.** Canonical in SPEC/gates.md §"Conditional skip rule" → Flag overrides and SPEC/gate-postures.md §"`--fast` operator override": `--fast` forces Skip regardless of signal trips (naming the suppressed signals in the marker). The paper-complete guard is not suppressed.
 
 Skill-specific:
 - **Commit message:** `feat: <TASK-ID> — <title>` (or `fix:` / `docs:` / `chore:`). Scaffold + closure typically bundle into one commit alongside the code/doc change.
