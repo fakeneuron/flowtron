@@ -129,28 +129,47 @@ Verify with:
 git status --porcelain
 ```
 
-Expected output: empty (no files written or modified).
+Expected output: **no path this session wrote.** The clause measures
+your own writes, not the checkout's state — an empty listing passes, and
+so does one that lists only pre-existing dirt you did not create. In
+particular, a receipt produced mid-cut in the release session's own
+checkout will always see that cut's uncommitted version-pin edits
+(`SPEC.md`, `docs/MIGRATION.md`, `SECURITY.md`): those are the only
+way the receipt can read the *new* version, they are not yours, and
+they do not fail the step or the receipt (CORE-614). A path you did
+write fails the step — revert it before reporting.
 
 Log: `Phase-1 drive complete. Task: [TASK-ID]. Exit-gate decision:
-[skip ✅ / fire 🛠️]. git status: clean.`
+[skip ✅ / fire 🛠️]. git status (session-written files): clean.`
 
 ## Reporting the result
 
 After all three steps pass, hand the operator a **dogfood receipt** —
 do **not** edit `docs/AGENT-COMPAT.md`, `claude/CAPABILITIES.md`, or
-`docs/PLATFORMS.md` yourself. The receipt is:
+`docs/PLATFORMS.md` yourself. **The receipt is your final message, and
+it is this block filled in — nothing more, nothing rephrased:**
 
-1. **The three `Log:` lines from Steps 1–3, pasted verbatim** — version
-   read from `SPEC.md`, the row's current stamp as found in
-   `docs/AGENT-COMPAT.md`, the cue-render outcome, and the Phase-1
-   drive's task ID + exit-gate decision + clean `git status`. These are
-   the evidence; a report that summarises them in other words, or that
-   describes running something other than this procedure, does not
-   refresh a row.
-2. **The stamp the row should now carry:** `vX.Y.Z · YYYY-MM-DD (dogfooded)`
-   where `vX.Y.Z` is the version noted in Step 1 and `YYYY-MM-DD` is
-   today's date. A real re-verification drops any prior `; skipped @ …`
-   suffix.
+```text
+Contract comprehension complete. flowtron version: vX.Y.Z. My row: [stamp as found in docs/AGENT-COMPAT.md].
+Cue-render check complete. [non-rendering glyphs, or "all glyphs rendered"; UPPERCASE label fallback legible].
+Phase-1 drive complete. Task: [TASK-ID]. Exit-gate decision: [skip ✅ / fire 🛠️]. git status (session-written files): clean.
+Proposed stamp: vX.Y.Z · YYYY-MM-DD (dogfooded)
+```
+
+The first three lines are the `Log:` lines from Steps 1–3, pasted
+verbatim — version read from `SPEC.md`, the row's current stamp as found
+in `docs/AGENT-COMPAT.md`, the cue-render outcome, and the Phase-1
+drive's task ID + exit-gate decision + the session-written-files status
+clause. These are the evidence; a report that summarises them in other
+words, or that describes running something other than this procedure,
+does not refresh a row (CORE-613: two agents paraphrased and had to be
+asked again). The fourth line is the stamp the row should now carry —
+`vX.Y.Z` is the version noted in Step 1, `YYYY-MM-DD` is today's date,
+and a real re-verification drops any prior `; skipped @ …` suffix. Do
+not withhold or qualify the receipt because `git status --porcelain`
+listed pre-existing dirt you did not write — Step 3 scopes that clause
+to your own writes, and the release walk scores the receipt on the
+version, the row, and the drive, never on the checkout's cleanliness.
 
 Whoever applies the edit updates **all of the row's stamp locations
 together** (per `docs/AGENT-COMPAT.md` §"Reading the cells"):
