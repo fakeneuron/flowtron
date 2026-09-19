@@ -12,7 +12,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## High
 
 - [ ] **CORE-EPIC-610** [heavy]🧠 | archive-closure-integrity — Make the Phase 4 Acceptance tick-through and YAML `status:` flip verifiable instead of claimed. 13 of 132 September archivals carry only unticked, unannotated `## ✅ Acceptance` boxes (CORE-608's closure line says "all three ticked" above three `[ ]`); CORE-593 archived with `status: in-progress`; `[unattended]` closures miss at 24% vs 6% attended. SPEC §"Acceptance tick-through" states the rule, nothing executes it. Archived tasknotes are historical — the check applies from a date floor forward, never backfills. Discovery supplied by audit-repo 2026-09-19. Surfaced by audit-repo 2026-09-19 (Theme: Closure claims outrun closure ops).
-  - [ ] **CORE-610.2** [medium]🧩 | archived-tasknote-integrity-check — Add a CI `drift` step + `/ft-release` §7.1 pair over `.flowtron/tasknote/archive/**` with `**Archived:**` ≥ 2026-09-20: `status: completed` present, and every `- [ ]` under `## ✅ Acceptance` carries an `N/A —` / `not met —` annotation. Pre-floor files exempt by date; document the floor and the check in `docs/CONVENTIONS.md`.
+  - [x] **CORE-610.2** [medium]🧩 | archived-tasknote-integrity-check — Completed 2026-09-19.
   - [ ] **CORE-610.3** [light]🔧 | closure-tick-through-executable — In `/ft-task`, `/ft-micro-task`, and `SPEC/procedures/ft-task.md`, make the pre-archive closure step grep the tasknote for unannotated `- [ ]` under `## ✅ Acceptance` and for `status: completed`, and refuse the archive move until both hold — same shape on the `--fast`/`--unattended` path, where the miss rate is 4× higher.
   - [ ] **CORE-610.N** [light]🔧 | archive-closure-integrity audit — Epic closure audit + doc-drift sweep.
 

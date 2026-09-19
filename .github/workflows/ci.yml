@@ -192,3 +192,17 @@ jobs:
             done
           done
           [ -z "$bad" ] || exit 1
+
+      - name: Pair P — archived-tasknote integrity (docs/CONVENTIONS.md §"Archived-tasknote integrity floor")
+        run: |
+          bad=
+          floor=2026-09-20
+          for f in .flowtron/tasknote/archive/*/*.md; do
+            d=$(grep -m1 -oE '^\*\*Archived:\*\* +[0-9]{4}-[0-9]{2}-[0-9]{2}' "$f" | sed -E 's/.* //' || true)
+            [ -n "$d" ] || continue
+            [[ "$d" < "$floor" ]] && continue
+            grep -q '^status: completed$' "$f" || { echo "STATUS NOT COMPLETED  $f"; bad=1; }
+            bare=$(awk '/^## ✅ Acceptance/{a=1;next} a&&/^## /{a=0} a' "$f" | grep -E '^ *- \[ \]' | grep -viE 'N/A|not[ -]met' || true)
+            [ -z "$bare" ] || { printf '%s\n' "$bare" | sed "s|^|UNANNOTATED BOX  $f  |"; bad=1; }
+          done
+          [ -z "$bad" ] || exit 1
