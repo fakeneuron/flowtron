@@ -74,6 +74,21 @@ which re-measured every row. Refreshed by
 `/ft-release` §7.1 in the same cut that reads it — if these numbers are stale,
 the cut that made them stale skipped its own standing check.
 
+**Default-path cold start.** A ledger row, not a budget — nothing here is
+CI-enforced; it sums the surfaces a flagless `/ft-task <ID>.<sub>` reads before
+any Phase 1 write: `claude/commands/ft-task.md` (2,520) + `claude/skills/ft-task/SKILL.md`
+(26,426) + `SPEC.md` (53,984) + `.flowtron/tasknote/README.md` (8,816) +
+`templates/tasknote-template.md` (5,173) + `SPEC/gates.md` (20,804) +
+`SPEC/plan-filing.md` (15,771) + `SPEC/epic.md` (6,127) = **139,621 chars**
+(≈35k tokens; `.flowtron/PLAN.md`'s own band, below, is excluded since it isn't
+a flowtron-shipped surface). Measured fresh at filing (2026-09-18, post this
+task's own edits) rather than pulled from the tables below, which still carry
+the standing v5.28.0 figures until the next `/ft-release` refresh — a small
+apparent mismatch against those rows is that gap, not new drift. Tracks the
+trend [[CORE-604]] set out to cut: [[CORE-604.1]] measured ≈172k chars at
+v5.28.0 before the epic's tiering (gate-postures split, runner/stub/`model.md`
+trim, this rotation-bound lower).
+
 ### Always loaded to run one task
 
 | Surface | Chars |

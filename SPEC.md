@@ -767,7 +767,7 @@ What happens to a PLAN.md row *after* it is filed lives in the sibling
 five filing motions — follow-up, park, starter, `/ft-audit`, and `/ft-refactor`
 — auto-commit at hand-off since filing approval *is* commit authorization;
 execution skills keep their commit-go gate), the `## Completed` archive stub-form convention,
-and the `## Completed` rotation bound (older month blocks spill verbatim to
+and the `## Completed` rotation bound (the oldest rows spill verbatim to
 `.flowtron/PLAN-ARCHIVE.md` on an operator motion; advisory only, nothing
 deleted).
 

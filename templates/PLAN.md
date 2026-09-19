@@ -43,9 +43,9 @@ Illustrative entries (replace TASK-ID with a real <AREA>-<N> id when filing):
   - [x] **TASK-ID** [light] | shortname — Completed YYYY-MM-DD.
 
 `## Completed` is bounded (see .flowtron/core/SPEC/plan-filing.md
-§"`## Completed` rotation"): past ~150 rows, rotate the oldest whole-month
-blocks into a sibling `.flowtron/PLAN-ARCHIVE.md`. That file does not exist
-until your first rotation, and rotation is an operator motion — nothing here
+§"`## Completed` rotation"): past ~60 rows, rotate the oldest rows into a
+sibling `.flowtron/PLAN-ARCHIVE.md`. That file does not exist until your
+first rotation, and rotation is an operator motion — nothing here
 auto-applies, and no closed row is ever deleted.
 
 These examples live ABOVE the first `##` heading on purpose: the parser only

@@ -179,20 +179,33 @@ but their PLAN lines never did — so the plan file, which every task reads at
 Step 1 and re-reads at post-closure, carries the entire project history
 forever. **Rotation bounds the section without deleting anything.**
 
-**The bound.** `## Completed` holds at most **100** checked rows (nested epic
-children counted). Past that, older rows belong in the rotation file.
+**The bound.** `## Completed` holds at most **60** checked rows (nested epic
+children counted). Past that, older rows belong in the rotation file. This is
+also the advisory trigger below (one number, not two) — CORE-604.4 collapsed
+the earlier 100-row bound / 150-row advisory split, which had drifted into
+describing a gap nobody depended on.
 
 **The rotation file.** `.flowtron/PLAN-ARCHIVE.md`, a sibling of `PLAN.md`.
 Rotated rows are grouped under `## Completed <YYYY-MM>` headings, newest month
 first. Rows move **verbatim** — same stub form, same nesting, same text. The
-file is **append-only**: rotation adds month blocks, and nothing ever rewrites
-an existing one. This is what keeps the §"Exception — inline audit fixes"
-rows above safe, since those lines *are* their own canonical record and have
-no archived tasknote to fall back on.
+file is **append-only**: a rotated row is never rewritten or reordered once
+moved. The *current* (still-open) calendar month's heading is the one
+exception to "adds month blocks" — since rotation no longer waits for a month
+to finish (see "Granularity" below), a later rotation may append more rows
+under that same still-open heading; only a month's heading that has already
+received a later month's block above it is closed to further appends. This
+append rule is what keeps the §"Exception — inline audit fixes" rows above
+safe, since those lines *are* their own canonical record and have no archived
+tasknote to fall back on.
 
-**Granularity: whole calendar months.** A rotation moves the oldest complete
-month blocks until `## Completed` is at or below the bound. Never a partial
-month — a month block that would cross the boundary stays where it is.
+**Granularity: by row count, not by month.** A rotation moves the oldest
+checked rows — regardless of which calendar month they fall in, current month
+included — until `## Completed` is at or below the bound. There is no
+"complete month" requirement: a still-open month's oldest rows are as
+eligible as any other. Rows still land under their own `Completed
+<YYYY-MM-DD>.` month's archive heading (§"The rotation file"), so the archive
+stays organized by month even though the *trigger* for moving a row is purely
+count-based.
 
 **Date resolution.** A row's month comes from its `Completed <YYYY-MM-DD>.`
 token. Inline-audit-fix rows (§"Exception — inline audit fixes") carry no such
@@ -200,22 +213,18 @@ token — for those, read the date from their mandatory `Surfaced by <audit-labe
 <YYYY-MM-DD>` clause, which is the same day the fix landed. A row that resolves
 to neither is not rotated; leave it in `PLAN.md` and fix its filing instead.
 
-**Two rules that override the bound:**
+**One rule that overrides the bound:**
 
-- **Never rotate the current calendar month.** Recent closures are the context
-  a reader actually wants in the plan file. This rule wins, so `## Completed`
-  may legitimately sit *above* 100 whenever the current month alone exceeds it.
-  The bound is a target, not an invariant.
 - **Never split an epic cohort.** A 2-space-nested child always travels with
   its parent's block, even when its own `Completed` date falls in an earlier
-  month.
+  month or the cohort's move lands `## Completed` slightly above or below the
+  bound.
 
 **Rotation is an operator motion.** Nothing applies it automatically. When a
-runner skill reads `PLAN.md` and finds `## Completed` over **150** rows, it
+runner skill reads `PLAN.md` and finds `## Completed` over **60** rows, it
 surfaces a one-line advisory and continues — never blocking, never editing.
-The gap between the 100 bound and the 150 advisory is deliberate hysteresis:
-rotation is periodic hygiene, not a per-task chore. This mirrors the ~50/70-word
-filing-discipline advisory in [`SPEC/tasknote-selection.md`](tasknote-selection.md)
+This mirrors the ~50/70-word filing-discipline advisory in
+[`SPEC/tasknote-selection.md`](tasknote-selection.md)
 §"PLAN.md filing-discipline thresholds" — the control is the human at the
 gate, not a validator (`SPEC.md` §"What flowtron does NOT provide").
 

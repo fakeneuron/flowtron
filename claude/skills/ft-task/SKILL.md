@@ -71,11 +71,11 @@ Two lines: the ID and the `| shortname`, then 1-2 sentences of purpose drawn fro
 
 Informational only — do not block scaffolding; the task is already filed and reworking the filing now is too late. The warning nudges future filings.
 
-**Completed-rotation check (advisory).** While PLAN.md is open, count the checked rows under `## Completed` (nested epic children included). If the count exceeds **150**, surface a one-line warning:
+**Completed-rotation check (advisory).** While PLAN.md is open, count the checked rows under `## Completed` (nested epic children included). If the count exceeds **60**, surface a one-line warning:
 
 ```text
-⚠️ PLAN.md `## Completed` holds <N> rows (>150). Consider rotating older
-   month blocks to `.flowtron/PLAN-ARCHIVE.md`. Proceeding.
+⚠️ PLAN.md `## Completed` holds <N> rows (>60). Consider rotating the
+   oldest rows to `.flowtron/PLAN-ARCHIVE.md`. Proceeding.
 ```
 
 Informational only — never block, never rotate. Rotation is an operator motion; the bound, the month-block granularity, and the two never-split rules are canonical in SPEC/plan-filing.md §"`## Completed` rotation".

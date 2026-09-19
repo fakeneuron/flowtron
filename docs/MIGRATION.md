@@ -282,7 +282,7 @@ cp .flowtron/core/templates/PLAN.md .flowtron/PLAN.md
 
 Then fill in the project name, vision paragraph, and current task list. Tasks use the area-prefix convention from SPEC.md §"Task ID convention" (`CORE-`, `BE-`, `FE-`, etc.). Project-specific prefixes are allowed; declare them in the next file.
 
-**`.flowtron/PLAN-ARCHIVE.md` appears later — do not create it now.** `## Completed` grows one row per closure and is bounded: once it passes 150 rows, `/ft-task` surfaces a one-line advisory suggesting you rotate the oldest whole-month blocks into a sibling `.flowtron/PLAN-ARCHIVE.md`. Rotation is an operator motion you run when you choose — nothing auto-applies, and no row is ever deleted. See [`SPEC/plan-filing.md`](../SPEC/plan-filing.md) §"`## Completed` rotation" for the bound, the month-block granularity, and the two never-split rules.
+**`.flowtron/PLAN-ARCHIVE.md` appears later — do not create it now.** `## Completed` grows one row per closure and is bounded: once it passes 60 rows, `/ft-task` surfaces a one-line advisory suggesting you rotate the oldest rows into a sibling `.flowtron/PLAN-ARCHIVE.md`. Rotation is an operator motion you run when you choose — nothing auto-applies, and no row is ever deleted. See [`SPEC/plan-filing.md`](../SPEC/plan-filing.md) §"`## Completed` rotation" for the bound, the row-count granularity, and the never-split-a-cohort rule.
 
 ### 1.5 Create `.flowtron/tasknote/README.md`
 

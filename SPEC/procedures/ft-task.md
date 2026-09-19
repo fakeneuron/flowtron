@@ -177,11 +177,11 @@ expects no reply, blocks nothing, and is suppressed by neither `--fast` nor
 
 **`## Completed`-rotation advisory.** While `PLAN.md` is open, count the
 checked rows under `## Completed` (nested epic children included). Past
-**150**, surface a one-line `⚠️` advisory naming the count and suggesting the
-operator rotate older month blocks to `.flowtron/PLAN-ARCHIVE.md` — then
+**60**, surface a one-line `⚠️` advisory naming the count and suggesting the
+operator rotate the oldest rows to `.flowtron/PLAN-ARCHIVE.md` — then
 continue. Informational only; never block, never rotate on your own. Full
-contract (the 100-row bound, month-block granularity, the never-split rules):
-[`SPEC/plan-filing.md` §"`## Completed` rotation"](../plan-filing.md).
+contract (the 60-row bound, row-count granularity, the never-split-a-cohort
+rule): [`SPEC/plan-filing.md` §"`## Completed` rotation"](../plan-filing.md).
 
 ### 2 — Resolve the area and check the model
 
