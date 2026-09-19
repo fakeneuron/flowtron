@@ -15,6 +15,9 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
+- [ ] **CORE-608** [light]🔧 [unattended] | procedures-sop-budget-row — `SPEC/procedures/ft-task.md` (34,565 chars) is the always-loaded runner body for Codex/Cursor/Grok tasks yet sits under CONTEXT-BUDGET's "not budgeted, deliberately" paragraph, which reasons from Claude's load path only. Add a `SPEC/procedures/ft-task.md` | 38,000 row (file + ~1.5 working units, the `gate-postures.md` sizing rule) so CI's Context-budget step enforces it, and amend that paragraph. Surfaced by audit-repo 2026-09-19 (Theme: Ratchet follows Claude's load path only).
+- [ ] **CORE-609** [light]🔧 | bold-lead-citation-targets — ≥12 `§"Title"` citations resolve to bold-lead paragraphs, not headings: `SPEC.md:557` (8 citers), `SPEC/plan-filing.md:101`, `SPEC/blocked.md:71`, `SPEC/tasknote-selection.md:42`. Pairs K/N match `## ` only, so these sit outside every check. Either promote the four to `###` headings or record bold-leads as valid `§` targets in `docs/CONVENTIONS.md`. Surfaced by audit-repo 2026-09-19 (Theme: Cross-reference integrity outside the checks).
+
 ## Future Opportunities
 
 ## Completed
