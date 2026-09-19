@@ -111,6 +111,8 @@ Read `<SPEC_DIR>/starter.md` (lifecycle contract) and `<SKILL_DIR>/step-3a-promo
 
 ## Step 3b — Scaffold a fresh tasknote (no existing file)
 
+**Sidequest-stub retirement.** If `.flowtron/sidequest/<TASK-ID>.md` exists, this scaffold is a sidequest promotion — delete it now (`rm .flowtron/sidequest/<TASK-ID>.md`). Contract: `claude/skills/ft-file-followup/park-mode.md` §Notes → "Promotion" ("Delete `.flowtron/sidequest/<ID>.md` after promotion"); this executes it at the point a promoting run actually writes, instead of relying on the promoter to remember a rule stated only in that fragment and `docs/GLOSSARY.md`.
+
 Copy the template (path resolved in Step 0) to `.flowtron/tasknote/<TASK-ID>.md`. The frontmatter schema and body layout are canonical in SPEC §"Tasknote frontmatter" and §"Tasknote body shape" — fill them as specified there. The template ships the canonical phase checklists; leave them exactly as they ship.
 
 **Skill-specific values at scaffold time:**

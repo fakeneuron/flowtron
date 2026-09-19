@@ -94,6 +94,8 @@ Branch on the verdict:
 
 ## Step 2 — Scaffold the micro-tasknote
 
+**Sidequest-stub retirement.** If `.flowtron/sidequest/<TASK-ID>.md` exists, this scaffold is a sidequest promotion — delete it now (`rm .flowtron/sidequest/<TASK-ID>.md`). Contract: `claude/skills/ft-file-followup/park-mode.md` §Notes → "Promotion" ("Delete `.flowtron/sidequest/<ID>.md` after promotion"); this executes it at the point a promoting run actually writes, instead of relying on the promoter to remember a rule stated only in that fragment and `docs/GLOSSARY.md`.
+
 Copy the micro template (path resolved in Step 0) to `.flowtron/tasknote/<TASK-ID>.md`. Frontmatter and body shape: see SPEC §"Tasknote frontmatter" + §"Tasknote body shape" + `SPEC/tasknote-selection.md` §"When to use a tasknote (and when not to)" micro carve-out for the `## ⚡ Notes` / `## ✅ Recap` skeleton.
 
 **Skill-specific scaffold values:**

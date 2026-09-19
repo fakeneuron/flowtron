@@ -240,7 +240,15 @@ Check `.flowtron/tasknote/<TASK-ID>.md` and branch on its existence / YAML
   session that started it is gone, that is not possible — an `in-progress`
   note is recovered by park-then-resume, not by restarting. See
   [`SPEC/blocked.md`](../blocked.md) §"Resuming an interrupted run".
-- **Absent** → scaffold fresh: copy `templates/tasknote-template.md` to
+- **Absent** → **First, sidequest-stub retirement**: if
+  `.flowtron/sidequest/<TASK-ID>.md` exists, this scaffold is a sidequest
+  promotion — delete it now. Contract:
+  [`claude/skills/ft-file-followup/park-mode.md`](../../claude/skills/ft-file-followup/park-mode.md)
+  §Notes → "Promotion" ("Delete `.flowtron/sidequest/<ID>.md` after
+  promotion"); this executes it at the point a promoting run actually writes,
+  instead of relying on the promoter to remember a rule stated only in that
+  fragment and `docs/GLOSSARY.md`. Then scaffold fresh: copy
+  `templates/tasknote-template.md` to
   `.flowtron/tasknote/<TASK-ID>.md` and fill the frontmatter + body per
   [`SPEC.md` §"Tasknote frontmatter"](../../SPEC.md) and
   [§"Tasknote body shape"](../../SPEC.md). Set `status: in-progress`,
