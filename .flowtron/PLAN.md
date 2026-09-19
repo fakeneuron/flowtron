@@ -19,6 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-613** [medium]🧩 | release v5.29.0 — Completed 2026-09-19.
 - [x] **CORE-612** [light]🔧 | caobunga-commit-type — Completed 2026-09-19.
 - [x] **CORE-EPIC-610** [heavy]🧠 | archive-closure-integrity — Completed 2026-09-19.
   - [x] **CORE-610.2** [medium]🧩 | archived-tasknote-integrity-check — Completed 2026-09-19.

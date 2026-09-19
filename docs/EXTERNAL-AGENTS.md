@@ -114,7 +114,7 @@ This document describes a **convention and a markdown contract**, for an operato
 - A "fan-out" or "swarm" runtime that runs children in parallel automatically.
 - A job graph or lock over `## 🌳 Fan-out` / YAML `blocked-by:` / `parallel-safe-with:` — those are markdown facts, not a scheduler. The worktree start procedure may warn on an open blocker; it must not refuse.
 
-These are the same rejections VISION.md §"What we won't accept" makes for loop runtimes, graph / multi-agent execution runtimes, and cross-project query layers: flowtron ships the **markdown contract** the agents report to (the tasknote, the 4-phase workflow, the operator cues, the Fan-out declaration, and the operator-less posture above), and the *runtime* — which agent, when, in which session — stays with the operator and whatever CLI they chose. If you want parallelism, the worktree pair plus a fresh session per child is the whole mechanism. See [PHILOSOPHY.md](PHILOSOPHY.md) §"What flowtron deliberately is not."
+These are the same rejections VISION.md §"What we won't accept" makes for loop runtimes, graph / multi-agent execution runtimes, and cross-project query layers: flowtron ships the **markdown contract** the agents report to (the tasknote, the 4-phase workflow, the operator cues, the Fan-out declaration, and the operator-less posture above), and the *runtime* — which agent, when, in which session — stays with the operator and whatever CLI they chose. If you want parallelism, the worktree pair plus a fresh session per child is the whole mechanism. See [PHILOSOPHY.md](PHILOSOPHY.md) §"What flowtron deliberately is not".
 
 ## Relationship to the Rest of Flowtron
 

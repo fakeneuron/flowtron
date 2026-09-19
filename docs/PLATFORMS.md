@@ -116,7 +116,7 @@ Two agent behaviours make this a correctness rule rather than tidiness:
   into an agent home *and* wiring it repo-scoped therefore doubles flowtron's
   footprint in every session before any work starts — measured at 36 roster
   entries for 18 skills in a flowtron-self session (measured 2026-08-11,
-  [[CORE-439]]; the shipped inventory has grown since — the doubling is the
+  [[CORE-439]]; the shipped inventory has changed since — the doubling is the
   point, not the absolute count).
 - **User-scope collisions resolve by slug, not by body.** Where an agent reads
   more than one home directory, a same-named skill in one shadows the other with
@@ -432,7 +432,7 @@ This mirrors the pre-adoption framing in §"Grok Build adoption notes" above._
 
 First-use verification 2026-06-01 (CORE-257). /ft-task skill invocation, model gate (with retag), AskUserQuestion render, and cue emissions (✅ marker + post-closure expectations) exercised under Grok. Structured ask support observed (see trigger table note). Matrix currency lives in docs/AGENT-COMPAT.md.
 
-**Last verified:** `v5.28.0 · 2026-09-14 (dogfooded)`
+**Last verified:** `v5.29.0 · 2026-09-19 (dogfooded)`
 
 ### Codex CLI
 
@@ -471,7 +471,7 @@ sub-agent row were backfilled 2026-08-21 (CORE-460.4) from vendor documentation
 shipped `codex/skills/` wrappers — desk research under Claude Code, not a
 standalone Codex verification session.
 
-**Last verified:** `v5.22.0 · 2026-08-29 (dogfooded; skipped @ v5.28.0)`
+**Last verified:** `v5.29.0 · 2026-09-19 (dogfooded)`
 
 ### Cursor
 
@@ -500,7 +500,7 @@ Cursor-only projects (see §"Worked example: Cursor" and
 
 First-use verification 2026-08-12 ([[CORE-438.5]]): `/ft-task` under Cursor (Grok 4.5) ran DOGFOOD.md's three steps (contract comprehension at `v5.16.0`, full cue-render vocabulary, Phase-1 drive on CORE-438.N with clean Step-3 write boundary). Skill dispatch via `.claude/skills/` compat, Task subagent tool, modes, and `/model`+`/clear` cues confirmed; structured ask confirmed earlier under Cursor in [[CORE-438.1]]. Matrix currency lives in docs/AGENT-COMPAT.md.
 
-**Last verified:** `v5.28.0 · 2026-09-14 (dogfooded)`
+**Last verified:** `v5.29.0 · 2026-09-19 (dogfooded)`
 
 ### Gemini CLI (stub)
 

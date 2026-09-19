@@ -74,7 +74,7 @@ its cap.
 
 ## Ledger
 
-Measured 2026-09-14 at v5.28.0, refreshed by [[CORE-599]] — the release cut,
+Measured 2026-09-19 at v5.29.0, refreshed by [[CORE-613]] — the release cut,
 which re-measured every row. Refreshed by
 `/ft-release` §7.1 in the same cut that reads it — if these numbers are stale,
 the cut that made them stale skipped its own standing check.
@@ -82,31 +82,31 @@ the cut that made them stale skipped its own standing check.
 **Default-path cold start.** A ledger row, not a budget — nothing here is
 CI-enforced; it sums the surfaces a flagless `/ft-task <ID>.<sub>` reads before
 any Phase 1 write: `claude/commands/ft-task.md` (2,520) + `claude/skills/ft-task/SKILL.md`
-(27,007) + `SPEC.md` (47,265) + `.flowtron/tasknote/README.md` (8,816) +
+(28,015) + `SPEC.md` (47,265) + `.flowtron/tasknote/README.md` (8,816) +
 `templates/tasknote-template.md` (5,188) + `SPEC/gates.md` (20,796) +
-`SPEC/epic.md` (6,127) = **117,719 chars**
-(≈29k tokens; `.flowtron/PLAN.md`'s own band, below, is excluded since it isn't
-a flowtron-shipped surface). Measured fresh at [[CORE-607]]'s closure
-(2026-09-19, post its own edits) rather than pulled from the tables below, which
-still carry the standing v5.28.0 figures until the next `/ft-release` refresh —
-a small apparent mismatch against those rows is that gap, not new drift. Tracks
+`SPEC/epic.md` (6,127) = **118,727 chars**
+(≈30k tokens; `.flowtron/PLAN.md`'s own band, below, is excluded since it isn't
+a flowtron-shipped surface). Measured at v5.29.0 from the same rows as the
+tables below. Tracks
 the trend [[CORE-EPIC-604]] set out to cut: [[CORE-604.1]] measured ≈172k chars
 at v5.28.0 before the epic's tiering (gate-postures split, runner/stub/`model.md`
 trim, rotation-bound lower, and [[CORE-605]] dropping `SPEC/plan-filing.md`
 off this sum by softening its three Closed-line/Step-3 citations to
 consult-when-unclear pointers), and [[CORE-607]] then took `SPEC.md` from
 53,999 to 47,265 by moving the post-closure protocol — consulted only after
-the tasknote is archived — off this path into `SPEC/post-closure.md`.
+the tasknote is archived — off this path into `SPEC/post-closure.md`. The
++1,008 on `ft-task/SKILL.md` since [[CORE-607]]'s 117,719 reading is
+[[CORE-EPIC-610]]'s executable pre-archive gate.
 
 ### Always loaded to run one task
 
 | Surface | Chars |
 |---|---|
 | `SPEC.md` | 47,265 |
-| `claude/skills/ft-task/SKILL.md` | 28,291 |
-| `AGENTS.md` (`CLAUDE.md` is a symlink to it) | 6,800 |
+| `claude/skills/ft-task/SKILL.md` | 28,015 |
+| `AGENTS.md` (`CLAUDE.md` is a symlink to it) | 6,794 |
 | `.flowtron/tasknote/README.md` | 8,816 |
-| `templates/tasknote-template.md` | 5,173 |
+| `templates/tasknote-template.md` | 5,188 |
 | `.flowtron/PLAN.md` | ~2–3k (band — see below) |
 
 **Why `.flowtron/PLAN.md` carries a band and not a number.** Every other surface
@@ -129,14 +129,14 @@ not ship.
 
 ### Lazy `SPEC/` modules
 
-`procedures/ft-task.md` 33,964 · `gates.md` 20,804 ·
-`gate-postures.md` 19,029 · `model.md` 17,070 · `gate-discipline.md` 15,367 ·
-`plan-filing.md` 15,263 · `tasknote-selection.md` 15,217 ·
-`cue-vocabulary.md` 15,119 ·
-`blocked.md` 12,052 · `unattended-candidacy.md` 10,597 ·
-`plan-parser.md` 8,609 · `loop.md` 8,042 · `post-closure.md` 7,823 ·
+`procedures/ft-task.md` 35,513 · `gates.md` 20,796 ·
+`gate-postures.md` 19,029 · `plan-filing.md` 15,771 ·
+`gate-discipline.md` 15,543 · `tasknote-selection.md` 15,217 ·
+`cue-vocabulary.md` 15,135 · `model.md` 14,636 ·
+`blocked.md` 12,100 · `unattended-candidacy.md` 10,561 ·
+`plan-parser.md` 8,609 · `loop.md` 8,074 · `post-closure.md` 7,823 ·
 `epic.md` 6,127 · `procedures/README.md` 5,970 ·
-`scope-boundaries.md` 5,347 · `layout.md` 5,232 ·
+`scope-boundaries.md` 5,347 · `layout.md` 5,080 ·
 `tasknote-inserts.md` 4,615 · `purpose-blurb.md` 4,027 ·
 `superseded-claims.md` 2,947 · `starter.md` 2,494 ·
 `versioning.md` 1,219.
@@ -171,28 +171,29 @@ moved bytes widen the core's headroom.
 
 ### Skill bodies (`SKILL.md` only)
 
-ft-release 31,620 · ft-epic-discovery 29,501 · ft-task 28,291 · ft-audit
-27,185 · ft-file-followup 27,117 · ft-close-epic 27,036 · ft-micro-task 20,721 ·
-ft-refactor 16,525 · ft-update 16,460 · ft-audit-context 11,438 ·
-ft-new-project 11,337 · ft-audit-repo 9,873 · ft-stats 8,872 · ft-flowtron
-8,299.
+ft-release 31,678 · ft-epic-discovery 29,174 · ft-task 28,015 · ft-close-epic
+27,350 · ft-audit 27,165 · ft-file-followup 26,177 · ft-micro-task 20,755 ·
+ft-update 16,410 · ft-refactor 16,042 · ft-new-project 11,522 · ft-audit-repo
+9,886.
 
 `ft-goal-task`, `ft-spec`, `ft-starter-task`, `ft-worktree-start`, and
 `ft-worktree-end` were retired at v5.27.0 (CORE-570/571/572/573), folded into
-`ft-task`, `ft-file-followup --starter`, and demoted content — five fewer rows
-here, not five fewer surfaces flowtron covers.
+`ft-task`, `ft-file-followup --starter`, and demoted content; `ft-flowtron`,
+`ft-stats`, and `ft-audit-context` followed at v5.29.0 (CORE-603.2/603.3), the
+last folded into `ft-audit` as its `context` domain — eight fewer rows here
+across the two cuts, not eight fewer surfaces flowtron covers.
 
 Lazy fragments are not counted against a skill's row — they arrive later, and
 only on the branch that needs them. Whole-directory totals for the two largest:
-`ft-release` 114,846, `ft-task` 73,390. Splitting a body into fragments defers
+`ft-release` 116,394, `ft-task` 73,512. Splitting a body into fragments defers
 load; it does not remove it ([[CORE-507]] §2.5), so a skill that fragments its
 way under the cap without shedding content has gamed the number rather than met
 it.
 
 ### Adopter-side always-loaded
 
-`claude/AGENTS-snippet.md` 15,054 (pasted into the adopter's `AGENTS.md`) ·
-`templates/tasknote-README.md` 4,837 · `templates/PLAN.md` 3,063.
+`claude/AGENTS-snippet.md` 15,062 (pasted into the adopter's `AGENTS.md`) ·
+`templates/tasknote-README.md` 4,837 · `templates/PLAN.md` 3,048.
 
 ## How this is enforced
 

@@ -22,6 +22,15 @@ unless correcting a factual error.
 
 ---
 
+## v5.29.0 — a leaner skill roster, a tiered gate load, and an executable archive-integrity floor
+
+- Three utility skills retire — `ft-flowtron`, `ft-stats`, `ft-audit-context` — the last folded into `/ft-audit` as its eighth `context` domain; the seven largest skill descriptions trim to ≤400 chars.
+- The `--fast` / `--unattended` postures move into a lazy `SPEC/gate-postures.md`, the post-closure protocol into `SPEC/post-closure.md`, and the runners state the unattended posture once at Step 0 — a flagless `/ft-task` cold start drops from ≈172k to ≈119k chars.
+- Every closure surface refuses the archive `mv` until `status: completed`, an annotated Acceptance list, and a filled `**Archived:**` stamp check out; CI Pair P enforces the same floor over tasknotes archived on or after 2026-09-20.
+- `## Completed` rotation lowers to a single 60-row threshold (oldest rows by count, cohorts atomic); flowtron's own board rotates 88 rows.
+
+Also: the `[model]` ladder lives in `SPEC.md` and the vendor calibration table in `docs/PLATFORMS.md`; the fleet updater reports legacy-only workspaces; the visualizer gains a shared `storage.ts` helper.
+
 ## v5.28.0 — the [handoff] marker, the flowtron↔caobunga caller boundary, and filing-contract hardening
 
 - `[handoff]` is ratified as the second canonical trailing token on a PLAN.md row — an operator's declaration that the row stops mid-run for a human act; an operator-less caller declines it, an attended run is unchanged.
