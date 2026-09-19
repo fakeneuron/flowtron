@@ -21,13 +21,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-611** [light]🔧 | readme-glossary-count — `README.md:76` says "~68" glossary terms; `docs/GLOSSARY.md:7` says "~71" and holds ≈71 entries. Align README (or drop the count). Surfaced by audit-repo 2026-09-19 (Theme: prose-only rules).
 - [ ] **CORE-612** [light]🔧 | caobunga-commit-type — Commit `71e5051` uses `caobunga:` as a type; `docs/CONVENTIONS.md:17` lists only `feat/fix/chore/docs`. Either name it there as the orchestrator-only type or have the orchestrator emit `chore:`. Surfaced by audit-repo 2026-09-19 (Theme: prose-only rules).
 
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-611** [light]🔧 | readme-glossary-count — Completed 2026-09-19.
 - [x] **CORE-609** [light]🔧 | bold-lead-citation-targets — Completed 2026-09-19.
 - [x] **CORE-608** [light]🔧 [unattended] | procedures-sop-budget-row — Completed 2026-09-19.
 - [x] **CORE-607** [heavy]🧠 | spec-headroom-extraction — Completed 2026-09-19.
