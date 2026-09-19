@@ -15,12 +15,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-609** [light]🔧 | bold-lead-citation-targets — ≥12 `§"Title"` citations resolve to bold-lead paragraphs, not headings: `SPEC.md:557` (8 citers), `SPEC/plan-filing.md:101`, `SPEC/blocked.md:71`, `SPEC/tasknote-selection.md:42`. Pairs K/N match `## ` only, so these sit outside every check. Either promote the four to `###` headings or record bold-leads as valid `§` targets in `docs/CONVENTIONS.md`. Surfaced by audit-repo 2026-09-19 (Theme: Cross-reference integrity outside the checks).
-
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-609** [light]🔧 | bold-lead-citation-targets — Completed 2026-09-19.
 - [x] **CORE-608** [light]🔧 [unattended] | procedures-sop-budget-row — Completed 2026-09-19.
 - [x] **CORE-607** [heavy]🧠 | spec-headroom-extraction — Completed 2026-09-19.
 - [x] **CORE-606** [light]🔧 [unattended] | sidequest-stub-retirement — Completed 2026-09-19.
