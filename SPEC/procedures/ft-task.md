@@ -430,7 +430,8 @@ time (Step 6).
   flip the markdown nav chip to `✅ Completed`; that write was retired
   deliberately and the chip is render-derived from YAML. Flip the tasknote's
   YAML `status:` to `completed` (a pre-archive lifecycle write — write-once
-  does not reach it). If this task falsified a **factual** claim in an already
+  does not reach it). Also set the body's `**Archived:** YYYY-MM-DD` line to
+  today's date. If this task falsified a **factual** claim in an already
   archived tasknote, append the one-line
   `> **⚠️ Superseded by [[<TASK-ID>]]** — <what was falsified>` pointer under
   that note's nav header and stage it in the same commit — append-only, never
@@ -443,13 +444,16 @@ time (Step 6).
   child, preserve its 2-space nesting beneath the active parent in the current
   priority section until `/ft-close-epic` moves the whole cohort. **Verify
   before moving.** Immediately before that move, mechanically confirm rather
-  than recall: `grep -q '^status: completed$'` on the tasknote succeeds, and
-  no line under `## ✅ Acceptance` reads a bare `- [ ]` without an `N/A` or
-  `not[ -]met` token — the same idiom
+  than recall: `grep -q '^status: completed$'` on the tasknote succeeds, no
+  line under `## ✅ Acceptance` reads a bare `- [ ]` without an `N/A` or
+  `not[ -]met` token, and the body's `**Archived:**` line carries a real
+  date rather than the unfilled `YYYY-MM-DD` placeholder — the first two are
+  the same idiom
   [`claude/skills/ft-release/step-7.1-mirror-pairs.md`](../../claude/skills/ft-release/step-7.1-mirror-pairs.md)
-  Pair P runs post-hoc across the whole archive, run once here on the single
-  note first. A dirty result means the status flip or an Acceptance
-  annotation is still outstanding — fix it and re-check rather than moving.
+  Pair P runs post-hoc across the whole archive, extended here with the
+  stamp check, run once on the single note first. A dirty result means the
+  status flip, the Archived stamp, or an Acceptance annotation is still
+  outstanding — fix it and re-check rather than moving.
   Applies identically under autonomous and unattended mode; neither relaxes
   it. Move the tasknote to
   `.flowtron/tasknote/archive/<area>/<TASK-ID>.md` — but only when deliverable
