@@ -15,12 +15,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-615** [light]🔧 [unattended] | task-counter-date-grep-anchor — Anchor the `/ft-release` §7.1 README task-counter date grep (step-7.1-standing-checks.md) to the `**Archived:**` line start; unanchored, it matched CORE-610.2's mid-bullet `2026-09-20` fixture text and reported a latest-archive date one day in the future (CORE-613).
-
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-615** [light]🔧 [unattended] | task-counter-date-grep-anchor — Completed 2026-09-19.
 - [x] **CORE-614** [medium]🧩 [unattended] | dogfood-receipt-shape — Completed 2026-09-19.
 - [x] **CORE-613** [medium]🧩 | release v5.29.0 — Completed 2026-09-19.
 - [x] **CORE-612** [light]🔧 | caobunga-commit-type — Completed 2026-09-19.
