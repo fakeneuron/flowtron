@@ -15,6 +15,9 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
+- [ ] **CORE-614** [medium]🧩 [unattended] | dogfood-receipt-shape — Give docs/DOGFOOD.md §"Reporting the result" a literal fenced receipt template (three Log: lines + proposed stamp) as the session's final message, and scope Step 3's `git status: clean` clause to files the session wrote — a same-checkout receipt is always dirty mid-cut (CORE-613: Grok/Cursor paraphrased, Codex self-invalidated).
+- [ ] **CORE-615** [light]🔧 [unattended] | task-counter-date-grep-anchor — Anchor the `/ft-release` §7.1 README task-counter date grep (step-7.1-standing-checks.md) to the `**Archived:**` line start; unanchored, it matched CORE-610.2's mid-bullet `2026-09-20` fixture text and reported a latest-archive date one day in the future (CORE-613).
+
 ## Future Opportunities
 
 ## Completed
