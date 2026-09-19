@@ -109,7 +109,7 @@ launching an unattended run against a SPEC that imposes it. Every rule above
 holds verbatim — explicit pathspecs, the pre-check and its skip-on-dirt, the
 post-stage verification and its skip-on-a-foreign-hunk, commit never push,
 no 🏁. What the posture removes is the *pause* before the commit,
-never the proof after it (`SPEC/gates.md` §"`--unattended` operator posture").
+never the proof after it (`SPEC/gate-postures.md` §"`--unattended` operator posture").
 
 Three limits come with it. **`--park` is out of scope:** park mode preserves an
 operator's tangential mid-session thought and resumes their interrupted work

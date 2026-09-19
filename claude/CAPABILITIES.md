@@ -49,8 +49,8 @@ there tracks intentional Claude-specific references that live in the
 as follows — stated per-trigger rather than as a blanket claim, because
 it is not uniform:
 
-- `--fast` / `-f` — ledger row (`SPEC.md` + `SPEC/gates.md`).
-- `--unattended` — ledger row (same `SPEC.md` + `SPEC/gates.md` sites; the posture is orchestrator-neutral and names no vendor, so it adds no new ledger surface of its own). Its executable interpretation is the shared `unattended-mode.md` fragment — plus `/ft-close-epic`'s own `unattended-close-epic.md` sibling, which sites the posture at that skill's steps — wiring-layer by construction.
+- `--fast` / `-f` — ledger row (`SPEC.md` + `SPEC/gates.md` + `SPEC/gate-postures.md`).
+- `--unattended` — ledger row (same `SPEC.md` + `SPEC/gates.md` + `SPEC/gate-postures.md` sites; the posture is orchestrator-neutral and names no vendor, so it adds no new ledger surface of its own). Its executable interpretation is the shared `unattended-mode.md` fragment — plus `/ft-close-epic`'s own `unattended-close-epic.md` sibling, which sites the posture at that skill's steps — wiring-layer by construction.
 - `--debug` / `-d` — ledger row (`SPEC/procedures/ft-task.md` §"Agent-neutral primitives", which names the flag as the Claude Code spelling of a neutral primitive).
 - `/clear` + `/model <X>` — ledger row (`SPEC.md` §"Post-closure protocol" + `SPEC/model.md`).
 - Structured ask — ledger §"Tool-call-specific terminology" (`structured ask` / `prose ask`).

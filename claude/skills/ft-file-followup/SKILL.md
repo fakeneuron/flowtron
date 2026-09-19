@@ -166,7 +166,7 @@ Edit per their feedback before writing anything. Do not skip the review. The rec
   `unattended-candidates: none` when the predicate declined the row. The line
   always emits under this posture, so a later reader can tell "ran, found none"
   from "never ran". A run with no operator never marks its own rows.
-- **The reconciliation scan still runs.** `SPEC/gates.md` §"What `--unattended`
+- **The reconciliation scan still runs.** `SPEC/gate-postures.md` §"What `--unattended`
   never relaxes" holds it: it guards plan correctness rather than pacing, so the
   posture may not skip it. On the three runners an unconfirmable direction change
   parks as `drift`; here there is no tasknote to park, so the resolution is the
@@ -266,5 +266,5 @@ The filing is committed by Step 4.4 — the Step 3 review approval **is** the co
 
 - **Filing-only — no design decisions in the skill flow itself.** All context (rationale, suspected files, recommended priority/model) comes from the prior conversation; the skill just records the line and surfaces the paragraph.
 - **Routing across the filing cohort:** see SPEC/tasknote-selection.md §"When to use a tasknote (and when not to)" for the full decision tree. One filer, three weights: the default flow's niche is ≤50w + ephemeral context only. Tangential idea + resume inline + no review gate → add `--park` (lighter; see `park-mode.md`). Above 50w, or a file survey / open questions / design decisions worth persisting → add `--starter` (heavier; see `starter-mode.md`). Filing+executing in one shot → `/ft-micro-task`. Starting an existing PLAN.md entry → `/ft-task`.
-- **`--unattended` is the operator-less posture, not a speed flag.** Its one legitimate caller is a closure with no operator present discharging `SPEC.md` §"Deferred hand-off filing". It buys no autonomy an attended run lacks: the filing-discipline cap, the reconciliation scan, the pre-check, and the pathspec discipline all still bind, and every question it cannot answer terminates readably rather than being answered on the operator's behalf. Posture contract: `SPEC/gates.md` §"`--unattended` operator posture".
+- **`--unattended` is the operator-less posture, not a speed flag.** Its one legitimate caller is a closure with no operator present discharging `SPEC.md` §"Deferred hand-off filing". It buys no autonomy an attended run lacks: the filing-discipline cap, the reconciliation scan, the pre-check, and the pathspec discipline all still bind, and every question it cannot answer terminates readably rather than being answered on the operator's behalf. Posture contract: `SPEC/gate-postures.md` §"`--unattended` operator posture".
 - **No active-tasknote breadcrumb.** When invoked from inside `/ft-task`, `/ft-file-followup` does not write into the active tasknote — keeps the active tasknote a record of what it was for, not a coordination ledger. This is the strict reading of "only one PLAN.md line on disk."

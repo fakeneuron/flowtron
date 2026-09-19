@@ -40,7 +40,7 @@ Re-scope rather than introducing a fourth Phase 1 verdict.
 
 **Phase 1→2 boundary park (`--unattended` only).** The reservation above holds
 for the attended path, unchanged. Under `--unattended`
-([`SPEC/gates.md`](gates.md) §"`--unattended` operator posture") the 🛠️ drift
+([`SPEC/gate-postures.md`](gate-postures.md) §"`--unattended` operator posture") the 🛠️ drift
 carve-out has no operator to fire a banner at, so a `Re-scope` / `De-scope`
 verdict **parks** instead of taking the motion above: flip `status: blocked`,
 flip the nav chip to `⏸ Blocked`, write `park-reason: drift — <what Discovery
@@ -108,7 +108,7 @@ this table, never a free-form value:
 | `dependency` | A hard dependency surfaced mid-Phase-2 — the park that predates the posture |
 | `interrupted` | The run ended without reaching closure *or* a gate — killed, out of context, session lost |
 
-The first six are the gate conversions in [`SPEC/gates.md`](gates.md)
+The first six are the gate conversions in [`SPEC/gate-postures.md`](gate-postures.md)
 §"`--unattended` operator posture"; `dependency` is the mid-Phase-2 park
 this module has always had. `interrupted` is neither — nothing stopped the
 run, it simply ended — and it is the one code a *caller* writes rather than a
@@ -181,7 +181,7 @@ and no session daemon (`docs/VISION.md` §"What we won't accept") — a runner
 cannot annotate a note in a session that no longer exists. This section is the
 contract the caller reports to; the two writes are the caller's, exactly as the
 `--unattended` posture is flowtron's contract and the orchestrator is not
-([`SPEC/gates.md`](gates.md) §"`--unattended` operator posture").
+([`SPEC/gate-postures.md`](gate-postures.md) §"`--unattended` operator posture").
 
 **Scoped to `in-progress`.** The other two refused statuses are not this case
 and take no shortcut:

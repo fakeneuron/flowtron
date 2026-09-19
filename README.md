@@ -252,7 +252,7 @@ the discipline the sizing principle depends on. The safe patterns:
   operator is one of the gates that converts — and where `--fast` would
   still let a gate fire, `--unattended` parks the tasknote instead of
   firing a banner into an empty session
-  ([`SPEC/gates.md`](SPEC/gates.md) §"`--unattended` operator posture").
+  ([`SPEC/gate-postures.md`](SPEC/gate-postures.md) §"`--unattended` operator posture").
   The contract lives in flowtron; the runtime that decides *when* to run
   unattended is still the caller's.
 - **A delegate gets exactly one tasknote.** A delegated context that
@@ -281,7 +281,7 @@ runtime lives in the runner; the contract lives in flowtron.
 ## Repo layout
 
 - `SPEC.md` — workflow contract (authoritative)
-- `SPEC/` — lazy SPEC modules (epic, starter, blocked, model, versioning, gates, cue-vocabulary, gate-discipline, tasknote-selection, plan-filing, loop, layout, plan-parser, scope-boundaries, tasknote-inserts, purpose-blurb, superseded-claims, unattended-candidacy) plus `procedures/` (pasteable skill procedures); loaded on demand by skills
+- `SPEC/` — lazy SPEC modules (epic, starter, blocked, model, versioning, gates, gate-postures, cue-vocabulary, gate-discipline, tasknote-selection, plan-filing, loop, layout, plan-parser, scope-boundaries, tasknote-inserts, purpose-blurb, superseded-claims, unattended-candidacy) plus `procedures/` (pasteable skill procedures); loaded on demand by skills
 - `templates/` — canonical tasknote templates (full, micro, starter, sidequest) plus spec, loop-heartbeat, audit-overlay, and subagent-probe templates, and the `PLAN.md` / `tasknote-README.md` seed files
 - `claude/` — Claude Code skills + slash commands (adopter-facing snippet plus the full shipped `ft-*` inventory; adopter projects wire the policy subset, while flowtron-self-only skills like `/ft-release` stay upstream-only)
 - `codex/` — Codex skill wrappers for the full `ft-*` inventory plus Codex-specific wiring notes

@@ -87,7 +87,7 @@ order; at most one of them belongs on a row). The legacy minimal form
 | `**TASK-ID**` | yes | Bold ID, matching the §"Task ID convention" pattern |
 | ` [!critical]` | optional | Urgency flag — orthogonal to priority bucket. Flagged tasks render a red marker chip and sort to the top of the High column. Filed under whatever priority heading the row already lives under (typically `## High`). |
 | ` [model]` | optional | Short identifier for the model assigned to this task. Recommended primary labels: `[heavy]` (design, multi-file, high-ambiguity, or exploratory work) \| `[medium]` (moderate, multi-step but well-scoped work) \| `[light]` (mechanical, clear-diff implementation). Specific names (`fable`, `opus`, `sonnet`, `haiku`, `grok`, `codex`, `gpt-5`, `gemini-pro`, etc.) are valid precision tokens; downstream tooling buckets unknown tokens as `other`. Owns the model assignment — `/ft-task` reads this BEFORE scaffolding (see §"Model field"). New entries should declare a model. |
-| ` [unattended]` | optional | Task-level opt-in marker declaring this row safe to dispatch with **no operator present** — the row-scoped counterpart to the `--unattended` invocation posture ([`SPEC/gates.md`](SPEC/gates.md)). Must sit AFTER `[model]`. Consumed by operator-less callers (see [`docs/EXTERNAL-AGENTS.md`](docs/EXTERNAL-AGENTS.md)), which are expected to **deny by default**: an unmarked row is undecided, not approved. The runners read it too: on an attended invocation with no flag, it implies `--fast` — never the `--unattended` posture ([`SPEC/gates.md`](SPEC/gates.md) §"`--fast` operator override"). Flowtron itself never writes it — seeding is an operator act. Parses into `Task.unattended: boolean`. |
+| ` [unattended]` | optional | Task-level opt-in marker declaring this row safe to dispatch with **no operator present** — the row-scoped counterpart to the `--unattended` invocation posture ([`SPEC/gate-postures.md`](SPEC/gate-postures.md)). Must sit AFTER `[model]`. Consumed by operator-less callers (see [`docs/EXTERNAL-AGENTS.md`](docs/EXTERNAL-AGENTS.md)), which are expected to **deny by default**: an unmarked row is undecided, not approved. The runners read it too: on an attended invocation with no flag, it implies `--fast` — never the `--unattended` posture ([`SPEC/gate-postures.md`](SPEC/gate-postures.md) §"`--fast` operator override"). Flowtron itself never writes it — seeding is an operator act. Parses into `Task.unattended: boolean`. |
 | ` [handoff]` | optional | Task-level declaration that this row will **stop mid-run for a human act that is not another task** — a cross-repo filing prompt, a physical-access step, a credential. Not a dependency (nothing upstream completes to release it — that is `Blocked by [[ID]]`) and not an absent opt-in (no seeding makes it dispatchable): a durable property of the work, known at filing time. Sits in the same trailing run as `[unattended]`, AFTER `[model]`. An operator-less caller declines the row **even when `[unattended]` is also present** — the pair is mis-authored, and `[handoff]` wins. On an attended run it changes nothing: the hand-off is simply the work. Flowtron never writes it — marking is an operator act on the same footing as seeding `[unattended]`, and no filer proposes it. Parses into `Task.handoff: boolean`. |
 | ` \| shortname` | optional | Short label up to ~30 chars; rendered as the row title in visualizers when present. Falls back to the tasknote frontmatter `title:` for tasks that have a tasknote, or the long description otherwise. |
 | ` — long description` | optional | Full description. Carries `Completed YYYY-MM-DD.` markers, re-scope notes, and any rationale that doesn't fit in the shortname. |
@@ -332,16 +332,19 @@ parent-flip, release push-go) bundle into 📦 rather than adding their own
 banners.
 
 That is the whole of the gate surface this core spec states. Everything that
-governs it is lazy, in three modules, so a run loads only what its decision
+governs it is lazy, in four modules, so a run loads only what its decision
 needs:
 
 - [`SPEC/gates.md`](SPEC/gates.md) — the machinery. Banner format and trigger
   table, the two-banner cap and its one bounded exception (a destructive
   🗄️/▶️/📡/💻 command escalating in-execution), the Phase 1→2 exit-gate flavors,
-  the conditional skip rule, and the single flag×surface matrix and precedence
-  ladder settling every `--fast` / `--unattended` / 👁️ interaction — including
-  the `--unattended` posture, under which a gate an operator-less run cannot
-  answer parks via `status: blocked` rather than firing a banner.
+  and the conditional skip rule.
+- [`SPEC/gate-postures.md`](SPEC/gate-postures.md) — the postures. `--fast`
+  (an operator present but not to be asked) and `--unattended` (no operator —
+  a gate the run cannot answer parks via `status: blocked` rather than firing
+  a banner), with the single flag×surface matrix and precedence ladder
+  settling every `--fast` / `--unattended` / 👁️ interaction. Loaded only when
+  a flag or the `[unattended]` row marker is set.
 - [`SPEC/cue-vocabulary.md`](SPEC/cue-vocabulary.md) — the reference. Every
   operator cue's glyph, UPPERCASE label, and emission shape.
 - [`SPEC/gate-discipline.md`](SPEC/gate-discipline.md) — the discipline. The
@@ -496,7 +499,7 @@ a banner** and the standing phase-gate count is unaffected. Full contract:
 [`SPEC/cue-vocabulary.md` §"Emphasized inline ask shape"](SPEC/cue-vocabulary.md).
 What `--fast` and `--unattended` do to this ask — suppress it, and convert it
 to a `visual-confirm` park, respectively — is one row of
-[`SPEC/gates.md` §"Flag precedence and surface matrix"](SPEC/gates.md).
+[`SPEC/gate-postures.md` §"Flag precedence and surface matrix"](SPEC/gate-postures.md).
 
 ### 🚀 Phase 4: Closure
 
@@ -642,7 +645,7 @@ Canonical contract: see [`SPEC/loop.md`](SPEC/loop.md).
 
 ## Post-closure protocol
 
-After a tasknote is archived, run the three-step protocol (commit / mark landed / offer copy-paste line). Step 1 branches on the **conditional skip rule** — the privileged-ops signal, the bundled-prompt override, the `--fast` operator override, and the on-skip/on-fire routing all live in [`SPEC/gates.md` §"Conditional skip rule"](SPEC/gates.md). On skip, the closure auto-commits behind a `✅ Closure complete; committing autonomously (…)` marker; on fire, proceed with step 1 below. Steps 2–3 run **only after** a deliverable-covering SHA — never in the same turn as a fire-branch 📦 / 🟢 ask.
+After a tasknote is archived, run the three-step protocol (commit / mark landed / offer copy-paste line). Step 1 branches on the **conditional skip rule** — the privileged-ops signal, the bundled-prompt override, and the on-skip/on-fire routing all live in [`SPEC/gates.md` §"Conditional skip rule"](SPEC/gates.md); what `--fast` and `--unattended` do to it is one row of [`SPEC/gate-postures.md` §"Flag precedence and surface matrix"](SPEC/gate-postures.md). On skip, the closure auto-commits behind a `✅ Closure complete; committing autonomously (…)` marker; on fire, proceed with step 1 below. Steps 2–3 run **only after** a deliverable-covering SHA — never in the same turn as a fire-branch 📦 / 🟢 ask.
 
 1. **Commit (bundled gate, fire branch).** Surface the bundled ready-to-commit gate behind the 📦 cue (per [`SPEC/gates.md` §"Operator-gate cues"](SPEC/gates.md) — preview line mandatory) and wait for commit-go. The bundle has three parts:
 

@@ -1,0 +1,317 @@
+# Flag postures — `--fast` and `--unattended`
+
+> Lazy-loaded SPEC module. Loaded by `/ft-task` and `/ft-micro-task` at their Step 0 flag parse when `--fast` or `--unattended` is set, at their Step 1 when the PLAN.md row's `[unattended]` marker implies `--fast`, and by `/ft-close-epic` at its Step 0 under `--unattended`; consulted by any surface reasoning about what a flag suppresses, converts, or never reaches. A flagless run on an unmarked row never loads it. See [`SPEC/gates.md`](gates.md) for the gate machinery these postures cross-cut — the two-banner cap, the destructive-action escalation, the Phase 1→2 exit-gate flavors, the conditional skip rule — and `SPEC.md` for the always-loaded core spec.
+
+The two operator postures that cross-cut every gate in
+[`SPEC/gates.md`](gates.md) live here — `--fast` (an operator who is present
+but does not want to be asked) and `--unattended` (no operator present at
+all) — together with the single precedence ladder and surface matrix that
+settle every `--fast` / `--unattended` / 👁️ interaction in one place. Split
+out of `gates.md` by CORE-604.2 because a flagless run needs none of it:
+each gate section in `gates.md` states its own rule and points here for the
+flag interaction, and nothing here restates a gate. The executable
+interpretation for the operator-less posture is
+`claude/skills/ft-task/unattended-mode.md`; the `park-reason:` codes it
+writes are canonical in [`SPEC/blocked.md`](blocked.md) §"Park reason".
+
+## Flag precedence and surface matrix
+
+Two operator flags cross-cut every gate above: `--fast` (§"`--fast` operator
+override") and `--unattended` (§"`--unattended` operator posture"). This
+section is the **single place** their effects are enumerated. Every gate
+section in [`SPEC/gates.md`](gates.md) states its own rule and points here
+for the flag interaction; none restates a row below.
+
+### Precedence ladder
+
+Read top-down. The first rung that applies decides, and a lower rung never
+overturns a higher one.
+
+1. **Bundled in-📦 prompt.** A queued user-input question is never skipped by
+   any flag. Attended it forces the 📦 banner; under `--unattended` it parks
+   (`input-needed`) — because neither an autonomous commit nor a banner into
+   an empty session can answer it. (`/ft-close-epic` is the one caller that
+   *unbundles* rather than parks — see §"`/ft-close-epic` under the posture".)
+2. **`--unattended` conversion.** It first *inherits* everything rung 3 skips —
+   those gates are gone, not parked. What it does not inherit is `--fast`'s two
+   **delegations** (the 👁️ ask and the Re-scope notice), because a transfer
+   needs a transferee. So: any gate that would still fire, plus those two
+   undelegatable surfaces, becomes a **park** rather than a banner or a silent
+   skip. This rung sits above rung 3 because where the two disagree, the park
+   wins — never the other way round.
+3. **`--fast` skip.** Forces the Skip branch on 📦, suppresses the 👁️ ask, and
+   downgrades a Re-scope 🛠️ to an inline notice, regardless of signal state.
+   Also implied by the row's `[unattended]` marker (§"`--fast` operator
+   override").
+4. **Signal / flavor default.** The privileged-ops glob match (📦) and the
+   skill's exit-gate flavor (🛠️), computed from the actual diff and the actual
+   Discovery Notes.
+
+**Outside the ladder entirely.** No rung reaches these, and no flag position
+argues its way past them: the destructive-action escalation (a safety control
+— `--unattended` parks it, never suppresses it), the 🛠️ De-scope drift
+carve-out, and [`SPEC.md`](../SPEC.md) §"Paper-complete guard" in all three
+parts.
+
+### Surface matrix
+
+**Bold** marks a cell the flag does **not** reach. `park-reason:` codes are the
+closed set in [`SPEC/blocked.md`](blocked.md) §"Park reason".
+
+| Surface | Default | `--fast` | `--unattended` |
+|---|---|---|---|
+| 🛠️ Phase 1→2, routine trip | Per flavor ([`SPEC/gates.md`](gates.md) §"Phase 1→2 exit gate") | No-op under `default-skip` — already skipped | Inherited; a firing flavor parks `drift` |
+| 🛠️ Phase 1→2, Re-scope | Fires | Inline ⚠️ notice; the PLAN.md rewrite is still made | Parks `drift` — the notice is a delegation, not inherited |
+| 🛠️ Phase 1→2, De-scope | Fires | **Fires** — drift carve-out | Parks `drift` |
+| 📦 clear signal | Skips (autonomous commit) | Skips | Skips |
+| 📦 privileged-ops signal trip | Fires | Skips; the suppressed signal is named in the marker | Inherited — skips |
+| 📦 bundled in-📦 prompt | Fires | **Fires** | Parks `input-needed` (`/ft-close-epic`: unbundles, defers the flip) |
+| 👁️ `CONFIRM` (Phase 3) | Emphasized inline ask | Suppressed — the present operator owns the check | Parks `visual-confirm` |
+| 🗄️/▶️/📡/💻 destructive escalation | Escalates to a banner | **Escalates** | Parks `destructive` |
+| ✋ `ACTION`, prerequisite | Inline cue; does not block the assistant | Inline cue | Parks `prerequisite` |
+| ✋ `ACTION`, advisory | Inline cue | Inline cue | Recorded; the run continues |
+| Step 1.5 concrete-`[model]` mismatch | STOP + structured ask | STOP + ask | Scaffold, then park `model-mismatch` |
+| Foreign-dirt gate | STOP, write nothing | **STOP** | **STOP**, write nothing — reported machine-readably |
+| Paper-complete guard (all three parts) | Enforced | **Enforced** | **Enforced** |
+| `[unattended]` row marker, no flag passed | Implies `--fast` | — | **Not implied** |
+
+Three readings the matrix forecloses. `--fast` reaches **exactly four**
+surfaces — 📦 force-skip, 👁️ suppression, 🛠️ no-op-for-routine-trips, and the
+Re-scope downgrade — and no fifth. `--unattended` **parks** where it differs; a park is a stop, not a
+wave-through. And a conversion **removes a banner; it never adds one** — no new
+cue glyph is minted anywhere in this table, and the two-banner cap
+([`SPEC/gates.md`](gates.md) §"Operator-gate cues") is untouched.
+
+## `--fast` operator override
+
+Passing `--fast` (or `-f`) is operator-side opt-in for autonomous
+execution on routine runs. It declares an operator who is **present but does
+not want to be asked**, and it touches exactly four surfaces — 📦 force-skip,
+👁️ suppression, a 🛠️ no-op for routine trips, and the Re-scope downgrade to
+an inline notice ([`SPEC/gates.md`](gates.md) §"Phase 1→2 exit gate"). Their per-surface effects, and the
+one lever that outranks the flag (a queued bundled in-📦 prompt), are in
+§"Flag precedence and surface matrix".
+
+**Implied by the `[unattended]` row marker.** A PLAN.md row carrying
+`[unattended]` ([`SPEC.md`](../SPEC.md) §"Task-line format") is the operator's
+declaration that the row is safe to drive with nobody present — so it needs
+no pauses when somebody is. The two runners that accept `--fast` set
+fast-mode from the marker when no flag was passed, and say so inline
+(`⚡ --fast implied by the [unattended] row marker …`). The marker implies
+**only** this flag: it never puts a run in the `--unattended` posture, which
+stays the caller's per-invocation declaration (§"`--unattended` operator
+posture"; [`docs/EXTERNAL-AGENTS.md`](../docs/EXTERNAL-AGENTS.md)) (CORE-536).
+
+Two properties the matrix's rows depend on and this section owns. The 📦
+force-skip is **operator-side de-escalation by explicit input**, distinct from
+the AI-side bidirectional lock in [`SPEC/gates.md`](gates.md) §"Conditional skip rule" — which is why the
+suppressed signal must be named in the marker (e.g., `committing autonomously
+(privileged-ops path touched; suppressed via --fast).`). And the 👁️
+suppression and the Re-scope notice are **delegations, not removed pauses**:
+each hands a check — the visual look, the review of a rewritten plan — to the
+operator standing there. That distinction is the whole hinge of
+§"`--unattended` operator posture" → "What is inherited, and what is not".
+
+**Each delegation is bounded to its own check.** `--fast` suppresses the 👁️
+**ask**, not the phase around it: the targeted tests and the lint / type-check
+on changed code still run, and the operator owns only the visual confirmation.
+Likewise the Re-scope notice delegates the *review* of the rewritten plan, not
+the rewrite — the PLAN.md line and tasknote header are still updated
+([`SPEC/gates.md`](gates.md) §"Phase 1→2 exit gate").
+
+`--fast` applies to `/ft-task` (every flag set, `--loop` included) and
+`/ft-micro-task` — the epic skills (`/ft-epic-discovery`,
+`/ft-close-epic`) do not accept it. `/ft-refactor` has its own,
+unrelated `--fast`: it only skips the operator review pause before
+filing the refactor epic and never touches the 👁️/📦/🛠️ gate surface
+described above.
+
+`--fast` assumes an operator who is present but does not want to be
+asked. For the stronger claim — that no operator is present at all — see
+§"`--unattended` operator posture" below, which supersets this flag's
+**autonomy** while declining the one surface that depends on the operator
+being there.
+
+## `--unattended` operator posture
+
+`--unattended` declares something `--fast` never claims: that **no
+operator is present to answer a gate**. It supersets `--fast`'s autonomy —
+passing it never requires also passing `--fast`, and no gate ever blocks
+waiting for an answer — and it adds exactly one behavior on top. Where
+`--fast` still lets a gate fire, `--unattended` **parks the tasknote**
+instead of firing a banner into an empty session.
+
+**Runtime stays out.** Flowtron ships no orchestrator, scheduler,
+dispatcher, or session daemon (see [`docs/VISION.md`](../docs/VISION.md)
+§"What we won't accept"). This posture is the **contract an orchestrator
+reports to** — the same boundary [`SPEC/loop.md`](loop.md) draws for loop
+runners, widened from one runner to any operator-less caller. Contract in
+flowtron, runtime in the caller.
+
+### What is inherited, and what is not
+
+`--fast`'s four surfaces are not the same kind of thing, and the
+distinction is what this posture turns on. 📦 force-skip and the 🛠️ no-op
+**remove a pause** — the run proceeds and the operator reviews the commit
+afterwards — so both are inherited exactly as written. 👁️ suppression and
+the Re-scope notice **transfer an obligation**: the visual check to *"the
+operator [who] owns the visual-confirmation responsibility on fast-mode
+runs"*, and the review of a rewritten plan to the operator watching it scroll
+by (§"`--fast` operator override"). Neither is inherited; each converts to a
+park (`visual-confirm`, `drift`). The rows are in §"Flag precedence and
+surface matrix".
+
+A transfer needs a transferee. `--unattended` exists to declare there is
+none, so inheriting either delegated surface would inherit a **transfer to
+nobody**: the obligation is not deferred, it is dropped — silently, on the
+one cue [`SPEC/cue-vocabulary.md`](cue-vocabulary.md)
+§"Emphasized inline ask shape" calls the only one that *gates task
+completion*, or on a plan nobody re-read before it executed. Converting them
+costs no autonomy (a park is not a pause) and buys the caller a readable stop.
+
+Stated in one line: **`--unattended` supersets `--fast`'s autonomy, not its
+delegations.**
+
+### Park conversions
+
+Six gates cannot be answered by a caller that is not there. Under
+`--unattended` each converts from *ask and wait* to *park and stop*: the 🛠️
+drift carve-out (`drift`), the destructive-action escalation (`destructive`),
+a prerequisite ✋ `ACTION` (`prerequisite`), the Step 1.5 concrete-model
+mismatch (`model-mismatch`, via §"Pre-scaffold stops"), a queued bundled in-📦
+prompt (`input-needed`), and the Phase 3 👁️ ask (`visual-confirm`). Their
+attended behavior and their conversions are the rows of §"Flag precedence and
+surface matrix"; what follows is why three of them read the way they do.
+
+The 🛠️ conversion parks at the Phase 1→2 boundary because Phase 1 is complete
+and its Discovery is exactly the work worth preserving. The destructive
+conversion generalizes [`SPEC/loop.md`](loop.md) §"Gate collapse" →
+"Destructive-action carve-out" from one runner to the posture. The 👁️ row and
+the Re-scope half of the drift row are the two converting a `--fast`
+*delegation* rather than a surviving gate (§"What is inherited, and what is
+not").
+
+**The 👁️ trigger is the emission condition, not a second judgment.**
+Whenever Phase 3 would emit a 👁️ ask, the run parks with
+`park-reason: visual-confirm — …`. Whether a change needs visual
+confirmation at all is decided upstream, where it always was: a task with no
+rendered surface records the Phase 3 box `N/A`, emits no ask, and never
+parks. There is deliberately **no** gating-vs-corroborating split here — an
+`--fast`-style "the tests probably cover it" judgment is exactly the
+rationalization this conversion exists to remove.
+
+**A passing visual baseline does not convert it either.** The sharper form of
+the argument — that a byte-identical baseline is a recorded human approval
+*replayed* rather than an inference — was raised as CORE-503 and refused. Full
+reasoning: [`SPEC/gate-discipline.md`](gate-discipline.md) §"Refused
+carve-outs".
+
+**The ✋ split is biased conservative — park on doubt.** Same asymmetry as
+the destructive-action predicate: an over-park costs one resume, an
+under-park reaches closure with the prerequisite never performed. "It is
+probably advisory" is the doubt the bias exists to refuse.
+
+### What a park is
+
+The park is [`SPEC/blocked.md`](blocked.md)'s existing parked state,
+entered from a gate rather than from a hard dependency:
+
+- Flip YAML `status:` to `blocked` and the nav chip to `⏸ Blocked`.
+- Record a **structured reason** distinguishing the six stop causes
+  above — a caller reading the tasknote must be able to tell a drift park
+  from a destructive-action park without a transcript. The reason key and
+  its code tokens live in [`SPEC/blocked.md`](blocked.md) §"Park reason".
+- **Stop.** Do not run Phase 3 or Phase 4. The tasknote stays at
+  `.flowtron/tasknote/<TASK-ID>.md`, the PLAN.md line stays unchecked, and
+  Phase 1 plus any partial Phase 2 work is preserved verbatim.
+
+Resume is unchanged: re-running the skill against the parked tasknote
+takes [`SPEC/blocked.md`](blocked.md)'s normal resume path, with an
+operator present to answer the gate that parked it.
+
+**Widening of the mid-Phase-2 scoping.** [`SPEC/blocked.md`](blocked.md)
+scopes `status: blocked` to mid-Phase-2 parking, on the reasoning that *"a
+Phase 1 blocker has no Phase 2 work to preserve."* The 🛠️ conversion parks
+at the **Phase 1→2 boundary**, where Phase 1 *is* complete and its
+Discovery is the work worth preserving — the reasoning holds and the
+scoping widens by one position.
+
+### Pre-scaffold stops
+
+Step 1.5 runs before the tasknote exists, so a "park" there has nothing to
+park. The posture splits by what the stop is *about*:
+
+- **Concrete-model mismatch — scaffold, then park.** A task-level
+  assignment problem, and the tree is known clean (the foreign-dirt gate
+  already passed). Write the tasknote with `status: blocked` and the
+  reason, then halt, so the caller gets the same readable stop surface it
+  gets everywhere else.
+- **Foreign-dirt gate — terminate, write nothing.** Writing a new
+  untracked file into a tree the guard has just refused to touch makes
+  that file its own foreign dirt on the next invocation. Report the dirt
+  and stop.
+- **`## Completed` status gate and archive collision — terminate, write
+  nothing.** Both mean a tasknote for this ID already exists; there is
+  nothing new to park, and scaffolding one would duplicate it.
+
+### What `--unattended` never relaxes
+
+[`SPEC.md`](../SPEC.md) §"Paper-complete guard" holds in full — all three
+parts, with no unattended variant:
+
+1. **Foreign-dirt gate.** An unattended run may report the dirt
+   machine-readably; it may never stash, clean, or commit it.
+2. **Atomic single-commit closure.** Deliverables + PLAN flip + archive
+   move land together or not at all.
+3. **🏁 only with a deliverable-covering SHA.** No operator watching is a
+   reason to hold this line harder, not to relax it — an unnoticed
+   paper-complete is the failure the guard was written for.
+
+`--unattended` removes *pauses*, never *proof*.
+
+### `/ft-close-epic` under the posture
+
+The two runners above are not the whole surface. `/ft-close-epic` drives an
+epic's `.N` audit through closure and then asks whether to flip the parent and
+move the cohort — and that ask is a **bundled in-📦 prompt**, which the
+override in [`SPEC/gates.md`](gates.md) §"Conditional skip rule" makes force-fire. An operator-less caller
+therefore could not close an epic at all: not the audit, not the parent.
+
+The flag reaches it, with two semantics that differ from the runners':
+
+- **It is not a `--fast` superset.** The epic skills never accepted `--fast`,
+  so there is nothing to be a superset of. `--unattended` carries the posture
+  directly — suppress what has no operator, park or terminate what cannot be
+  answered.
+- **The parent-flip is unbundled, not parked.** The audit runs to full
+  closure and commits atomically, exactly as an attended run with clear
+  signals would. The parent-flip prompt is simply **not queued into the 📦
+  bundle**: the parent line stays `[ ]`, the cohort stays nested, and the run
+  reports the deferral machine-readably.
+
+Unbundling preserves the override's *intent* — the question stays unanswered
+by an autonomous run — while removing the coupling that made the audit
+unreachable. Parking instead would strand a verification pass that had no
+unanswered question of its own, and there would be nothing to park: the audit
+note is `completed` and archived by then, and a parked note is *paused, not
+closed* ([`SPEC/blocked.md`](blocked.md) §"Parked state").
+
+The deferred flip needs no `park-reason:` because PLAN.md already states it
+structurally — a parent `- [ ]` above a cohort of `- [x]` children means the
+flip is pending and nothing else. The one conversion that *does* park is the
+Phase 1→2 exit gate, where the audit tasknote exists and the standard recipe
+applies; `/ft-close-epic` runs the `default-fire-on-clarifications` flavor, so
+a clarification it cannot answer parks as `input-needed` — the same "question
+autonomous execution cannot answer" that code already names.
+
+Everything §"What `--unattended` never relaxes" lists holds here in full. The
+audit commit is a **real** commit, so the foreign-dirt gate still terminates
+write-nothing and 🏁 still requires a deliverable-covering SHA.
+
+**Applies to** the two runners `--fast` applies to — `/ft-task`,
+`/ft-micro-task` — plus `/ft-close-epic`, on the terms
+above, and `/ft-file-followup`, on
+[`plan-filing.md`](plan-filing.md) §"Filing commits".
+`/ft-epic-discovery` does not accept it: it opens an epic by filing
+PLAN.md lines from a scoping conversation, and there is no such conversation
+to have with nobody present.

@@ -41,7 +41,8 @@ Checked on every push by the CI `drift` job and at every release cut by
 | Surface | Budget (chars) | Why this number |
 |---|---|---|
 | `SPEC.md` | 57,000 | The always-loaded contract, read in full by every lifecycle skill. Raised from 50,000 to 55,000 by [[CORE-555]]. The 50,000 figure was [[CORE-535.1]]'s *split target* — a destination for [[CORE-535.3]], which landed 49,005 and so left under 1,000 chars of working margin from the day it was set. A target and an operating ceiling are different instruments; this is the latter, sized to hold roughly two substantial contract tasks (see the `gates.md` row for the measured unit). Raised again to 57,000 by [[CORE-558.5]]: [[CORE-558.2]]'s fidelity restore added 2,281 chars, leaving 3,434 of the 5,715 CORE-555 sized in — about 1.3 units, below the two-unit standard. Re-measured across 45 touching commits, a substantial edit here runs +1,127 to +2,957, so the unit itself is unchanged; only the headroom had eroded. |
-| `SPEC/gates.md` | 40,000 | Lazy in principle, per-task in practice: the first conditional gate loads it, and almost every task hits one. Set by [[CORE-535.1]]; brought under by [[CORE-535.5]], which split the cue vocabulary and the discipline prose into their own modules. Raised from 35,000 by [[CORE-555]]. That split deliberately overshot, landing 32,299 with ~2,700 chars of headroom — and a *single* substantial task, [[CORE-536]]'s gate-relaxation pass, consumed 2,567 of it. The old cap was not missing a margin so much as carrying one sized below a single working unit of contract change; 40,000 holds about two. |
+| `SPEC/gates.md` | 25,000 | Lazy in principle, per-task in practice: the first conditional gate loads it, and almost every task hits one. Set by [[CORE-535.1]]; brought under by [[CORE-535.5]], which split the cue vocabulary and the discipline prose into their own modules. Raised from 35,000 by [[CORE-555]]. That split deliberately overshot, landing 32,299 with ~2,700 chars of headroom — and a *single* substantial task, [[CORE-536]]'s gate-relaxation pass, consumed 2,567 of it. The old cap was not missing a margin so much as carrying one sized below a single working unit of contract change; 40,000 holds about two. Lowered to 25,000 by [[CORE-604.2]], which moved the 17,352-byte flag-posture run into `SPEC/gate-postures.md` and left `gates.md` at 20,804: keeping a 40,000 cap over a 21k file would have let the moved material escape the ratchet — the fragment-gaming case §Ledger names — and 25,000 keeps the same ~2 working units the CORE-555 sizing gave it. |
+| `SPEC/gate-postures.md` | 23,000 | The `--fast` / `--unattended` postures and the flag×surface matrix, split out of `gates.md` by [[CORE-604.2]] at 19,029. Budgeted although lazy — it arrives only when a flag or the `[unattended]` row marker is set — because it sat under `gates.md`'s cap before the move, and a split that un-budgets what it moves has gamed the number rather than met it (§Ledger, lazy fragments). Sized like its parent: the file plus ~1.5 working units. |
 | `claude/skills/*/SKILL.md` | 33,000 | One skill body is loaded per task, on top of `SPEC.md`. Set at 30,000 by [[CORE-535.2]], where every shipped skill except `ft-release` passed, so the cap bit on regrowth rather than demanding an unscoped rewrite. Raised to 33,000 by [[CORE-558.5]]: after [[CORE-558.4]]'s restore, `ft-task` measured 29,355 — **645 chars of headroom**, a quarter of one working unit on that body (its own substantial edits run +1,187 to +3,390). That is the same defect [[CORE-555]] corrected on `gates.md`, a margin sized below one edit. 33,000 gives `ft-task` ~1.5 units while `ft-goal-task` (27,140), `ft-epic-discovery` (26,986) and `ft-close-epic` (26,935) stay meaningfully capped. Not the only remedy: [[CORE-556.2]] met the same 685-char squeeze on `ft-release` by extracting a lazy fragment, which is the better move when a body is genuinely overgrown rather than merely near its line. |
 | `claude/skills/ft-release/SKILL.md` | 40,000 | More specific row wins. A release cut is a whole-repo motion whose skill is loaded alone, never alongside a tasknote, and this body is already post-trim ([[CORE-507]] cut it from ~77,000 to 37,274). Budgeted rather than exempted so it still ratchets. |
 
@@ -49,7 +50,8 @@ Checked on every push by the CI `drift` job and at every release cut by
 governs it; every other `SKILL.md` falls under the glob row.
 
 **Not budgeted, deliberately:** `docs/`, archived tasknotes, `tools/`, `viz/`,
-`SPEC/procedures/`, and the lazy `SPEC/` modules other than `gates.md`. None of
+`SPEC/procedures/`, and the lazy `SPEC/` modules other than `gates.md` and
+`gate-postures.md`. None of
 them is loaded to run an ordinary task, so capping them would ration bytes that
 cost nothing. A lazy module that starts arriving on most tasks earns a row here;
 until then it does not.
@@ -103,8 +105,8 @@ not ship.
 
 ### Lazy `SPEC/` modules
 
-`gates.md` 35,910 · `procedures/ft-task.md` 33,964 ·
-`model.md` 17,070 · `gate-discipline.md` 15,367 ·
+`procedures/ft-task.md` 33,964 · `gates.md` 20,804 ·
+`gate-postures.md` 19,029 · `model.md` 17,070 · `gate-discipline.md` 15,367 ·
 `plan-filing.md` 15,263 · `tasknote-selection.md` 15,217 ·
 `cue-vocabulary.md` 15,119 ·
 `blocked.md` 12,052 · `unattended-candidacy.md` 10,597 ·
@@ -127,7 +129,11 @@ ordinary run, which is why neither earns a budget row. [[CORE-595]] split
 PLAN.md-row contracts — filing commits, the `## Completed` stub form, and
 rotation — into `plan-filing.md`; both halves are near-universal (every
 closure loads the stub form) but each is now half the size, so neither is
-close to earning a budget row.
+close to earning a budget row. [[CORE-604.2]] split `gates.md` (35,910 →
+20,804) the same way, moving the `--fast` / `--unattended` postures and the
+flag×surface matrix into `gate-postures.md` (19,029) — genuinely lazy, loaded
+only when a flag or the `[unattended]` row marker is set, and budgeted anyway
+because it was budgeted before it moved.
 
 ### Skill bodies (`SKILL.md` only)
 

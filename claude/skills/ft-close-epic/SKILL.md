@@ -27,7 +27,7 @@ After resolving, Read `<SPEC_DIR>/epic.md` for the canonical lifecycle before dr
 
 **Parse the flag.** Split `args` on whitespace into `(AUDIT-SUBTASK-ID, rest...)`. Initialize `unattended-mode = false`; a `--unattended` token (no short alias) sets it true. Any unrecognized token → surface ``Unknown arg `<arg>`. Usage: `/ft-close-epic <AUDIT-SUBTASK-ID> [--unattended]`.`` and ask via AskUserQuestion whether the user meant `--unattended`, the default flow, or to abort. Do not proceed silently. This skill takes **no `--fast`** — there is none to pass.
 
-When `unattended-mode = true`, Read `<SKILL_DIR>/unattended-close-epic.md`, `<UNATTENDED>`, and `<SPEC_DIR>/blocked.md` now — the first carries this skill's own `--unattended` clauses, the second the posture itself. Start at the fragment's §"Step 0 — Activation marker and what differs"; each step below points back to its own section.
+When `unattended-mode = true`, Read `<SKILL_DIR>/unattended-close-epic.md`, `<UNATTENDED>`, `<SPEC_DIR>/gate-postures.md`, and `<SPEC_DIR>/blocked.md` now — the first carries this skill's own `--unattended` clauses, the second the posture's executable steps, the third its contract. Start at the fragment's §"Step 0 — Activation marker and what differs"; each step below points back to its own section.
 
 ## Step 1 — Pre-flight
 
@@ -225,5 +225,5 @@ Skill-specific next-move shape:
 - **Open-children warn-and-proceed.** Sibling implementation children still open → skill warns and asks (default No bails). Useful for early audits when a child is stuck or deferred.
 - **Audit follow-ups → `/ft-file-followup`.** Misses logged in Implementation Notes as `/ft-file-followup <NEW-ID>` candidates; user invokes per miss after closure (preserves the 50w/70w cap at its natural boundary).
 - **Parent-flip is a prompt, not automatic.** Skill never silently flips. User confirms (default Yes); declines leave cohort nested for a later flip. Under `--unattended` the prompt does not fire at all and the flip is **deferred**, never auto-approved — the irreversible cohort move stays operator-owned in every posture.
-- **`--unattended` is the only flag.** No `--fast` (the epic skills never took one, so there is nothing to be a superset of) and no `--debug`. Contract: SPEC/gates.md §"`/ft-close-epic` under the posture". `/ft-epic-discovery` accepts neither — opening an epic is a scoping conversation, and there is nobody to have it with.
+- **`--unattended` is the only flag.** No `--fast` (the epic skills never took one, so there is nothing to be a superset of) and no `--debug`. Contract: SPEC/gate-postures.md §"`/ft-close-epic` under the posture". `/ft-epic-discovery` accepts neither — opening an epic is a scoping conversation, and there is nobody to have it with.
 - **Auto-wired into adopters.** Symlinked via `claude/skills/ft-new-project/` + `docs/MIGRATION.md` §1.2 + `claude/AGENTS-snippet.md`'s symlink section. Existing adopters pick up on next flowtron version bump.

@@ -192,7 +192,7 @@ done
 ```sh
 printf '%s\n' \
   'docs/EXTERNAL-AGENTS.md|^## Not an Orchestration Runtime|12' \
-  'SPEC/gates.md|^\*\*Runtime stays out\.\*\*|6' \
+  'SPEC/gate-postures.md|^\*\*Runtime stays out\.\*\*|6' \
   'SPEC/loop.md|^## Runtime vs\. contract|12' |
 while IFS='|' read -r file pat n; do
   grep -A"$n" -e "$pat" "$file" | grep -q 'VISION\.md' \

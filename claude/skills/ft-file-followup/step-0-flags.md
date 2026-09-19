@@ -40,7 +40,7 @@ and a starter. Refuse both terminally, in the same shape:
 ```
 
 Every other terminal stop in the host SKILL takes the same
-`⏸ --unattended stop — <cause>: <one line>` shape (`SPEC/gates.md`
+`⏸ --unattended stop — <cause>: <one line>` shape (`SPEC/gate-postures.md`
 §"`--unattended` operator posture" → "Pre-scaffold stops"). `⏸` is the existing
 nav chip, not a new cue glyph; the two-banner cap is untouched.
 
@@ -70,7 +70,7 @@ and the promotion hand-off for the default one. Emit the inline marker
 present to answer a gate**. This skill has three: the Step 2 AskUserQuestion
 collection, the Step 3 review gate, and — inside Step 3 — the reconciliation
 scan's user-confirm. The posture suppresses the first two. It does **not**
-suppress the third: `SPEC/gates.md` §"What `--unattended` never relaxes" holds
+suppress the third: `SPEC/gate-postures.md` §"What `--unattended` never relaxes" holds
 the reconciliation user-confirm, so the scan still runs — and because the
 confirm is unavailable rather than waived, an unconfirmed proposal is reported,
 never applied. What authorizes the Step 4 commit without any operator act is the duty in `SPEC.md`

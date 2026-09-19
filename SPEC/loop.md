@@ -45,7 +45,7 @@ inherit `--fast` semantics (below) without violating the sizing principle.
 
 A loop is autonomous by construction — it cannot pause on a banner and wait
 for the operator between cycles. So a loop task runs with **`--fast`
-semantics** (see [`SPEC/gates.md`](gates.md) §"`--fast` operator override"):
+semantics** (see [`SPEC/gate-postures.md`](gate-postures.md) §"`--fast` operator override"):
 
 - **🛠️ Phase 1→2 gate** — a one-time pre-loop event, unchanged. Discovery
   runs once before the loop starts; the 🛠️ exit gate fires or skips per
@@ -61,7 +61,7 @@ semantics** (see [`SPEC/gates.md`](gates.md) §"`--fast` operator override"):
   `--loop` Acceptance-criterion rule, `claude/skills/ft-task/step-5-loop-mode.md`
   §"Step 4"). Under `--unattended` that
   one-time ask does not vanish — it **parks** with
-  `park-reason: visual-confirm — …`, per [`SPEC/gates.md`](gates.md)
+  `park-reason: visual-confirm — …`, per [`SPEC/gate-postures.md`](gate-postures.md)
   §"`--unattended` operator posture". The per-cycle suppression is unaffected:
   the loop never had an ask to convert.
 

@@ -168,7 +168,7 @@ bundle is an obligation-bearing ask with no banner to inherit from, so it takes
 the same shape. Inside 📦, the banner already carries it.
 
 **Flags are out of scope here.** `--fast` suppresses the ask and
-`--unattended` converts it to a park ([`SPEC/gates.md`](gates.md)
+`--unattended` converts it to a park ([`SPEC/gate-postures.md`](gate-postures.md)
 §"Flag precedence and surface matrix").
 Neither emits an ask, and this section governs only the asks actually
 emitted.

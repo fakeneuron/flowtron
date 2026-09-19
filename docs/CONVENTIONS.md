@@ -73,7 +73,7 @@ Findings at `--audit-level=high` or above are not silently absorbed into the rel
 
 When one rule has to be readable at several points of use, flowtron writes the justification **once** in a canonical section and restates it at each point of use as a **labeled mirror** — a restatement that names the canonical section it mirrors. It does not consolidate the restatements into bare pointers.
 
-The worked example is the no-runtime rule (*contract in flowtron, runtime in the runner*). [VISION.md](VISION.md) §"What we won't accept" carries the justification; [SPEC/scope-boundaries.md](../SPEC/scope-boundaries.md) §"PR / suggestion archetypes flowtron does not accept" carries a terse per-bullet mirror for mid-task discipline; and [`SPEC/loop.md`](../SPEC/loop.md), [`SPEC/gates.md`](../SPEC/gates.md), [EXTERNAL-AGENTS.md](EXTERNAL-AGENTS.md), and [WORKTREES.md](WORKTREES.md) each restate the one rejection that bears on their own surface. Every one of those names VISION.
+The worked example is the no-runtime rule (*contract in flowtron, runtime in the runner*). [VISION.md](VISION.md) §"What we won't accept" carries the justification; [SPEC/scope-boundaries.md](../SPEC/scope-boundaries.md) §"PR / suggestion archetypes flowtron does not accept" carries a terse per-bullet mirror for mid-task discipline; and [`SPEC/loop.md`](../SPEC/loop.md), [`SPEC/gate-postures.md`](../SPEC/gate-postures.md), [EXTERNAL-AGENTS.md](EXTERNAL-AGENTS.md), and [WORKTREES.md](WORKTREES.md) each restate the one rejection that bears on their own surface. Every one of those names VISION.
 
 Two properties make this a convention rather than accumulated duplication:
 

@@ -24,7 +24,7 @@ If neither matches, bail.
 
 Paths this skill uses:
 - SPEC: `<root>SPEC.md` (always loaded core)
-- SPEC_DIR (lazy modules `epic.md` · `model.md`): `<root>SPEC/`
+- SPEC_DIR (lazy modules `epic.md` · `model.md` · `gate-postures.md`): `<root>SPEC/`
 - SKILL_DIR: `<root>claude/skills/ft-micro-task/` (no private fragments)
 - MODEL_EDGE (shared Step 1.5 fragment, owned by `/ft-task`): `<root>claude/skills/ft-task/step-1.5-model-edge.md`
 - UNATTENDED (shared `--unattended` fragment, owned by `/ft-task`): `<root>claude/skills/ft-task/unattended-mode.md`
@@ -39,9 +39,9 @@ Step 1.5 Reads `<SPEC_DIR>/model.md` and `<MODEL_EDGE>` in parallel on its edge-
 - **`--unattended`** (no short alias) → set `unattended-mode = true` **and** `fast-mode = true` — the posture supersets `--fast`'s autonomy, so the operator never passes both (its 👁️ suppression is not inherited, but `/ft-micro-task` emits no separate 👁️ ask, so nothing changes here). Its marker replaces `--fast`'s: `⚡ --unattended active — no operator present: 📦 signal trips suppressed, and the gates an operator-less run cannot answer park the tasknote instead of asking.`
 - **Any other trailing arg** → surface a one-line usage notice (``Unknown arg `<arg>`. Usage: `/ft-micro-task <TASK-ID> [--fast] [--unattended]`.``) and ask via AskUserQuestion whether the user meant `--fast`, `--unattended`, the default flow, or to abort. Do not proceed silently.
 
-`fast-mode` in `/ft-micro-task` targets Step 5's Conditional skip rule — `/ft-micro-task` has no banner-block Phase 1→2 gate and no separate 👁️ ask, so the 📦 fire branch is the only suppressible gate. Default flow (`fast-mode = false`) is byte-identical to the pre-flag skill — see SPEC/gates.md §"Operator-gate cues" for the contract.
+`fast-mode` in `/ft-micro-task` targets Step 5's Conditional skip rule — `/ft-micro-task` has no banner-block Phase 1→2 gate and no separate 👁️ ask, so the 📦 fire branch is the only suppressible gate. Default flow (`fast-mode = false`) is byte-identical to the pre-flag skill — see SPEC/gates.md §"Operator-gate cues" for the contract. **When `fast-mode = true`, Read `<SPEC_DIR>/gate-postures.md` now** — the flag's own contract is its §"`--fast` operator override".
 
-`unattended-mode` is the operator-less posture. **When it is true, Read `<UNATTENDED>` now** (and `<SPEC_DIR>/blocked.md` alongside it, since every conversion writes a park); it carries the park recipe, the conversion map keyed to *this* skill's step numbers, and the pre-scaffold stop split. Branches reference it at Step 1, Step 1.5, Step 3, and Step 5. Contract: SPEC/gates.md §"`--unattended` operator posture".
+`unattended-mode` is the operator-less posture. **When it is true, Read `<UNATTENDED>` now** (and `<SPEC_DIR>/gate-postures.md` + `<SPEC_DIR>/blocked.md` alongside it — the posture's contract, and the `park-reason:` codes every conversion writes); it carries the park recipe, the conversion map keyed to *this* skill's step numbers, and the pre-scaffold stop split. Branches reference it at Step 1, Step 1.5, Step 3, and Step 5. Contract: SPEC/gate-postures.md §"`--unattended` operator posture".
 
 ## Step 1 — Locate the task in PLAN.md and pre-flight
 
@@ -49,7 +49,7 @@ Read PLAN.md. Find the line containing `**<TASK-ID>**`. If the ID isn't in PLAN.
 
 **Status gate (non-negotiable).** Re-read the PLAN.md line. If it is checked (`- [x]`) or lives under `## Completed`, stop. The task is already closed. Surface the conflict and ask whether the user meant a different ID. Do this check by re-reading the PLAN.md line — never infer status from prior conversation context.
 
-**`[unattended]` row marker.** If the line carries `[unattended]` (after `[model]`) and no `--fast` / `--unattended` flag was passed, set `fast-mode = true` and emit `⚡ --fast implied by the [unattended] row marker — 📦 signal trips suppressed at Step 5; the --unattended posture is not implied.` The marker never sets `unattended-mode`. Contract: SPEC/gates.md §"`--fast` operator override" → "Implied by the `[unattended]` row marker".
+**`[unattended]` row marker.** If the line carries `[unattended]` (after `[model]`) and no `--fast` / `--unattended` flag was passed, set `fast-mode = true` and emit `⚡ --fast implied by the [unattended] row marker — 📦 signal trips suppressed at Step 5; the --unattended posture is not implied.` Then **Read `<SPEC_DIR>/gate-postures.md` now** — Step 0's flag walk did not load it. The marker never sets `unattended-mode`. Contract: SPEC/gate-postures.md §"`--fast` operator override" → "Implied by the `[unattended]` row marker".
 
 Otherwise, capture from the line:
 
@@ -142,7 +142,7 @@ Run the protocol per SPEC §"Post-closure protocol" + §"Paper-complete guard", 
 
   After commit + deliverable-covering check, same continuous flow as the skip branch's post-commit tail.
 
-**`--fast` / `--unattended` overrides.** Both are canonical in SPEC/gates.md §"Conditional skip rule": `--fast` forces Skip regardless of signal trips (naming the suppressed signals in the marker), and `--unattended` inherits that but parks with `park-reason: input-needed — …` per `<UNATTENDED>` §"Conversion map" when a bundled in-📦 prompt is queued. The paper-complete guard is not suppressed by either flag.
+**`--fast` / `--unattended` overrides.** Both are canonical in SPEC/gates.md §"Conditional skip rule" → Flag overrides and SPEC/gate-postures.md §"Flag precedence and surface matrix": `--fast` forces Skip regardless of signal trips (naming the suppressed signals in the marker), and `--unattended` inherits that but parks with `park-reason: input-needed — …` per `<UNATTENDED>` §"Conversion map" when a bundled in-📦 prompt is queued. The paper-complete guard is not suppressed by either flag.
 
 Skill-specific:
 - **Commit message:** `feat: <TASK-ID> — <title>` (or `fix:` / `docs:` / `chore:`). Scaffold + closure typically bundle into one commit alongside the code/doc change.

@@ -1,10 +1,10 @@
 # `--unattended` on `/ft-close-epic` — skill-specific deltas (executable steps)
 
-> Lazy-loaded SKILL fragment. Loaded by `ft-close-epic` SKILL.md Step 0 when `unattended-mode = true`, alongside the **shared** `<UNATTENDED>` fragment (`claude/skills/ft-task/unattended-mode.md`) and `<SPEC_DIR>/blocked.md`. Carries every `--unattended`-only clause this skill sites at a step; the shared fragment carries the posture itself (park recipe, conversion map, pre-scaffold stop shape, never-relaxed list) and its own §"`/ft-close-epic`" summary of what this skill shares and differs on. Read that one for the posture, this one for where each rule lands in the run.
+> Lazy-loaded SKILL fragment. Loaded by `ft-close-epic` SKILL.md Step 0 when `unattended-mode = true`, alongside the **shared** `<UNATTENDED>` fragment (`claude/skills/ft-task/unattended-mode.md`), `<SPEC_DIR>/gate-postures.md`, and `<SPEC_DIR>/blocked.md`. Carries every `--unattended`-only clause this skill sites at a step; the shared fragment carries the posture itself (park recipe, conversion map, pre-scaffold stop shape, never-relaxed list) and its own §"`/ft-close-epic`" summary of what this skill shares and differs on. Read that one for the posture, this one for where each rule lands in the run.
 >
 > The `<UNATTENDED>` and `<SPEC_DIR>` path bindings referenced below are resolved in `ft-close-epic` SKILL.md Step 0.
 >
-> **The contract lives in [`SPEC/gates.md`](../../../SPEC/gates.md) §"`--unattended` operator posture" → "`/ft-close-epic` under the posture"** — this fragment is its executable interpretation for this skill, not a second copy.
+> **The contract lives in [`SPEC/gate-postures.md`](../../../SPEC/gate-postures.md) §"`--unattended` operator posture" → "`/ft-close-epic` under the posture"** — this fragment is its executable interpretation for this skill, not a second copy.
 
 ## Step 0 — Activation marker and what differs
 
@@ -12,7 +12,7 @@ On activation, emit:
 
 `⚡ --unattended active — no operator present: the audit closes and commits autonomously, and the parent-flip is deferred rather than answered. Gates that cannot be answered park or terminate.`
 
-The posture's contract is [`SPEC/gates.md`](../../../SPEC/gates.md) §"`--unattended` operator posture" → "`/ft-close-epic` under the posture". Two things differ from the three runners, and both matter below: the flag is **not** a `--fast` superset here (the epic skills never accepted `--fast`), and the Step 8/9 parent-flip is **unbundled and deferred**, not parked. Everything §"What `--unattended` never relaxes" lists holds in full — the audit commit is a real commit.
+The posture's contract is [`SPEC/gate-postures.md`](../../../SPEC/gate-postures.md) §"`--unattended` operator posture" → "`/ft-close-epic` under the posture". Two things differ from the three runners, and both matter below: the flag is **not** a `--fast` superset here (the epic skills never accepted `--fast`), and the Step 8/9 parent-flip is **unbundled and deferred**, not parked. Everything §"What `--unattended` never relaxes" lists holds in full — the audit commit is a real commit.
 
 ## Steps 1-2 — Pre-scaffold stops
 
@@ -46,7 +46,7 @@ The **foreign-dirt gate is not relaxed** — it terminates and writes nothing, i
 
 ## Step 9 — Post-closure protocol
 
-**When `unattended-mode = true`, the override does not apply** — the prompt was never queued (Step 8). The 📦 gate evaluates against the audit closure diff **alone**, which for a typical audit is signals-clear → Skip branch → autonomous commit. Unbundling preserves the override's intent (the question stays unanswered by an autonomous run) while letting the audit close, which is the whole point of the posture reaching this skill; see SPEC/gates.md §"`/ft-close-epic` under the posture". Stage the audit deliverables + the `.N` PLAN stub flip + the archive move — **never** the parent flip or the cohort move. Then, after the 🏁 marker and its real deliverable-covering SHA, emit the deferral on its own line:
+**When `unattended-mode = true`, the override does not apply** — the prompt was never queued (Step 8). The 📦 gate evaluates against the audit closure diff **alone**, which for a typical audit is signals-clear → Skip branch → autonomous commit. Unbundling preserves the override's intent (the question stays unanswered by an autonomous run) while letting the audit close, which is the whole point of the posture reaching this skill; see SPEC/gate-postures.md §"`/ft-close-epic` under the posture". Stage the audit deliverables + the `.N` PLAN stub flip + the archive move — **never** the parent flip or the cohort move. Then, after the 🏁 marker and its real deliverable-covering SHA, emit the deferral on its own line:
 
 ```markdown
 ⏸ --unattended stop — parent-flip: <AREA>-EPIC-<NUMBER> eligible; all <M> children [x]. Cohort left nested under `## <Priority>`. Flip manually or re-run attended.

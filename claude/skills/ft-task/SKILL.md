@@ -20,7 +20,7 @@ If neither matches, bail.
 
 Paths this skill uses:
 - SPEC: `<root>SPEC.md` (always loaded core)
-- SPEC_DIR (lazy modules `epic.md` · `starter.md` · `blocked.md` · `model.md` · `loop.md` · `versioning.md`): `<root>SPEC/`
+- SPEC_DIR (lazy modules `epic.md` · `starter.md` · `blocked.md` · `model.md` · `loop.md` · `versioning.md` · `gate-postures.md`): `<root>SPEC/`
 - SKILL_DIR (lazy fragments `step-0-flags.md` · `step-1.5-model-edge.md` and `unattended-mode.md` — both shared, also loaded by `/ft-micro-task` — · `step-3a-promote-starter.md` · `step-3c-resume-blocked.md` · `step-4-debug-mode.md` · `step-5-loop-mode.md`): `<root>claude/skills/ft-task/`
 - Template: `<root>templates/tasknote-template.md`
 - PLAN: `.flowtron/PLAN.md`, tasknote dir: `.flowtron/tasknote/` (always)
@@ -47,7 +47,7 @@ Otherwise, capture:
 - The one-line long description (everything after ` — `; may be empty)
 - The section heading the line lives under (`High` / `Medium` / `Low` / `Future Opportunities`) — this is the task's **Priority**
 - The optional `[!critical]` segment — sets the urgency flag (orthogonal to priority; floats the row to the top of High). Legacy `## Critical` sections are soft-migrated to `priority: 'High'` with the flag implicit (see SPEC §"Task-line format").
-- The optional `[unattended]` marker (after `[model]`). **When present and no `--fast` / `--unattended` flag was passed**, set `fast-mode = true` and emit `⚡ --fast implied by the [unattended] row marker — same suppressions as --fast; the --unattended posture is not implied.` The marker never sets `unattended-mode`; under an explicit `--unattended` it changes nothing. Contract: SPEC/gates.md §"`--fast` operator override" → "Implied by the `[unattended]` row marker".
+- The optional `[unattended]` marker (after `[model]`). **When present and no `--fast` / `--unattended` flag was passed**, set `fast-mode = true` and emit `⚡ --fast implied by the [unattended] row marker — same suppressions as --fast; the --unattended posture is not implied.` Then **Read `<SPEC_DIR>/gate-postures.md` now** — Step 0's flag walk did not run, so this branch loads the posture contract itself. The marker never sets `unattended-mode`; under an explicit `--unattended` it changes nothing. Contract: SPEC/gate-postures.md §"`--fast` operator override" → "Implied by the `[unattended]` row marker".
 
 The full task-line grammar is `- [ ] **TASK-ID** [!critical] [model] [unattended] [handoff] | shortname — long description`; all of `[!critical]`, `[model]`, `[unattended]`, `[handoff]`, and `| shortname` are optional. `[handoff]` changes nothing on an attended run — capture nothing from it. See SPEC §"Task-line format" for the canonical grammar.
 
@@ -175,7 +175,7 @@ Run the three-step protocol (commit / suggest next move / copy-paste line) per S
 - **Skip branch** (signals clear, no bundled in-📦 prompt) — run that section's **autonomous-commit motion** end to end, naming the cleared signal in its marker as diff facts (e.g., `4 markdown files; no privileged-ops surface`). Before 🏁, verify `git show --name-only` covers the deliverables; never invent a SHA.
 - **Fire branch** (privileged-ops signal hits OR bundled in-📦 prompt queued) — run its **bundled-approval motion**: surface the 📦 gate and wait for commit-go (SPEC/cue-vocabulary.md §"Accepted gate replies"). The 🏁 marker — carrying a 1-2 sentence accomplishment summary — plus next-move and copy-paste land only in the later post-commit response.
 
-**`--fast` / `--unattended` overrides.** Both are canonical in SPEC/gates.md §"Conditional skip rule" and the two posture sections it names: `--fast` forces Skip regardless of signal trips (naming the suppressed signals in the marker), and `--unattended` inherits that but parks with `park-reason: input-needed — …` per `<SKILL_DIR>/unattended-mode.md` §"Conversion map" when a bundled in-📦 prompt is queued, since neither an autonomous commit nor a banner can answer it. Two things neither flag reaches: the Step 4 drift carve-out upstream, and the paper-complete guard here — 🏁 still requires a real deliverable-covering SHA.
+**`--fast` / `--unattended` overrides.** Both are canonical in SPEC/gates.md §"Conditional skip rule" → Flag overrides and the two posture sections of SPEC/gate-postures.md: `--fast` forces Skip regardless of signal trips (naming the suppressed signals in the marker), and `--unattended` inherits that but parks with `park-reason: input-needed — …` per `<SKILL_DIR>/unattended-mode.md` §"Conversion map" when a bundled in-📦 prompt is queued, since neither an autonomous commit nor a banner can answer it. Two things neither flag reaches: the Step 4 drift carve-out upstream, and the paper-complete guard here — 🏁 still requires a real deliverable-covering SHA.
 
 Skill-specific:
 - Suggest-next-move: run SPEC §"Post-closure protocol" step 2 as written — the **fresh PLAN.md re-read** (never the Step 1 cached parse), the unchecked-and-open-section verification that drops failing candidates, the **PLAN exhausted (terminal)** form when none survives, the emoji-primary-label print, and the 🔍 prefix on `/ft-audit*` candidates. On the terminal form, skip the copy-paste line below: there is nothing to run after a clear.
