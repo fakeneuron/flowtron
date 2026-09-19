@@ -15,12 +15,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-612** [light]🔧 | caobunga-commit-type — Commit `71e5051` uses `caobunga:` as a type; `docs/CONVENTIONS.md:17` lists only `feat/fix/chore/docs`. Either name it there as the orchestrator-only type or have the orchestrator emit `chore:`. Surfaced by audit-repo 2026-09-19 (Theme: prose-only rules).
-
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-612** [light]🔧 | caobunga-commit-type — Completed 2026-09-19.
 - [x] **CORE-EPIC-610** [heavy]🧠 | archive-closure-integrity — Completed 2026-09-19.
   - [x] **CORE-610.2** [medium]🧩 | archived-tasknote-integrity-check — Completed 2026-09-19.
   - [x] **CORE-610.3** [light]🔧 | closure-tick-through-executable — Completed 2026-09-19.
