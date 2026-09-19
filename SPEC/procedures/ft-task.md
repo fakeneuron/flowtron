@@ -441,7 +441,17 @@ time (Step 6).
   `[x] **<TASK-ID>** [model] | shortname — Completed YYYY-MM-DD.`. For a
   standalone task, move the row to the top of `## Completed`; for an epic
   child, preserve its 2-space nesting beneath the active parent in the current
-  priority section until `/ft-close-epic` moves the whole cohort. Move the tasknote to
+  priority section until `/ft-close-epic` moves the whole cohort. **Verify
+  before moving.** Immediately before that move, mechanically confirm rather
+  than recall: `grep -q '^status: completed$'` on the tasknote succeeds, and
+  no line under `## ✅ Acceptance` reads a bare `- [ ]` without an `N/A` or
+  `not[ -]met` token — the same idiom
+  [`claude/skills/ft-release/step-7.1-mirror-pairs.md`](../../claude/skills/ft-release/step-7.1-mirror-pairs.md)
+  Pair P runs post-hoc across the whole archive, run once here on the single
+  note first. A dirty result means the status flip or an Acceptance
+  annotation is still outstanding — fix it and re-check rather than moving.
+  Applies identically under autonomous and unattended mode; neither relaxes
+  it. Move the tasknote to
   `.flowtron/tasknote/archive/<area>/<TASK-ID>.md` — but only when deliverable
   paths are ready to stage in the **same** atomic closure commit (do not flip
   if you cannot proceed to commit). Ban collateral Completed flips. Draft an
