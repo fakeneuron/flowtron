@@ -46,16 +46,20 @@ Checked on every push by the CI `drift` job and at every release cut by
 | `SPEC/post-closure.md` | 12,000 | The three post-archive steps — commit decision, 🏁 marker plus next-move suggestion, copy-paste line — split out of `SPEC.md` by [[CORE-607]] at 7,823. Budgeted although lazy — it arrives only at a closing runner's final step, once the tasknote is archived — because it sat under `SPEC.md`'s cap before the move, and a split that un-budgets what it moves has gamed the number rather than met it (the `gate-postures.md` rule). Sized like its siblings: the file plus ~1.5 working units. |
 | `claude/skills/*/SKILL.md` | 33,000 | One skill body is loaded per task, on top of `SPEC.md`. Set at 30,000 by [[CORE-535.2]], where every shipped skill except `ft-release` passed, so the cap bit on regrowth rather than demanding an unscoped rewrite. Raised to 33,000 by [[CORE-558.5]]: after [[CORE-558.4]]'s restore, `ft-task` measured 29,355 — **645 chars of headroom**, a quarter of one working unit on that body (its own substantial edits run +1,187 to +3,390). That is the same defect [[CORE-555]] corrected on `gates.md`, a margin sized below one edit. 33,000 gives `ft-task` ~1.5 units while `ft-goal-task` (27,140), `ft-epic-discovery` (26,986) and `ft-close-epic` (26,935) stay meaningfully capped. Not the only remedy: [[CORE-556.2]] met the same 685-char squeeze on `ft-release` by extracting a lazy fragment, which is the better move when a body is genuinely overgrown rather than merely near its line. |
 | `claude/skills/ft-release/SKILL.md` | 40,000 | More specific row wins. A release cut is a whole-repo motion whose skill is loaded alone, never alongside a tasknote, and this body is already post-trim ([[CORE-507]] cut it from ~77,000 to 37,274). Budgeted rather than exempted so it still ratchets. |
+| `SPEC/procedures/ft-task.md` | 38,000 | The always-loaded runner body for Codex/Cursor/Grok tasks — this project's non-Claude equivalent of `claude/skills/ft-task/SKILL.md`, read in full on every such task's cold start. Previously fell under this table's "not loaded to run an ordinary task" exemption, which reasoned from Claude's own load path (where `SKILL.md` is the loaded surface) rather than the full set of runners this repo supports. Budgeted at 38,000 by [[CORE-608]], sized like its lazy-but-near-universal siblings: the file at 34,565 chars plus ~1.5 working units, the same sizing rule `gate-postures.md`'s row uses. |
 
 **Precedence:** the most specific matching row wins. `ft-release`'s own row
 governs it; every other `SKILL.md` falls under the glob row.
 
 **Not budgeted, deliberately:** `docs/`, archived tasknotes, `tools/`, `viz/`,
-`SPEC/procedures/`, and the lazy `SPEC/` modules other than `gates.md`,
-`gate-postures.md`, and `post-closure.md`. None of
-them is loaded to run an ordinary task, so capping them would ration bytes that
-cost nothing. A lazy module that starts arriving on most tasks earns a row here;
-until then it does not.
+and the lazy `SPEC/` modules other than `gates.md`, `gate-postures.md`,
+`post-closure.md`, and `SPEC/procedures/ft-task.md`. None of them is loaded to
+run an ordinary *Claude* task, so capping them would ration bytes that cost
+nothing there — but that framing is scoped to Claude's own load path:
+`SPEC/procedures/ft-task.md` is the always-loaded runner body on the
+Codex/Cursor/Grok path, which is why it earns its own row above rather than
+falling under this exemption. A lazy module that starts arriving on most
+tasks (on any supported runner) earns a row here; until then it does not.
 
 ## Known over budget
 
