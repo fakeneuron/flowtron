@@ -60,7 +60,7 @@ Bundled flowtron skills carry the `ft-` prefix in their slug (`/ft-task`,
 `/ft-release`, `/ft-new-project`,
 `/ft-micro-task`, `/ft-file-followup`, `/ft-epic-discovery`,
 `/ft-close-epic`, `/ft-refactor`,
-`/ft-update`, and the audit family
+`/ft-seed`, `/ft-update`, and the audit family
 `/ft-audit{,-repo}`). The prefix
 reserves the `ft-` slug namespace for flowtron-owned skills so adopter
 projects can drop the bundle into `.claude/` without shadowing their own

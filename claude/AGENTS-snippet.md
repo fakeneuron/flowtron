@@ -22,6 +22,7 @@ This project uses **flowtron** for task tracking. The canonical workflow contrac
 - For bugs and unexpected behavior, `/ft-task <TASK-ID> --debug` adds a hypothesis-first cadence (expected/observed → ranked hypotheses → minimal repro → re-verify) inside Phase 1 Discovery, plus a Phase 3 obligation to re-run that exact repro after the fix. Soft scaffolding, not a gate; composes with `--fast` in either order.
 - When a task is driven by an orchestrator or headless session with **no operator present**, add `--unattended` (on `/ft-task`, `/ft-micro-task`, or `/ft-close-epic`): gates nobody is there to answer **park** the tasknote (`status: blocked` plus a machine-readable `park-reason:` code) instead of firing a banner into an empty session. Never pass it together with `--fast`. What it supersets, what it never relaxes, and the per-gate conversion map: `.flowtron/core/SPEC/gate-postures.md` §"`--unattended` operator posture".
 - For converge-until-a-check-passes work (a suite going green, a metric crossing a threshold), `/ft-task <TASK-ID> --loop` runs the Phase 2↔3 execute→verify cycle as an inline loop against a machine-checkable Acceptance target. Loop budget, per-cycle relevance gate, and autonomy semantics: `.flowtron/core/SPEC/loop.md`. The recurring-maintenance (heartbeat) shape ships as `.flowtron/core/templates/loop-heartbeat-template.md`.
+- To seed `[unattended]` across a plan that predates per-row candidacy: `/ft-seed` — walks every open PLAN.md row with the candidacy predicate, shows the candidates inside one review gate, and writes the marker only on the rows you keep. Flowtron never writes it unconfirmed. Contract: `.flowtron/core/SPEC/unattended-candidacy.md` §"Seeding an existing plan".
 - To bump the flowtron version pin: `/ft-update` — shows the current→target changelog, moves the submodule, adds symlinks for any newly shipped skills, runs a smoke check, and stages the commit.
 - Before filing, a design worked out in conversation can be captured as a review-first spec: copy `.flowtron/core/templates/spec-template.md` to `.flowtron/specs/<slug>.md` and fill its six sections. A spec never files a PLAN.md line or scaffolds a tasknote. When to reach for one: `.flowtron/core/SPEC/tasknote-selection.md` §"When to use a tasknote (and when not to)".
 - `/ft-refactor <target> [--fast]` plans a behavior-preserving refactor of one named file, module, or subsystem: a read-only depth survey, then — on your go — an epic of starter-seeded children run through normal `/ft-task` cycles. It never edits source. When to reach for it: `.flowtron/core/SPEC/tasknote-selection.md` §"When to use a tasknote (and when not to)".
@@ -103,11 +104,13 @@ ln -s ../../.flowtron/core/claude/commands/ft-update.md       .claude/commands/f
 ln -s ../../.flowtron/core/claude/skills/ft-update            .claude/skills/ft-update
 ln -s ../../.flowtron/core/claude/commands/ft-refactor.md     .claude/commands/ft-refactor.md
 ln -s ../../.flowtron/core/claude/skills/ft-refactor          .claude/skills/ft-refactor
+ln -s ../../.flowtron/core/claude/commands/ft-seed.md         .claude/commands/ft-seed.md
+ln -s ../../.flowtron/core/claude/skills/ft-seed              .claude/skills/ft-seed
 ```
 
 The relative paths are intentional — they survive `git clone` and pin to whichever flowtron commit the submodule is checked out at. Commit the symlinks (`git add .claude/`).
 
-This snippet wires the adopter-installed subset: tasknote family and `/ft-update`. Global utilities live in the user's agent home when desired; `/ft-release` is flowtron-self-only.
+This snippet wires the adopter-installed subset: tasknote family, `/ft-seed`, and `/ft-update`. Global utilities live in the user's agent home when desired; `/ft-release` is flowtron-self-only.
 
 To verify Claude Code wiring: invoke `/ft-task` in a fresh Claude Code session. The command should appear in the menu (alongside the other wired adopter-subset skills) with the description from `commands/ft-task.md`. For Codex, use the sibling `codex/AGENTS-snippet.md` wiring and invoke the skill through `/skills` or `$ft-task`. For Cursor, Claude wiring is already enough (Cursor loads `.claude/skills/` as a compatibility surface); Cursor-only projects use the sibling `cursor/AGENTS-snippet.md` instead. For Grok, Claude, Codex, or Cursor wiring is already enough (Grok loads those dirs as compatibility surfaces); Grok-only projects use the sibling `grok/AGENTS-snippet.md` instead.
 

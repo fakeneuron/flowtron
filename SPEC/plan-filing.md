@@ -11,11 +11,12 @@ rotation" (how closed rows leave the plan file without being deleted).
 
 The filing motions — `/ft-file-followup` (default flow), its `--park`
 and `--starter` modes, `/ft-audit`, and `/ft-refactor` — **commit their own
-filing** at hand-off. Filing approval *is* commit authorization: the operator
+filing** at hand-off, and `/ft-seed`, which edits existing rows rather than
+filing new ones, commits its write under the same contract. Filing approval *is* commit authorization: the operator
 already confirmed at the review gate (follow-up / starter), by passing the park
 flag and answering the priority question (park mode), at `/ft-audit`'s
-write-step confirmation (tickets plus any inline fixes), or at `/ft-refactor`'s
-plan-review confirmation, and a second commit-go ask buys nothing. Left uncommitted, a filing carries into the next session
+write-step confirmation (tickets plus any inline fixes), at `/ft-refactor`'s
+plan-review confirmation, or at `/ft-seed`'s review gate, and a second commit-go ask buys nothing. Left uncommitted, a filing carries into the next session
 as working-tree dirt — which `SPEC.md` §"Paper-complete guard" then converts
 into a hard stop at the next `/ft-task` entry, so the filing's cost lands on a
 later, unrelated task.
@@ -29,6 +30,7 @@ Message shape, one per filing motion:
 | `/ft-file-followup --starter` | `chore: file <ID> starter — <shortname>` |
 | `/ft-audit` | `chore: audit file tickets — <domain>` |
 | `/ft-refactor` | `chore: file <AREA>-EPIC-<N> refactor plan — <shortname>` |
+| `/ft-seed` | `chore: seed [unattended] — <N> rows` |
 
 Rules:
 

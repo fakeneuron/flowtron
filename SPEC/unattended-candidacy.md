@@ -1,6 +1,6 @@
 # `[unattended]` candidacy
 
-> Lazy-loaded SPEC module. Read by a filing surface at its write step — the moment it is about to write a `- [ ]` row into `PLAN.md` — and by a runner whose closure discharged a deferred step through `/ft-file-followup --unattended`. Not needed to run a task. See `SPEC.md` for the always-loaded core spec.
+> Lazy-loaded SPEC module. Read by a filing surface at its write step — the moment it is about to write a `- [ ]` row into `PLAN.md` — by `/ft-seed` before it walks an existing plan, and by a runner whose closure discharged a deferred step through `/ft-file-followup --unattended`. Not needed to run a task. See `SPEC.md` for the always-loaded core spec.
 
 The `[unattended]` marker ([`SPEC.md`](../SPEC.md) §"Task-line format") is
 scarce for an accidental reason: nothing in the filing flow ever asks whether
@@ -124,6 +124,30 @@ becomes a write on either, and the difference between them is only where the
 line is recorded. A surface that accepts neither flag has only the attended
 branch.
 
+## Seeding an existing plan
+
+Candidacy fires at the write step, so a row filed before this module existed,
+or by hand, was never proposed and stays unmarked until someone edits the
+line. `/ft-seed` is the bulk path for those rows: an **attended, flagless**
+walk of every open row in the four active `PLAN.md` sections that applies the
+predicate above to each row *as it stands in the file* — the existing line is
+the drafted line — and shows every candidate, token in place, inside **one**
+prose review gate. The operator's reply is the act; the token is written only
+on the rows the reply keeps, after `[model]` with every other byte verbatim,
+and the write commits under [`SPEC/plan-filing.md`](plan-filing.md)
+§"Filing commits".
+
+Nothing in §"Recommend, never write" bends for it. The skill accepts neither
+`--fast` nor `--unattended` — remove its gate and it is a report, which the
+filers already emit as `unattended-candidates:` — so it never writes a token
+nobody confirmed and never emits that line. It seeds and never repairs: a row
+already carrying the token is skipped wherever the token sits, a `[handoff]`
+row is skipped under clause 3, and a mis-positioned marker is named in the
+report for a hand edit, not rewritten. Clause 6 reads the plan itself: a
+`.k` child qualifies when its stem predecessor is already `- [x]` or is a
+candidate in the same walk, so a declined chain head declines the chain. A
+second run is idempotent — it offers only what the first run did not seed.
+
 ## Persistence
 
 A terminal line is not durable ([`SPEC.md`](../SPEC.md) §"🚀 Phase 4:
@@ -175,6 +199,7 @@ fails that check.
 | `/ft-refactor` | Step 5 | Step 4 structured-ask review; own `--fast` → emit only | [[CORE-577.5]] |
 | `/ft-audit-repo` §6 | milestone write | write-confirm structured ask | [[CORE-577.6]] |
 | `/ft-task` · `/ft-micro-task` · `/ft-close-epic` | — | not filers; carry the §"Persistence" hook only | [[CORE-577.4]] |
+| `/ft-seed` | Step 4 (existing rows, bulk) | Step 3 prose review — the skill's only gate; no flags, attended only (§"Seeding an existing plan") | [[CORE-619]] |
 
 Adopter forks of `ft-audit` (`.claude/skills/audit/`) pick the mirror up only
 through `/ft-update`'s fork refresh; until then a fork files as before —

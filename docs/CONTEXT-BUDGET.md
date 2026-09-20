@@ -173,8 +173,8 @@ moved bytes widen the core's headroom.
 
 ft-release 31,678 · ft-epic-discovery 29,174 · ft-task 28,015 · ft-close-epic
 27,350 · ft-audit 27,165 · ft-file-followup 26,177 · ft-micro-task 20,755 ·
-ft-update 16,410 · ft-refactor 16,042 · ft-new-project 11,522 · ft-audit-repo
-9,886.
+ft-update 16,410 · ft-refactor 16,042 · ft-seed 12,313 · ft-new-project 11,522 ·
+ft-audit-repo 9,886.
 
 `ft-goal-task`, `ft-spec`, `ft-starter-task`, `ft-worktree-start`, and
 `ft-worktree-end` were retired at v5.27.0 (CORE-570/571/572/573), folded into
@@ -192,7 +192,7 @@ it.
 
 ### Adopter-side always-loaded
 
-`claude/AGENTS-snippet.md` 15,062 (pasted into the adopter's `AGENTS.md`) ·
+`claude/AGENTS-snippet.md` 15,614 (pasted into the adopter's `AGENTS.md`) ·
 `templates/tasknote-README.md` 4,837 · `templates/PLAN.md` 3,048.
 
 ## How this is enforced

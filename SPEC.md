@@ -117,8 +117,10 @@ runs a conservative predicate over the drafted line and, when attended, shows
 the candidates inside the confirm gate it already has — the operator's
 confirmation is the act, and the token is written only on confirmed rows.
 Under `--fast` / `--unattended` there is no act, so the filer emits an
-`unattended-candidates:` line and writes no token. Predicate, postures,
-persistence, and the per-surface mirror table:
+`unattended-candidates:` line and writes no token. Rows filed before or
+without that proposal are seeded in bulk through `/ft-seed` — one attended
+walk, one gate, the same predicate. Predicate, postures, persistence, bulk
+seeding, and the per-surface mirror table:
 [`SPEC/unattended-candidacy.md`](SPEC/unattended-candidacy.md).
 
 Parser tolerances, the `[unattended]` / `[handoff]` footguns, excluded shapes, the legacy
@@ -731,8 +733,9 @@ cohesion check against active PLAN entries, behind a user-confirm gate).
 What happens to a PLAN.md row *after* it is filed lives in the sibling
 [`SPEC/plan-filing.md`](SPEC/plan-filing.md): the filing-commit contract (the
 five filing motions — follow-up, park, starter, `/ft-audit`, and `/ft-refactor`
-— auto-commit at hand-off since filing approval *is* commit authorization;
-execution skills keep their commit-go gate), the `## Completed` archive stub-form convention,
+— auto-commit at hand-off since filing approval *is* commit authorization,
+and `/ft-seed`'s row edits ride the same contract; execution skills keep
+their commit-go gate), the `## Completed` archive stub-form convention,
 and the `## Completed` rotation bound (the oldest rows spill verbatim to
 `.flowtron/PLAN-ARCHIVE.md` on an operator motion; advisory only, nothing
 deleted).

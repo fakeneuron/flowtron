@@ -52,6 +52,7 @@ ln -s ../../.flowtron/core/claude/skills/ft-epic-discovery .grok/skills/ft-epic-
 ln -s ../../.flowtron/core/claude/skills/ft-file-followup .grok/skills/ft-file-followup
 ln -s ../../.flowtron/core/claude/skills/ft-micro-task .grok/skills/ft-micro-task
 ln -s ../../.flowtron/core/claude/skills/ft-refactor .grok/skills/ft-refactor
+ln -s ../../.flowtron/core/claude/skills/ft-seed .grok/skills/ft-seed
 ln -s ../../.flowtron/core/claude/skills/ft-task .grok/skills/ft-task
 ln -s ../../.flowtron/core/claude/skills/ft-update .grok/skills/ft-update
 ```
@@ -73,8 +74,8 @@ directory — keeping them separate avoids a slug collision between the
 canonical bodies and Codex's `codex/skills/` wrappers if the project later
 wires Codex too.
 
-This snippet wires the adopter-installed subset: the tasknote family and
-`/ft-update`. Global utility skills such as
+This snippet wires the adopter-installed subset: the tasknote family,
+`/ft-seed`, and `/ft-update`. Global utility skills such as
 `ft-new-project` and `ft-audit-repo` may be installed in the user skill directory when desired;
 `ft-release` remains flowtron-self-only and is not part of the adopter snippet.
 The canonical category table lives in

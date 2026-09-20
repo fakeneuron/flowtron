@@ -11,8 +11,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-619** [heavy]🧠 | ft-seed — Attended bulk-seeding skill: walk an existing PLAN.md with the `SPEC/unattended-candidacy.md` predicate and confirm `[unattended]` per row inside one gate. Candidacy fires only at filing time today, so a large pre-existing plan has no seeding path but hand-editing. Flowtron still writes nothing unconfirmed.
-
 ## Medium
 
 ## Low
@@ -22,6 +20,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-619** [heavy]🧠 | ft-seed — Completed 2026-09-19.
 - [x] **CORE-618** [heavy]🧠 | plan-grammar-fixtures — Completed 2026-09-19.
 - [x] **CORE-617** [medium]🧩 | unattended-full-suite — Completed 2026-09-19.
 - [x] **CORE-615** [light]🔧 [unattended] | task-counter-date-grep-anchor — Completed 2026-09-19.
