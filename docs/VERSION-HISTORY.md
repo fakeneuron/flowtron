@@ -22,6 +22,15 @@ unless correcting a factual error.
 
 ---
 
+## v5.30.0 — a shared plan-grammar fixture suite, the /ft-seed skill, and drift ratchets lifted into CI
+
+- `SPEC/fixtures/plan/` ships six whole-file PLAN.md samples with expected-parse JSON as the conformance suite every PLAN.md parser tests against; the visualizer's parser is the reference consumer.
+- `/ft-seed` bulk-seeds `[unattended]` onto an existing plan — every open row walked with the candidacy predicate, the token written only on rows the operator keeps inside one review gate.
+- CORE-EPIC-622 closes three drift-ratchet gaps: a directory-total budget row for `ft-release`, a section-citation resolver (Pair Q) over every path-bearing `§"Title"` citation in live markdown, and the `node:*` guard extended to the visualizer's shared-pure modules with `vite build` now run in CI.
+- Under `--unattended`, Phase 3 runs the repo's full validation set instead of the attended targeted default; a red the run cannot make green parks `input-needed`.
+
+Also: Pair H (validation roster) and an `.editorconfig` final-newline ratchet join the CI drift job; the CI gitleaks tarball is checksum-verified; dogfood receipts get a literal fenced template.
+
 ## v5.29.0 — a leaner skill roster, a tiered gate load, and an executable archive-integrity floor
 
 - Three utility skills retire — `ft-flowtron`, `ft-stats`, `ft-audit-context` — the last folded into `/ft-audit` as its eighth `context` domain; the seven largest skill descriptions trim to ≤400 chars.
