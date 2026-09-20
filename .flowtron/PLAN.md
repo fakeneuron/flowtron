@@ -13,12 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-622** [heavy]🧠 | drift-ratchet-gaps — Three checks the repo's own rules describe but nothing executes: skill-fragment totals are measured in `docs/CONTEXT-BUDGET.md` §"Ledger" yet unbudgeted (`claude/skills/ft-release/step-7.1-mirror-pairs.md` is 50,099 chars, above its parent's 40,000 cap; the directory sums to 117,337 and loads in full on every cut); `§"Heading"` citations across ~130 live files resolve clean today but only Pairs N/O check any in CI (CORE-546 was this class); the viz shared-pure tier is Node-free by `viz/README.md` convention only, and `vite build` never runs. Discovery supplied by audit-repo 2026-09-20. Surfaced by audit-repo 2026-09-20 (Theme: ratchets with gaps).
-  - [x] **CORE-622.2** [medium]🧩 [unattended] | skill-directory-budget-row — Completed 2026-09-20.
-  - [x] **CORE-622.3** [medium]🧩 [unattended] | section-citation-resolver — Completed 2026-09-20.
-  - [x] **CORE-622.4** [light]🔧 [unattended] | viz-shared-pure-node-guard — Completed 2026-09-20.
-  - [ ] **CORE-622.N** [light]🔧 | drift-ratchet-gaps audit — Epic closure audit + doc-drift sweep.
-
 ## Low
 
 - [ ] **CORE-621** [light]🔧 [unattended] | editorconfig-final-newline — `docs/GLOSSARY.md` and `templates/sidequest-template.md` lack the final newline `.editorconfig` requires, and the template propagates into every adopter's `.flowtron/sidequest/`. Add the newline and a CI `drift` step (`tail -c1` over tracked text files) so the class stays closed. Surfaced by audit-repo 2026-09-20 (Theme: ratchets with gaps).
@@ -27,6 +21,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-622** [heavy]🧠 | drift-ratchet-gaps — Completed 2026-09-20.
+  - [x] **CORE-622.2** [medium]🧩 [unattended] | skill-directory-budget-row — Completed 2026-09-20.
+  - [x] **CORE-622.3** [medium]🧩 [unattended] | section-citation-resolver — Completed 2026-09-20.
+  - [x] **CORE-622.4** [light]🔧 [unattended] | viz-shared-pure-node-guard — Completed 2026-09-20.
+  - [x] **CORE-622.N** [light]🔧 | drift-ratchet-gaps audit — Completed 2026-09-20.
 - [x] **CORE-620** [light]🔧 [unattended] | completed-rotation-2026-09 — Completed 2026-09-20.
 - [x] **CORE-616** [light]🔧 | receipt-not-transcript — Completed 2026-09-19.
 - [x] **CORE-619** [heavy]🧠 | ft-seed — Completed 2026-09-19.
