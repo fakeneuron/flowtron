@@ -267,6 +267,26 @@ parts, with no unattended variant:
    reason to hold this line harder, not to relax it — an unnoticed
    paper-complete is the failure the guard was written for.
 
+**Nor does it keep Phase 3's targeted default.** Attended,
+[`SPEC.md`](../SPEC.md) §"🧪 Phase 3" defaults to targeted tests on the
+changed behavior and reserves the full suite for broad or cross-cutting
+changes — guidance, because an operator reviews the commit and can
+second-guess the "is this change broad?" call. Under `--unattended` nobody
+does, so Phase 3 runs the repo's **full validation set** — `just test` /
+`just lint` / `just typecheck`, or whatever the repo declares as its
+equivalents (its `justfile` recipes, its `AGENTS.md` validation commands, its
+CI workflow's steps) — never the targeted default, and the receipt records
+each command. A red result is Phase 2 evidence, not a closure question: a
+failure the diff caused returns the run to Phase 2; one the run cannot make
+green parks `input-needed` rather than closing over it — whether a red the
+diff did not cause may be closed over is exactly a question autonomous
+execution cannot answer, and the ✋ bias above (park on doubt) applies. A
+repo that declares no validation set records `N/A` with that reason. The
+motivating case is caobunga's green-targeted / red-full closes: the targeted
+run was green, the full suite was red, and the judgment that would have run
+it had no one to make it. `--fast` and the `[unattended]` row marker keep the
+attended default — an operator reviews those commits.
+
 `--unattended` removes *pauses*, never *proof*.
 
 ### `/ft-close-epic` under the posture

@@ -400,7 +400,13 @@ time (Step 6).
   scope is minimal.
 - **Phase 3: Testing & Linting** — [`SPEC.md` §"🧪 Phase 3"](../../SPEC.md).
   Run targeted tests + lint/type-check on changed code (full suite only for
-  broad/cross-cutting changes). Record a **Verification receipt** in Testing
+  broad/cross-cutting changes). **Under unattended mode** run the repo's full
+  validation set instead — its `justfile` recipes, its `AGENTS.md` validation
+  commands, or its CI workflow's steps — never the targeted default; a red the
+  diff caused returns to Phase 2, and a red the run cannot make green parks
+  `input-needed` rather than closing over it
+  ([`SPEC/gate-postures.md` §"What `--unattended` never relaxes"](../gate-postures.md)).
+  Record a **Verification receipt** in Testing
   Notes: each Acceptance verify command as `command → exit code`, with the
   first failure line when non-zero, folded together with the structural
   half — for changed code, confirm no avoidable duplication, dead code,

@@ -484,7 +484,11 @@ encoders, round-trips, invariants that must hold across many inputs — a
 property-based test earns its keep; reach for one when example tests would
 leave large gaps. Visual confirmation covers UI surfaces that assertions
 can't. This is engineering judgment folded into Phase 3, never a new
-lifecycle phase or a schema/validator.
+lifecycle phase or a schema/validator. The one posture that removes the
+judgment is `--unattended`, which runs the repo's full validation set with
+nobody present to make the "broad enough?" call —
+[`SPEC/gate-postures.md`](SPEC/gate-postures.md) §"What `--unattended` never
+relaxes".
 
 The visual-confirmation ask uses the **emphasized inline ask** shape — its own
 line, blank-line isolated, with the label bolded:
