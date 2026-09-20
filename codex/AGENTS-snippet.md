@@ -38,6 +38,11 @@ ln -s ../../.flowtron/core/codex/skills/ft-task .agents/skills/ft-task
 ln -s ../../.flowtron/core/codex/skills/ft-update .agents/skills/ft-update
 ```
 
+The submodule also brings flowtron's own tasknote archive at
+`.flowtron/core/.flowtron/` (~14 MB, ~1,000 files) — flowtron's history, not
+this project's context. Keep it out of search tooling with that line in a root
+`.ignore`; the per-tool list is in `../docs/MIGRATION.md` §1.1.
+
 Use `/skills` in Codex or type `$ft-task` / `$ft-update` / another wired
 skill name to invoke a Flowtron skill. Global utility skills such as
 `ft-new-project` and `ft-audit-repo` may be installed in the user skill directory when desired;

@@ -58,6 +58,11 @@ bodies, not Cursor-specific copies. The relative paths are intentional: they
 survive `git clone` and pin to whichever flowtron commit the submodule is
 checked out at. Commit the symlinks (`git add .cursor/`).
 
+The submodule also brings flowtron's own tasknote archive at
+`.flowtron/core/.flowtron/` (~14 MB, ~1,000 files) — flowtron's history, not
+this project's context. Keep it out of indexing and AI access with that line
+in a root `.cursorignore`; the per-tool list is in `../docs/MIGRATION.md` §1.1.
+
 A Cursor skill auto-exposes as `/<skill-name>`, so `/ft-task <TASK-ID>` works
 after wiring with no command stubs to install. Flowtron's `claude/commands/`
 wrappers are **not** part of this block: Cursor's compatibility loading covers

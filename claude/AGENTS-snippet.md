@@ -110,6 +110,8 @@ ln -s ../../.flowtron/core/claude/skills/ft-seed              .claude/skills/ft-
 
 The relative paths are intentional — they survive `git clone` and pin to whichever flowtron commit the submodule is checked out at. Commit the symlinks (`git add .claude/`).
 
+The submodule also brings flowtron's own tasknote archive at `.flowtron/core/.flowtron/` (~14 MB, ~1,000 files) — flowtron's history, not this project's context. Keep it out of Grep, Glob, and `@file` with a `Read(./.flowtron/core/.flowtron/**)` deny rule in `.claude/settings.json`; the per-tool list and the rule's one cost are in [`docs/MIGRATION.md`](../docs/MIGRATION.md) §1.1.
+
 This snippet wires the adopter-installed subset: tasknote family, `/ft-seed`, and `/ft-update`. Global utilities live in the user's agent home when desired; `/ft-release` is flowtron-self-only.
 
 To verify Claude Code wiring: invoke `/ft-task` in a fresh Claude Code session. The command should appear in the menu (alongside the other wired adopter-subset skills) with the description from `commands/ft-task.md`. For Codex, use the sibling `codex/AGENTS-snippet.md` wiring and invoke the skill through `/skills` or `$ft-task`. For Cursor, Claude wiring is already enough (Cursor loads `.claude/skills/` as a compatibility surface); Cursor-only projects use the sibling `cursor/AGENTS-snippet.md` instead. For Grok, Claude, Codex, or Cursor wiring is already enough (Grok loads those dirs as compatibility surfaces); Grok-only projects use the sibling `grok/AGENTS-snippet.md` instead.

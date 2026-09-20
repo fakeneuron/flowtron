@@ -65,6 +65,18 @@ Read `.flowtron/core/claude/AGENTS-snippet.md` and run the bash block under the 
 
 Reference: `claude/AGENTS-snippet.md` §"One-time symlink wiring" (canonical) · `cursor/AGENTS-snippet.md` (Cursor-only variant) · `grok/AGENTS-snippet.md` (Grok-only variant) · `docs/MIGRATION.md` §1.2 (adopter doc, points to the snippets).
 
+## Step 3b — Fence the submodule's dogfood archive
+
+`.flowtron/core/.flowtron/` is flowtron's own plan and tasknote archive (~14 MB, ~1,000 files) — flowtron's history, not this project's context. Keep it out of search and context tooling now, before the first session greps into it:
+
+1. `.claude/settings.json` — add `Read(./.flowtron/core/.flowtron/**)` to `permissions.deny`. Create the file with just that key if it is absent; if it exists, merge the rule into the existing `deny` array and change nothing else. Claude Code applies the rule to its file tools, Grep/Glob, and `@file` mentions.
+2. `.ignore` at the project root — append the line `.flowtron/core/.flowtron/` (create if absent). Covers ripgrep-based greps; `.gitignore` is the wrong file, the path is tracked content.
+3. `.cursorignore` — the same line, when the file already exists or the project is Cursor-only (Step 3's Cursor note). Otherwise skip.
+
+Tell the user the deny rule's one cost: it also fences the per-release tasknote `docs/MIGRATION.md` §"Pinning and bumping" names for major bumps; the annotated tag message (`git -C .flowtron/core show vX.Y.Z`) stays readable.
+
+Reference: `docs/MIGRATION.md` §1.1.
+
 ## Step 4 — Create or patch AGENTS.md
 
 Read `.flowtron/core/claude/AGENTS-snippet.md` and extract the markdown block under the "Block to paste into AGENTS.md" heading (the fenced ```markdown ... ``` block). If `AGENTS.md` doesn't exist in the project root, create it with the block's *contents* (without the outer fences) as initial content. If it exists, append the contents at the end of the file — do not overwrite or insert mid-file (project-specific instructions in `AGENTS.md` must be preserved).
@@ -117,7 +129,9 @@ grep '^ln -s' .flowtron/core/claude/AGENTS-snippet.md | awk '{print $NF}' | xarg
 
 Add `CLAUDE.md` to the first line when Step 4 created or modified it (the
 symlink, or the `@AGENTS.md` import appended to an existing file). Skip it when
-Step 4 left an existing `CLAUDE.md` untouched.
+Step 4 left an existing `CLAUDE.md` untouched. Likewise add whichever exclusion
+files Step 3b created or edited (`.claude/settings.json`, `.ignore`,
+`.cursorignore`).
 
 The second line stages exactly the symlinks Step 3 created, read back from the
 snippet that created them — no roster is restated here, so a skill added
@@ -159,6 +173,6 @@ Reference: `docs/MIGRATION.md` §1.7.
 
 ## Notes
 
-- This skill does not touch existing files except `AGENTS.md` (created or appended-to in Step 4). Everything else is new.
+- This skill does not touch existing files except `AGENTS.md` (created or appended-to in Step 4) and the exclusion files Step 3b merges a line into when they already exist (`.claude/settings.json`, `.ignore`, `.cursorignore`). Everything else is new.
 - For migrating from a prior workflow system (existing `plan.json`, `WORKFLOW.md`, etc.), use `docs/MIGRATION.md` §3 (lightweight, active-queue-only) or §2 (full, ID-preserving) manually — the migration path involves judgment calls that don't fit a recipe.
 - For bumping flowtron's pinned version in an already-adopted project, see `docs/MIGRATION.md` §"Pinning and bumping" — that's a different task (`CORE-XXX: Bump flowtron to vX.Y.Z`).

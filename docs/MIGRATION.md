@@ -55,6 +55,20 @@ git -C .flowtron/core checkout vX.Y.Z   # replace with the version you want to p
 
 The `checkout` step is what pins the project to a specific flowtron version. Without it, the submodule tracks `main` and updates would be undeliberate.
 
+**Keep the submodule's dogfood archive out of search and context tooling.** The submodule brings flowtron's own plan and tasknote archive at `.flowtron/core/.flowtron/` — roughly 14 MB across ~1,000 files, most of the checkout by bytes, growing with every flowtron release. It is flowtron's proof of use, not your project's context: a grep, an `@`-file pick, or an index that walks it returns flowtron's history where you wanted yours. Exclude it once, per tool:
+
+- **Claude Code** — there is no `.claudeignore`; the control is a `Read` deny rule in `.claude/settings.json`, which Claude Code applies to its file tools, to Grep/Glob, and to `@file` mentions. Merge the rule into an existing file rather than overwriting it:
+
+  ```json
+  { "permissions": { "deny": ["Read(./.flowtron/core/.flowtron/**)"] } }
+  ```
+
+  One cost: the rule also fences the per-release tasknote that §"Pinning and bumping" names for major bumps — the annotated tag message (`git -C .flowtron/core show vX.Y.Z`) carries the same migration steps and stays readable.
+- **Cursor** — add the line `.flowtron/core/.flowtron/` to a root `.cursorignore` (blocks both indexing and AI access).
+- **ripgrep-based search** (`rg`, and the shell greps most agents run) — the same line in a root `.ignore` (`.rgignore` for ripgrep only). `.gitignore` is the wrong file for this: the path is tracked content inside the submodule.
+
+Commit whichever files you created — §1.6 stages them. Flowtron's own checkout has no `.flowtron/core/` and needs nothing.
+
 ### 1.2 Wire the adopter skill subset via symlinks
 
 The submodule ships the full Claude slash-command inventory and matching Codex skill-wrapper inventory. Adopter projects wire only the policy subset — the tasknote family, the `/ft-seed` bulk-seeding utility, and the `/ft-update` submodule-bump utility. **The exact roster is the `ln -s` block in [`claude/AGENTS-snippet.md`](../claude/AGENTS-snippet.md) §"One-time symlink wiring", its single source of truth; this section deliberately does not restate it.** What each does lives in its own SKILL.md frontmatter — short version: `/ft-task` the 4-phase runner (with `--debug` for hypothesis-first bug work and `--loop` for converge-until-verified goal loops), `/ft-micro-task` the one-shot, `/ft-file-followup` the in-chat follow-up (with `--park` for the sidequest parker and `--starter` for the rich-context starter filer), `/ft-epic-discovery` and `/ft-close-epic` the epic bookends, `/ft-refactor` the read-only refactor depth planner that files a sequenced epic. `/ft-update` is the adopter-side version-bump counterpart to `/ft-release` (see [`PLATFORMS.md`](PLATFORMS.md) §"Installed-surface policy").
@@ -306,7 +320,7 @@ grep '^ln -s' .flowtron/core/claude/AGENTS-snippet.md | awk '{print $NF}' | xarg
 git commit -m "chore: adopt flowtron at vX.Y.Z"
 ```
 
-If §1.3's verification sent you to the `CLAUDE.md` shim, add it to the first line (`… AGENTS.md CLAUDE.md`) — git stores the symlink itself, not a copy of `AGENTS.md`.
+If §1.3's verification sent you to the `CLAUDE.md` shim, add it to the first line (`… AGENTS.md CLAUDE.md`) — git stores the symlink itself, not a copy of `AGENTS.md`. Likewise add whichever exclusion files §1.1 created (`.claude/settings.json`, `.ignore`, `.cursorignore`).
 
 The second line stages exactly the symlinks §1.2 created, read back from the snippet that created them. That snippet is the single source of truth for the adopter-wiring roster ([`claude/AGENTS-snippet.md`](../claude/AGENTS-snippet.md) §"One-time symlink wiring"), so this block restates no path list and cannot fall behind a newly shipped skill. Explicit paths — not `git add .` — keep the migration commit scoped to the flowtron wiring even if your project already has other files under `.claude/` (settings, other skills).
 
@@ -499,7 +513,7 @@ The submodule SHA in `.flowtron/core` is what pins the project to a specific flo
 
 To bump:
 
-1. For a major version bump, read the annotated tag message (`git -C .flowtron/core show vX.Y.Z`) and the per-release tasknote in `.flowtron/core/.flowtron/tasknote/archive/core/` — both list migration steps. Follow them before changing anything in the project.
+1. For a major version bump, read the annotated tag message (`git -C .flowtron/core show vX.Y.Z`) and the per-release tasknote in `.flowtron/core/.flowtron/tasknote/archive/core/` — both list migration steps. Follow them before changing anything in the project. If §1.1's `Read` deny rule fences the tasknote, the tag message alone is enough.
 2. Update the submodule:
    ```sh
    git -C .flowtron/core fetch --tags
