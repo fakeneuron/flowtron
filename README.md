@@ -306,6 +306,11 @@ Adopting projects pin a specific flowtron commit via git submodule and bump
 deliberately. Each release tag's annotated message lists migration steps for
 major bumps (no separate `CHANGELOG.md`).
 
+Flowtron is solo-maintained with a personal adopter fleet. The major version
+number counts breaking changes from the May 2026 rapid-iteration period
+(v1.0.0 → v5.0.0 in 25 days), not project maturity — the contract has been
+break-free since v5.0.0 (2026-06-01).
+
 ## License
 
 Flowtron is [MIT-licensed](LICENSE).

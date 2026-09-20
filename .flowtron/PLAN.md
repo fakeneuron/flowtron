@@ -15,12 +15,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-630** [light] | readme-maturity-note — Add a short README maturity note: single-maintainer project with a personal adopter fleet; the major number counts breaking changes from the May 2026 rapid-iteration period (v1–v5 in 25 days), not maturity; contract has been break-free since v5.0.0 (2026-06-01). Surfaced during the v5.30.0 cut (CORE-629).
-
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-630** [light]🔧 | readme-maturity-note — Completed 2026-09-20.
 - [x] **CORE-629** [medium]🧩 | release v5.30.0 — Completed 2026-09-20.
 - [x] **CORE-625** [light]🔧 | gitleaks-checksum-verify — Completed 2026-09-20.
 - [x] **CORE-624** [medium]🧩 | pair-h-lift-to-ci — Completed 2026-09-20.
