@@ -146,6 +146,10 @@
     {
       "line": 69,
       "text": "- [x] **P3** [light] — Legacy label carrying a model token; surfaces as unparsed."
+    },
+    {
+      "line": 71,
+      "text": "- [x] **FX-462** Completed 2026-09-20. — Checked row with no separator before \"Completed\"; a real ID shape disqualifies the legacy-label exclusion, so it surfaces as unparsed (CORE-635)."
     }
   ],
   "nearMissHeadings": [

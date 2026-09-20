@@ -103,6 +103,14 @@ node --check tools/update-adopters.mjs
 The suite is a release gate; do not substitute a live adopter-fleet dry run or
 an `--apply` operation for it.
 
+CI's `drift` job additionally runs Pair R, grepping every checked
+`.flowtron/PLAN.md` / `.flowtron/PLAN-ARCHIVE.md` stub row for the
+`| shortname` `SPEC/plan-filing.md` §"`## Completed` archive convention"
+requires — additive to the seven commands above, not part of the
+`validate`-job "passing" roster `/ft-release` §7.1 Pair H binds byte-for-byte
+(same relationship as the gitleaks scan in `docs/CONVENTIONS.md` §"GitHub
+Actions CI").
+
 ## Dev Server
 
 To preview the visualizer locally, start the dev server from the repository root:

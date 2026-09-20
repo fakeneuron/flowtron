@@ -13,8 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-635** [light]🔧 [unattended] | plan-stub-shape-ratchet — `CORE-632.2`'s unattended close wrote `- [x] **CORE-632.2** Completed 2026-09-20.` — no `| shortname`, against `SPEC/plan-filing.md` §"Completed archive convention" — and nothing flagged it (caobunga read `worker-exited`). Add a checked-but-malformed case to `SPEC/fixtures/plan/exclusions.md`, a CI pair (Pair-H shape, mirrored in AGENTS.md §Validation) grepping PLAN stubs for `| shortname`, and repair the row.
-
 ## Low
 
 - [ ] **CORE-636** [light]🔧 | remove-dead-claudeignore — Root `.claudeignore` lists `SCRATCH.md` (gone) and Claude Code has no such mechanism (CORE-632.3, MIGRATION §1.1). `git rm` it; surfaced by CORE-632.N audit.
@@ -23,8 +21,9 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-635** [light]🔧 [unattended] | plan-stub-shape-ratchet — Completed 2026-09-20.
 - [x] **CORE-EPIC-632** [heavy]🧠 | adopter-footprint — Completed 2026-09-20.
-  - [x] **CORE-632.2** Completed 2026-09-20.
+  - [x] **CORE-632.2** [light]🔧 [unattended] | readme-logo-webp — Completed 2026-09-20.
   - [x] **CORE-632.3** [medium]🧩 | submodule-archive-exclusion-guidance — Completed 2026-09-20.
   - [x] **CORE-632.N** [light]🔧 | adopter-footprint audit — Completed 2026-09-20.
 - [x] **CORE-634** [light]🔧 [unattended] | rotation-closed-month-append — Completed 2026-09-20.

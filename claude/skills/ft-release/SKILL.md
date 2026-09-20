@@ -279,8 +279,8 @@ fragments so this skill stays under its load budget. Read them **in parallel**:
   parity (local blocking + machine-global advisory) · README task-counter ·
   context budget (`docs/CONTEXT-BUDGET.md`; also refreshes that doc's ledger
   in this cut).
-- `claude/skills/ft-release/step-7.1-mirror-pairs.md` — the Pair A–Q
-  mirror-pair catalogue, opening with the local runner for the ten pairs
+- `claude/skills/ft-release/step-7.1-mirror-pairs.md` — the Pair A–R
+  mirror-pair catalogue, opening with the local runner for the eleven pairs
   whose shell lives in `.github/workflows/ci.yml`.
 
 Walk them in that order, then continue to §7.2. Both fragments are part of this

@@ -68,3 +68,4 @@ Multi-line comment.
 - [x] **fx-460** — Completed case-typo of a real ID; surfaces as unparsed.
 - [x] **P3** [light] — Legacy label carrying a model token; surfaces as unparsed.
 - [x] **FX-461** [light] | real closed row — Completed 2026-09-11.
+- [x] **FX-462** Completed 2026-09-20. — Checked row with no separator before "Completed"; a real ID shape disqualifies the legacy-label exclusion, so it surfaces as unparsed (CORE-635).
