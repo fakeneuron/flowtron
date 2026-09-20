@@ -31,6 +31,7 @@ Flowtron does not submodule itself. When working in `~/code/flowtron/`:
 
 - The repo-root `SPEC.md` IS the canonical reference.
 - `SPEC/` — lazy SPEC modules loaded on demand by skills.
+- `SPEC/fixtures/plan/` — cross-parser conformance fixtures for the `PLAN.md` task-line grammar (sample `.md` + expected `.json` pairs; consumer contract in [`SPEC/fixtures/plan/README.md`](fixtures/plan/README.md)). Cited from [`SPEC/plan-parser.md`](plan-parser.md); run by `viz/src/parser.test.ts`.
 - `SPEC/procedures/` — agent-neutral procedure SOPs: the source-of-truth projection of execution procedures (e.g. the `/ft-task` 4-phase workflow) for non-Claude wiring and contract-only agents. Format + loading convention: [`SPEC/procedures/README.md`](procedures/README.md).
 - The flowtron `.flowtron/PLAN.md` tracks flowtron's own development.
 - The `templates/` folder holds the canonical tasknote templates (full, micro, starter, sidequest) plus spec, loop-heartbeat, audit-overlay (usage: [`docs/MIGRATION.md`](../docs/MIGRATION.md) §1.2.1), and subagent-probe templates, and the `PLAN.md` / `tasknote-README.md` seed files.

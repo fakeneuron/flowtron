@@ -1,0 +1,394 @@
+{
+  "describes": "Long-description conventions — `[[TASK-ID]]` into relatedTasks (deduped, source order), literal `Blocked by [[ID]]` into blockedBy (blocker wins over related), non-parsing near-misses, code-span masking, and the reference `description` cleaning.",
+  "tasks": [
+    {
+      "line": 10,
+      "id": "FX-300",
+      "completed": false,
+      "priority": "High",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "one wikilink",
+      "descriptionRaw": "Builds on [[FX-001]].",
+      "description": "Builds on [[FX-001]]",
+      "completedDate": null,
+      "relatedTasks": [
+        "FX-001"
+      ],
+      "blockedBy": []
+    },
+    {
+      "line": 11,
+      "id": "FX-301",
+      "completed": false,
+      "priority": "High",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "several wikilinks",
+      "descriptionRaw": "Touches [[FX-001]], [[FX-002]], and [[FX-001]] again; deduped in source order.",
+      "description": "Touches [[FX-001]], [[FX-002]], and [[FX-001]] again; deduped in source order",
+      "completedDate": null,
+      "relatedTasks": [
+        "FX-001",
+        "FX-002"
+      ],
+      "blockedBy": []
+    },
+    {
+      "line": 12,
+      "id": "FX-302",
+      "completed": false,
+      "priority": "High",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "epic and child links",
+      "descriptionRaw": "See [[FX-EPIC-011]] and [[FX-011.N]].",
+      "description": "See [[FX-EPIC-011]] and [[FX-011.N]]",
+      "completedDate": null,
+      "relatedTasks": [
+        "FX-EPIC-011",
+        "FX-011.N"
+      ],
+      "blockedBy": []
+    },
+    {
+      "line": 13,
+      "id": "FX-303",
+      "completed": false,
+      "priority": "High",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "near-miss links",
+      "descriptionRaw": "See [[FX-150.3a]] and [[FX-150.2.1]].",
+      "description": "See [[FX-150.3a]] and [[FX-150.2.1]]",
+      "completedDate": null,
+      "relatedTasks": [
+        "FX-150.3a",
+        "FX-150.2.1"
+      ],
+      "blockedBy": []
+    },
+    {
+      "line": 14,
+      "id": "FX-310",
+      "completed": false,
+      "priority": "High",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "one blocker",
+      "descriptionRaw": "Blocked by [[FX-001]].",
+      "description": "Blocked by [[FX-001]]",
+      "completedDate": null,
+      "relatedTasks": [],
+      "blockedBy": [
+        "FX-001"
+      ]
+    },
+    {
+      "line": 15,
+      "id": "FX-311",
+      "completed": false,
+      "priority": "High",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "several blockers",
+      "descriptionRaw": "Blocked by [[FX-001]], [[FX-002]] — needs both.",
+      "description": "Blocked by [[FX-001]], [[FX-002]] — needs both",
+      "completedDate": null,
+      "relatedTasks": [],
+      "blockedBy": [
+        "FX-001",
+        "FX-002"
+      ]
+    },
+    {
+      "line": 16,
+      "id": "FX-312",
+      "completed": false,
+      "priority": "High",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "blocker and related",
+      "descriptionRaw": "Pairs with [[FX-003]]. Blocked by [[FX-001]].",
+      "description": "Pairs with [[FX-003]]. Blocked by [[FX-001]]",
+      "completedDate": null,
+      "relatedTasks": [
+        "FX-003"
+      ],
+      "blockedBy": [
+        "FX-001"
+      ]
+    },
+    {
+      "line": 17,
+      "id": "FX-313",
+      "completed": false,
+      "priority": "High",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "blocker wins",
+      "descriptionRaw": "Touches [[FX-001]]. Blocked by [[FX-001]].",
+      "description": "Touches [[FX-001]]. Blocked by [[FX-001]]",
+      "completedDate": null,
+      "relatedTasks": [],
+      "blockedBy": [
+        "FX-001"
+      ]
+    },
+    {
+      "line": 18,
+      "id": "FX-314",
+      "completed": false,
+      "priority": "High",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "two blocked-by clauses",
+      "descriptionRaw": "Blocked by [[FX-001]]. Also Blocked by [[FX-002]].",
+      "description": "Blocked by [[FX-001]]. Also Blocked by [[FX-002]]",
+      "completedDate": null,
+      "relatedTasks": [],
+      "blockedBy": [
+        "FX-001",
+        "FX-002"
+      ]
+    },
+    {
+      "line": 19,
+      "id": "FX-320",
+      "completed": false,
+      "priority": "High",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "bare id",
+      "descriptionRaw": "Blocked by: FX-001 does not parse as a blocker.",
+      "description": "Blocked by: FX-001 does not parse as a blocker",
+      "completedDate": null,
+      "relatedTasks": [],
+      "blockedBy": []
+    },
+    {
+      "line": 20,
+      "id": "FX-321",
+      "completed": false,
+      "priority": "High",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "blocked on",
+      "descriptionRaw": "Blocked on [[FX-001]] is a related link, not a blocker.",
+      "description": "Blocked on [[FX-001]] is a related link, not a blocker",
+      "completedDate": null,
+      "relatedTasks": [
+        "FX-001"
+      ],
+      "blockedBy": []
+    },
+    {
+      "line": 21,
+      "id": "FX-322",
+      "completed": false,
+      "priority": "High",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "depends on",
+      "descriptionRaw": "Depends on [[FX-001]] is a related link, not a blocker.",
+      "description": "Depends on [[FX-001]] is a related link, not a blocker",
+      "completedDate": null,
+      "relatedTasks": [
+        "FX-001"
+      ],
+      "blockedBy": []
+    },
+    {
+      "line": 22,
+      "id": "FX-323",
+      "completed": false,
+      "priority": "High",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "lowercase",
+      "descriptionRaw": "blocked by [[FX-001]] is case-sensitive; related only.",
+      "description": "blocked by [[FX-001]] is case-sensitive; related only",
+      "completedDate": null,
+      "relatedTasks": [
+        "FX-001"
+      ],
+      "blockedBy": []
+    },
+    {
+      "line": 23,
+      "id": "FX-330",
+      "completed": false,
+      "priority": "High",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "code span",
+      "descriptionRaw": "Use `[[FX-001]]` literally; `Blocked by [[FX-002]]` is quoted too.",
+      "description": "Use `[[FX-001]]` literally; `Blocked by [[FX-002]]` is quoted too",
+      "completedDate": null,
+      "relatedTasks": [],
+      "blockedBy": []
+    },
+    {
+      "line": 24,
+      "id": "FX-331",
+      "completed": false,
+      "priority": "High",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "mixed spans",
+      "descriptionRaw": "Real [[FX-001]] beside quoted `[[FX-002]]`.",
+      "description": "Real [[FX-001]] beside quoted `[[FX-002]]`",
+      "completedDate": null,
+      "relatedTasks": [
+        "FX-001"
+      ],
+      "blockedBy": []
+    },
+    {
+      "line": 25,
+      "id": "FX-340",
+      "completed": false,
+      "priority": "High",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "bold in prose",
+      "descriptionRaw": "This **must** ship before the **next** cut.",
+      "description": "This must ship before the next cut",
+      "completedDate": null,
+      "relatedTasks": [],
+      "blockedBy": []
+    },
+    {
+      "line": 26,
+      "id": "FX-341",
+      "completed": false,
+      "priority": "High",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "double spaces",
+      "descriptionRaw": "Two  spaces   collapse to one.",
+      "description": "Two spaces collapse to one",
+      "completedDate": null,
+      "relatedTasks": [],
+      "blockedBy": []
+    },
+    {
+      "line": 27,
+      "id": "FX-342",
+      "completed": false,
+      "priority": "High",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "no wikilinks",
+      "descriptionRaw": "Plain prose leaves both arrays empty.",
+      "description": "Plain prose leaves both arrays empty",
+      "completedDate": null,
+      "relatedTasks": [],
+      "blockedBy": []
+    },
+    {
+      "line": 31,
+      "id": "FX-350",
+      "completed": true,
+      "priority": "Completed",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "stamp only",
+      "descriptionRaw": "Completed 2026-09-08.",
+      "description": "",
+      "completedDate": "2026-09-08",
+      "relatedTasks": [],
+      "blockedBy": []
+    },
+    {
+      "line": 32,
+      "id": "FX-351",
+      "completed": true,
+      "priority": "Completed",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "stamp first",
+      "descriptionRaw": "Completed 2026-09-09. Follow-up filed as [[FX-300]].",
+      "description": "Follow-up filed as [[FX-300]]",
+      "completedDate": "2026-09-09",
+      "relatedTasks": [
+        "FX-300"
+      ],
+      "blockedBy": []
+    },
+    {
+      "line": 33,
+      "id": "FX-352",
+      "completed": true,
+      "priority": "Completed",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "stamp mid-sentence",
+      "descriptionRaw": "Completed 2026-09-10 ahead of the cut.",
+      "description": "ahead of the cut",
+      "completedDate": "2026-09-10",
+      "relatedTasks": [],
+      "blockedBy": []
+    },
+    {
+      "line": 34,
+      "id": "FX-353",
+      "completed": true,
+      "priority": "Completed",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "no stamp",
+      "descriptionRaw": "Closed without a completion stamp.",
+      "description": "Closed without a completion stamp",
+      "completedDate": null,
+      "relatedTasks": [],
+      "blockedBy": []
+    }
+  ],
+  "unparsed": [],
+  "nearMissHeadings": []
+}

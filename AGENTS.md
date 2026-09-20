@@ -60,7 +60,8 @@ not to)".
   protocol, repo layout,
   PLAN parser tolerances, scope boundaries, optional tasknote inserts, the
   purpose blurb, superseded claims, `[unattended]` candidacy, and
-  `SPEC/procedures/` agent-neutral SOPs.
+  `SPEC/procedures/` agent-neutral SOPs, and `SPEC/fixtures/plan/` task-line
+  grammar conformance fixtures.
 - `.flowtron/` — flowtron's own plan and tasknotes.
 - `claude/` — Claude Code wiring: commands, skills, and the historical
   source for the agent-neutral adopter snippet.

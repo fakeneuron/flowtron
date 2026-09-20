@@ -1,4 +1,6 @@
 import { describe, it, expect } from 'vitest';
+import { readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { groupTasks, parsePlanWithDiagnostics, PRIORITIES, type Task } from './parser';
 
 function parsePlan(markdown: string): Task[] {
@@ -1136,5 +1138,67 @@ describe('PRIORITIES registry', () => {
     expect(tasks.map((t) => t.priority)).toEqual([...PRIORITIES]);
     expect(unparsed).toEqual([]);
     expect(nearMissHeadings).toEqual([]);
+  });
+});
+
+// SPEC/fixtures/plan/ is the cross-parser conformance suite (CORE-618): each
+// `<case>.md` is a whole PLAN.md sample, its `<case>.json` the expected parse.
+// The JSON is the contract and this parser is its reference consumer — a
+// failing row here means either the parser regressed or SPEC prose changed
+// and the fixture must be hand-edited in the same commit. Shape and the
+// partial-consumption rule adopter parsers follow: SPEC/fixtures/plan/README.md.
+describe('SPEC/fixtures/plan conformance', () => {
+  const FIXTURE_DIR = join(__dirname, '..', '..', 'SPEC', 'fixtures', 'plan');
+  const names = readdirSync(FIXTURE_DIR);
+  const cases = names.filter((n) => n.endsWith('.md') && n !== 'README.md').map((n) => n.slice(0, -3));
+
+  interface FixtureTask extends Omit<Task, 'model' | 'shortname' | 'completedDate'> {
+    line: number;
+    model: string | null;
+    shortname: string | null;
+    descriptionRaw: string | null;
+    completedDate: string | null;
+  }
+  interface Fixture {
+    describes: string;
+    tasks: FixtureTask[];
+    unparsed: { line: number; text: string }[];
+    nearMissHeadings: { line: number; heading: string; matched: string }[];
+  }
+
+  // The fixture carries `line` and `descriptionRaw` for consumers that model
+  // them (an awk row-counter, a Python reader storing the raw segment); this
+  // parser exposes neither, so they drop out of the comparison, and JSON
+  // `null` maps to the `undefined` this parser leaves on absent optionals.
+  function toTask(f: FixtureTask): Task {
+    return {
+      id: f.id,
+      description: f.description,
+      priority: f.priority,
+      critical: f.critical,
+      unattended: f.unattended,
+      handoff: f.handoff,
+      completed: f.completed,
+      completedDate: f.completedDate ?? undefined,
+      model: f.model ?? undefined,
+      shortname: f.shortname ?? undefined,
+      relatedTasks: f.relatedTasks,
+      blockedBy: f.blockedBy,
+    };
+  }
+
+  it('pairs every sample with an expected-parse file, and is non-empty', () => {
+    expect(cases.length).toBeGreaterThan(0);
+    const jsons = names.filter((n) => n.endsWith('.json')).map((n) => n.slice(0, -5));
+    expect([...jsons].sort()).toEqual([...cases].sort());
+  });
+
+  it.each(cases)('%s.md parses to its expected JSON', (name) => {
+    const md = readFileSync(join(FIXTURE_DIR, `${name}.md`), 'utf8');
+    const fixture = JSON.parse(readFileSync(join(FIXTURE_DIR, `${name}.json`), 'utf8')) as Fixture;
+    const { tasks, unparsed, nearMissHeadings } = parsePlanWithDiagnostics(md);
+    expect(tasks).toEqual(fixture.tasks.map(toTask));
+    expect(unparsed).toEqual(fixture.unparsed);
+    expect(nearMissHeadings).toEqual(fixture.nearMissHeadings);
   });
 });

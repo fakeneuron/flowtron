@@ -1,0 +1,158 @@
+{
+  "describes": "Lines that never become tasks: silently excluded (bare checkbox bullets, HTML comments, fenced code, completed legacy label lines, rows under unrecognized headings) versus surfaced as `unparsed` (malformed IDs and tokens, pending legacy-shaped rows); the `nearMissHeadings` diagnostic.",
+  "tasks": [
+    {
+      "line": 15,
+      "id": "FX-401",
+      "completed": false,
+      "priority": "High",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "real row",
+      "descriptionRaw": "Anchors the line-number bookkeeping.",
+      "description": "Anchors the line-number bookkeeping",
+      "completedDate": null,
+      "relatedTasks": [],
+      "blockedBy": []
+    },
+    {
+      "line": 32,
+      "id": "FX-412",
+      "completed": false,
+      "priority": "High",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "after comments",
+      "descriptionRaw": "Line number must still be accurate.",
+      "description": "Line number must still be accurate",
+      "completedDate": null,
+      "relatedTasks": [],
+      "blockedBy": []
+    },
+    {
+      "line": 41,
+      "id": "FX-422",
+      "completed": false,
+      "priority": "High",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "after backtick fence",
+      "descriptionRaw": "Still under High; the fenced heading did not switch sections.",
+      "description": "Still under High; the fenced heading did not switch sections",
+      "completedDate": null,
+      "relatedTasks": [],
+      "blockedBy": []
+    },
+    {
+      "line": 47,
+      "id": "FX-424",
+      "completed": false,
+      "priority": "High",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "after tilde fence",
+      "descriptionRaw": null,
+      "description": "",
+      "completedDate": null,
+      "relatedTasks": [],
+      "blockedBy": []
+    },
+    {
+      "line": 60,
+      "id": "FX-450",
+      "completed": false,
+      "priority": "Low",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "back in a real section",
+      "descriptionRaw": null,
+      "description": "",
+      "completedDate": null,
+      "relatedTasks": [],
+      "blockedBy": []
+    },
+    {
+      "line": 70,
+      "id": "FX-461",
+      "completed": true,
+      "priority": "Completed",
+      "critical": false,
+      "unattended": false,
+      "handoff": false,
+      "model": "light",
+      "shortname": "real closed row",
+      "descriptionRaw": "Completed 2026-09-11.",
+      "description": "",
+      "completedDate": "2026-09-11",
+      "relatedTasks": [],
+      "blockedBy": []
+    }
+  ],
+  "unparsed": [
+    {
+      "line": 18,
+      "text": "- [ ] *FX-402* single asterisks — Surfaces as unparsed."
+    },
+    {
+      "line": 19,
+      "text": "- [ ] **fx-403** lowercase id — Surfaces as unparsed."
+    },
+    {
+      "line": 20,
+      "text": "- [ ] **FX-404** [Heavy] — Uppercase model token fails the grammar."
+    },
+    {
+      "line": 21,
+      "text": "- [ ] **FX-405** [ heavy ] — Padded model token fails the grammar."
+    },
+    {
+      "line": 22,
+      "text": "- [ ] **TASK-ID** [light] | grammar placeholder — No digits after the hyphen."
+    },
+    {
+      "line": 23,
+      "text": "- [ ] **FX-406**— Missing space before the dash fails the grammar."
+    },
+    {
+      "line": 24,
+      "text": "- [ ] **FX-407** [light] |no space after pipe"
+    },
+    {
+      "line": 25,
+      "text": "- [ ]**FX-408** — Missing space after the checkbox."
+    },
+    {
+      "line": 33,
+      "text": "- [ ] *FX-413* after comments — Diagnostic line number must still be accurate."
+    },
+    {
+      "line": 67,
+      "text": "- [ ] **P2** — Pending legacy-shaped row; surfaces as unparsed."
+    },
+    {
+      "line": 68,
+      "text": "- [x] **fx-460** — Completed case-typo of a real ID; surfaces as unparsed."
+    },
+    {
+      "line": 69,
+      "text": "- [x] **P3** [light] — Legacy label carrying a model token; surfaces as unparsed."
+    }
+  ],
+  "nearMissHeadings": [
+    {
+      "line": 49,
+      "heading": "medium",
+      "matched": "Medium"
+    }
+  ]
+}

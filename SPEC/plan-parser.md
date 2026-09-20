@@ -12,6 +12,16 @@ PLAN.md heading itself is optional cleanup.
 Adopting projects' visualizers parse the task line per `viz/src/parser.ts`
 (canonical reference); the tolerances below describe what that parser accepts.
 
+**Conformance fixtures.** Every shape this module and `SPEC.md` §"Task-line
+format" describe is pinned as input + expected parse under
+[`SPEC/fixtures/plan/`](fixtures/plan/README.md) — whole `PLAN.md` samples
+paired with JSON. `viz/src/parser.test.ts` runs them as the reference
+consumer; adopter parsers in other languages (a Python reader, an awk
+row-counter) run the same files through the pinned submodule and assert the
+fields they model. A grammar change lands in the prose, the fixture JSON, and
+the reference parser in one commit — the fixtures are edited by hand to match
+the prose, never regenerated from a parser.
+
 **Parser tolerances (decorative, not captured).** `viz/src/parser.ts`
 additionally accepts three real-board decorations without parsing them into
 `Task` fields — they are dropped, not stored:
