@@ -94,7 +94,7 @@ If the proposed bump and the PLAN-line target match, the user confirms in one sh
 
 Before scaffolding the tasknote (Step 3), self-assess whether the **remaining context budget** is comfortable for a full release cut driven inline in this session. A full cut is a long, multi-file motion: the 3 version edits (Step 5), the dogfood-gate walk (per-agent `AskUserQuestion` + stamp edits), the `/ft-audit docs` subroutine (5 passes over the doc set, Step 7.1), tag-message drafting (Step 7.2), and the commit/tag/push sequence (Step 7.5). Driving all of that with little headroom risks a degraded cut.
 
-**Still needed after CORE-507 (re-evaluated).** That task cut this file from ~77k to ~38k by moving §7.1's standing checks and mirror pairs into fragments, so the *eager* load at Step 0 is roughly half what it was and this hatch should fire less often than it already did. It is not thereby obsolete: the budget this step guards is the whole cut, not the skill body. The two §7.1 fragments are ~40k that still arrives — just at Step 7 instead of Step 0 — and the `/ft-audit docs` subroutine, the dogfood-gate walk, and the version edits are unchanged. The split improves the odds of a clean inline cut; it does not remove the failure mode this hatch exists for.
+**Still needed after CORE-507 (re-evaluated).** That task cut this file from ~77k to ~38k by moving §7.1's standing checks and mirror pairs into fragments, so the *eager* load at Step 0 is roughly half what it was and this hatch should fire less often than it already did. It is not thereby obsolete: the budget this step guards is the whole cut, not the skill body. The two §7.1 fragments are ~60k that still arrives — just at Step 7 instead of Step 0 — and the `/ft-audit docs` subroutine, the dogfood-gate walk, and the version edits are unchanged. The split improves the odds of a clean inline cut; it does not remove the failure mode this hatch exists for.
 
 - **Comfortable** → proceed to Step 3 and drive the cut inline. This is the default — the skill drives the whole release in one session; the escape hatch never fires.
 - **Tight** → do **not** scaffold. Surface an **offer** and let the operator decide (self-assess + offer; the assistant flags, the human chooses):
@@ -280,7 +280,8 @@ fragments so this skill stays under its load budget. Read them **in parallel**:
   context budget (`docs/CONTEXT-BUDGET.md`; also refreshes that doc's ledger
   in this cut).
 - `claude/skills/ft-release/step-7.1-mirror-pairs.md` — the Pair A–Q
-  mirror-pair catalogue.
+  mirror-pair catalogue, opening with the local runner for the ten pairs
+  whose shell lives in `.github/workflows/ci.yml`.
 
 Walk them in that order, then continue to §7.2. Both fragments are part of this
 step, not optional appendices: skipping the second silently drops every
