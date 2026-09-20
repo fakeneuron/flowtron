@@ -151,6 +151,34 @@ jobs:
             exit 1
           fi
 
+      - name: Pair H — validation roster ↔ its restatement sites (AGENTS.md §"Validation")
+        run: |
+          # Presence half: each of the five sites names all seven roster commands.
+          bad=
+          while IFS= read -r cmd; do
+            [ -z "$cmd" ] && continue
+            for f in AGENTS.md .github/workflows/ci.yml docs/CONVENTIONS.md \
+                     .flowtron/tasknote/README.md; do
+              grep -q -F "$cmd" "$f" || { echo "MISSING VALIDATION CMD $f :: $cmd"; bad=1; }
+            done
+            awk '/^## Step 6 /, /^## Step 7 /' claude/skills/ft-release/SKILL.md \
+              | grep -q -F "$cmd" || { echo "MISSING VALIDATION CMD ft-release Step 6 :: $cmd"; bad=1; }
+          done <<'EOF'
+          npm --prefix viz test
+          npm --prefix viz run typecheck
+          npm --prefix viz run lint
+          npm --prefix viz run build
+          node --test tools/update-adopters.test.mjs
+          node --check tools/update-adopters.test.mjs
+          node --check tools/update-adopters.mjs
+          EOF
+          # CI-verbatim half: AGENTS §Validation fences vs the validate job's
+          # `- run:` steps, minus the install step, byte-for-byte and in order.
+          ssot=$(awk '/^## Validation$/,/^## Dev Server$/' AGENTS.md | grep -E '^(npm --prefix viz |node --)')
+          ci=$(grep -E '^      - run: ' .github/workflows/ci.yml | sed 's/^      - run: //' | grep -vx 'npm --prefix viz ci')
+          diff -u <(printf '%s\n' "$ssot") <(printf '%s\n' "$ci") || bad=1
+          [ -z "$bad" ] || exit 1
+
       - name: Pair J — command-stub argument-hint ↔ documented flags
         run: |
           bad=
