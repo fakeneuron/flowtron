@@ -191,14 +191,14 @@ describing a gap nobody depended on.
 Rotated rows are grouped under `## Completed <YYYY-MM>` headings, newest month
 first. Rows move **verbatim** — same stub form, same nesting, same text. The
 file is **append-only**: a rotated row is never rewritten or reordered once
-moved. The *current* (still-open) calendar month's heading is the one
-exception to "adds month blocks" — since rotation no longer waits for a month
-to finish (see "Granularity" below), a later rotation may append more rows
-under that same still-open heading; only a month's heading that has already
-received a later month's block above it is closed to further appends. This
-append rule is what keeps the §"Exception — inline audit fixes" rows above
-safe, since those lines *are* their own canonical record and have no archived
-tasknote to fall back on.
+moved. A month's heading, once created, stays open to further appends at its
+existing position for as long as `## Completed` exists — rotation extends the
+block in place and never rewrites or reorders it, regardless of which newer
+month blocks have since been inserted above it. A row that resolves to a
+month with no existing heading gets a new one, inserted in newest-month-first
+order. This append rule is what keeps the §"Exception — inline audit fixes"
+rows above safe, since those lines *are* their own canonical record and have
+no archived tasknote to fall back on.
 
 **Granularity: by row count, not by month.** A rotation moves the oldest
 checked rows — regardless of which calendar month they fall in, current month

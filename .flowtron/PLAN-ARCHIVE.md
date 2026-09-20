@@ -5,9 +5,9 @@ Rotated `## Completed` rows from [`PLAN.md`](PLAN.md), newest month first.
 Rows are **verbatim** — same stub form, same nesting, same text as when they
 were closed. This file is **append-only**: an already-moved row is never
 rewritten or reordered. Rotation is now row-count triggered rather than
-whole-month, so the current (topmost) month heading may still receive more
-rows from a later rotation — only a month heading with a newer one already
-stacked above it is closed to further appends. It holds **closed rows only**
+whole-month: a month heading, once created, stays open to further appends at
+its existing position regardless of which newer month headings have since
+been stacked above it. It holds **closed rows only**
 and never carries active work, so `PLAN.md` remains the single file that
 answers "what is open?".
 

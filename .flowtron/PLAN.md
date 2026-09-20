@@ -20,12 +20,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-634** [light]🔧 [unattended] | rotation-closed-month-append — `SPEC/plan-filing.md` §"`## Completed` rotation" calls a month heading with a later block above it "closed to further appends" but never says where a row resolving to that month goes; read literally it cannot rotate, breaking "oldest first" / "never split a cohort" around it. Replace the clause: append to the existing month block's end wherever it sits; blocks are extended, never rewritten or reordered. Surfaced in adppro 2026-09-20 (17 late-swept May–July rows).
-
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-634** [light]🔧 [unattended] | rotation-closed-month-append — Completed 2026-09-20.
 - [x] **CORE-633** [light]🔧 [unattended] | ci-job-timeouts — Completed 2026-09-20.
 - [x] **CORE-EPIC-631** [heavy]🧠 | budget-headroom — Completed 2026-09-20.
   - [x] **CORE-631.2** [heavy]🧠 | lifted-pairs-single-body — Completed 2026-09-20.
