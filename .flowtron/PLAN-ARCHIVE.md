@@ -133,6 +133,34 @@ Contract: [`SPEC/plan-filing.md`](../SPEC/plan-filing.md)
   - [x] **CORE-575.4** [light]🔧 | audit-in-ci-or-cadence — Completed 2026-09-11.
   - [x] **CORE-575.N** [light]🔧 | viz-dependency-posture audit — Completed 2026-09-12.
 - [x] **CORE-580** [medium]🧩 [unattended] | ft-file-followup-headroom-trim — Completed 2026-09-11.
+- [x] **CORE-601** [light]🔧 [unattended] | updater-legacy-only-report — Completed 2026-09-14.
+- [x] **CORE-602** [light]🔧 | viz-readme-startup-discovery — README.md §Visualizer now states project discovery and the latest-release tag resolve once at dev-server start (restart to pick up new/removed projects or a mid-session tag). Surfaced by audit 2026-09-14 (Finding #3, Low), fixed inline.
+- [x] **CORE-600** [light]🔧 [unattended] | layout-md-paths-contrast — Completed 2026-09-14.
+- [x] **CORE-599** [medium]🧩 | release v5.28.0 — Completed 2026-09-14.
+- [x] **CORE-EPIC-598** [heavy]🧠 | flowtron-caobunga-concert — Completed 2026-09-14.
+  - [x] **CORE-598.1** [heavy]🧠 | flowtron-caobunga-concert discovery — Completed 2026-09-14.
+  - [x] **CORE-598.2** [heavy]🧠 | caller-write-boundary-fixes — Completed 2026-09-14.
+  - [x] **CORE-598.3** [heavy]🧠 | handoff-token-ratify — Completed 2026-09-14.
+  - [x] **CORE-598.4** [medium]🧩 | caobunga-handoff-rows — Completed 2026-09-14.
+  - [x] **CORE-598.N** [heavy]🧠 | flowtron-caobunga-concert audit — Completed 2026-09-14.
+- [x] **CORE-597** [light]🔧 | caobunga-status-file-home — Completed 2026-09-13.
+- [x] **CORE-596** [light]🔧 [unattended] | spec-paths-frontmatter-retire — Completed 2026-09-13.
+- [x] **CORE-595** [medium]🧩 [unattended] | tasknote-selection-split — Completed 2026-09-13.
+- [x] **CORE-594** [medium]🧩 [unattended] | mirror-pair-o-filing-commits — Completed 2026-09-13.
+- [x] **CORE-593** [light]🔧 [unattended] | refactor-filing-post-stage-verify — Completed 2026-09-13.
+- [x] **CORE-592** [light]🔧 [unattended] | updater-self-skip-realpath — Completed 2026-09-13.
+- [x] **FE-120** [light]🔧 [unattended] | sse-heartbeat-extract — Completed 2026-09-13.
+- [x] **FE-119** [light]🔧 [unattended] | origin-guard-same-site-reject — Completed 2026-09-13.
+- [x] **CORE-591** [light]🔧 | followup-filing-commit-index-guard — Completed 2026-09-13.
+- [x] **FE-118** [light]🔧 [unattended] | unattended-chip — Completed 2026-09-13.
+- [x] **CORE-589** [light]🔧 | agents-snippet-plan-archive-mention — Completed 2026-09-13.
+- [x] **CORE-590** [light]🔧 [unattended] | glossary-unattended-entry — Completed 2026-09-12.
+- [x] **CORE-588** [medium]🧩 | release-dogfood-concurrent-write-hardening — Completed 2026-09-12.
+- [x] **CORE-587** [light]🔧 | ft-task-sop-receipt-park-fix — Completed 2026-09-12.
+- [x] **CORE-586** [medium]🧩 | release v5.27.0 — Completed 2026-09-12.
+- [x] **FE-116** [light]🔧 [unattended] | theme-key-namespace — Completed 2026-09-12.
+- [x] **CORE-585** [light]🔧 [unattended] | updater-git-no-prompt-timeout — Completed 2026-09-12.
+- [x] **FE-115** [medium]🧩 [unattended] | watcher-error-listener — Completed 2026-09-12.
 
 ## Completed 2026-08
 
