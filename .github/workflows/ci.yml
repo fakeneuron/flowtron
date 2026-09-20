@@ -41,8 +41,13 @@ jobs:
         env:
           GITLEAKS_VERSION: '8.30.1'
         run: |
-          curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" \
-            | tar -xz -C "$RUNNER_TEMP" gitleaks
+          TARBALL="gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          curl -sSL -o "$RUNNER_TEMP/$TARBALL" \
+            "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/$TARBALL"
+          curl -sSL -o "$RUNNER_TEMP/gitleaks_${GITLEAKS_VERSION}_checksums.txt" \
+            "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_checksums.txt"
+          ( cd "$RUNNER_TEMP" && sha256sum --ignore-missing --check "gitleaks_${GITLEAKS_VERSION}_checksums.txt" )
+          tar -xz -C "$RUNNER_TEMP" -f "$RUNNER_TEMP/$TARBALL" gitleaks
           "$RUNNER_TEMP/gitleaks" dir . --config .gitleaks.toml --no-banner --redact
 
   # Cross-file drift checks — the release-context-free subset of /ft-release

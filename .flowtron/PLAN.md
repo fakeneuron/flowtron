@@ -13,14 +13,13 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-625** [light]🔧 | gitleaks-checksum-verify — Verify the gitleaks tarball against the release `checksums.txt` (`sha256sum --check`) before extracting in `ci.yml`'s scan step, and add the bullet to SECURITY.md §"GitHub Actions CI" mitigations; needs a CI run to confirm. Surfaced by audit 2026-09-20 (Finding #1, Medium).
-
 ## Low
 
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-625** [light]🔧 | gitleaks-checksum-verify — Completed 2026-09-20.
 - [x] **CORE-624** [medium]🧩 | pair-h-lift-to-ci — Completed 2026-09-20.
 - [x] **CORE-623** [medium]🧩 [unattended] | validation-roster-build-step — Completed 2026-09-20.
 - [x] **CORE-626** [light] | tsconfig-vitest-globals-drop — `viz/tsconfig.json` `types` trimmed to `["node"]`; `vitest/globals` was dead ambient typing with `globals: false` and explicit imports everywhere. Surfaced by audit 2026-09-20 (Finding #2, Low), fixed inline.

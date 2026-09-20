@@ -138,10 +138,11 @@ inherit the workflow-level `permissions: contents: read` and the same
 SHA-pinned `actions/checkout`, so the posture below covers both.
 
 The realistic compromise paths are (1) a mutable action tag silently
-moving to malicious code, and (2) a workflow that grants the job more
-`GITHUB_TOKEN` scope than it needs. Exposure is low — the workflow uses
-`pull_request`, not `pull_request_target`, so fork runs get a read-only
-token and no repository secrets. This is hardening, not a live
+moving to malicious code, (2) a workflow that grants the job more
+`GITHUB_TOKEN` scope than it needs, and (3) a tampered gitleaks release
+tarball substituted for the real binary. Exposure is low — the workflow
+uses `pull_request`, not `pull_request_target`, so fork runs get a
+read-only token and no repository secrets. This is hardening, not a live
 vulnerability.
 
 **Mitigations in the workflow.**
@@ -153,6 +154,10 @@ vulnerability.
   commit SHAs (with a version comment), not mutable `@v4` tags. Same
   reason this document tells adopters to pin the submodule to annotated
   release tags rather than `main`.
+- The gitleaks release tarball is verified against the release's
+  `checksums.txt` via `sha256sum --check` before extraction — a swapped
+  or corrupted tarball fails the checksum and the step exits nonzero
+  before any untrusted code runs.
 
 **What remains.** A PR that edits `ci.yml` to add `pull_request_target`,
 broaden `permissions:`, or swap a SHA is a code change and should be
