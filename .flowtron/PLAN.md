@@ -16,6 +16,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Low
 
 - [ ] **CORE-636** [light]🔧 | remove-dead-claudeignore — Root `.claudeignore` lists `SCRATCH.md` (gone) and Claude Code has no such mechanism (CORE-632.3, MIGRATION §1.1). `git rm` it; surfaced by CORE-632.N audit.
+- [ ] **CORE-637** [light]🔧 | root-justfile-viz — flowtron has no root `justfile`, and `viz/` sits outside natabula `STACK-TENDENCIES.md`'s auto-adapt subdir set (`frontend`/`backend`/`landing`/`worker`) with no root `package.json`/`pyproject.toml` either, so caobunga's suite (`just test`/`lint`/`typecheck`) records `refused` here forever and `proceed-on-green` can't apply (natabula NAT-304, 2026-09-20). Deposit a hand-authored root `justfile` (§"Non-standard repos hand-author bodies" shape) mapping `setup`/`dev`/`test`/`lint`/`typecheck`/`build` to `npm --prefix viz …`, matching the commands `CLAUDE.md` §"Validation"/§"Dev Server" and `viz/README.md` already document running from the repo root.
 
 ## Future Opportunities
 
