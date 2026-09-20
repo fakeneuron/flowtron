@@ -464,9 +464,10 @@ the loop's termination condition. Weaker here on purpose: contract and
 documentation tasks are ordinary work, and a contrived command on a prose
 criterion buys a tick, not evidence.
 
-**The receipt.** Phase 3 runs those commands and writes what happened into
-Testing Notes — the command as invoked, its exit code, and the first line of
-failure output when non-zero:
+**The receipt.** Capture the receipt, not the transcript: read the runner's
+tail — exit code and first failure line are the evidence. Phase 3 runs those
+commands and writes what happened into Testing Notes — the command as
+invoked, its exit code, and the first line of failure output when non-zero:
 
 ```text
 npm --prefix viz test       → 0
