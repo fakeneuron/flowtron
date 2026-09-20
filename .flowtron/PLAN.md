@@ -15,7 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **CORE-EPIC-638** [heavy]🧠 | completed-rotation-debt — `## Completed` holds 88 checked rows against the 60-row bound (`SPEC/plan-filing.md` §"`## Completed` rotation"), and the advisory that should have flagged it lives only in `/ft-task` — the two closure runners that also append to the section (`/ft-micro-task`, `/ft-close-epic`) and the release cut never surface it, so a day of micro-tasks and epic closes accrues rotation debt silently. Rotate now; mirror the advisory where closures actually happen. Discovery supplied by audit-repo 2026-09-20. Surfaced by audit-repo 2026-09-20 (Theme: operator-motion hygiene lags the ratchet culture).
   - [x] **CORE-638.2** [light]🔧 [unattended] | rotate-completed-rows — Completed 2026-09-20.
-  - [ ] **CORE-638.3** [medium]🧩 [unattended] | rotation-advisory-mirrors — Mirror `/ft-task`'s one-line Completed-rotation advisory (`claude/skills/ft-task/SKILL.md` §Step 1) into `claude/skills/ft-micro-task/SKILL.md` and `claude/skills/ft-close-epic/SKILL.md` at their PLAN.md-read step, and add a matching advisory-only standing check to `/ft-release` §7.1 (`step-7.1-standing-checks.md`); advisory never blocks, per SPEC. Keep every touched body under its `docs/CONTEXT-BUDGET.md` cap.
+  - [x] **CORE-638.3** [medium]🧩 [unattended] | rotation-advisory-mirrors — Completed 2026-09-20.
   - [ ] **CORE-638.N** [light]🔧 | completed-rotation-debt audit — Epic closure audit + doc-drift sweep.
 
 ## Low

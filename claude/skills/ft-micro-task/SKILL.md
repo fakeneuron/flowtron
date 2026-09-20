@@ -71,6 +71,15 @@ Two lines: the ID and the `| shortname`, then 1-2 sentences of purpose drawn fro
 
 **Filing-discipline check (advisory).** Word-count the captured long description. If it exceeds the 70-word hard cap from SPEC/tasknote-selection.md §"PLAN.md filing-discipline thresholds", surface a one-line warning to the user — informational only; proceed.
 
+**Completed-rotation check (advisory).** While PLAN.md is open, count the checked rows under `## Completed` (nested epic children included). If the count exceeds **60**, surface a one-line warning:
+
+```text
+⚠️ PLAN.md `## Completed` holds <N> rows (>60). Consider rotating the
+   oldest rows to `.flowtron/PLAN-ARCHIVE.md`. Proceeding.
+```
+
+Informational only — never block, never rotate. Rotation is an operator motion; the bound, the month-block granularity, and the two never-split rules are canonical in SPEC/plan-filing.md §"`## Completed` rotation".
+
 **Pre-flight checks:**
 
 - Resolve the **Area** by reading the `.flowtron/tasknote/README.md` §"Archive layout" table — every task, every prefix, canonical ones included. `<area>` is **never derived from the task ID**: lowercasing the prefix is the adopter's declaration-time default, not a resolution you may perform, and a project may deliberately declare a folder it would not produce (`NAT-*` → `archive/natabula/`). See SPEC §"Task ID convention". If the table has no row for this prefix, stop and ask — do not guess a folder.

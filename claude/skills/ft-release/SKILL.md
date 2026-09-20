@@ -277,8 +277,8 @@ fragments so this skill stays under its load budget. Read them **in parallel**:
 - `claude/skills/ft-release/step-7.1-standing-checks.md` — wiring-consumer
   derivation · shipped-skill parity · installed-surface policy · self-wiring
   parity (local blocking + machine-global advisory) · README task-counter ·
-  context budget (`docs/CONTEXT-BUDGET.md`; also refreshes that doc's ledger
-  in this cut).
+  completed-rotation (advisory) · context budget (`docs/CONTEXT-BUDGET.md`;
+  also refreshes that doc's ledger in this cut).
 - `claude/skills/ft-release/step-7.1-mirror-pairs.md` — the Pair A–R
   mirror-pair catalogue, opening with the local runner for the eleven pairs
   whose shell lives in `.github/workflows/ci.yml`.
@@ -286,7 +286,8 @@ fragments so this skill stays under its load budget. Read them **in parallel**:
 Walk them in that order, then continue to §7.2. Both fragments are part of this
 step, not optional appendices: skipping the second silently drops every
 mirror-pair gate. Every check in them blocks the cut unless it says otherwise
-(the machine-global wiring half is the one standing advisory).
+(the machine-global wiring half and the completed-rotation count are the
+standing advisories).
 
 ### 7.2 — Auto-draft annotated tag message
 
@@ -334,6 +335,8 @@ Surface the bundled 📦 ready-to-commit gate per SPEC/gates.md §"Operator-gate
 - **SOP-currency verdict (advisory)** — carry the §5 flag-don't-bump result into the closure review as one line, e.g. `SOP currency: clean` or `SOP currency: ft-task behind source (2 candidates) → filed CORE-NNN`. Unlike the dogfood gate this **does not block commit-go**, and the `last-verified:` stamps are not among the files this cut edits.
 
 - **Global self-wiring verdict (advisory)** — carry the §7.1 machine-global half into the closure review as one line, e.g. `Global wiring: clean` or `Global wiring: 9 dangling links, 2 path casings — fix out of band`. Like the SOP-currency verdict this **does not block commit-go**: `~/.claude/` is machine state and no file in this cut can carry the fix. The §7.1 *local* half is not reported here — it blocks upstream and is already resolved by the time this gate is reached.
+
+- **Completed-rotation verdict (advisory)** — carry the §7.1 completed-rotation count into the closure review as one line, e.g. `Completed rotation: 36 rows (bound 60)` or `Completed rotation: 88 rows (>60) — rotate out of band`. Like the two verdicts above this **does not block commit-go**: rotation is an operator motion (`SPEC/plan-filing.md` §"`## Completed` rotation") and a release cut never applies it.
 
 - **Push-go prompt** — AskUserQuestion with default Yes, a bundled in-📦 prompt parallel to /ft-close-epic's parent-flip (per SPEC/gates.md §"Conditional skip rule" bundled-prompt override):
 
