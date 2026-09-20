@@ -15,6 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
+- [ ] **CORE-616** [light]🔧 | receipt-not-transcript — One stack-neutral sentence in SPEC.md §"🧪 Phase 3" "The receipt" paragraph (mirrored in ft-task's Phase 3 bullet): capture the receipt, not the transcript — read the runner's tail; exit code and first failure line are the evidence. Quiet-reporter defaults stay natabula's (NAT-291).
 ## Future Opportunities
 
 ## Completed
