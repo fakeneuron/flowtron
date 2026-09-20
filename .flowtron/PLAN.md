@@ -13,11 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-631** [heavy]🧠 | budget-headroom — Three budgeted surfaces sit under one working unit of headroom by their own rows' sizing: `claude/skills/ft-release/**` at 122,895 / 125,000 (unit +4,000–5,300; capped this morning by CORE-622.2, then CORE-623/624/625 consumed ~4.9k the same day), `SPEC/procedures/ft-task.md` at 35,933 / 38,000, `SPEC/gate-postures.md` at 20,412 / 23,000. The ledger's own rule says trim or extract before raising; the big one has a structural cause — ten §7.1 pairs (A, B, C, H, J, M, N, O, P, Q) now carry their shell twice, in `step-7.1-mirror-pairs.md` (54,996) and again as the executable copy in `ci.yml`. Discovery supplied by audit-repo 2026-09-20. Surfaced by audit-repo 2026-09-20 (Theme: ratchets everywhere — and two are one edit from tripping).
-  - [x] **CORE-631.2** [heavy]🧠 | lifted-pairs-single-body — Completed 2026-09-20.
-  - [x] **CORE-631.3** [medium]🧩 | procedures-postures-headroom — Completed 2026-09-20.
-  - [ ] **CORE-631.N** [light]🔧 | budget-headroom audit — Epic closure audit + doc-drift sweep.
-
 - [ ] **CORE-EPIC-632** [heavy]🧠 | adopter-footprint — Every adopter checks out flowtron's dogfood archive at `.flowtron/core/.flowtron/` — 12.5 MB / 987 files, 71% of tracked bytes, growing ~200 tasknotes a month — and no doc, snippet, or `/ft-new-project` step tells them to keep it out of grep / `@`-file / context tooling; `LOGO.png` (446,650 bytes, rendered at 200 px) ships alongside a 4,566-byte `viz/public/LOGO.webp` of the same mark. Keep the archive where the README's headline claim needs it; shrink what the adopter carries around it. Discovery supplied by audit-repo 2026-09-20. Surfaced by audit-repo 2026-09-20 (Theme: the dogfood archive is the proof and the baggage).
   - [ ] **CORE-632.2** [light]🔧 [unattended] | readme-logo-webp — Point `README.md`'s logo at a ≤ 10 KB webp (reuse `viz/public/LOGO.webp` or add a root `LOGO.webp`) and drop the 446,650-byte `LOGO.png`; the `<img width="200">` never needed the full-resolution PNG. Check `/ft-release` §7.1 and `docs/` for any path reference to the PNG before deleting.
   - [ ] **CORE-632.3** [medium]🧩 | submodule-archive-exclusion-guidance — Add a `docs/MIGRATION.md` §1 bullet and one line in `claude/AGENTS-snippet.md` (mirrored to the codex / cursor / grok snippets) naming `.flowtron/core/.flowtron/` as the path to exclude from search and context tooling (`.claudeignore` / `.cursorignore` / `.rgignore`), and a matching deposit step in `/ft-new-project`; the flowtron-self checkout has no `.flowtron/core/` and needs nothing.
@@ -32,6 +27,10 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-631** [heavy]🧠 | budget-headroom — Completed 2026-09-20.
+  - [x] **CORE-631.2** [heavy]🧠 | lifted-pairs-single-body — Completed 2026-09-20.
+  - [x] **CORE-631.3** [medium]🧩 | procedures-postures-headroom — Completed 2026-09-20.
+  - [x] **CORE-631.N** [light]🔧 | budget-headroom audit — Completed 2026-09-20.
 - [x] **CORE-630** [light]🔧 | readme-maturity-note — Completed 2026-09-20.
 - [x] **CORE-629** [medium]🧩 | release v5.30.0 — Completed 2026-09-20.
 - [x] **CORE-625** [light]🔧 | gitleaks-checksum-verify — Completed 2026-09-20.
