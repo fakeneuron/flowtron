@@ -11,9 +11,19 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
+- [ ] **CORE-620** [light]🔧 [unattended] | completed-rotation-2026-09 — `.flowtron/PLAN.md` `## Completed` holds 82 checked rows against the 60-row bound `SPEC/plan-filing.md` §"`## Completed` rotation" set by CORE-604.4 on 2026-09-18; rotate the oldest rows verbatim into `.flowtron/PLAN-ARCHIVE.md` under `## Completed 2026-09`, epic cohorts whole, until at or under 60. Surfaced by audit-repo 2026-09-20 (Theme: the plan file is a context cost).
+
 ## Medium
 
+- [ ] **CORE-EPIC-622** [heavy]🧠 | drift-ratchet-gaps — Three checks the repo's own rules describe but nothing executes: skill-fragment totals are measured in `docs/CONTEXT-BUDGET.md` §"Ledger" yet unbudgeted (`claude/skills/ft-release/step-7.1-mirror-pairs.md` is 50,099 chars, above its parent's 40,000 cap; the directory sums to 117,337 and loads in full on every cut); `§"Heading"` citations across ~130 live files resolve clean today but only Pairs N/O check any in CI (CORE-546 was this class); the viz shared-pure tier is Node-free by `viz/README.md` convention only, and `vite build` never runs. Discovery supplied by audit-repo 2026-09-20. Surfaced by audit-repo 2026-09-20 (Theme: ratchets with gaps).
+  - [ ] **CORE-622.2** [medium]🧩 [unattended] | skill-directory-budget-row — Add a `claude/skills/ft-release/**` directory-total row to `docs/CONTEXT-BUDGET.md` §"Budgets" (file-plus-~1.5-units sizing, as `gate-postures.md`'s row), and teach the CI `drift` context-budget step and `/ft-release` §7.1 to sum a `**` row; closes the "fragments its way under the cap" gap §"Ledger" names.
+  - [ ] **CORE-622.3** [medium]🧩 [unattended] | section-citation-resolver — CI `drift` step plus §7.1 pair that resolves every `` `<file>.md` §"<Section>" `` citation in live markdown (tasknote archive excluded) against a `## ` heading or a `**<Section>` bold lead in the target (CORE-609's rule); Pairs N and O become instances of it. Lands green — the 2026-09-20 sweep found zero real breaks.
+  - [ ] **CORE-622.4** [light]🔧 [unattended] | viz-shared-pure-node-guard — Extend `viz/eslint.config.js`'s `no-restricted-imports` `node:*` pattern to the eight shared-pure modules `viz/README.md` §"Architecture — three tiers" lists, and either add `npm --prefix viz run build` to CI `validate` or drop the unexercised `build`/`preview` scripts from `viz/package.json`.
+  - [ ] **CORE-622.N** [light]🔧 | drift-ratchet-gaps audit — Epic closure audit + doc-drift sweep.
+
 ## Low
+
+- [ ] **CORE-621** [light]🔧 [unattended] | editorconfig-final-newline — `docs/GLOSSARY.md` and `templates/sidequest-template.md` lack the final newline `.editorconfig` requires, and the template propagates into every adopter's `.flowtron/sidequest/`. Add the newline and a CI `drift` step (`tail -c1` over tracked text files) so the class stays closed. Surfaced by audit-repo 2026-09-20 (Theme: ratchets with gaps).
 
 ## Future Opportunities
 
