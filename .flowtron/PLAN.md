@@ -17,6 +17,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-632.2** Completed 2026-09-20.
   - [ ] **CORE-632.3** [medium]🧩 | submodule-archive-exclusion-guidance — Add a `docs/MIGRATION.md` §1 bullet and one line in `claude/AGENTS-snippet.md` (mirrored to the codex / cursor / grok snippets) naming `.flowtron/core/.flowtron/` as the path to exclude from search and context tooling (`.claudeignore` / `.cursorignore` / `.rgignore`), and a matching deposit step in `/ft-new-project`; the flowtron-self checkout has no `.flowtron/core/` and needs nothing.
   - [ ] **CORE-632.N** [light]🔧 | adopter-footprint audit — Epic closure audit + doc-drift sweep.
+- [ ] **CORE-635** [light]🔧 [unattended] | plan-stub-shape-ratchet — `CORE-632.2`'s unattended close wrote `- [x] **CORE-632.2** Completed 2026-09-20.` — no `| shortname`, against `SPEC/plan-filing.md` §"Completed archive convention" — and nothing flagged it (caobunga read `worker-exited`). Add a checked-but-malformed case to `SPEC/fixtures/plan/exclusions.md`, a CI pair (Pair-H shape, mirrored in AGENTS.md §Validation) grepping PLAN stubs for `| shortname`, and repair the row.
 
 ## Low
 
