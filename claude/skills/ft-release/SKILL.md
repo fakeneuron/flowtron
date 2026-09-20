@@ -188,6 +188,7 @@ Independently of the version edits, run the standing viz + fleet-updater validat
 npm --prefix viz test
 npm --prefix viz run typecheck
 npm --prefix viz run lint
+npm --prefix viz run build
 node --test tools/update-adopters.test.mjs
 node --check tools/update-adopters.test.mjs
 node --check tools/update-adopters.mjs

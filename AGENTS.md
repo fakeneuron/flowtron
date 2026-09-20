@@ -85,6 +85,7 @@ the main commands from the repository root (the directory containing the
 npm --prefix viz test
 npm --prefix viz run typecheck
 npm --prefix viz run lint
+npm --prefix viz run build
 ```
 
 If your shell is already inside `viz/` (common when iterating on the UI), drop

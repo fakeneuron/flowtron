@@ -78,9 +78,9 @@ Must print nothing. The `continue` guard is the load-bearing half: a stub may le
 
 **Pair G — retired.** Guarded the `/ft-goal-task` `--worktree` roster against its two mirror surfaces; [[CORE-571]] folded the skill into `/ft-task --loop` without the flag, so there is nothing left to mirror. The letter is kept so later pair citations stay stable.
 
-**Pair H — validation command roster ↔ 5 restatement sites.** `AGENTS.md` §"Validation" is the source of truth for the six commands that define "passing" (3 viz + `node --test` + 2 × `node --check`). Four other surfaces restate that roster — `.github/workflows/ci.yml`, `docs/CONVENTIONS.md` §"GitHub Actions CI", `.flowtron/tasknote/README.md` §"Project quick commands", and `/ft-release` SKILL.md's Step 6 fence — and nothing bound them, so a release-gate edit that skipped the two `node --check`s left `/ft-release` narrower than CI with no detector (CORE-430.N F2; CORE-433.4). Pair F's presence idiom covers the class; a second half pins the CI workflow to AGENTS byte-for-byte and in order, which is the "verbatim" claim CONVENTIONS makes.
+**Pair H — validation command roster ↔ 5 restatement sites.** `AGENTS.md` §"Validation" is the source of truth for the seven commands that define "passing" (4 viz + `node --test` + 2 × `node --check`). Four other surfaces restate that roster — `.github/workflows/ci.yml`, `docs/CONVENTIONS.md` §"GitHub Actions CI", `.flowtron/tasknote/README.md` §"Project quick commands", and `/ft-release` SKILL.md's Step 6 fence — and nothing bound them, so a release-gate edit that skipped the two `node --check`s left `/ft-release` narrower than CI with no detector (CORE-430.N F2; CORE-433.4). Pair F's presence idiom covers the class; a second half pins the CI workflow to AGENTS byte-for-byte and in order, which is the "verbatim" claim CONVENTIONS makes.
 
-Presence — each of the five sites must name all six AGENTS command strings. Formats differ (YAML `run:`, prose, bullets, fenced lines), so this is presence, not byte identity. The `/ft-release` site is scoped to Step 6 by `awk`. That scoping was originally self-defence — this pair's command list used to live inside `SKILL.md` itself, so a whole-file grep could never fail — and since CORE-507 moved the pair into this fragment it is no longer needed for that reason. Keep it anyway: scoped to the Step 6 fence the check asserts the commands sit in the validation gate, where the "verbatim" claim applies, rather than passing on an incidental mention elsewhere in `SKILL.md`.
+Presence — each of the five sites must name all seven AGENTS command strings. Formats differ (YAML `run:`, prose, bullets, fenced lines), so this is presence, not byte identity. The `/ft-release` site is scoped to Step 6 by `awk`. That scoping was originally self-defence — this pair's command list used to live inside `SKILL.md` itself, so a whole-file grep could never fail — and since CORE-507 moved the pair into this fragment it is no longer needed for that reason. Keep it anyway: scoped to the Step 6 fence the check asserts the commands sit in the validation gate, where the "verbatim" claim applies, rather than passing on an incidental mention elsewhere in `SKILL.md`.
 
 ```sh
 while IFS= read -r cmd; do
@@ -95,6 +95,7 @@ done <<'EOF'
 npm --prefix viz test
 npm --prefix viz run typecheck
 npm --prefix viz run lint
+npm --prefix viz run build
 node --test tools/update-adopters.test.mjs
 node --check tools/update-adopters.test.mjs
 node --check tools/update-adopters.mjs
