@@ -15,12 +15,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **CORE-621** [light]🔧 [unattended] | editorconfig-final-newline — `docs/GLOSSARY.md` and `templates/sidequest-template.md` lack the final newline `.editorconfig` requires, and the template propagates into every adopter's `.flowtron/sidequest/`. Add the newline and a CI `drift` step (`tail -c1` over tracked text files) so the class stays closed. Surfaced by audit-repo 2026-09-20 (Theme: ratchets with gaps).
-
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-621** [light]🔧 [unattended] | editorconfig-final-newline — Completed 2026-09-20.
 - [x] **CORE-EPIC-622** [heavy]🧠 | drift-ratchet-gaps — Completed 2026-09-20.
   - [x] **CORE-622.2** [medium]🧩 [unattended] | skill-directory-budget-row — Completed 2026-09-20.
   - [x] **CORE-622.3** [medium]🧩 [unattended] | section-citation-resolver — Completed 2026-09-20.

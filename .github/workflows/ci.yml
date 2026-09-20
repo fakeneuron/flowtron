@@ -110,6 +110,18 @@ jobs:
                    | sed -E 's/^\| `([^`]+)` \| ([0-9,]+) \|.*/\1|\2/')
           [ -z "$bad" ] || exit 1
 
+      - name: Final newline (.editorconfig insert_final_newline)
+        run: |
+          # `.flowtron/tasknote/archive/` is excluded like Pair P/Q above: it's
+          # write-once history predating this check, not a live surface to ratchet.
+          bad=
+          while IFS= read -r f; do
+            case "$f" in .flowtron/tasknote/archive/*) continue ;; esac
+            [ -s "$f" ] || continue
+            [ -z "$(tail -c1 "$f")" ] || { echo "NO FINAL NEWLINE  $f"; bad=1; }
+          done < <(git grep -Il '' -- .)
+          [ -z "$bad" ] || exit 1
+
       - name: Pair A — templates roster clause present in both surfaces
         run: |
           # Presence only. The content half — every file in templates/ named by
