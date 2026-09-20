@@ -13,7 +13,17 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
+- [ ] **CORE-EPIC-638** [heavy]🧠 | completed-rotation-debt — `## Completed` holds 88 checked rows against the 60-row bound (`SPEC/plan-filing.md` §"`## Completed` rotation"), and the advisory that should have flagged it lives only in `/ft-task` — the two closure runners that also append to the section (`/ft-micro-task`, `/ft-close-epic`) and the release cut never surface it, so a day of micro-tasks and epic closes accrues rotation debt silently. Rotate now; mirror the advisory where closures actually happen. Discovery supplied by audit-repo 2026-09-20. Surfaced by audit-repo 2026-09-20 (Theme: operator-motion hygiene lags the ratchet culture).
+  - [ ] **CORE-638.2** [light]🔧 [unattended] | rotate-completed-rows — Move the oldest checked rows from `.flowtron/PLAN.md` `## Completed` into `.flowtron/PLAN-ARCHIVE.md` under the existing `## Completed 2026-09` heading, verbatim and epic cohorts intact, until the section is at or below 60 rows; Pair R must stay green on both files.
+  - [ ] **CORE-638.3** [medium]🧩 [unattended] | rotation-advisory-mirrors — Mirror `/ft-task`'s one-line Completed-rotation advisory (`claude/skills/ft-task/SKILL.md` §Step 1) into `claude/skills/ft-micro-task/SKILL.md` and `claude/skills/ft-close-epic/SKILL.md` at their PLAN.md-read step, and add a matching advisory-only standing check to `/ft-release` §7.1 (`step-7.1-standing-checks.md`); advisory never blocks, per SPEC. Keep every touched body under its `docs/CONTEXT-BUDGET.md` cap.
+  - [ ] **CORE-638.N** [light]🔧 | completed-rotation-debt audit — Epic closure audit + doc-drift sweep.
+
 ## Low
+
+- [ ] **CORE-EPIC-639** [heavy]🧠 | toolchain-currency — CI validates on Node 24 only while local dev runs Node 26 (where the suite's FE-053/FE-95 flake history was observed) and `viz/package.json` `engines` admits 22/24/26+; six majors are pending (`typescript` 5.9→7.0, `vitest` 4→5, `js-yaml` 4→5, `@testing-library/jest-dom` 6→7, `globals` 15→17, `@types/node` 24→26) with Dependabot deliberately security-only and no other currency trigger. Keep Dependabot as is; add the second CI lane and a release-time currency look. Discovery supplied by audit-repo 2026-09-20. Surfaced by audit-repo 2026-09-20 (Theme: toolchain currency is manual and single-lane).
+  - [ ] **CORE-639.2** [light]🔧 [unattended] | ci-node-matrix — Add `strategy.matrix.node: [24, 26]` to the `validate` job in `.github/workflows/ci.yml` and reference it from `setup-node`'s `node-version`; job-level keys only, no `- run:` line changes, so Pair H stays untouched; update `docs/CONVENTIONS.md` §"GitHub Actions CI"'s "on Node 24" clause.
+  - [ ] **CORE-639.3** [medium]🧩 | viz-majors-triage — Triage the six pending majors in `viz/package.json`: bump each one whose full validation roster stays green, park the rest as `/ft-file-followup --park` stubs with the blocking reason; then add an advisory-only `npm --prefix viz outdated` majors line to `/ft-release` §7.1 standing checks so currency is looked at every cut.
+  - [ ] **CORE-639.N** [light]🔧 | toolchain-currency audit — Epic closure audit + doc-drift sweep.
 
 ## Future Opportunities
 
