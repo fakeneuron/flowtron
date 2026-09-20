@@ -72,4 +72,33 @@ export default tseslint.config(
       ],
     },
   },
+  {
+    // Codifies the shared-pure tier's Node-free convention from README.md
+    // §"Architecture — three tiers" — these eight modules are usable from
+    // the browser bundle, so they must never import Node builtins either.
+    files: [
+      'src/parser.ts',
+      'src/tasknote.ts',
+      'src/fence.ts',
+      'src/sseChange.ts',
+      'src/storage.ts',
+      'src/viewMode.ts',
+      'src/visibilityPrefs.ts',
+      'src/projectStorage.ts',
+    ],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['node:*'],
+              message:
+                'Shared-pure modules must not import Node builtins — see README.md §"Architecture — three tiers".',
+            },
+          ],
+        },
+      ],
+    },
+  },
 );
