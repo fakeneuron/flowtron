@@ -118,6 +118,10 @@ exact=$(awk '/^## Budgets$/,/^## Known over budget/' docs/CONTEXT-BUDGET.md \
 while IFS='|' read -r surface budget; do
   budget=${budget//,/}
   case "$surface" in
+    *'**')
+      n=$(find "${surface%/\*\*}" -type f -exec cat {} + | wc -c)
+      [ "$n" -le "$budget" ] || echo "OVER BUDGET  $surface  $n > $budget"
+      ;;
     *'*'*)
       for f in $surface; do
         [ -f "$f" ] || continue
@@ -138,7 +142,14 @@ done < <(awk '/^## Budgets$/,/^## Known over budget/' docs/CONTEXT-BUDGET.md \
 
 `$exact` is the set of non-glob rows, excluded from the glob row's expansion so
 the most specific row wins (`ft-release`'s own row exempts it from the glob
-row's cap). No `OVER BUDGET` line — nothing to do. For each one printed:
+row's cap). A row ending in `/**` is a **directory total**: the `**` arm sums
+every file under that directory with the same `find … -exec cat | wc -c`
+idiom the ledger refresh below uses, and compares the sum — it is not a glob to
+expand, and it neither exempts nor is exempted by the per-file rows, so a
+fragment counts once toward its parent's directory row and again toward any
+per-file row it matches. The arm sits first in the `case` because `*'*'*`
+would otherwise catch it. No `OVER BUDGET` line — nothing to do. For each one
+printed:
 
 - **Listed in §"Known over budget" with an open owner** — its owning task line
   is still `- [ ]` in `.flowtron/PLAN.md`. Informational: note it in the §7.4

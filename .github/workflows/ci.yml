@@ -87,6 +87,10 @@ jobs:
           while IFS='|' read -r surface budget; do
             budget=${budget//,/}
             case "$surface" in
+              *'**')
+                n=$(find "${surface%/\*\*}" -type f -exec cat {} + | wc -c)
+                [ "$n" -le "$budget" ] || { echo "OVER BUDGET  $surface  $n > $budget"; bad=1; }
+                ;;
               *'*'*)
                 for f in $surface; do
                   [ -f "$f" ] || continue

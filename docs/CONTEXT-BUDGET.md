@@ -46,10 +46,13 @@ Checked on every push by the CI `drift` job and at every release cut by
 | `SPEC/post-closure.md` | 12,000 | The three post-archive steps — commit decision, 🏁 marker plus next-move suggestion, copy-paste line — split out of `SPEC.md` by [[CORE-607]] at 7,823. Budgeted although lazy — it arrives only at a closing runner's final step, once the tasknote is archived — because it sat under `SPEC.md`'s cap before the move, and a split that un-budgets what it moves has gamed the number rather than met it (the `gate-postures.md` rule). Sized like its siblings: the file plus ~1.5 working units. |
 | `claude/skills/*/SKILL.md` | 33,000 | One skill body is loaded per task, on top of `SPEC.md`. Set at 30,000 by [[CORE-535.2]], where every shipped skill except `ft-release` passed, so the cap bit on regrowth rather than demanding an unscoped rewrite. Raised to 33,000 by [[CORE-558.5]]: after [[CORE-558.4]]'s restore, `ft-task` measured 29,355 — **645 chars of headroom**, a quarter of one working unit on that body (its own substantial edits run +1,187 to +3,390). That is the same defect [[CORE-555]] corrected on `gates.md`, a margin sized below one edit. 33,000 gives `ft-task` ~1.5 units while `ft-goal-task` (27,140), `ft-epic-discovery` (26,986) and `ft-close-epic` (26,935) stay meaningfully capped. Not the only remedy: [[CORE-556.2]] met the same 685-char squeeze on `ft-release` by extracting a lazy fragment, which is the better move when a body is genuinely overgrown rather than merely near its line. |
 | `claude/skills/ft-release/SKILL.md` | 40,000 | More specific row wins. A release cut is a whole-repo motion whose skill is loaded alone, never alongside a tasknote, and this body is already post-trim ([[CORE-507]] cut it from ~77,000 to 37,274). Budgeted rather than exempted so it still ratchets. |
+| `claude/skills/ft-release/**` | 125,000 | Directory total — every file under the skill, summed, not a per-file cap. The row above caps only the body, and the ledger's own §"Skill bodies" note says why that is not enough: fragments defer load, they do not remove it, and a release cut walks every fragment in this directory on every cut. Measured but unbudgeted through [[CORE-613]], the directory grew to 117,337 with `step-7.1-mirror-pairs.md` alone at 50,099 — over the body's own cap, and invisible to it. Budgeted by [[CORE-622.2]] at the directory's 117,971 plus ~1.5 working units, `gate-postures.md`'s sizing rule; a working unit here is a new mirror pair or CI binding, which across the last twenty touching commits ran +4,000 to +5,300. |
 | `SPEC/procedures/ft-task.md` | 38,000 | The always-loaded runner body for Codex/Cursor/Grok tasks — this project's non-Claude equivalent of `claude/skills/ft-task/SKILL.md`, read in full on every such task's cold start. Previously fell under this table's "not loaded to run an ordinary task" exemption, which reasoned from Claude's own load path (where `SKILL.md` is the loaded surface) rather than the full set of runners this repo supports. Budgeted at 38,000 by [[CORE-608]], sized like its lazy-but-near-universal siblings: the file at 34,565 chars plus ~1.5 working units, the same sizing rule `gate-postures.md`'s row uses. |
 
 **Precedence:** the most specific matching row wins. `ft-release`'s own row
-governs it; every other `SKILL.md` falls under the glob row.
+governs it; every other `SKILL.md` falls under the glob row. A `/**` row is
+outside that precedence: it is a directory total, checked in addition to
+whatever per-file rows its files match, never instead of them.
 
 **Not budgeted, deliberately:** `docs/`, archived tasknotes, `tools/`, `viz/`,
 and the lazy `SPEC/` modules other than `gates.md`, `gate-postures.md`,
@@ -188,7 +191,12 @@ only on the branch that needs them. Whole-directory totals for the two largest:
 `ft-release` 116,394, `ft-task` 73,512. Splitting a body into fragments defers
 load; it does not remove it ([[CORE-507]] §2.5), so a skill that fragments its
 way under the cap without shedding content has gamed the number rather than met
-it.
+it. For `ft-release` that is no longer only a ledger observation: its
+`claude/skills/ft-release/**` row in §"Budgets" caps the directory total, so
+the gaming case fails the same check the per-file rows do. `ft-task`'s
+directory stays a ledger figure — its fragments are genuinely branch-gated
+(`--debug`, `--loop`, `--unattended`), where `ft-release`'s all load on every
+cut.
 
 ### Adopter-side always-loaded
 
