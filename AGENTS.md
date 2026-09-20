@@ -52,7 +52,7 @@ not to)".
 - `README.md` — top-level project overview and entry point.
 - `SECURITY.md` — security policy and vulnerability reporting.
 - `CONTRIBUTING.md` — contributor guide: maintenance model, filing issues, PR process.
-- `.github/` — GitHub-specific config (CI workflow: `workflows/ci.yml`).
+- `.github/` — GitHub-specific config (CI workflow: `workflows/ci.yml`; Dependabot security-update config: `dependabot.yml`).
 - `SPEC.md` — canonical workflow contract.
 - `SPEC/` — lazy modules for epics, starter tasks, blocked tasks, model
   routing, gate machinery, flag postures, the operator-cue vocabulary, gate discipline,

@@ -11,7 +11,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
+- [ ] **CORE-623** [medium]🧩 [unattended] | validation-roster-build-step — CORE-622.4 added `npm --prefix viz run build` to CI `validate` without updating `AGENTS.md` §"Validation" or its four labeled mirrors (CONVENTIONS §"GitHub Actions CI", tasknote README quick commands, `/ft-release` Step 6, Pair H heredoc + "six commands" prose); Pair H's CI-verbatim diff now fails. Promote `build` into the roster on all five surfaces. Surfaced by audit 2026-09-20 (Finding #3, High).
+
 ## Medium
+
+- [ ] **CORE-624** [medium]🧩 | pair-h-lift-to-ci — Lift Pair H (presence + CI-verbatim halves) into the CI `drift` job so a validation-roster mirror miss fails on the commit that lands it, not at the next release cut; add its Pair L mapping row. Blocked by [[CORE-623]]. Surfaced by audit 2026-09-20 (Finding #3, High).
+- [ ] **CORE-625** [light]🔧 | gitleaks-checksum-verify — Verify the gitleaks tarball against the release `checksums.txt` (`sha256sum --check`) before extracting in `ci.yml`'s scan step, and add the bullet to SECURITY.md §"GitHub Actions CI" mitigations; needs a CI run to confirm. Surfaced by audit 2026-09-20 (Finding #1, Medium).
 
 ## Low
 
@@ -19,6 +24,9 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-626** [light] | tsconfig-vitest-globals-drop — `viz/tsconfig.json` `types` trimmed to `["node"]`; `vitest/globals` was dead ambient typing with `globals: false` and explicit imports everywhere. Surfaced by audit 2026-09-20 (Finding #2, Low), fixed inline.
+- [x] **CORE-627** [light] | conventions-pair-g-stale — `docs/CONVENTIONS.md` §"Dependency audit cadence" release-only pair list now reads `D, F, H, I, K, and L` (Pair G retired at CORE-571). Surfaced by audit 2026-09-20 (Finding #4, Low), fixed inline.
+- [x] **CORE-628** [light] | agents-layout-dependabot — `AGENTS.md` §"Repo Layout" `.github/` row now names `dependabot.yml`. Surfaced by audit 2026-09-20 (Finding #5, Low), fixed inline.
 - [x] **CORE-621** [light]🔧 [unattended] | editorconfig-final-newline — Completed 2026-09-20.
 - [x] **CORE-EPIC-622** [heavy]🧠 | drift-ratchet-gaps — Completed 2026-09-20.
   - [x] **CORE-622.2** [medium]🧩 [unattended] | skill-directory-budget-row — Completed 2026-09-20.
