@@ -224,6 +224,11 @@ Sectioned like `claude/AGENTS-snippet.md`:
    bundle under the platform's own convention. For Claude Code these
    are relative symlinks; for another platform they might be
    `cp` / `install` / a platform-specific registration command.
+   Alongside them, one line telling the adopter to keep the
+   submodule's dogfood archive (`.flowtron/core/.flowtron/`) out of
+   the platform's search and context tooling, naming that platform's
+   ignore mechanism and pointing at `docs/MIGRATION.md` §1.1 for the
+   per-tool list (per [[CORE-632.3]]).
 3. **Pinning notes** — how the platform's wiring tracks the
    submodule's pinned flowtron commit. Symlinks track automatically;
    copies need re-copying on bump; other mechanisms documented inline.

@@ -13,10 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-632** [heavy]🧠 | adopter-footprint — Every adopter checks out flowtron's dogfood archive at `.flowtron/core/.flowtron/` — 12.5 MB / 987 files, 71% of tracked bytes, growing ~200 tasknotes a month — and no doc, snippet, or `/ft-new-project` step tells them to keep it out of grep / `@`-file / context tooling; `LOGO.png` (446,650 bytes, rendered at 200 px) ships alongside a 4,566-byte `viz/public/LOGO.webp` of the same mark. Keep the archive where the README's headline claim needs it; shrink what the adopter carries around it. Discovery supplied by audit-repo 2026-09-20. Surfaced by audit-repo 2026-09-20 (Theme: the dogfood archive is the proof and the baggage).
-  - [x] **CORE-632.2** Completed 2026-09-20.
-  - [x] **CORE-632.3** [medium]🧩 | submodule-archive-exclusion-guidance — Completed 2026-09-20.
-  - [ ] **CORE-632.N** [light]🔧 | adopter-footprint audit — Epic closure audit + doc-drift sweep.
 - [ ] **CORE-635** [light]🔧 [unattended] | plan-stub-shape-ratchet — `CORE-632.2`'s unattended close wrote `- [x] **CORE-632.2** Completed 2026-09-20.` — no `| shortname`, against `SPEC/plan-filing.md` §"Completed archive convention" — and nothing flagged it (caobunga read `worker-exited`). Add a checked-but-malformed case to `SPEC/fixtures/plan/exclusions.md`, a CI pair (Pair-H shape, mirrored in AGENTS.md §Validation) grepping PLAN stubs for `| shortname`, and repair the row.
 
 ## Low
@@ -25,6 +21,10 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-632** [heavy]🧠 | adopter-footprint — Completed 2026-09-20.
+  - [x] **CORE-632.2** Completed 2026-09-20.
+  - [x] **CORE-632.3** [medium]🧩 | submodule-archive-exclusion-guidance — Completed 2026-09-20.
+  - [x] **CORE-632.N** [light]🔧 | adopter-footprint audit — Completed 2026-09-20.
 - [x] **CORE-634** [light]🔧 [unattended] | rotation-closed-month-append — Completed 2026-09-20.
 - [x] **CORE-633** [light]🔧 [unattended] | ci-job-timeouts — Completed 2026-09-20.
 - [x] **CORE-EPIC-631** [heavy]🧠 | budget-headroom — Completed 2026-09-20.
