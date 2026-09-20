@@ -11,6 +11,10 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
+- [ ] **CORE-617** [medium]🧩 | unattended-full-suite — Under `--unattended`, Phase 3 runs the full suite (`just test` / `lint` / `typecheck` or the repo's equivalents), never the targeted default: SPEC.md §"🧪 Phase 3" "Choosing a test strategy" stays guidance attended; `SPEC/gate-postures.md` §"What `--unattended` never relaxes" gains the rule. Root cause of caobunga's green-targeted / red-full closes.
+- [ ] **CORE-618** [heavy]🧠 | plan-grammar-fixtures — Conformance fixtures for the task-line grammar: `SPEC/fixtures/plan/` (PLAN.md samples + expected JSON), cited from `SPEC/plan-parser.md`, consumed by `viz/src/parser.test.ts`. Three parsers exist today (viz TS, caobunga Python, natabula awk) with no shared cases. Downstream consumers: caobunga `CBN-203`, natabula `NAT-294`.
+- [ ] **CORE-619** [heavy]🧠 | ft-seed — Attended bulk-seeding skill: walk an existing PLAN.md with the `SPEC/unattended-candidacy.md` predicate and confirm `[unattended]` per row inside one gate. Candidacy fires only at filing time today, so a large pre-existing plan has no seeding path but hand-editing. Flowtron still writes nothing unconfirmed.
+
 ## Medium
 
 ## Low
