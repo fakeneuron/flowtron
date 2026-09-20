@@ -111,6 +111,28 @@ Contract: [`SPEC/plan-filing.md`](../SPEC/plan-filing.md)
 - [x] **CORE-531** [light]🔧 | blocked-by-grammar-discipline — Completed 2026-09-06.
 - [x] **CORE-527** [medium]🧩 | blocked-by-closure-sweep — Completed 2026-09-06.
 - [x] **CORE-526** [medium]🧩 | early-purpose-blurb — Completed 2026-09-06.
+- [x] **FE-117** [light]🔧 | vscode-href-segment-encoding — `vscodeFileHref` in `viz/src/ui/TaskDetail.tsx` now encodes per path segment with `encodeURIComponent` so `#`/`?` in a workspace path no longer truncate the `vscode://file` link; test added. Surfaced by audit 2026-09-12 (Finding #4, Low), fixed inline.
+- [x] **CORE-584** [light]🔧 | updater-hook-claims-and-exit-flush — Completed 2026-09-12.
+- [x] **FE-111** [light]🔧 [unattended] | keyboard-nav-enter-button-guard — Completed 2026-09-12.
+- [x] **FE-110** [light]🔧 [unattended] | sse-head-and-archive-prefix — Completed 2026-09-12.
+- [x] **FE-109** [light]🔧 [unattended] | tasknote-parse-node-only-reclass — Completed 2026-09-12.
+- [x] **CORE-581** [light]🔧 | quality-stack-gaps — Added `.github/dependabot.yml` (github-actions + npm/viz, security-only via `open-pull-requests-limit: 0`) and a `docs/CONVENTIONS.md` note on it as the continuous complement to the `npm audit` cadence. Operator still needs to arm the per-repo "Dependabot security updates" GitHub setting. Completed 2026-09-12.
+- [x] **FE-108** [light]🔧 [unattended] | model-chip-xheavy-glyph — Completed 2026-09-12.
+- [x] **FE-107** [light]🔧 | wikilink-markdown-link-fidelity — Refused non-http(s) links in `WikilinkMarkdown` now render their text instead of vanishing, and react-markdown's `node` prop no longer lands on the `<a>`; tests extended. Surfaced by audit 2026-09-12 (Findings #1 Medium, #4 Low). Completed 2026-09-12.
+- [x] **FE-112** [light]🔧 | fence-delimiter-unexport — Dropped the unused `export` on `FENCE_DELIMITER` in `viz/src/fence.ts`. Surfaced by audit 2026-09-12 (Finding #8, Low), fixed inline.
+- [x] **FE-113** [light]🔧 | asstring-dead-date-branch — Deleted the unreachable `Date` branch of `asString` in `viz/src/tasknote.ts` (CORE_SCHEMA never yields Date). Surfaced by audit 2026-09-12 (Finding #9, Low), fixed inline.
+- [x] **FE-114** [light]🔧 | density-docstring-typography-token — `viz/src/ui/constants.ts:207` now says chips use literal `text-xs`, not the removed `TYPOGRAPHY.caption`. Surfaced by audit 2026-09-12 (Finding #13, Low), fixed inline.
+- [x] **CORE-582** [light]🔧 | rollback-bump-unexport — Dropped the unused `export` on `rollbackBump` in `tools/update-adopters.mjs`. Surfaced by audit 2026-09-12 (Finding #7, Low), fixed inline.
+- [x] **CORE-583** [light]🔧 | updater-doc-stale-refs — Removed the dangling `SPEC.md` token at `SECURITY.md:163`; added Grok to the flagged-symlink surface list at `docs/MIGRATION.md:545`. Surfaced by audit 2026-09-12 (Finding #14, Low), fixed inline.
+- [x] **CORE-579** [light]🔧 [unattended] | external-agents-candidates-row — Completed 2026-09-12.
+- [x] **CORE-576** [light]🔧 | stale-spec-draft-cleanup — Completed 2026-09-12.
+- [x] **CORE-578** [light]🔧 | gitleaks-ci-step — Completed 2026-09-12.
+- [x] **CORE-EPIC-575** [medium]🧩 | viz-dependency-posture — Completed 2026-09-12.
+  - [x] **CORE-575.2** [light] [unattended]🔧 | npm-audit-fix-in-range — Completed 2026-09-11.
+  - [x] **CORE-575.3** [medium]🧩 | gray-matter-js-yaml-residue — Completed 2026-09-11.
+  - [x] **CORE-575.4** [light]🔧 | audit-in-ci-or-cadence — Completed 2026-09-11.
+  - [x] **CORE-575.N** [light]🔧 | viz-dependency-posture audit — Completed 2026-09-12.
+- [x] **CORE-580** [medium]🧩 [unattended] | ft-file-followup-headroom-trim — Completed 2026-09-11.
 
 ## Completed 2026-08
 
