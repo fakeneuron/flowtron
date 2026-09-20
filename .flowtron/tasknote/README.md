@@ -87,7 +87,7 @@ contract change can falsify one with no sweep reaching it —
 list for a day after CORE-489.3 added `docs/VISION.md` to it. The catch layer is
 the epic-audit sweep, which is where CORE-489.N found it; per-task closure is
 not expected to. CORE-492 weighed a release-time citation guard for this and
-declined: every citation of the shape `` `path.md` §"Section" `` from
+declined: every citation of the shape `` `<path>.md` §"<Section>" `` from
 `claude/skills/` into a doc on this list resolved when it checked (2026-08-29;
 the count is deliberately not restated — it moves with every skill edit, and
 that shape is enough to re-run the scan, treating adopter-relative paths and
@@ -110,6 +110,20 @@ file and section sit in different table cells. The declination stands; CORE-543
 was re-scoped to the detector the failure actually wanted (§7.1 **Pair L**,
 binding the `drift` CI job to the sources it lifts, plus a `/ft-release`
 CI-status gate).
+
+**Landed at CORE-622.3 (2026-09-20), because the false-positive shape moved.**
+The third filing came from `/ft-audit-repo` with the two declinations'
+evidence changed underneath it: CORE-620 rotated the `## Completed` rows that
+quoted their own drift into `.flowtron/PLAN-ARCHIVE.md`, which the check
+excludes alongside the tasknote archive (both write-once), and CORE-609 ruled a
+bold-lead paragraph a valid target, so the resolver reads `**Title` as well as
+`# Title`. Re-measured at HEAD across 132 live files and 611 path-bearing
+citations, the only findings were five `§"Fan-out."` citers with the period
+inside the quotes — fixed on the citers in the same commit. The guard is §7.1
+**Pair Q**, lifted into the CI `drift` job; the two declinations above stay as
+the record of why it took three filings, and their objection that a resolver
+does not catch claim falsification still holds — Pair Q is a pointer check,
+and this sweep set is still the catch layer for the truth of what is said.
 
 ## Project quick commands
 

@@ -60,7 +60,7 @@ Alphabetized. ~71 entries. Maintained via epic children and audits.
 
 **Extension-first** — Outward-facing principle (VISION-only, not in SPEC Core principles): prefer extending an existing pattern (sibling skill, doc convention, tasknote shape) over inventing a parallel one. Promoted from the Phase 2 "Pattern survey" contract step. See docs/VISION.md and SPEC §"🛠️ Phase 2: Execution".
 
-**Fan-out (🌳)** — Optional Discovery `.1` body section declaring which epic children are Parallel / Sequential / Synthesis. Not in the default template; `/ft-epic-discovery` pre-fills when M>1. Children echo via YAML `blocked-by` / `parallel-safe-with`. A declaration, not a scheduler. See SPEC §"Tasknote body shape" and SPEC/epic.md §"Fan-out."
+**Fan-out (🌳)** — Optional Discovery `.1` body section declaring which epic children are Parallel / Sequential / Synthesis. Not in the default template; `/ft-epic-discovery` pre-fills when M>1. Children echo via YAML `blocked-by` / `parallel-safe-with`. A declaration, not a scheduler. See SPEC §"Tasknote body shape" and SPEC/epic.md §"Fan-out".
 
 **follow-up** — A lightweight mid-flow task filed via `/ft-file-followup`; produces a one-line PLAN.md entry plus a short context paragraph delivered conversationally. Below the normal tasknote threshold.
 

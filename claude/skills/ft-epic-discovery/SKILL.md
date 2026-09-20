@@ -155,7 +155,7 @@ Leave the standard 4-phase checklist sections from the template intact below the
 - **Synthesis:**
 ```
 
-Leave the rows blank at scaffold — Step 7 fills them when the child lines are filed. M=1 skips the heading (nothing to fan out). Contract: [`SPEC/tasknote-inserts.md`](../../../SPEC/tasknote-inserts.md) and [`SPEC/epic.md`](../../../SPEC/epic.md) §"Fan-out." The heading is an optional insert, not a template change.
+Leave the rows blank at scaffold — Step 7 fills them when the child lines are filed. M=1 skips the heading (nothing to fan out). Contract: [`SPEC/tasknote-inserts.md`](../../../SPEC/tasknote-inserts.md) and [`SPEC/epic.md`](../../../SPEC/epic.md) §"Fan-out". The heading is an optional insert, not a template change.
 
 ## Step 5.5 — Deep pre-pass (only on `--deep`)
 
@@ -195,7 +195,7 @@ The Phase 2 deliverable is the filed child lines. Walk the Phase 2 checklist:
 
 Capture in Implementation Notes: the count of lines written, word-count per line, any change to the implementation-child count M from the filing-time estimate (the audit's `.N` suffix is unaffected — it never renumbers), any reconcile edits applied to existing entries (or "no downstream impact"), and the candidacy result — rows proposed and rows confirmed (or "no candidates").
 
-**Fan-out fill (when M>1).** The Step 5 placeholder is still empty. Populate `## 🌳 Fan-out` from the Discovery scoping: Parallel (independent children that may share worktrees), Sequential (`[[ID]] after [[pred]]`), Synthesis (the `.N` audit; no extra parent synthesis task). Omit a row that does not apply. When Discovery did not classify, default every implementation child to Sequential and `.N` to Synthesis. Do not write `blocked-by` / `parallel-safe-with` onto the child PLAN lines — those keys live on each child's tasknote at `/ft-task` scaffold (YAML echo). Contract: [`SPEC/epic.md`](../../../SPEC/epic.md) §"Fan-out."
+**Fan-out fill (when M>1).** The Step 5 placeholder is still empty. Populate `## 🌳 Fan-out` from the Discovery scoping: Parallel (independent children that may share worktrees), Sequential (`[[ID]] after [[pred]]`), Synthesis (the `.N` audit; no extra parent synthesis task). Omit a row that does not apply. When Discovery did not classify, default every implementation child to Sequential and `.N` to Synthesis. Do not write `blocked-by` / `parallel-safe-with` onto the child PLAN lines — those keys live on each child's tasknote at `/ft-task` scaffold (YAML echo). Contract: [`SPEC/epic.md`](../../../SPEC/epic.md) §"Fan-out".
 
 Phase 2 flows continuously into the Step 8 markdown mental-pass and Step 9 closure ops without an intermediate gate; the next operator-gate cue is the 📦 ready-to-commit banner in Step 10.
 
