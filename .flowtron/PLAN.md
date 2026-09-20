@@ -17,6 +17,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
+- [ ] **CORE-636** [light]🔧 | remove-dead-claudeignore — Root `.claudeignore` lists `SCRATCH.md` (gone) and Claude Code has no such mechanism (CORE-632.3, MIGRATION §1.1). `git rm` it; surfaced by CORE-632.N audit.
+
 ## Future Opportunities
 
 ## Completed
