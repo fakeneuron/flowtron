@@ -21,12 +21,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Low
 
 - [ ] **CORE-634** [light]🔧 [unattended] | rotation-closed-month-append — `SPEC/plan-filing.md` §"`## Completed` rotation" calls a month heading with a later block above it "closed to further appends" but never says where a row resolving to that month goes; read literally it cannot rotate, breaking "oldest first" / "never split a cohort" around it. Replace the clause: append to the existing month block's end wherever it sits; blocks are extended, never rewritten or reordered. Surfaced in adppro 2026-09-20 (17 late-swept May–July rows).
-- [ ] **CORE-633** [light]🔧 [unattended] | ci-job-timeouts — Add `timeout-minutes` to both `ci.yml` jobs (`validate` 20, `drift` 10); the viz suite is load-sensitive by its own history (FE-053, FE-95) and a hung worker today runs to GitHub's 360-minute default. Job-level keys only — no `- run:` line changes, so Pair H is untouched. Surfaced by audit-repo 2026-09-20 (Theme: ratchets everywhere — and two are one edit from tripping).
 
 ## Future Opportunities
 
 ## Completed
 
+- [x] **CORE-633** [light]🔧 [unattended] | ci-job-timeouts — Completed 2026-09-20.
 - [x] **CORE-EPIC-631** [heavy]🧠 | budget-headroom — Completed 2026-09-20.
   - [x] **CORE-631.2** [heavy]🧠 | lifted-pairs-single-body — Completed 2026-09-20.
   - [x] **CORE-631.3** [medium]🧩 | procedures-postures-headroom — Completed 2026-09-20.
