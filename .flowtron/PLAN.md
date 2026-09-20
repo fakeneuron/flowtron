@@ -14,7 +14,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Medium
 
 - [ ] **CORE-EPIC-632** [heavy]🧠 | adopter-footprint — Every adopter checks out flowtron's dogfood archive at `.flowtron/core/.flowtron/` — 12.5 MB / 987 files, 71% of tracked bytes, growing ~200 tasknotes a month — and no doc, snippet, or `/ft-new-project` step tells them to keep it out of grep / `@`-file / context tooling; `LOGO.png` (446,650 bytes, rendered at 200 px) ships alongside a 4,566-byte `viz/public/LOGO.webp` of the same mark. Keep the archive where the README's headline claim needs it; shrink what the adopter carries around it. Discovery supplied by audit-repo 2026-09-20. Surfaced by audit-repo 2026-09-20 (Theme: the dogfood archive is the proof and the baggage).
-  - [ ] **CORE-632.2** [light]🔧 [unattended] | readme-logo-webp — Point `README.md`'s logo at a ≤ 10 KB webp (reuse `viz/public/LOGO.webp` or add a root `LOGO.webp`) and drop the 446,650-byte `LOGO.png`; the `<img width="200">` never needed the full-resolution PNG. Check `/ft-release` §7.1 and `docs/` for any path reference to the PNG before deleting.
+  - [x] **CORE-632.2** Completed 2026-09-20.
   - [ ] **CORE-632.3** [medium]🧩 | submodule-archive-exclusion-guidance — Add a `docs/MIGRATION.md` §1 bullet and one line in `claude/AGENTS-snippet.md` (mirrored to the codex / cursor / grok snippets) naming `.flowtron/core/.flowtron/` as the path to exclude from search and context tooling (`.claudeignore` / `.cursorignore` / `.rgignore`), and a matching deposit step in `/ft-new-project`; the flowtron-self checkout has no `.flowtron/core/` and needs nothing.
   - [ ] **CORE-632.N** [light]🔧 | adopter-footprint audit — Epic closure audit + doc-drift sweep.
 

@@ -1,7 +1,7 @@
 # flowtron
 
 <p align="center">
-  <img src="LOGO.png" alt="flowtron logo" width="200">
+  <img src="LOGO.webp" alt="flowtron logo" width="200">
 </p>
 
 <p align="center">
