@@ -161,6 +161,33 @@ Contract: [`SPEC/plan-filing.md`](../SPEC/plan-filing.md)
 - [x] **FE-116** [light]🔧 [unattended] | theme-key-namespace — Completed 2026-09-12.
 - [x] **CORE-585** [light]🔧 [unattended] | updater-git-no-prompt-timeout — Completed 2026-09-12.
 - [x] **FE-115** [medium]🧩 [unattended] | watcher-error-listener — Completed 2026-09-12.
+- [x] **CORE-614** [medium]🧩 [unattended] | dogfood-receipt-shape — Completed 2026-09-19.
+- [x] **CORE-613** [medium]🧩 | release v5.29.0 — Completed 2026-09-19.
+- [x] **CORE-612** [light]🔧 | caobunga-commit-type — Completed 2026-09-19.
+- [x] **CORE-EPIC-610** [heavy]🧠 | archive-closure-integrity — Completed 2026-09-19.
+  - [x] **CORE-610.2** [medium]🧩 | archived-tasknote-integrity-check — Completed 2026-09-19.
+  - [x] **CORE-610.3** [light]🔧 | closure-tick-through-executable — Completed 2026-09-19.
+  - [x] **CORE-610.4** [light]🔧 | archived-stamp-fill-gate — Completed 2026-09-19.
+  - [x] **CORE-610.N** [light]🔧 | archive-closure-integrity audit — Completed 2026-09-19.
+- [x] **CORE-611** [light]🔧 | readme-glossary-count — Completed 2026-09-19.
+- [x] **CORE-609** [light]🔧 | bold-lead-citation-targets — Completed 2026-09-19.
+- [x] **CORE-608** [light]🔧 [unattended] | procedures-sop-budget-row — Completed 2026-09-19.
+- [x] **CORE-607** [heavy]🧠 | spec-headroom-extraction — Completed 2026-09-19.
+- [x] **CORE-606** [light]🔧 [unattended] | sidequest-stub-retirement — Completed 2026-09-19.
+- [x] **CORE-605** [light] | plan-filing-off-default-path — Completed 2026-09-18.
+- [x] **CORE-EPIC-604** [heavy] | gate-tiering-cold-start — Completed 2026-09-18.
+  - [x] **CORE-604.1** [heavy] | gate-tiering-cold-start discovery — Completed 2026-09-18.
+  - [x] **CORE-604.2** [heavy] | gate-postures-split — Completed 2026-09-18.
+  - [x] **CORE-604.3** [medium] | runner-stub-model-trim — Completed 2026-09-18.
+  - [x] **CORE-604.4** [light] | rotation-bound-and-ledger — Completed 2026-09-18.
+  - [x] **CORE-604.N** [heavy] | gate-tiering-cold-start audit — Completed 2026-09-18.
+- [x] **CORE-EPIC-603** [heavy]🧠 | skill-roster-diet — Completed 2026-09-18.
+  - [x] **CORE-603.1** [heavy]🧠 | skill-roster-diet discovery — Completed 2026-09-17.
+  - [x] **CORE-603.2** [light]🔧 | retire-flowtron-stats — Completed 2026-09-17.
+  - [x] **CORE-603.3** [medium]🧩 | audit-context-fold — Completed 2026-09-18.
+  - [x] **CORE-603.4** [light]🔧 | skill-description-trim — Completed 2026-09-18.
+  - [x] **CORE-603.N** [heavy]🧠 | skill-roster-diet audit — Completed 2026-09-18.
+- [x] **FE-121** [light]🔧 [unattended] | local-storage-helper — Completed 2026-09-14.
 
 ## Completed 2026-08
 
