@@ -14,16 +14,20 @@ flowtron-tracks: ft-audit
 > substituting the `## Deltas` values for the scaffold's `<placeholder>` slots.
 
 **Referenced scaffold (read first, always):**
-`.flowtron/core/claude/skills/ft-audit/SKILL.md`
+`.flowtron/core/claude/skills/ft-audit/SKILL.md` — a flowtron-self checkout
+(no `.flowtron/core/` submodule) references the in-tree
+`claude/skills/ft-audit/SKILL.md` instead.
 
 **Pass files:** the scaffold loads its per-domain pass definitions from a
 `passes/<domain>.md` sibling. This overlay has no `passes/` directory of its
 own — resolve those reads **relative to the referenced scaffold's directory**,
-i.e. `.flowtron/core/claude/skills/ft-audit/passes/<domain>.md`.
+i.e. `.flowtron/core/claude/skills/ft-audit/passes/<domain>.md` (or
+`claude/skills/ft-audit/passes/<domain>.md` in a flowtron-self checkout).
 
-_(The path is the read-only submodule — the audit scaffold is
+_(The adopter path is the read-only submodule — the audit scaffold is
 forked-not-symlinked, so this submodule path is the stable, clone-independent
-reference.)_
+reference. A flowtron-self checkout has no submodule, so the in-tree path is
+the stable reference there instead.)_
 
 ## Domains
 
@@ -55,7 +59,9 @@ value applies to every domain this overlay covers.
 ---
 
 > **Forker:** replace every `<…>` placeholder above and the `<stack>` tokens in
-> the frontmatter + headings, then delete this line. Keep the file thin — if
+> the frontmatter + headings, then delete this line. Keep whichever
+> referenced-scaffold path (adopter submodule vs. flowtron-self in-tree)
+> matches your checkout and delete the other. Keep the file thin — if
 > you find yourself editing pass *bodies* (not just the deltas above), you've
 > outgrown the overlay; full-copy the scaffold directory per
 > `docs/MIGRATION.md` §1.2.1 instead.
