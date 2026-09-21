@@ -13,8 +13,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-643** [light] | brand-kit-back-port — Place the existing mark into brand/ (logo.svg + favicon.svg + filled BRAND.md; promo only if a real 1600×900 still exists). Filed with starter at `.flowtron/tasknote/CORE-643.md`.
-
 ## Low
 
 - [ ] **CORE-641** [light]🔧 | typescript-7 — Bump typescript 5.9→7 once typescript-eslint supports TS 7.1+; tsc also TS2882 on CSS side-effect import. CORE-639.3 reverted.
@@ -23,6 +21,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-643** [light] | brand-kit-back-port — Completed 2026-09-21.
 - [x] **CORE-640** [light]🔧 | js-yaml-5-gray-matter — Completed 2026-09-21.
 - [x] **CORE-644** [medium]🧩 | audit-bootstrap-self-branch — Completed 2026-09-21.
 - [x] **CORE-645** [light] | docs-audit-gates-claim — `docs/MIGRATION.md` §1.2.2 and `/ft-release` §7.1 no longer say the `docs` audit runs with no gates; both name the CI `drift` job's doc checks (Pair Q citation resolver, final-newline, context budget) as the local gate. Surfaced by audit-docs 2026-09-21 (Finding #1, Medium), fixed inline.
