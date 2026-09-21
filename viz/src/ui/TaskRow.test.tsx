@@ -119,3 +119,40 @@ describe('TaskRow — [unattended] chip', () => {
     expect(screen.queryByLabelText(label)).toBeNull();
   });
 });
+
+// FE-122: `Task.handoff` (parsed since CORE-598.3) surfaces as a chip so a
+// row that stops mid-run for a human act is visible; it wins over the
+// `[unattended]` chip when both markers are present (SPEC §"Task-line
+// format": `[handoff]` wins).
+describe('TaskRow — [handoff] chip', () => {
+  const handoffLabel = /^Handoff/;
+  const unattendedLabel = /^Unattended/;
+
+  it('renders the chip when the task carries the marker', () => {
+    render(
+      <Providers>
+        <TaskRow task={{ ...task, handoff: true }} />
+      </Providers>
+    );
+    expect(screen.getByLabelText(handoffLabel)).toHaveTextContent('✋');
+  });
+
+  it('renders nothing when the task does not', () => {
+    render(
+      <Providers>
+        <TaskRow task={task} />
+      </Providers>
+    );
+    expect(screen.queryByLabelText(handoffLabel)).toBeNull();
+  });
+
+  it('suppresses the unattended chip when both markers are present', () => {
+    render(
+      <Providers>
+        <TaskRow task={{ ...task, unattended: true, handoff: true }} />
+      </Providers>
+    );
+    expect(screen.getByLabelText(handoffLabel)).toHaveTextContent('✋');
+    expect(screen.queryByLabelText(unattendedLabel)).toBeNull();
+  });
+});

@@ -15,8 +15,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **FE-122** [light]🔧 | handoff-chip — Render `Task.handoff` on the board: add `HandoffChip` (✋) mirroring `UnattendedChip`, wire into `TaskRowInner` so a `[handoff]` row is visible and suppresses the 🤖 chip when both tokens are present (SPEC §"Task-line format": `[handoff]` wins); CORE-598.3 Discovery §E deferred this without filing it. Surfaced by audit 2026-09-21 (Finding #1, Medium).
-
 ## Low
 
 - [ ] **CORE-641** [light]🔧 | typescript-7 — Bump typescript 5.9→7 once typescript-eslint supports TS 7.1+; tsc also TS2882 on CSS side-effect import. CORE-639.3 reverted.
@@ -25,6 +23,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-122** [light]🔧 | handoff-chip — Completed 2026-09-21.
 - [x] **CORE-653** [light] | security-spec-read-note — `SECURITY.md` §Visualizer names the one uncontained read: `.flowtron/core/SPEC.md` is followed through symlinks for its Version line only, nothing from it reaches the wire (`viz/src/workspace.ts`). Surfaced by audit 2026-09-21 (Finding #2, Low), fixed inline.
 - [x] **FE-123** [light] | viz-readme-build-command — `viz/README.md` §Commands lists `npm --prefix viz run build`, matching AGENTS.md §"Validation", CI, and the justfile. Surfaced by audit 2026-09-21 (Finding #3, Low), fixed inline.
 - [x] **CORE-EPIC-652** [heavy]🧠 | public-surface-decoupling — Completed 2026-09-21.

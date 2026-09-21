@@ -9,6 +9,7 @@ import { SubtaskProgress } from './SubtaskProgress';
 import { StatusChip } from './StatusChip';
 import { ModelChip } from './ModelChip';
 import { UnattendedChip } from './UnattendedChip';
+import { HandoffChip } from './HandoffChip';
 import { CriticalChip } from './CriticalChip';
 import { ClosureDriftChip } from './ClosureDriftChip';
 import { RelatedChip } from './RelatedChip';
@@ -98,7 +99,8 @@ export const TaskRowInner: React.FC<TaskRowInnerProps> = ({
           {status && <StatusChip status={status} density={density} />}
           {tn?.closureDrift && <ClosureDriftChip drift={tn.closureDrift} />}
           {showModel && task.model && <ModelChip model={task.model} />}
-          {task.unattended && <UnattendedChip />}
+          {task.handoff && <HandoffChip />}
+          {task.unattended && !task.handoff && <UnattendedChip />}
           {extraRightSlot}
         </div>
       </div>
