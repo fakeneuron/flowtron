@@ -15,9 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-652** [heavy]🧠 | public-surface-decoupling — flowtron is MIT/public but 14 non-archive tracked files point readers at the private `~/Code/natabula` layer (`brand/README.md`, `justfile`, `ci.yml`, `.gitleaks.toml`, `SPEC.md`, `docs/CONVENTIONS.md`, two `SPEC/` modules, three skill bodies, two READMEs); decide per site whether the pointer is operator-private (label it) or adopter-facing (make it self-contained). Discovery supplied by audit-repo 2026-09-21. Surfaced by audit-repo 2026-09-21 (Theme: Private-fleet coupling in a public artifact).
-  - [x] **CORE-652.2** [medium]🧩 | natabula-ref-inventory — Completed 2026-09-21.
-  - [ ] **CORE-652.N** [light]🔧 | public-surface-decoupling audit
+(none)
 
 ## Low
 
@@ -27,6 +25,9 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-652** [heavy]🧠 | public-surface-decoupling — Completed 2026-09-21.
+  - [x] **CORE-652.2** [medium]🧩 | natabula-ref-inventory — Completed 2026-09-21.
+  - [x] **CORE-652.N** [light]🔧 | public-surface-decoupling audit — Completed 2026-09-21.
 - [x] **CORE-EPIC-651** [heavy]🧠 | gate-reliability — Completed 2026-09-21.
   - [x] **CORE-651.2** [light]🔧 [unattended] | pair-q-out-of-repo-skip — Completed 2026-09-21.
   - [x] **CORE-651.3** [light]🔧 [unattended] | updater-test-cleanup-race — Completed 2026-09-21.
