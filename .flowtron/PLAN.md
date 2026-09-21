@@ -21,6 +21,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-639.2** [light]🔧 [unattended] | ci-node-matrix — Completed 2026-09-20.
   - [ ] **CORE-639.3** [medium]🧩 | viz-majors-triage — Triage the six pending majors in `viz/package.json`: bump each one whose full validation roster stays green, park the rest as `/ft-file-followup --park` stubs with the blocking reason; then add an advisory-only `npm --prefix viz outdated` majors line to `/ft-release` §7.1 standing checks so currency is looked at every cut.
   - [ ] **CORE-639.N** [light]🔧 | toolchain-currency audit — Epic closure audit + doc-drift sweep.
+- [ ] **CORE-640** [light]🔧 | js-yaml-5-gray-matter — Bump js-yaml 4→5 once gray-matter no longer bind()s js-yaml 3 safeLoad at import. CORE-639.3 reverted; engines.js TypeError.
 
 ## Future Opportunities
 
