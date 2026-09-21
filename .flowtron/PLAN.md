@@ -15,6 +15,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
   - [x] **CORE-651.2** [light]🔧 [unattended] | pair-q-out-of-repo-skip — Completed 2026-09-21.
   - [x] **CORE-651.3** [light]🔧 [unattended] | updater-test-cleanup-race — Completed 2026-09-21.
   - [x] **CORE-651.4** [light]🔧 [unattended] | engines-ci-matrix — Completed 2026-09-21.
+  - [ ] **CORE-651.5** [light]🔧 | lockfile-engines-sync — `viz/package-lock.json`'s root `engines.node` still reads the pre-CORE-651.4 range; `package.json` was updated but the lockfile wasn't regenerated. Run `npm --prefix viz install` to sync (verified: one field, no dependency shift).
   - [ ] **CORE-651.N** [light]🔧 | gate-reliability audit
 
 ## Medium
