@@ -423,8 +423,12 @@ jobs:
         run: |
           # Scope is every tracked .md except the two write-once archives, which
           # quote their own drift history by design. A citation is skipped when its
-          # path or section carries a placeholder (<…>, …) or a regex escape (\);
-          # a .flowtron/core/ prefix is the adopter view of this repo and is
+          # path or section carries a placeholder (<…>, …) or a regex escape (\),
+          # or when its path is absolute or ~-rooted — an out-of-repo pointer (the
+          # brand/ kit cites the operator's private layer) that no checkout can
+          # resolve, so it is neither a miss nor a match; the '~/' pattern is
+          # quoted because bash tilde-expands an unquoted case pattern. A
+          # .flowtron/core/ prefix is the adopter view of this repo and is
           # stripped; the four skill-local path variables (<SPEC_DIR>, <SKILL_DIR>,
           # <FT>, <tasknote dir>) resolve to what every Step 0 sets them to, so a
           # skill→module citation is read, not skipped. A path is tried
@@ -448,7 +452,7 @@ jobs:
           bad=
           while IFS= read -r f; do
             while IFS='|' read -r path sec; do
-              case "$path$sec" in ''|*'<'*|*'…'*|*'\'*) continue ;; esac
+              case "$path$sec" in ''|*'<'*|*'…'*|*'\'*|/*|'~/'*) continue ;; esac
               path=${path#.flowtron/core/}
               case "$path" in
                 ./*|../*) t="$(dirname "$f")/$path" ;;
