@@ -19,7 +19,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **CORE-EPIC-639** [heavy]🧠 | toolchain-currency — CI validates on Node 24 only while local dev runs Node 26 (where the suite's FE-053/FE-95 flake history was observed) and `viz/package.json` `engines` admits 22/24/26+; six majors are pending (`typescript` 5.9→7.0, `vitest` 4→5, `js-yaml` 4→5, `@testing-library/jest-dom` 6→7, `globals` 15→17, `@types/node` 24→26) with Dependabot deliberately security-only and no other currency trigger. Keep Dependabot as is; add the second CI lane and a release-time currency look. Discovery supplied by audit-repo 2026-09-20. Surfaced by audit-repo 2026-09-20 (Theme: toolchain currency is manual and single-lane).
   - [x] **CORE-639.2** [light]🔧 [unattended] | ci-node-matrix — Completed 2026-09-20.
-  - [ ] **CORE-639.3** [medium]🧩 | viz-majors-triage — Triage the six pending majors in `viz/package.json`: bump each one whose full validation roster stays green, park the rest as `/ft-file-followup --park` stubs with the blocking reason; then add an advisory-only `npm --prefix viz outdated` majors line to `/ft-release` §7.1 standing checks so currency is looked at every cut.
+  - [x] **CORE-639.3** [medium]🧩 | viz-majors-triage — Completed 2026-09-20.
   - [ ] **CORE-639.N** [light]🔧 | toolchain-currency audit — Epic closure audit + doc-drift sweep.
 - [ ] **CORE-640** [light]🔧 | js-yaml-5-gray-matter — Bump js-yaml 4→5 once gray-matter no longer bind()s js-yaml 3 safeLoad at import. CORE-639.3 reverted; engines.js TypeError.
 - [ ] **CORE-641** [light]🔧 | typescript-7 — Bump typescript 5.9→7 once typescript-eslint supports TS 7.1+; tsc also TS2882 on CSS side-effect import. CORE-639.3 reverted.

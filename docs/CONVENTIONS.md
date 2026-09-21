@@ -69,6 +69,8 @@ Findings at `--audit-level=high` or above are not silently absorbed into the rel
 
 `.github/dependabot.yml` (`CORE-581`) is the continuous complement to this cadence, not a duplicate of it: GitHub's per-repo "Dependabot security updates" setting opens a PR the moment an advisory is published, closing the staleness window this section accepts between per-cut audits, while `open-pull-requests-limit: 0` on each `updates:` entry keeps Dependabot's *version*-update PRs suppressed — that volume is exactly what `CORE-EPIC-575` chose cadence over, and folding it back in through Dependabot instead of `npm audit` would reintroduce it.
 
+Majors currency is the sibling look, not a second `validate` step: `/ft-release` §7.1's standing viz-majors-outdated check runs `npm --prefix viz outdated` once per cut, advisory-only (`CORE-639.3`). Same registry-time reasoning as the audit cadence above — latest majors move on the public registry, not on the commit — so it never joins Pair H and never blocks the tag.
+
 ### Archived-tasknote integrity floor
 
 Every tasknote archived on or after **2026-09-20** must satisfy two closure facts that [SPEC.md](../SPEC.md) §"Acceptance tick-through" and §"🚀 Phase 4: Closure" state and that, until `CORE-EPIC-610`, nothing executed: YAML `status: completed`, and no bare `- [ ]` under `## ✅ Acceptance` — every unticked box carries an annotation, canonically `N/A — <reason>` or `not met — <reason>`. The check is `/ft-release` §7.1 **Pair P**, lifted into the CI `drift` job (§"GitHub Actions CI" above) and bound to its source by Pair L.

@@ -115,6 +115,33 @@ fi
 
 `grep -c` prints `0` on an empty section (and exits 1); the assignment still captures the count. No `OVER` / `exit 1` — a number past the bound is a nudge to rotate after the cut, not a reason to hold the tag.
 
+**Standing viz-majors-outdated check (advisory).** Independently of the subroutine findings, list `viz/` packages whose installed major differs from the registry latest. Surface them, then continue. This is registry-time state (`docs/CONVENTIONS.md` §"Dependency audit cadence" — the same reason `npm audit` is not a `validate` step); the check **never blocks the cut** and never bumps. Carry the verdict into the §7.4 closure review as one line, the same flag-don't-block posture as the completed-rotation check above.
+
+```sh
+node -e '
+const {execFileSync} = require("node:child_process");
+let raw = "{}";
+try {
+  raw = execFileSync("npm", ["--prefix", "viz", "outdated", "--json"], {
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+} catch (e) {
+  raw = (e.stdout && String(e.stdout)) || "{}";
+}
+const data = JSON.parse(raw || "{}");
+const maj = (s) => String(s || "").replace(/^[^\d]*/, "").split(".")[0];
+const rows = Object.entries(data)
+  .filter(([, v]) => maj(v.current) !== maj(v.latest))
+  .map(([k, v]) => k + " " + v.current + "→" + v.latest);
+if (rows.length) {
+  console.log("⚠️ viz majors pending: " + rows.join(", ") + ". Advisory only — do not block the cut.");
+}
+'
+```
+
+`npm outdated` exits 1 when anything is behind, majors or not — swallow that and read stdout. No `OVER` / `exit 1` — a pending major is a nudge to bump or re-park after the cut, not a reason to hold the tag.
+
 **Standing context-budget check.** Flowtron ships per-file byte budgets for the
 surfaces an agent loads to run one task. They live in
 [`docs/CONTEXT-BUDGET.md`](../../../docs/CONTEXT-BUDGET.md) §"Budgets" and are
