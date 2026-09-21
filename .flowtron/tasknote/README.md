@@ -81,6 +81,14 @@ the reason these are excluded. The two trees run ~6,200 lines against a
 ~4,100-line sweep set, and walking them at every closure would roughly double a
 per-task step Core Principle #3 exists to keep small.
 
+Four `docs/` files are likewise outside the set, each for a reason the sweep
+would not add to: `docs/PHILOSOPHY.md` is history (nothing live mirrors it —
+unlike `docs/VISION.md`, which three surfaces restate); `docs/DOGFOOD.md` is
+release-gated (`/ft-release` Step 5 exercises it every cut);
+`docs/CONTEXT-BUDGET.md` is CI-enforced and re-measured by `/ft-release` §7.1;
+`docs/VERSION-HISTORY.md` is written *by* releases. `docs/GLOSSARY.md` states
+its own exclusion in its Maintenance line.
+
 **Accepted residual risk.** Skill bodies state facts *about* swept docs, so a
 contract change can falsify one with no sweep reaching it —
 `/ft-release` §7.1 asserted a stale claim about this very

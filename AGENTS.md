@@ -32,7 +32,7 @@ in `SPEC.md`; read it before starting non-trivial work.
           `/ft-release`; the adopter paste-block names `/ft-update`.
        5. The path-convention bullets are described in both files in slightly
           different prose; editing one requires checking the other. -->
-<!-- KEEP IN SYNC (CORE-516): mirrors claude/AGENTS-snippet.md:30 — same `[model]` concept, same SPEC/model.md pointer. Editing one requires checking the other. -->
+<!-- KEEP IN SYNC (CORE-516): mirrors claude/AGENTS-snippet.md:32 — same `[model]` concept, same SPEC/model.md pointer. Editing one requires checking the other. -->
 - Each PLAN.md task line carries a `[model]` segment naming the model tier or name the task should run on end-to-end; on mismatch, surface it before continuing. Contract: `SPEC/model.md` §"Model field".
 - Four bundled skills are utility-only, not part of the tasknote lifecycle
   above: `/ft-audit`, `/ft-audit-repo`, `/ft-new-project`, `/ft-seed`. Full roster + naming convention:
@@ -53,6 +53,7 @@ not to)".
 - `SECURITY.md` — security policy and vulnerability reporting.
 - `CONTRIBUTING.md` — contributor guide: maintenance model, filing issues, PR process.
 - `.github/` — GitHub-specific config (CI workflow: `workflows/ci.yml`; Dependabot security-update config: `dependabot.yml`).
+- `justfile` — `just` recipes (`setup`/`dev`/`test`/`lint`/`typecheck`/`build`) that delegate to the `viz/` npm scripts; §"Validation" below stays the roster of record.
 - `SPEC.md` — canonical workflow contract.
 - `SPEC/` — lazy modules for epics, starter tasks, blocked tasks, model
   routing, gate machinery, flag postures, the operator-cue vocabulary, gate discipline,
