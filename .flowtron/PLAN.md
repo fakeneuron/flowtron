@@ -11,12 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-EPIC-651** [heavy]🧠 | gate-reliability — Make the CI/release gate machinery deterministic where it isn't: Pair Q's citation resolver has no out-of-repo path escape (fails on the unpushed `brand/*.md` back-port), the `tools/` suite races git's post-checkout writes on macOS, and `viz/package.json` `engines` admits a Node line CI never runs. Discovery supplied by audit-repo 2026-09-21. Surfaced by audit-repo 2026-09-21 (Theme: Gate machinery outruns its escape hatches).
-  - [x] **CORE-651.2** [light]🔧 [unattended] | pair-q-out-of-repo-skip — Completed 2026-09-21.
-  - [x] **CORE-651.3** [light]🔧 [unattended] | updater-test-cleanup-race — Completed 2026-09-21.
-  - [x] **CORE-651.4** [light]🔧 [unattended] | engines-ci-matrix — Completed 2026-09-21.
-  - [x] **CORE-651.5** [light]🔧 | lockfile-engines-sync — Completed 2026-09-21.
-  - [x] **CORE-651.N** [light]🔧 | gate-reliability audit — Completed 2026-09-21.
+(none)
 
 ## Medium
 
@@ -32,6 +27,12 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-651** [heavy]🧠 | gate-reliability — Completed 2026-09-21.
+  - [x] **CORE-651.2** [light]🔧 [unattended] | pair-q-out-of-repo-skip — Completed 2026-09-21.
+  - [x] **CORE-651.3** [light]🔧 [unattended] | updater-test-cleanup-race — Completed 2026-09-21.
+  - [x] **CORE-651.4** [light]🔧 [unattended] | engines-ci-matrix — Completed 2026-09-21.
+  - [x] **CORE-651.5** [light]🔧 | lockfile-engines-sync — Completed 2026-09-21.
+  - [x] **CORE-651.N** [light]🔧 | gate-reliability audit — Completed 2026-09-21.
 - [x] **CORE-643** [light] | brand-kit-back-port — Completed 2026-09-21.
 - [x] **CORE-640** [light]🔧 | js-yaml-5-gray-matter — Completed 2026-09-21.
 - [x] **CORE-644** [medium]🧩 | audit-bootstrap-self-branch — Completed 2026-09-21.
