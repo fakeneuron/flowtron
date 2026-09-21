@@ -24,6 +24,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-642** [medium]🧩 | release v5.31.0 — Completed 2026-09-20.
 - [x] **CORE-EPIC-639** [heavy]🧠 | toolchain-currency — Completed 2026-09-20.
   - [x] **CORE-639.2** [light]🔧 [unattended] | ci-node-matrix — Completed 2026-09-20.
   - [x] **CORE-639.3** [medium]🧩 | viz-majors-triage — Completed 2026-09-20.

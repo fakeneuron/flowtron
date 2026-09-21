@@ -22,6 +22,15 @@ unless correcting a factual error.
 
 ---
 
+## v5.31.0 — dogfood-archive exclusion guidance, one-body mirror pairs, and rotation advisories on every closing surface
+
+- Adopters are told to keep the submodule's ~14 MB dogfood archive at `.flowtron/core/.flowtron/` out of search and context tooling — a per-tool recipe in `docs/MIGRATION.md` §1.1, mirrored by every `AGENTS-snippet.md` and deposited by `/ft-new-project`.
+- `ci.yml` becomes the single body for the ten lifted §7.1 mirror pairs; the release walk extracts and runs them locally before each cut, and `ft-release`'s directory total drops ~9k chars.
+- `/ft-micro-task`, `/ft-close-epic`, and `/ft-release` surface the `## Completed` >60-row rotation advisory `/ft-task` already had; a PLAN-ARCHIVE month heading stays open to appends for as long as it exists.
+- CI gains a Node 24/26 matrix, job timeouts, and Pair R (every checked stub row keeps its `| shortname`); four viz majors land, js-yaml 5 and typescript 7 park as upstream-blocked.
+
+Also: `README.md` logo served as a 4.5 kB webp; `/ft-release` lists pending viz majors as an advisory; `docs/CONTEXT-BUDGET.md` rows for the gate-postures and ft-task SOP re-measured.
+
 ## v5.30.0 — a shared plan-grammar fixture suite, the /ft-seed skill, and drift ratchets lifted into CI
 
 - `SPEC/fixtures/plan/` ships six whole-file PLAN.md samples with expected-parse JSON as the conformance suite every PLAN.md parser tests against; the visualizer's parser is the reference consumer.
