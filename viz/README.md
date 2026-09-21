@@ -17,6 +17,7 @@ npm --prefix viz run dev        # http://localhost:5120 (strictPort)
 npm --prefix viz test
 npm --prefix viz run typecheck
 npm --prefix viz run lint
+npm --prefix viz run build
 ```
 
 Inside `viz/`, drop the `--prefix viz`.

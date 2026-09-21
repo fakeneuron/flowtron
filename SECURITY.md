@@ -257,7 +257,11 @@ dev server:
   check in `readTasknoteDir` (`viz/src/tasknoteRead.ts`) — so a symlinked `PLAN.md`,
   `PLAN-ARCHIVE.md`, `.flowtron/`, `tasknote/`, or `archive/` cannot pull an
   arbitrary readable file onto the wire. Project roots that are *themselves* symlinks stay supported
-  — the root resolves first, and nothing below it may escape.
+  — the root resolves first, and nothing below it may escape. The one read
+  outside that bound is `.flowtron/core/SPEC.md`, followed through symlinks
+  for its `**Version:**` line only — no file content reaches the wire, and
+  containment would break the common `.flowtron/core -> ~/code/flowtron`
+  local-dev link for no security gain (`viz/src/workspace.ts`).
 - Sends a defense-in-depth `Content-Security-Policy` response header
   (`server.headers` in `vite.config.ts`): `default-src 'self'`,
   `object-src 'none'`, `base-uri 'self'`, `frame-ancestors 'none'`, and a
