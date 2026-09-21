@@ -18,3 +18,5 @@ Bump `js-yaml` 4→5 after gray-matter stops calling `yaml.safeLoad.bind` at imp
 ## Resume anchor
 
 CORE-639.3 viz-majors-triage, after reverting js-yaml 5 and keeping the other green majors.
+
+Re-checked 2026-09-20 (`/ft-task CORE-640` Discovery): npm `gray-matter` still **4.0.3** (2021-04-24); GitHub `master` `lib/engines.js` still `yaml.safeLoad.bind` / `yaml.safeDump.bind`; no published release of commit `ba2bc22` (load/dump). Halted as Phase 1 blocked-prerequisite Re-scope — no flowtron `Blocked by [[ID]]` (upstream package, not a task). Re-enter when gray-matter publishes a build that binds `load`/`dump` (or drops the eager bind).
