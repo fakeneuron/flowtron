@@ -55,6 +55,16 @@ async function gitQuiet(cwd, ...args) {
   await execFileAsync('git', args, { cwd });
 }
 
+/**
+ * Temp-root cleanup. A bare `rm(..., {recursive:true})` races git's
+ * post-checkout object writes on macOS (`ENOTEMPTY` on `.git/objects`);
+ * `maxRetries`/`retryDelay` let `fs.rm` retry past the transient window
+ * (CORE-651.3).
+ */
+async function rmTree(path) {
+  await rm(path, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 });
+}
+
 /** Shared local clone mirror — object-copy source for portable fixture cores. */
 let mirrorDir;
 /**
@@ -102,7 +112,7 @@ before(async () => {
 });
 
 after(async () => {
-  if (mirrorDir) await rm(mirrorDir, { recursive: true, force: true });
+  if (mirrorDir) await rmTree(mirrorDir);
 });
 
 /**
@@ -185,7 +195,7 @@ describe('parseArgs / pure helpers', () => {
     await writeFile(path, '**Version:** v1.2.3\n');
     assert.equal(await pinnedVersion(path), 'v1.2.3');
     assert.equal(await pinnedVersion(join(dir, 'missing.md')), null);
-    await rm(dir, { recursive: true, force: true });
+    await rmTree(dir);
   });
 
   it('verifyPinnedSha passes through on match, throws on mismatch (CORE-366)', () => {
@@ -262,7 +272,7 @@ describe('checkAdopter classification (fixtures)', () => {
   });
 
   after(async () => {
-    await rm(root, { recursive: true, force: true });
+    await rmTree(root);
   });
 
   it('current: committed gitlink == latest', async () => {
@@ -301,7 +311,7 @@ describe('checkAdopter classification (fixtures)', () => {
     // intact, but the superproject's own git dir is gone, so `rev-parse
     // HEAD:.flowtron/core` fails. This lands in the `current === latest` branch,
     // which used to early-return `current` off that failure.
-    await rm(join(adopter.repo, '.git'), { recursive: true, force: true });
+    await rmTree(join(adopter.repo, '.git'));
     const result = await checkAdopter(adopter, latest);
     assert.equal(result.status, 'skip');
     assert.equal(result.current, latest);
@@ -391,7 +401,7 @@ describe('checkAdopter classification (fixtures)', () => {
     // Corrupt the adopter's own .git (not the submodule's) so `git diff
     // --cached --quiet` fails outside the exit-1 "there are staged changes"
     // case (git falls back to --no-index usage-error mode, exit 129).
-    await rm(join(adopter.repo, '.git'), { recursive: true, force: true });
+    await rmTree(join(adopter.repo, '.git'));
     await assert.rejects(() => checkAdopter(adopter, latest), (e) => {
       assert.notEqual(e.code, 1);
       return true;
@@ -408,7 +418,7 @@ describe('discoverAdopters', () => {
     const { adopters, legacy: legacyNames } = await discoverAdopters(root);
     assert.ok(adopters.some((a) => a.name === 'alpha' && a.repo === adopter.repo));
     assert.deepEqual(legacyNames, ['legacy-proj']);
-    await rm(root, { recursive: true, force: true });
+    await rmTree(root);
   });
 
   // CORE-540 — an unreadable root must surface as a failure, not a silent
@@ -435,7 +445,7 @@ describe('discoverAdopters', () => {
     assert.equal(aliasReal, repoReal);
     // The comparison the old code used would have missed this alias.
     assert.notEqual(resolve(alias), FLOWTRON_REPO);
-    await rm(root, { recursive: true, force: true });
+    await rmTree(root);
   });
 });
 
@@ -444,18 +454,18 @@ describe('gitlinkDrift / describePin', () => {
     const root = await mkdtemp(join(tmpdir(), 'ft-upd-gl-'));
     const adopter = await makeAdopter(root, 'ok', latest);
     assert.equal(await gitlinkDrift(adopter.repo, latest), null);
-    await rm(root, { recursive: true, force: true });
+    await rmTree(root);
   });
 
   it('returns the unresolved sentinel — not null — when the gitlink lookup fails (CORE-490.2)', async () => {
     const root = await mkdtemp(join(tmpdir(), 'ft-upd-gl-unres-'));
     const adopter = await makeAdopter(root, 'broken', latest);
-    await rm(join(adopter.repo, '.git'), { recursive: true, force: true });
+    await rmTree(join(adopter.repo, '.git'));
     const drift = await gitlinkDrift(adopter.repo, latest);
     assert.notEqual(drift, null, 'a failed lookup must not read as "no drift"');
     assert.equal(drift.unresolved, true);
     assert.match(drift.error, /could not resolve the committed gitlink/i);
-    await rm(root, { recursive: true, force: true });
+    await rmTree(root);
   });
 
   it('describePin resolves a tagged SHA', async () => {
@@ -474,7 +484,7 @@ describe('FLOWTRON_UPDATE_LATEST seam validation (CORE-432.4)', () => {
     assert.equal(code, 2);
     assert.match(stderr, /FLOWTRON_UPDATE_LATEST/);
     assert.match(stderr, /invalid/);
-    await rm(root, { recursive: true, force: true });
+    await rmTree(root);
   });
 
   it('exits 2 naming the env var when set to non-semver', async () => {
@@ -486,7 +496,7 @@ describe('FLOWTRON_UPDATE_LATEST seam validation (CORE-432.4)', () => {
     assert.equal(code, 2);
     assert.match(stderr, /FLOWTRON_UPDATE_LATEST/);
     assert.match(stderr, /not-a-tag/);
-    await rm(root, { recursive: true, force: true });
+    await rmTree(root);
   });
 });
 
@@ -513,14 +523,14 @@ describe('dry-run CLI (--root fixture)', () => {
     assert.match(stdout, /⬆ cli-behind: would bump/);
     assert.match(stdout, /⏭ cli-staged .*skipped — staged changes/);
     assert.match(stdout, /Summary:.*1 current · 1 drift · would bump 1 · 1 skipped/);
-    await rm(root, { recursive: true, force: true });
+    await rmTree(root);
   });
 
   it('empty workspace prints no-adopters message', async () => {
     const root = await mkdtemp(join(tmpdir(), 'ft-upd-empty-'));
     const { stdout } = await runCli(['--root', root]);
     assert.match(stdout, /No \.flowtron\/core adopters found/);
-    await rm(root, { recursive: true, force: true });
+    await rmTree(root);
   });
 
   // CORE-601 — a workspace with zero .flowtron/core adopters still reports
@@ -531,7 +541,7 @@ describe('dry-run CLI (--root fixture)', () => {
     const { stdout } = await runCli(['--root', root]);
     assert.match(stdout, /legacy-layout repos skipped.*legacy-proj/);
     assert.match(stdout, /No \.flowtron\/core adopters found/);
-    await rm(root, { recursive: true, force: true });
+    await rmTree(root);
   });
 
   // CORE-540 — a nonexistent/unreadable --root must fail loudly (exit 1), not
@@ -585,7 +595,7 @@ describe('sandboxed --apply', () => {
     assert.match(stdout, /⬆ apply-cli: bumped/);
     assert.match(stdout, /✓ apply-me: current/);
 
-    await rm(root, { recursive: true, force: true });
+    await rmTree(root);
   });
 
   // CORE-490.3 — the bump commit is a pure gitlink move; adopter-authored
@@ -605,7 +615,7 @@ describe('sandboxed --apply', () => {
 
     assert.equal(await pinnedVersion(join(adopter.sub, 'SPEC.md')), latest);
 
-    await rm(root, { recursive: true, force: true });
+    await rmTree(root);
   });
 
   // CORE-424.4 — mid-fleet apply failure must not abort the sweep or exit 0.
@@ -635,7 +645,7 @@ describe('sandboxed --apply', () => {
     assert.match(stdout, /⬆ c-ok: bumped/);
     assert.match(stdout, /Summary:.*bumped 2 · 0 skipped · 1 failed/);
 
-    await rm(root, { recursive: true, force: true });
+    await rmTree(root);
   });
 });
 
@@ -675,7 +685,7 @@ describe('applyBump rollback (CORE-419.3)', () => {
     assert.equal((await git(adopter.sub, 'rev-parse', 'HEAD')).trim(), priorSha);
     assert.equal((await git(adopter.repo, 'diff', '--cached', '--name-only')).trim(), '');
 
-    await rm(root, { recursive: true, force: true });
+    await rmTree(root);
   });
 
   it('unstages the gitlink and restores the submodule when the commit fails', async () => {
@@ -700,7 +710,7 @@ describe('applyBump rollback (CORE-419.3)', () => {
     assert.equal((await git(adopter.repo, 'diff', '--cached', '--name-only')).trim(), '');
     assert.equal((await git(adopter.repo, 'rev-parse', 'HEAD')).trim(), headBefore);
 
-    await rm(root, { recursive: true, force: true });
+    await rmTree(root);
   });
 });
 
@@ -738,7 +748,7 @@ describe('applyBump fetch timeout (CORE-585)', () => {
       else process.env.FLOWTRON_FETCH_TIMEOUT_MS = prevTimeout;
     }
 
-    await rm(root, { recursive: true, force: true });
+    await rmTree(root);
   });
 });
 
@@ -796,7 +806,7 @@ describe('(fromTag, toTag) memoization (CORE-490.4)', () => {
         'a second checkAdopter call sharing (current, latest) must not repopulate the cache entry',
       );
     } finally {
-      await rm(root, { recursive: true, force: true });
+      await rmTree(root);
     }
   });
 });
@@ -834,7 +844,7 @@ describe('canonicalTagSha memoization (CORE-493)', () => {
         'a second checkAdopter call for the same `latest` must not repopulate the cache entry',
       );
     } finally {
-      await rm(root, { recursive: true, force: true });
+      await rmTree(root);
     }
   });
 
@@ -856,7 +866,7 @@ describe('canonicalTagSha memoization (CORE-493)', () => {
         'applyBump must resolve `latest` through the same cache entry checkAdopter warmed, not a fresh git spawn',
       );
     } finally {
-      await rm(root, { recursive: true, force: true });
+      await rmTree(root);
     }
   });
 });

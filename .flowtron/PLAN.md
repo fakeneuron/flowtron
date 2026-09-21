@@ -13,7 +13,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **CORE-EPIC-651** [heavy]🧠 | gate-reliability — Make the CI/release gate machinery deterministic where it isn't: Pair Q's citation resolver has no out-of-repo path escape (fails on the unpushed `brand/*.md` back-port), the `tools/` suite races git's post-checkout writes on macOS, and `viz/package.json` `engines` admits a Node line CI never runs. Discovery supplied by audit-repo 2026-09-21. Surfaced by audit-repo 2026-09-21 (Theme: Gate machinery outruns its escape hatches).
   - [x] **CORE-651.2** [light]🔧 [unattended] | pair-q-out-of-repo-skip — Completed 2026-09-21.
-  - [ ] **CORE-651.3** [light]🔧 [unattended] | updater-test-cleanup-race — `tools/update-adopters.test.mjs`: temp-root `rm(..., {recursive:true})` races git's post-checkout object writes on macOS (ENOTEMPTY on `.git/objects`); add `maxRetries`/`retryDelay` to the cleanup and/or spawn test-side git with `-c gc.auto=0`; done when five consecutive local runs pass 54/54.
+  - [x] **CORE-651.3** [light]🔧 [unattended] | updater-test-cleanup-race — Completed 2026-09-21.
   - [ ] **CORE-651.4** [light]🔧 [unattended] | engines-ci-matrix — Reconcile `viz/package.json` `engines.node` (`^22.22.2 || …`) with the CI matrix `[24, 26]`: drop the 22 line or add it to the matrix, and fix any restatement of the CORE-639.2 rationale.
   - [ ] **CORE-651.N** [light]🔧 | gate-reliability audit
 
