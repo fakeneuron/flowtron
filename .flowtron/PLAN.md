@@ -13,10 +13,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-EPIC-638** [heavy]🧠 | completed-rotation-debt — `## Completed` holds 88 checked rows against the 60-row bound (`SPEC/plan-filing.md` §"`## Completed` rotation"), and the advisory that should have flagged it lives only in `/ft-task` — the two closure runners that also append to the section (`/ft-micro-task`, `/ft-close-epic`) and the release cut never surface it, so a day of micro-tasks and epic closes accrues rotation debt silently. Rotate now; mirror the advisory where closures actually happen. Discovery supplied by audit-repo 2026-09-20. Surfaced by audit-repo 2026-09-20 (Theme: operator-motion hygiene lags the ratchet culture).
-  - [x] **CORE-638.2** [light]🔧 [unattended] | rotate-completed-rows — Completed 2026-09-20.
-  - [x] **CORE-638.3** [medium]🧩 [unattended] | rotation-advisory-mirrors — Completed 2026-09-20.
-  - [ ] **CORE-638.N** [light]🔧 | completed-rotation-debt audit — Epic closure audit + doc-drift sweep.
+(none)
 
 ## Low
 
@@ -29,6 +26,10 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-EPIC-638** [heavy]🧠 | completed-rotation-debt — Completed 2026-09-20.
+  - [x] **CORE-638.2** [light]🔧 [unattended] | rotate-completed-rows — Completed 2026-09-20.
+  - [x] **CORE-638.3** [medium]🧩 [unattended] | rotation-advisory-mirrors — Completed 2026-09-20.
+  - [x] **CORE-638.N** [light]🔧 | completed-rotation-debt audit — Completed 2026-09-20.
 - [x] **CORE-637** [light]🔧 | root-justfile-viz — Completed 2026-09-20.
 - [x] **CORE-636** [light]🔧 | remove-dead-claudeignore — Completed 2026-09-20.
 - [x] **CORE-635** [light]🔧 [unattended] | plan-stub-shape-ratchet — Completed 2026-09-20.
