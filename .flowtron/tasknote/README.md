@@ -35,7 +35,7 @@ than as a failed lookup.
 new prefix, it names the folder the prefix lowercased with the trailing `-`
 dropped, then adds the row above; the folder is created when the first tasknote
 in that area lands. An adopter may deliberately declare a folder the default
-would not produce (e.g. `NAT-*` → `archive/natabula/`); the row wins. That is
+would not produce (e.g. `OPS-*` → `archive/operations/`); the row wins. That is
 why `<area>` is read from the table rather than computed. Flowtron itself uses
 only the canonical prefixes, so its six rows happen to match the default — which
 is exactly the case that makes deriving look safe.

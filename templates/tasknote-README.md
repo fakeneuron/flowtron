@@ -59,7 +59,7 @@ than as a failed lookup.
 **Declaration-time default — not a read-path rule.** When declaring a new
 prefix, name its folder the prefix lowercased with the trailing `-` dropped
 (`OCR-*` → `archive/ocr/`), then add the row above. A project may deliberately
-declare a folder the default would not produce (e.g. `NAT-*` → `archive/natabula/`);
+declare a folder the default would not produce (e.g. `OPS-*` → `archive/operations/`);
 the row wins. That is why `<area>` is read from the table rather than computed.
 The folder itself is created when the first tasknote in that area lands at
 Phase 4 closure — a missing folder is an empty archive, not an error.

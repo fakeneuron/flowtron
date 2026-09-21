@@ -53,7 +53,7 @@ prefix is whatever the project's `.flowtron/tasknote/README.md` §"Archive layou
 table says — read it on every task, for every prefix, canonical ones included.
 Lowercasing the prefix is the *declaration-time default* for adding a row, not a
 resolution an agent may perform: a project may declare a folder the default would
-not produce (`NAT-*` → `archive/natabula/`), and the row wins. A prefix that
+not produce (`OPS-*` → `archive/operations/`), and the row wins. A prefix that
 "looks known" is the one that gets lowercased on autopilot, so the lookup carries
 no known/unknown branch.
 

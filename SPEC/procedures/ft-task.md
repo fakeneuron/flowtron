@@ -189,8 +189,8 @@ Resolve the **Area** by reading the `.flowtron/tasknote/README.md`
 §"Archive layout" table — every task, every prefix, canonical ones included.
 `<area>` is **never derived from the ID**: lowercasing the prefix is the
 adopter's declaration-time default, not a resolution you may perform, and a
-project may deliberately declare a folder it would not produce (`NAT-*` →
-`archive/natabula/`). See [`SPEC.md` §"Task ID convention"](../../SPEC.md). No
+project may deliberately declare a folder it would not produce (`OPS-*` →
+`archive/operations/`). See [`SPEC.md` §"Task ID convention"](../../SPEC.md). No
 row for this prefix → stop and ask; do not guess a folder.
 
 Check the `[model]` tag against the model you are running as, per

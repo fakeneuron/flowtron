@@ -15,4 +15,5 @@ Fill all three; keep them public-safe. Caps are caps, not targets:
 - `description` — ≤ 80 words. The paragraph a card could carry whole.
 
 Below this line the file is free — longer copy, voice notes, what not to
-say. Standard: `~/Code/natabula/docs/DESIGN-STANDARDS.md` §"Brand kit".
+say. Standard (operator-private): `~/Code/natabula/docs/DESIGN-STANDARDS.md`
+§"Brand kit" — this file and `README.md` are the self-contained contract.

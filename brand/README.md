@@ -17,6 +17,6 @@ file.
 
 Only `BRAND.md` and this README are deposited; the three assets and
 `PROMPTS.md` are yours to add when the kit is filled. Presence of the
-four counted files is reported (never enforced) by natabula's
-`/natabula-layer-drift`. Standard:
-`~/Code/natabula/docs/DESIGN-STANDARDS.md` §"Brand kit".
+four counted files is reported (never enforced) by an operator-side drift
+tool. Standard (operator-private): `~/Code/natabula/docs/DESIGN-STANDARDS.md`
+§"Brand kit" — this README is the self-contained contract.

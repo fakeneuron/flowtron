@@ -1,11 +1,12 @@
-# Project command interface — hand-authored, not natabula's auto-adapting
-# template. flowtron's only stack is the `viz/` visualizer: no root
-# `package.json`/`pyproject.toml`, and `viz/` sits outside the
-# `frontend`/`backend`/`landing`/`worker` subdir set that template detects.
+# Project command interface — hand-authored, not generated from the
+# operator-private fleet template. flowtron's only stack is the `viz/`
+# visualizer: no root `package.json`/`pyproject.toml`, and `viz/` sits outside
+# the `frontend`/`backend`/`landing`/`worker` subdir set that template detects.
 # Every recipe below delegates to `npm --prefix viz …`, matching the commands
 # CLAUDE.md §"Validation"/§"Dev Server" and viz/README.md already document
-# running from the repo root. See natabula's docs/STACK-TENDENCIES.md
-# §"Non-standard repos hand-author bodies" (CORE-637).
+# running from the repo root (CORE-637). Rationale lives in the
+# operator-private ~/Code/natabula/docs/STACK-TENDENCIES.md §"Non-standard
+# repos hand-author bodies".
 #
 # Prerequisite: `just` (one-time `brew install just`). Run `just` with no
 # args to list recipes.

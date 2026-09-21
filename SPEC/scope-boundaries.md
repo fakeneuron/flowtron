@@ -16,8 +16,8 @@ finds a flowtron-side issue files a `CORE-` ticket and routes it, rather
 than fixing flowtron directly from that project's session.
 
 **CORE-483.3 exception.** One tasknote predates this rule: it edited two
-`natabula` `.gitignore` files directly as its whole deliverable —
-deliberate, recorded, flowtron-side commit only. That precedent stands as
+`.gitignore` files in a sibling operator-private repo directly as its whole
+deliverable — deliberate, recorded, flowtron-side commit only. That precedent stands as
 the single documented exception, not a license — like the CLI and
 cross-project-query carve-outs below, it
 does not extend to future tasks.

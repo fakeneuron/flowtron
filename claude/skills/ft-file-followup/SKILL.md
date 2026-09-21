@@ -80,7 +80,7 @@ question cannot be asked either; stop:
 
 ## Step 1a — Pre-flight checks
 
-- Resolve the **Area** by reading the `.flowtron/tasknote/README.md` §"Archive layout" table — every task, every prefix, canonical ones included. `<area>` is **never derived from the task ID**: lowercasing the prefix is the adopter's declaration-time default, not a resolution you may perform, and a project may deliberately declare a folder it would not produce (`NAT-*` → `archive/natabula/`). See SPEC §"Task ID convention". If the table has no row for this prefix, stop and ask — do not guess a folder.
+- Resolve the **Area** by reading the `.flowtron/tasknote/README.md` §"Archive layout" table — every task, every prefix, canonical ones included. `<area>` is **never derived from the task ID**: lowercasing the prefix is the adopter's declaration-time default, not a resolution you may perform, and a project may deliberately declare a folder it would not produce (`OPS-*` → `archive/operations/`). See SPEC §"Task ID convention". If the table has no row for this prefix, stop and ask — do not guess a folder.
 - The task ID must NOT already exist in PLAN.md. If it does, stop and ask whether the user meant a different ID — `/ft-file-followup` files NEW tasks; reusing an existing entry is out of scope.
 - `.flowtron/tasknote/<TASK-ID>.md` must NOT already exist. If it does, stop. Surface the conflict (could be in-flight, blocked, completed, starter, or already a follow-up that was promoted). In starter mode this is the path being written, so the check is load-bearing rather than defensive.
 - `.flowtron/tasknote/archive/<area>/<TASK-ID>.md` must NOT already exist. If it does, stop — the ID has been used and archived; pick a fresh ID.

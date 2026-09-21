@@ -37,10 +37,9 @@ jobs:
       - run: node --check tools/update-adopters.mjs
 
       # Stack-agnostic (docs-only repos included), so it sits on `validate`
-      # rather than a stack-specific lane. --config differs from natabula's
-      # own workflow on purpose: natabula is where the baseline canonically
-      # lives (configs/.gitleaks.toml); flowtron deposits its copy at repo
-      # root (CORE-578), so it is read in place rather than duplicated.
+      # rather than a stack-specific lane. The baseline `.gitleaks.toml` is
+      # a deposited copy at repo root (CORE-578), so --config reads it in
+      # place rather than fetching it from anywhere.
       - name: Secret scan (gitleaks)
         env:
           GITLEAKS_VERSION: '8.30.1'

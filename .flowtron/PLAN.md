@@ -16,7 +16,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Medium
 
 - [ ] **CORE-EPIC-652** [heavy]🧠 | public-surface-decoupling — flowtron is MIT/public but 14 non-archive tracked files point readers at the private `~/Code/natabula` layer (`brand/README.md`, `justfile`, `ci.yml`, `.gitleaks.toml`, `SPEC.md`, `docs/CONVENTIONS.md`, two `SPEC/` modules, three skill bodies, two READMEs); decide per site whether the pointer is operator-private (label it) or adopter-facing (make it self-contained). Discovery supplied by audit-repo 2026-09-21. Surfaced by audit-repo 2026-09-21 (Theme: Private-fleet coupling in a public artifact).
-  - [ ] **CORE-652.2** [medium]🧩 | natabula-ref-inventory — Walk `git grep -n natabula -- . ':!.flowtron/tasknote/archive' ':!.flowtron/PLAN-ARCHIVE.md' ':!.flowtron/PLAN.md'`, classify each hit (operator-private note vs adopter-facing pointer), and reword adopter-facing hits to stand alone; archives and PLAN history stay untouched.
+  - [x] **CORE-652.2** [medium]🧩 | natabula-ref-inventory — Completed 2026-09-21.
   - [ ] **CORE-652.N** [light]🔧 | public-surface-decoupling audit
 
 ## Low
