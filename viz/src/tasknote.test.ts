@@ -838,4 +838,47 @@ created: 2026-01-01
     expect(note.frontmatter?.title).toBe('kept');
     expect(note.frontmatter?.tags).toEqual([]);
   });
+
+  describe('frontmatter splitting (CORE-640, in-repo replacement for gray-matter)', () => {
+    const fm = `title: Demo\nstatus: in-progress\ncreated: 2026-01-01\n`;
+
+    it('treats a file with no leading --- as body only', () => {
+      const note = parseTasknote('DEMO-5', '/abs/DEMO-5.md', '# DEMO-5 | Demo\n\n## 🎯 Goal\n\nG\n');
+      expect(note.frontmatter).toBeNull();
+      expect(note.goal).toBe('G');
+    });
+
+    it('splits CRLF-delimited frontmatter', () => {
+      const text = `---\r\n${fm.replace(/\n/g, '\r\n')}---\r\n\r\n# DEMO-6 | Demo\r\n\r\n## 🎯 Goal\r\n\r\nG\r\n`;
+      const note = parseTasknote('DEMO-6', '/abs/DEMO-6.md', text);
+      expect(note.frontmatter?.title).toBe('Demo');
+      expect(note.goal).toBe('G');
+    });
+
+    it('accepts a closing --- at end of file', () => {
+      const note = parseTasknote('DEMO-7', '/abs/DEMO-7.md', `---\n${fm}---`);
+      expect(note.frontmatter?.title).toBe('Demo');
+      expect(note.goal).toBe('');
+    });
+
+    it('yields no frontmatter for an empty --- block', () => {
+      const note = parseTasknote('DEMO-8', '/abs/DEMO-8.md', '---\n---\n\n# DEMO-8 | Demo\n');
+      expect(note.frontmatter).toBeNull();
+    });
+
+    it('throws on an unclosed --- block instead of parsing the body as YAML', () => {
+      expect(() => parseTasknote('DEMO-9', '/abs/DEMO-9.md', `---\n${fm}# DEMO-9 | Demo\n`)).toThrow(/unclosed/);
+    });
+
+    it('throws on a language-tagged open (---yaml), not just ---js', () => {
+      expect(() => parseTasknote('DEMO-10', '/abs/DEMO-10.md', `---yaml\n${fm}---\n`)).toThrow(/bare ---/);
+    });
+
+    it('does not mistake a --- inside the body for a second delimiter', () => {
+      const text = `---\n${fm}---\n\n# DEMO-11 | Demo\n\n## 🎯 Goal\n\nG\n\n---\n\n## ✅ Acceptance\n\n- [ ] A\n`;
+      const note = parseTasknote('DEMO-11', '/abs/DEMO-11.md', text);
+      expect(note.goal).toBe('G');
+      expect(note.acceptance).toContain('- [ ] A');
+    });
+  });
 });

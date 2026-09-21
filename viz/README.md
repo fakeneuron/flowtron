@@ -93,7 +93,7 @@ viz/
     workspace.ts          Node-only (project discovery)
     fsSafe.ts             Node-only (path-safe fs helpers)
     tasknoteRead.ts       Node-only (contained tasknote-dir reader)
-    tasknote-parse.ts     Node-only (gray-matter frontmatter parse)
+    tasknote-parse.ts     Node-only (frontmatter split + js-yaml parse)
     archiveCache.ts       Node-only
     flowtronWatch.ts      Node-only
     watchSet.ts           Node-only
