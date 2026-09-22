@@ -85,9 +85,9 @@ Global utilities (`/ft-new-project`, `/ft-audit-repo`) live in the user's agent 
 
 ### 1.2.1 Optional: fork the `/ft-audit` scaffold per stack
 
-Flowtron ships one stack-neutral audit scaffold at `.flowtron/core/claude/skills/ft-audit/` — a parameterized `/ft-audit <domain> [scope]` dispatcher over an eight-file `passes/` library. The shared procedure (scope resolution, 5-passes-in-order, capped findings, finding format, closing sections, write-tickets-to-PLAN) lives once in `SKILL.md`; each domain's pass definitions, severity guide, scope/rubric/gate hints, and specialist rules live in a sibling `passes/<domain>.md` loaded at run time. **Forked, not symlinked**: per-stack rubrics/commands/examples diverge.
+Flowtron ships one stack-neutral audit scaffold at `.flowtron/core/claude/skills/ft-audit/` — a parameterized `/ft-audit <domain> [scope]` dispatcher over an eight-file `passes/` library. The shared procedure (scope resolution, passes-in-order, capped findings, finding format, closing sections, write-tickets-to-PLAN) lives once in `SKILL.md`; each domain's pass definitions, severity guide, scope/rubric/gate hints, and specialist rules live in a sibling `passes/<domain>.md` loaded at run time. **Forked, not symlinked**: per-stack rubrics/commands/examples diverge.
 
-| Domain | Scope | 5 passes |
+| Domain | Scope | Passes (5 each, except `context`) |
 |---|---|---|
 | `general` (default) | Catch-all code audit; used when no domain token is given | Security · Idioms · Hygiene · Orphans · Doc drift |
 | `docs` | Documentation surface | Claims vs. code · Cross-doc consistency · Cross-references · Currency · Stale content |
@@ -96,7 +96,7 @@ Flowtron ships one stack-neutral audit scaffold at `.flowtron/core/claude/skills
 | `backend` | Backend (framework-agnostic) | Input & contracts · Error & lifecycle · Persistence · Async correctness · Observability |
 | `performance` | Cross-cutting perf (measurements required) | Hot paths · Payload & bundle · Data access · Memory & resource · Caching |
 | `structure` | Cross-file structural health (breadth sweep; depth via `/ft-refactor`) | Duplication clusters · Coupling & boundaries · Abstraction drift · God-files · Stray scripts |
-| `context` | AI-coding context surfaces (`CLAUDE.md`, `AGENTS.md`, `.claude/{commands,skills}`); no forker placeholders, so it runs unforked | Context bloat · Paste-block redundancy · `ft-*` namespace · Lean-context drift · Tooling & orphans |
+| `context` | AI-coding context surfaces (`CLAUDE.md`, `AGENTS.md`, `.claude/{commands,skills}`); no forker placeholders, so it runs unforked | Context bloat · Paste-block redundancy · `ft-*` namespace · Lean-context drift · Tooling & orphans · Contract decay (flowtron-self only) |
 
 Invoke as `/ft-audit backend src/api/**` or bare `/ft-audit` (→ `general`, default scope). A first token that isn't a domain name (a path, `last-commit`, `staged`) resolves to `general` with the whole argument string as scope.
 

@@ -40,9 +40,9 @@ Once the checklist is satisfied, delete this §0 block from your fork — leavin
 5. **Run verification gates** so passes don't report toolchain noise — commands per the pass file's gate hints; the pass file says which pass absorbs failures as findings.
 6. If anything's unclear, stop and ask. Don't guess intent.
 
-## 2. The 5 passes (in order)
+## 2. The passes (in order)
 
-Run the pass file's five passes **in its exact order**. **Cap each pass at 5 findings max.** If a pass has more, keep the top 5 by severity and note the tail count (`+3 more Low omitted`).
+Run the pass file's passes **in its exact order**, however many it declares — five for every domain but `context`, which declares six. **Cap each pass at 5 findings max** unless the pass file sets a tighter cap of its own, which wins. If a pass has more than its effective cap, keep the top **N** by severity — N being that cap, not always 5 — and note the tail count (`+3 more Low omitted`).
 
 ## 3. Finding format (use exactly this)
 
@@ -99,7 +99,7 @@ Keep the description (there is no tasknote/archive file to be the canonical reco
 
 ## 6. Hard rules
 
-- **Targeted, not exhaustive.** Five findings per pass is a *ceiling*, not a target. A clean pass gets zero findings and moves on.
+- **Targeted, not exhaustive.** A pass's cap — five by default, lower where the pass file sets one — is a *ceiling*, not a target. A clean pass gets zero findings and moves on, and a pass capped at one reports one.
 - **Write tickets, not fixes.** `.flowtron/PLAN.md` gets updated (§5 above). Source files do NOT — any code change needs a separate explicit user request. Do not open files in edit mode for fixes, do not run formatters, do not "fix while I'm in here." **Exceptions:** the §5 trivial-fix carve-out, the scaffold-bootstrap fork-install carve-out below, plus any domain exception the pass file declares.
 - **Fork-install carve-out (`scaffold-bootstrap.md` only).** The one write this skill may make outside `.flowtron/PLAN.md` is installing a fork of *itself* — `.claude/skills/audit/SKILL.md` plus its `.claude/commands/` wrapper, from `templates/audit-overlay-template.md`, and only on an explicit confirm at that fragment's step 4. It is an install, not a source edit: it touches nothing inside the scope resolved in §1 step 2. Never write it unprompted, never as a side effect of a run the operator started to get findings, and never overwrite an existing `.claude/skills/audit/`.
 - **Every finding names an operator action.** A finding whose `Operator action:` line cannot be written — because no one could act on it, or because the action would be "look into it" / "consider whether" / "monitor this" — is **disqualified**: drop it, or reframe it until the action is concrete. This is a **detection filter, not a formatting rule** — it decides what counts as a finding at all, so apply it while forming the finding, not while writing it up. A disqualified item is an observation; if it is worth keeping, §4's *Exploratory Insights* is where observations belong, and a pass whose whole yield is observations reports zero findings.
