@@ -189,7 +189,10 @@ Re-scope verdict fires 🛠️ by default, but under `--fast` it **downgrades to
 an inline notice**: the verdict still rewrites the PLAN.md line and tasknote
 header ([`SPEC.md`](../SPEC.md) §"📝 Phase 1: Discovery"), then emits
 `⚠️ Re-scope (--fast) — <what changed in the plan>; proceeding.` on its own
-line and enters Phase 2 behind the ordinary skip marker. The notice is a
+line and enters Phase 2 behind the ordinary skip marker — except on a
+blocked prerequisite, where it parks `drift` by default, names the park in the
+notice in place of `proceeding`, and halts; the operator overrules inline
+([`SPEC/blocked.md`](blocked.md) §"Under `--fast`, park and say so"). The notice is a
 **delegation** — it hands the review of a rewritten plan to the operator
 watching it scroll by — so `--unattended` does not inherit it and still parks
 `drift` (CORE-536). Routine trips are already skipped by `default-skip`, so

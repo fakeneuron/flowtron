@@ -342,7 +342,9 @@ operator's go (conversational assent —
 and the autonomous-mode drift carve-out (De-scope always fires 🛠️ even under
 autonomous mode; a Re-scope under autonomous mode still rewrites the PLAN.md
 line and tasknote header, then announces it in a one-line ⚠️ notice and
-proceeds instead of firing):
+proceeds instead of firing — on a blocked prerequisite the notice names a
+`drift` park instead and the run halts, per
+[`SPEC/blocked.md`](../blocked.md) §"Under `--fast`, park and say so"):
 [`SPEC/gates.md` §"Phase 1→2 exit gate"](../gates.md). **Under unattended
 mode** neither verdict is weakened, and there is nobody to fire at or to
 read a notice: the verdict parks with `park-reason: drift — …` and stops,
