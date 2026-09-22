@@ -11,6 +11,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
+(none)
+
 ## Medium
 
 - [ ] **CORE-660** [medium]🧩 | gate-discipline-trim — Blocked by decay-window depth: the window [[CORE-659]] opened at `f8c44275` has observed 1 run, its own. Parked at Phase 1→2 (`status: blocked`); Discovery, inbound-reference table, and the provenance trim axis are preserved in the tasknote. Resume once N independent runs have archived. Destination decided: `docs/GATE-DISCIPLINE.md`.
@@ -18,8 +20,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Low
 
 - [ ] **FE-124** [light]🔧 [unattended] | viz-ready-filter — Ready filter in the visualizer: open rows whose `Blocked by [[ID]]` / `blocked-by:` targets are all closed. Stay out of `viz/src/parser.ts` — caobunga re-verifies its grammar port against it on every pin bump.
-- [ ] **CORE-668** [light]🔧 | plan-high-none-placeholder — `templates/PLAN.md` ships `(none)` under every empty priority section, but `b39eb024` left `.flowtron/PLAN.md` §"High" empty with no placeholder, so the live plan diverges from the convention it demonstrates. Decide whether `(none)` is the convention and restore it, or drop it from the template. Surfaced by `/code-review` during CORE-661.
 - [ ] **CORE-641** [light]🔧 | typescript-7 — Bump typescript 5.9→7 once typescript-eslint supports TS 7.1+; tsc also TS2882 on CSS side-effect import. CORE-639.3 reverted.
+- [ ] **CORE-669** [light]🔧 | plan-none-convention-doc — Document the `(none)` empty-section placeholder convention in `SPEC/plan-filing.md` — implicit only in `templates/PLAN.md` + parser tests, which let it silently drop from the live plan once (CORE-668).
 
 ## Future Opportunities
 
@@ -28,6 +30,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-668** [light]🔧 | plan-high-none-placeholder — Completed 2026-09-22.
 - [x] **CORE-667** [medium]🧩 | fast-rescope-park-drift — Completed 2026-09-22. `SPEC/gates.md` §"Flag interaction", `SPEC/procedures/ft-task.md`'s exit gate, and `ft-task/SKILL.md` Step 4 now carve out the `--fast` blocked-prerequisite park per `SPEC/blocked.md`.
 - [x] **CORE-666** [light]🔧 | core660-link-fix — Completed 2026-09-22.
 - [x] **CORE-661** [medium]🧩 | audit-decay-pass — Completed 2026-09-22. Added pass 6 "Contract decay" to `/ft-audit`'s `context` domain (flowtron-self only, one clause per run, provenance-selected, proposes a [[CORE-659]]-shaped decay window); generalised the dispatcher off a fixed five passes.
