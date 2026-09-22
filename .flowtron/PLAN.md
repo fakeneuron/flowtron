@@ -11,7 +11,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-655** [light]🔧 | caller-surface-sweep — Sharpen the Phase 4 doc-drift line for `docs/EXTERNAL-AGENTS.md`: a moved stable-surface row files the cross-repo caller-side (caobunga) row in the same closure. Add a stable-surface row for `## <emoji> Phase N:` headings + per-phase checkboxes and `## 🎯 Goal` — caobunga's `phase_progress()` and brief parse them today.
 - [ ] **CORE-656** [heavy]🧠 | review-probe — Phase 3 external review: a fresh read-only context grades the diff against `## ✅ Acceptance` by severity; Claude uses `/code-review`, other runners a `subagent-probe-template.md` variant; `N/A` on trivial diffs. Keep the Phase 3 heading; under `--unattended` a finding returns to Phase 2 or parks `input-needed` (no new code); `unattended-mode.md` stays put.
 - [ ] **CORE-657** [medium]🧩 [unattended] | spec-incident-history — Move incident rationale out of `SPEC.md` (nav-chip CORE-042.4 / CORE-393 anecdotes, "why we rejected X" prose) into `docs/PHILOSOPHY.md` or archive pointers; rules and section headings stay verbatim (owner citations in the EXTERNAL-AGENTS stable table). Recovers byte headroom under `docs/CONTEXT-BUDGET.md`.
 
@@ -34,6 +33,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-655** [light]🔧 | caller-surface-sweep — Completed 2026-09-22.
 - [x] **CORE-654** [medium]🧩 | release v5.32.0 — Completed 2026-09-21.
 - [x] **FE-122** [light]🔧 | handoff-chip — Completed 2026-09-21.
 - [x] **CORE-653** [light] | security-spec-read-note — `SECURITY.md` §Visualizer names the one uncontained read: `.flowtron/core/SPEC.md` is followed through symlinks for its Version line only, nothing from it reaches the wire (`viz/src/workspace.ts`). Surfaced by audit 2026-09-21 (Finding #2, Low), fixed inline.
