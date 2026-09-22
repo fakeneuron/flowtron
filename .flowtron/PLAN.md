@@ -30,6 +30,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Future Opportunities
 
+- [ ] **CORE-663** [heavy]🧠 | harness-survey-v2 — Wider-net pass appending to `docs/HARNESS-SURVEY.md`: the §"Not examined" product list, primary docs over comparison blogs, star/install velocity, one hands-on trial per family; re-rank gaps and overkill against whatever CORE-655…662 landed.
+
 ## Completed
 
 - [x] **CORE-654** [medium]🧩 | release v5.32.0 — Completed 2026-09-21.

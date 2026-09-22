@@ -102,6 +102,9 @@ serves it; Grok-only projects follow [`grok/AGENTS-snippet.md`](grok/AGENTS-snip
 - [docs/WORKTREES.md](docs/WORKTREES.md) — worktree convention for parallel
   epic children: the five locked decisions (location, branch naming,
   tasknote handling, cleanup) and the four-command start / end procedure
+- [docs/HARNESS-SURVEY.md](docs/HARNESS-SURVEY.md) — dated comparisons of
+  flowtron against contemporary harnesses and trackers: differentiators, gaps,
+  overkill, and the seed list for the next wider pass
 - [docs/CONTEXT-BUDGET.md](docs/CONTEXT-BUDGET.md) — per-file byte budgets for
   the surfaces an agent loads to run one task, the measured ledger behind them,
   and the CI and release-time checks that keep them honest
