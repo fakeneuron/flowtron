@@ -22,6 +22,15 @@ unless correcting a factual error.
 
 ---
 
+## v5.32.0 — a Handoff Chip, natabula decoupled from the public tree, and a hardened gate-reliability epic
+
+- The visualizer gains a Handoff Chip on task rows, surfacing hand-off context inline.
+- CORE-EPIC-652 reworks or labels every non-archive reference to the operator's private `natabula` fleet layer in flowtron's own tree, so a public reader never meets a bare pointer into a layer they can't see.
+- CORE-EPIC-651 closes out CI/test reliability gaps: Pair Q now skips out-of-repo citations instead of misreporting them, the fleet-updater test suite's cleanup race is fixed, and the Node engines matrix and lockfile are back in sync.
+- `gray-matter` is replaced with an in-repo frontmatter splitter, unblocking the js-yaml 4→5 bump parked since v5.31.0.
+
+Also: a `brand/` identity kit for flowtron itself; `/ft-audit`'s scaffold-bootstrap gains a flowtron-self install-context branch.
+
 ## v5.31.0 — dogfood-archive exclusion guidance, one-body mirror pairs, and rotation advisories on every closing surface
 
 - Adopters are told to keep the submodule's ~14 MB dogfood archive at `.flowtron/core/.flowtron/` out of search and context tooling — a per-tool recipe in `docs/MIGRATION.md` §1.1, mirrored by every `AGENTS-snippet.md` and deposited by `/ft-new-project`.
