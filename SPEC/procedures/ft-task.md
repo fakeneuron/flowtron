@@ -113,12 +113,6 @@ their UPPERCASE labels) is contract-layer, not Claude-specific — emit it
 fallback if your surface strips emoji. Full vocabulary:
 [`SPEC/cue-vocabulary.md` §"Operator-cue vocabulary"](../cue-vocabulary.md).
 
-Before skipping a gate, read [`SPEC/gate-discipline.md` §"Rationalizations"](../gate-discipline.md)
-and [§"Red Flags"](../gates.md) — the excuses that precede a skipped gate and
-the observable symptoms that one already happened. They are advisory prose, not
-a checklist, and they are aimed at exactly this layer: an agent driving the
-gates conversationally rather than through enforced skill machinery.
-
 ## Steps
 
 ### 1 — Locate the task and check its status

@@ -280,18 +280,7 @@ and §"Refused carve-outs" (arguments raised and refused, recorded so the next
 raise finds the answer). Advisory prose, never a checklist or a validator —
 [`docs/VISION.md`](../docs/VISION.md) §"What we won't accept" sets that remedy.
 
-**Load it when you are about to argue.** The module is lazy, and a red flag you
-cannot read until you load it cannot catch *"you never loaded it"* — so the
-trigger is stated here, in the file you already have. Read it before you skip a
-gate, de-escalate a signal, emit 🏁, or reason that a flag covers a case
-[`SPEC/gate-postures.md`](gate-postures.md) §"Flag precedence and surface
-matrix" does not list. Four sentences that mean
-you are already there: *"the diff looks clean"*, *"it's probably reversible"*,
-*"`--fast` was passed, so every pause is off"*, and *"nobody is watching, so
-parking and finishing look the same."* Each is refuted in the module.
-
 **Standing rule (CORE-386/CORE-388).** Any new escape hatch or gate-surface
 change in this file arrives with matching §"Rationalizations" rows and
 §"Red Flags" lines in that module. The two files are the only homes for this
-prose — here the trigger, there the content — alongside the consolidated
-`/ft-audit` skill's own copy.
+prose — alongside the consolidated `/ft-audit` skill's own copy.
