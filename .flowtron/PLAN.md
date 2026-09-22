@@ -14,7 +14,8 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-660** [medium]🧩 | gate-discipline-trim — Blocked by [[CORE-659]]. Trim `SPEC/gate-discipline.md` (16KB) to the failure modes the decay window actually observed; move the rest to a `docs/` reference. Prose-only in `SPEC/gate-postures.md` — posture semantics (red-full-suite park) stay; caobunga `proceed-on-green` depends on them.
+- [ ] **CORE-660** [medium]🧩 | gate-discipline-trim — Blocked by decay-window depth: the window [[CORE-659]] opened at `f8c44275` has observed 1 run, its own. Parked at Phase 1→2 (`status: blocked`); Discovery, inbound-reference table, and the provenance trim axis are preserved in the tasknote. Resume once N independent runs have archived. Destination decided: `docs/GATE-DISCIPLINE.md`.
+- [ ] **CORE-665** [medium]🧩 | phase1-attended-park — `SPEC/blocked.md` §"Phase 1 entry" deletes a scaffolded tasknote on an attended Re-scope, on the rationale that Phase 1 holds nothing worth preserving; its own `--unattended` boundary carve-out argues the opposite. [[CORE-660]] parked in that undescribed state. Widen the reservation or state why attended differs.
 - [ ] **CORE-661** [medium]🧩 | audit-decay-pass — Add a decay pass to `/ft-audit`'s existing `passes/context.md` (no new domain): walk SPEC + gate modules, propose one clause to drop or demote per run, naming the failure mode it guards so the operator can test whether current models still exhibit it. Anthropic's harness-decay lesson as a standing pass.
 
 ## Low
