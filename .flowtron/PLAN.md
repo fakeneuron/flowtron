@@ -11,7 +11,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-657** [medium]🧩 [unattended] | spec-incident-history — Move incident rationale out of `SPEC.md` (nav-chip CORE-042.4 / CORE-393 anecdotes, "why we rejected X" prose) into `docs/PHILOSOPHY.md` or archive pointers; rules and section headings stay verbatim (owner citations in the EXTERNAL-AGENTS stable table). Recovers byte headroom under `docs/CONTEXT-BUDGET.md`.
+- [ ] **CORE-664** [heavy]🧠 | spec-section-extract — Recover `SPEC.md` headroom by [[CORE-607]]'s recipe: lift one substantial section into a lazy `SPEC/` module, leave a stub at the heading so cross-file citations resolve, add a `docs/CONTEXT-BUDGET.md` row. At 51,024/53,000 the file holds 1,976 chars — 0.7 of a working unit against the ~2-unit standard. Candidates: Phase 3 external-review rationale, Task-line-format segment table, Paper-complete guard. Re-filed from [[CORE-657]].
 
 ## Medium
 
@@ -31,6 +31,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-657** [medium]🧩 [unattended] | spec-incident-history — Completed 2026-09-22. De-scoped: the "why we rejected X" prose already lives in `SPEC/gate-discipline.md` / `SPEC/scope-boundaries.md`, and 355 of the 422 remaining incident bytes are [[CORE-393]]'s anti-misreading hardening; headroom re-filed as [[CORE-664]].
 - [x] **CORE-656** [heavy]🧠 | review-probe — Completed 2026-09-22.
 - [x] **CORE-658** [light]🔧 [unattended] | learnings-box — Completed 2026-09-22.
 - [x] **CORE-655** [light]🔧 | caller-surface-sweep — Completed 2026-09-22.
