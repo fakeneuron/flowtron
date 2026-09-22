@@ -16,7 +16,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Medium
 
-- [ ] **CORE-658** [light]🔧 [unattended] | learnings-box — Add a Phase 4 checkbox: "did this task teach something the always-loaded layer (AGENTS.md / README §AI-referenced docs) should carry? `N/A` or the line." Push-memory beside the archive's pull-memory. Insert above `**Final Summary:**` in the templates so caobunga's lede regex is untouched.
 - [ ] **CORE-659** [light]🔧 [unattended] | gate-discipline-decay-window — Open the decay experiment: drop the two skip-path pointers to `SPEC/gate-discipline.md` (`SPEC/gates.md` §"Conditional skip rule", `SPEC/procedures/ft-task.md`), record the window-start SHA. Count = grep the shared skip-path inline marker across notes archived after that SHA (~20 tasks); CORE-660 reads it at Discovery.
 - [ ] **CORE-660** [medium]🧩 | gate-discipline-trim — Blocked by [[CORE-659]]. Trim `SPEC/gate-discipline.md` (16KB) to the failure modes the decay window actually observed; move the rest to a `docs/` reference. Prose-only in `SPEC/gate-postures.md` — posture semantics (red-full-suite park) stay; caobunga `proceed-on-green` depends on them.
 - [ ] **CORE-661** [medium]🧩 | audit-decay-pass — Add a decay pass to `/ft-audit`'s existing `passes/context.md` (no new domain): walk SPEC + gate modules, propose one clause to drop or demote per run, naming the failure mode it guards so the operator can test whether current models still exhibit it. Anthropic's harness-decay lesson as a standing pass.
@@ -33,6 +32,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-658** [light]🔧 [unattended] | learnings-box — Completed 2026-09-22.
 - [x] **CORE-655** [light]🔧 | caller-surface-sweep — Completed 2026-09-22.
 - [x] **CORE-654** [medium]🧩 | release v5.32.0 — Completed 2026-09-21.
 - [x] **FE-122** [light]🔧 | handoff-chip — Completed 2026-09-21.

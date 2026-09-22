@@ -513,6 +513,15 @@ to a `visual-confirm` park, respectively — is one row of
 - [ ] **Doc-drift sweep** — for each entry in `.flowtron/tasknote/README.md` §"AI-referenced docs", state "no change" or the update
 - [ ] Closed — every `## ✅ Acceptance` criterion ticked or explicitly annotated (`N/A` / not-met with a one-line reason), tasknote YAML `status:` flipped to `completed`, PLAN.md line flipped to stub form `Completed YYYY-MM-DD.` and placed (standalone → top of `## Completed`; epic child → kept nested beneath its active parent — see [`SPEC/plan-filing.md` §"`## Completed` archive convention"](SPEC/plan-filing.md) if unclear), then tasknote moved to `.flowtron/tasknote/archive/<area>/`
 - [ ] **Evidence-based recap** drafted — changed files and LOC where meaningful, verification commands and results, refactors made or deferred with rationale, documentation verdict, the `touches:` scope reconciliation, and concrete maintainability effect (surfaces at the 📦 ready-to-commit gate, or inline on conditional skip)
+- [ ] **Learnings** — did this task teach something the always-loaded layer (`AGENTS.md` / `.flowtron/tasknote/README.md` §"AI-referenced docs") should carry? `N/A` or the line
+
+**Push-memory beside pull-memory.** The Phase 1 archive skim is *pull*
+memory — a task reads prior tasknotes when it starts. This item is the
+*push* counterpart: a durable insight this task surfaced lands directly in
+the layer every session already reads unprompted (`AGENTS.md`), rather than
+waiting to be pulled by some future task's archive skim, or never being
+pulled at all. Most closures write `N/A` — the box exists for the rare task
+that actually taught something durable, not as a second recap.
 
 Phase 4 closure ops (Acceptance tick-through, doc-drift sweep, YAML `status:`
 flip, PLAN.md flip/placement, archive move) auto-run without an intermediate
