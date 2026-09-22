@@ -5,7 +5,9 @@
 Three contracts, one subject — what happens to a PLAN.md row once it is
 written: §"Filing commits" (how a filing lands in git), §"`## Completed`
 archive convention" (how a closed row collapses), and §"`## Completed`
-rotation" (how closed rows leave the plan file without being deleted).
+rotation" (how closed rows leave the plan file without being deleted). A
+fourth, §"Empty-section placeholder", covers the inverse case — what a
+section carries when it has no rows at all.
 
 ## Filing commits
 
@@ -248,4 +250,23 @@ read both files and concatenate. Readers that only care about
 open work (every runner skill's Step 1) read `PLAN.md` alone and are the
 motion's beneficiary. The file is absent until a project's first rotation;
 consumers treat absence as an empty archive, never an error.
+
+## Empty-section placeholder
+
+An empty priority section — `## High`, `## Medium`, `## Low`, `## Future
+Opportunities`, or `## Completed` — carries a literal `(none)` line rather
+than being left blank. `templates/PLAN.md` ships it, blank-line-padded,
+under every one of those headings as the canonical shape, and
+`viz/src/parser.test.ts` has dedicated coverage (`ignores empty-section
+placeholder lines`) confirming the parser recognizes `(none)` as inert prose
+and never surfaces it as an unparsed line.
+
+The convention lived only in that template-plus-test pairing, with no SPEC
+module stating it, which is exactly how it silently dropped once: CORE-655
+through CORE-657 filed into `.flowtron/PLAN.md`'s `## High` section and
+deleted its `(none)` placeholder as an incidental side effect, and nothing
+restored it once those rows completed and `## High` emptied back out again.
+CORE-668 fixed the live drift; this section is the contract that lets a
+future occurrence be caught against something written down instead of
+re-derived from the template each time.
 
