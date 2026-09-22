@@ -9,6 +9,7 @@ import {
   countStarters,
   emptySections,
   groupBySection,
+  isReady,
   matchesFilter as matchesTaskFilter,
   pruneMatchingNodes,
 } from './taskView';
@@ -76,6 +77,7 @@ export const App: React.FC = () => {
 
   const [query, setQuery] = useState<string>('');
   const [statusFilter, , setStatusFilter] = useToggleSet<TasknoteStatus>();
+  const [readyOnly, setReadyOnly] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
@@ -93,9 +95,13 @@ export const App: React.FC = () => {
     resetForProjectSwitch,
   } = useBoardSelection(tasks);
 
+  const tasksById = useMemo(() => new Map(tasks.map((t) => [t.id, t])), [tasks]);
+
   const matchesFilter = useCallback(
-    (task: Task): boolean => matchesTaskFilter(task, tasknotesById, query, statusFilter),
-    [tasknotesById, query, statusFilter],
+    (task: Task): boolean =>
+      matchesTaskFilter(task, tasknotesById, query, statusFilter) &&
+      (!readyOnly || isReady(task, tasksById, tasknotesById)),
+    [tasknotesById, query, statusFilter, readyOnly, tasksById],
   );
 
   const { nodes: allNodes, duplicateEpics } = useMemo(() => groupTasks(tasks), [tasks]);
@@ -134,6 +140,7 @@ export const App: React.FC = () => {
     if (name === activeProject) return;
     setQuery('');
     setStatusFilter(new Set());
+    setReadyOnly(false);
     resetForProjectSwitch();
     window.scrollTo({ top: 0, behavior: 'auto' });
     reset();
@@ -191,6 +198,8 @@ export const App: React.FC = () => {
     setQuery,
     statusFilter,
     setStatusFilter,
+    readyOnly,
+    setReadyOnly,
     load: refresh,
     onOpenShortcuts: () => setShortcutsOpen(true),
   });
@@ -218,6 +227,8 @@ export const App: React.FC = () => {
         onViewModeChange={updateViewMode}
         query={query}
         onQueryChange={setQuery}
+        readyOnly={readyOnly}
+        onReadyOnlyChange={setReadyOnly}
         searchInputRef={searchInputRef}
         onOpenShortcuts={() => setShortcutsOpen(true)}
         onOpenSettings={() => setSettingsOpen(true)}
@@ -290,7 +301,7 @@ export const App: React.FC = () => {
       <main className="mx-auto max-w-screen-xl px-4 py-4">
         {loading ? (
           <LoadingSkeleton density={visibilityPrefs.density} />
-        ) : (statusFilter.size > 0 || query.trim()) && filteredCount === 0 ? (
+        ) : (statusFilter.size > 0 || query.trim() || readyOnly) && filteredCount === 0 ? (
           <div className="flex items-center justify-center py-16">
             <p className={`${TYPOGRAPHY.body} text-slate-500 dark:text-slate-400`}>
               No matches. Press Esc to clear filters.

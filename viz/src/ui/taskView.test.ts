@@ -9,6 +9,7 @@ import {
   countStarters,
   emptySections,
   groupBySection,
+  isReady,
   matchesFilter,
   pruneMatchingNodes,
 } from './taskView';
@@ -80,6 +81,55 @@ describe('matchesFilter', () => {
     expect(matchesFilter(t, tn, 'parser', inProgress)).toBe(true);
     expect(matchesFilter(t, tn, 'parser', new Set<TasknoteStatus>(['blocked']))).toBe(false);
     expect(matchesFilter(t, tn, 'unrelated', inProgress)).toBe(false);
+  });
+});
+
+const byId = (...tasks: Task[]): Map<string, Task> => new Map(tasks.map((t) => [t.id, t]));
+
+describe('isReady', () => {
+  it('is ready when open with no blockers', () => {
+    const t = task({ id: 'FE-1', blockedBy: [] });
+    expect(isReady(t, byId(t), notes({}))).toBe(true);
+  });
+
+  it('is not ready when the task itself is completed', () => {
+    const t = task({ id: 'FE-1', completed: true, blockedBy: [] });
+    expect(isReady(t, byId(t), notes({}))).toBe(false);
+  });
+
+  it('is ready when every PLAN.md blocker is completed', () => {
+    const blocker = task({ id: 'FE-2', completed: true });
+    const t = task({ id: 'FE-1', blockedBy: ['FE-2'] });
+    expect(isReady(t, byId(t, blocker), notes({}))).toBe(true);
+  });
+
+  it('is not ready when a PLAN.md blocker is still open', () => {
+    const blocker = task({ id: 'FE-2', completed: false });
+    const t = task({ id: 'FE-1', blockedBy: ['FE-2'] });
+    expect(isReady(t, byId(t, blocker), notes({}))).toBe(false);
+  });
+
+  it('is not ready when a blocker id resolves to no known task', () => {
+    const t = task({ id: 'FE-1', blockedBy: ['FE-999'] });
+    expect(isReady(t, byId(t), notes({}))).toBe(false);
+  });
+
+  it('also considers the tasknote frontmatter blocked-by targets, unioned with PLAN.md blockedBy', () => {
+    const planBlocker = task({ id: 'FE-2', completed: true });
+    const fmBlocker = task({ id: 'FE-3', completed: false });
+    const t = task({ id: 'FE-1', blockedBy: ['FE-2'] });
+    const tn = notes({ 'FE-1': tasknote({ blockedBy: ['FE-3'] }) });
+    expect(isReady(t, byId(t, planBlocker, fmBlocker), tn)).toBe(false);
+
+    const fmBlockerClosed = task({ id: 'FE-3', completed: true });
+    expect(isReady(t, byId(t, planBlocker, fmBlockerClosed), tn)).toBe(true);
+  });
+
+  it('lets a completed PLAN.md [x] blocker override an in-progress frontmatter status (effectiveStatus)', () => {
+    const blocker = task({ id: 'FE-2', completed: true });
+    const blockerTn = notes({ 'FE-2': tasknote({ status: 'in-progress' }) });
+    const t = task({ id: 'FE-1', blockedBy: ['FE-2'] });
+    expect(isReady(t, byId(t, blocker), blockerTn)).toBe(true);
   });
 });
 

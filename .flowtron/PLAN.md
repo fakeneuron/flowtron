@@ -19,7 +19,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Low
 
-- [ ] **FE-124** [light]🔧 [unattended] | viz-ready-filter — Ready filter in the visualizer: open rows whose `Blocked by [[ID]]` / `blocked-by:` targets are all closed. Stay out of `viz/src/parser.ts` — caobunga re-verifies its grammar port against it on every pin bump.
 - [ ] **CORE-641** [light]🔧 | typescript-7 — Bump typescript 5.9→7 once typescript-eslint supports TS 7.1+; tsc also TS2882 on CSS side-effect import. CORE-639.3 reverted.
 - [ ] **CORE-669** [light]🔧 | plan-none-convention-doc — Document the `(none)` empty-section placeholder convention in `SPEC/plan-filing.md` — implicit only in `templates/PLAN.md` + parser tests, which let it silently drop from the live plan once (CORE-668).
 
@@ -30,6 +29,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **FE-124** [light]🔧 [unattended] | viz-ready-filter — Completed 2026-09-22. Added an `isReady` predicate (`taskView.ts`) and a header "Ready" toggle showing open rows whose `Blocked by [[ID]]` / `blocked-by:` targets are all closed; Escape clears it with the other filters. `viz/src/parser.ts` untouched.
 - [x] **CORE-668** [light]🔧 | plan-high-none-placeholder — Completed 2026-09-22.
 - [x] **CORE-667** [medium]🧩 | fast-rescope-park-drift — Completed 2026-09-22. `SPEC/gates.md` §"Flag interaction", `SPEC/procedures/ft-task.md`'s exit gate, and `ft-task/SKILL.md` Step 4 now carve out the `--fast` blocked-prerequisite park per `SPEC/blocked.md`.
 - [x] **CORE-666** [light]🔧 | core660-link-fix — Completed 2026-09-22.

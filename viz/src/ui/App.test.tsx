@@ -262,6 +262,48 @@ describe('App — row StatusChip', () => {
   });
 });
 
+describe('App — Ready filter (FE-124)', () => {
+  const plan = `## High
+
+- [ ] **CORE-100** | blocked-open — Still blocked on an open task. Blocked by [[CORE-101]]
+- [ ] **CORE-101** | opener — No blockers.
+- [ ] **CORE-102** | blocked-closed — Blocker is already done. Blocked by [[CORE-103]]
+
+## Completed
+
+- [x] **CORE-103** | dep — Done dependency.
+`;
+
+  it('keeps only open rows whose blockers are all closed, and Esc clears it', async () => {
+    const user = userEvent.setup();
+    renderApp({ plan });
+
+    // CORE-103 lives under the (default-collapsed) Completed section, so it's
+    // counted but not rendered — only the three High-section rows are in the DOM.
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+    expect(screen.getByText('CORE-101')).toBeInTheDocument();
+    expect(screen.getByText('CORE-102')).toBeInTheDocument();
+    expect(screen.getByText(/4 tasks/)).toBeInTheDocument();
+
+    const toggle = screen.getByRole('button', { name: 'Ready' });
+    await user.click(toggle);
+
+    expect(toggle).toHaveAttribute('aria-pressed', 'true');
+    // Ready set: CORE-101 (no blockers) and CORE-102 (blocker CORE-103 closed).
+    // Not ready: CORE-100 (blocker CORE-101 still open) and CORE-103 (completed).
+    await waitFor(() => expect(screen.queryByText('CORE-100')).not.toBeInTheDocument());
+    expect(screen.getByText('CORE-101')).toBeInTheDocument();
+    expect(screen.getByText('CORE-102')).toBeInTheDocument();
+    expect(screen.getByText(/2 of 4 matching/)).toBeInTheDocument();
+
+    await user.keyboard('{Escape}');
+
+    expect(toggle).toHaveAttribute('aria-pressed', 'false');
+    await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
+    expect(screen.getByText(/4 tasks/)).toBeInTheDocument();
+  });
+});
+
 describe('App — project switching', () => {
   const plan = `## High
 

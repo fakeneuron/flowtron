@@ -15,6 +15,8 @@ interface UseKeyboardNavParams {
   setQuery: (q: string) => void;
   statusFilter: Set<TasknoteStatus>;
   setStatusFilter: (s: Set<TasknoteStatus>) => void;
+  readyOnly: boolean;
+  setReadyOnly: (v: boolean) => void;
   load: () => void;
   onOpenShortcuts: () => void;
 }
@@ -39,6 +41,8 @@ export function useKeyboardNav(params: UseKeyboardNavParams) {
     setQuery,
     statusFilter,
     setStatusFilter,
+    readyOnly,
+    setReadyOnly,
     load,
     onOpenShortcuts,
   } = params;
@@ -58,9 +62,10 @@ export function useKeyboardNav(params: UseKeyboardNavParams) {
         // would otherwise swallow the keypress with no visible change.
         if (expandedId !== null && visibleIds.includes(expandedId)) {
           setExpandedId(null);
-        } else if (query || statusFilter.size > 0) {
+        } else if (query || statusFilter.size > 0 || readyOnly) {
           setQuery('');
           setStatusFilter(new Set());
+          setReadyOnly(false);
         } else if (target === searchInputRef.current) {
           searchInputRef.current?.blur();
         } else {
@@ -139,6 +144,8 @@ export function useKeyboardNav(params: UseKeyboardNavParams) {
     setQuery,
     statusFilter,
     setStatusFilter,
+    readyOnly,
+    setReadyOnly,
     load,
     onOpenShortcuts,
   ]);

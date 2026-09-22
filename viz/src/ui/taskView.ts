@@ -34,6 +34,29 @@ export function matchesFilter(
   return true;
 }
 
+// Whether an open task is unblocked: every id in the union of its PLAN.md
+// `Blocked by [[ID]]` targets and its tasknote's frontmatter `blocked-by:`
+// targets is itself closed. A blocker id this project has no task for counts
+// as unresolved — not ready — since its closure can't be confirmed. Kept as
+// its own predicate (rather than folded into matchesFilter) so the Ready
+// filter composes at the call site instead of growing matchesFilter's
+// existing query/status responsibility.
+export function isReady(
+  task: Task,
+  tasksById: Map<string, Task>,
+  tasknotesById: Map<string, Tasknote>,
+): boolean {
+  if (task.completed) return false;
+  const tn = tasknotesById.get(task.id);
+  const blockerIds = new Set([...task.blockedBy, ...(tn?.frontmatter?.blockedBy ?? [])]);
+  for (const id of blockerIds) {
+    const blocker = tasksById.get(id);
+    if (!blocker) return false;
+    if (effectiveStatus(blocker, tasknotesById.get(id)) !== 'completed') return false;
+  }
+  return true;
+}
+
 // Single derived tree for count, render, and keyboard-nav: keep a parent
 // when it or any child matches, but prune non-matching children so "N of M
 // matching" and j/k stops never include hidden rows (CORE-432.3).

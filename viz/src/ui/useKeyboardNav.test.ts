@@ -27,6 +27,8 @@ const makeParams = (overrides: Partial<Params> = {}): Params => ({
   setQuery: vi.fn(),
   statusFilter: new Set<TasknoteStatus>(),
   setStatusFilter: vi.fn(),
+  readyOnly: false,
+  setReadyOnly: vi.fn(),
   load: vi.fn(),
   onOpenShortcuts: vi.fn(),
   ...overrides,
@@ -133,16 +135,26 @@ describe('useKeyboardNav — Escape precedence chain', () => {
     expect(params.setQuery).not.toHaveBeenCalled();
   });
 
-  it('rung 2: with nothing expanded, Escape clears search and status filters', () => {
+  it('rung 2: with nothing expanded, Escape clears search, status, and ready filters', () => {
     const params = makeParams({
       query: 'core',
       statusFilter: new Set<TasknoteStatus>(['blocked']),
+      readyOnly: true,
     });
     renderHook(() => useKeyboardNav(params));
 
     expect(pressEscape()).toBe(true);
     expect(params.setQuery).toHaveBeenCalledWith('');
     expect(params.setStatusFilter).toHaveBeenCalledWith(new Set());
+    expect(params.setReadyOnly).toHaveBeenCalledWith(false);
+  });
+
+  it('rung 2 fires on readyOnly alone, with no query or status filter set', () => {
+    const params = makeParams({ readyOnly: true });
+    renderHook(() => useKeyboardNav(params));
+
+    expect(pressEscape()).toBe(true);
+    expect(params.setReadyOnly).toHaveBeenCalledWith(false);
   });
 
   it('rung 3: with nothing to clear, Escape in the search box blurs it', () => {

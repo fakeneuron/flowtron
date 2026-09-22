@@ -2,6 +2,7 @@ import React from 'react';
 import { type ViewMode } from '../viewMode';
 import { HeaderBadge } from './HeaderBadge';
 import { ProjectSelector } from './ProjectSelector';
+import { ReadyToggle } from './ReadyToggle';
 import { ThemeToggle } from './ThemeToggle';
 import { ViewModeToggle } from './ViewModeToggle';
 
@@ -23,6 +24,8 @@ interface AppHeaderProps {
   onViewModeChange: (next: ViewMode) => void;
   query: string;
   onQueryChange: (next: string) => void;
+  readyOnly: boolean;
+  onReadyOnlyChange: (next: boolean) => void;
   searchInputRef: React.RefObject<HTMLInputElement | null>;
   onOpenShortcuts: () => void;
   onOpenSettings: () => void;
@@ -46,6 +49,8 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
   onViewModeChange,
   query,
   onQueryChange,
+  readyOnly,
+  onReadyOnlyChange,
   searchInputRef,
   onOpenShortcuts,
   onOpenSettings,
@@ -85,6 +90,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
           </div>
           <div className="flex items-center gap-2">
             <ViewModeToggle viewMode={viewMode} onViewModeChange={onViewModeChange} />
+            <ReadyToggle active={readyOnly} onChange={onReadyOnlyChange} />
             <input
               ref={searchInputRef}
               type="search"
