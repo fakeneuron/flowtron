@@ -13,23 +13,23 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **CORE-655** [light]🔧 | caller-surface-sweep — Sharpen the Phase 4 doc-drift line for `docs/EXTERNAL-AGENTS.md`: a moved stable-surface row files the cross-repo caller-side (caobunga) row in the same closure. Add a stable-surface row for `## <emoji> Phase N:` headings + per-phase checkboxes and `## 🎯 Goal` — caobunga's `phase_progress()` and brief parse them today.
 - [ ] **CORE-656** [heavy]🧠 | review-probe — Phase 3 external review: a fresh read-only context grades the diff against `## ✅ Acceptance` by severity; Claude uses `/code-review`, other runners a `subagent-probe-template.md` variant; `N/A` on trivial diffs. Keep the Phase 3 heading; under `--unattended` a finding returns to Phase 2 or parks `input-needed` (no new code); `unattended-mode.md` stays put.
-- [ ] **CORE-657** [medium]🧩 | spec-incident-history — Move incident rationale out of `SPEC.md` (nav-chip CORE-042.4 / CORE-393 anecdotes, "why we rejected X" prose) into `docs/PHILOSOPHY.md` or archive pointers; rules and section headings stay verbatim (owner citations in the EXTERNAL-AGENTS stable table). Recovers byte headroom under `docs/CONTEXT-BUDGET.md`.
+- [ ] **CORE-657** [medium]🧩 [unattended] | spec-incident-history — Move incident rationale out of `SPEC.md` (nav-chip CORE-042.4 / CORE-393 anecdotes, "why we rejected X" prose) into `docs/PHILOSOPHY.md` or archive pointers; rules and section headings stay verbatim (owner citations in the EXTERNAL-AGENTS stable table). Recovers byte headroom under `docs/CONTEXT-BUDGET.md`.
 
 ## Medium
 
-- [ ] **CORE-658** [light]🔧 | learnings-box — Add a Phase 4 checkbox: "did this task teach something the always-loaded layer (AGENTS.md / README §AI-referenced docs) should carry? `N/A` or the line." Push-memory beside the archive's pull-memory. Insert above `**Final Summary:**` in the templates so caobunga's lede regex is untouched.
-- [ ] **CORE-659** [light]🔧 | gate-discipline-decay-window — Open the decay experiment: drop the two skip-path pointers to `SPEC/gate-discipline.md` (`SPEC/gates.md` §"Conditional skip rule", `SPEC/procedures/ft-task.md`), record the window-start SHA, and count gate skips over ~20 subsequent tasks. Evidence for CORE-660.
+- [ ] **CORE-658** [light]🔧 [unattended] | learnings-box — Add a Phase 4 checkbox: "did this task teach something the always-loaded layer (AGENTS.md / README §AI-referenced docs) should carry? `N/A` or the line." Push-memory beside the archive's pull-memory. Insert above `**Final Summary:**` in the templates so caobunga's lede regex is untouched.
+- [ ] **CORE-659** [light]🔧 [unattended] | gate-discipline-decay-window — Open the decay experiment: drop the two skip-path pointers to `SPEC/gate-discipline.md` (`SPEC/gates.md` §"Conditional skip rule", `SPEC/procedures/ft-task.md`), record the window-start SHA. Count = grep the shared skip-path inline marker across notes archived after that SHA (~20 tasks); CORE-660 reads it at Discovery.
 - [ ] **CORE-660** [medium]🧩 | gate-discipline-trim — Blocked by [[CORE-659]]. Trim `SPEC/gate-discipline.md` (16KB) to the failure modes the decay window actually observed; move the rest to a `docs/` reference. Prose-only in `SPEC/gate-postures.md` — posture semantics (red-full-suite park) stay; caobunga `proceed-on-green` depends on them.
-- [ ] **CORE-661** [medium]🧩 | audit-decay-domain — Add a `decay` domain to `/ft-audit`: walk SPEC + gate modules, propose one clause to drop or demote per run, naming the failure mode it guards so the operator can test whether current models still exhibit it. Anthropic's harness-decay lesson as a standing pass.
+- [ ] **CORE-661** [medium]🧩 | audit-decay-pass — Add a decay pass to `/ft-audit`'s existing `passes/context.md` (no new domain): walk SPEC + gate modules, propose one clause to drop or demote per run, naming the failure mode it guards so the operator can test whether current models still exhibit it. Anthropic's harness-decay lesson as a standing pass.
 
 ## Low
 
-- [ ] **FE-124** [light]🔧 | viz-ready-filter — Ready filter in the visualizer: open rows whose `Blocked by [[ID]]` / `blocked-by:` targets are all closed. Stay out of `viz/src/parser.ts` — caobunga re-verifies its grammar port against it on every pin bump.
-- [ ] **CORE-662** [light]🔧 | context-budget-cells — Collapse `docs/CONTEXT-BUDGET.md` budget-table cells to one line each; move raise/lower history to a ledger section or leave it to git log.
+- [ ] **FE-124** [light]🔧 [unattended] | viz-ready-filter — Ready filter in the visualizer: open rows whose `Blocked by [[ID]]` / `blocked-by:` targets are all closed. Stay out of `viz/src/parser.ts` — caobunga re-verifies its grammar port against it on every pin bump.
 - [ ] **CORE-641** [light]🔧 | typescript-7 — Bump typescript 5.9→7 once typescript-eslint supports TS 7.1+; tsc also TS2882 on CSS side-effect import. CORE-639.3 reverted.
 
 ## Future Opportunities
 
+- [ ] **CORE-662** [light]🔧 | context-budget-cells — Collapse `docs/CONTEXT-BUDGET.md` budget-table cells to one line each; move raise/lower history to a ledger section or leave it to git log.
 - [ ] **CORE-663** [heavy]🧠 | harness-survey-v2 — Wider-net pass appending to `docs/HARNESS-SURVEY.md`: the §"Not examined" product list, primary docs over comparison blogs, star/install velocity, one hands-on trial per family; re-rank gaps and overkill against whatever CORE-655…662 landed.
 
 ## Completed
