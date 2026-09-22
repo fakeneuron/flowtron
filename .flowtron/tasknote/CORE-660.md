@@ -153,7 +153,7 @@ neither is CORE-660's to own):
    `SPEC/post-closure.md` (1 site — …)" appears twice verbatim in the same row.
 
 **Contract conflict surfaced at the Phase 1→2 boundary.**
-[`SPEC/blocked.md`](../core/SPEC/blocked.md) §"Phase 1 entry (Re-scope path)"
+[`SPEC/blocked.md`](../../SPEC/blocked.md) §"Phase 1 entry (Re-scope path)"
 reserves `status: blocked` for mid-Phase-2 parking and prescribes, for a
 Phase-1 blocker: add `Blocked by [[ID]]` to the PLAN.md line, **delete the
 just-scaffolded tasknote**, halt — on the rationale that "a Phase 1 blocker has

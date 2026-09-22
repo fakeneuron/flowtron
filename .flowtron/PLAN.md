@@ -11,8 +11,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-666** [light]🔧 | core660-link-fix — `.flowtron/tasknote/CORE-660.md:156` links `SPEC/blocked.md` via the adopter-relative `../core/SPEC/blocked.md`, which does not resolve in flowtron-self; CI's `drift` Pair Q prints `MISSING FILE` and exits 1, so `main` is red on next push. Fix to `../../SPEC/blocked.md`. Landed in `7a3ba9ba` (CORE-665); surfaced by `/code-review` during CORE-661.
-
 ## Medium
 
 - [ ] **CORE-660** [medium]🧩 | gate-discipline-trim — Blocked by decay-window depth: the window [[CORE-659]] opened at `f8c44275` has observed 1 run, its own. Parked at Phase 1→2 (`status: blocked`); Discovery, inbound-reference table, and the provenance trim axis are preserved in the tasknote. Resume once N independent runs have archived. Destination decided: `docs/GATE-DISCIPLINE.md`.
@@ -31,6 +29,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-666** [light]🔧 | core660-link-fix — Completed 2026-09-22.
 - [x] **CORE-661** [medium]🧩 | audit-decay-pass — Completed 2026-09-22. Added pass 6 "Contract decay" to `/ft-audit`'s `context` domain (flowtron-self only, one clause per run, provenance-selected, proposes a [[CORE-659]]-shaped decay window); generalised the dispatcher off a fixed five passes.
 - [x] **CORE-665** [medium]🧩 | phase1-attended-park — Completed 2026-09-22. Widened `SPEC/blocked.md` §"Phase 1 entry": a Re-scope on a blocked prerequisite now offers delete-and-halt *or* park at the 🛠️ gate, `--fast` parks by default with an overrulable notice, `--unattended` parks unconditionally; [[CORE-660]] re-coded `dependency` → `drift`.
 - [x] **CORE-659** [light]🔧 [unattended] | gate-discipline-decay-window — Completed 2026-09-22. Dropped the two live "read `gate-discipline.md` before skipping" triggers from `SPEC/gates.md` and `SPEC/procedures/ft-task.md`; window-start SHA `f8c44275` recorded in the archived tasknote for [[CORE-660]].
