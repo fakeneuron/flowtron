@@ -163,7 +163,7 @@ Phase 2 flows continuously into the Step 6 lint/test pass and Step 7 closure ops
 
 ## Step 6 — Drive Phase 3: Testing & Linting
 
-Markdown-prose verification only for most audits — no test surface. If the audit applied an inline fix, run lint/type-check on changed files; otherwise tick all three Phase 3 boxes (test suite N/A, lint N/A, frontend N/A — capture rationale in Testing Notes).
+Markdown-prose verification only for most audits — no test surface. If the audit applied an inline fix, run lint/type-check on changed files and grade that fix through the **External review** box; otherwise tick all five Phase 3 boxes (test suite N/A, lint N/A, receipt N/A, External review N/A, frontend N/A — capture rationale in Testing Notes).
 
 ## Step 7 — Drive Phase 4: Closure (audit subtask, auto-run)
 

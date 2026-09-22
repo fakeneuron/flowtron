@@ -287,6 +287,16 @@ run was green, the full suite was red, and the judgment that would have run
 it had no one to make it. `--fast` and the `[unattended]` row marker keep the
 attended default — an operator reviews those commits.
 
+**Nor does it relax Phase 3's External review.** A context that did not write
+the diff grades it against `## ✅ Acceptance` on every path, and the posture is
+the case it was written for: with nobody reading the commit, the external
+grade is the only read of the diff that is not the generator's own. A
+**blocker** the run can fix returns it to Phase 2; one it cannot parks
+`park-reason: input-needed — <the blocker>` rather than closing over it. A
+**note** is recorded and the run continues. The reviewer never patches, so
+this converts no gate and adds no row to a runner's park map — see
+[`SPEC.md`](../SPEC.md) §"🧪 Phase 3: Testing & Linting".
+
 `--unattended` removes *pauses*, never *proof*.
 
 ### `/ft-close-epic` under the posture

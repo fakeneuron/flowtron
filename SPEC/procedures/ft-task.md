@@ -411,8 +411,15 @@ time (Step 6).
   first failure line when non-zero, folded together with the structural
   half — for changed code, confirm no avoidable duplication, dead code,
   unexplained complexity, unnecessary public-surface growth, or stale
-  code-facing documentation; otherwise record `N/A` with reason. For frontend
-  changes, ask the operator for visual confirmation with a
+  code-facing documentation; otherwise record `N/A` with reason. Then the
+  **External review**: brief a read-only sub-agent with
+  [`templates/subagent-probe-template.md`](../../templates/subagent-probe-template.md)
+  §"Variant — review probe" and record each finding in Testing Notes with its
+  disposition — a **blocker** returns to Phase 2 (Phase 3 re-runs), a **note**
+  is fixed or filed; `N/A` when the diff is too small to grade. Under
+  unattended mode a blocker the run cannot fix parks `input-needed`. Rungs,
+  flag interactions, and the `N/A` bound: [`SPEC.md` §"🧪 Phase 3"](../../SPEC.md).
+  For frontend changes, ask the operator for visual confirmation with a
   `👁️ **CONFIRM**` ask in the **emphasized inline shape** — its own line,
   blank-line isolated, label bolded
   ([`SPEC/cue-vocabulary.md` §"Emphasized inline ask shape"](../cue-vocabulary.md)). Still inline

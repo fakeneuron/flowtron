@@ -64,6 +64,12 @@ semantics** (see [`SPEC/gate-postures.md`](gate-postures.md) §"`--fast` operato
   `park-reason: visual-confirm — …`, per [`SPEC/gate-postures.md`](gate-postures.md)
   §"`--unattended` operator posture". The per-cycle suppression is unaffected:
   the loop never had an ask to convert.
+- **External review** — collapses the same way, and for the same reason the
+  taste checks do: it grades a diff, and the loop's termination condition is
+  its verify commands. It runs **once**, after convergence, beside that
+  one-time ask (`claude/skills/ft-task/step-5-loop-mode.md` §"Step 6"), never
+  per cycle. Suppressed by neither flag; a **blocker** re-opens the loop rather
+  than closure.
 
 **Destructive-action carve-out.** The one thing that does **not** collapse
 is the destructive 🗄️/▶️/📡/💻 escalation ([`SPEC/cue-vocabulary.md`](cue-vocabulary.md)

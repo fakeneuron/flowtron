@@ -450,6 +450,7 @@ banner in [`SPEC/post-closure.md`](SPEC/post-closure.md).
 - [ ] Ran targeted test suite for changed code
 - [ ] Ran lint/type-check on changed code
 - [ ] **Verification receipt** — recorded each Acceptance verify command in Testing Notes as `command → exit code`, with the first failure line when non-zero; and, for changed code, confirmed no avoidable duplication, dead code, unexplained complexity, unnecessary public-surface growth, or stale code-facing documentation (`N/A` with a one-line reason when no code changed)
+- [ ] **External review** — a context that did not write the diff graded it against `## ✅ Acceptance`, and every finding is recorded in Testing Notes with its disposition (`N/A` with a one-line reason when the diff is too small to grade)
 - [ ] (frontend) Asked the user for visual confirmation (emphasized `👁️ **CONFIRM**` ask on its own line)
 
 Run the full test suite only when changes are broad or cross-cutting.
@@ -480,6 +481,44 @@ text, read by whoever opens the note next. The structural assertions folded into
 the same box stay review evidence from the actual diff and changed path: they
 complement tests and static checks, and require no scorecard, arbitrary
 threshold, or new validation tool.
+
+**The external review.** Everything above this line is the generator grading its
+own work: a ticked box and a green receipt are self-reported, and self-evaluation
+is unreliable even where the criteria are machine-checkable. So one Phase 3 check
+comes from somewhere else — a context that did **not** write the diff reads it
+against `## ✅ Acceptance` and returns findings. It grades; it never patches. The
+fix, when there is one, is Phase 2's work. Two rungs, and the rung *is* the
+disposition:
+
+- **blocker** — an Acceptance criterion does not actually hold: unmet, or its
+  verify command passed without deciding it. Returns the run to Phase 2; Phase 3
+  then runs again from the top.
+- **note** — everything else. Recorded in Testing Notes, then fixed or filed at
+  the runner's discretion. A note never reopens a phase.
+
+**Who reviews.** The one property that matters is *not the author*. Claude Code
+runs `/code-review` over the working tree; other runners brief a read-only
+sub-agent with
+[`templates/subagent-probe-template.md`](templates/subagent-probe-template.md)
+§"Variant — review probe". Weighing the findings stays the parent's job either
+way — a reviewer that has not read the tasknote will raise what Discovery
+already declined.
+
+**When it is `N/A`.** A diff too small to grade — the shape that would have
+skipped the tasknote altogether
+([`SPEC/tasknote-selection.md`](SPEC/tasknote-selection.md)) — records `N/A` with
+a one-line reason, as the 👁️ item does on a task with no rendered surface.
+`/ft-micro-task` carries no such item at all: its whole threshold *is* that case.
+
+Neither flag suppresses it, since nothing here asks the operator anything. Under
+`--loop` it runs **once**, after convergence, beside the one-time taste checks
+([`SPEC/loop.md`](SPEC/loop.md)) — never per cycle; under `--unattended`
+unchanged, a blocker the run cannot fix parking `input-needed`
+([`SPEC/gate-postures.md`](SPEC/gate-postures.md) §"What `--unattended` never
+relaxes"). It adds no phase, no banner, and no cue — one checklist item under the
+existing 🧪 heading, the standing gate count unchanged. Flowtron ships the brief
+and the two rungs; which primitive spawns the reviewer is the runner's business,
+as with any probe.
 
 **Choosing a test strategy (guidance, not a gate).** Default to targeted
 tests on the changed behavior. Where the input space is wide — parsers,

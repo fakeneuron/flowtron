@@ -271,6 +271,12 @@ the discipline the sizing principle depends on. The safe patterns:
   the parent's Discovery Notes get the findings, not fifty tool calls.
   Brief and return shape:
   [templates/subagent-probe-template.md](templates/subagent-probe-template.md).
+  Phase 3's **external review** is the one probe with a fixed question:
+  grade this diff against the tasknote's Acceptance criteria. It matters
+  that the grader is not the author — self-evaluation is unreliable even
+  where the criteria are machine-checkable — and it grades without ever
+  patching. Claude Code runners use `/code-review`; everyone else uses
+  the review-probe variant of the same brief.
 
 This is guidance, not machinery — but the loop case has a contract.
 Flowtron ships no loop *runtime*: the runner, scheduler, and session

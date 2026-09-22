@@ -51,6 +51,53 @@ the edges of the answer.>
 
 ---
 
+## Variant — review probe
+
+The Phase 3 external review (`SPEC.md` §"🧪 Phase 3: Testing & Linting") is a
+probe with a fixed question, so it gets a fixed brief instead of a written one.
+Claude Code runners use `/code-review` and skip this section; every other runner
+briefs a read-only sub-agent with the block below. The variance from the brief
+above: the question is given, and the return is findings rather than an answer.
+
+> **Question.** Does this diff meet the `## ✅ Acceptance` criteria below, and
+> does it introduce anything the criteria did not anticipate?
+>
+> **The diff.** `<paste `git diff` / `git diff --stat`, or name the changed paths>`
+>
+> **The criteria.** `<paste the tasknote's `## ✅ Acceptance` block verbatim>`
+>
+> **Read-only.** Do not edit, create, move, or delete any file. Do not run
+> anything that writes, installs, or hits the network. Do not commit. **Do not
+> fix what you find** — you are grading, not patching.
+>
+> **Grade every finding into one of two rungs:**
+> - **blocker** — a criterion above does not actually hold: unmet, or its verify
+>   command passes without deciding it.
+> - **note** — everything else worth saying: a defect, duplication, contract
+>   drift, or a risk the criteria did not anticipate.
+>
+> **Return exactly the shape below** — nothing else. No transcript, no tool log.
+> If a section is empty, write `none`.
+
+```markdown
+### Blockers
+- `path/to/file.ext:LINE` — <which criterion fails, and why, one or two lines>
+
+### Notes
+- `path/to/file.ext:LINE` — <what, and why it is worth saying, one or two lines>
+
+### What I did NOT check
+<Paths skipped, criteria you could not evaluate from the diff alone, assumptions
+made. The parent needs to know the edges of the grade.>
+```
+
+**The parent still decides.** A reviewer briefed this way has not read the
+tasknote, so it will sometimes raise what Discovery already declined. The
+session holding the tasknote weighs each finding, records the disposition in
+Testing Notes, and owns whether a blocker really is one.
+
+---
+
 ## Notes
 
 - **One question per probe.** Two questions means two probes, or a wider brief

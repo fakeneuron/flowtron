@@ -214,7 +214,7 @@ Markdown-prose edits only — no test surface. Markdown mental-pass on the edite
 - Any reconcile-edited existing lines (the Step 7 scan) still parse — grammar, indent, and cross-refs intact.
 - If M>1: `## 🌳 Fan-out` is present and populated; wikilinks on Parallel / Sequential / Synthesis rows match the filed children; M=1 notes have no Fan-out heading.
 
-Tick all three Phase 3 boxes (test suite N/A, lint N/A, frontend N/A).
+Tick all five Phase 3 boxes (test suite N/A, lint N/A, receipt N/A, External review N/A — the deliverable is filed PLAN lines, not a diff to grade — frontend N/A).
 
 ## Step 9 — Drive Phase 4: Closure (auto-run)
 
