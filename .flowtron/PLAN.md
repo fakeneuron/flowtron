@@ -23,11 +23,11 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Future Opportunities
 
-- [ ] **CORE-662** [light]🔧 | context-budget-cells — Collapse `docs/CONTEXT-BUDGET.md` budget-table cells to one line each; move raise/lower history to a ledger section or leave it to git log.
 - [ ] **CORE-663** [heavy]🧠 | harness-survey-v2 — Wider-net pass appending to `docs/HARNESS-SURVEY.md`: the §"Not examined" product list, primary docs over comparison blogs, star/install velocity, one hands-on trial per family; re-rank gaps and overkill against whatever CORE-655…662 landed.
 
 ## Completed
 
+- [x] **CORE-662** [light]🔧 | context-budget-cells — Completed 2026-09-22. `docs/CONTEXT-BUDGET.md`'s 9 `## Budgets` cells collapsed to one line each; raise/lower history moved to a new `## Cap history` section. 23,244 → 20,224 chars.
 - [x] **CORE-669** [light]🔧 | plan-none-convention-doc — Completed 2026-09-22.
 - [x] **FE-124** [light]🔧 [unattended] | viz-ready-filter — Completed 2026-09-22. Added an `isReady` predicate (`taskView.ts`) and a header "Ready" toggle showing open rows whose `Blocked by [[ID]]` / `blocked-by:` targets are all closed; Escape clears it with the other filters. `viz/src/parser.ts` untouched.
 - [x] **CORE-668** [light]🔧 | plan-high-none-placeholder — Completed 2026-09-22.
