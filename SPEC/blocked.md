@@ -16,7 +16,7 @@ nothing to annotate, so it is not a further signal.
 | Signal | Layer | Means | Entered when |
 |---|---|---|---|
 | `Blocked by [[ID]]` in PLAN.md long description | PLAN-line | Filed task, dependency cited, not yet started | At filing time, or via Phase 1 Re-scope |
-| `status: blocked` in tasknote YAML frontmatter | Tasknote | Started and parked mid-execution | Mid-Phase-2 transition |
+| `status: blocked` in tasknote YAML frontmatter | Tasknote | Started and parked, with the work so far preserved | Phase 1→2 boundary, or mid-Phase-2 |
 
 A task may carry one, both, or neither. Adopting projects' tools render the
 two signals independently — the canonical viz parser extracts PLAN
@@ -27,28 +27,60 @@ tasknote-level `status:` drives the row's status badge for rows that have
 a tasknote.
 
 **Phase 1 entry (Re-scope path).** If Discovery surfaces a real-but-blocked
-prerequisite, the verdict is `Re-scope`: add `Blocked by [[ID]]` to the
+prerequisite, the verdict is `Re-scope`. Add `Blocked by [[ID]]` to the
 PLAN.md long description (canonical wikilink form, see §"Long-description
-conventions"), delete the just-scaffolded tasknote, and halt. `status:
-blocked` is reserved for mid-Phase-2 parking — a Phase 1 blocker has no
-Phase 2 work to preserve. The task re-enters when the blocker clears
-(remove the `Blocked by` clause; run `/ft-task <ID>` afresh). A blocker's own
-Phase 4 closure may strike a `Blocked by` wikilink naming it, on operator
-confirmation, in the same closure commit; the dependent's resume path stays
-the fallback. Blockers reuse
-Re-scope rather than introducing a fourth Phase 1 verdict.
+conventions"). On a flagless run a `Re-scope` verdict **always** fires the 🛠️
+Phase 1→2 gate ([`SPEC/gates.md`](gates.md) §"Phase 1→2 exit gate"), so the
+operator is already present at exactly this point; the banner's preview line
+offers the two dispositions and the operator picks one:
 
-**Phase 1→2 boundary park (`--unattended` only).** The reservation above holds
-for the attended path, unchanged. Under `--unattended`
+- **Delete and halt** — Discovery produced nothing worth keeping. Delete the
+  just-scaffolded tasknote. The `Blocked by [[ID]]` clause carries the whole
+  state, and a fresh `/ft-task <ID>` re-enters from the top.
+- **Park** — Discovery produced work. Flip `status: blocked` and the nav chip
+  to `⏸ Blocked`, write `park-reason: drift — <what Discovery found>`, and
+  halt with the tasknote intact. The task re-enters through the ordinary
+  resume path (§"Exit (resume)"), Phase 1 not re-run.
+
+Neither disposition adds a verdict: blockers reuse `Re-scope` rather than
+introducing a fourth Phase 1 verdict. Either way the task re-enters when the
+blocker clears (remove the `Blocked by` clause). A blocker's own Phase 4
+closure may strike a `Blocked by` wikilink naming it, on operator
+confirmation, in the same closure commit; the dependent's resume path stays
+the fallback.
+
+**Why the choice, rather than one rule.** Phase 1 *is* complete at this
+boundary, and a completed Discovery — archive skim, drift check, populated
+Acceptance — is exactly the work worth preserving, so a blanket delete
+discards it ([[CORE-660]] is the worked case: four distinct artifacts, none
+of them Phase 2). But a blocker can also surface before Discovery has
+produced anything, and parking *that* leaves a shell whose resume costs more
+than a fresh start. The operator is the one who knows which they are looking
+at, and the 🛠️ banner puts the question where they already are. `status:
+blocked` is therefore **not** reserved for mid-Phase-2 parking; it spans the
+Phase 1→2 boundary onward, and a Phase-1 park writes `drift`, the code for a
+verdict-stop (§"`drift` vs `dependency`").
+
+**Under `--fast`, park and say so.** `--fast` downgrades a Re-scope 🛠️ to an
+inline ⚠️ notice ([`SPEC/gate-postures.md`](gate-postures.md) §"`--fast`
+operator override"), so there is no banner to put the choice in — but the
+operator *is* standing there, and that posture's Re-scope notice is a
+**delegation**, not a removed pause. Take the park, name it in the notice, and
+the operator overrules it inline if Discovery produced nothing. The default
+falls to park for the same asymmetry the unattended path uses: an unnecessary
+park costs one resume, an unnecessary delete costs a Discovery.
+
+**Phase 1→2 boundary park (`--unattended`).** Under `--unattended`
 ([`SPEC/gate-postures.md`](gate-postures.md) §"`--unattended` operator posture") the 🛠️ drift
-carve-out has no operator to fire a banner at, so a `Re-scope` / `De-scope`
-verdict **parks** instead of taking the motion above: flip `status: blocked`,
-flip the nav chip to `⏸ Blocked`, write `park-reason: drift — <what Discovery
-found>`, and halt with the tasknote intact. Phase 1 *is* complete at that
-boundary and its Discovery is exactly the work worth preserving — the
-reasoning behind the reservation holds and the scoping widens by one position.
-The verdict's PLAN.md edit and the tasknote deletion are **not** performed
-autonomously; the operator resumes and takes them under a real gate.
+carve-out has no operator to fire a banner at, so there is nobody to pick
+between the two dispositions above. The posture resolves it the safe way: a
+`Re-scope` / `De-scope` verdict **parks unconditionally** — flip `status:
+blocked`, flip the nav chip to `⏸ Blocked`, write `park-reason: drift — <what
+Discovery found>`, halt with the tasknote intact — because an unnecessary
+park costs one resume while an unnecessary delete costs a Discovery. The
+PLAN.md edit and the tasknote deletion are **not** performed autonomously;
+the operator resumes and takes them under a real gate. That deferral, not the
+park itself, is what distinguishes this path from the attended one.
 
 **Mid-Phase-2 parking.** If a hard dependency surfaces during Execution,
 park the tasknote: flip YAML `status:` from `in-progress` to `blocked`,
@@ -99,7 +131,7 @@ this table, never a free-form value:
 
 | Code | Records |
 |---|---|
-| `drift` | A Phase 1 `Re-scope` / `De-scope` verdict — the 🛠️ drift carve-out |
+| `drift` | A Phase 1 `Re-scope` / `De-scope` verdict — the operator's park disposition at the 🛠️ gate, or the unattended posture's unconditional one (§"Phase 1 entry") |
 | `destructive` | A 🗄️/▶️/📡/💻 destructive-action escalation |
 | `prerequisite` | A ✋ `ACTION` that must be performed before the run can continue |
 | `model-mismatch` | The Step 1.5 concrete-`[model]` STOP |
@@ -109,7 +141,9 @@ this table, never a free-form value:
 | `interrupted` | The run ended without reaching closure *or* a gate — killed, out of context, session lost |
 
 The first six are the gate conversions in [`SPEC/gate-postures.md`](gate-postures.md)
-§"`--unattended` operator posture"; `dependency` is the mid-Phase-2 park
+§"`--unattended` operator posture" — and `drift` doubles as the attended
+operator's park disposition at the 🛠️ gate (§"Phase 1 entry"), the one code
+written on both paths; `dependency` is the mid-Phase-2 park
 this module has always had. `interrupted` is neither — nothing stopped the
 run, it simply ended — and it is the one code a *caller* writes rather than a
 runner, to route a stranded note into the resume path (§"Resuming an
@@ -130,7 +164,10 @@ Backticks, emoji, and a trailing `?` are fine.
 **`drift` vs `dependency`.** The code names what *stopped* the run, not what
 motivated it. A `Re-scope` verdict parks as `drift` even when a dependency
 drove the verdict, because the verdict is the stop. `dependency` is reserved
-for the mid-Phase-2 park, where no verdict is involved.
+for the mid-Phase-2 park, where no verdict is involved. The split is what
+decides a Phase-1 park's code: every park taken under §"Phase 1 entry" sits
+behind a `Re-scope` verdict, so it writes `drift` — attended or not, and
+whatever the blocker was.
 
 **Written on every `--unattended` park; optional on an attended one.** With no
 operator present the key is the only stop surface a caller has, so a park

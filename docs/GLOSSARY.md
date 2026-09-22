@@ -20,7 +20,7 @@ Alphabetized. ~71 entries. Maintained via epic children and audits.
 
 **Blocked by [[ID]]** — Wikilink grammar inside a PLAN.md long-description declaring a hard prerequisite task. Parsed into `Task.blockedBy`. Multiple comma-separated IDs supported. See SPEC §"Task-line format".
 
-**blocked-by (YAML)** — Optional omit-when-absent tasknote frontmatter array of bare task IDs: the durable planning dependency that survives the Phase 4 PLAN stub. Distinct from PLAN `Blocked by [[ID]]` (the don't-start gate) and from `status: blocked` (mid-Phase-2 park). See SPEC §"Tasknote frontmatter" and SPEC/blocked.md.
+**blocked-by (YAML)** — Optional omit-when-absent tasknote frontmatter array of bare task IDs: the durable planning dependency that survives the Phase 4 PLAN stub. Distinct from PLAN `Blocked by [[ID]]` (the don't-start gate) and from `status: blocked` (a started-and-parked run). See SPEC §"Tasknote frontmatter" and SPEC/blocked.md.
 
 **blocked tasknote** — A tasknote whose frontmatter `status: blocked`; parked awaiting a prerequisite. Resumed through the special Step 3c path in `/ft-task`. See SPEC/blocked.md.
 

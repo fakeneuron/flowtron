@@ -61,7 +61,7 @@ closed set in [`SPEC/blocked.md`](blocked.md) §"Park reason".
 | Surface | Default | `--fast` | `--unattended` |
 |---|---|---|---|
 | 🛠️ Phase 1→2, routine trip | Per flavor ([`SPEC/gates.md`](gates.md) §"Phase 1→2 exit gate") | No-op under `default-skip` — already skipped | Inherited; a firing flavor parks `drift` |
-| 🛠️ Phase 1→2, Re-scope | Fires | Inline ⚠️ notice; the PLAN.md rewrite is still made | Parks `drift` — the notice is a delegation, not inherited |
+| 🛠️ Phase 1→2, Re-scope | Fires; on a blocked prerequisite the banner offers delete-or-park ([`SPEC/blocked.md`](blocked.md) §"Phase 1 entry") | Inline ⚠️ notice; the PLAN.md rewrite is still made, and a blocked prerequisite parks by default, named in the notice | Parks `drift` — the notice is a delegation, not inherited |
 | 🛠️ Phase 1→2, De-scope | Fires | **Fires** — drift carve-out | Parks `drift` |
 | 📦 clear signal | Skips (autonomous commit) | Skips | Skips |
 | 📦 privileged-ops signal trip | Fires | Skips; the suppressed signal is named in the marker | Inherited — skips |
@@ -229,12 +229,16 @@ Resume is unchanged: re-running the skill against the parked tasknote
 takes [`SPEC/blocked.md`](blocked.md)'s normal resume path, with an
 operator present to answer the gate that parked it.
 
-**Widening of the mid-Phase-2 scoping.** [`SPEC/blocked.md`](blocked.md)
-scopes `status: blocked` to mid-Phase-2 parking, on the reasoning that *"a
-Phase 1 blocker has no Phase 2 work to preserve."* The 🛠️ conversion parks
-at the **Phase 1→2 boundary**, where Phase 1 *is* complete and its
-Discovery is the work worth preserving — the reasoning holds and the
-scoping widens by one position.
+**Not a widening any more.** This conversion once reached past
+[`SPEC/blocked.md`](blocked.md), which scoped `status: blocked` to
+mid-Phase-2 parking on the reasoning that *"a Phase 1 blocker has no Phase 2
+work to preserve"* — false at the **Phase 1→2 boundary**, where Phase 1 *is*
+complete and its Discovery is the work worth preserving. [[CORE-665]] took
+that argument back to its source: `blocked.md` §"Phase 1 entry" now offers
+the park on the attended path too, as one of two dispositions the operator
+picks between at the 🛠️ gate. What this posture adds is no longer the park
+itself but its **unconditionality** — with nobody to pick, a `Re-scope` /
+`De-scope` verdict parks every time, and the PLAN.md edit defers.
 
 ### Pre-scaffold stops
 

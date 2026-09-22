@@ -1,7 +1,7 @@
 ---
 title: gate-discipline-trim
 status: blocked
-park-reason: dependency — decay window opened by CORE-659 has observed 1 run, and that run is its own control
+park-reason: drift — Phase 1 Re-scope; decay window opened by CORE-659 has observed 1 run, and that run is its own control
 tags: []
 created: 2026-09-22
 due:
@@ -56,7 +56,7 @@ the posture semantics `SPEC/gate-postures.md` owns.
 
 - [[CORE-659]] — `blocked-by:` predecessor; opened the decay window (start SHA `f8c44275`) this task reads
 - [[CORE-661]] — follow-up; adds a standing decay pass to `/ft-audit`'s `passes/context.md`
-- [[CORE-665]] — filed by this task's 🛠️ gate; `SPEC/blocked.md` has no attended Phase-1 park, which is the state this note now sits in
+- [[CORE-665]] — filed by this task's 🛠️ gate; widened `SPEC/blocked.md` §"Phase 1 entry" to admit the attended Phase-1 park this note sits in, and re-coded its `park-reason:` to `drift`
 
 ---
 
@@ -175,6 +175,14 @@ spec gap as [[CORE-665]] rather than leave the deviation silent. This note
 therefore sits at `status: blocked` from a Phase-1 verdict — a state
 `SPEC/blocked.md` does not currently describe. CORE-665 decides whether the
 reservation widens or whether attended runs are meant to differ.
+
+> **Settled by [[CORE-665]] (2026-09-22, same day).** The reservation widened:
+> `SPEC/blocked.md` §"Phase 1 entry" now offers park as one of two dispositions
+> the operator picks at the 🛠️ gate, so this note's state is described rather
+> than deviant. Its `park-reason:` was re-coded `dependency` → `drift` in that
+> task's commit — §"`drift` vs `dependency`" codes a Phase-1 park by its
+> verdict-stop, whatever blocker motivated it. Nothing else here changes, and
+> the resume path is unaffected.
 
 ## 🛠️ Phase 2: Execution
 
