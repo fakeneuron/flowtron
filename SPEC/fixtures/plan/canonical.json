@@ -1,5 +1,5 @@
 {
-  "describes": "Every optional segment combination from SPEC.md §\"Task-line format\", all five priority headings, epic parent/child nesting, `[x]`/`[X]` marks with `Completed YYYY-MM-DD.` stamps, and a task-shaped line above the first heading (ignored).",
+  "describes": "Every optional segment combination from SPEC/task-line-segments.md, all five priority headings, epic parent/child nesting, `[x]`/`[X]` marks with `Completed YYYY-MM-DD.` stamps, and a task-shaped line above the first heading (ignored).",
   "tasks": [
     {
       "line": 12,

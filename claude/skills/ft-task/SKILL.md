@@ -48,7 +48,7 @@ Otherwise, capture:
 - The optional `| shortname` segment
 - The one-line long description (everything after ` — `; may be empty)
 - The section heading the line lives under (`High` / `Medium` / `Low` / `Future Opportunities`) — this is the task's **Priority**
-- The optional `[!critical]` segment — sets the urgency flag (orthogonal to priority; floats the row to the top of High). Legacy `## Critical` sections are soft-migrated to `priority: 'High'` with the flag implicit (see SPEC §"Task-line format").
+- The optional `[!critical]` segment — sets the urgency flag (orthogonal to priority; floats the row to the top of High). Legacy `## Critical` sections are soft-migrated to `priority: 'High'` with the flag implicit (see `SPEC/task-line-segments.md`).
 - The optional `[unattended]` marker (after `[model]`). **When present and no `--fast` / `--unattended` flag was passed**, set `fast-mode = true` and emit `⚡ --fast implied by the [unattended] row marker — same suppressions as --fast; the --unattended posture is not implied.` Then **Read `<SPEC_DIR>/gate-postures.md` now** — Step 0's flag walk did not run, so this branch loads the posture contract itself. The marker never sets `unattended-mode`; under an explicit `--unattended` it changes nothing. Contract: SPEC/gate-postures.md §"`--fast` operator override" → "Implied by the `[unattended]` row marker".
 
 The full task-line grammar is `- [ ] **TASK-ID** [!critical] [model] [unattended] [handoff] | shortname — long description`; all of `[!critical]`, `[model]`, `[unattended]`, `[handoff]`, and `| shortname` are optional. `[handoff]` changes nothing on an attended run — capture nothing from it. See SPEC §"Task-line format" for the canonical grammar.

@@ -19,7 +19,7 @@ no shell scripts (per `SPEC/scope-boundaries.md` §"What flowtron does NOT
 provide").
 
 **The rule this skill exists under.** Flowtron itself never writes
-`[unattended]` — seeding is an operator act (SPEC §"Task-line format";
+`[unattended]` — seeding is an operator act (`SPEC/task-line-segments.md`;
 `SPEC/unattended-candidacy.md` §"Recommend, never write"). This skill does not
 change who writes the token. It changes *when the question is asked*: instead
 of once per row at filing time, once per plan at the operator's request. The
@@ -80,8 +80,8 @@ confirmation keeps it. This skill accepts neither `--fast` nor
 `--unattended`, so only the attended branch applies — the
 `unattended-candidates:` emission line never fires from this surface. Neither
 the candidacy nor its result adds a cue, banner, or checklist box. Flowtron
-itself never writes `[unattended]` on its own discretion (SPEC §"Task-line
-format").
+itself never writes `[unattended]` on its own discretion
+(`SPEC/task-line-segments.md`).
 
 Clause 6 on an existing plan reads naturally: a `.k` child qualifies when its
 stem predecessor — per the `.1`'s `## 🌳 Fan-out` if that note is on disk

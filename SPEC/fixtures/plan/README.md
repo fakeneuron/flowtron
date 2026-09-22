@@ -22,7 +22,7 @@ collide with a real task in any adopter.
 
 | Case | Covers |
 |---|---|
-| `canonical` | Every optional-segment combination from `SPEC.md` §"Task-line format"; all five priority headings; epic parent/child nesting; `[x]`/`[X]` marks and `Completed YYYY-MM-DD.` stamps; a task-shaped line above the first heading (ignored). |
+| `canonical` | Every optional-segment combination from `SPEC/task-line-segments.md`; all five priority headings; epic parent/child nesting; `[x]`/`[X]` marks and `Completed YYYY-MM-DD.` stamps; a task-shaped line above the first heading (ignored). |
 | `tolerances` | Status glyph, suggestion glyph (all four, either side of the trailing run), stacked `[model]`, `[!critical]` after `[model]`; lettered / nested-decimal IDs; the legacy `## Critical` heading. |
 | `markers` | `[unattended]` / `[handoff]` in either order and around glyphs; the `[!marker]` footgun (whole line unparsed); the before-`[model]` footgun (captured as the model). |
 | `descriptions` | `[[TASK-ID]]` → `relatedTasks`; literal `Blocked by [[ID]]` → `blockedBy` (blocker wins); non-parsing near-misses (`Blocked by: ID`, `Blocked on`, lowercase); code-span masking; the reference `description` cleaning. |

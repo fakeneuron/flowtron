@@ -59,7 +59,8 @@ not to)".
   routing, gate machinery, flag postures, the operator-cue vocabulary, gate discipline,
   versioning, tasknote selection, PLAN.md filing, loop tasks, the post-closure
   protocol, repo layout,
-  PLAN parser tolerances, scope boundaries, optional tasknote inserts, the
+  PLAN parser tolerances, task-line segment semantics, scope boundaries,
+  optional tasknote inserts, the
   purpose blurb, superseded claims, `[unattended]` candidacy, and
   `SPEC/procedures/` agent-neutral SOPs, and `SPEC/fixtures/plan/` task-line
   grammar conformance fixtures.

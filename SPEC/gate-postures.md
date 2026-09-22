@@ -93,7 +93,7 @@ one lever that outranks the flag (a queued bundled in-📦 prompt), are in
 §"Flag precedence and surface matrix".
 
 **Implied by the `[unattended]` row marker.** A PLAN.md row carrying
-`[unattended]` ([`SPEC.md`](../SPEC.md) §"Task-line format") is the operator's
+`[unattended]` ([`SPEC/task-line-segments.md`](task-line-segments.md)) is the operator's
 declaration that the row is safe to drive with nobody present — so it needs
 no pauses when somebody is. The two runners that accept `--fast` set
 fast-mode from the marker when no flag was passed, and say so inline

@@ -11,7 +11,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## High
 
-- [ ] **CORE-664** [heavy]🧠 | spec-section-extract — Recover `SPEC.md` headroom by [[CORE-607]]'s recipe: lift one substantial section into a lazy `SPEC/` module, leave a stub at the heading so cross-file citations resolve, add a `docs/CONTEXT-BUDGET.md` row. At 51,024/53,000 the file holds 1,976 chars — 0.7 of a working unit against the ~2-unit standard. Candidates: Phase 3 external-review rationale, Task-line-format segment table, Paper-complete guard. Re-filed from [[CORE-657]].
 
 ## Medium
 
@@ -31,6 +30,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-664** [heavy]🧠 | spec-section-extract — Completed 2026-09-22. Moved §"Task-line format"'s segment table, examples, and `[unattended]`-candidacy paragraph into lazy `SPEC/task-line-segments.md`; `SPEC.md` 51,024 → 46,908 (headroom 1,976 → 6,092, ≈2.1 working units) with no cap raise.
 - [x] **CORE-657** [medium]🧩 [unattended] | spec-incident-history — Completed 2026-09-22. De-scoped: the "why we rejected X" prose already lives in `SPEC/gate-discipline.md` / `SPEC/scope-boundaries.md`, and 355 of the 422 remaining incident bytes are [[CORE-393]]'s anti-misreading hardening; headroom re-filed as [[CORE-664]].
 - [x] **CORE-656** [heavy]🧠 | review-probe — Completed 2026-09-22.
 - [x] **CORE-658** [light]🔧 [unattended] | learnings-box — Completed 2026-09-22.

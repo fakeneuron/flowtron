@@ -359,7 +359,7 @@ Walk **§3.1 Pre-flight collision check** before any `git mv` — the collision 
 The differentiator vs §3: full conversion, not just the active queue. Convert by hand to `.flowtron/PLAN.md`:
 
 - **Preserve task IDs exactly** — archived tasknotes reference them; renumbering breaks the links.
-- Group entries under SPEC §"Priority levels" headings (`High` / `Medium` / `Low` / `Future Opportunities`). Legacy `Critical` rows move into `High` with `[!critical]` per SPEC §"Task-line format".
+- Group entries under SPEC §"Priority levels" headings (`High` / `Medium` / `Low` / `Future Opportunities`). Legacy `Critical` rows move into `High` with `[!critical]` per SPEC/task-line-segments.md.
 - Move completed entries to `## Completed` with close dates if known; omit missing dates rather than inventing them.
 - **No conversion script** — judgment calls (priority mapping, still-relevant filter) make this a one-time per-project translation.
 

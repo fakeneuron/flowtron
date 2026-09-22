@@ -1,6 +1,6 @@
 # PLAN.md parser tolerances and legacy shapes
 
-> Lazy-loaded SPEC module. Read when authoring an unusual `PLAN.md` row, when a row fails to parse, or when changing `viz/src/parser.ts`. The canonical task-line grammar itself stays in `SPEC.md` §"Task-line format"; this module carries the tolerances, footguns, exclusions, and reserved long-description conventions around it. See `SPEC.md` for the always-loaded core spec.
+> Lazy-loaded SPEC module. Read when authoring an unusual `PLAN.md` row, when a row fails to parse, or when changing `viz/src/parser.ts`. The canonical task-line grammar itself stays in `SPEC.md` §"Task-line format", and its per-segment semantics in [`SPEC/task-line-segments.md`](task-line-segments.md); this module carries the tolerances, footguns, exclusions, and reserved long-description conventions around them. See `SPEC.md` for the always-loaded core spec.
 
 **Legacy `## Critical` heading.** Pre-FE-044 PLAN.md files used a `## Critical`
 priority heading. The parser soft-migrates this: tasks under a `## Critical`

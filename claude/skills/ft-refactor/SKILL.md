@@ -123,8 +123,8 @@ one `/ft-task` cycle. Sequencing doctrine:
   needs clauses 1–4 only. Every clause must hold; when one is uncertain the
   row is not a candidate. A candidate is **proposed, never seeded** — the
   token lands only through the Step 4 review, never on a starter note.
-  Flowtron itself never writes `[unattended]` on its own discretion (SPEC
-  §"Task-line format").
+  Flowtron itself never writes `[unattended]` on its own discretion
+  (`SPEC/task-line-segments.md`).
 
 ## Step 4 — Review gate
 

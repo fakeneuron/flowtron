@@ -2,7 +2,7 @@
 
 > Lazy-loaded SPEC module. Read by a filing surface at its write step — the moment it is about to write a `- [ ]` row into `PLAN.md` — by `/ft-seed` before it walks an existing plan, and by a runner whose closure discharged a deferred step through `/ft-file-followup --unattended`. Not needed to run a task. See `SPEC.md` for the always-loaded core spec.
 
-The `[unattended]` marker ([`SPEC.md`](../SPEC.md) §"Task-line format") is
+The `[unattended]` marker ([`SPEC/task-line-segments.md`](task-line-segments.md)) is
 scarce for an accidental reason: nothing in the filing flow ever asks whether
 a row qualifies. Every filer writes rows at the point of fullest context — it
 has just read the surrounding code, drafted the description, and chosen the
@@ -13,7 +13,7 @@ of its ordinary pass, without changing who writes the token.
 ## Recommend, never write
 
 **Flowtron itself never writes `[unattended]` — seeding is an operator act.**
-That sentence is [`SPEC.md`](../SPEC.md) §"Task-line format"'s and CORE-494's,
+That sentence is [`SPEC/task-line-segments.md`](task-line-segments.md)'s and CORE-494's,
 and this module preserves it verbatim. Candidacy is a *recommendation*: the
 filer names the rows the predicate below admits, and the token lands on a row
 only when the operator confirms that row **inside the confirm gate the surface
@@ -55,7 +55,7 @@ row is **not** a candidate.
 2. **Not `[!critical]`.** The urgency flag exists to pull an operator's eye to
    the row, which is the opposite of "safe with nobody present."
 3. **No operator hand-off signal.** A `[handoff]` marker on the drafted row
-   ([`SPEC.md`](../SPEC.md) §"Task-line format") is **definitive** — the
+   ([`SPEC/task-line-segments.md`](task-line-segments.md)) is **definitive** — the
    operator has declared the row stops for a human act, so it is never a
    candidate and nothing below is consulted. On an unmarked row the screen
    falls back to the description: any of the cue glyphs `👁️` `🗄️` `▶️` `📡`

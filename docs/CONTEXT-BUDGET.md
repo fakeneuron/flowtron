@@ -40,10 +40,11 @@ Checked on every push by the CI `drift` job and at every release cut by
 
 | Surface | Budget (chars) | Why this number |
 |---|---|---|
-| `SPEC.md` | 53,000 | The always-loaded contract, read in full by every lifecycle skill. Raised from 50,000 to 55,000 by [[CORE-555]]. The 50,000 figure was [[CORE-535.1]]'s *split target* — a destination for [[CORE-535.3]], which landed 49,005 and so left under 1,000 chars of working margin from the day it was set. A target and an operating ceiling are different instruments; this is the latter, sized to hold roughly two substantial contract tasks (see the `gates.md` row for the measured unit). Raised again to 57,000 by [[CORE-558.5]]: [[CORE-558.2]]'s fidelity restore added 2,281 chars, leaving 3,434 of the 5,715 CORE-555 sized in — about 1.3 units, below the two-unit standard. Re-measured across 45 touching commits, a substantial edit here runs +1,127 to +2,957, so the unit itself is unchanged; only the headroom had eroded. Lowered to 53,000 by [[CORE-607]], which found the file at 53,999 — 3,001 under, one unit again — and moved the 7,273-byte §"Post-closure protocol" into `SPEC/post-closure.md`, leaving `SPEC.md` at 47,265: keeping 57,000 over a 47k file would have let the moved material escape the ratchet (the `gates.md` row's own reasoning), and 53,000 restores the ~2 working units without a raise. |
+| `SPEC.md` | 53,000 | The always-loaded contract, read in full by every lifecycle skill. Raised from 50,000 to 55,000 by [[CORE-555]]. The 50,000 figure was [[CORE-535.1]]'s *split target* — a destination for [[CORE-535.3]], which landed 49,005 and so left under 1,000 chars of working margin from the day it was set. A target and an operating ceiling are different instruments; this is the latter, sized to hold roughly two substantial contract tasks (see the `gates.md` row for the measured unit). Raised again to 57,000 by [[CORE-558.5]]: [[CORE-558.2]]'s fidelity restore added 2,281 chars, leaving 3,434 of the 5,715 CORE-555 sized in — about 1.3 units, below the two-unit standard. Re-measured across 45 touching commits, a substantial edit here runs +1,127 to +2,957, so the unit itself is unchanged; only the headroom had eroded. Lowered to 53,000 by [[CORE-607]], which found the file at 53,999 — 3,001 under, one unit again — and moved the 7,273-byte §"Post-closure protocol" into `SPEC/post-closure.md`, leaving `SPEC.md` at 47,265: keeping 57,000 over a 47k file would have let the moved material escape the ratchet (the `gates.md` row's own reasoning), and 53,000 restores the ~2 working units without a raise. Held at 53,000 by [[CORE-664]], which found the file at 51,024 — 1,976 under, 0.7 of a unit — and moved the §"Task-line format" segment table, examples, and candidacy paragraph into `SPEC/task-line-segments.md`, leaving `SPEC.md` at 46,908 and ~2.1 units of headroom. No cap change: the cap was already right, only the headroom had eroded, and the same extract-don't-raise move CORE-607 made restores it. |
 | `SPEC/gates.md` | 25,000 | Lazy in principle, per-task in practice: the first conditional gate loads it, and almost every task hits one. Set by [[CORE-535.1]]; brought under by [[CORE-535.5]], which split the cue vocabulary and the discipline prose into their own modules. Raised from 35,000 by [[CORE-555]]. That split deliberately overshot, landing 32,299 with ~2,700 chars of headroom — and a *single* substantial task, [[CORE-536]]'s gate-relaxation pass, consumed 2,567 of it. The old cap was not missing a margin so much as carrying one sized below a single working unit of contract change; 40,000 holds about two. Lowered to 25,000 by [[CORE-604.2]], which moved the 17,352-byte flag-posture run into `SPEC/gate-postures.md` and left `gates.md` at 20,804: keeping a 40,000 cap over a 21k file would have let the moved material escape the ratchet — the fragment-gaming case §Ledger names — and 25,000 keeps the same ~2 working units the CORE-555 sizing gave it. |
 | `SPEC/gate-postures.md` | 23,000 | The `--fast` / `--unattended` postures and the flag×surface matrix, split out of `gates.md` by [[CORE-604.2]] at 19,029. Budgeted although lazy — it arrives only when a flag or the `[unattended]` row marker is set — because it sat under `gates.md`'s cap before the move, and a split that un-budgets what it moves has gamed the number rather than met it (§Ledger, lazy fragments). Sized like its parent: the file plus ~1.5 working units — a unit borrowed from `gates.md`'s whole-file measurement (≈2.5k) rather than measured on this material. Re-measured by [[CORE-631.3]] on the posture sections themselves, inside `gates.md` per commit from [[CORE-535.5]] to the split and in this file since: a substantial posture edit runs ≈ +1,400 ([[CORE-536]] +1,438, [[CORE-617]] +1,383; [[CORE-558.3]] +419 mid-size; everything else ±14), and [[CORE-536]]'s whole-file +2,567 put only +1,438 here. At 20,412 the 2,588 of headroom is ~1.8 posture units, so the cap stands — on a three-edit sample: one more edit of that size leaves under one unit, and the next task after it should trim or extract before it raises. |
 | `SPEC/post-closure.md` | 12,000 | The three post-archive steps — commit decision, 🏁 marker plus next-move suggestion, copy-paste line — split out of `SPEC.md` by [[CORE-607]] at 7,823. Budgeted although lazy — it arrives only at a closing runner's final step, once the tasknote is archived — because it sat under `SPEC.md`'s cap before the move, and a split that un-budgets what it moves has gamed the number rather than met it (the `gate-postures.md` rule). Sized like its siblings: the file plus ~1.5 working units. |
+| `SPEC/task-line-segments.md` | 10,000 | The per-segment table, the worked examples, and the `[unattended]`-candidacy proposal contract, split out of `SPEC.md` §"Task-line format" by [[CORE-664]] at 5,691. Budgeted although lazy — it sat under `SPEC.md`'s cap before the move, and a split that un-budgets what it moves has gamed the number rather than met it (the `gate-postures.md` rule). Sized like its siblings: the file plus ~1.5 working units. The split point is read-vs-write, not frequency — a runner *capturing* a row at Step 1 needs only the grammar block and the ordering rule, both of which stay in `SPEC.md`, so no runner gains a load; the per-token semantics travel here for the surfaces that *write* rows. The trailing-bracket-token preservation rule deliberately stayed behind: it binds Phase 4's stub-form flip, and moving it would have put this module on every closure. |
 | `claude/skills/*/SKILL.md` | 33,000 | One skill body is loaded per task, on top of `SPEC.md`. Set at 30,000 by [[CORE-535.2]], where every shipped skill except `ft-release` passed, so the cap bit on regrowth rather than demanding an unscoped rewrite. Raised to 33,000 by [[CORE-558.5]]: after [[CORE-558.4]]'s restore, `ft-task` measured 29,355 — **645 chars of headroom**, a quarter of one working unit on that body (its own substantial edits run +1,187 to +3,390). That is the same defect [[CORE-555]] corrected on `gates.md`, a margin sized below one edit. 33,000 gives `ft-task` ~1.5 units while `ft-goal-task` (27,140), `ft-epic-discovery` (26,986) and `ft-close-epic` (26,935) stay meaningfully capped. Not the only remedy: [[CORE-556.2]] met the same 685-char squeeze on `ft-release` by extracting a lazy fragment, which is the better move when a body is genuinely overgrown rather than merely near its line. |
 | `claude/skills/ft-release/SKILL.md` | 40,000 | More specific row wins. A release cut is a whole-repo motion whose skill is loaded alone, never alongside a tasknote, and this body is already post-trim ([[CORE-507]] cut it from ~77,000 to 37,274). Budgeted rather than exempted so it still ratchets. |
 | `claude/skills/ft-release/**` | 125,000 | Directory total — every file under the skill, summed, not a per-file cap. The row above caps only the body, and the ledger's own §"Skill bodies" note says why that is not enough: fragments defer load, they do not remove it, and a release cut walks every fragment in this directory on every cut. Measured but unbudgeted through [[CORE-613]], the directory grew to 117,337 with `step-7.1-mirror-pairs.md` alone at 50,099 — over the body's own cap, and invisible to it. Budgeted by [[CORE-622.2]] at the directory's 117,971 plus ~1.5 working units, `gate-postures.md`'s sizing rule; a working unit here is a new mirror pair or CI binding, which across the last twenty touching commits ran +4,000 to +5,300. |
@@ -56,7 +57,7 @@ whatever per-file rows its files match, never instead of them.
 
 **Not budgeted, deliberately:** `docs/`, archived tasknotes, `tools/`, `viz/`,
 and the lazy `SPEC/` modules other than `gates.md`, `gate-postures.md`,
-`post-closure.md`, and `SPEC/procedures/ft-task.md`. None of them is loaded to
+`post-closure.md`, `task-line-segments.md`, and `SPEC/procedures/ft-task.md`. None of them is loaded to
 run an ordinary *Claude* task, so capping them would ration bytes that cost
 nothing there — but that framing is scoped to Claude's own load path:
 `SPEC/procedures/ft-task.md` is the always-loaded runner body on the
@@ -85,12 +86,12 @@ the cut that made them stale skipped its own standing check.
 **Default-path cold start.** A ledger row, not a budget — nothing here is
 CI-enforced; it sums the surfaces a flagless `/ft-task <ID>.<sub>` reads before
 any Phase 1 write: `claude/commands/ft-task.md` (2,520) + `claude/skills/ft-task/SKILL.md`
-(28,105) + `SPEC.md` (47,833) + `.flowtron/tasknote/README.md` (10,379) +
-`templates/tasknote-template.md` (5,188) + `SPEC/gates.md` (20,796) +
-`SPEC/epic.md` (6,127) = **120,948 chars**
+(29,120) + `SPEC.md` (46,908) + `.flowtron/tasknote/README.md` (10,734) +
+`templates/tasknote-template.md` (5,635) + `SPEC/gates.md` (20,796) +
+`SPEC/epic.md` (6,127) = **121,840 chars**
 (≈30k tokens; `.flowtron/PLAN.md`'s own band, below, is excluded since it isn't
-a flowtron-shipped surface). Measured at v5.32.0 from the same rows as the
-tables below. Tracks
+a flowtron-shipped surface). Re-measured at [[CORE-664]] from the same rows as
+the tables below. Tracks
 the trend [[CORE-EPIC-604]] set out to cut: [[CORE-604.1]] measured ≈172k chars
 at v5.28.0 before the epic's tiering (gate-postures split, runner/stub/`model.md`
 trim, rotation-bound lower, and [[CORE-605]] dropping `SPEC/plan-filing.md`
@@ -108,15 +109,32 @@ is mostly the tasknote README's sweep-set-exclusion paragraph naming
 `docs/VERSION-HISTORY.md` (+498, [[CORE-650]]); the rest is single-digit drift
 across `SPEC.md` and `ft-task/SKILL.md`.
 
+[[CORE-664]] re-measured every row rather than differencing one against the
+v5.32.0 snapshot, and found the snapshot had gone stale on three of them —
+`ft-task/SKILL.md` 28,105 → 29,117, the tasknote README 10,379 → 10,734, the
+template 5,188 → 5,635, none of them this task's doing. The path had therefore
+drifted to **125,953** before this task, not the 120,948 recorded above. CORE-664
+took **−4,113** off it — `SPEC.md` 51,024 → 46,908 by moving the §"Task-line
+format" segment table into `SPEC/task-line-segments.md`, plus +3 on
+`ft-task/SKILL.md` for a repointed citation — landing 121,840.
+
+**Read that as a caution about this ledger, not just a number.** A per-file
+figure here is a snapshot, and the sum is only true when every row is measured
+at the same moment. Refreshing one row against six stale ones produces a
+plausible total that describes no state the repo was ever in — CORE-664 did
+exactly that on its first pass (writing a −965 that its own external review
+caught), which is why the rows above are now all re-measured together and
+stamped to this task rather than to v5.32.0.
+
 ### Always loaded to run one task
 
 | Surface | Chars |
 |---|---|
-| `SPEC.md` | 47,833 |
-| `claude/skills/ft-task/SKILL.md` | 28,105 |
-| `AGENTS.md` (`CLAUDE.md` is a symlink to it) | 7,568 |
-| `.flowtron/tasknote/README.md` | 10,379 |
-| `templates/tasknote-template.md` | 5,188 |
+| `SPEC.md` | 46,908 |
+| `claude/skills/ft-task/SKILL.md` | 29,120 |
+| `AGENTS.md` (`CLAUDE.md` is a symlink to it) | 7,599 |
+| `.flowtron/tasknote/README.md` | 10,734 |
+| `templates/tasknote-template.md` | 5,635 |
 | `.flowtron/PLAN.md` | ~2–3k (band — see below) |
 
 **Why `.flowtron/PLAN.md` carries a band and not a number.** Every other surface
