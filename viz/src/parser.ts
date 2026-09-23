@@ -32,9 +32,8 @@ export interface Task {
 
 // The canonical priority registry, in board/list render order. Single source
 // for both the parser's heading lookup below and the UI's section lists
-// (`App.tsx`) — adding a `Priority` here reaches every consumer, which the
-// hand-maintained copies it replaces did not (FE-039 and FE-044 each had to
-// edit parser + App in lockstep).
+// (`App.tsx`) — adding a `Priority` here reaches every consumer, so the
+// parser and the UI never have to be edited in lockstep.
 export const PRIORITIES: readonly Priority[] = [
   'High',
   'Medium',
@@ -46,8 +45,8 @@ export const PRIORITIES: readonly Priority[] = [
 const SECTION_HEADINGS = new Set<Priority>(PRIORITIES);
 
 // Legacy `## Critical` heading — soft-migrated to `High` with every task
-// under it auto-flagged `critical: true` (FE-044). Adopter PLAN.md files
-// that still carry a `## Critical` section keep parsing without data loss.
+// under it auto-flagged `critical: true`. Adopter PLAN.md files that still
+// carry a `## Critical` section keep parsing without data loss.
 const LEGACY_CRITICAL_HEADING = 'Critical';
 
 // Rotated-history heading (`## Completed 2026-07`). `.flowtron/PLAN-ARCHIVE.md`
@@ -55,8 +54,8 @@ const LEGACY_CRITICAL_HEADING = 'Critical';
 // verbatim `PLAN.md` stubs, so only the heading needs teaching — the task-line
 // grammar below is untouched. Mapped onto the canonical `Completed` priority
 // inside the heading branch rather than widened into SECTION_HEADINGS, mirroring
-// LEGACY_CRITICAL_HEADING (FE-044): the canonical Priority set stays the five
-// section names the board renders.
+// LEGACY_CRITICAL_HEADING: the canonical Priority set stays the five section
+// names the board renders.
 // Contract: SPEC/plan-filing.md §"`## Completed` rotation".
 const COMPLETED_MONTH_HEADING = /^Completed\s+\d{4}-\d{2}$/;
 
@@ -67,13 +66,13 @@ const COMPLETED_MONTH_HEADING = /^Completed\s+\d{4}-\d{2}$/;
 // `[model]`, the two trailing markers AFTER it. The legacy minimal form
 // `- [ ] **TASK-ID** — desc` keeps parsing.
 //
-// TASK_LINE is composed from named fragments (FE-084) so each piece of the
-// grammar — including the FE-066 tolerances below — is independently
-// readable and diffable. Fragment order below is left-to-right match order;
-// concatenation order in the `new RegExp(...)` call must match it exactly.
+// TASK_LINE is composed from named fragments so each piece of the grammar —
+// including the tolerances below — is independently readable and diffable.
+// Fragment order below is left-to-right match order; concatenation order in
+// the `new RegExp(...)` call must match it exactly.
 // Capture groups, in order: mark, id, criticalRaw, modelRaw, trailingTokens,
-// criticalAfter, shortnameRaw, longRaw. The two remaining FE-066 tolerances
-// are non-capturing; CRITICAL_FLAG_AFTER is the FE-087 swapped-order capture
+// criticalAfter, shortnameRaw, longRaw. The two tolerances listed below
+// are non-capturing; CRITICAL_FLAG_AFTER is the swapped-order capture
 // (canonical CRITICAL_FLAG stays group 3; this is group 6 so a
 // `[model] [!critical]` row — including after a suggestion glyph — still sets
 // `critical`):
@@ -82,25 +81,23 @@ const COMPLETED_MONTH_HEADING = /^Completed\s+\d{4}-\d{2}$/;
 //   2. SUGGESTION_GLYPH — a model-suggestion glyph after `[model]`
 //      (`[medium]🧠` / `[medium] 🔧` / `[medium]🧩` / `[medium]🔭`,
 //      space-optional) — decorative, redundant with the model tier, dropped.
-//      Emitted in TWO slots (CORE-502), straddling TRAILING_TOKENS, so the
-//      glyph is accepted on either side of the trailing-token run:
+//      Emitted in TWO slots, straddling TRAILING_TOKENS, so the glyph is
+//      accepted on either side of the trailing-token run:
 //      `[xheavy]🔭 [unattended]` and `[xheavy] [unattended]🔭` both parse.
-//      Before CORE-502 only the second did — the glyph sat after the run, so
-//      a glyph written between `[model]` and a trailing token left that token
-//      unconsumable and failed TASK_LINE outright. Moving the fragment would
-//      only have swapped which ordering breaks; both slots are optional and
-//      non-capturing, so carrying two costs no capture group. Same shape as
-//      CRITICAL_FLAG_AFTER below (FE-087).
+//      A single slot accepts only one ordering: a glyph on the other side
+//      is unconsumable and fails TASK_LINE outright.
+//      Both slots are optional and non-capturing, so carrying two costs no
+//      capture group. Same shape as CRITICAL_FLAG_AFTER below.
 //
-// TRAILING_TOKENS is the run of bracket tokens after `[model]`. It began as
-// the FE-066 stacked-`[model]` tolerance (`[fable] [light]` — first captured
-// as `model`, rest dropped) and is now CAPTURED (CORE-494) because two members
-// of that run are canonical grammar: `[unattended]`, the operator's task-level
-// opt-in marker, and `[handoff]` (CORE-598.3), the operator's declaration that
-// the row stops mid-run for a human act. Membership is tested against the
-// captured run, so either marker may sit anywhere in it; every other trailing
-// token stays a dropped tolerance. Two mis-authoring shapes are deliberately
-// NOT rescued here, and SPEC/plan-parser.md documents both for either marker:
+// TRAILING_TOKENS is the run of bracket tokens after `[model]`. It is
+// CAPTURED because two members of that run are canonical grammar:
+// `[unattended]`, the operator's task-level opt-in marker, and `[handoff]`,
+// the operator's declaration that the row stops mid-run for a human act.
+// Membership is tested against the captured run, so either marker may sit
+// anywhere in it; every other trailing token is a dropped tolerance (a stacked
+// `[model]` such as `[fable] [light]` keeps the first as `model`; the rest are
+// dropped). Two mis-authoring shapes are deliberately NOT rescued here, and
+// SPEC/plan-parser.md documents both for either marker:
 // `[!unattended]` / `[!handoff]` matches no slot and fails TASK_LINE outright
 // (the row surfaces as an unparsed diagnostic), and a marker written before
 // `[model]` — or with no `[model]` at all — is captured as the model, because
@@ -108,14 +105,13 @@ const COMPLETED_MONTH_HEADING = /^Completed\s+\d{4}-\d{2}$/;
 // Emoji are matched via alternation (not a char class) so astral-plane glyphs
 // match correctly without the `u` flag; an optional trailing VS16 is tolerated.
 //
-// TASK_ID_BODY (FE-087) is the shared ID shape: canonical SPEC
+// TASK_ID_BODY is the shared ID shape: canonical SPEC
 // `<AREA>-<NUMBER>` / `<AREA>-EPIC-<NUMBER>` / one `.(digits|N)` subtask
 // slot, plus two adopter near-misses — a lowercase letter suffix on a
 // numeric segment (`FE-310.3a`) and repeating decimals (`FE-067.2.1`).
 // Threaded through TASK_ID, WIKILINK_PATTERN, BLOCKED_BY_BLOCK, and
-// ID_SHAPE_CASE_INSENSITIVE so the five regex slots stay in lockstep
-// (CORE-333 precedent). Not canonical authoring — new entries still use
-// SPEC §"Task ID convention".
+// ID_SHAPE_CASE_INSENSITIVE so the five regex slots stay in lockstep. Not
+// canonical authoring — new entries still use SPEC §"Task ID convention".
 const BULLET_CHECKBOX = String.raw`^\s*-\s+\[([ xX])\]\s+`;
 const STATUS_GLYPH = String.raw`(?:(?:🟢|⏸|✅|⚪|🌱)\uFE0F?\s+)?`;
 const TASK_ID_BODY = String.raw`[A-Z]+(?:-EPIC)?-\d+(?:\.(?:\d+[a-z]?|N))*`;
@@ -312,11 +308,10 @@ const LOWERCASE_TO_PRIORITY = new Map<string, Priority>(
 
 // Loose checkbox-bullet prefix: a line that *looks like* a task entry. Lines
 // matching this inside a recognized section but failing TASK_LINE are
-// hand-authoring mistakes — collected as diagnostics instead of silently
-// dropped (FE-063.2).
+// hand-authoring mistakes — collected as diagnostics instead of silently dropped.
 const CHECKBOX_BULLET = /^\s*-\s+\[[ xX]\]/;
 
-// Pre-flowtron legacy record (FE-067): a completed historical line whose bold
+// Pre-flowtron legacy record: a completed historical line whose bold
 // token was never an `<AREA>-NNN` ID (`**P1**`, `**flowtron v5.2.0 bump**`) —
 // it predates flowtron's ID convention and has no tasknote to promote it to.
 // The grammar allows only a bare `**token**` optionally followed by an
@@ -335,7 +330,7 @@ const ID_SHAPE_CASE_INSENSITIVE = new RegExp(`^${TASK_ID_BODY}$`, 'i');
 // HTML comments (`<!-- ... -->`, possibly multi-line) are non-rendered content:
 // checkbox lines inside them — typically a grammar-reference example carrying a
 // literal `**TASK-ID**` placeholder — must not parse as tasks or surface as
-// diagnostics (CORE-336). Blank the comment interior while preserving newlines so
+// diagnostics. Blank the comment interior while preserving newlines so
 // the 1-based line numbers reported for real content stay accurate. An unclosed
 // `<!--` (no matching `-->`) is left untouched — PLAN.md comment blocks are always
 // closed, and matching to EOF risks blanking real content below a stray marker.
@@ -386,7 +381,7 @@ function parseTaskLine(
         legacyMatch !== null &&
         (legacyMatch[1] === 'x' || legacyMatch[1] === 'X') &&
         !ID_SHAPE_CASE_INSENSITIVE.test(legacyMatch[2]);
-      // FE-087: a checkbox with no ID emphasis (`*` / `**`) is a prose
+      // A checkbox with no ID emphasis (`*` / `**`) is a prose
       // checklist item, not a failed task. Genuine ID near-misses still
       // carry asterisks (`*FE-064*`, `**fe-065**`) and keep flagging.
       if (!isLegacyRecord && line.includes('*')) {
@@ -466,7 +461,7 @@ function scanDocument(markdown: string): PlanParseResult {
 //
 // Diagnostics stay `PLAN.md`-only, deliberately. `UnparsedLine.line` /
 // `NearMissHeading.line` are documented as `PLAN.md` line numbers and rendered
-// as "N lines in PLAN.md ..." (FE-063.2); the archive is machine-rotated,
+// as "N lines in PLAN.md ..."; the archive is machine-rotated,
 // append-only, and never hand-authored, so it is not the authoring surface those
 // diagnostics were built to protect. Reporting an archive line number under that
 // banner would point the operator at a line of `PLAN.md` that says something
