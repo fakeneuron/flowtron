@@ -8,7 +8,7 @@ import type { ProjectDescriptor } from './workspace.ts';
 
 export const WATCH_POLL_MS = 200;
 export const SSE_DEBOUNCE_MS = 200;
-/** Upper bound on debounce coalescing — flush at least once per burst (FE-088.4). */
+/** Upper bound on debounce coalescing — flush at least once per burst. */
 export const SSE_MAX_WAIT_MS = 1000;
 export const SSE_HEARTBEAT_MS = 30_000;
 
@@ -24,9 +24,8 @@ export function ignoreNonMarkdown(path: string, stats?: Stats): boolean {
 
 /**
  * Archive reach must stay exactly `<archiveRoot>/<area>/<file>.md` — the shape
- * `archiveCache`'s `readArchive` reads (FE-076 narrowed the old recursive glob
- * to a single area level for precisely this reason). `depth: 1` alone is looser
- * than the retired glob: it would also admit a stray `.md` sitting directly in
+ * `archiveCache`'s `readArchive` reads — a single area level. `depth: 1` alone
+ * is looser than that: it would also admit a stray `.md` sitting directly in
  * an archive root, so the root list narrows it back.
  */
 export function ignoreOutsideArchiveArea(archiveRoots: readonly string[]) {
@@ -38,10 +37,10 @@ export function ignoreOutsideArchiveArea(archiveRoots: readonly string[]) {
 }
 
 /**
- * Hot set (PLAN.md + active tasknotes) — must poll inside symlink roots
- * (CORE-222). `depth: 0` keeps the reach at the tasknote dir's immediate
- * children, which is what the retired one-level tasknote glob matched; it also
- * stops the hot watcher descending into the archive tree below it.
+ * Hot set (PLAN.md + active tasknotes) — must poll inside symlink roots.
+ * `depth: 0` keeps the reach at the tasknote dir's immediate children (the
+ * active notes); it also stops the hot watcher descending into the archive
+ * tree below it.
  */
 export const WATCH_HOT_OPTIONS = {
   ignoreInitial: true,
@@ -52,9 +51,9 @@ export const WATCH_HOT_OPTIONS = {
 } as const;
 
 /**
- * Archives — native watch; fleet-scale cost was the poll, not the watch
- * (CORE-431.2). `depth: 1` reaches `<area>/<file>.md`. Takes the watched
- * archive roots because the reach predicate needs them (see above).
+ * Archives — native watch: at fleet scale the cost is the poll, not the
+ * watch. `depth: 1` reaches `<area>/<file>.md`. Takes the watched archive
+ * roots because the reach predicate needs them (see above).
  */
 export function archiveWatchOptions(archiveRoots: readonly string[]) {
   return {
@@ -114,7 +113,7 @@ export function createChangeBroadcaster(opts: {
     pendingScopes.clear();
     pendingUnattributed = false;
     // One unattributable event in the window collapses the whole flush to `{}`
-    // (CORE-431.3 fail-open) — the scoped payloads would otherwise let a client
+    // (fail-open) — the scoped payloads would otherwise let a client
     // skip an endpoint the unknown path may have invalidated.
     const payloads = unattributed
       ? [formatChangePayload(undefined)]
@@ -205,7 +204,7 @@ export function createOnWatchEvent(opts: {
   // event on both watchers — so a one-shot iterator (the production call site
   // passes `Map.values()`) dies on the first pass and every later read sees an
   // empty sequence: SSE attribution never fires and archive-cache invalidation
-  // stops matching (FE-091). Safe to snapshot: discovery completes before this
+  // stops matching. Safe to snapshot: discovery completes before this
   // handler is constructed and the project set is not mutated afterwards.
   const projects = [...opts.projects];
   return (event, filepath) => {

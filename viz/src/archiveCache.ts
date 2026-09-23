@@ -8,8 +8,8 @@ async function readArchive(project: ProjectDescriptor): Promise<Tasknote[]> {
   // Containment base is the project root resolved through symlinks, not the
   // archive dir: if `archive/` (or `tasknote/`, or `.flowtron/`) is itself a
   // symlink, everything under its target is trivially "inside" it, so only the
-  // root is a meaningful bound. Symlinked project roots stay legitimate
-  // (CORE-222) — they resolve first, then nothing below may escape.
+  // root is a meaningful bound. Symlinked project roots stay legitimate:
+  // they resolve first, then nothing below may escape.
   const realRoot = await safeRealpath(project.root);
   if (realRoot === null) return [];
   const areas = (await safeReaddir(project.archiveDir)).filter((e) => e.isDirectory());
@@ -27,7 +27,7 @@ export interface ArchiveCache {
 }
 
 // Bounds fleet-wide retention by structure rather than by how many projects a
-// session happens to visit (FE-101.5) — precedent: devApi.ts's MAX_SSE_CLIENTS.
+// session happens to visit — precedent: devApi.ts's MAX_SSE_CLIENTS.
 const MAX_CACHED_PROJECTS = 5;
 
 export function createArchiveCache(): ArchiveCache {

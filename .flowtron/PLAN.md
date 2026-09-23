@@ -24,7 +24,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 - [ ] **FE-EPIC-125** [heavy]🧠 | viz-comment-provenance-trim — Strip task-ID provenance from `viz/src` comments, keep rationale. Discovery supplied by audit-repo 2026-09-22. Surfaced by audit-repo 2026-09-22 (Theme: Provenance-in-code)
   - [x] **FE-125.2** [medium]🧩 | parser-comment-trim — Completed 2026-09-22.
-  - [ ] **FE-125.3** [medium]🧩 | viz-comment-trim-rest — Apply the pilot's rule to the remaining `viz/src` files.
+  - [x] **FE-125.3** [medium]🧩 | viz-comment-trim-rest — Completed 2026-09-22.
   - [ ] **FE-125.N** [medium]🧩 | viz-comment-trim-audit — Epic audit.
 
 ## Completed

@@ -6,7 +6,7 @@ import type { TasknoteStatus } from '../tasknote';
 // Escape runs a four-rung precedence chain guarded by a dialog-open
 // short-circuit, and each rung consumes the keypress. Driving it through
 // <App> means arranging real filter round-trips to reach the lower rungs,
-// which is why the stale-expandedId rung went untested until CORE-425.2.
+// which makes the stale-expandedId rung easy to leave untested.
 // These tests exercise the hook directly so every rung is one param away.
 
 type Params = Parameters<typeof useKeyboardNav>[0];
@@ -97,7 +97,7 @@ describe('useKeyboardNav — Escape precedence chain', () => {
   });
 
   it('rung 1 is skipped when expandedId is filtered out of visibleIds', () => {
-    // The CORE-425.2 regression: expandedId survives a search that hides its
+    // Regression: expandedId survives a search that hides its
     // row, so Escape used to "collapse" an off-screen row — no visible change,
     // keypress eaten, search left in place.
     const params = makeParams({ expandedId: 'CORE-404', query: 'core' });

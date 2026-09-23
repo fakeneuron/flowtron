@@ -47,9 +47,9 @@ function renderSection(collapsed: boolean) {
   );
 }
 
-// FE-101.4: the whole point of the early-return is that a collapsed section
-// mounts no row DOM at all, replacing the old CSS-only grid-rows collapse
-// that kept every row (and its re-render cost) mounted regardless of state.
+// The whole point of the early-return is that a collapsed section mounts no
+// row DOM at all — a CSS-only grid-rows collapse would keep every row (and
+// its re-render cost) mounted regardless of state.
 describe('PrioritySection', () => {
   it('mounts no row DOM when collapsed', () => {
     renderSection(true);

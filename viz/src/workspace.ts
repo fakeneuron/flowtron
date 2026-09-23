@@ -93,7 +93,7 @@ export async function discoverProjects(root: string): Promise<ProjectDescriptor[
     if (!(entry.isDirectory() || entry.isSymbolicLink())) continue;
     if (entry.name.startsWith('.')) continue;
     const projectRoot = join(root, entry.name);
-    // A symlinked project root is legitimate and stays discoverable (CORE-222);
+    // A symlinked project root is legitimate and stays discoverable;
     // what must not escape is the PLAN.md below it. `isFile`'s stat follows
     // symlinks, so without this a `.flowtron/PLAN.md` (or `.flowtron/`) link
     // pointing anywhere on disk would make that file readable at /api/plan.

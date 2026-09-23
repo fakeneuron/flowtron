@@ -162,7 +162,7 @@ describe('pruneMatchingNodes', () => {
     expect(b.children).toHaveLength(2);
   });
 
-  // FE-101.4: React.memo(EpicRow) only bails when its `node` prop is
+  // React.memo(EpicRow) only bails when its `node` prop is
   // referentially stable — a fresh object/array on every call (regardless of
   // whether anything was actually filtered) would make the memo a no-op.
   it('reuses the input node and children references when nothing is filtered out', () => {
@@ -191,7 +191,7 @@ describe('pruneMatchingNodes', () => {
 });
 
 describe('groupBySection', () => {
-  it('groups by display section, moving checked rows to Completed (FE-086)', () => {
+  it('groups by display section, moving checked rows to Completed', () => {
     const grouped = groupBySection([
       node(task({ id: 'A', priority: 'High' })),
       node(task({ id: 'B', priority: 'Low' })),
@@ -202,7 +202,7 @@ describe('groupBySection', () => {
     expect(grouped.Completed.map((n) => n.task.id)).toEqual(['C']);
   });
 
-  it('floats critical rows to the top of High with a stable sort (FE-044)', () => {
+  it('floats critical rows to the top of High with a stable sort', () => {
     const grouped = groupBySection([
       node(task({ id: 'A', priority: 'High' })),
       node(task({ id: 'B', priority: 'High', critical: true })),

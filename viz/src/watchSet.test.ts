@@ -33,7 +33,7 @@ describe('watchSets', () => {
   });
 
   // chokidar 4 removed glob support, so v5 reads every watch path literally.
-  // The FE-088.4 escaping this replaced would now corrupt such a path.
+  // Escaping glob metacharacters would corrupt such a path.
   it('leaves glob metacharacters in project paths untouched (chokidar 5)', () => {
     const bracketed = project('foo[wip]', '/ws');
     const sets = watchSets([bracketed]);
@@ -81,8 +81,8 @@ describe('projectForPath', () => {
     );
   });
 
-  // The scope is what lets a client refetch one endpoint instead of four
-  // (FE-101.3). `plan` covers /api/plan and /api/plan-archive together.
+  // The scope is what lets a client refetch one endpoint instead of four.
+  // `plan` covers /api/plan and /api/plan-archive together.
   it('reports which kind of watched path fired', () => {
     expect(projectForPath(alpha.planPath, projects)?.scope).toBe('plan');
     expect(projectForPath(join(alpha.tasknoteDir, 'CORE-001.md'), projects)?.scope).toBe('active');

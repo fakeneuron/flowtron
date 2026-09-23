@@ -61,7 +61,7 @@ describe('parsePlan', () => {
     expect(tasks.every((t) => t.priority === 'Low')).toBe(true);
   });
 
-  // CORE-333: `.N` is a grammar-legal reserved terminal subtask suffix (the
+  // `.N` is a grammar-legal reserved terminal subtask suffix (the
   // epic audit child) — parses like a numeric subtask, no rename required.
   it('parses a `.N` audit subtask and nests it under its epic', () => {
     const md = `## Low
@@ -85,8 +85,8 @@ describe('parsePlan', () => {
     expect(t.blockedBy).toEqual([]);
   });
 
-  // FE-087: adopter near-miss IDs — lettered subtask suffix + nested decimals.
-  it('parses a lettered subtask id (FE-310.3a)', () => {
+  // Adopter near-miss IDs — lettered subtask suffix + nested decimals.
+  it('parses a lettered subtask id (`FE-310.3a`)', () => {
     const md = `## High\n\n- [ ] **FE-310.3a** [medium] | lettered — adopter subtask suffix.\n`;
     const t = parsePlan(md)[0];
     expect(t).toMatchObject({
@@ -97,7 +97,7 @@ describe('parsePlan', () => {
     });
   });
 
-  it('parses a nested-decimal id (FE-067.2.1)', () => {
+  it('parses a nested-decimal id (`FE-067.2.1`)', () => {
     const md = `## Medium\n\n- [ ] **FE-067.2.1** [light] | nested — adopter nested decimal.\n`;
     const t = parsePlan(md)[0];
     expect(t).toMatchObject({
@@ -238,7 +238,7 @@ describe('parsePlan', () => {
     expect(parsePlan(md)).toEqual([]);
   });
 
-  // FE-066: grammar tolerances for real PLAN.md decorations.
+  // Grammar tolerances for real PLAN.md decorations.
   it('parses a model-suggestion glyph after [model] with no space', () => {
     const md = `## High\n\n- [ ] **FE-066** [medium]🧠 | glyph tol — long desc\n`;
     const t = parsePlan(md)[0];
@@ -268,7 +268,7 @@ describe('parsePlan', () => {
     expect(t.description).toBe('desc');
   });
 
-  // CORE-494: `[unattended]` is canonical grammar, not a dropped tolerance.
+  // `[unattended]` is canonical grammar, not a dropped tolerance.
   it('captures [unattended] after [model] into Task.unattended', () => {
     const md = `## High\n\n- [ ] **CORE-494** [medium] [unattended] | marker — desc\n`;
     const t = parsePlan(md)[0];
@@ -284,11 +284,10 @@ describe('parsePlan', () => {
     expect(t.shortname).toBe('mixed');
   });
 
-  // CORE-502: the suggestion glyph is accepted on either side of the
-  // trailing-token run. Before the fix the glyph sat only after the run, so
-  // the shape below — the likelier one, since a board renders the glyph onto
-  // the model token and the marker is appended last — failed TASK_LINE and
-  // dropped the whole row.
+  // The suggestion glyph is accepted on either side of the trailing-token
+  // run. The shape below is the likelier one — a board renders the glyph onto
+  // the model token and the marker is appended last — so a glyph slot only
+  // after the run would fail TASK_LINE and drop the whole row.
   it('captures [unattended] written after a glyph-decorated [model]', () => {
     const md = `## High\n\n- [ ] **CORE-502** [xheavy]🔭 [unattended] | glyph first — desc\n`;
     const t = parsePlan(md)[0];
@@ -346,7 +345,7 @@ describe('parsePlan', () => {
     expect(tasks[1]).toMatchObject({ model: 'unattended', unattended: false });
   });
 
-  // CORE-598.3: `[handoff]` is the second canonical member of the trailing
+  // `[handoff]` is the second canonical member of the trailing
   // run — the operator's declaration that the row stops for a human act. Same
   // capture shape as `[unattended]`, same two footguns.
   it('captures [handoff] after [model] into Task.handoff', () => {
@@ -514,7 +513,7 @@ describe('parsePlan', () => {
     expect(t.blockedBy).toEqual([]);
   });
 
-  // FE-044: per-task [!critical] flag replaces the dropped `Critical` Priority.
+  // Per-task [!critical] flag; there is no `Critical` Priority.
   it('defaults critical to false on a plain task line', () => {
     const md = `## High\n\n- [ ] **CORE-001** [opus] — Plain row.\n`;
     expect(parsePlan(md)[0].critical).toBe(false);
@@ -537,7 +536,7 @@ describe('parsePlan', () => {
     expect(t.description).toBe('Production breakage');
   });
 
-  // FE-087: swapped flag order is a viz tolerance, not canonical authoring.
+  // Swapped flag order is a viz tolerance, not canonical authoring.
   it('parses [!critical] after [model] and still sets critical', () => {
     const md = `## High\n\n- [ ] **FE-100** [opus] [!critical] | hotfix — Production breakage.\n`;
     const t = parsePlan(md)[0];
@@ -572,9 +571,9 @@ describe('parsePlan', () => {
   });
 });
 
-// FE-094: `.flowtron/PLAN-ARCHIVE.md` groups rotated rows under
-// `## Completed <YYYY-MM>` headings. Before this the heading matched nothing,
-// so every row below it was skipped and rotated history vanished from the board.
+// `.flowtron/PLAN-ARCHIVE.md` groups rotated rows under
+// `## Completed <YYYY-MM>` headings. If the heading matched nothing, every row
+// below it would be skipped and rotated history would vanish from the board.
 describe('rotated `## Completed <YYYY-MM>` history', () => {
   it('parses rows under a month heading as Completed', () => {
     const md = `## Completed 2026-07
@@ -702,7 +701,7 @@ describe('parsePlanWithDiagnostics', () => {
     ]);
   });
 
-  // CORE-333: a `.N` audit line is a valid ID shape — never an unparsed diagnostic.
+  // A `.N` audit line is a valid ID shape — never an unparsed diagnostic.
   it('does not flag a `.N` audit subtask as an unparsed diagnostic', () => {
     const md = `## Low
 
@@ -726,7 +725,7 @@ describe('parsePlanWithDiagnostics', () => {
     expect(unparsed).toEqual([]);
   });
 
-  // FE-087: a checkbox with no ID emphasis is a prose checklist, not a failed task.
+  // A checkbox with no ID emphasis is a prose checklist, not a failed task.
   it('does not flag a bare checkbox bullet as unparsed', () => {
     const md = `## High
 
@@ -762,7 +761,7 @@ describe('parsePlanWithDiagnostics', () => {
     ]);
   });
 
-  // CORE-336: checkbox lines inside an HTML comment (e.g. the trailing
+  // Checkbox lines inside an HTML comment (e.g. the trailing
   // grammar-reference block) are non-rendered content — never tasks, never
   // diagnostics — regardless of which section the comment sits in.
   it('ignores checkbox lines inside a trailing HTML comment', () => {
@@ -827,7 +826,7 @@ All segments optional.
     expect(parsePlanWithDiagnostics(md).tasks.map((t) => t.id)).toEqual(['CORE-001']);
   });
 
-  // FE-067: pre-flowtron legacy records (bold label with no <AREA>-NNN shape)
+  // Pre-flowtron legacy records (bold label with no <AREA>-NNN shape)
   // are excluded from both tasks and unparsed diagnostics — but only when
   // completed, to avoid masking a hand-authoring typo of a real ID.
   it('silently excludes completed legacy-label lines from both tasks and unparsed', () => {
@@ -878,7 +877,7 @@ All segments optional.
     ]);
   });
 
-  // CORE-423: a task row quoted inside a fenced code block (e.g. a grammar
+  // A task row quoted inside a fenced code block (e.g. a grammar
   // reference example) is content the note is showing, not a real entry.
   it('does not parse a task row quoted inside a fenced code block', () => {
     const md = `## High
@@ -935,7 +934,7 @@ All segments optional.
     expect(tasks.map((t) => t.id)).toEqual(['CORE-003']);
   });
 
-  // CORE-425.3: a heading that case-insensitively matches a Priority name is a
+  // A heading that case-insensitively matches a Priority name is a
   // likely typo — flag it instead of silently dropping every task under it.
   it('flags a near-miss heading (case difference) and still drops its tasks', () => {
     const md = `## medium
@@ -1050,7 +1049,7 @@ describe('groupTasks', () => {
     ]);
   });
 
-  // CORE-333: a `.N` audit child groups under its epic like any numeric child.
+  // A `.N` audit child groups under its epic like any numeric child.
   it('attaches a `.N` audit subtask to its epic parent', () => {
     const { nodes } = groupTasks([
       t('CORE-EPIC-005'),
@@ -1062,7 +1061,7 @@ describe('groupTasks', () => {
     expect(nodes[0].children.map((c) => c.id)).toEqual(['CORE-005.1', 'CORE-005.N']);
   });
 
-  // FE-087: lettered + nested-decimal children still group under the epic.
+  // Lettered + nested-decimal children still group under the epic.
   it('attaches lettered and nested-decimal subtasks to their epic parent', () => {
     const { nodes } = groupTasks([
       t('FE-EPIC-310'),
@@ -1092,7 +1091,7 @@ describe('groupTasks', () => {
     expect(duplicateEpics).toEqual([]);
   });
 
-  // CORE-421.3: a hand-authoring mistake filing the same epic ID under two
+  // A hand-authoring mistake filing the same epic ID under two
   // headings must not silently overwrite the first occurrence.
   it('keeps the first occurrence when an epic ID appears under two headings', () => {
     const first = t('CORE-EPIC-421', false, 'Medium');
@@ -1141,7 +1140,7 @@ describe('PRIORITIES registry', () => {
   });
 });
 
-// SPEC/fixtures/plan/ is the cross-parser conformance suite (CORE-618): each
+// SPEC/fixtures/plan/ is the cross-parser conformance suite: each
 // `<case>.md` is a whole PLAN.md sample, its `<case>.json` the expected parse.
 // The JSON is the contract and this parser is its reference consumer — a
 // failing row here means either the parser regressed or SPEC prose changed

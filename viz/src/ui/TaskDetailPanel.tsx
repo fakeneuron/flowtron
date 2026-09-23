@@ -16,7 +16,7 @@ interface TaskDetailPanelProps {
 // EpicRow): the expanded-id check, the code-split `TaskDetail` import, and the
 // boundary that contains a malformed tasknote's render error. Each row renders
 // its own instance, so the boundary still isolates one row's detail rather
-// than the board (FE-064).
+// than the board.
 export const TaskDetailPanel: React.FC<TaskDetailPanelProps> = ({ task, compact = false }) => {
   const { tasknotesById, expandedId, navigateToTask } = useRowInteraction();
   const visibility = useVisibilityPrefs();

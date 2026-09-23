@@ -117,7 +117,7 @@ describe('discoverProjects', () => {
     expect(projects.map((p) => p.name)).toEqual(['honest']);
   });
 
-  it('still discovers a project whose root is itself a symlink (CORE-222)', async () => {
+  it('still discovers a project whose root is itself a symlink', async () => {
     const realProject = join(outside, 'linked-adopter');
     await mkdir(join(realProject, '.flowtron', 'tasknote'), { recursive: true });
     await writeFile(join(realProject, '.flowtron', 'PLAN.md'), '## High\n');

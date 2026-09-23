@@ -26,11 +26,11 @@ describe('App — navigateToTask', () => {
   // inside requestAnimationFrame, then a setTimeout(HIGHLIGHT_MS). The earlier
   // `vi.useFakeTimers({ shouldAdvanceTime: true })` variant was needed to fire
   // the mocked rAF, but that coupled the test to wall-clock: under the full
-  // parallel run it intermittently timed out (FE-045). Real timers reduce but
+  // parallel run it intermittently timed out. Real timers reduce but
   // don't fully eliminate flakiness under parallel jsdom contention; the
   // shared-config timeouts (setup.ts asyncUtilTimeout + vite.config.ts
-  // testTimeout, FE-053) absorb the remaining slack — no per-call or per-test
-  // overrides here, they only undercut those globals (FE-089.2).
+  // testTimeout) absorb the remaining slack — no per-call or per-test
+  // overrides here, they only undercut those globals.
   it('clicking a wikilink in TaskDetail auto-expands the parent epic, scrolls, and clears highlight', async () => {
     const scrollSpy = vi.spyOn(Element.prototype, 'scrollIntoView').mockImplementation(() => {});
     const user = userEvent.setup();
@@ -188,7 +188,7 @@ describe('App — search reaches subtasks', () => {
   });
 });
 
-describe('App — prune epic children under filter (CORE-432.3)', () => {
+describe('App — prune epic children under filter', () => {
   const plan = `## High
 
 - [ ] **CORE-EPIC-1** | epic — Parent epic
@@ -221,7 +221,7 @@ describe('App — prune epic children under filter (CORE-432.3)', () => {
 
     await user.type(screen.getByRole('searchbox'), 'match me');
 
-    // Pruned set: epic + CORE-1.1 only → "2 of 4 matching"
+    // Pruned set: epic + `CORE-1.1` only → "2 of 4 matching"
     await waitFor(() => expect(screen.getByText(/2 of 4 matching/)).toBeInTheDocument());
   });
 
@@ -262,7 +262,7 @@ describe('App — row StatusChip', () => {
   });
 });
 
-describe('App — Ready filter (FE-124)', () => {
+describe('App — Ready filter', () => {
   const plan = `## High
 
 - [ ] **CORE-100** | blocked-open — Still blocked on an open task. Blocked by [[CORE-101]]
@@ -278,7 +278,7 @@ describe('App — Ready filter (FE-124)', () => {
     const user = userEvent.setup();
     renderApp({ plan });
 
-    // CORE-103 lives under the (default-collapsed) Completed section, so it's
+    // `CORE-103` lives under the (default-collapsed) Completed section, so it's
     // counted but not rendered — only the three High-section rows are in the DOM.
     await waitFor(() => expect(screen.getByText('CORE-100')).toBeInTheDocument());
     expect(screen.getByText('CORE-101')).toBeInTheDocument();
@@ -289,8 +289,8 @@ describe('App — Ready filter (FE-124)', () => {
     await user.click(toggle);
 
     expect(toggle).toHaveAttribute('aria-pressed', 'true');
-    // Ready set: CORE-101 (no blockers) and CORE-102 (blocker CORE-103 closed).
-    // Not ready: CORE-100 (blocker CORE-101 still open) and CORE-103 (completed).
+    // Ready set: `CORE-101` (no blockers) and `CORE-102` (blocker `CORE-103` closed).
+    // Not ready: `CORE-100` (blocker `CORE-101` still open) and `CORE-103` (completed).
     await waitFor(() => expect(screen.queryByText('CORE-100')).not.toBeInTheDocument());
     expect(screen.getByText('CORE-101')).toBeInTheDocument();
     expect(screen.getByText('CORE-102')).toBeInTheDocument();
@@ -449,7 +449,7 @@ describe('App — load() partial failure on project switch', () => {
   });
 });
 
-describe('App — model chip row gate (FE-059)', () => {
+describe('App — model chip row gate', () => {
   beforeEach(() => {
     window.localStorage.clear();
   });
@@ -722,7 +722,7 @@ describe('App — density modes', () => {
 
     const densityGroup = screen.getByRole('group', { name: 'Density' });
     // One radio per DENSITY_MODES member — the picker maps the registry, it
-    // does not keep its own list (FE-98).
+    // does not keep its own list.
     expect(within(densityGroup).getAllByRole('radio')).toHaveLength(DENSITY_MODES.length);
     const comfortable = within(densityGroup).getByRole('radio', { name: 'Comfortable' });
     const def = within(densityGroup).getByRole('radio', { name: 'Default' });
@@ -835,7 +835,7 @@ describe('App — palette modes', () => {
     await user.click(screen.getByRole('button', { name: 'Open settings' }));
 
     const paletteGroup = screen.getByRole('group', { name: 'Palette' });
-    // One radio per PALETTE_NAMES member (FE-98).
+    // One radio per PALETTE_NAMES member.
     expect(within(paletteGroup).getAllByRole('radio')).toHaveLength(PALETTE_NAMES.length);
     const def = within(paletteGroup).getByRole('radio', { name: 'Default' });
     const linear = within(paletteGroup).getByRole('radio', { name: 'Linear' });
@@ -929,7 +929,7 @@ describe('App — palette modes', () => {
   });
 });
 
-describe('App — [!critical] flag (FE-044)', () => {
+describe('App — [!critical] flag', () => {
   beforeEach(() => {
     window.localStorage.clear();
   });
@@ -1064,7 +1064,7 @@ describe('App — shortcuts modal', () => {
   });
 });
 
-describe('App — unparsed-line diagnostics (FE-063.2)', () => {
+describe('App — unparsed-line diagnostics', () => {
   const plan = `## High
 
 - [ ] **CORE-100** | fine — Parses fine.
@@ -1095,7 +1095,7 @@ describe('App — unparsed-line diagnostics (FE-063.2)', () => {
   });
 });
 
-describe('App — duplicate-epic diagnostics (CORE-421.3)', () => {
+describe('App — duplicate-epic diagnostics', () => {
   const plan = `## Medium
 
 - [ ] **CORE-EPIC-421** | dup epic — Filed once under Medium.
@@ -1135,7 +1135,7 @@ describe('App — duplicate-epic diagnostics (CORE-421.3)', () => {
   });
 });
 
-describe('App — near-miss heading diagnostics (CORE-425.3)', () => {
+describe('App — near-miss heading diagnostics', () => {
   const plan = `## medium
 
 - [ ] **CORE-100** | dropped — Under a typo'd heading.
@@ -1174,7 +1174,7 @@ function sectionHeadingOf(id: string): string | null {
   );
 }
 
-describe('App — SSE disconnect visibility (FE-088.3)', () => {
+describe('App — SSE disconnect visibility', () => {
   const plan = '## High\n\n- [ ] **CORE-100** | fine — Parses fine.\n';
   const esRegistry = () =>
     (globalThis.EventSource as unknown as { instances: { emit(t: string): void }[] })
@@ -1216,7 +1216,7 @@ describe('App — SSE disconnect visibility (FE-088.3)', () => {
   });
 });
 
-describe('App — completed-bucket grouping (FE-086)', () => {
+describe('App — completed-bucket grouping', () => {
   beforeEach(() => {
     window.localStorage.clear();
   });
@@ -1233,7 +1233,7 @@ describe('App — completed-bucket grouping (FE-086)', () => {
     expect(sectionHeadingOf('CORE-2')).toBe('Medium');
 
     // Completed starts collapsed (useBoardSelection); its rows aren't mounted
-    // until expanded (FE-101.4 replaced the always-mounted CSS collapse).
+    // until expanded.
     await user.click(screen.getByRole('button', { name: /^Completed/ }));
     await waitFor(() => expect(screen.getByText('CORE-1')).toBeInTheDocument());
     expect(sectionHeadingOf('CORE-1')).toBe('Completed');
@@ -1293,9 +1293,9 @@ describe('App — completed-bucket grouping (FE-086)', () => {
     renderApp({ plan });
     await waitFor(() => expect(screen.getByText('CORE-2')).toBeInTheDocument());
 
-    // Completed starts collapsed, so CORE-1's row isn't mounted yet
-    // (FE-101.4) — locate the section's own toggle by its header text instead
-    // of via the (not-yet-rendered) row.
+    // Completed starts collapsed, so `CORE-1`'s row isn't mounted yet — locate
+    // the section's own toggle by its header text instead of via the
+    // (not-yet-rendered) row.
     const completedToggle = screen.getByRole('button', { name: /^Completed/ });
     expect(completedToggle).toHaveAttribute('aria-expanded', 'false');
 
@@ -1310,7 +1310,7 @@ describe('App — completed-bucket grouping (FE-086)', () => {
   });
 });
 
-describe('App — App-level characterization gaps (FE-94.2)', () => {
+describe('App — App-level characterization gaps', () => {
   beforeEach(() => {
     window.localStorage.clear();
   });

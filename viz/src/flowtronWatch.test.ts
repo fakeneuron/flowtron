@@ -68,7 +68,7 @@ async function makeProject(name: string): Promise<ProjectDescriptor> {
 const FILE = { isFile: () => true, isDirectory: () => false } as unknown as Stats;
 const DIR = { isFile: () => false, isDirectory: () => true } as unknown as Stats;
 
-describe('watcher option pins (CORE-431.2, chokidar 5 depths per FE-090.2)', () => {
+describe('watcher option pins (chokidar 5 depths)', () => {
   it('polls the hot set at WATCH_POLL_MS with depth 0', () => {
     expect(WATCH_HOT_OPTIONS).toEqual({
       ignoreInitial: true,
@@ -108,7 +108,7 @@ describe('ignoreNonMarkdown', () => {
   });
 });
 
-describe('ignoreOutsideArchiveArea (FE-076 reader-matching reach)', () => {
+describe('ignoreOutsideArchiveArea (reader-matching reach)', () => {
   const archiveRoot = '/ws/alpha/.flowtron/tasknote/archive';
   const ignored = ignoreOutsideArchiveArea([archiveRoot]);
 
@@ -141,7 +141,7 @@ describe('ignoreOutsideArchiveArea (FE-076 reader-matching reach)', () => {
   });
 });
 
-describe('createOnWatchEvent (CORE-431.2 + CORE-431.3 wiring)', () => {
+describe('createOnWatchEvent wiring', () => {
   it('invalidates archive cache and schedules an attributed broadcast for archive changes', async () => {
     const alpha = await makeProject('alpha');
     const archivePath = join(alpha.archiveDir, 'core', 'CORE-001.md');
@@ -245,10 +245,10 @@ created: 2026-05-18
 });
 
 // The production call site passes `Map.values()` — a one-shot iterator. Every
-// test above hands in an array, which is re-iterable, so the suite that shipped
-// with CORE-431.2/.3 was structurally unable to express this failure (FE-090.N).
+// test above hands in an array, which is re-iterable, so array-fed tests alone
+// can't express this failure.
 // These construct the handler exactly as `vite.config.ts` does.
-describe('createOnWatchEvent survives a one-shot iterator (FE-091)', () => {
+describe('createOnWatchEvent survives a one-shot iterator', () => {
   it('attributes a PLAN.md change when constructed from Map.values()', async () => {
     const alpha = await makeProject('alpha');
     const map = new Map<string, ProjectDescriptor>([[alpha.name, alpha]]);
@@ -261,8 +261,8 @@ describe('createOnWatchEvent survives a one-shot iterator (FE-091)', () => {
     });
 
     // A PLAN.md path matches no archiveDir, so invalidate() walks the whole
-    // sequence before projectForPath() reads it — the exact ordering that left
-    // FE-088.3's attribution permanently unattributed.
+    // sequence before projectForPath() reads it — the exact ordering that would
+    // leave every change permanently unattributed.
     onWatchEvent('change', alpha.planPath);
 
     expect(scheduled).toEqual([{ project: 'alpha', scope: 'plan' }]);
@@ -336,8 +336,8 @@ describe('createOnWatchEvent survives a one-shot iterator (FE-091)', () => {
 
 // chokidar never forwards 'error' to the 'all' listener, and FSWatcher is an
 // EventEmitter — an unlistened 'error' emit throws and kills the dev server.
-// The listener's whole job is to log and swallow (FE-115).
-describe('createOnWatchError (FE-115)', () => {
+// The listener's whole job is to log and swallow.
+describe('createOnWatchError', () => {
   it('logs the label, errno code, and message to stderr without throwing', () => {
     const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
     const onError = createOnWatchError('hot');
@@ -375,7 +375,7 @@ describe('createOnWatchError (FE-115)', () => {
   });
 });
 
-describe('createChangeBroadcaster (CORE-431.3 debounce + attribution)', () => {
+describe('createChangeBroadcaster (debounce + attribution)', () => {
   it('debounces and writes one attributed change event per project', () => {
     const sseClients = new Set<ServerResponse>();
     const { res, state } = makeRes();
@@ -395,7 +395,7 @@ describe('createChangeBroadcaster (CORE-431.3 debounce + attribution)', () => {
 
   // A burst legitimately spans kinds — an archive move unlinks from tasknoteDir
   // and adds under archiveDir — so the window accumulates a set per project
-  // rather than letting the last scope win (FE-101.3).
+  // rather than letting the last scope win.
   it('accumulates every scope that fired for a project in one window', () => {
     const sseClients = new Set<ServerResponse>();
     const { res, state } = makeRes();
@@ -514,7 +514,7 @@ describe('createChangeBroadcaster (CORE-431.3 debounce + attribution)', () => {
   });
 });
 
-describe('createHeartbeat (FE-120)', () => {
+describe('createHeartbeat', () => {
   it('writes a ping to every client on each tick after start()', () => {
     const sseClients = new Set<ServerResponse>();
     const first = makeRes();

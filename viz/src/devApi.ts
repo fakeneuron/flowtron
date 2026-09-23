@@ -70,8 +70,8 @@ export function projectFromQuery(
   if (!project) {
     // Keep the caller's ?project= value off the wire — an error body is not the
     // place to reflect request input back. The name still reaches the operator
-    // on server stderr, matching the log-detail/return-generic split FE-047
-    // established for these handlers' 500 paths.
+    // on server stderr, matching the log-detail/return-generic split these
+    // handlers' 500 paths use.
     // JSON.stringify, not raw interpolation: a `?project=` value containing a
     // newline would otherwise forge or split a line in the operator's stderr.
     console.error(`[devApi] unknown project: ${JSON.stringify(name)}`);
@@ -107,7 +107,7 @@ export function createPlanHandler(
       // Same project-root containment createPlanArchiveHandler / createActiveHandler
       // apply: discoverProjects only validates planPath once, at scan time — without
       // a per-request check, a `.flowtron/PLAN.md` (or an ancestor) swapped to a
-      // symlink afterward would let any readable file on disk reach /api/plan (FE-088.2).
+      // symlink afterward would let any readable file on disk reach /api/plan.
       const realRoot = await safeRealpath(project.root);
       const realPlan = realRoot === null ? null : await realpathWithin(realRoot, project.planPath);
       if (realPlan === null) {
@@ -131,7 +131,7 @@ export function createPlanHandler(
 // from PLAN.md alone, so supplementary history must never be able to 500 it.
 // Containment mirrors createActiveHandler / archiveCache.readArchive — without
 // it a symlinked PLAN-ARCHIVE.md would make any readable file on disk fetchable
-// here (FE-088.2).
+// here.
 export function createPlanArchiveHandler(
   projects: Map<string, ProjectDescriptor>,
 ): AsyncHandler {
@@ -175,7 +175,7 @@ export function createActiveHandler(
     try {
       // Same project-root containment archiveCache.readArchive applies: a
       // symlinked `.flowtron/tasknote/` would otherwise let any readable file
-      // on disk reach /api/active (FE-088.2).
+      // on disk reach /api/active.
       const realRoot = await safeRealpath(project.root);
       if (realRoot === null) {
         res.setHeader('Content-Type', 'application/json');

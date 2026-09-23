@@ -45,8 +45,8 @@ export function useProjectData(activeProject: string | null): {
   // would overwrite fresh data. Each load stamps a seq per scope it requested
   // and commits a slice only while that slice's seq is still the latest.
   //
-  // Per-scope rather than one counter (FE-072 had one) because loads are no
-  // longer complete: a narrow `archive` load starting after a broad one must
+  // Per-scope rather than one counter because loads are not always
+  // complete: a narrow `archive` load starting after a broad one must
   // not invalidate the broad one's still-unresolved `active` half.
   const loadSeqRef = useRef<ScopeSeqs>({ plan: 0, active: 0, archive: 0 });
 
@@ -70,7 +70,7 @@ export function useProjectData(activeProject: string | null): {
       try {
         const q = `?project=${encodeURIComponent(project)}`;
         // `plan` owns both PLAN.md and its rotated sibling. PLAN-ARCHIVE.md is
-        // deliberately unwatched (FE-094): rotation always edits PLAN.md in the
+        // deliberately unwatched: rotation always edits PLAN.md in the
         // same motion, so the planPath event is the only signal that rotated
         // history moved, and splitting these two apart would strand it.
         const [planRes, planArchiveRes, activeRes, archiveRes] = await Promise.all([
@@ -162,7 +162,7 @@ export function useProjectData(activeProject: string | null): {
       setLiveDisconnected(false);
       // On reconnect after a drop, reconcile changes missed during the gap.
       // The first connect has no prior drop, so no redundant initial refresh.
-      // Deliberately unscoped: what fired during the gap is unknowable (FE-064).
+      // Deliberately unscoped: what fired during the gap is unknowable.
       if (droppedSinceOpen) {
         droppedSinceOpen = false;
         refresh();
@@ -175,7 +175,7 @@ export function useProjectData(activeProject: string | null): {
       // on its own. A rejected handshake — the 503 from MAX_SSE_CLIENTS, or any
       // non-`text/event-stream` response — leaves it CLOSED, and the browser
       // never retries; without recovery here that tab's board freezes forever.
-      // Flag the drop for the next 'open' to reconcile (FE-064), surface the
+      // Flag the drop for the next 'open' to reconcile, surface the
       // state, and poll until live updates come back.
       droppedSinceOpen = true;
       setLiveDisconnected(true);
@@ -196,7 +196,7 @@ export function useProjectData(activeProject: string | null): {
       recovery = setInterval(() => {
         // Poll fallback: the board keeps moving on either failure shape. Stays
         // unscoped — this fires precisely when the stream is down, so there is
-        // no event to scope it by (FE-088.3).
+        // no event to scope it by.
         refresh();
         // Recovery: only when the browser has given up. Reconnecting while it
         // is still CONNECTING would race a socket it is already retrying.

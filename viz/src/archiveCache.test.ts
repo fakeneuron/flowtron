@@ -252,7 +252,7 @@ describe('createArchiveCache', () => {
     expect(await createArchiveCache().get(project)).toEqual([]);
   });
 
-  it('still reads archives under a symlinked project root (CORE-222)', async () => {
+  it('still reads archives under a symlinked project root', async () => {
     const realProject = join(outside, 'linked-adopter');
     const archiveDir = join(realProject, '.flowtron', 'tasknote', 'archive');
     await mkdir(join(archiveDir, 'core'), { recursive: true });

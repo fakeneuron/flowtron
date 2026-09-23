@@ -11,9 +11,8 @@ interface WatchSets {
 // watched natively — the fleet-scale cost is the 200ms poll, not the watch.
 //
 // These are literal paths, not globs: chokidar 4 removed glob support
-// (FE-090.2), which also retired the FE-088.4 metacharacter escaping — v5
-// treats every path literally, so escaping `[` or `*` in a project directory
-// name would now corrupt the path rather than protect it. The `*.md` /
+// and v5 treats every path literally, so escaping `[` or `*` in a project
+// directory name would corrupt the path rather than protect it. The `*.md` /
 // `*/*.md` reach the globs used to carry now lives in the `depth` + `ignored`
 // options beside the watchers in `flowtronWatch.ts`.
 export function watchSets(projects: Iterable<ProjectDescriptor>): WatchSets {
@@ -42,9 +41,9 @@ export function projectForActiveTasknote(
 // file). Used to attribute SSE change events; not a substitute for
 // projectForActiveTasknote, which must stay unlink-only.
 //
-// The scope is what lets the client refetch one endpoint instead of four
-// (FE-101.3). Precedence is load-bearing: archiveDir is tasknoteDir/archive, so
-// an archive file's dirname is `…/archive/<area>` and never equals tasknoteDir
+// The scope is what lets the client refetch one endpoint instead of four.
+// Precedence is load-bearing: archiveDir is tasknoteDir/archive, so an
+// archive file's dirname is `…/archive/<area>` and never equals tasknoteDir
 // — the active test can safely run first.
 export function projectForPath(
   filepath: string,

@@ -219,11 +219,11 @@ export function activePhaseIndex(phases: ChecklistCounts[]): number {
 }
 
 // The Phase 4 Acceptance tick-through obligation (SPEC.md §"🚀 Phase 4: Closure")
-// did not exist before CORE-393 landed on this date. Notes archived earlier were
+// did not exist before TICK_THROUGH_EFFECTIVE. Notes archived earlier were
 // never governed by it, so flagging them would be false drift, not detection.
-// The comparison below is strict: CORE-393 landed at 23:32, and the `**Archived:**
+// The comparison below is strict: the rule landed at 23:32, and the `**Archived:**
 // stamp is date-only, so a note stamped 2026-08-01 most likely closed before the
-// rule existed (CORE-389.3 did, at 21:24). Excluding the landing day trades a
+// rule existed (notes that day closed as early as 21:24). Excluding the landing day trades a
 // few unflagged hours for no false flags — the same "unknown is not drift" stance
 // the missing-stamp case takes.
 const TICK_THROUGH_EFFECTIVE = '2026-08-01';

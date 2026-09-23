@@ -55,7 +55,7 @@ function spyOnRender<P>(component: React.NamedExoticComponent<P>) {
   return vi.spyOn(component as unknown as { type: (props: P) => React.ReactNode }, 'type');
 }
 
-// FE-101.4: React.memo(TaskRow) only pays off if a parent re-render (e.g. an
+// React.memo(TaskRow) only pays off if a parent re-render (e.g. an
 // unrelated search-query keystroke) doesn't force every mounted row through
 // its own render function body. `TaskRow.type` is the memo wrapper's inner
 // render function — spying on it counts actual invocations directly, unlike
@@ -96,7 +96,7 @@ describe('TaskRow', () => {
   });
 });
 
-// FE-118: `Task.unattended` (parsed since CORE-494) surfaces as a chip in the
+// `Task.unattended` surfaces as a chip in the
 // right-hand cluster so rows an operator-less runner may dispatch are visible.
 describe('TaskRow — [unattended] chip', () => {
   const label = /^Unattended/;
@@ -120,7 +120,7 @@ describe('TaskRow — [unattended] chip', () => {
   });
 });
 
-// FE-122: `Task.handoff` (parsed since CORE-598.3) surfaces as a chip so a
+// `Task.handoff` surfaces as a chip so a
 // row that stops mid-run for a human act is visible; it wins over the
 // `[unattended]` chip when both markers are present (SPEC §"Task-line
 // format": `[handoff]` wins).

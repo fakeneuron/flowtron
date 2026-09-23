@@ -8,20 +8,19 @@ import type { Tasknote } from './tasknote.ts';
 // `devApi.createActiveHandler` (the active `.flowtron/tasknote/` dir) and
 // `archiveCache.readArchive` (one archive area dir per call): both need the
 // identical readdir → containment → parse → drop loop, and a leaf module keeps
-// them from importing each other (FE-088.2 deferred the extraction on exactly
-// that boundary concern).
+// them from importing each other.
 //
 // `realBase` must be the project root already resolved through symlinks (via
 // `safeRealpath`), never `dir` itself. Anchoring containment on the leaf
 // directory would be vacuous: if `tasknote/` (or `archive/`, or `.flowtron/`)
 // is itself a symlink, everything under its target is trivially "inside" it, so
-// only the root is a meaningful bound. Symlinked project roots stay legitimate
-// (CORE-222) — the root resolves first, then nothing below it may escape.
+// only the root is a meaningful bound. Symlinked project roots stay legitimate:
+// the root resolves first, then nothing below it may escape.
 // Callers resolve the root and handle its `null` themselves because TypeScript
 // cannot narrow a captured `string | null` inside the `files.map` closure.
 //
 // Two silent per-file drops, both deliberate, neither fatal to the listing:
-//   * resolves outside the project root (FE-088.2) — no user action possible;
+//   * resolves outside the project root — no user action possible;
 //   * unreadable or malformed — legacy archived tasknotes may carry malformed
 //     YAML frontmatter (write-once policy in SPEC.md) and a TOCTOU delete
 //     between readdir and readFile is routine during live editing. Per-file

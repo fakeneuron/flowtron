@@ -6,7 +6,7 @@ import { LIVE_RECOVERY_MS, useProjectData } from './useProjectData';
 // exposes emit(type). Reach the EventSource a hook mounted to drive its SSE
 // branches. Tests clear the registry in beforeEach so the last instance is the
 // current one. Index (not Array.at) — tsconfig lib is ES2020; @types/node 24
-// no longer leaks ES2022 Array.at onto that lib (FE-106.4).
+// no longer leaks ES2022 Array.at onto that lib.
 interface MockES {
   url: string;
   readyState: number;
@@ -22,7 +22,7 @@ const latestES = () => {
 const planRes = (md: string) => ({ ok: true, status: 200, text: async () => md });
 const jsonRes = (body: unknown) => ({ ok: true, status: 200, json: async () => body });
 
-// `/api/plan-archive` also starts with `/api/plan` (FE-094), so route checks
+// `/api/plan-archive` also starts with `/api/plan`, so route checks
 // compare the path exactly rather than by prefix — a prefix test would hand the
 // archive fetch the PLAN.md mock.
 const routeIs = (url: string, route: string) => url.split('?')[0] === route;
@@ -296,7 +296,7 @@ describe('useProjectData — SSE branches', () => {
   });
 });
 
-// FE-101.3: an attributed change carries the scopes its watched path can have
+// An attributed change carries the scopes its watched path can have
 // invalidated, so the board fetches one endpoint instead of four. Everything
 // that cannot be attributed to a scope still fetches all four.
 describe('useProjectData — scoped refetch', () => {
@@ -348,7 +348,7 @@ describe('useProjectData — scoped refetch', () => {
     expect(since(fetchMock, after)).toEqual(['/api/active?project=p1']);
   });
 
-  // PLAN-ARCHIVE.md is unwatched (FE-094): rotation always edits PLAN.md in the
+  // PLAN-ARCHIVE.md is unwatched: rotation always edits PLAN.md in the
   // same motion, so the plan scope has to carry both or rotated history staleds.
   it('fetches both plan endpoints for a plan-scoped change', async () => {
     const { hook, fetchMock } = mountScoped();
@@ -426,7 +426,7 @@ describe('useProjectData — scoped refetch', () => {
       });
       expect(since(fetchMock, beforePoll)).toEqual(ALL);
 
-      // Reconnect reconciles a gap whose contents are unknowable (FE-064).
+      // Reconnect reconciles a gap whose contents are unknowable.
       const beforeOpen = fetchMock.mock.calls.length;
       await act(async () => {
         latestES().emit('open');
@@ -466,9 +466,9 @@ describe('useProjectData — scoped refetch', () => {
     );
   });
 
-  // FE-072's guard was safe with one counter only because every load was
-  // complete. With partial loads a later narrow load must not discard an
-  // in-flight broader one's other slices.
+  // One counter would be safe only if every load were complete. With partial
+  // loads a later narrow load must not discard an in-flight broader one's
+  // other slices.
   it('does not let a later archive-scoped load discard an in-flight active slice', async () => {
     const note = (id: string) => ({ id, path: `${id}.md`, frontmatter: { title: id } });
     let releaseActive!: () => void;
@@ -509,7 +509,7 @@ describe('useProjectData — scoped refetch', () => {
   });
 });
 
-// FE-094: rotated `## Completed` history reaches the board through a fourth
+// Rotated `## Completed` history reaches the board through a fourth
 // fetch that is never allowed to break it.
 describe('useProjectData — rotated PLAN-ARCHIVE.md', () => {
   const mountWith = (plan: string, archive: unknown) => {

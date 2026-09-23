@@ -57,7 +57,7 @@ function spyOnRender<P>(component: React.NamedExoticComponent<P>) {
   return vi.spyOn(component as unknown as { type: (props: P) => React.ReactNode }, 'type');
 }
 
-// FE-101.4: mirrors the TaskRow memo-bail tests. EpicRow's `node` prop must
+// Mirrors the TaskRow memo-bail tests. EpicRow's `node` prop must
 // come from a stabilized pruneMatchingNodes (taskView.test.ts covers that
 // separately) — here we only assert the memo wrapper itself bails when its
 // own props (node, expanded, onToggleExpanded) are unchanged. Spying on

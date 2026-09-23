@@ -368,7 +368,7 @@ describe('createPlanHandler', () => {
   });
 });
 
-// FE-094: rotated `## Completed` history. The endpoint's whole contract is that
+// Rotated `## Completed` history. The endpoint's whole contract is that
 // it degrades instead of failing — an absent archive is the normal state.
 describe('createPlanArchiveHandler', () => {
   it('returns the PLAN-ARCHIVE.md text on the allowed origin', async () => {
@@ -603,7 +603,7 @@ created: 2026-08-21
     expect(JSON.parse(state.body)).toEqual([]);
   });
 
-  it('still lists tasknotes under a symlinked project root (CORE-222)', async () => {
+  it('still lists tasknotes under a symlinked project root', async () => {
     const tasknote = `---
 title: hi
 status: in-progress

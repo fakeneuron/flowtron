@@ -15,7 +15,7 @@ const task = (id: string, priority: Priority, completed = false): Task => ({
   blockedBy: [],
 });
 
-// CORE-1.1 resolves to parent epic CORE-EPIC-1 (parser.getSubtaskParentEpicId).
+// `CORE-1.1` resolves to parent epic `CORE-EPIC-1` (parser.getSubtaskParentEpicId).
 const TASKS: Task[] = [
   task('CORE-EPIC-1', 'Medium'),
   task('CORE-1.1', 'Medium'),
@@ -26,7 +26,7 @@ const TASKS: Task[] = [
 // navigateToTask sequences scroll + highlight inside requestAnimationFrame,
 // then a setTimeout(HIGHLIGHT_MS = 1500). Real timers throughout, matching
 // App.test.tsx's navigateToTask block — fake timers there coupled the assertion
-// to wall-clock and flaked under parallel jsdom contention (FE-045 / FE-053).
+// to wall-clock and flaked under parallel jsdom contention.
 const mountRow = (id: string): HTMLElement => {
   const el = document.createElement('div');
   el.id = `row-${id}`;

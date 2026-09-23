@@ -8,24 +8,24 @@ import type { DensityMode, PaletteName } from '../visibilityPrefs';
  * **Typography scale.** `heading`/`subhead`/`caption` sizes (`text-lg` /
  * `text-base` / `text-xs`) are applied as literal Tailwind classes at their
  * call sites rather than through this token — only `body` (`text-sm`) is
- * referenced by name, so `TYPOGRAPHY` carries just that one role (FE-100).
+ * referenced by name, so `TYPOGRAPHY` carries just that one role.
  * Off-grid sizes (`text-[11px]`, `text-[9px]`) are deprecated — fold to
- * `body`/`text-sm` and `text-xs` respectively (CORE-098.2).
+ * `body`/`text-sm` and `text-xs` respectively.
  *
- * **Color palettes (FE-033.2).** Colors live in `PALETTES`, a
+ * **Color palettes.** Colors live in `PALETTES`, a
  * `Record<PaletteName, PaletteTokens>` keyed by user-selectable palette
  * (default / linear / github). Each palette ships the full 12-token bag
  * with light + dark variants baked into one Tailwind className per token
  * (Tailwind's `dark:` variant prefix resolves light/dark at CSS time).
  * The active palette is read via `usePalette()` (see `VisibilityContext`).
  *
- * **Default-palette semantic invariants (post-CORE-098.2)** — amber is the
+ * **Default-palette semantic invariants** — amber is the
  * *state/attention* family: in-progress status, active phase dot, Medium
- * priority section + badge. Row highlight uses indigo (CORE-098.2 collision
- * fix). `.3` (Linear) and `.4` (GitHub) curate their own hue→role bindings,
+ * priority section + badge. Row highlight uses indigo so it never collides
+ * with amber. Linear and GitHub curate their own hue→role bindings,
  * but every palette must keep the 5 status roles + 5 priority roles +
  * critical flag + highlight + selection visually distinct, and clear
- * FE-019's ≥4.5:1 small-text contrast in both light and dark.
+ * ≥4.5:1 small-text contrast in both light and dark.
  */
 
 export const TYPOGRAPHY = {
@@ -200,8 +200,8 @@ export const PALETTES: Record<PaletteName, PaletteTokens> = {
 };
 
 /**
- * Density tokens (CORE-098.4). Three opt-in modes selectable from the
- * settings modal: Default = today's spacing (post-FE-031 lean baseline);
+ * Density tokens. Three opt-in modes selectable from the
+ * settings modal: Default = the lean baseline spacing;
  * Comfortable adds one step of breathing room; Compact tightens one step.
  * Scope: row-surface only — TaskDetail and header chrome stay fixed.
  * Chip text size stays on literal `text-xs`; density scales padding.

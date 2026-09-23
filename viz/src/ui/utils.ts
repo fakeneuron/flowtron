@@ -29,7 +29,7 @@ export function effectiveStatus(task: Task, tn: Tasknote | undefined): TasknoteS
 
 // Display bucket for list/board grouping. Heading (`task.priority`) is
 // provenance — where the row is filed. Checkbox overlay moves a top-level
-// `[x]` into Completed even when the heading hasn't moved yet (FE-086).
+// `[x]` into Completed even when the heading hasn't moved yet.
 // Epic children are not grouped independently (`groupTasks` nests them).
 export function displaySection(task: Task): Priority {
   return task.completed ? 'Completed' : task.priority;

@@ -24,9 +24,9 @@ export async function safeRealpath(path: string): Promise<string | null> {
 // Resolve `path` and return it only when it stays inside `realBase` — which
 // must already be resolved (via safeRealpath), because containment is checked
 // against a project's *resolved* root, never its workspace-relative one.
-// Adopter roots under ~/code are routinely symlinks into other trees
-// (CORE-222), so the root is resolved first and kept; what must not escape is
-// everything below it. Null on an unresolvable path or an escape.
+// Adopter roots under ~/code are routinely symlinks into other trees, so
+// the root is resolved first and kept; what must not escape is everything
+// below it. Null on an unresolvable path or an escape.
 export async function realpathWithin(
   realBase: string,
   path: string,

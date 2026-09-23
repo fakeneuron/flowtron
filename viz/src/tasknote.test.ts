@@ -668,7 +668,7 @@ Body
     expect(tn.phases[3]).toEqual({ total: 6, done: 0 });
   });
 
-  it('reads a phase whose notes quote example rows in a fence (CORE-098.1 shape)', () => {
+  it('reads a phase whose notes quote example rows in a fence (`CORE-098.1` shape)', () => {
     const text = `# CORE-098.1 | Discovery
 
 ## 🛠️ Phase 2: Execution
@@ -822,7 +822,7 @@ evil: !!omap
     expect(() => parseTasknote('EVIL-2', '/abs/EVIL-2.md', text)).toThrow(/omap|unknown tag|unresolved tag/i);
   });
 
-  it('does not apply YAML merge keys under CORE_SCHEMA (GHSA-2883)', () => {
+  it('does not apply YAML merge keys under CORE_SCHEMA (`GHSA-2883`)', () => {
     const text = `---
 title: kept
 status: in-progress
@@ -839,7 +839,7 @@ created: 2026-01-01
     expect(note.frontmatter?.tags).toEqual([]);
   });
 
-  describe('frontmatter splitting (CORE-640, in-repo replacement for gray-matter)', () => {
+  describe('frontmatter splitting (in-repo replacement for gray-matter)', () => {
     const fm = `title: Demo\nstatus: in-progress\ncreated: 2026-01-01\n`;
 
     it('treats a file with no leading --- as body only', () => {

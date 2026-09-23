@@ -4,7 +4,7 @@
 
 // Which watched path kind fired, and so which endpoints the client must
 // refetch. `plan` covers /api/plan *and* /api/plan-archive: PLAN-ARCHIVE.md is
-// deliberately unwatched (FE-094) because rotation always edits PLAN.md in the
+// deliberately unwatched because rotation always edits PLAN.md in the
 // same motion, so the planPath event is the only signal rotated history moved.
 export type ChangeScope = 'plan' | 'active' | 'archive';
 

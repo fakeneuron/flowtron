@@ -11,7 +11,7 @@ export const ALLOWED_ORIGINS: ReadonlySet<string> = new Set([
 // Reject cross-origin browser requests to the viz dev API. Tasknote and
 // PLAN.md content is readable here; without this guard any website visited
 // during `npm run dev` could fetch /api/* and exfiltrate it (compounded
-// historically by esbuild GHSA-67mh-4wv8-2f99 / Vite GHSA-4w7w-66w2-5vf9).
+// historically by esbuild `GHSA-67mh-4wv8-2f99` / Vite `GHSA-4w7w-66w2-5vf9`).
 // Returns true if the request should proceed; otherwise writes a 403 and
 // returns false. Origin-less requests (terminal `curl`, EventSource
 // fallbacks) are allowed — `server.allowedHosts` handles DNS-rebinding.
@@ -20,10 +20,10 @@ export function originGuard(req: IncomingMessage, res: ServerResponse): boolean 
   // case those two miss: a cross-origin iframe navigation sends no `Origin`
   // (it is a GET navigation, not a CORS request) and `referrerpolicy="no-referrer"`
   // strips the `Referer`, so a hostile page could hold /api/events slots against
-  // the MAX_SSE_CLIENTS cap (FE-062) until the operator's own board takes the 503.
+  // the MAX_SSE_CLIENTS cap until the operator's own board takes the 503.
   // A sibling loopback-port page can send neither header either (a `no-cors` +
   // `no-referrer` GET) and still arrives as `same-site`, so that value is
-  // rejected too (FE-119) — the viz UI only calls /api/* same-origin. Browsers
+  // rejected too — the viz UI only calls /api/* same-origin. Browsers
   // always send this header; `none` (address-bar navigation) and `same-origin`
   // fall through to the exact-origin checks below, and an absent header still
   // passes so terminal `curl` and other non-browser clients keep working.

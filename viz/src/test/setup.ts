@@ -5,7 +5,7 @@ import { configure } from '@testing-library/dom';
 // polling window expires under parallel contention, flaking userEvent-heavy
 // App.test.tsx tests (element-not-found). Raise it to 5s — the companion to
 // vite.config.ts's testTimeout bump — so the /ft-release viz gate stays
-// reliable. See FE-053.
+// reliable.
 configure({ asyncUtilTimeout: 5000 });
 
 // Node 26 defines globalThis.localStorage as an experimental getter that emits

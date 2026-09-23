@@ -10,9 +10,9 @@ import {
 } from './tasknote.ts';
 
 // Frontmatter is YAML only, loaded under CORE_SCHEMA. The schema registers neither
-// `!!omap` (O(n²) resolver on js-yaml 3.15.0 — GHSA-5p4m-2wfm-xmqj, sibling of
-// CVE-2026-59870) nor merge (`<<`, GHSA-2883): a crafted omap is an unknown-tag
-// throw, the same catch-and-skip path as malformed YAML.
+// `!!omap` (O(n²) resolver on js-yaml 3.15.0 — `GHSA-5p4m-2wfm-xmqj`, sibling
+// of `CVE-2026-59870`) nor merge (`<<`, `GHSA-2883`): a crafted omap is an
+// unknown-tag throw, the same catch-and-skip path as malformed YAML.
 function parseYamlFrontmatter(input: string): object {
   // js-yaml 5 throws on empty input ("expected a document"); an empty block is no frontmatter.
   if (input.trim() === '') return {};

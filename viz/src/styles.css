@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 
-/* Tailwind 4 has no `darkMode` config key — the class strategy FE-009 chose is
+/* Tailwind 4 has no `darkMode` config key — the class-based dark strategy is
    re-declared here. `theme-init.js` stamps `.dark` on <html> before first paint;
    this variant is what makes every `dark:` utility match it. */
 @custom-variant dark (&:where(.dark, .dark *));

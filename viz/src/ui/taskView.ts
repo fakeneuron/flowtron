@@ -3,7 +3,7 @@ import type { Tasknote, TasknoteStatus } from '../tasknote';
 import { displaySection, effectiveStatus, groupBy } from './utils';
 
 // The pure view-model pipeline behind App's derived state: filter → prune →
-// group → visible ids / counts. Extracted from App.tsx (FE-94.3) so the
+// group → visible ids / counts. Kept out of App.tsx so the
 // semantics below are unit-testable without driving the DOM. No React here —
 // App keeps the useMemo/useCallback boundaries and their dependency arrays.
 
@@ -59,7 +59,7 @@ export function isReady(
 
 // Single derived tree for count, render, and keyboard-nav: keep a parent
 // when it or any child matches, but prune non-matching children so "N of M
-// matching" and j/k stops never include hidden rows (CORE-432.3).
+// matching" and j/k stops never include hidden rows.
 export function pruneMatchingNodes(
   nodes: TaskNode[],
   matches: (task: Task) => boolean,
@@ -68,7 +68,7 @@ export function pruneMatchingNodes(
     const filteredChildren = n.children.filter(matches);
     // Reuse the original children/node references when filtering removed
     // nothing, so a re-render triggered by an unrelated query change doesn't
-    // also invalidate React.memo on every unaffected row (FE-101.4).
+    // also invalidate React.memo on every unaffected row.
     const children =
       filteredChildren.length === n.children.length ? n.children : filteredChildren;
     if (!matches(n.task) && children.length === 0) return [];
@@ -81,7 +81,7 @@ export function groupBySection(nodes: TaskNode[]): Record<Priority, TaskNode[]> 
   const grouped = groupBy(nodes, (n) => displaySection(n.task));
   const high = grouped.High;
   if (high && high.length > 1) {
-    // Critical-flagged tasks rise to the top of High (FE-044). Stable sort
+    // Critical-flagged tasks rise to the top of High. Stable sort
     // preserves source order within the flagged and un-flagged groups.
     grouped.High = [...high].sort((a, b) => Number(b.task.critical) - Number(a.task.critical));
   }
