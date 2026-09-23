@@ -55,7 +55,7 @@ the edges of the answer.>
 
 The Phase 3 external review (`SPEC.md` §"🧪 Phase 3: Testing & Linting") is a
 probe with a fixed question, so it gets a fixed brief instead of a written one.
-Claude Code runners use `/code-review` and skip this section; every other runner
+Claude Code runners use `/code-review medium` and skip this section; every other runner
 briefs a read-only sub-agent with the block below. The variance from the brief
 above: the question is given, and the return is findings rather than an answer.
 

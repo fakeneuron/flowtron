@@ -275,7 +275,7 @@ the discipline the sizing principle depends on. The safe patterns:
   grade this diff against the tasknote's Acceptance criteria. It matters
   that the grader is not the author — self-evaluation is unreliable even
   where the criteria are machine-checkable — and it grades without ever
-  patching. Claude Code runners use `/code-review`; everyone else uses
+  patching. Claude Code runners use `/code-review medium`; everyone else uses
   the review-probe variant of the same brief.
 
 This is guidance, not machinery — but the loop case has a contract.

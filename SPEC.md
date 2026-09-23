@@ -468,7 +468,7 @@ disposition:
   the runner's discretion. A note never reopens a phase.
 
 **Who reviews.** The one property that matters is *not the author*. Claude Code
-runs `/code-review` over the working tree; other runners brief a read-only
+runs `/code-review medium` over the working tree; other runners brief a read-only
 sub-agent with
 [`templates/subagent-probe-template.md`](templates/subagent-probe-template.md)
 §"Variant — review probe". Weighing the findings stays the parent's job either
