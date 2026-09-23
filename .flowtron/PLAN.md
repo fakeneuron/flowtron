@@ -16,7 +16,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Medium
 
 - [ ] **CORE-660** [medium]🧩 | gate-discipline-trim — Blocked by decay-window depth: the window [[CORE-659]] opened at `f8c44275` has observed 1 run, its own. Parked at Phase 1→2 (`status: blocked`); Discovery, inbound-reference table, and the provenance trim axis are preserved in the tasknote. Resume once N independent runs have archived. Destination decided: `docs/GATE-DISCIPLINE.md`.
-- [ ] **CORE-671** [medium]🧩 [unattended] | gate-postures-headroom — `SPEC/gate-postures.md` is at 21,592/23,000 (6.1%, about 1 working unit where its row allows ~1.5). Trim or extract to get back to ≥10%. Also decide whether the flat 10% rule or each §Budgets row's working-unit sizing applies to `claude/skills/ft-release/**` (8.8%, about 2 units). Surfaced by [[CORE-670.N]].
 
 ## Low
 
@@ -32,6 +31,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-671** [medium]🧩 [unattended] | gate-postures-headroom — Completed 2026-09-22. `SPEC/gate-postures.md` 21,592 → 20,409 (headroom 6.1% → 11.3%) by within-file restatement cuts, cap held; `docs/CONTEXT-BUDGET.md` now states per-row working-unit sizing, not a flat 10%, governs headroom (`ft-release/**` at ≈2 units needs no action).
 - [x] **CORE-EPIC-670** [heavy]🧠 | context-headroom — Completed 2026-09-22.
   - [x] **CORE-670.2** [light]🔧 | budget-rationale-refresh — Completed 2026-09-22.
   - [x] **CORE-670.3** [heavy]🧠 | procedures-ft-task-extract — Completed 2026-09-22.

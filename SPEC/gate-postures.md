@@ -1,6 +1,6 @@
 # Flag postures — `--fast` and `--unattended`
 
-> Lazy-loaded SPEC module. Loaded by `/ft-task` and `/ft-micro-task` at their Step 0 flag parse when `--fast` or `--unattended` is set, at their Step 1 when the PLAN.md row's `[unattended]` marker implies `--fast`, and by `/ft-close-epic` at its Step 0 under `--unattended`; consulted by any surface reasoning about what a flag suppresses, converts, or never reaches. A flagless run on an unmarked row never loads it. See [`SPEC/gates.md`](gates.md) for the gate machinery these postures cross-cut — the two-banner cap, the destructive-action escalation, the Phase 1→2 exit-gate flavors, the conditional skip rule — and `SPEC.md` for the always-loaded core spec.
+> Lazy-loaded SPEC module. Loaded by `/ft-task` and `/ft-micro-task` at their Step 0 flag parse when `--fast` or `--unattended` is set, at their Step 1 when the PLAN.md row's `[unattended]` marker implies `--fast`, and by `/ft-close-epic` at its Step 0 under `--unattended`; consulted by any surface reasoning about what a flag suppresses, converts, or never reaches. A flagless run on an unmarked row never loads it. See [`SPEC/gates.md`](gates.md) for the gate machinery these postures cross-cut and `SPEC.md` for the always-loaded core spec.
 
 The two operator postures that cross-cut every gate in
 [`SPEC/gates.md`](gates.md) live here — `--fast` (an operator who is present
@@ -16,11 +16,8 @@ writes are canonical in [`SPEC/blocked.md`](blocked.md) §"Park reason".
 
 ## Flag precedence and surface matrix
 
-Two operator flags cross-cut every gate above: `--fast` (§"`--fast` operator
-override") and `--unattended` (§"`--unattended` operator posture"). This
-section is the **single place** their effects are enumerated. Every gate
-section in [`SPEC/gates.md`](gates.md) states its own rule and points here
-for the flag interaction; none restates a row below.
+The **single place** the two flags' effects are enumerated; no gate section
+in [`SPEC/gates.md`](gates.md) restates a row below.
 
 ### Precedence ladder
 
@@ -76,9 +73,8 @@ closed set in [`SPEC/blocked.md`](blocked.md) §"Park reason".
 | `[unattended]` row marker, no flag passed | Implies `--fast` | — | **Not implied** |
 
 Three readings the matrix forecloses. `--fast` reaches **exactly four**
-surfaces — 📦 force-skip, 👁️ suppression, 🛠️ no-op-for-routine-trips, and the
-Re-scope downgrade — and no fifth. `--unattended` **parks** where it differs; a park is a stop, not a
-wave-through. And a conversion **removes a banner; it never adds one** — no new
+surfaces (§"`--fast` operator override") and no fifth. `--unattended`
+**parks** where it differs; a park is a stop, not a wave-through. And a conversion **removes a banner; it never adds one** — no new
 cue glyph is minted anywhere in this table, and the two-banner cap
 ([`SPEC/gates.md`](gates.md) §"Operator-gate cues") is untouched.
 
@@ -126,11 +122,8 @@ unrelated `--fast`: it only skips the operator review pause before
 filing the refactor epic and never touches the 👁️/📦/🛠️ gate surface
 described above.
 
-`--fast` assumes an operator who is present but does not want to be
-asked. For the stronger claim — that no operator is present at all — see
-§"`--unattended` operator posture" below, which supersets this flag's
-**autonomy** while declining the one surface that depends on the operator
-being there.
+For the stronger claim — that no operator is present at all — see
+§"`--unattended` operator posture" below.
 
 ## `--unattended` operator posture
 
@@ -181,15 +174,12 @@ a prerequisite ✋ `ACTION` (`prerequisite`), the Step 1.5 concrete-model
 mismatch (`model-mismatch`, via §"Pre-scaffold stops"), a queued bundled in-📦
 prompt (`input-needed`), and the Phase 3 👁️ ask (`visual-confirm`). Their
 attended behavior and their conversions are the rows of §"Flag precedence and
-surface matrix"; what follows is why three of them read the way they do.
+surface matrix"; what follows is why four of them read the way they do.
 
 The 🛠️ conversion parks at the Phase 1→2 boundary because Phase 1 is complete
 and its Discovery is exactly the work worth preserving. The destructive
 conversion generalizes [`SPEC/loop.md`](loop.md) §"Gate collapse" →
-"Destructive-action carve-out" from one runner to the posture. The 👁️ row and
-the Re-scope half of the drift row are the two converting a `--fast`
-*delegation* rather than a surviving gate (§"What is inherited, and what is
-not").
+"Destructive-action carve-out" from one runner to the posture.
 
 **The 👁️ trigger is the emission condition, not a second judgment.**
 Whenever Phase 3 would emit a 👁️ ask, the run parks with
@@ -229,16 +219,11 @@ Resume is unchanged: re-running the skill against the parked tasknote
 takes [`SPEC/blocked.md`](blocked.md)'s normal resume path, with an
 operator present to answer the gate that parked it.
 
-**Not a widening any more.** This conversion once reached past
-[`SPEC/blocked.md`](blocked.md), which scoped `status: blocked` to
-mid-Phase-2 parking on the reasoning that *"a Phase 1 blocker has no Phase 2
-work to preserve"* — false at the **Phase 1→2 boundary**, where Phase 1 *is*
-complete and its Discovery is the work worth preserving. [[CORE-665]] took
-that argument back to its source: `blocked.md` §"Phase 1 entry" now offers
-the park on the attended path too, as one of two dispositions the operator
-picks between at the 🛠️ gate. What this posture adds is no longer the park
-itself but its **unconditionality** — with nobody to pick, a `Re-scope` /
-`De-scope` verdict parks every time, and the PLAN.md edit defers.
+**The park itself is not unattended-only.** [`SPEC/blocked.md`](blocked.md)
+§"Phase 1 entry" offers it attended too, as one of two dispositions at the 🛠️
+gate ([[CORE-665]]). What this posture adds is its **unconditionality** — with
+nobody to pick, a `Re-scope` / `De-scope` verdict parks every time, and the
+PLAN.md edit defers.
 
 ### Pre-scaffold stops
 

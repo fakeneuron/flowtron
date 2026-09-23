@@ -55,6 +55,14 @@ governs it; every other `SKILL.md` falls under the glob row. A `/**` row is
 outside that precedence: it is a directory total, checked in addition to
 whatever per-file rows its files match, never instead of them.
 
+**Headroom is judged per row, in working units.** Each row's "Why this number"
+says how many units it is sized to hold — its own measured unit, or a sibling's
+where it is "sized like its siblings"; that, not a flat percentage, decides
+whether a surface is short. A 10% figure is a fair shorthand where the unit is
+small, but it misreads a row like
+`claude/skills/ft-release/**`, whose unit is +4,000–5,300: 8.8% there is ~2
+units ([[CORE-671]], settling the heuristic [[CORE-670.N]] measured against).
+
 **Not budgeted, deliberately:** `docs/`, archived tasknotes, `tools/`, `viz/`,
 and the lazy `SPEC/` modules other than `gates.md`, `gate-postures.md`,
 `post-closure.md`, `task-line-segments.md`, and `SPEC/procedures/ft-task.md`. None of them is loaded to
@@ -80,7 +88,7 @@ row was budgeted at on first appearing in this table, not a change.
 |---|---|
 | `SPEC.md` | 50,000 split target [[CORE-535.1]] → 55,000 [[CORE-555]] → 57,000 [[CORE-558.5]] → 53,000 [[CORE-607]] (extracted `post-closure.md`) → held 53,000 [[CORE-664]] (extracted `task-line-segments.md`) |
 | `SPEC/gates.md` | set [[CORE-535.1]]; split (cue vocabulary, discipline prose) [[CORE-535.5]] → 35,000 → 40,000 [[CORE-555]] → 25,000 [[CORE-604.2]] (extracted `gate-postures.md`) |
-| `SPEC/gate-postures.md` | split from `gates.md`, budgeted 23,000 [[CORE-604.2]]; re-measured, no change [[CORE-631.3]] |
+| `SPEC/gate-postures.md` | split from `gates.md`, budgeted 23,000 [[CORE-604.2]]; re-measured, no change [[CORE-631.3]] → held 23,000 [[CORE-671]] (trimmed 21,592 → 20,409) |
 | `SPEC/post-closure.md` | split from `SPEC.md`, budgeted 12,000 [[CORE-607]] |
 | `SPEC/task-line-segments.md` | split from `SPEC.md` §"Task-line format", budgeted 10,000 [[CORE-664]] |
 | `claude/skills/*/SKILL.md` | 30,000 [[CORE-535.2]] → 33,000 [[CORE-558.5]] |
