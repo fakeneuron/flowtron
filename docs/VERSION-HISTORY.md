@@ -22,6 +22,15 @@ unless correcting a factual error.
 
 ---
 
+## v5.33.0 — a review probe closes Phase 3's self-grading gap, plus context-headroom and viz cleanup
+
+- Phase 3 gains an External review box — a context that did not write the diff grades it against Acceptance before closure, on two rungs (blocker / note). Claude runners use `/code-review medium`; other runners brief a read-only sub-agent.
+- `/ft-audit`'s `context` domain gains a sixth "Contract decay" pass (flowtron-self only).
+- Visualizer gets a "Ready" filter (FE-124) and a comment/provenance trim pass (FE-EPIC-125 + FE-126).
+- A context-headroom epic closed, shrinking several always-loaded and lazy SPEC surfaces with no cap raised; a second-pass harness survey added.
+
+Also: `/code-review medium` pinned explicitly at every External-review call site; a CI Pair Q drift fix; a PLAN.md placeholder-convention doc.
+
 ## v5.32.0 — a Handoff Chip, natabula decoupled from the public tree, and a hardened gate-reliability epic
 
 - The visualizer gains a Handoff Chip on task rows, surfacing hand-off context inline.
