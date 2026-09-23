@@ -22,13 +22,14 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-641** [light]🔧 | typescript-7 — Bump typescript 5.9→7 once typescript-eslint supports TS 7.1+; tsc also TS2882 on CSS side-effect import. CORE-639.3 reverted.
 ## Future Opportunities
 
-- [ ] **FE-EPIC-125** [heavy]🧠 | viz-comment-provenance-trim — Strip task-ID provenance from `viz/src` comments, keep rationale. Discovery supplied by audit-repo 2026-09-22. Surfaced by audit-repo 2026-09-22 (Theme: Provenance-in-code)
-  - [x] **FE-125.2** [medium]🧩 | parser-comment-trim — Completed 2026-09-22.
-  - [x] **FE-125.3** [medium]🧩 | viz-comment-trim-rest — Completed 2026-09-22.
-  - [ ] **FE-125.N** [medium]🧩 | viz-comment-trim-audit — Epic audit.
+(none)
 
 ## Completed
 
+- [x] **FE-EPIC-125** [heavy]🧠 | viz-comment-provenance-trim — Completed 2026-09-23.
+  - [x] **FE-125.2** [medium]🧩 | parser-comment-trim — Completed 2026-09-22.
+  - [x] **FE-125.3** [medium]🧩 | viz-comment-trim-rest — Completed 2026-09-22.
+  - [x] **FE-125.N** [medium]🧩 | viz-comment-trim-audit — Completed 2026-09-23.
 - [x] **CORE-672** [light]🔧 [unattended] | audit-repo-nest-children — Completed 2026-09-22.
 - [x] **CORE-671** [medium]🧩 [unattended] | gate-postures-headroom — Completed 2026-09-22. `SPEC/gate-postures.md` 21,592 → 20,409 (headroom 6.1% → 11.3%) by within-file restatement cuts, cap held; `docs/CONTEXT-BUDGET.md` now states per-row working-unit sizing, not a flat 10%, governs headroom (`ft-release/**` at ≈2 units needs no action).
 - [x] **CORE-EPIC-670** [heavy]🧠 | context-headroom — Completed 2026-09-22.
