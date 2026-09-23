@@ -82,7 +82,7 @@ row was budgeted at on first appearing in this table, not a change.
 | `claude/skills/*/SKILL.md` | 30,000 [[CORE-535.2]] → 33,000 [[CORE-558.5]] |
 | `claude/skills/ft-release/SKILL.md` | budgeted 40,000, post-trim from ~77,000 [[CORE-507]] |
 | `claude/skills/ft-release/**` | measured but unbudgeted through [[CORE-613]] (117,337, exceeding the body row unseen) → budgeted 125,000 [[CORE-622.2]] |
-| `SPEC/procedures/ft-task.md` | budgeted 38,000 [[CORE-608]]; re-measured, no change [[CORE-631.3]] |
+| `SPEC/procedures/ft-task.md` | budgeted 38,000 [[CORE-608]]; re-measured, no change [[CORE-631.3]] → held 38,000 [[CORE-670.3]] (debug-mode restatement routed to `step-4-debug-mode.md`) |
 
 Full narrative provenance for any of the above — exact per-commit deltas,
 which task found which headroom figure — lives in `git log -p --

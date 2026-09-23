@@ -1,6 +1,6 @@
 # Debug mode — hypothesis-first scaffolding (executable steps)
 
-> Lazy-loaded SKILL fragment. Loaded by `task` SKILL.md Step 0 when `--debug` / `-d` is present in `args`. Carries the whole of debug mode: the four Phase 1 prompts (§Phase 1 below), the Phase 2 emphasis, and the Phase 3 re-verify obligation. See `claude/skills/ft-task/SKILL.md` for the always-loaded core flow, and `SPEC/tasknote-selection.md` §"When to use a tasknote (and when not to)" for when to reach for debug mode at all.
+> Lazy-loaded SKILL fragment. Loaded by `task` SKILL.md Step 0 when `--debug` / `-d` is present in `args`, and by the agent-neutral SOP `SPEC/procedures/ft-task.md` when the operator requests debug mode — this file is the mode's only body on both paths. Carries the whole of debug mode: the four Phase 1 prompts (§Phase 1 below), the Phase 2 emphasis, and the Phase 3 re-verify obligation. See `claude/skills/ft-task/SKILL.md` for the always-loaded core flow, and `SPEC/tasknote-selection.md` §"When to use a tasknote (and when not to)" for when to reach for debug mode at all.
 
 Debug mode adds **content**, never mechanics. Scaffolding, the model gate, operator-gate cues, epic children, blocked handling, closure, and the post-closure protocol are byte-identical to a normal `/ft-task` run. Nothing in this fragment creates a new phase, template, banner, or gate.
 

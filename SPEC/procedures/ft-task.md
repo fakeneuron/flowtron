@@ -35,11 +35,6 @@ ceremony — make the edit directly. See
 [`SPEC/tasknote-selection.md`](../tasknote-selection.md) for the use/skip
 threshold and the lighter-weight forms (micro / starter / follow-up).
 
-If the operator additionally asks you to work a bug, regression, or other
-unexpected behavior whose root cause is unknown, they may request **debug
-mode** — see the primitives table below. It is a full tasknote either way; the
-mode only changes what Phases 1–4 record.
-
 ## Agent-neutral primitives
 
 This SOP names operations, not Claude Code tools. Substitute your platform's
@@ -52,15 +47,14 @@ equivalent where a step calls for one (full ledger:
 | **prose ask** | A free-text question to the operator. |
 | **trigger** | The operator's conversational request to start the task — there is no slash dispatch to rely on. |
 | **autonomous mode** | The operator may ask you to run without stopping at the conditional gates (Claude Code exposes this as `--fast`). Honor it as described under each gate; the concept is platform-neutral, the flag syntax is not. It is also **implied by a PLAN.md row's `[unattended]` marker** when no mode was requested — see Step 1. |
-| **debug mode** | The operator may ask you to drive the task hypothesis-first because the root cause is not yet known (Claude Code exposes this as `--debug`). **Explicit opt-in only** — never infer it from a bug-shaped task description. It adds *content* to Phases 1–4 and no mechanics: no new phase, template, banner, or gate. See Step 4 and Step 5. |
+| **debug mode** | The operator may ask you to drive the task hypothesis-first because the root cause is not yet known (Claude Code exposes this as `--debug`). **Explicit opt-in only** — never infer it from a bug-shaped task description. It adds *content* to Phases 1–4 and no mechanics: no new phase, template, banner, or gate. When requested, **read [`claude/skills/ft-task/step-4-debug-mode.md`](../../claude/skills/ft-task/step-4-debug-mode.md) now** — the mode's single body for Phases 1–4 (the Claude wiring reads the same file). Read its `--fast` / `fast-mode` as autonomous mode and `AskUserQuestion` as a structured ask. |
 | **loop mode** | The operator may ask you to run the task as an execute→verify loop because "done" is one or more machine-checkable commands (Claude Code exposes this as `--loop`). **Explicit opt-in only.** It changes the Phase 2↔3 drive, not the phases: every Acceptance criterion carries a verify command (taste criteria split to one post-loop visual ask), Phase 2→3 repeat under a per-cycle relevance gate and a `loop-max` budget, each verified cycle commits, and a `## 🔁 Iterations` log is the loop's memory. Runs with autonomous-mode semantics once the loop starts; a destructive step parks rather than asking. Contract: [`SPEC/loop.md`](../loop.md); executable steps: `claude/skills/ft-task/step-5-loop-mode.md`. |
 | **unattended mode** | The caller may declare that **no operator is present to answer a gate** (Claude Code exposes this as `--unattended`). It supersets autonomous mode's *autonomy* — nothing ever blocks waiting for an answer — plus exactly one added behavior: the six gates an operator-less run cannot answer **park the tasknote** instead of firing a banner into an empty session. It does **not** inherit autonomous mode's one *delegating* suppression: the visual-confirmation ask is suppressed there because a present operator owns the check, so with nobody present it converts to a park rather than vanishing. Full contract, including which six and what a park writes: [`SPEC/gate-postures.md` §"`--unattended` operator posture"](../gate-postures.md). |
 
-Autonomous mode and debug mode are **orthogonal and compose**: a run can be
-both, in which case the hypothesis scaffolding is written without stopping to
-ask, and the Phase 3 repro re-verify still runs (it is not a gate autonomous
-mode may suppress). Loop mode composes the same way — autonomous mode reaches
-only its pre-loop Phase 1 surface, since the loop already runs autonomously.
+Autonomous mode and debug mode are **orthogonal and compose** (the repro
+re-verify is not a gate autonomous mode may suppress). Loop mode composes the
+same way — autonomous mode reaches only its pre-loop Phase 1 surface, since
+the loop already runs autonomously.
 Unattended mode composes with all three — it is autonomous mode plus parking,
 never a replacement for any of them.
 
@@ -304,29 +298,9 @@ ticking each box in the tasknote as you go:
   [`SPEC.md` §"Tasknote body shape"](../../SPEC.md).
 - **Populate 🧩 Subtasks** with concrete, ordered steps, and **declare YAML `touches:`** with the paths this task expects to edit. Contract — exemptions, and why it is never a gate: `SPEC.md` §"Tasknote frontmatter".
 
-**Under debug mode**, work four extra prompts *inside* this checklist —
-after the Relevance Assessment, alongside the archive skim and drift check.
-They add no box and no gate, and they leave the exit-gate judgment below
-unchanged. Record the answers in **Discovery Notes**:
-
-1. **Expected vs observed** — what the behavior should be (per spec, prior
-   run, user report) and the *exact* observed behavior, with concrete evidence
-   quoted or linked. "It crashes" is not enough.
-2. **Hypotheses** — 2–5 plausible root causes, each with a one-line rationale,
-   rough confidence, and what would falsify it. Rank them; the top one is the
-   target.
-3. **Minimal repro** — the smallest sequence of actions, inputs, or state that
-   reliably triggers the symptom. Runnable in under two minutes, isolating one
-   variable, written out as numbered steps.
-4. **Run it and update beliefs** — execute the repro, record the outcome, and
-   revise the ranking. Only a hypothesis that survives a clean minimal repro is
-   a stable target for code changes.
-
-These are guidance, not a gate — the operator may skip or shorthand any of
-them; the value is the written record. Under autonomous mode, write the prompts
-and answers straight into Discovery Notes without pausing to ask. Full detail:
-[`claude/skills/ft-task/step-4-debug-mode.md`](../../claude/skills/ft-task/step-4-debug-mode.md)
-(the mode's canonical text — the Claude wiring reads the same file).
+**Under debug mode**, work the fragment's four Phase 1 prompts *inside* this
+checklist, after the Relevance Assessment, recording answers in Discovery
+Notes. They add no box and no gate; the exit-gate judgment below is unchanged.
 
 **Exit gate (🛠️ Phase 1→2).** `ft-task` uses the `default-skip` flavor: when
 Discovery surfaced only routine clarifications (or none), emit the inline
@@ -389,11 +363,6 @@ time (Step 6).
   parks as `drift`. Triggers, scan steps, and
   vocabulary:
   [`SPEC/tasknote-selection.md` §"Downstream-impact reconciliation"](../tasknote-selection.md).
-  **Under debug mode**, weight the pattern survey toward similar bug fixes in
-  the archive and recent changes to the suspect area, target the top surviving
-  hypothesis with the smallest edit that would confirm or falsify it, and state
-  in Implementation Notes which hypothesis the change addresses and why the
-  scope is minimal.
 - **Phase 3: Testing & Linting** — [`SPEC.md` §"🧪 Phase 3"](../../SPEC.md).
   Run targeted tests + lint/type-check on changed code (full suite only for
   broad/cross-cutting changes). **Under unattended mode** run the repo's full
@@ -424,12 +393,9 @@ time (Step 6).
   suppress the 👁️ ask but still run lint/type-check. **Under unattended mode**
   do not suppress it: there is no operator to hand the check to, so the ask
   parks the tasknote with `park-reason: visual-confirm — …` and the run stops.
-  **Under debug mode**, also
-  re-execute the *exact* minimal repro from Phase 1 and record the outcome in
-  Testing Notes. This is debug mode's one non-negotiable addition and it runs
-  **even under autonomous mode** — a fast debug run still has to prove the
-  symptom is gone. If the repro still fails, that is new evidence: return to
-  Phase 2 with updated hypotheses rather than proceeding to closure.
+  **Under debug mode**, the fragment's repro
+  re-verify runs **even under autonomous mode**; a still-failing repro returns
+  to Phase 2, not closure.
 - **Phase 4: Closure (auto-run)** — [`SPEC.md` §"🚀 Phase 4"](../../SPEC.md)
   + [`SPEC.md` §"Paper-complete guard"](../../SPEC.md). Run the doc-drift
   sweep across `.flowtron/tasknote/README.md` §"AI-referenced docs" (per
@@ -474,10 +440,7 @@ time (Step 6).
   (`git diff --name-only` vs declared; name undeclared paths), and concrete
   maintainability effect.
   **Do not** surface a banner here — the recap bundles into Step 6. Recap is
-  recap-only; the next-task suggestion lands after the commit. **Under debug
-  mode**, the recap also names the top hypothesis the fix ultimately addressed
-  and states whether the minimal repro now passes; everything else in closure
-  is unchanged.
+  recap-only; the next-task suggestion lands after the commit.
 
 ### 6 — Post-closure protocol
 
