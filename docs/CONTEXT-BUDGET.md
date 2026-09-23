@@ -64,6 +64,10 @@ nothing there — but that framing is scoped to Claude's own load path:
 Codex/Cursor/Grok path, which is why it earns its own row above rather than
 falling under this exemption. A lazy module that starts arriving on most
 tasks (on any supported runner) earns a row here; until then it does not.
+`docs/MIGRATION.md` and `docs/PLATFORMS.md` are exempt by name, not only by
+the `docs/` glob: they are the two largest files that clause covers, and every
+reader addresses them by section, never whole ([[CORE-670.4]]; figures and
+re-budget trigger in §"Ledger" → "Large reference docs").
 
 ## Cap history
 
@@ -250,6 +254,33 @@ cut.
 
 `claude/AGENTS-snippet.md` 16,001 (pasted into the adopter's `AGENTS.md`) ·
 `templates/tasknote-README.md` 4,839 · `templates/PLAN.md` 3,048.
+
+### Large reference docs
+
+`docs/PLATFORMS.md` 67,894 · `docs/MIGRATION.md` 62,249 (measured
+2026-09-22 at [[CORE-670.4]]). Up from 21,497 and 33,194 on 2026-06-01
+(3.2× and 1.9×), so neither has ever had a ratchet.
+
+[[CORE-670.4]] **exempted** both rather than budgeting them. A budget here
+caps what a runner loads, and no runner loads either file whole. Each reader
+goes to one section: `ft-new-project` follows MIGRATION §1.1–§1.7, §2, §3, and
+§"Pinning and bumping"; `ft-release` greps the `describe --tags` pin, `awk`s
+§1.6, and checks PLATFORMS §"Installed-surface policy"; `SPEC/model.md` points
+at PLATFORMS §"Platform×model×effort calibration table"; `SPEC/procedures/ft-task.md`
+names PLATFORMS §"Non-Claude capability triggers" for one branch. Both files are on the
+§"AI-referenced docs" sweep list. The sweep checks them against the contract
+each task touched and does not read them in full. Capping the file total would
+limit bytes no task pays for. It would also miss the real risk: one section
+growing large enough that a runner reads the whole file to find it.
+
+A doc earns a §"Budgets" row when a runner starts reading it in full, meaning
+a skill or procedure step that names `docs/X.md` without a section. Until then,
+watch the sections instead. The largest ones readers cite today are PLATFORMS
+§"Non-Claude capability triggers" at 34,235 and MIGRATION §1.2.1 at 11,992
+(ft-new-project cites §1 by subsection). When a cited section outgrows its
+reader, split the section rather than cap the file. These figures are refreshed
+with the rest of the ledger, and a jump between cuts means checking which
+section grew.
 
 ## How this is enforced
 

@@ -18,7 +18,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 - [ ] **CORE-EPIC-670** [heavy]🧠 | context-headroom — Restore ≥10% headroom on every budgeted surface and close budget-table drift. Discovery supplied by audit-repo 2026-09-22. Surfaced by audit-repo 2026-09-22 (Theme: Context weight vs. the lightweight pitch)
 - [x] **CORE-670.2** [light]🔧 | budget-rationale-refresh — Completed 2026-09-22.
 - [x] **CORE-670.3** [heavy]🧠 | procedures-ft-task-extract — Completed 2026-09-22.
-- [ ] **CORE-670.4** [medium]🧩 | large-docs-budget-decision — Budget or ledger-exempt `docs/MIGRATION.md` (62 KB) and `docs/PLATFORMS.md` (68 KB); record the call in §Ledger.
+- [x] **CORE-670.4** [medium]🧩 | large-docs-budget-decision — Completed 2026-09-22.
 - [ ] **CORE-670.N** [medium]🧩 | context-headroom-audit — Epic audit.
 - [ ] **CORE-660** [medium]🧩 | gate-discipline-trim — Blocked by decay-window depth: the window [[CORE-659]] opened at `f8c44275` has observed 1 run, its own. Parked at Phase 1→2 (`status: blocked`); Discovery, inbound-reference table, and the provenance trim axis are preserved in the tasknote. Resume once N independent runs have archived. Destination decided: `docs/GATE-DISCIPLINE.md`.
 
