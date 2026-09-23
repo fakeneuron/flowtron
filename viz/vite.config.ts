@@ -85,7 +85,7 @@ function flowtronApi(): Plugin {
         });
 
         // Hot set (PLAN.md + active tasknotes) must poll: FSEvents does not
-        // reliably fire inside symlinked project roots (CORE-222).
+        // reliably fire inside symlinked project roots.
         if (hot.length > 0) {
           hotWatcher = chokidar.watch(hot, WATCH_HOT_OPTIONS);
           hotWatcher.on('all', onWatchEvent);
@@ -93,7 +93,7 @@ function flowtronApi(): Plugin {
         }
 
         // Archives are write-once and fleet-scale (~thousands of files). Native
-        // watch is cheap; polling them at 200ms was the cost CORE-431.2 removes.
+        // watch is cheap here; polling them at 200ms would waste CPU at this scale.
         if (archive.length > 0) {
           archiveWatcher = chokidar.watch(archive, archiveWatchOptions(archive));
           archiveWatcher.on('all', onWatchEvent);
@@ -146,7 +146,7 @@ export default defineConfig({
     // Restrict Host header to loopback names. Combined with `originGuard()`
     // on each /api/* middleware, this defeats DNS-rebinding against the dev
     // server (a remote site resolving its domain to 127.0.0.1 to bypass
-    // SOP). Mirrors Vite's own post-CVE-2025 default posture.
+    // SOP). Mirrors Vite's own post-`CVE-2025` default posture.
     allowedHosts: ['localhost', '127.0.0.1'],
     headers: {
       'Content-Security-Policy': DEV_CSP,
@@ -160,15 +160,15 @@ export default defineConfig({
     // Node 26: the file runs ~26s in full-suite runs (vs ~340ms per test in
     // isolation), so parallel contention can push a single test past 5s and
     // flake the /ft-release viz gate. 15s leaves headroom while still catching
-    // genuine hangs. See FE-053.
+    // genuine hangs.
     testTimeout: 15_000,
     // Cap fork-pool workers at half the cores. The default (all cores) makes
     // the suite compete with itself — 25 jsdom environments spinning up across
     // 8 workers starves userEvent waits past even the raised timeouts above
     // whenever the machine carries other load. Half leaves headroom for that
     // load, kills the flake structurally instead of via further timeout bumps
-    // (FE-053/FE-089.2 exhausted that lever), and measured *faster* wall-clock
-    // under load than the default. See FE-95.
+    // (already maxed out), and measured *faster* wall-clock under load than
+    // the default.
     maxWorkers: '50%',
   },
 });
