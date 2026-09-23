@@ -16,6 +16,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Medium
 
 - [ ] **CORE-660** [medium]🧩 | gate-discipline-trim — Blocked by decay-window depth: the window [[CORE-659]] opened at `f8c44275` has observed 1 run, its own. Parked at Phase 1→2 (`status: blocked`); Discovery, inbound-reference table, and the provenance trim axis are preserved in the tasknote. Resume once N independent runs have archived. Destination decided: `docs/GATE-DISCIPLINE.md`.
+- [ ] **CORE-671** [medium]🧩 [unattended] | gate-postures-headroom — `SPEC/gate-postures.md` is at 21,592/23,000 (6.1%, about 1 working unit where its row allows ~1.5). Trim or extract to get back to ≥10%. Also decide whether the flat 10% rule or each §Budgets row's working-unit sizing applies to `claude/skills/ft-release/**` (8.8%, about 2 units). Surfaced by [[CORE-670.N]].
 
 ## Low
 
