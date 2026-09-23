@@ -21,13 +21,14 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Low
 
 - [ ] **CORE-641** [light]🔧 | typescript-7 — Bump typescript 5.9→7 once typescript-eslint supports TS 7.1+; tsc also TS2882 on CSS side-effect import. CORE-639.3 reverted.
+- [ ] **CORE-672** [light]🔧 [unattended] | audit-repo-nest-children — `claude/skills/ft-audit-repo/SKILL.md`'s filing bullet never says epic children sit 2-space nested under their parent (`ft-epic-discovery` and `ft-refactor` both say so), so CORE-EPIC-670 and FE-EPIC-125 were filed flat, breaking SPEC/epic.md §"Child placement invariant". Add the nesting rule. Surfaced by [[CORE-670.N]].
 
 ## Future Opportunities
 
 - [ ] **FE-EPIC-125** [heavy]🧠 | viz-comment-provenance-trim — Strip task-ID provenance from `viz/src` comments, keep rationale. Discovery supplied by audit-repo 2026-09-22. Surfaced by audit-repo 2026-09-22 (Theme: Provenance-in-code)
-- [ ] **FE-125.2** [medium]🧩 | parser-comment-trim — Trim `viz/src/parser.ts` (148/482 comment lines) as the pilot; set the done-signal threshold.
-- [ ] **FE-125.3** [medium]🧩 | viz-comment-trim-rest — Apply the pilot's rule to the remaining `viz/src` files.
-- [ ] **FE-125.N** [medium]🧩 | viz-comment-trim-audit — Epic audit.
+  - [ ] **FE-125.2** [medium]🧩 | parser-comment-trim — Trim `viz/src/parser.ts` (148/482 comment lines) as the pilot; set the done-signal threshold.
+  - [ ] **FE-125.3** [medium]🧩 | viz-comment-trim-rest — Apply the pilot's rule to the remaining `viz/src` files.
+  - [ ] **FE-125.N** [medium]🧩 | viz-comment-trim-audit — Epic audit.
 
 ## Completed
 
