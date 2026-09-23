@@ -20,8 +20,6 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Low
 
 - [ ] **CORE-641** [light]🔧 | typescript-7 — Bump typescript 5.9→7 once typescript-eslint supports TS 7.1+; tsc also TS2882 on CSS side-effect import. CORE-639.3 reverted.
-- [ ] **CORE-672** [light]🔧 [unattended] | audit-repo-nest-children — `claude/skills/ft-audit-repo/SKILL.md`'s filing bullet never says epic children sit 2-space nested under their parent (`ft-epic-discovery` and `ft-refactor` both say so), so CORE-EPIC-670 and FE-EPIC-125 were filed flat, breaking SPEC/epic.md §"Child placement invariant". Add the nesting rule. Surfaced by [[CORE-670.N]].
-
 ## Future Opportunities
 
 - [ ] **FE-EPIC-125** [heavy]🧠 | viz-comment-provenance-trim — Strip task-ID provenance from `viz/src` comments, keep rationale. Discovery supplied by audit-repo 2026-09-22. Surfaced by audit-repo 2026-09-22 (Theme: Provenance-in-code)
@@ -31,6 +29,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 
 ## Completed
 
+- [x] **CORE-672** [light]🔧 [unattended] | audit-repo-nest-children — Completed 2026-09-22.
 - [x] **CORE-671** [medium]🧩 [unattended] | gate-postures-headroom — Completed 2026-09-22. `SPEC/gate-postures.md` 21,592 → 20,409 (headroom 6.1% → 11.3%) by within-file restatement cuts, cap held; `docs/CONTEXT-BUDGET.md` now states per-row working-unit sizing, not a flat 10%, governs headroom (`ft-release/**` at ≈2 units needs no action).
 - [x] **CORE-EPIC-670** [heavy]🧠 | context-headroom — Completed 2026-09-22.
   - [x] **CORE-670.2** [light]🔧 | budget-rationale-refresh — Completed 2026-09-22.

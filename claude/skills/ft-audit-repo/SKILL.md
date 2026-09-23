@@ -72,6 +72,7 @@ Present, in order:
 **After** the user confirms, write the plan into `.flowtron/PLAN.md` using flowtron's task-line grammar:
 
 - One `- [ ] **<AREA>-EPIC-<N>**` parent per milestone, plus its implementation children and a closing `.N` audit placeholder. **Skip the `.1` Discovery child** — this run supplied the epic-level discovery; note it on the parent line (`Discovery supplied by audit-repo YYYY-MM-DD.`).
+- **2-space indent every child and the `.N` placeholder under their parent** — same convention as `ft-epic-discovery` and `ft-refactor` (SPEC/epic.md §"Child placement invariant"). Never file a cohort flat.
 - Tag effort per line: `[heavy]🧠` (design, ambiguity, cross-module) / `[light]🔧` (mechanical, clear-diff); `[medium]🧩` where it genuinely fits. Never `[xheavy]` — manual-only, never auto-filed here.
 - A child carrying a confirmed `[unattended]` candidate writes the token immediately after `[model]`; a child the user drops or reshapes loses it. Parents and `.N` placeholders never carry it.
 - Append `Surfaced by audit-repo YYYY-MM-DD (Theme: <name>)` to each parent so the origin's traceable.
