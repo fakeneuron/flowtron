@@ -20,6 +20,7 @@ See [SPEC.md](../SPEC.md) for the canonical workflow contract.
 ## Low
 
 - [ ] **CORE-641** [light]🔧 | typescript-7 — Bump typescript 5.9→7 once typescript-eslint supports TS 7.1+; tsc also TS2882 on CSS side-effect import. CORE-639.3 reverted.
+- [ ] **FE-126** [light] | vite-config-comment-trim — Strip task-ID provenance from `viz/vite.config.ts` comments per the FE-125.2 pilot rule; keep rationale, backtick the CVE reference.
 ## Future Opportunities
 
 (none)
